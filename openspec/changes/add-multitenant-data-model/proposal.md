@@ -82,6 +82,8 @@ Out of scope:
 
 ## K rozhodnutí
 
+Uživatel 1. 10. 2026 přijal návrhy všech bodů (body 3 a 12 výslovně) a k bodu 16 určil měnu Kč.
+
 1. **Systémové procesy a tabulky s RLS.** Podle podkladu mají RLS všechny tabulky kromě seznamu globálních, tedy i `ops.schedules`, `ops.outbox` a `ops.audit_log`. Plánovač (změna 16) a odesílání e-mailů a faktur (změny 9, 12) ale potřebují najít práci napříč tenanty. Tato změna RLS zavádí podle podkladu. Návrh pro navazující změny: `SECURITY DEFINER` funkce, které vrátí jen dvojice (`tenant_id`, `id`) čekající práce bez obsahu, a zpracování pak běží s kontextem tenanta. Alternativa: zařadit tyto tři tabulky mezi globální.
 2. **Seznam účtů uživatele a pozvánky.** `iam.memberships` a `iam.invitations` mají RLS podle tenanta, ale přepínač účtů („ve kterých tenantech jsem“) a přijetí pozvánky podle tokenu se ptají napříč tenanty. Návrh pro změnu 9: druhá politika na `memberships` podle `app.user_id` a funkce `iam.find_invitation(token_hash)`. Rozhodnout ve změně 9.
 3. **`iam.tenants` a `iam.users` bez RLS** (podklad: „přístup jen přes členství“). Role `eshopguard_app` tak technicky přečte fakturační údaje všech tenantů a e-maily všech uživatelů; chrání je jen API. Ponechat podle podkladu, nebo přidat politiku podle `app.user_id` (změna 9)?
@@ -97,6 +99,6 @@ Out of scope:
 13. **Typy otisků** podklad neurčuje. Návrh: `segment_hash`, `segment_hashes` a `url_hash` `bigint` (64bitový otisk podle části 3.3); otisky pro identitu a cache (`state_hash`, `chunk_hash`, `question_set_hash`, `text_hash`, `token_hash`, `old_value_hash`, `webhook_secret_hash`, `requested_ip_hash`) `bytea` SHA-256, protože kolize by tiše vrátila cizí odpověď.
 14. **`subscriptions.shop_id` „U pro aktivní“:** které stavy jsou aktivní? Návrh: jedinečné pro všechny stavy kromě `canceled`.
 15. **Odstranění duplicit `connector_events`:** index (`connector_id`, `dedupe_key`) nemůže být jedinečný přes měsíční části (jedinečný klíč musí obsahovat `received_at`). Duplicitní webhook z jiného měsíce tak projde; zpracování je idempotentní („aspoň jednou“). Potvrdit, nebo přidat malou nedělenou tabulku klíčů (změna 15).
-16. **`ref.markets` pro `cz`:** měna českého trhu není rozhodnutá (architektura část 11, bod 7: Kč, nebo euro). Řádek `sk` (EUR) založí migrace; řádek `cz` až po rozhodnutí. Dále: `ref.markets.price_list_id` → `billing.price_lists` a `price_lists.market_code` → `ref.markets` tvoří kruhovou vazbu; obě strany budou nepovinné.
+16. **Rozhodnuto 1. 10. 2026 (uživatel): `cz` v Kč**, řádek `cz` (CZK) i `sk` (EUR) zakládá migrace. Původní text: **`ref.markets` pro `cz`:** měna českého trhu není rozhodnutá (architektura část 11, bod 7: Kč, nebo euro). Řádek `sk` (EUR) založí migrace; řádek `cz` až po rozhodnutí. Dále: `ref.markets.price_list_id` → `billing.price_lists` a `price_lists.market_code` → `ref.markets` tvoří kruhovou vazbu; obě strany budou nepovinné.
 17. **`ref.locales.enabled`:** podklad říká, že zapnout jde jen jazyk s úplnými texty. Slovenské texty pravidel zatím nejsou (změna 6). Návrh: `sk` i `cs` založit s `enabled = false` a zapnout je ve změnách 6 a 13 po testu úplnosti.
 18. **Token souběžnosti `xmin`** podklad uvádí u „návrhů oprav, dokladů, předplatného“. Návrh: `fix_proposals`, `fix_groups` (také je upravuje člověk: vyplněné hodnoty, vyřazené stránky), `evidence_items` a `subscriptions`.

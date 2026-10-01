@@ -1,4 +1,5 @@
 using EshopGuard.Data.Connections;
+using EshopGuard.Data.Tenancy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,6 @@ public sealed class EshopGuardDbDesignTimeFactory : IDesignTimeDbContextFactory<
         var connectionString = EshopGuardDataSource.BuildConnectionString(configuration, DatabaseRole.Owner);
         var options = new DbContextOptionsBuilder<EshopGuardDb>();
         options.UseEshopGuardNpgsql(connectionString);
-        return new EshopGuardDb(options.Options);
+        return new EshopGuardDb(options.Options, new TenantContext());
     }
 }

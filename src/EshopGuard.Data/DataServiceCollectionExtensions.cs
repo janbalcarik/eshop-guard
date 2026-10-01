@@ -1,4 +1,6 @@
 using EshopGuard.Data.Connections;
+using EshopGuard.Data.Maintenance;
+using EshopGuard.Data.Tenancy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -18,9 +20,18 @@ public static class DataServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(services);
         services.TryAddSingleton(sp => new EshopGuardDataSource(sp.GetRequiredService<IConfiguration>(), role));
-        services.AddDbContext<EshopGuardDb>((sp, options) =>
-            options.UseEshopGuardNpgsql(sp.GetRequiredService<EshopGuardDataSource>().Source));
+        services.TryAddScoped<ITenantContext, TenantContext>();
+        services.TryAddSingleton(TimeProvider.System);
+        services.AddDbContext<EshopGuardDb>((sp, options) => options
+            .UseEshopGuardNpgsql(sp.GetRequiredService<EshopGuardDataSource>().Source)
+            .UseEshopGuardInterceptors(sp.GetRequiredService<TimeProvider>()));
         services.TryAddSingleton<DatabaseInspector>();
+        if (role is DatabaseRole.Worker or DatabaseRole.Admin)
+        {
+            // Only these roles may execute ops.ensure_monthly_partitions; the API does not get the service at all.
+            services.TryAddSingleton<PartitionMaintainer>();
+        }
+
         services.Insert(0, ServiceDescriptor.Singleton<IHostedService, DatabaseStartupGuard>());
         return services;
     }

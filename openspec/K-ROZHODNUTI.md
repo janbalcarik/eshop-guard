@@ -8,6 +8,8 @@ Každá změna má v `proposal.md` oddíl „K rozhodnutí“, celkem asi 320 bo
 
 ## Rozhodnuto
 
+- **Měna českého trhu (A2, 1. 10. 2026, uživatel):** Kč. `ref.markets` má od změny 3 řádky `sk` (EUR) a `cz` (CZK).
+- **Změna 3, body K rozhodnutí (1. 10. 2026, uživatel):** přijaty návrhy; `iam.tenants` a `iam.users` zatím bez RLS (politika podle uživatele ve změně 9), audit a interní náklady přežijí smazání tenanta (bez cizího klíče na tenanta).
 - **Úložiště souborů (1. 10. 2026, uživatel, změna 2):** soubory (snímky HTML, extrakce, PDF, doklady) se zatím ukládají do lokálního souborového systému za rozhraním `IBlobStore` (`FileSystemBlobStore`; na serveru připojený svazek Dockeru, složka `Storage:FileSystem:Root` povinná). Úložiště v cloudu (Azure, AWS…) se přidá později jako další implementace `IBlobStore` vybraná v `Storage:Provider`. MinIO se nepoužívá (obrazy `minio/minio` a `minio/mc` na Docker Hubu nejsou). Provoz poběží na dedikovaném serveru s Dockerem. Dopad na další změny:
   - změna 8: `S3PageContentStore` stojí nad `IBlobStore`, jen ho při implementaci pojmenovat podle úložiště (např. `BlobPageContentStore`); testy proti souborovému systému, ne MinIO;
   - změna 14: média CMS (`@payloadcms/storage-s3`, veřejné čtení ze S3) řešit při implementaci (lokální úložiště Payloadu, nebo cloud přes nový poskytovatel);
@@ -18,7 +20,7 @@ Každá změna má v `proposal.md` oddíl „K rozhodnutí“, celkem asi 320 bo
 | # | Otázka | Doporučení | Kde |
 |---|---|---|---|
 | A1 | Přejmenovat kód na EshopGuard hned, nebo se začátkem F0? | hned, změna 1 je připravená | 1 |
-| A2 | Měna pro české zákazníky | Kč (účetní potvrdí fakturaci ze SK firmy) | 3, 12 |
+| A2 | Měna pro české zákazníky | **Rozhodnuto 1. 10. 2026: Kč** (účetní potvrdí fakturaci ze SK firmy) | 3, 12 |
 | A3 | Domény EshopGuard (.sk, .cz, .com) | vlastní doména na vydání, jinak `/sk`, `/cz` | 14, 17 |
 | A4 | Co prodává český web | i kontrolu podle SK zákona pro české e-shopy prodávající na SK; české vydání do rozhodnutí jako koncept | 14 |
 | A5 | E-shop zaškrtne jen Slovensko, ale hlavní verze je česká a slovenská existuje: kontrolovat i českou? | ne, jen slovenskou (podle upřesněného pravidla); při pochybnosti se zeptat | 7, 10 |

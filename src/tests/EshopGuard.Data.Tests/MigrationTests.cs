@@ -1,3 +1,4 @@
+using EshopGuard.Data.Tenancy;
 using EshopGuard.Tests.Shared;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -31,7 +32,7 @@ public sealed class MigrationTests(PostgresTestDatabase database)
     {
         var options = new DbContextOptionsBuilder<EshopGuardDb>();
         options.UseEshopGuardNpgsql(TestConfiguration.ConnectionString("App"));
-        await using var db = new EshopGuardDb(options.Options);
+        await using var db = new EshopGuardDb(options.Options, new TenantContext());
         // Pretend nothing is applied: the app role must not be able to create anything.
         var ex = await Assert.ThrowsAsync<PostgresException>(() =>
             db.Database.ExecuteSqlRawAsync("CREATE TABLE ops.__probe (id int)", TestContext.Current.CancellationToken));
@@ -44,7 +45,7 @@ public sealed class MigrationTests(PostgresTestDatabase database)
         // EF Core locks the history table before migrating; the app role may only read it.
         var options = new DbContextOptionsBuilder<EshopGuardDb>();
         options.UseEshopGuardNpgsql(TestConfiguration.ConnectionString("App"));
-        await using var db = new EshopGuardDb(options.Options);
+        await using var db = new EshopGuardDb(options.Options, new TenantContext());
         var ex = await Assert.ThrowsAnyAsync<Exception>(() =>
             db.Database.MigrateAsync(TestContext.Current.CancellationToken));
         var postgres = ex as PostgresException ?? ex.InnerException as PostgresException;

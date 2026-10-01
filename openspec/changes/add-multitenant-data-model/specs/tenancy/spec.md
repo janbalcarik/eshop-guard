@@ -21,7 +21,7 @@ Databáze `eshopguard` MUST obsahovat tabulky z části 3 podkladu `databaze-a-p
 - GIVEN databáze po migracích F1
 - WHEN se přečte `ref.locales` a `ref.markets`
 - THEN `ref.locales` obsahuje `sk` a `cs` a `ref.markets` obsahuje `sk` s měnou `EUR`
-- AND řádek `cz` v `ref.markets` neexistuje, dokud není rozhodnutá měna
+- AND `ref.markets` obsahuje `cz` s měnou `CZK` (rozhodnuto 1. 10. 2026)
 
 ### Requirement: Kontext tenanta v každé transakci
 Každý přístup k datům tenanta MUST běžet v transakci, ve které je nastavené `app.tenant_id` přes `set_config('app.tenant_id', <tenant>, true)` (ekvivalent `SET LOCAL`). Hodnota MUST být předaná jako parametr, ne složená do textu SQL, a MUST zaniknout s koncem transakce. `EshopGuardDb` MUST zakládat transakci i pro `SaveChanges` s jediným příkazem.

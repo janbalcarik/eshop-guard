@@ -41,7 +41,7 @@ public sealed class PostgresTestDatabase : IAsyncLifetime
 
 /// <summary>Collection of tests that need PostgreSQL.</summary>
 [CollectionDefinition(Name)]
-public sealed class DbCollection : ICollectionFixture<PostgresTestDatabase>
+public sealed class DbCollection : ICollectionFixture<PostgresTestDatabase>, ICollectionFixture<Isolation.TwoTenantsFixture>
 {
     /// <summary>Collection name.</summary>
     public const string Name = "Db";
@@ -55,6 +55,34 @@ internal static class Sql
         await using var command = source.CreateCommand(sql);
         var value = await command.ExecuteScalarAsync(TestContext.Current.CancellationToken);
         return value is DBNull or null ? default : (T)value;
+    }
+
+    public static async Task<List<object[]>> RowsAsync(this NpgsqlDataSource source, string sql)
+    {
+        await using var command = source.CreateCommand(sql);
+        await using var reader = await command.ExecuteReaderAsync(TestContext.Current.CancellationToken);
+        var rows = new List<object[]>();
+        while (await reader.ReadAsync(TestContext.Current.CancellationToken))
+        {
+            var row = new object[reader.FieldCount];
+            reader.GetValues(row);
+            rows.Add(row);
+        }
+
+        return rows;
+    }
+
+    public static async Task<List<T>> ColumnAsync<T>(this NpgsqlDataSource source, string sql)
+    {
+        await using var command = source.CreateCommand(sql);
+        await using var reader = await command.ExecuteReaderAsync(TestContext.Current.CancellationToken);
+        var values = new List<T>();
+        while (await reader.ReadAsync(TestContext.Current.CancellationToken))
+        {
+            values.Add(reader.GetFieldValue<T>(0));
+        }
+
+        return values;
     }
 
     /// <summary>Runs the statement in a rolled-back transaction and returns the SQLSTATE of the failure, or null.</summary>

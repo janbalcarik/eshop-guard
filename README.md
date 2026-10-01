@@ -105,6 +105,24 @@ Webová aplikace (`src/EshopGuard.Api`, `src/EshopGuard.Worker`) se připojuje k
 
 Úložiště souborů je za rozhraním `IBlobStore` (`src/EshopGuard.Storage`). Zatím existuje jen `FileSystemBlobStore` (lokální složka, na serveru připojený svazek); úložiště v cloudu (Azure, AWS…) se později přidá jako další implementace a vybere se v `Storage:Provider`. Složka se musí nastavit výslovně (`Storage:FileSystem:Root`, na serveru `Storage__FileSystem__Root`), jinak aplikace nenastartuje (`config.storage_key_missing`). Klíče souborů tenanta začínají `tenants/{tenantId}/`.
 
+## Databáze
+
+Datový model webové aplikace je v `src/EshopGuard.Data` (EF Core 10, PostgreSQL 18): 61 tabulek v devíti schématech `iam`, `shop`, `content`, `checks`, `fixes`, `billing`, `usage`, `ops` a `ref`. Seznam tabulek tenanta a globálních tabulek je jen jeden, `Configurations/Conventions/TableNames.cs`.
+
+- **Data tenanta jen v transakci s kontextem tenanta:** `ITenantContext.Set(tenantId, userId)` a potom `db.ExecuteInTenantTransactionAsync(...)` (čisté SQL a COPY: `TenantSql.BeginAsync`). Interceptor nastaví `app.tenant_id` přes `set_config(…, true)`, hodnota zanikne s transakcí.
+- **Izolace na třech úrovních:** filtr EF `"Tenant"`, Row-Level Security s `FORCE` na 41 tabulkách tenanta (politika `tenant_isolation` volá `ops.current_tenant_id()`) a složené cizí klíče (`tenant_id`, `id`), u dělených tabulek (`tenant_id`, `shop_id`, `id`).
+- **Bez tenanta žádná data:** dotaz EF skončí `TenantNotSetException`, SQL chybou 42501 „app.tenant_id is not set“. Nikdy tichý prázdný výsledek.
+- **Globální tabulky** (bez RLS, bez textů zákazníků): `iam.tenants`, `iam.users`, `iam.user_logins`, `iam.user_tokens`, `shop.free_sample_claims`, `checks.rule_sets`, `billing.price_lists`, `billing.price_tiers`, `billing.volume_discounts`, `billing.promo_codes`, `billing.stripe_events`, `usage.usage_records`, `usage.usage_daily`, `ops.jobs`, `ops.workers`, `ops.domains`, `ops.rate_limit_buckets`, `ops.system_settings`, `ref.markets`, `ref.locales`.
+- **Dělené tabulky:** `content.pages` (16 částí podle e-shopu), `content.page_versions`, `checks.jev_answers`, `checks.sieve_answers` (po 32), měsíční `shop.connector_events`, `checks.run_events`, `usage.usage_records`, `ops.audit_log`. Měsíční části zakládá dopředu `ops.ensure_monthly_partitions` (`PartitionMaintainer` ve workeru); výchozí část neexistuje, zápis do měsíce bez části skončí chybou.
+- **Trhy:** `ref.markets` má `sk` (EUR) a `cz` (CZK), jazyky `ref.locales` `sk` a `cs` zatím vypnuté.
+
+Jak přidat tabulku tenanta:
+1. entita z `TenantEntity` (nebo s `ITenantOwned`) a konfigurace v `Configurations/<Schéma>/`, odkazy přes `HasTenantForeignKey<…>()`;
+2. `dotnet ef migrations add …` a v SQL migrace `ENABLE` + `FORCE ROW LEVEL SECURITY`, politika `tenant_isolation` a práva rolí;
+3. zápis do `TableNames.TenantTables` a řádek v `TenantDataSeeder` (testy).
+
+Bez toho selže katalogový test (`RlsCatalogTests`, `SeederCoverageTests`, `ModelCatalogConsistencyTests`).
+
 ## Nastavení
 
 - `config/settings.yaml`: limity stahování, pravidla segmentace a ceny. Před skenováním cizího webu doplňte do `user_agent` skutečný kontakt.

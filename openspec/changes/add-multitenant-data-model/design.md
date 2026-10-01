@@ -89,7 +89,7 @@ Zkratky: AK = alternativní klíč (`tenant_id`, `id`) pro složené cizí klí�
 | `checks.rule_sets` | `id` | U (`module`, `version`) | – |
 | `checks.runs` | `id` | AK; I (`tenant_id`, `shop_id`, `created_at` DESC) | FKt(`shop`), FKt(`order` → `billing.orders`), FK `requested_by` |
 | `checks.run_events` | (`id`, `at`) | I (`run_id`, `id`) | FKt(`run`) |
-| `checks.jev_answers` | (`tenant_id`, `question_set_hash`, `state_hash`) | – | FK `tenant_id` |
+| `checks.jev_answers` | (`tenant_id`, `cache_key`) (podklad upravený 1. 10. 2026 pro změnu 5b; `question_set_hash` nepovinný sloupec) | – | FK `tenant_id` |
 | `checks.sieve_answers` | (`tenant_id`, `question_set_hash`, `chunk_hash`) | – | FK `tenant_id` |
 | `checks.findings` | `id` | AK; U (`shop_id`, `rule_id`, `segment_hash`) WHERE `scope = 'segment'`; I (`tenant_id`, `shop_id`, `status`) | FKt(`shop`), FK `rule_set_id`, FKp(`page`), FKt(`first_run`, `last_seen_run`, `resolved_run`) |
 | `checks.finding_occurrences` | (`finding_id`, `page_id`) | I (`shop_id`, `page_id`) | FKt(`finding`), FKp(`page`) |
@@ -142,7 +142,7 @@ Indexy pro cizí klíče vytváří EF sám (u složených klíčů index (`tena
 | `usage.usage_records` | `PARTITION BY RANGE (occurred_at)` | po měsících | `usage.usage_records_y2026m10` … |
 | `ops.audit_log` | `PARTITION BY RANGE (at)` | po měsících | `ops.audit_log_y2026m10` … |
 
-- Migrace vygenerovaná EF má pro tyto tabulky `CreateTable`; ruční úprava ho nahradí voláním `migrationBuilder.Sql(SqlResource.Read("F1/02_partitioned_tables.sql", table))` se stejnými sloupci, klíči a `PARTITION BY …` a s vytvořením HASH částí. Indexy (`CreateIndex`) zůstávají z EF; na rodiči dělené tabulky se vytvoří i na částech. `CREATE INDEX CONCURRENTLY` na rodiči nejde, další migrace proto indexy dělených tabulek zakládají bez `CONCURRENTLY` nebo po částech.
+- Migrace vygenerovaná EF má pro tyto tabulky `CreateTable`; `EshopGuardMigrationsSqlGenerator` k jejich `CREATE TABLE` připojí `PARTITION BY …` podle `TableNames.PartitionedTables` (změna oproti původnímu návrhu s ručním `CREATE TABLE`: sloupce, klíče a cizí klíče tak zůstávají z EF se stejnými názvy jako ve snímku modelu). HASH části zakládá výslovné SQL `F1/02_partitions.sql` na konci migrace. Indexy (`CreateIndex`) zůstávají z EF; na rodiči dělené tabulky se vytvoří i na částech. `CREATE INDEX CONCURRENTLY` na rodiči nejde, další migrace proto indexy dělených tabulek zakládají bez `CONCURRENTLY` nebo po částech.
 - Cizí klíč `pages` → `page_versions` (`current_version_id`) se přidá `ALTER TABLE … ADD CONSTRAINT` až po vytvoření `page_versions`.
 - Hranice měsíců jsou v UTC: `FOR VALUES FROM ('2026-10-01 00:00:00+00') TO ('2026-11-01 00:00:00+00')`.
 - Výchozí část (`DEFAULT`) nevzniká: zápis do měsíce bez části skončí chybou 23514 „no partition of relation … found for row“ (fail-closed). Proto se části zakládají dopředu.
@@ -238,7 +238,7 @@ public interface ITenantContext            // scoped: jeden požadavek API, jedn
 ### Základní řádky (`HasData`)
 
 - `ref.locales`: `sk` (Slovenčina), `cs` (Čeština), `fallback_code` null, `enabled = false` (K rozhodnutí 17).
-- `ref.markets`: `sk` (`country_code` `SK`, `default_locale` `sk-SK`, `ui_locales` `{sk}`, `jurisdiction` `sk`, `currency` `EUR`, `price_list_id` null, `web_status` `hidden`, `checks_status` `full`). Řádek `cz` až po rozhodnutí měny (K rozhodnutí 16).
+- `ref.markets`: `sk` (`country_code` `SK`, `default_locale` `sk-SK`, `ui_locales` `{sk}`, `jurisdiction` `sk`, `currency` `EUR`, `price_list_id` null, `web_status` `hidden`, `checks_status` `full`) a `cz` (`CZ`, `cs-CZ`, `{cs}`, `cz`, `CZK`, `hidden`, `limited`: v Česku zatím jen modul `ucp`). Měnu rozhodl uživatel 1. 10. 2026 (K rozhodnutí 16).
 
 ### Testovací data izolace
 
@@ -255,6 +255,8 @@ Testy nic nemažou: každý běh založí nové tenanty (nová `uuid`), takže n
 7. **Bez výchozí měsíční části** (fail-closed) a bez `ALTER DEFAULT PRIVILEGES` (práva výslovně, kontrolovaná testem).
 8. **Žádné navigační kolekce** v entitách ve F1 (jen cizí klíče jako vlastnosti), aby se náhodou nenačítaly celé grafy; navigace přidají změny, které je potřebují.
 9. **Kolize jmen s knihovnou:** entity `Finding` a `PageProfile` mají stejné jméno jako typy v `EshopGuard.Core`; jmenné prostory `EshopGuard.Data.Entities.Checks` a `EshopGuard.Data.Entities.Shops` je oddělují, mapovací kód používá aliasy (`using CoreFinding = EshopGuard.Core.Models.Finding;`). Jmenné prostory jsou v množném čísle (`Shops`), aby se nekryly s třídou `Shop`.
+10. **Historie migrací beze změny názvů sloupců:** konvence `snake_case` (`EFCore.NamingConventions`) by přejmenovala `MigrationId` a `ProductVersion`; `EshopGuardHistoryRepository` je drží, aby šly číst databáze po migraci `Initial`.
+11. **Index GIN pod RLS (zjištění 1. 10. 2026):** operátor `@>` nad poli není `LEAKPROOF`, takže pod RLS ho PostgreSQL nesmí použít jako podmínku indexu; pro `eshopguard_app` a `eshopguard_worker` se index GIN nad `segment_hashes` nepoužije. Hledání věty v e-shopu s 20 000 stránkami trvá i tak 9–10 ms (měřeno). O ponechání indexu rozhodne uživatel (tasks 9.2).
 
 ## Data Flow
 
@@ -287,7 +289,7 @@ Požadavek API / úloha workeru
 - `Entities/Fixes/`: `FixGroup.cs`, `FixProposal.cs`, `Publication.cs`, `DecisionMemory.cs`, `EvidenceItem.cs`, `EvidenceLink.cs`, `Protocol.cs`, `RewriteCacheEntry.cs`, `FixesEnums.cs`.
 - `Entities/Billing/`: `PriceList.cs`, `PriceTier.cs`, `VolumeDiscount.cs`, `PromoCode.cs`, `PaymentMethod.cs`, `Order.cs`, `Subscription.cs`, `SubscriptionChange.cs`, `Payment.cs`, `Invoice.cs`, `StripeEvent.cs`, `BillingEnums.cs`.
 - `Entities/Usage/`: `UsageRecord.cs`, `UsageDaily.cs`, `UsageEnums.cs`.
-- `Entities/Ops/`: `Job.cs`, `Worker.cs`, `Domain.cs`, `RateLimitBucket.cs`, `Schedule.cs`, `OutboxMessage.cs`, `AuditLogEntry.cs`, `SystemSetting.cs`, `OpsEnums.cs`.
+- `Entities/Ops/`: `Job.cs`, `WorkerNode.cs`, `CrawlDomain.cs` (jména kvůli kolizi se jmenným prostorem `EshopGuard.Worker` a s vlastností `Domain`), `RateLimitBucket.cs`, `Schedule.cs`, `OutboxMessage.cs`, `AuditLogEntry.cs`, `SystemSetting.cs`, `OpsEnums.cs`.
 - `Entities/Ref/`: `Market.cs`, `Locale.cs`, `RefEnums.cs`.
 - `Configurations/<Schéma>/<Entita>Configuration.cs` pro každou entitu (61 souborů) a `Configurations/Conventions/`: `SnakeCaseEnumConverter.cs`, `EnumCheckExtensions.cs`, `TenantKeyExtensions.cs` (`HasTenantAlternateKey`, `HasTenantForeignKey<TPrincipal>(…)`, `HasPartitionedTenantForeignKey<TPrincipal>(…)`), `TableNames.cs` (konstanty schémat a seznamy 41 a 20 tabulek pro testy).
 - `Tenancy/`: `ITenantContext.cs`, `TenantContext.cs`, `TenantNotSetException.cs`, `CrossTenantWriteException.cs`, `TenantTransactionInterceptor.cs`, `TenantSaveChangesInterceptor.cs`, `TimestampSaveChangesInterceptor.cs`, `SoftDeleteSaveChangesInterceptor.cs`, `TenantDbContextExtensions.cs`, `TenantSql.cs`.

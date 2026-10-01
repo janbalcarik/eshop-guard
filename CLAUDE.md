@@ -48,6 +48,7 @@ EshopGuard kontroluje texty e-shopů podle spotřebitelského práva. Primárně
 - Logika patří do knihovny. CLI, API a worker jsou tenké vrstvy.
 - **Cache (odpovědi Jevu, přepisy, profily) jen v PostgreSQL**, stejně pro CLI i aplikaci. Žádné lokální soubory cache. Dnešní SQLite `src/cache/jev-cache.sqlite` je přechodná a převede se ve změně 5b, soubor nemazat bez souhlasu.
 - Aplikace se připojuje jako role `eshopguard_app` nebo `eshopguard_worker`, ne jako superuživatel, protože ten obchází RLS. Databáze se jmenuje `eshopguard`.
+- Data tenanta jen v transakci s kontextem tenanta (`ITenantContext.Set` + `ExecuteInTenantTransactionAsync`, čisté SQL `TenantSql.BeginAsync`). Nová tabulka tenanta: RLS v migraci, zápis do `TableNames` a řádek v `TenantDataSeeder` (README, oddíl Databáze); jinak selžou katalogové testy.
 - Žádné slovníky klíčových slov pro klasifikaci. Rozhoduje Jev, LLM nebo struktura stránky.
 - Fail-closed: co nebylo zkontrolováno, se uvede, nic se tiše neskrývá ani neslučuje.
 - Právo:
@@ -59,7 +60,7 @@ EshopGuard kontroluje texty e-shopů podle spotřebitelského práva. Primárně
 
 ## Sestavení a testy
 - Sestavení: `dotnet build src/EshopGuard.sln`.
-- Testy bez placených (Windows i Linux, z kořene repozitáře): `dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"`. Stav 1. 10. 2026: 310 testů v pěti projektech, z toho 190 v `EshopGuard.Core.Tests`.
+- Testy bez placených (Windows i Linux, z kořene repozitáře): `dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"`. Stav 1. 10. 2026: 533 testů v pěti projektech, z toho 190 v `EshopGuard.Core.Tests`.
   - Kategorie `Db` potřebuje PostgreSQL a user-secrets `eshopguard-tests` (`deploy/dev/setup-local.ps1`). Bez prostředí selže se jménem klíče; vynechat jen filtrem `--filter-not-trait "Category=Db"`.
   - Jeden projekt přímo: `dotnet run --project src/tests/EshopGuard.Core.Tests -- -trait- "Category=Jev"`.
 - `global.json` (pin SDK a `test.runner` = Microsoft.Testing.Platform) je v kořeni repozitáře, proto `dotnet test` funguje odkudkoli v repozitáři.
