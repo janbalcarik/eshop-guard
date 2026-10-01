@@ -44,7 +44,7 @@ Návrh UI: https://claude.ai/artifact/34wYLsJzieFtmWdueAwYay
 
 | # | Změna | Fáze | Závisí na | Schopnosti (specs) |
 |---|---|---|---|---|
-| 1 | `rename-to-eshopguard` | F0 | – | `product-identity` |
+| 1 | `rename-to-eshopguard` ✓ hotovo 1. 10. 2026 (archiv) | F0 | – | `product-identity` |
 | 2 | `add-solution-foundation` | F0 | 1 | `operations` |
 | 3 | `add-multitenant-data-model` | F1 | 2 | `tenancy` |
 | 4 | `add-job-queue-and-worker` | F2 | 3 | `job-queue` |

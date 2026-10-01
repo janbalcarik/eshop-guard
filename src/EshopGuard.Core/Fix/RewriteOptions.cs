@@ -1,7 +1,7 @@
 namespace EshopGuard.Core.Fix;
 
 /// <summary>
-/// Settings of the rewrite of problematic passages by an OpenAI model (<c>checker rewrite</c>).
+/// Settings of the rewrite of problematic passages by an OpenAI model (<c>eshopguard rewrite</c>).
 /// </summary>
 public sealed class RewriteOptions
 {

@@ -4,7 +4,7 @@ using EshopGuard.Core.Jev;
 namespace EshopGuard.Core.Options;
 
 /// <summary>
-/// Root options of the checker library. The host fills them in <c>AddEshopGuard</c>.
+/// Root options of the EshopGuard library. The host fills them in <c>AddEshopGuard</c>.
 /// </summary>
 public sealed class EshopGuardOptions
 {

@@ -69,7 +69,7 @@ rules:
   sieve_file: config/sieve.yaml
 
 rewrite:
-  # Přepis problematických pasáží (checker rewrite). Klíč je v OPENAI_API_KEY, ne tady.
+  # Přepis problematických pasáží (eshopguard rewrite). Klíč je v OPENAI_API_KEY, ne tady.
   # gpt-6.1-sol vybrán pilotem 30. 9. 2026 (24 stránek vegis.sk, ~1 cent na stránku); ceny developers.openai.com/api/docs/pricing.
   model: gpt-6.1-sol
   reasoning_effort: medium

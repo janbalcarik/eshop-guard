@@ -1,4 +1,4 @@
-# Zadání pro přepis problematických pasáží modelem OpenAI (checker rewrite).
+# Zadání pro přepis problematických pasáží modelem OpenAI (eshopguard rewrite).
 # Pořadí v požadavku: instructions, examples, legal_texts (společná část, pro všechny stránky bajt po bajtu stejná,
 # OpenAI ji po první stránce účtuje z mezipaměti) a teprve potom stránka s nálezy.
 # Každá změna znění zvyšuje version (je součástí klíče mezipaměti přepisů).

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <AssemblyName>checker</AssemblyName>
+    <AssemblyName>eshopguard</AssemblyName>
     <RootNamespace>EshopGuard.Cli</RootNamespace>
   </PropertyGroup>
 

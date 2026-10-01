@@ -66,7 +66,7 @@ internal sealed class CheckTextSettings : CommandSettings
 }
 
 /// <summary>
-/// <c>checker check-text "&lt;text&gt;"</c>: evaluates one text and prints question probabilities and the result of every rule.
+/// <c>eshopguard check-text "&lt;text&gt;"</c>: evaluates one text and prints question probabilities and the result of every rule.
 /// </summary>
 internal sealed class CheckTextCommand : AsyncCommand<CheckTextSettings>
 {

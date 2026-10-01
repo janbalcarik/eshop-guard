@@ -14,7 +14,7 @@ Console.CancelKeyPress += (_, e) =>
 var app = new CommandApp();
 app.Configure(config =>
 {
-    config.SetApplicationName("checker");
+    config.SetApplicationName("eshopguard");
     config.AddCommand<ScanCommand>("scan")
         .WithDescription("Projde web e-shopu, vyhodnotí jeho texty a vytvoří zprávu.")
         .WithExample("scan", "http://localhost:8000", "--mock");

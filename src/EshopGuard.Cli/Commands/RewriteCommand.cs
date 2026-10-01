@@ -41,7 +41,7 @@ internal sealed class RewriteSettings : CommandSettings
 }
 
 /// <summary>
-/// <c>checker rewrite &lt;run&gt;</c>: rewrites the problematic passages of a finished scan and writes rewrite.md and rewrite.json.
+/// <c>eshopguard rewrite &lt;run&gt;</c>: rewrites the problematic passages of a finished scan and writes rewrite.md and rewrite.json.
 /// A thin wrapper for testing; the work is done by <see cref="ITextRewriter"/> in the library.
 /// </summary>
 internal sealed class RewriteCommand : AsyncCommand<RewriteSettings>

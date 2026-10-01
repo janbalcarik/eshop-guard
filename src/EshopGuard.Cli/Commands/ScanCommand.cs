@@ -94,7 +94,7 @@ internal sealed class ScanSettings : CommandSettings
 }
 
 /// <summary>
-/// <c>checker scan &lt;url&gt;</c>: crawls and evaluates the site through the library and writes the outputs.
+/// <c>eshopguard scan &lt;url&gt;</c>: crawls and evaluates the site through the library and writes the outputs.
 /// </summary>
 internal sealed class ScanCommand : AsyncCommand<ScanSettings>
 {

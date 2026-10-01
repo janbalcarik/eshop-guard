@@ -68,7 +68,7 @@ internal sealed class CliConfiguration
             ? null
             : "Chybí klíč API Jevu: nastavte JEV_API_KEY v .env nebo proměnnou prostředí TYPESAFE_API_KEY. Pro zkoušku bez API použijte --mock.";
 
-    /// <summary>OpenAI key for <c>checker rewrite</c>; never printed.</summary>
+    /// <summary>OpenAI key for <c>eshopguard rewrite</c>; never printed.</summary>
     public string? OpenAiApiKey { get; init; }
 
     public string? MissingOpenAiKeyMessage(bool useMock) =>

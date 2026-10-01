@@ -21,7 +21,7 @@ internal sealed class ServeFixtureSettings : CommandSettings
 }
 
 /// <summary>
-/// <c>checker serve-fixture</c>: serves the fixture e-shop on localhost until Ctrl+C.
+/// <c>eshopguard serve-fixture</c>: serves the fixture e-shop on localhost until Ctrl+C.
 /// </summary>
 internal sealed class ServeFixtureCommand : AsyncCommand<ServeFixtureSettings>
 {
