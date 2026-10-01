@@ -24,6 +24,9 @@ app.Configure(config =>
     config.AddCommand<RewriteCommand>("rewrite")
         .WithDescription("Navrhne přepis problematických pasáží hotového skenu modelem OpenAI a znovu je zkontroluje.")
         .WithExample("rewrite", "out/shop.sk-20260930-0919", "--limit", "5");
+    config.AddCommand<BenchExtractCommand>("bench-extract")
+        .WithDescription("Změří čas procesoru extrakce stránek nad nahrávkou webu (scan --record).")
+        .WithExample("bench-extract", "--replay", "snapshots/vegis.sk");
     config.AddCommand<ServeFixtureCommand>("serve-fixture")
         .WithDescription("Spustí lokální testovací e-shop.")
         .WithExample("serve-fixture", "--port", "8000");

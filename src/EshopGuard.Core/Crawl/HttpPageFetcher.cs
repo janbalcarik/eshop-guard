@@ -62,6 +62,8 @@ internal sealed class HttpPageFetcher(
                 MediaType = contentType?.MediaType,
                 Charset = contentType?.CharSet,
                 Body = body,
+                ETag = response.Headers.ETag?.ToString(),
+                LastModified = response.Content.Headers.LastModified,
             };
         }
         catch (OperationCanceledException) when (!ct.IsCancellationRequested)

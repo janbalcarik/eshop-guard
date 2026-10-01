@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <None Include="Fixtures\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <!-- Reference outputs of the code before change 5 (BaselineDumpTests). -->
+    <None Include="Baselines\**\*" CopyToOutputDirectory="PreserveNewest" />
     <!-- Tests use the shipped rule sets and label lists, so a broken rule file fails the build's tests. -->
     <None Include="..\..\rules\*.yaml" Link="rules\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\config\labels.yaml" Link="config\labels.yaml" CopyToOutputDirectory="PreserveNewest" />

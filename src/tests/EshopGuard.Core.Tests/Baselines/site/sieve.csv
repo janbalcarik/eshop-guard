@@ -1,0 +1,51 @@
+url,chunk,chars,status,sieve_ucp,text
+http://fixture.test/,0,341,ok,0.878,"Přírodní kosmetika z Vysočiny
+Vyrábíme mýdla a šampony z bylin, které pěstujeme na vlastní zahradě u Jihlavy.
+Doprava je klimaticky neutrální díky kompenzaci emisí.
+Objednávky odesíláme do 2 pracovních dnů, např. přes Českou poštu nebo Zásilkovnu.
+Proč nakoupit u nás?
+14 dní na vrácení zboží bez udání důvodu.
+Ruční výroba v malých várkách."
+http://fixture.test/produkt-1.html,0,193,ok,0.910,"Bylinný šampon s levandulí
+Tento šampon je ekologický a šetrný k přírodě.
+Balení obsahuje 250 ml a vydrží přibližně 2 měsíce.
+Cena: 189 Kč
+Recenze
+Za hodnocení 5 hvězdičkami vám vrátíme 100 Kč."
+http://fixture.test/produkt-2.html,0,232,ok,0.907,"Tuhé mýdlo s měsíčkem
+Jemné mýdlo s měsíčkem lékařským pro citlivou pleť.
+Mýdlo zklidňuje a hydratuje suchou pokožku.
+Obal je ze 100 % recyklovaného papíru.
+Doprava zdarma při nákupu nad 1 500 Kč.
+Na vrácení zboží máte u nás 30 dní."
+http://fixture.test/produkt-3.html,0,110,ok,0.095,"Tuhý šampon s kopřivou
+Ekologický produkt – obal je z recyklovaného papíru.
+Šampon vystačí zhruba na 60 umytí."
+http://fixture.test/produkt-4.html,0,172,ok,0.875,"Pleťový krém s rakytníkem
+Oceněno certifikátem GreenStar Planet.
+Krém je vhodný pro suchou pleť, obsah balení je 50 ml.
+Recenze
+Všechny recenze jsou od ověřených zákazníků."
+http://fixture.test/produkt-5.html,0,145,ok,0.071,"Prací gel z mýdlových ořechů
+Nese ekoznačku EU Ecolabel.
+Jedna dávka 30 ml stačí na běžně znečištěné prádlo.
+Napište nám recenzi, moc nám pomůže."
+http://fixture.test/produkt-6.html,0,142,ok,0.036,"Jablečný mošt z Vysočiny
+BIO jablečný mošt z certifikovaného ekologického zemědělství.
+Lisujeme ho z jablek z vlastního sadu, láhev má 0,75 l."
+http://fixture.test/produkt-7.html,0,129,ok,0.887,"Bylinná mast s měsíčkem
+Bylinná mast vyléčí lupénku během 14 dnů.
+Mast obsahuje bambucké máslo, měsíček a heřmánek, balení 30 ml."
+http://fixture.test/produkt-8.html,0,122,ok,0.867,"Dárková sada mýdel
+Jen dnes o 30 % levněji!
+Poslední 2 kusy skladem.
+Sada obsahuje tři mýdla po 100 g v papírové krabičce."
+http://fixture.test/produkt-9.html,0,111,ok,0.864,"Vzorek pleťového krému
+Vzorek zdarma, stačí uhradit balné 29 Kč.
+Vzorek obsahuje 5 ml krému na několik použití."
+http://fixture.test/o-nas.html,0,247,ok,0.060,"O nás
+Jsme odpovědná a udržitelná firma.
+Jako firma jsme klimaticky neutrální díky výsadbě stromů.
+Do roku 2030 budeme vyrábět zcela bez emisí.
+Naše mýdla nesou pečeť Fair Soap Alliance za férové pracovní podmínky.
+Mýdla vaříme ručně od roku 2010."

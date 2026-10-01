@@ -22,6 +22,30 @@ namespace EshopGuard.Core;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
+    /// Records every answer of the sites into <paramref name="directory"/> (<see cref="RecordingPageFetcher"/> around the HTTP
+    /// fetcher). Call before <see cref="AddEshopGuard"/>.
+    /// </summary>
+    public static IServiceCollection AddEshopGuardRecording(this IServiceCollection services, string directory)
+    {
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentException.ThrowIfNullOrWhiteSpace(directory);
+        return services.AddSingleton<IPageFetcher>(provider =>
+            new RecordingPageFetcher(ActivatorUtilities.CreateInstance<HttpPageFetcher>(provider), directory));
+    }
+
+    /// <summary>
+    /// Answers every request from the recording in <paramref name="directory"/> without network
+    /// (<see cref="ReplayPageFetcher"/>). Call before <see cref="AddEshopGuard"/>.
+    /// </summary>
+    public static IServiceCollection AddEshopGuardReplay(this IServiceCollection services, string directory)
+    {
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentException.ThrowIfNullOrWhiteSpace(directory);
+        return services.AddSingleton<IPageFetcher>(provider =>
+            new ReplayPageFetcher(directory, provider.GetService<Microsoft.Extensions.Logging.ILogger<ReplayPageFetcher>>()));
+    }
+
+    /// <summary>
     /// Registers <see cref="IEshopGuard"/> and its default implementations as singletons.
     /// Services registered by the host before this call replace the defaults.
     /// </summary>

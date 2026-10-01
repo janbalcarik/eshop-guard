@@ -39,6 +39,12 @@ public sealed class FetchResponse
     /// <summary>How long the server asked to wait (Retry-After of a 429 or 503 answer).</summary>
     public TimeSpan? RetryAfter { get; init; }
 
+    /// <summary>ETag of the response, for a later conditional request.</summary>
+    public string? ETag { get; init; }
+
+    /// <summary>Last-Modified of the response, for a later conditional request.</summary>
+    public DateTimeOffset? LastModified { get; init; }
+
     /// <summary>True for a 2xx response with a body.</summary>
     public bool IsSuccess => Error is null && StatusCode is >= 200 and < 300 && Body is not null;
 }

@@ -11,7 +11,9 @@ namespace EshopGuard.Cli;
 /// </summary>
 internal static class CliHost
 {
-    public static ServiceProvider BuildServices(CliConfiguration configuration, string logFile, bool useMock, bool noCache)
+    /// <param name="register">Registrations before the library (e.g. recording or replay of the site), which replace its defaults.</param>
+    public static ServiceProvider BuildServices(CliConfiguration configuration, string logFile, bool useMock, bool noCache,
+        Action<IServiceCollection>? register = null)
     {
         var logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
@@ -28,6 +30,7 @@ internal static class CliHost
             builder.SetMinimumLevel(LogLevel.Debug);
             builder.AddSerilog(logger, dispose: true);
         });
+        register?.Invoke(services);
         services.AddEshopGuard(options => configuration.Apply(options, useMock, noCache));
         return services.BuildServiceProvider();
     }

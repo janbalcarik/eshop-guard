@@ -1,0 +1,998 @@
+[
+  {
+    "rule_id": "eco_generic_claim",
+    "module": "eco",
+    "title": "Obecné environmentální tvrzení bez upřesnění",
+    "severity": "high",
+    "checkability": "text",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.864,
+    "text": "Ekologický šampón s levanduľou",
+    "context_before": "",
+    "context_after": "Tento šampón je ekologický a šetrný k prírode. Balenie obsahuje 250 ml a vydrží približne 2 mesiace.",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-1.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "eco_claim": 0.901,
+      "eco_generic": 0.864,
+      "eco_explicit_term": 0.883,
+      "eco_organic_food": 0.025,
+      "eco_sustainable_term": 0.043,
+      "eco_neutral": 0.034,
+      "eco_other_subject": 0.05,
+      "eco_diy": 0.031,
+      "eco_audience": 0.035
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Věta používá výraz, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (například „ekologický“, „šetrný k životnímu prostředí“, „zelený“, „přátelský k přírodě“), nebo přímo tvrdí přínos pro životní prostředí, přírodu či klima. Bez upřesnění jasně a výrazně přímo u tvrzení je zakázané, pokud obchodník neprokáže uznaný vynikající environmentální profil relevantní pro tvrzení (ekoznačka EU nebo úředně uznaná ekoznačka typu I). Certifikované biopotraviny smí „bio“ a „eko“ používat.",
+    "recommendation": "Tvrzení odstraňte, nebo ho nahraďte konkrétním a doložitelným údajem přímo u něj.",
+    "notes": [],
+    "segment_hash": "sha256:b5716d2d22878e1f8e4f9d2473f513176fa962e8f2a44d4633f1fa4388e19a91"
+  },
+  {
+    "rule_id": "eco_generic_claim",
+    "module": "eco",
+    "title": "Obecné environmentální tvrzení bez upřesnění",
+    "severity": "high",
+    "checkability": "text",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.872,
+    "text": "Tento šampón je ekologický a šetrný k prírode.",
+    "context_before": "Ekologický šampón s levanduľou",
+    "context_after": "Balenie obsahuje 250 ml a vydrží približne 2 mesiace. Cena: 8,90 €",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-1.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "eco_claim": 0.872,
+      "eco_generic": 0.873,
+      "eco_explicit_term": 0.917,
+      "eco_organic_food": 0.027,
+      "eco_sustainable_term": 0.061,
+      "eco_neutral": 0.084,
+      "eco_other_subject": 0.023,
+      "eco_diy": 0.083,
+      "eco_audience": 0.031
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Věta používá výraz, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (například „ekologický“, „šetrný k životnímu prostředí“, „zelený“, „přátelský k přírodě“), nebo přímo tvrdí přínos pro životní prostředí, přírodu či klima. Bez upřesnění jasně a výrazně přímo u tvrzení je zakázané, pokud obchodník neprokáže uznaný vynikající environmentální profil relevantní pro tvrzení (ekoznačka EU nebo úředně uznaná ekoznačka typu I). Certifikované biopotraviny smí „bio“ a „eko“ používat.",
+    "recommendation": "Tvrzení odstraňte, nebo ho nahraďte konkrétním a doložitelným údajem přímo u něj.",
+    "notes": [],
+    "segment_hash": "sha256:e7dd61490815150643c5b5d6d9165a6188ae9b810603a86d52246e24f7d4dac6"
+  },
+  {
+    "rule_id": "eco_generic_claim",
+    "module": "eco",
+    "title": "Obecné environmentální tvrzení bez upřesnění",
+    "severity": "high",
+    "checkability": "text",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.869,
+    "text": "Ekologický produkt – obal je z recyklovaného papiera.",
+    "context_before": "Tuhý šampón s pŕhľavou Vegan",
+    "context_after": "Šampón vystačí zhruba na 60 umytí.",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-3.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "eco_claim": 0.869,
+      "eco_generic": 0.903,
+      "eco_explicit_term": 0.892,
+      "eco_organic_food": 0.032,
+      "eco_sustainable_term": 0.043,
+      "eco_neutral": 0.043,
+      "eco_other_subject": 0.055,
+      "eco_diy": 0.07,
+      "eco_audience": 0.051
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Věta používá výraz, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (například „ekologický“, „šetrný k životnímu prostředí“, „zelený“, „přátelský k přírodě“), nebo přímo tvrdí přínos pro životní prostředí, přírodu či klima. Bez upřesnění jasně a výrazně přímo u tvrzení je zakázané, pokud obchodník neprokáže uznaný vynikající environmentální profil relevantní pro tvrzení (ekoznačka EU nebo úředně uznaná ekoznačka typu I). Certifikované biopotraviny smí „bio“ a „eko“ používat.",
+    "recommendation": "Tvrzení odstraňte, nebo ho nahraďte konkrétním a doložitelným údajem přímo u něj.",
+    "notes": [],
+    "segment_hash": "sha256:1430df3661d48c26dbe5d3a41be90d2d53eb0638707b7208c337da7019efa00f"
+  },
+  {
+    "rule_id": "eco_generic_claim_open",
+    "module": "eco",
+    "title": "Možné obecné environmentální tvrzení (posuzuje se případ od případu)",
+    "severity": "medium",
+    "checkability": "assess",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.862,
+    "text": "Ocenené certifikátom GreenStar Planet.",
+    "context_before": "Pleťový krém s rakytníkom",
+    "context_after": "Krém je vhodný pre suchú pleť, obsah balenia je 50 ml. ✓ Netestované na zvieratách.",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-4.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "eco_claim": 0.914,
+      "eco_generic": 0.862,
+      "eco_organic_food": 0.061,
+      "eco_sustainable_term": 0.028,
+      "eco_neutral": 0.051,
+      "eco_explicit_term": 0.064,
+      "eco_other_subject": 0.076,
+      "eco_diy": 0.073
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, čl. 2 písm. o) a p) a příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 3 a 14",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Věta používá slovo, které zákon ani odůvodnění 9 směrnice (EU) 2024/825 mezi příklady obecných environmentálních tvrzení neuvádí, například „prírodný“, „bio“ u výrobku, který není potravinou, nebo „šetrný“ bez zmínky o přírodě. Environmentálním tvrzením je, jen pokud u průměrného spotřebitele vyvolá dojem přínosu pro životní prostředí; Komise to posuzuje případ od případu (otázky a odpovědi č. 3 u názvů výrobků a značek, č. 14 u „bio“ a „eco“). Pokud takový dojem vyvolá a přímo u něj není upřesnění, jde o zakázané obecné tvrzení.",
+    "recommendation": "Posuďte, zda výraz v kontextu stránky působí jako slib přínosu pro přírodu. Pokud ano, doplňte přímo k němu konkrétní doložitelný údaj, nebo ho odstraňte.",
+    "notes": [],
+    "segment_hash": "sha256:a31f8c7ff37fbd137b493fd827ae2e866e776af7a55ca91de79bda7babec2d4c"
+  },
+  {
+    "rule_id": "eco_sustainable_claim",
+    "module": "eco",
+    "title": "„Udržitelný“ nebo „odpovědný“ bez upřesnění",
+    "severity": "high",
+    "checkability": "text",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.867,
+    "text": "Sme zodpovedná a udržateľná firma.",
+    "context_before": "O nás",
+    "context_after": "Ako firma sme klimaticky neutrálni vďaka výsadbe stromov. Do roku 2030 budeme vyrábať úplne bez emisií.",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/o-nas.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "eco_sustainable_term": 0.867,
+      "eco_generic": 0.919,
+      "eco_other_subject": 0.083,
+      "eco_diy": 0.093,
+      "eco_audience": 0.082
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 10",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Tvrzení „udržitelný“, „odpovědný“ nebo „uvědomělý“ se kromě životního prostředí týkají i sociálních znaků, proto je podle odůvodnění směrnice EmpCo nelze opřít jen o ekoznačku. Bez jasného upřesnění přímo u tvrzení jde o zakázané obecné tvrzení.",
+    "recommendation": "Tvrzení odstraňte, nebo přímo u něj uveďte, v čem konkrétně a doložitelně je produkt udržitelný.",
+    "notes": [],
+    "segment_hash": "sha256:b1dd77f6ba9e2b41c14c17b96bebc19904461c32caf26b8037fcf8b2cb81844d"
+  },
+  {
+    "rule_id": "eco_neutrality",
+    "module": "eco",
+    "title": "Klimatické tvrzení o produktu založené na kompenzacích",
+    "severity": "high",
+    "checkability": "text",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.87,
+    "text": "Doprava je klimaticky neutrálna vďaka kompenzácii emisií.",
+    "context_before": "Prírodná kozmetika zo Záhoria Vyrábame mydlá a šampóny z byliniek, ktoré pestujeme vo vlastnej záhrade pri Senici.",
+    "context_after": "Objednávky odosielame do 2 pracovných dní cez Packetu alebo Slovenskú poštu.",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "eco_neutral": 0.884,
+      "eco_offset_basis": 0.87,
+      "eco_company_level": 0.032
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 4c, ve znění směrnice (EU) 2024/825; odůvodnění 12",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 8, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Tvrzení, že produkt (zboží nebo služba, například doprava) má neutrální, snížený nebo pozitivní dopad na klima, je zakázané vždy, pokud stojí na kompenzaci emisí mimo hodnotový řetězec produktu. Povolené je jen tvrzení založené na skutečném snížení emisí během životního cyklu produktu.",
+    "recommendation": "Tvrzení odstraňte. O podpoře klimatických projektů můžete informovat, ale ne jako o vlastnosti produktu.",
+    "notes": [],
+    "segment_hash": "sha256:c35445844c5e45bd13cf80ff3320a95deaf59b6e301c32a7a5dcb80678312a92"
+  },
+  {
+    "rule_id": "eco_company_climate_claim",
+    "module": "eco",
+    "title": "Tvrzení o klimatické neutralitě firmy založené na kompenzacích",
+    "severity": "medium",
+    "checkability": "verify",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.903,
+    "text": "Ako firma sme klimaticky neutrálni vďaka výsadbe stromov.",
+    "context_before": "O nás Sme zodpovedná a udržateľná firma.",
+    "context_after": "Do roku 2030 budeme vyrábať úplne bez emisií. Naše mydlá nesú pečať Fair Soap Alliance za férové pracovné podmienky.",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/o-nas.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "eco_neutral": 0.938,
+      "eco_offset_basis": 0.918,
+      "eco_company_level": 0.903
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 10",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Zákaz tvrzení založených na kompenzacích (bod 4c) se týká produktů. Tvrzení, že je klimaticky neutrální celá firma, je ale obecné environmentální tvrzení a bez uznaného vynikajícího environmentálního profilu je zakázané. Investice do klimatických projektů smí firma propagovat, pokud to nepůsobí klamavě.",
+    "recommendation": "Místo neutrality uveďte, co firma skutečně dělá (například kolik emisí snížila a jak), a podporu projektů popište odděleně od vlastností produktů.",
+    "notes": [],
+    "segment_hash": "sha256:f23a8b2e9ff76ae5622c48fc03c7e1b355010fda865f3ae9d75f191858e728c2"
+  },
+  {
+    "rule_id": "eco_label_unrecognized",
+    "module": "eco",
+    "title": "Jmenovaná značka udržitelnosti mimo seznam ověřených",
+    "severity": "medium",
+    "checkability": "verify",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.864,
+    "text": "Ocenené certifikátom GreenStar Planet.",
+    "context_before": "Pleťový krém s rakytníkom",
+    "context_after": "Krém je vhodný pre suchú pleť, obsah balenia je 50 ml. ✓ Netestované na zvieratách.",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-4.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "eco_named_label": 0.864,
+      "eco_label": 0.919,
+      "eco_social_label": 0.075,
+      "eco_organic_food": 0.061
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Značka udržitelnosti (environmentální i sociální, například férový obchod) je zakázaná, pokud nevychází z certifikačního systému s nezávislým ověřováním nebo ji nezavedl orgán veřejné moci. Věta jmenuje značku, která není na seznamu ověřených; zda podmínky splňuje, se z webu zjistit nedá.",
+    "recommendation": "Ověřte, zda značka vychází z certifikačního systému s nezávislým ověřováním nebo ji zavedl úřad. Pokud ne, odstraňte ji.",
+    "notes": [],
+    "segment_hash": "sha256:a31f8c7ff37fbd137b493fd827ae2e866e776af7a55ca91de79bda7babec2d4c"
+  },
+  {
+    "rule_id": "eco_label_unrecognized",
+    "module": "eco",
+    "title": "Jmenovaná značka udržitelnosti mimo seznam ověřených",
+    "severity": "medium",
+    "checkability": "verify",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.871,
+    "text": "Naše mydlá nesú pečať Fair Soap Alliance za férové pracovné podmienky.",
+    "context_before": "Ako firma sme klimaticky neutrálni vďaka výsadbe stromov. Do roku 2030 budeme vyrábať úplne bez emisií.",
+    "context_after": "Mydlá varíme ručne od roku 2010.",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/o-nas.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "eco_named_label": 0.871,
+      "eco_label": 0.938,
+      "eco_social_label": 0.895,
+      "eco_organic_food": 0.081
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Značka udržitelnosti (environmentální i sociální, například férový obchod) je zakázaná, pokud nevychází z certifikačního systému s nezávislým ověřováním nebo ji nezavedl orgán veřejné moci. Věta jmenuje značku, která není na seznamu ověřených; zda podmínky splňuje, se z webu zjistit nedá.",
+    "recommendation": "Ověřte, zda značka vychází z certifikačního systému s nezávislým ověřováním nebo ji zavedl úřad. Pokud ne, odstraňte ji.",
+    "notes": [],
+    "segment_hash": "sha256:13a2807af8984f65496c5a41d1946a7bb8d669bd2698b11a2c120dcbcb335d26"
+  },
+  {
+    "rule_id": "eco_label_generic_term",
+    "module": "eco",
+    "title": "Odznak nebo značka s obecným environmentálním výrazem",
+    "severity": "high",
+    "checkability": "text",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.864,
+    "text": "Eco",
+    "context_before": "Tuhý dezodorant s levanduľou",
+    "context_after": "Vegan Doprava zadarmo nad 50 €",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-9.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "eco_label": 0.937,
+      "eco_explicit_term": 0.864,
+      "eco_named_label": 0.058,
+      "eco_organic_food": 0.094,
+      "eco_generic": 0.046,
+      "eco_other_subject": 0.048,
+      "eco_diy": 0.056
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Odznak nebo značka bez vlastního názvu certifikačního systému (například „Eco“ nebo „Green“ u výrobku) je značkou udržitelnosti, která nevychází z certifikačního systému (bod 3), a zároveň výrazem, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (bod 6). Je zakázaná, pokud výrobek nemá ekoznačku EU nebo úředně uznanou ekoznačku typu I.",
+    "recommendation": "Odznak odstraňte, nebo ho nahraďte skutečnou certifikovanou značkou, kterou výrobek má.",
+    "notes": [],
+    "segment_hash": "sha256:af8e20810d6eb8a046ef830f4d199d7ecc9e2751e6b5a5b875ecb06aba391e5a"
+  },
+  {
+    "rule_id": "eco_label_open",
+    "module": "eco",
+    "title": "Odznak nebo symbol, který může působit jako značka udržitelnosti",
+    "severity": "medium",
+    "checkability": "assess",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.889,
+    "text": "Vegan",
+    "context_before": "Tuhý šampón s pŕhľavou",
+    "context_after": "Ekologický produkt – obal je z recyklovaného papiera. Šampón vystačí zhruba na 60 umytí.",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-3.html",
+      "http://fixture.test/produkt-9.html"
+    ],
+    "occurrences": 2,
+    "boilerplate": false,
+    "question_probs": {
+      "eco_label": 0.049,
+      "eco_social_label": 0.889,
+      "eco_named_label": 0.085,
+      "eco_explicit_term": 0.088,
+      "eco_organic_food": 0.036,
+      "eco_generic": 0.028,
+      "eco_other_subject": 0.078,
+      "eco_diy": 0.049
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, čl. 2 písm. r) a příloha I bod 2a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 5, 14 a 15",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Odznak bez vlastního názvu certifikačního systému a bez environmentálního výrazu (například „Vegan“, „Vegetarian“, „GMO free“, „BIO“ u výrobku, který není potravinou, nebo zelený lístek) je značkou udržitelnosti, jen pokud jím obchodník naznačuje přínos pro životní prostředí nebo sociální přínos, například pro dobré životní podmínky zvířat. Komise to posuzuje případ od případu podle kontextu a vnímání průměrného spotřebitele (otázky a odpovědi č. 5, 14 a 15). Pokud je značkou udržitelnosti, musí vycházet z certifikačního systému.",
+    "recommendation": "Posuďte, zda odznak v kontextu obchodu působí jako slib přínosu pro přírodu nebo zvířata. Pokud ano, používejte ho jen s certifikací; jde-li jen o údaj o složení nebo o vhodnosti pro určitou stravu, přínos nenaznačujte.",
+    "notes": [],
+    "segment_hash": "sha256:82ab827b45e34833a8510ee8f3c74bcf86b46ba766b86b72060a2cc1b8ebe205"
+  },
+  {
+    "rule_id": "eco_part_as_whole",
+    "module": "eco",
+    "title": "Tvrzení o celém produktu, ačkoli se týká jen části",
+    "severity": "medium",
+    "checkability": "text",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.869,
+    "text": "Ekologický produkt – obal je z recyklovaného papiera.",
+    "context_before": "Tuhý šampón s pŕhľavou Vegan",
+    "context_after": "Šampón vystačí zhruba na 60 umytí.",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-3.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "eco_claim": 0.869,
+      "eco_whole_claim": 0.891,
+      "eco_part_benefit": 0.898,
+      "eco_explicit_term": 0.892,
+      "eco_organic_food": 0.032,
+      "eco_other_subject": 0.055,
+      "eco_diy": 0.07
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 4b, ve znění směrnice (EU) 2024/825",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 7, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Environmentální tvrzení o celém produktu nebo celé firmě je zakázané, pokud se týká jen určitého aspektu, například obalu.",
+    "recommendation": "Upřesněte, které části se výhoda týká, například jen obalu.",
+    "notes": [],
+    "segment_hash": "sha256:1430df3661d48c26dbe5d3a41be90d2d53eb0638707b7208c337da7019efa00f"
+  },
+  {
+    "rule_id": "eco_future_claim",
+    "module": "eco",
+    "title": "Budoucí environmentální závazek k ověření",
+    "severity": "medium",
+    "checkability": "verify",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.907,
+    "text": "Do roku 2030 budeme vyrábať úplne bez emisií.",
+    "context_before": "Sme zodpovedná a udržateľná firma. Ako firma sme klimaticky neutrálni vďaka výsadbe stromov.",
+    "context_after": "Naše mydlá nesú pečať Fair Soap Alliance za férové pracovné podmienky. Mydlá varíme ručne od roku 2010.",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/o-nas.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "eco_future_claim": 0.907
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, čl. 6 odst. 2 písm. d), ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 12",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. d), ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Tvrzení o budoucím environmentálním výkonu (například „klimaticky neutrální do roku 2030“) je klamavé, pokud za ním nestojí jasné, veřejně dostupné a ověřitelné závazky v podrobném a realistickém prováděcím plánu s měřitelnými cíli, který pravidelně ověřuje nezávislý odborník. Posuzuje se případ od případu.",
+    "recommendation": "Ověřte, že k závazku existuje veřejný prováděcí plán s měřitelnými cíli a nezávislým ověřováním, a odkažte na něj přímo u tvrzení; jinak tvrzení odstraňte.",
+    "notes": [],
+    "segment_hash": "sha256:86d5f7f5a16c150b76cdd96a8d576774db1e94474ae6d8bd2aa5b4c6a533bc7e"
+  },
+  {
+    "rule_id": "dur_lifetime_claim",
+    "module": "dur",
+    "title": "Tvrzení o životnosti výrobku k ověření (nové od 27. 9. 2026)",
+    "severity": "medium",
+    "checkability": "verify",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.866,
+    "text": "Motor vydrží 10 rokov každodenného používania.",
+    "context_before": "Tyčový vysávač Tornádo Vysávač má výkon 700 W a nádobu na 1,5 l prachu.",
+    "context_after": "Filter vymieňajte každý mesiac, aj keď ešte funguje. Neoriginálne vrecká poškodia motor vysávača.",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-7.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "dur_lifetime_claim": 0.866
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 23g, ve znění směrnice (EU) 2024/825",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 36, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Nepravdivé tvrzení, že zboží má za běžných podmínek používání určitou životnost (dobu nebo intenzitu používání), je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Z textu nelze poznat, zda je tvrzení pravdivé, proto jde o nález k ověření.",
+    "recommendation": "Ověřte, že údaj o životnosti má oporu v dokladech výrobce (zkoušky, norma, podmínky používání); pokud ne, tvrzení odstraňte.",
+    "notes": [],
+    "segment_hash": "sha256:7d319a533c1922c0fdde2f5dd6b2187d380b80a6328913e34bb10037a3d645ec"
+  },
+  {
+    "rule_id": "dur_consumable_early",
+    "module": "dur",
+    "title": "Navádzanie na skoršiu výmenu spotrebného materiálu k ověření (nové od 27. 9. 2026)",
+    "severity": "medium",
+    "checkability": "verify",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.903,
+    "text": "Filter vymieňajte každý mesiac, aj keď ešte funguje.",
+    "context_before": "Vysávač má výkon 700 W a nádobu na 1,5 l prachu. Motor vydrží 10 rokov každodenného používania.",
+    "context_after": "Neoriginálne vrecká poškodia motor vysávača.",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-7.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "dur_consumable_early": 0.903
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 23i, ve znění směrnice (EU) 2024/825",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 38, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Navádět spotřebitele, aby spotřební materiál vyměnil nebo doplnil dřív, než je z technických důvodů nutné, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Zda je interval technicky odůvodněný, z textu poznat nelze.",
+    "recommendation": "Ověřte, že doporučený interval výměny vychází z technických důvodů (údaje výrobce); pokud ne, doporučte výměnu po spotřebování nebo opotřebení.",
+    "notes": [],
+    "segment_hash": "sha256:83da7de95b3a8cd4046290536c247c0f8a6f3c905e6c3ffc7856e647e35e58a2"
+  },
+  {
+    "rule_id": "dur_non_original_damage",
+    "module": "dur",
+    "title": "Tvrzení, že neoriginální díly poškodí výrobek, k ověření (nové od 27. 9. 2026)",
+    "severity": "medium",
+    "checkability": "verify",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.903,
+    "text": "Neoriginálne vrecká poškodia motor vysávača.",
+    "context_before": "Motor vydrží 10 rokov každodenného používania. Filter vymieňajte každý mesiac, aj keď ešte funguje.",
+    "context_after": "",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-7.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "dur_non_original_damage": 0.903
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 23j, ve znění směrnice (EU) 2024/825",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 39, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Nepravdivé tvrzení, že neoriginální spotřební materiál, náhradní díly nebo příslušenství poškodí funkčnost zboží, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Pravdivost z textu poznat nelze.",
+    "recommendation": "Ověřte, že tvrzení o poškození má oporu v dokladech výrobce; pokud ne, tvrzení odstraňte.",
+    "notes": [],
+    "segment_hash": "sha256:ef5300070c01aba21b328bc0a986ab1c2303cd69cb15ffd5934974f26a8852f6"
+  },
+  {
+    "rule_id": "ucp_review_reward_positive",
+    "module": "ucp",
+    "title": "Odměna za kladnou recenzi",
+    "severity": "high",
+    "checkability": "text",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.865,
+    "text": "Za hodnotenie 5 hviezdičkami vám vrátime 5 €.",
+    "context_before": "Cena: 8,90 € Recenzie",
+    "context_after": "",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-1.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "ucp_review_reward": 0.865,
+      "ucp_review_reward_positive": 0.874
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 23c; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (odměna za zveřejnění pozitivních recenzí)",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 32 (do 26. 9. 2026 bod 27)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Odměna za kladné hodnocení vede k falešným recenzím; zadávání falešných recenzí je zakázané za všech okolností.",
+    "recommendation": "Odměnu za recenzi nepodmiňujte jejím obsahem ani hodnocením.",
+    "notes": [],
+    "segment_hash": "sha256:7109f5da82db723985359dece9b78133864ab0477ad606c903fb9dc08cadeb71"
+  },
+  {
+    "rule_id": "ucp_reviews_verified_claim",
+    "module": "ucp",
+    "title": "Tvrzení o ověřených recenzích k ověření",
+    "severity": "medium",
+    "checkability": "verify",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.869,
+    "text": "Všetky recenzie sú od overených zákazníkov.",
+    "context_before": "✓ Netestované na zvieratách. Recenzie",
+    "context_after": "",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-4.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "ucp_reviews_verified_claim": 0.869
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 23b; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (opodstatněné a přiměřené kroky k ověření)",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 31 (do 26. 9. 2026 bod 26)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Tvrdit, že recenze píší zákazníci, kteří produkt koupili nebo použili, je zakázané, pokud obchod nepřijal přiměřená opatření k ověření (například hodnotit smí jen zákazník s dokončenou objednávkou). Opatření na webu vidět nejsou, proto jde o nález k ověření.",
+    "recommendation": "Ověřte, že obchod skutečně kontroluje původ recenzí (například podle čísla objednávky), a popište to přímo u recenzí.",
+    "notes": [],
+    "segment_hash": "sha256:643f8e0f55772dc03a256958de1944508e466c073455565a0735b07059452f60"
+  },
+  {
+    "rule_id": "legal_adr_missing",
+    "module": "legal",
+    "title": "Chýba odkaz na informácie o subjekte alternatívneho riešenia sporov",
+    "severity": "high",
+    "checkability": "text",
+    "scope": "site",
+    "band": "high",
+    "score": 0.901,
+    "text": "Vybavenie reklamácie\nO vybavení reklamácie vás budeme informovať e-mailom a vydáme vám doklad o dátume a spôsobe vybavenia reklamácie.",
+    "context_before": "",
+    "context_after": "",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/reklamacny-poriadok.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "legal_adr": 0.099
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "sk",
+        "ref": "§ 5 ods. 1 písm. q) a ods. 3 zákona č. 108/2024 Z. z. v znení od 27. 9. 2026 (do 26. 9. 2026 písm. l)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Predávajúci musí spotrebiteľa poučiť o práve podať žiadosť o nápravu s uvedením odkazu na webové sídlo, na ktorom sú zverejnené informácie o príslušnom subjekte alternatívneho riešenia sporov. Uvedenie SOI len ako orgánu dozoru alebo odkaz na zrušenú platformu ODR túto povinnosť nesplní.",
+    "recommendation": "Doplňte do obchodných podmienok odkaz na webové sídlo s informáciami o príslušnom subjekte alternatívneho riešenia sporov (pri bežnom tovare SOI).",
+    "notes": [
+      "Nejbližší nalezený odstavec má pravděpodobnost 0,10, práh přítomnosti je 0,70."
+    ],
+    "segment_hash": "sha256:2e78ea93221b013208a50cc92ca3ddb36cc85d2edc9bb2f3c482ca6bb3be61dd"
+  },
+  {
+    "rule_id": "legal_redress_request_missing",
+    "module": "legal",
+    "title": "Chýba poučenie o práve podať žiadosť o nápravu",
+    "severity": "high",
+    "checkability": "text",
+    "scope": "site",
+    "band": "high",
+    "score": 0.906,
+    "text": "Príloha: Vzorový formulár na odstúpenie od zmluvy\nOznamujem, že odstupujem od zmluvy na tento tovar: … Dátum objednania: … Meno a priezvisko spotrebiteľa: … Adresa spotrebiteľa: … Dátum: …",
+    "context_before": "",
+    "context_after": "",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/obchodne-podmienky.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "legal_redress_request": 0.094
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "sk",
+        "ref": "§ 5 ods. 1 písm. q) zákona č. 108/2024 Z. z. v znení od 27. 9. 2026; § 11 zákona č. 391/2015 Z. z.",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Súčasťou povinných informácií je poučenie, že spotrebiteľ môže obchodníkovi podať žiadosť o nápravu, ak nie je spokojný s vybavením reklamácie alebo sa domnieva, že obchodník porušil jeho práva.",
+    "recommendation": "Doplňte do obchodných podmienok poučenie o práve podať žiadosť o nápravu a kam ju poslať.",
+    "notes": [
+      "Nejbližší nalezený odstavec má pravděpodobnost 0,09, práh přítomnosti je 0,70."
+    ],
+    "segment_hash": "sha256:b3969943311736dea5fd6ed702a93de0e3a12be7762e39f4a0d03fc7dc33fbf4"
+  },
+  {
+    "rule_id": "legal_harmonized_notice_missing",
+    "module": "legal",
+    "title": "Chýba harmonizované oznámenie o zákonnej zodpovednosti za vady (nové od 27. 9. 2026)",
+    "severity": "high",
+    "checkability": "verify",
+    "scope": "site",
+    "band": "review",
+    "score": 1,
+    "text": null,
+    "context_before": "",
+    "context_after": "",
+    "sources": [],
+    "urls": [],
+    "occurrences": 0,
+    "boilerplate": false,
+    "question_probs": {},
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2011/83/EU, čl. 5 odst. 1 písm. e), čl. 6 odst. 1 písm. l) a čl. 22a odst. 1 a 3, ve znění směrnice (EU) 2024/825; prováděcí nařízení Komise (EU) 2025/1960, čl. 1 a příloha I",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "§ 5 ods. 1 písm. f) zákona č. 108/2024 Z. z. v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Od 27. 9. 2026 musí e-shop pred objednávkou zreteľne informovať o zákonnej zodpovednosti za vady vrátane jej dĺžky, a to aspoň v podobe a rozsahu harmonizovaného oznámenia EÚ: farebného obrázka s QR kódom na portál Vaša Európa, ktorý sa nesmie upravovať. Text v obchodných podmienkach (napríklad „Zákonná záruka je 24 mesiacov“) túto podobu nenahrádza.",
+    "recommendation": "Zobrazte farebné harmonizované oznámenie podľa prílohy I nariadenia (EÚ) 2025/1960 bez úprav na stránke produktu alebo v pokladni pred odoslaním objednávky; ak ho už máte, doplňte k obrázku popis (alt), aby bolo dohľadateľné.",
+    "notes": [
+      "Na žádné z 15 stažených stránek se nenašel obrázek, odkaz ani text, který by to ukazoval.",
+      "Košík, pokladnu a zákaznický účet nástroj nestahuje; tam to ověřte ručně."
+    ],
+    "segment_hash": null
+  },
+  {
+    "rule_id": "legal_withdrawal_function_missing",
+    "module": "legal",
+    "title": "Chýba funkcia „odstúpiť od zmluvy tu“ (povinná od 19. 6. 2026)",
+    "severity": "high",
+    "checkability": "verify",
+    "scope": "site",
+    "band": "review",
+    "score": 1,
+    "text": null,
+    "context_before": "",
+    "context_after": "",
+    "sources": [],
+    "urls": [],
+    "occurrences": 0,
+    "boilerplate": false,
+    "question_probs": {},
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2011/83/EU, čl. 11a, vložený směrnicí (EU) 2023/2673 (použije se od 19. 6. 2026)",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "§ 20a zákona č. 108/2024 Z. z. v znení zákona č. 311/2025 Z. z. (účinnosť od 19. 6. 2026)",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "E-shop musí spotrebiteľovi umožniť odstúpiť od zmluvy aj funkciou na odstúpenie, označenou „odstúpiť od zmluvy tu“ alebo obdobnou jednoznačnou formuláciou, zreteľne zobrazenou a nepretržite dostupnou počas celej lehoty na odstúpenie. Na prehľadaných stránkach sa nenašiel odkaz ani tlačidlo s takýmto označením.",
+    "recommendation": "Doplňte zreteľne viditeľný odkaz alebo tlačidlo „odstúpiť od zmluvy tu“ (napríklad v pätičke a v zákazníckom účte) s online formulárom podľa § 20a ods. 3.",
+    "notes": [
+      "Na žádné z 15 stažených stránek se nenašel obrázek, odkaz ani text, který by to ukazoval.",
+      "Košík, pokladnu a zákaznický účet nástroj nestahuje; tam to ověřte ručně."
+    ],
+    "segment_hash": null
+  },
+  {
+    "rule_id": "legal_odr_link_outdated",
+    "module": "legal",
+    "title": "Odkaz na zrušenú platformu ODR",
+    "severity": "low",
+    "checkability": "text",
+    "scope": "site",
+    "band": "review",
+    "score": 1,
+    "text": null,
+    "context_before": "",
+    "context_after": "",
+    "sources": [],
+    "urls": [
+      "http://fixture.test/",
+      "http://fixture.test/o-nas.html",
+      "http://fixture.test/obchodne-podmienky.html",
+      "http://fixture.test/produkt-1.html",
+      "http://fixture.test/produkt-10.html",
+      "http://fixture.test/produkt-11.html",
+      "http://fixture.test/produkt-2.html",
+      "http://fixture.test/produkt-3.html",
+      "http://fixture.test/produkt-4.html",
+      "http://fixture.test/produkt-5.html",
+      "http://fixture.test/produkt-6.html",
+      "http://fixture.test/produkt-7.html",
+      "http://fixture.test/produkt-8.html",
+      "http://fixture.test/produkt-9.html",
+      "http://fixture.test/reklamacny-poriadok.html"
+    ],
+    "occurrences": 15,
+    "boilerplate": false,
+    "question_probs": {},
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Nařízení (EU) 2024/3228, kterým se zrušuje nařízení (EU) č. 524/2013 s účinkem od 20. 7. 2025",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "sk",
+        "ref": "Zákon č. 310/2025 Z. z., čl. I body 1 a 46 (vypustenie odkazov na nariadenie (EÚ) č. 524/2013); § 5 ods. 1 písm. q) zákona č. 108/2024 Z. z.",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Platforma EÚ na riešenie sporov online (ODR) bola 20. 7. 2025 zrušená. Odkaz na ňu už spotrebiteľa k informáciám o subjekte alternatívneho riešenia sporov nedovedie; ak je jediným odkazom, povinnosť podľa § 5 ods. 1 písm. q) nemusí byť splnená.",
+    "recommendation": "Odkaz na platformu ODR odstráňte a nahraďte ho odkazom na informácie o príslušnom subjekte alternatívneho riešenia sporov (pri bežnom tovare SOI).",
+    "notes": [
+      "Nalezeno na 15 z 15 stažených stránek."
+    ],
+    "segment_hash": null
+  }
+]

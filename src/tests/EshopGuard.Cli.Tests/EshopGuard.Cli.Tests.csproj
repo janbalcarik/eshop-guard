@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EshopGuard.Cli\EshopGuard.Cli.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\EshopGuard.Core.Tests\Pipeline\OutputNormalizer.cs" Link="Shared\OutputNormalizer.cs" />
+  </ItemGroup>
+
+</Project>

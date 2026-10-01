@@ -27,5 +27,12 @@ podklady/predpisy-*/**/*.html
 podklady/predpisy-*/**/*.xhtml
 podklady/predpisy-*/**/*.pdf
 
+# Nahrávky cizích e-shopů (--record) a referenční výstupy nad nimi, jen lokálně. Ukotvené cesty: na Windows by
+# „baselines/“ bez lomítka na začátku schovalo i src/tests/EshopGuard.Core.Tests/Baselines/ (ignorecase).
+/snapshots/
+/baselines/
+/src/snapshots/
+/src/baselines/
+
 # Výzkumné skripty a výsledky (obsahují stažené texty cizích e-shopů), jen lokálně
 research/

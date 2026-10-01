@@ -1,0 +1,162 @@
+[
+  {
+    "rule_id": "ucp_review_reward_positive",
+    "module": "ucp",
+    "title": "Odměna za kladnou recenzi",
+    "severity": "high",
+    "checkability": "text",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.885,
+    "text": "Za hodnocení 5 hvězdičkami vám vrátíme 100 Kč.",
+    "context_before": "Cena: 189 Kč Recenze",
+    "context_after": "",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-1.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "ucp_review_reward": 0.885,
+      "ucp_review_reward_positive": 0.934
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 23c; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (odměna za zveřejnění pozitivních recenzí)",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "cz",
+        "ref": "§ 4 odst. 4 a příloha č. 1 písm. z) zákona č. 634/1992 Sb.",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Odměna za kladné hodnocení vede k falešným recenzím; zadávání falešných recenzí je zakázané za všech okolností.",
+    "recommendation": "Odměnu za recenzi nepodmiňujte jejím obsahem ani hodnocením.",
+    "notes": [],
+    "segment_hash": "sha256:e95b00fedd02436390fe8c407df1f57d956e4c8d345d240bad536a0ba5c0d9b6"
+  },
+  {
+    "rule_id": "ucp_reviews_verified_claim",
+    "module": "ucp",
+    "title": "Tvrzení o ověřených recenzích k ověření",
+    "severity": "medium",
+    "checkability": "verify",
+    "scope": "segment",
+    "band": "high",
+    "score": 0.925,
+    "text": "Všechny recenze jsou od ověřených zákazníků.",
+    "context_before": "Krém je vhodný pro suchou pleť, obsah balení je 50 ml. Recenze",
+    "context_after": "",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/produkt-4.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "ucp_reviews_verified_claim": 0.925
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2005/29/ES, příloha I bod 23b; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (opodstatněné a přiměřené kroky k ověření)",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "cz",
+        "ref": "§ 4 odst. 4 a příloha č. 1 písm. y) zákona č. 634/1992 Sb.",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Tvrdit, že recenze píší zákazníci, kteří produkt koupili nebo použili, je zakázané, pokud obchod nepřijal přiměřená opatření k ověření (například hodnotit smí jen zákazník s dokončenou objednávkou). Opatření na webu vidět nejsou, proto jde o nález k ověření.",
+    "recommendation": "Ověřte, že obchod skutečně kontroluje původ recenzí (například podle čísla objednávky), a popište to přímo u recenzí.",
+    "notes": [],
+    "segment_hash": "sha256:f6d5877ba6ed68c0a8e9606dd97049246fa2c64b953fc86048b82a72536db7f6"
+  },
+  {
+    "rule_id": "legal_adr_missing",
+    "module": "legal",
+    "title": "Chybí informace o mimosoudním řešení sporů",
+    "severity": "high",
+    "checkability": "text",
+    "scope": "site",
+    "band": "high",
+    "score": 0.925,
+    "text": "Lhůty\nPráva z vadného plnění můžete uplatnit do 24 měsíců od převzetí zboží. Reklamaci vyřídíme nejpozději do 30 dnů od jejího uplatnění.",
+    "context_before": "",
+    "context_after": "",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/reklamacni-rad.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "legal_adr": 0.075
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "cz",
+        "ref": "§ 14 odst. 1 zákona č. 634/1992 Sb., o ochraně spotřebitele",
+        "status": "ověřit"
+      },
+      {
+        "jurisdiction": "cz",
+        "ref": "§ 1820 odst. 1 písm. s) zákona č. 89/2012 Sb., občanský zákoník",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Prodávající musí spotřebitele informovat o subjektu mimosoudního řešení spotřebitelských sporů.",
+    "recommendation": "Doplňte do obchodních podmínek příslušný subjekt (typicky ČOI) a odkaz na jeho web.",
+    "notes": [
+      "Nejbližší nalezený odstavec má pravděpodobnost 0,08, práh přítomnosti je 0,70."
+    ],
+    "segment_hash": "sha256:e0934612764a5e3053ac7c79ddc9070ebeb4fb4622a6292c17dadc455a8a8639"
+  },
+  {
+    "rule_id": "legal_withdrawal_form_missing",
+    "module": "legal",
+    "title": "Chybí vzorový formulář pro odstoupení",
+    "severity": "medium",
+    "checkability": "text",
+    "scope": "site",
+    "band": "high",
+    "score": 0.911,
+    "text": "Vyřízení reklamace\nO vyřízení reklamace vás budeme informovat e-mailem a vydáme vám potvrzení o datu a způsobu vyřízení reklamace.",
+    "context_before": "",
+    "context_after": "",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/reklamacni-rad.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "legal_withdrawal_form": 0.089
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "cz",
+        "ref": "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník",
+        "status": "ověřit"
+      }
+    ],
+    "explanation": "Spolu s informací o odstoupení musí spotřebitel dostat vzorový formulář.",
+    "recommendation": "Přidejte vzorový formulář pro odstoupení od smlouvy.",
+    "notes": [
+      "Nejbližší nalezený odstavec má pravděpodobnost 0,09, práh přítomnosti je 0,70."
+    ],
+    "segment_hash": "sha256:eb5c56a09aa2a93e9a4bc3b05a53e1d8c828ddde559a39eedf114ba8c60f8429"
+  }
+]

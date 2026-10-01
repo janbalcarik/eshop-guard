@@ -77,6 +77,14 @@ internal sealed class ScanSettings : CommandSettings
     [Description("Nepožadovat potvrzení nad limitem volání.")]
     public bool Yes { get; init; }
 
+    [CommandOption("--record <DIR>")]
+    [Description("Uloží všechny odpovědi webu do složky (index.jsonl a bodies/) pro pozdější běh bez sítě. Nahrávky cizích webů patří do snapshots/ (mimo git).")]
+    public string? Record { get; init; }
+
+    [CommandOption("--replay <DIR>")]
+    [Description("Místo sítě odpovídá z nahrávky ve složce (--record); URL, která v ní není, dostane 404.")]
+    public string? Replay { get; init; }
+
     public override ValidationResult Validate()
     {
         if (!Uri.TryCreate(Url, UriKind.Absolute, out var uri) || uri.Scheme is not ("http" or "https"))
@@ -87,6 +95,16 @@ internal sealed class ScanSettings : CommandSettings
         if (MaxPages is < 1 || SampleProducts is < 0 || Concurrency is < 1 || Rate is <= 0)
         {
             return ValidationResult.Error("Limity musí být kladná čísla.");
+        }
+
+        if (Record is not null && Replay is not null)
+        {
+            return ValidationResult.Error("Volby --record a --replay nejdou použít zároveň.");
+        }
+
+        if (Replay is not null && !File.Exists(Path.Combine(Replay, Core.Crawl.PageRecording.IndexFile)))
+        {
+            return ValidationResult.Error($"Ve složce {Replay} není nahrávka ({Core.Crawl.PageRecording.IndexFile}).");
         }
 
         return SettingsValidation.Validate(Modules, Country, QuestionLanguage);
@@ -123,7 +141,7 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
             AnsiConsole.MarkupLine($"[yellow]{Markup.Escape(note)}[/]");
         }
 
-        if (!siteUrl.IsLoopback && configuration.Settings.Crawl.UserAgent.Contains("doplnte", StringComparison.OrdinalIgnoreCase))
+        if (settings.Replay is null && !siteUrl.IsLoopback && configuration.Settings.Crawl.UserAgent.Contains("doplnte", StringComparison.OrdinalIgnoreCase))
         {
             AnsiConsole.MarkupLine("[yellow]V config/settings.yaml doplňte do user_agent skutečný kontakt, než budete skenovat cizí web.[/]");
         }
@@ -132,7 +150,17 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
         Directory.CreateDirectory(outputDirectory);
         var logFile = Path.Combine(outputDirectory, "run.log");
 
-        await using var services = CliHost.BuildServices(configuration, logFile, settings.Mock, settings.NoCache);
+        await using var services = CliHost.BuildServices(configuration, logFile, settings.Mock, settings.NoCache, registry =>
+        {
+            if (settings.Record is { } record)
+            {
+                registry.AddEshopGuardRecording(record);
+            }
+            else if (settings.Replay is { } replay)
+            {
+                registry.AddEshopGuardReplay(replay);
+            }
+        });
         var logger = services.GetRequiredService<ILogger<ScanCommand>>();
         var guard = services.GetRequiredService<IEshopGuard>();
         logger.LogInformation("Jev: {Mode}, key from {Source}, cache {Cache}",

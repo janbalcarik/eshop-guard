@@ -1,0 +1,66 @@
+url,chunk,chars,status,sieve_dur,sieve_eco,sieve_ucp,text
+http://fixture.test/,0,249,ok,0.052,0.916,0.048,"Prírodná kozmetika zo Záhoria
+Vyrábame mydlá a šampóny z byliniek, ktoré pestujeme vo vlastnej záhrade pri Senici.
+Doprava je klimaticky neutrálna vďaka kompenzácii emisií.
+Objednávky odosielame do 2 pracovných dní cez Packetu alebo Slovenskú poštu."
+http://fixture.test/produkt-1.html,0,199,ok,0.050,0.889,0.900,"Ekologický šampón s levanduľou
+Tento šampón je ekologický a šetrný k prírode.
+Balenie obsahuje 250 ml a vydrží približne 2 mesiace.
+Cena: 8,90 €
+Recenzie
+Za hodnotenie 5 hviezdičkami vám vrátime 5 €."
+http://fixture.test/produkt-2.html,0,182,ok,0.037,0.876,0.880,"Tuhé mydlo s nechtíkom
+Jemné mydlo s nechtíkom lekárskym pre citlivú pleť.
+Obal je zo 100 % recyklovaného papiera.
+Doprava zadarmo pri nákupe nad 50 €.
+Tovar môžete vrátiť do 30 dní."
+http://fixture.test/produkt-3.html,0,117,ok,0.076,0.888,0.076,"Tuhý šampón s pŕhľavou
+Vegan
+Ekologický produkt – obal je z recyklovaného papiera.
+Šampón vystačí zhruba na 60 umytí."
+http://fixture.test/produkt-4.html,0,201,ok,0.036,0.927,0.922,"Pleťový krém s rakytníkom
+Ocenené certifikátom GreenStar Planet.
+Krém je vhodný pre suchú pleť, obsah balenia je 50 ml.
+✓ Netestované na zvieratách.
+Recenzie
+Všetky recenzie sú od overených zákazníkov."
+http://fixture.test/produkt-5.html,0,220,ok,0.041,0.875,0.043,"Prací gél z mydlových orechov
+Nesie ekoznačku EU Ecolabel.
+Jedna dávka 30 ml stačí na bežne znečistenú bielizeň.
+Gél neobsahuje zložky živočíšneho pôvodu, je vhodný aj pre vegánov.
+Napíšte nám recenziu, veľmi nám pomôže."
+http://fixture.test/produkt-6.html,0,147,ok,0.090,0.878,0.033,"Jablkový mušt zo Záhoria
+BIO jablkový mušt z certifikovaného ekologického poľnohospodárstva.
+Lisujeme ho z jabĺk z vlastného sadu, fľaša má 0,75 l."
+http://fixture.test/produkt-7.html,0,216,ok,0.868,0.064,0.066,"Tyčový vysávač Tornádo
+Vysávač má výkon 700 W a nádobu na 1,5 l prachu.
+Motor vydrží 10 rokov každodenného používania.
+Filter vymieňajte každý mesiac, aj keď ešte funguje.
+Neoriginálne vrecká poškodia motor vysávača."
+http://fixture.test/produkt-8.html,0,141,ok,0.080,0.054,0.867,"Rýchlovarná kanvica Ráno
+Kanvica má objem 1,7 l a príkon 2 200 W.
+Zákonná záruka je 2 roky.
+Filter vodného kameňa vyčistite, keď je zanesený."
+http://fixture.test/produkt-9.html,0,184,ok,0.044,0.888,0.079,"Tuhý dezodorant s levanduľou
+Eco
+Vegan
+Doprava zadarmo nad 50 €
+Dezodorant sa dodáva v kartónovej tube.
+Zloženie: BIO bambucké maslo, BIO kokosový olej, jedlá sóda, levanduľová silica."
+http://fixture.test/produkt-10.html,0,325,ok,0.030,0.025,0.073,"Dojčenská fľaša zo skla 240 ml
+✓ Bez BPA – pre bezpečnosť vášho bábätka.
+✓ Sklo odolné voči teplu do 120 °C.
+Fľaša sa dodáva s cumlíkom pre novorodencov.
+Cumlík je zo silikónu a má ventil proti vzduchu.
+Fľašu umývajte v teplej vode so saponátom.
+Bezpečnosť materiálov
+Ako všetky dojčenské fľaše predávané v EÚ neobsahuje BPA."
+http://fixture.test/produkt-11.html,0,99,ok,0.036,0.056,0.081,"Strieborné náušnice s perlou
+✓ Náušnice bez niklu – vhodné pre alergikov.
+Striebro 925, dĺžka 2 cm."
+http://fixture.test/o-nas.html,0,248,ok,0.032,0.923,0.050,"O nás
+Sme zodpovedná a udržateľná firma.
+Ako firma sme klimaticky neutrálni vďaka výsadbe stromov.
+Do roku 2030 budeme vyrábať úplne bez emisií.
+Naše mydlá nesú pečať Fair Soap Alliance za férové pracovné podmienky.
+Mydlá varíme ručne od roku 2010."

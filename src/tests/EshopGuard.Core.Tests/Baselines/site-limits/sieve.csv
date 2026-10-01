@@ -1,0 +1,20 @@
+url,chunk,chars,status,sieve_ucp,text
+http://fixture.test/,0,341,ok,0.878,"Přírodní kosmetika z Vysočiny
+Vyrábíme mýdla a šampony z bylin, které pěstujeme na vlastní zahradě u Jihlavy.
+Doprava je klimaticky neutrální díky kompenzaci emisí.
+Objednávky odesíláme do 2 pracovních dnů, např. přes Českou poštu nebo Zásilkovnu.
+Proč nakoupit u nás?
+14 dní na vrácení zboží bez udání důvodu.
+Ruční výroba v malých várkách."
+http://fixture.test/produkt-1.html,0,193,ok,0.910,"Bylinný šampon s levandulí
+Tento šampon je ekologický a šetrný k přírodě.
+Balení obsahuje 250 ml a vydrží přibližně 2 měsíce.
+Cena: 189 Kč
+Recenze
+Za hodnocení 5 hvězdičkami vám vrátíme 100 Kč."
+http://fixture.test/produkt-2.html,0,232,ok,0.907,"Tuhé mýdlo s měsíčkem
+Jemné mýdlo s měsíčkem lékařským pro citlivou pleť.
+Mýdlo zklidňuje a hydratuje suchou pokožku.
+Obal je ze 100 % recyklovaného papíru.
+Doprava zdarma při nákupu nad 1 500 Kč.
+Na vrácení zboží máte u nás 30 dní."
