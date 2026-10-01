@@ -1,6 +1,7 @@
 using EshopGuard.Core.Cache;
 using EshopGuard.Core.Jev;
 using EshopGuard.Core.Options;
+using EshopGuard.Core.Storage;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -28,13 +29,19 @@ public class CacheTests
                 Usage = new JevUsage { InputTokens = 180, OutputTokens = 10 },
             };
 
-            Assert.Null(await cache.GetAsync("missing", TestContext.Current.CancellationToken));
-            await cache.SetAsync("key", result, TestContext.Current.CancellationToken);
-            var loaded = await cache.GetAsync("key", TestContext.Current.CancellationToken);
+            var key = new JevCacheKey(JevCacheKind.Detail, "q", "s", "key");
+            Assert.Null(await cache.GetAsync(key with { LegacyKey = "missing" }, TestContext.Current.CancellationToken));
+            await cache.SetAsync(key, result, TestContext.Current.CancellationToken);
+            var loaded = await cache.GetAsync(key, TestContext.Current.CancellationToken);
 
             Assert.NotNull(loaded);
             Assert.Equal(0.97, loaded.Answers["eco_claim"].Noul);
             Assert.Equal(180, loaded.Usage.InputTokens);
+
+            // The SQLite file is keyed by the legacy key only, as before change 5.
+            var many = await cache.GetManyAsync([key, key with { LegacyKey = "missing" }, key with { Kind = JevCacheKind.Sieve }], TestContext.Current.CancellationToken);
+            Assert.Equal(2, many.Count);
+            Assert.Equal(0.97, many[key].Answers["eco_claim"].Noul);
         }
         finally
         {
@@ -48,13 +55,21 @@ public class CacheTests
     {
         var questions = new Dictionary<string, JevQuestion> { ["q"] = new() { Type = "noul", Instructions = "Q?" } };
         var state = new Rules.SentenceState("Věta.", "Před.", "Po.");
-        var key = JevCacheKey.Create("jev-1.13.0", "eco-1", "en", questions, state);
+        JevCacheKey Key(string model = "jev-1.13.0", string version = "eco-1", string language = "en", object? s = null) =>
+            JevCacheKeys.Create(JevCacheKind.Detail, model, version, language, questions, s ?? state);
+        var key = Key();
 
-        Assert.Equal(key, JevCacheKey.Create("jev-1.13.0", "eco-1", "en", questions, new Rules.SentenceState("Věta.", "Před.", "Po.")));
-        Assert.NotEqual(key, JevCacheKey.Create("jev-1.14.0", "eco-1", "en", questions, state));
-        Assert.NotEqual(key, JevCacheKey.Create("jev-1.13.0", "eco-2", "en", questions, state));
-        Assert.NotEqual(key, JevCacheKey.Create("jev-1.13.0", "eco-1", "cs", questions, state));
-        Assert.NotEqual(key, JevCacheKey.Create("jev-1.13.0", "eco-1", "en", questions, new Rules.SentenceState("Věta.", "Jiný kontext.", "Po.")));
+        Assert.Equal(key, Key(s: new Rules.SentenceState("Věta.", "Před.", "Po.")));
+        Assert.NotEqual(key.LegacyKey, Key(model: "jev-1.14.0").LegacyKey);
+        Assert.NotEqual(key.LegacyKey, Key(version: "eco-2").LegacyKey);
+        Assert.NotEqual(key.LegacyKey, Key(language: "cs").LegacyKey);
+        Assert.NotEqual(key.LegacyKey, Key(s: new Rules.SentenceState("Věta.", "Jiný kontext.", "Po.")).LegacyKey);
+
+        // The question set hash does not depend on the sentence; the state hash does not depend on the questions.
+        Assert.Equal(key.QuestionSetHash, Key(s: new Rules.SentenceState("Jiná věta.", "Před.", "Po.")).QuestionSetHash);
+        Assert.NotEqual(key.QuestionSetHash, Key(version: "eco-2").QuestionSetHash);
+        Assert.Equal(key.StateHash, Key(version: "eco-2").StateHash);
+        Assert.NotEqual(key.StateHash, Key(s: "Věta.").StateHash);
     }
 
     [Fact]

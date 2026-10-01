@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Text.Json;
 using EshopGuard.Core.Models;
 using EshopGuard.Core.Options;
+using EshopGuard.Core.Storage;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -344,13 +345,16 @@ internal sealed class PageRewriter(
     /// Pages with findings of the groups porušení and k posouzení. A finding with the same text on several pages is
     /// rewritten once, on the first page of the scan that is in the input; the others are listed.
     /// </summary>
+    /// <summary>A finding of a sentence or paragraph in the groups porušení and k posouzení: its text is rewritten.</summary>
+    internal static bool IsRewritable(Finding f) => f.Scope == "segment" && (f.Checkability is "text" or "assess") && !string.IsNullOrWhiteSpace(f.Text);
+
     private static List<RewriteWork> BuildWork(RewriteInput input, out List<string> warnings)
     {
         warnings = [];
         var pages = input.Pages.GroupBy(p => p.Url, StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.First(), StringComparer.Ordinal);
         var byPage = new Dictionary<string, List<Finding>>(StringComparer.Ordinal);
         var withoutPage = 0;
-        foreach (var finding in input.Findings.Where(f => f.Scope == "segment" && (f.Checkability is "text" or "assess") && !string.IsNullOrWhiteSpace(f.Text)))
+        foreach (var finding in input.Findings.Where(IsRewritable))
         {
             var url = finding.Urls.FirstOrDefault(pages.ContainsKey);
             if (url is null)

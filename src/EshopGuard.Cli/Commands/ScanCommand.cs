@@ -85,6 +85,10 @@ internal sealed class ScanSettings : CommandSettings
     [Description("Místo sítě odpovídá z nahrávky ve složce (--record); URL, která v ní není, dostane 404.")]
     public string? Replay { get; init; }
 
+    [CommandOption("--allow-private-network")]
+    [Description("Povolí adresy ve vnitřní a místní síti a jiné porty než 80 a 443 (jen pro místní testovací e-shop, serve-fixture).")]
+    public bool AllowPrivateNetwork { get; init; }
+
     public override ValidationResult Validate()
     {
         if (!Uri.TryCreate(Url, UriKind.Absolute, out var uri) || uri.Scheme is not ("http" or "https"))
@@ -146,6 +150,7 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
             AnsiConsole.MarkupLine("[yellow]V config/settings.yaml doplňte do user_agent skutečný kontakt, než budete skenovat cizí web.[/]");
         }
 
+        configuration.AllowPrivateNetwork = settings.AllowPrivateNetwork;
         var outputDirectory = UniqueDirectory(Path.Combine(settings.Out, $"{SiteFolderName(siteUrl)}-{DateTime.Now:yyyyMMdd-HHmm}"));
         Directory.CreateDirectory(outputDirectory);
         var logFile = Path.Combine(outputDirectory, "run.log");

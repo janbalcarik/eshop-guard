@@ -14,16 +14,49 @@ internal sealed class HttpPageFetcher(
 {
     public const string HttpClientName = "EshopGuard.Crawl";
 
-    public async Task<FetchResponse> FetchAsync(Uri url, CancellationToken ct)
+    public Task<FetchResponse> FetchAsync(Uri url, CancellationToken ct) => FetchAsync(new FetchRequest(url), ct);
+
+    public async Task<FetchResponse> FetchAsync(FetchRequest fetch, CancellationToken ct)
     {
-        var maxBytes = options.Value.Crawl.MaxPageBytes;
+        var url = fetch.Url;
+        var crawl = options.Value.Crawl;
+        var maxBytes = crawl.MaxPageBytes;
+        if (!crawl.AllowPrivateNetwork && !SsrfGuard.IsAllowedUrl(url))
+        {
+            // Another scheme or port, or a user name in the address: refused before any connection.
+            logger.LogWarning("Not downloading {Url}: only http and https on ports 80 and 443 without credentials are allowed", Redact(url));
+            return new FetchResponse { Url = url, Error = SsrfGuard.Error };
+        }
+
         var client = httpClientFactory.CreateClient(HttpClientName);
         try
         {
             using var request = new HttpRequestMessage(HttpMethod.Get, url);
+            if (fetch.IfNoneMatch is { } etag && System.Net.Http.Headers.EntityTagHeaderValue.TryParse(etag, out var tag))
+            {
+                request.Headers.IfNoneMatch.Add(tag);
+            }
+
+            if (fetch.IfModifiedSince is { } since)
+            {
+                request.Headers.IfModifiedSince = since;
+            }
+
             using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct);
             var status = (int)response.StatusCode;
             var contentType = response.Content.Headers.ContentType;
+
+            if (status == 304)
+            {
+                // Not modified: before the redirect branch, a 304 has no Location and is not a failure.
+                return new FetchResponse
+                {
+                    Url = url,
+                    StatusCode = status,
+                    ETag = response.Headers.ETag?.ToString() ?? fetch.IfNoneMatch,
+                    LastModified = response.Content.Headers.LastModified ?? fetch.IfModifiedSince,
+                };
+            }
 
             if (status is >= 300 and < 400)
             {
@@ -71,12 +104,34 @@ internal sealed class HttpPageFetcher(
             logger.LogWarning("Timeout downloading {Url}", url);
             return new FetchResponse { Url = url, Error = "timeout" };
         }
+        catch (HttpRequestException ex) when (FindBlocked(ex) is not null)
+        {
+            logger.LogWarning("Not downloading {Url}: its address leads into an internal or local network", url);
+            return new FetchResponse { Url = url, Error = SsrfGuard.Error };
+        }
         catch (HttpRequestException ex)
         {
             logger.LogWarning("Network error downloading {Url}: {Message}", url, ex.Message);
             return new FetchResponse { Url = url, Error = ex.Message };
         }
     }
+
+    private static SsrfBlockedException? FindBlocked(Exception? ex)
+    {
+        for (; ex is not null; ex = ex.InnerException)
+        {
+            if (ex is SsrfBlockedException blocked)
+            {
+                return blocked;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>The URL without a user name and password, for the log.</summary>
+    private static string Redact(Uri url) =>
+        string.IsNullOrEmpty(url.UserInfo) ? url.AbsoluteUri : new UriBuilder(url) { UserName = "", Password = "" }.Uri.AbsoluteUri;
 
     private static async Task<byte[]?> ReadLimitedAsync(Stream stream, long maxBytes, CancellationToken ct)
     {

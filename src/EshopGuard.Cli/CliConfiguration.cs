@@ -78,6 +78,9 @@ internal sealed class CliConfiguration
 
     public Uri? BaseUrl { get; init; }
 
+    /// <summary>Set only by <c>--allow-private-network</c>, never by settings.yaml (protection against SSRF).</summary>
+    public bool AllowPrivateNetwork { get; set; }
+
     public string? Model { get; init; }
 
     public List<string> Notes { get; } = [];
@@ -90,17 +93,7 @@ internal sealed class CliConfiguration
         SettingsFile settings;
         if (File.Exists(SettingsPath))
         {
-            var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(UnderscoredNamingConvention.Instance)
-                .Build();
-            try
-            {
-                settings = deserializer.Deserialize<SettingsFile?>(File.ReadAllText(SettingsPath)) ?? new SettingsFile();
-            }
-            catch (YamlDotNet.Core.YamlException ex)
-            {
-                throw new InvalidOperationException($"Soubor {SettingsPath} je neplatný (řádek {ex.Start.Line}): {ex.InnerException?.Message ?? ex.Message}", ex);
-            }
+            settings = ParseSettings(File.ReadAllText(SettingsPath));
         }
         else
         {
@@ -134,9 +127,35 @@ internal sealed class CliConfiguration
         return configuration;
     }
 
+    /// <summary>Reads and checks the content of settings.yaml; an invalid value fails with the name of its key.</summary>
+    /// <exception cref="InvalidOperationException">The YAML or a value is invalid.</exception>
+    internal static SettingsFile ParseSettings(string yaml)
+    {
+        var deserializer = new DeserializerBuilder()
+            .WithNamingConvention(UnderscoredNamingConvention.Instance)
+            .Build();
+        SettingsFile settings;
+        try
+        {
+            settings = deserializer.Deserialize<SettingsFile?>(yaml) ?? new SettingsFile();
+        }
+        catch (YamlDotNet.Core.YamlException ex)
+        {
+            throw new InvalidOperationException($"Soubor {SettingsPath} je neplatný (řádek {ex.Start.Line}): {ex.InnerException?.Message ?? ex.Message}", ex);
+        }
+
+        if (Commands.SettingsValidation.ValidateSettings(settings) is { } error)
+        {
+            throw new InvalidOperationException($"Soubor {SettingsPath} je neplatný: {error}");
+        }
+
+        return settings;
+    }
+
     public void Apply(EshopGuardOptions options, bool useMock, bool noCache)
     {
         options.Crawl = Settings.Crawl;
+        options.Crawl.AllowPrivateNetwork = AllowPrivateNetwork;
         options.Segmentation = Settings.Segmentation;
         options.Cost = Settings.Cost;
         options.Budget = Settings.Budget;

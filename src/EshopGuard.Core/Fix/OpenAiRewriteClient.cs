@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using EshopGuard.Core.Storage;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -25,12 +26,15 @@ internal sealed class OpenAiRewriteClient : IRewriteClient
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly RewriteOptions _options;
     private readonly ILogger<OpenAiRewriteClient> _logger;
+    private readonly IRateLimiter? _limiter;
 
-    public OpenAiRewriteClient(IHttpClientFactory httpClientFactory, IOptions<RewriteOptions> options, ILogger<OpenAiRewriteClient> logger)
+    /// <summary>A client; the <see cref="IRateLimiter"/> gives permits for its requests (the CLI has no limit here, concurrency is set by the rewrite settings).</summary>
+    public OpenAiRewriteClient(IHttpClientFactory httpClientFactory, IOptions<RewriteOptions> options, ILogger<OpenAiRewriteClient> logger, IRateLimiter? limiter = null)
     {
         _httpClientFactory = httpClientFactory;
         _options = options.Value;
         _logger = logger;
+        _limiter = limiter;
     }
 
     public async Task<RewriteResponse> RewriteAsync(RewriteRequest request, CancellationToken ct)
@@ -70,6 +74,7 @@ internal sealed class OpenAiRewriteClient : IRewriteClient
         {
             TimeSpan wait;
             string failure;
+            using var lease = _limiter is null ? null : await _limiter.AcquireAsync(RateResource.OpenAi, 1, RequestPriority.P2, ct);
             try
             {
                 using var message = new HttpRequestMessage(HttpMethod.Post, _options.BaseUrl)

@@ -1,13 +1,8 @@
 using System.Diagnostics;
 using System.Text.Json;
-using EshopGuard.Core.Classify;
 using EshopGuard.Core.Crawl;
-using EshopGuard.Core.Extract;
-using EshopGuard.Core.Models;
-using EshopGuard.Core.Options;
-using EshopGuard.Core.Profiles;
+using EshopGuard.Core.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace EshopGuard.Core.Diagnostics;
 
@@ -20,8 +15,9 @@ public sealed record ExtractionBenchmarkResult(int Pages, double CpuMsPerPage, d
 
 /// <summary>
 /// Measures the per-page work of a scan that does not depend on Jev: reading the HTML of every page of a recording
-/// (<see cref="PageRecording"/>), extraction, classification and the preparation of page template profiles (structure
-/// tokens and matching to stored profiles). No network, no model.
+/// (<see cref="PageRecording"/>), extraction, classification and the profiles of page templates (structure tokens,
+/// matching to stored profiles, the plan of new ones), the same steps as a scan (<see cref="ExtractStep"/>,
+/// <see cref="ProfileStep.PlanAsync"/>). No network, no model.
 /// </summary>
 public static class ExtractionBenchmark
 {
@@ -36,31 +32,22 @@ public static class ExtractionBenchmark
             throw new InvalidOperationException($"The recording in {recordingDirectory} has no HTML page.");
         }
 
-        var extractor = services.GetRequiredService<ContentExtractor>();
-        var classifier = services.GetRequiredService<PageClassifier>();
-        var profiler = services.GetRequiredService<PageProfiler>();
-        var crawl = services.GetRequiredService<IOptions<EshopGuardOptions>>().Value.Crawl;
+        var extractStep = services.GetRequiredService<ExtractStep>();
+        var profileStep = services.GetRequiredService<ProfileStep>();
         var home = pages[0].Url;
+        var site = new SiteScope(home);
 
         async Task WorkAsync(IReadOnlyList<(Uri Url, string Html)> batch)
         {
-            var crawled = new List<CrawledPage>(batch.Count);
+            var stored = await profileStep.LoadStoredAsync(site, ct);
+            var extracted = new List<ExtractedPageRecord>(batch.Count);
             foreach (var (url, html) in batch)
             {
                 ct.ThrowIfCancellationRequested();
-                var content = extractor.Extract(url, html);
-                var type = classifier.Classify(url, content, url == home);
-                var info = new PageInfo
-                {
-                    Url = url.AbsoluteUri,
-                    Type = type,
-                    VisibleTextChars = content.Render.VisibleChars,
-                    TextNotLoaded = content.Render.VisibleChars < crawl.MinPageTextChars,
-                };
-                crawled.Add(new CrawledPage(info, content, CrawledPage.Compress(html)));
+                extracted.Add(await extractStep.ExtractPageAsync(site, url, html, url == home, stored, ct));
             }
 
-            await profiler.PrepareAsync(home, crawled, ct);
+            await profileStep.PlanAsync(ProfileStep.PlanInput(site, extracted, stored), ct);
         }
 
         await WorkAsync(pages.Take(10).ToList());

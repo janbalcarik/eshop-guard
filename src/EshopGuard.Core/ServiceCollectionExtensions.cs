@@ -6,10 +6,12 @@ using EshopGuard.Core.Extract;
 using EshopGuard.Core.Fix;
 using EshopGuard.Core.Jev;
 using EshopGuard.Core.Options;
+using EshopGuard.Core.Pipeline;
 using EshopGuard.Core.Profiles;
 using EshopGuard.Core.Report;
 using EshopGuard.Core.Rules;
 using EshopGuard.Core.Segmentation;
+using EshopGuard.Core.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -64,12 +66,22 @@ public static class ServiceCollectionExtensions
                 client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "text/html,application/xhtml+xml;q=0.9,*/*;q=0.5");
                 client.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Language", "cs,sk;q=0.9,en;q=0.5");
             })
-            .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+            .ConfigurePrimaryHttpMessageHandler(provider =>
             {
-                AllowAutoRedirect = false,
-                AutomaticDecompression = DecompressionMethods.All,
-                PooledConnectionLifetime = TimeSpan.FromMinutes(5),
+                // Protection against SSRF: every connection goes only to addresses checked after DNS, and never through a
+                // proxy (the proxy would connect instead of us, past the check).
+                var resolver = provider.GetRequiredService<IHostAddressResolver>();
+                var allowPrivate = provider.GetRequiredService<IOptions<EshopGuardOptions>>().Value.Crawl.AllowPrivateNetwork;
+                return new SocketsHttpHandler
+                {
+                    AllowAutoRedirect = false,
+                    AutomaticDecompression = DecompressionMethods.All,
+                    PooledConnectionLifetime = TimeSpan.FromMinutes(5),
+                    UseProxy = false,
+                    ConnectCallback = (context, ct) => SsrfConnector.ConnectAsync(resolver, allowPrivate, context, ct),
+                };
             });
+        services.TryAddSingleton<IHostAddressResolver, DnsHostAddressResolver>();
 
         // The Jev client and cache are chosen when the container is built: the mock needs no key and no network,
         // and its made-up answers must never reach the real cache.
@@ -127,17 +139,34 @@ public static class ServiceCollectionExtensions
         services.TryAddSingleton<IRuleSetProvider, YamlRuleSetProvider>();
         services.TryAddSingleton<ITextRewriter, PageRewriter>();
         services.TryAddSingleton<ContentExtractor>();
+        services.TryAddSingleton<IPageExtractor>(provider => provider.GetRequiredService<ContentExtractor>());
         services.TryAddSingleton<PageClassifier>();
         services.TryAddSingleton<SentenceSplitter>();
         services.TryAddSingleton<SegmentBuilder>();
         services.TryAddSingleton<SegmentEvaluator>();
         services.TryAddSingleton<PageSieve>();
-        services.TryAddSingleton<Crawler>();
         // Profiles are kept even with --no-cache: they are the shop's template, not a cached answer.
         services.TryAddSingleton<IPageProfileStore, SqlitePageProfileStore>();
         services.TryAddSingleton<IProfileModel, OpenAiProfileModel>();
-        services.TryAddSingleton<PageProfiler>();
-        services.TryAddSingleton<IEshopGuard, EshopGuardService>();
+
+        // Storage of one run in memory; the web application registers its database and file store before this call.
+        services.TryAddSingleton<IPageContentStore, InMemoryPageContentStore>();
+        services.TryAddSingleton<IPageStore, InMemoryPageStore>();
+        services.TryAddSingleton<IUrlFrontierStore, InMemoryUrlFrontierStore>();
+        services.TryAddSingleton<IRateLimiter, LocalRateLimiter>();
+
+        // The steps of the analysis; the CLI runs them in memory one after another, the worker as jobs.
+        services.TryAddSingleton<DiscoveryStep>();
+        services.TryAddSingleton<FetchStep>();
+        services.TryAddSingleton<ExtractStep>();
+        services.TryAddSingleton<ProfileStep>();
+        services.TryAddSingleton<SegmentStep>();
+        services.TryAddSingleton<EstimateStep>();
+        services.TryAddSingleton<SieveStep>();
+        services.TryAddSingleton<EvaluateStep>();
+        services.TryAddSingleton<RulesStep>();
+        services.TryAddSingleton<RewriteStep>();
+        services.TryAddSingleton<IEshopGuard, InMemoryPipelineRunner>();
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IReportWriter, MarkdownReportWriter>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IReportWriter, FindingsJsonWriter>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IReportWriter, FindingsCsvWriter>());

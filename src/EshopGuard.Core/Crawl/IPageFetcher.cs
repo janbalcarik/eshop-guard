@@ -8,6 +8,12 @@ public interface IPageFetcher
 {
     /// <summary>Downloads the URL. Network errors are returned in <see cref="FetchResponse.Error"/>, not thrown.</summary>
     Task<FetchResponse> FetchAsync(Uri url, CancellationToken ct);
+
+    /// <summary>
+    /// Downloads the URL of the request; a fetcher that supports conditional requests sends its validators. The default
+    /// ignores them and downloads the page whole, so an unchanged page is simply downloaded again.
+    /// </summary>
+    Task<FetchResponse> FetchAsync(FetchRequest request, CancellationToken ct) => FetchAsync(request.Url, ct);
 }
 
 /// <summary>
@@ -47,4 +53,7 @@ public sealed class FetchResponse
 
     /// <summary>True for a 2xx response with a body.</summary>
     public bool IsSuccess => Error is null && StatusCode is >= 200 and < 300 && Body is not null;
+
+    /// <summary>True for 304: the page did not change since the validators of a conditional request.</summary>
+    public bool NotModified => Error is null && StatusCode == 304;
 }

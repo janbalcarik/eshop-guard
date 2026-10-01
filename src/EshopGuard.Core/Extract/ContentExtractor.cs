@@ -7,11 +7,17 @@ using Microsoft.Extensions.Logging;
 
 namespace EshopGuard.Core.Extract;
 
+/// <summary>Takes the text blocks and everything else of one parsed page (tests replace it).</summary>
+internal interface IPageExtractor
+{
+    ExtractedPage Extract(Uri url, ParsedPage page);
+}
+
 /// <summary>
 /// Extracts the main text (SmartReader, fallback heuristic), the page frame, title, meta description,
 /// JSON-LD, images and links from an HTML page.
 /// </summary>
-internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger)
+internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger) : IPageExtractor
 {
     private const string ChromeSelector =
         "header, footer, aside, [role=banner], [role=contentinfo], [role=complementary]";
@@ -32,9 +38,15 @@ internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger)
     /// (category trees, brand lists, footer links) and labels of checkboxes and radio buttons (product filters).
     /// The links themselves are read separately.
     /// </summary>
-    internal static bool IsNavigation(IElement element)
+    internal static bool IsNavigation(IElement element) => IsNavigation(element, null);
+
+    /// <summary>
+    /// <see cref="IsNavigation(IElement)"/> as it would decide in a copy of the document without <paramref name="removed"/>
+    /// (their text and their links do not count).
+    /// </summary>
+    internal static bool IsNavigation(IElement element, IReadOnlySet<IElement>? removed)
     {
-        if (element.LocalName == "nav" || IsLinkList(element) || IsOptionLabel(element))
+        if (element.LocalName == "nav" || IsLinkList(element, removed) || IsOptionLabel(element, removed))
         {
             return true;
         }
@@ -46,6 +58,10 @@ internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger)
 
         return IsBreadcrumb(element);
     }
+
+    /// <summary><see cref="IsNavigation(IElement, IReadOnlySet{IElement}?)"/> as a predicate for <see cref="HtmlText.ExtractBlocks"/>.</summary>
+    internal static Func<IElement, bool> Navigation(IReadOnlySet<IElement>? removed) =>
+        removed is null || removed.Count == 0 ? IsNavigation : e => IsNavigation(e, removed);
 
     private static bool IsBreadcrumb(IElement element) =>
         (element.GetAttribute("itemtype") ?? "").Contains("BreadcrumbList", StringComparison.OrdinalIgnoreCase)
@@ -79,51 +95,66 @@ internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger)
         return string.Join(" | ", parts.Where(p => p.Length > 0).Distinct());
     }
 
-    private static bool IsOptionLabel(IElement element)
+    private static bool IsOptionLabel(IElement element, IReadOnlySet<IElement>? removed)
     {
         if (element.LocalName != "label")
         {
             return false;
         }
 
-        var input = element.QuerySelector("input")
-            ?? (element.GetAttribute("for") is { Length: > 0 } id ? element.Owner?.GetElementById(id) : null);
+        var input = element.QuerySelectorAll("input").FirstOrDefault(i => !HtmlText.IsRemoved(i, removed, element))
+            ?? (element.GetAttribute("for") is { Length: > 0 } id ? ElementById(element.Owner, id, removed) : null);
         return input?.GetAttribute("type")?.ToLowerInvariant() is "checkbox" or "radio";
     }
 
-    private static bool IsLinkList(IElement element)
+    /// <summary>The first element with the id that is not removed (what <c>GetElementById</c> finds in a copy without them).</summary>
+    private static IElement? ElementById(IDocument? document, string id, IReadOnlySet<IElement>? removed)
+    {
+        var found = document?.GetElementById(id);
+        if (found is null || !HtmlText.IsRemoved(found, removed))
+        {
+            return found;
+        }
+
+        return document!.All.FirstOrDefault(e => e.Id == id && !HtmlText.IsRemoved(e, removed));
+    }
+
+    private static bool IsLinkList(IElement element, IReadOnlySet<IElement>? removed)
     {
         if (element.LocalName is not ("ul" or "ol"))
         {
             return false;
         }
 
-        var items = element.Children.Where(c => c.LocalName == "li").ToList();
-        return items.Count >= 2 && items.All(IsOnlyLinks);
+        var items = element.Children.Where(c => c.LocalName == "li" && removed?.Contains(c) != true).ToList();
+        return items.Count >= 2 && items.All(i => IsOnlyLinks(i, removed));
     }
 
     /// <summary>Nearly all text of the item is inside links (nested link lists included).</summary>
-    private static bool IsOnlyLinks(IElement item)
+    private static bool IsOnlyLinks(IElement item, IReadOnlySet<IElement>? removed)
     {
-        var text = TextTools.Clean(item.TextContent);
+        var text = TextTools.Clean(HtmlText.TextContent(item, removed));
         if (text.Length == 0)
         {
             return true;
         }
 
-        var linkText = TextTools.Clean(string.Join(" ", item.QuerySelectorAll("a").Select(a => a.TextContent)));
+        var links = item.QuerySelectorAll("a").Where(a => !HtmlText.IsRemoved(a, removed, item));
+        var linkText = TextTools.Clean(string.Join(" ", links.Select(a => HtmlText.TextContent(a, removed))));
         return linkText.Length >= text.Length * 0.9;
     }
 
-    public ExtractedPage Extract(Uri url, string html)
+    /// <summary>Extraction of a page given as text (parsed once here).</summary>
+    public ExtractedPage Extract(Uri url, string html) => Extract(url, ParsedPage.Parse(url, html));
+
+    /// <summary>Extraction of a parsed page; the document is only read, never changed.</summary>
+    public ExtractedPage Extract(Uri url, ParsedPage page)
     {
-        var document = new HtmlParser().ParseDocument(html);
+        var document = page.Document;
         var baseUri = GetBaseUri(document, url);
         var jsonLd = JsonLdReader.Read(document);
-        // Before the fallback heuristic removes scripts and the frame from the document.
         var render = RenderCheck.Inspect(document);
 
-        // The frame is read before the fallback heuristic removes it from the document.
         var chromeElements = document.QuerySelectorAll(ChromeSelector)
             .Where(e => !HasAncestor(e, ChromeSelector) && !HasAncestor(e, "main, article"))
             .ToList();
@@ -140,12 +171,12 @@ internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger)
         var ogType = GetMeta(document, "property", "og:type");
         var category = ReadCategory(document, title, jsonLd);
 
-        var (mainBlocks, method) = ExtractMain(url, html, document, chromeElements);
+        var (mainBlocks, method) = ExtractMain(url, document, chromeElements);
 
         // A block that is also in the frame belongs to the frame; otherwise the footer would be evaluated twice.
         var chromeTexts = chromeRegions.SelectMany(r => r).Select(b => TextTools.NormalizeForHash(b.Text)).ToHashSet();
         mainBlocks = mainBlocks.Where(b => !chromeTexts.Contains(TextTools.NormalizeForHash(b.Text))).ToList();
-        var remainder = ReadRemainder(url, html, mainBlocks, chromeTexts);
+        var remainder = ReadRemainder(url, document, mainBlocks, chromeTexts);
         // SmartReader may keep a "related products" row in the main text; its longer texts belong to the other products.
         // Short blocks stay, so that a badge such as "Eco" shown on this product and on a related one is kept.
         mainBlocks = mainBlocks
@@ -172,22 +203,17 @@ internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger)
         };
     }
 
-    /// <param name="Rest">Other visible text: neither main text, frame, navigation nor listing of other products.</param>
-    /// <param name="NavigationChars">Readable characters in navigation.</param>
-    /// <param name="ListingChars">Readable characters in tiles of other products.</param>
-    /// <param name="ListingTexts">Normalized blocks of those tiles.</param>
     internal sealed record Remainder(List<TextBlock> Rest, int NavigationChars, int ListingChars, HashSet<string> ListingTexts);
 
     /// <summary>
-    /// Everything visible that is neither main text nor frame nor navigation nor a listing of other products, read from a
-    /// fresh copy of the page the way the fallback heuristic reads it. A block already in the main text is left out:
+    /// Everything visible that is neither main text nor frame nor navigation nor a listing of other products, read the way
+    /// the fallback heuristic reads the page. A block already in the main text is left out:
     /// exactly, or as a part of a longer main block when it has at least <see cref="MinContainedChars"/> characters
     /// (SmartReader may join blocks), so that a short badge such as "Eco" is never dropped because the word occurs
     /// somewhere in the main text.
     /// </summary>
-    internal static Remainder ReadRemainder(Uri url, string html, IReadOnlyList<TextBlock> mainBlocks, HashSet<string> chromeTexts)
+    internal static Remainder ReadRemainder(Uri url, IDocument document, IReadOnlyList<TextBlock> mainBlocks, HashSet<string> chromeTexts)
     {
-        var document = new HtmlParser().ParseDocument(html);
         var body = document.Body;
         if (body is null)
         {
@@ -202,17 +228,15 @@ internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger)
             .Select(b => TextTools.NormalizeForHash(b.Text))
             .ToHashSet();
 
+        // Left out, not removed: the frame, scripts and navigation, and the tiles of other products.
         var frame = document.QuerySelectorAll(ChromeSelector)
             .Where(e => !HasAncestor(e, ChromeSelector) && !HasAncestor(e, "main, article"));
-        foreach (var element in frame.Concat(body.QuerySelectorAll(FallbackRemovedSelector)).Concat(tiles).ToList())
-        {
-            element.Remove();
-        }
+        var removed = frame.Concat(body.QuerySelectorAll(FallbackRemovedSelector)).Concat(tiles).ToHashSet();
 
         var main = mainBlocks.Select(b => TextTools.NormalizeForHash(b.Text)).ToList();
         var mainSet = main.ToHashSet();
         var mainJoined = string.Join("\n", main);
-        var rest = HtmlText.ExtractBlocks(body, IsNavigation)
+        var rest = HtmlText.ExtractBlocks(body, Navigation(removed), removed)
             .Where(b =>
             {
                 var text = TextTools.NormalizeForHash(b.Text);
@@ -339,12 +363,13 @@ internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger)
     }
 
     private (List<TextBlock> Blocks, ExtractionMethod Method) ExtractMain(
-        Uri url, string html, IDocument document, List<IElement> chromeElements)
+        Uri url, IDocument document, List<IElement> chromeElements)
     {
         try
         {
-            // Never Reader.ParseArticle(url, html): that overload downloads the page itself.
-            var reader = new SmartReader.Reader(url.AbsoluteUri, html) { ClassesToPreserve = ClassesKeptBySmartReader };
+            // Never Reader.ParseArticle(url, html): that overload downloads the page itself. SmartReader changes the document,
+            // so it reads a copy of the one parse of the page.
+            var reader = new SmartReader.Reader(url.AbsoluteUri, (AngleSharp.Html.Dom.IHtmlDocument)document.Clone(deep: true)) { ClassesToPreserve = ClassesKeptBySmartReader };
             var article = reader.GetArticle();
             if (article.IsReadable && !string.IsNullOrWhiteSpace(article.Content))
             {
@@ -367,12 +392,9 @@ internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger)
             return ([], ExtractionMethod.Fallback);
         }
 
-        foreach (var element in chromeElements.Concat(body.QuerySelectorAll(FallbackRemovedSelector)).ToList())
-        {
-            element.Remove();
-        }
-
-        return (HtmlText.ExtractBlocks(body, IsNavigation), ExtractionMethod.Fallback);
+        // Left out, not removed, so the document stays whole for the other readers.
+        var removed = chromeElements.Concat(body.QuerySelectorAll(FallbackRemovedSelector)).ToHashSet();
+        return (HtmlText.ExtractBlocks(body, Navigation(removed), removed), ExtractionMethod.Fallback);
     }
 
     private static bool HasAncestor(IElement element, string selector)

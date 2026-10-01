@@ -1,24 +1,12 @@
 using System.Globalization;
 using System.Text.Json;
 using EshopGuard.Core.Options;
+using EshopGuard.Core.Storage;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace EshopGuard.Core.Profiles;
-
-/// <summary>
-/// Stored profiles of page templates. Profiles are kept, not written again in every scan: the model does not return the
-/// same profile twice, and monitoring must report changes of the shop, not of the profile.
-/// </summary>
-public interface IPageProfileStore
-{
-    /// <summary>All profiles of the site, oldest first.</summary>
-    Task<IReadOnlyList<PageProfile>> GetAsync(string site, CancellationToken ct = default);
-
-    /// <summary>Stores a new profile.</summary>
-    Task AddAsync(PageProfile profile, CancellationToken ct = default);
-}
 
 /// <summary>
 /// Table <c>page_profiles(id, site, profile_json, created_at)</c> in the SQLite file of the Jev cache. Reading a file that

@@ -118,6 +118,29 @@ public class CrawlTests
     }
 
     [Fact]
+    public void Sitemap_ReadsLastmod_InvalidDateIsNull()
+    {
+        var parsed = SitemapParser.Parse(Encoding.UTF8.GetBytes(
+            """
+            <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+              <url><loc>https://shop.example/a</loc><lastmod>2026-09-30</lastmod></url>
+              <url><loc>https://shop.example/b</loc><lastmod>2026-09-30T14:05:00+02:00</lastmod></url>
+              <url><loc>https://shop.example/c</loc><lastmod>včera</lastmod></url>
+              <url><loc>https://shop.example/d</loc></url>
+            </urlset>
+            """));
+
+        Assert.Equal(
+            [
+                new SitemapParser.SitemapLocation("https://shop.example/a", new DateTimeOffset(2026, 9, 30, 0, 0, 0, TimeSpan.Zero)),
+                new SitemapParser.SitemapLocation("https://shop.example/b", new DateTimeOffset(2026, 9, 30, 12, 5, 0, TimeSpan.Zero)),
+                new SitemapParser.SitemapLocation("https://shop.example/c", null),
+                new SitemapParser.SitemapLocation("https://shop.example/d", null),
+            ],
+            parsed.Entries);
+    }
+
+    [Fact]
     public void Decode_UsesMetaCharsetOfLegacyPages()
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);

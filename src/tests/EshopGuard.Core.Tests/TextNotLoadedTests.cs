@@ -120,7 +120,7 @@ public class TextNotLoadedTests
 
     [Fact]
     public void Warnings_AreEmptyWhenEveryPageWasLoaded() =>
-        Assert.Empty(EshopGuardService.NotLoadedWarnings(0, 10));
+        Assert.Empty(Pipeline.RulesStep.NotLoadedWarnings(0, 10));
 
     private static RenderCheck.Result Inspect(string html) => RenderCheck.Inspect(new HtmlParser().ParseDocument(html));
 

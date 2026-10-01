@@ -191,6 +191,7 @@ Fronta je tabulka `ops.jobs` (knihovna `src/EshopGuard.Jobs`). API úlohy jen za
 - Tempo stahování se přizpůsobuje serveru: začíná na `crawl.requests_per_second` (1 za sekundu); dokud server odpovídá do 0,5 s bez chyb, zrychluje po 0,25 až na `max_requests_per_second` (3), při odpovědi pomalejší než 1,5 s nebo chybě zpomalí na 70 %, při 429 nebo 503 na polovinu a počká podle Retry-After (nejvýš 60 s) a stránku zkusí znovu (nejvýš dvakrát). Crawl-delay z robots.txt strop sníží. Stahuje se jedním spojením. `--rate` nastaví pevné tempo. Na vegis.sk (107 stránek, server odpovídá za 0,1 s) 111 požadavků za 42 s místo 3,6 min při pevných 0,5 za sekundu.
 - Souběžnost: `jev.requests_per_minute: 1200` a `concurrency: 8`, podle dokumentovaného limitu jev-1.13.0 (1 200 požadavků za minutu a 250 000 tokenů za sekundu, https://docs.typesafe.ai/models; limity se mohou měnit, vyšší nabízí firemní tarif). Při odezvě kolem 0,33 s stačí 8 souběžných požadavků na 20 za sekundu. Při odpovědi 429 nebo 529 klient počká a zkusí to znovu. Krátký test 300 požadavků s 32 souběžnými spojeními (77 za sekundu) chybu nevrátil jen proto, že se vešel pod minutový limit.
 - Cache odpovědí Jevu je v `cache/jev-cache.sqlite`. Opakovaný běh se stejnými texty a otázkami nic nestojí; změna znění otázky (nová `version`) cache pro danou sadu obejde. `--no-cache` ji vypne úplně.
+- Stahuje se po dávkách: nejvýš `crawl.fetch_batch_max_pages` (100) stránek nebo `fetch_batch_max_seconds` (60 s) v jedné dávce, další dávka pokračuje, kde předchozí skončila (stav fronty URL, tempo a čítače). Výsledek nezávisí na velikosti dávky. Čtení jedné stránky má limit `crawl.extract_timeout_seconds` (30 s); stránka, která trvá déle, se nepřečte a zpráva ji uvede v části „Co nebylo zkontrolováno“.
 
 ## Spuštění na testovacím e-shopu
 
@@ -203,8 +204,10 @@ dotnet run --project src/EshopGuard.Cli -- serve-fixture --port 8000
 Ve druhém terminálu ho projděte. Během běhu serveru použijte `--no-build`, protože server drží sestavené soubory:
 
 ```bash
-dotnet run --no-build --project src/EshopGuard.Cli -- scan http://localhost:8000
+dotnet run --no-build --project src/EshopGuard.Cli -- scan http://localhost:8000 --allow-private-network
 ```
+
+`--allow-private-network` je nutné jen pro místní e-shop: bez něj se adresa v místní síti nestáhne (ochrana proti SSRF, viz níže).
 
 Bez klíče nebo pro zkoušku bez placených volání přidejte `--mock`. Před voláním Jevu se vypíše odhad počtu volání, tokenů a ceny; nad limitem `max_calls_without_confirm` (5 000) se čeká na potvrzení, `--yes` ho přeskočí.
 
@@ -261,11 +264,28 @@ Vezme výsledky hotového skenu (`findings.json`, `pages.jsonl`) a stránky s n�
 
 | Příkaz | Popis |
 | --- | --- |
-| `scan <url>` | Projde web podle robots.txt a sitemap, vyhodnotí texty a vytvoří výstupy. Volby: `--max-pages`, `--sample-products`, `--modules` (výchozí: všechny moduly s pravidly pro zemi), `--country` (`sk` nebo `cz`, výchozí `sk`), `--question-lang`, `--rate` (pevné tempo stahování), `--concurrency`, `--include`, `--exclude`, `--out`, `--mock`, `--no-cache`, `--no-sieve`, `--yes`. |
+| `scan <url>` | Projde web podle robots.txt a sitemap, vyhodnotí texty a vytvoří výstupy. Volby: `--max-pages`, `--sample-products`, `--modules` (výchozí: všechny moduly s pravidly pro zemi), `--country` (`sk` nebo `cz`, výchozí `sk`), `--question-lang`, `--rate` (pevné tempo stahování), `--concurrency`, `--include`, `--exclude`, `--out`, `--mock`, `--no-cache`, `--no-sieve`, `--yes`, `--record <složka>` (uloží všechny odpovědi webu), `--replay <složka>` (odpovídá z nahrávky bez sítě), `--allow-private-network` (jen místní testovací e-shop). |
 | `check-text "<text>"` | Vyhodnotí jeden text. Volby: `--kind`, `--modules`, `--country`, `--category` (kategorie výrobku pro modul `lr`), `--question-lang`, `--mock`. |
 | `rewrite <složka skenu>` | Navrhne přepis problematických pasáží modelem OpenAI a znovu je zkontroluje. Volby: `--country`, `--limit`, `--mock`, `--no-cache`, `--yes`. |
 | `serve-fixture` | Lokální testovací e-shop (`--port`, `--root`). |
+| `bench-extract --replay <složka>` | Změří čas procesoru na stránku pro čtení HTML, extrakci, typ stránky a profily šablon nad nahrávkou (`--runs`, sestavení Release). |
 | `evaluate` | Měření přesnosti na označeném vzorku (M4). |
+
+## Ochrana proti SSRF
+
+Nástroj stahuje jen adresy `http` a `https` na portech 80 a 443 bez jména a hesla v adrese. Každé spojení jde přes kontrolu po DNS (`SocketsHttpHandler.ConnectCallback`): když kterákoli adresa hostitele leží ve vnitřní, místní, metadatové nebo vyhrazené síti (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 127.0.0.0/8, 169.254.0.0/16, 100.64.0.0/10, 0.0.0.0/8, dokumentační a testovací rozsahy, multicast, 240.0.0.0/4 a obdoby v IPv6 včetně `::1`, `fc00::/7`, `fe80::/10` a IPv4 mapovaných do IPv6), spojení se nenaváže. Socket se připojí přesně na ověřenou adresu, takže změna DNS mezi kontrolou a spojením neprojde. Stejně se kontroluje každý krok přesměrování, robots.txt a sitemap. Klient pro stahování nepoužívá proxy (proxy by se připojila místo nás, mimo kontrolu).
+
+- Zablokovaná stránka se nikdy nevydává za zkontrolovanou: je ve výsledku (`BlockedUrls`), v upozorněních a ve zprávě v části „Co nebylo zkontrolováno“.
+- Když vede do vnitřní sítě už adresa webu, sken skončí chybou `ssrf_blocked` a nic se nestáhne.
+- Výjimka je jen volba `--allow-private-network` pro místní testovací e-shop. V `settings.yaml` ji nastavit nejde; webová aplikace ji nepoužije nikdy.
+
+## Nahrávky a porovnání výstupů
+
+`scan <url> --record snapshots/<web>` uloží každou odpověď webu (`index.jsonl` s adresou, stavem a hlavičkami, těla v `bodies/`). `scan <url> --replay snapshots/<web>` pak odpovídá z nahrávky bez sítě; adresa, která v ní není, dostane 404. Nahrávky cizích e-shopů jsou cizí obsah, proto jen lokálně (`src/snapshots/`, `src/baselines/` jsou v `.gitignore`).
+
+- Referenční výstupy testovacích e-shopů z kódu před změnou 5 jsou v `src/tests/EshopGuard.Core.Tests/Baselines/`; `PipelineEquivalenceTests` hlídá, že dnešní kód dává po vynechání časů a tempa stejné soubory. Klíče cache Jevu hlídá `JevCacheKeyCompatibilityTests`, takže uložené odpovědi zůstávají platné.
+- Nad lokálními nahrávkami: `dotnet run --project src/tests/EshopGuard.Cli.Tests -- -explicit only -trait "Category=Snapshot"` (spouští skutečné CLI `scan --replay --mock` a porovná výstupy s `src/baselines/`).
+- Čas procesoru na stránku (`bench-extract`, Release, cloud se 4 jádry, 5 průchodů, medián) po změně 5, kdy se HTML čte jednou místo pěti: vegis.sk 48,7 ms (opakování 47,5) místo 65,4 ms, www.naturfyt.sk 47,7 ms (49,4) místo 79,8 ms, tedy o 26 % a 40 % méně.
 
 ## Použití knihovny bez CLI
 
@@ -283,3 +303,5 @@ var result = await guard.AnalyzeTextsAsync(
     [new TextInput { Text = "Tento šampon je ekologický a šetrný k přírodě." }],
     new AnalyzeOptions { Country = "cz" });   // výchozí je "sk"
 ```
+
+Knihovna je rozdělená na kroky (`EshopGuard.Core.Pipeline`): zjištění rozsahu (robots.txt, sitemap), stahování po dávkách, extrakce, profily šablon, segmenty, odhad ceny, síto, Jev, pravidla a přepis. Vstupy a výstupy kroků jsou záznamy serializovatelné do JSON (se `schema_version`), takže je worker může ukládat mezi úlohami a jiný stroj pokračuje po pádu. `IEshopGuard` je spouští v paměti za sebou (`InMemoryPipelineRunner`), stejně jako dřív jedna služba. Úložiště jsou za rozhraními `EshopGuard.Core.Storage` (`IJevCache`, `IRewriteCache`, `IPageProfileStore`, `IPageContentStore`, `IPageStore`, `IUrlFrontierStore`, `IRateLimiter`); host je zaregistruje před `AddEshopGuard`, jinak platí výchozí (SQLite cache, úložiště v paměti). Knihovna nezávisí na databázi (`CoreDependencyTests`).

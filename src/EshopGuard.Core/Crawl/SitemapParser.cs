@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.IO.Compression;
 using System.Xml;
 using System.Xml.Linq;
@@ -11,7 +12,14 @@ internal static class SitemapParser
 {
     private const long MaxUncompressedBytes = 100L * 1024 * 1024;
 
-    public sealed record Result(bool IsIndex, IReadOnlyList<string> Locations);
+    /// <summary>A <c>loc</c> of the sitemap with its <c>lastmod</c> (null when missing or not a valid W3C date).</summary>
+    public sealed record SitemapLocation(string Url, DateTimeOffset? LastModified);
+
+    public sealed record Result(bool IsIndex, IReadOnlyList<SitemapLocation> Entries)
+    {
+        /// <summary>The <c>loc</c> values in document order.</summary>
+        public IReadOnlyList<string> Locations => Entries.Select(e => e.Url).ToList();
+    }
 
     /// <exception cref="XmlException">The content is not valid XML.</exception>
     /// <exception cref="InvalidDataException">The gzip content is corrupt or too large.</exception>
@@ -30,10 +38,25 @@ internal static class SitemapParser
         var isIndex = document.Root?.Name.LocalName == "sitemapindex";
         var locations = document.Descendants()
             .Where(e => e.Name.LocalName == "loc")
-            .Select(e => e.Value.Trim())
-            .Where(v => v.Length > 0)
+            .Select(e => (Url: e.Value.Trim(), Entry: e.Parent))
+            .Where(v => v.Url.Length > 0)
+            .Select(v => new SitemapLocation(v.Url, LastModified(v.Entry)))
             .ToList();
         return new Result(isIndex, locations);
+    }
+
+    /// <summary><c>lastmod</c> next to the <c>loc</c> (W3C datetime: a date, or a date and time with a zone).</summary>
+    private static DateTimeOffset? LastModified(XElement? entry)
+    {
+        var text = entry?.Elements().FirstOrDefault(e => e.Name.LocalName == "lastmod")?.Value.Trim();
+        if (string.IsNullOrEmpty(text))
+        {
+            return null;
+        }
+
+        return DateTimeOffset.TryParse(text, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out var value)
+            ? value
+            : null;
     }
 
     private static bool IsGzip(byte[] body) => body.Length > 2 && body[0] == 0x1F && body[1] == 0x8B;

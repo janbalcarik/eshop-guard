@@ -118,6 +118,24 @@ public sealed class CrawlOptions
     public int MaxSitemapUrls { get; set; } = 50_000;
 
     /// <summary>
+    /// Longest extraction of one page in seconds; a page that takes longer is not read and is reported among the pages
+    /// that were not checked. SmartReader cannot be interrupted, so its work finishes in the background.
+    /// </summary>
+    public int ExtractTimeoutSeconds { get; set; } = 30;
+
+    /// <summary>Pages downloaded in one batch of the fetch step; the state of the crawl is kept between batches.</summary>
+    public int FetchBatchMaxPages { get; set; } = 100;
+
+    /// <summary>Longest batch of the fetch step in seconds; the next batch goes on where it stopped.</summary>
+    public int FetchBatchMaxSeconds { get; set; } = 60;
+
+    /// <summary>
+    /// Allows addresses in internal and local networks and ports other than 80 and 443. Off by default (protection against
+    /// SSRF); only for a local test shop (<c>--allow-private-network</c>), never in the web application.
+    /// </summary>
+    public bool AllowPrivateNetwork { get; set; }
+
+    /// <summary>
     /// A page with less readable text in its HTML (header, menu and footer included) is reported as not loaded:
     /// the site most likely renders it with JavaScript, which the tool does not run.
     /// </summary>

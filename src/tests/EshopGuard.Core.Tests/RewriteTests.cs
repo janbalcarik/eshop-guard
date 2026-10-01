@@ -2,6 +2,7 @@ using EshopGuard.Core.Fix;
 using EshopGuard.Core.Models;
 using EshopGuard.Core.Options;
 using EshopGuard.Core.Report;
+using EshopGuard.Core.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EshopGuard.Core.Tests;
@@ -132,6 +133,39 @@ public class RewriteTests
         {
             Directory.Delete(directory, recursive: true);
         }
+    }
+
+    [Fact]
+    public async Task Batches_RewriteTheSamePagesAsOneRun()
+    {
+        var client = new RecordingClient(_ => """{"changes":[],"kept":[]}""");
+        await using var provider = Create(client);
+        var urls = Enumerable.Range(1, 8).Select(i => $"{Url}-{i}").Reverse().ToList();
+        var input = new RewriteInput
+        {
+            Pages = [.. urls.Select(u => Page(u, "Tento šampón je ekologický.")), Page(Url + "-bez-nalezu", "Text.")],
+            Findings = [.. urls.Select(u => Finding("Tento šampón je ekologický.", u))],
+            MaxPages = 7,
+        };
+
+        var batches = Pipeline.RewriteStep.Batches(input, batchPages: 3);
+        var one = await provider.GetRequiredService<ITextRewriter>().RewriteAsync(input, ct: TestContext.Current.CancellationToken);
+        var step = provider.GetRequiredService<Pipeline.RewriteStep>();
+        var results = new List<RewriteResult>();
+        foreach (var batch in batches)
+        {
+            results.Add(await step.RewriteBatchAsync(batch, null, TestContext.Current.CancellationToken));
+        }
+
+        var merged = Pipeline.RewriteStep.Merge(results);
+
+        Assert.Equal([3, 3, 1], batches.Select(b => b.Pages.Count));
+        Assert.Equal(urls.Order(StringComparer.Ordinal).Take(7), batches.SelectMany(b => b.Pages).Select(p => p.Url));
+        Assert.All(batches, b => Assert.Equal(b.Pages.Select(p => p.Url), b.Findings.Select(f => f.Urls[0])));
+        Assert.Equal(one.Pages.Select(p => p.Url), merged.Pages.Select(p => p.Url));
+        Assert.Equal(one.Stats.Pages, merged.Stats.Pages);
+        Assert.Equal(one.Stats.CheckCalls, merged.Stats.CheckCalls);
+        Assert.Empty(merged.Warnings);
     }
 
     private static ServiceProvider Create(IRewriteClient client, IRewriteCache? cache = null)

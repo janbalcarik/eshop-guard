@@ -1,10 +1,10 @@
 using System.Collections.Concurrent;
 using System.Runtime.ExceptionServices;
 using System.Text.Json;
-using EshopGuard.Core.Cache;
 using EshopGuard.Core.Jev;
 using EshopGuard.Core.Models;
 using EshopGuard.Core.Options;
+using EshopGuard.Core.Storage;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -37,6 +37,9 @@ internal sealed class EvaluationSummary
     public long InputTokens { get; init; }
 
     public string? Model { get; init; }
+
+    /// <summary>Hashes of the segments whose request failed; they have no answer.</summary>
+    public IReadOnlyList<string> NotEvaluated { get; init; } = [];
 }
 
 /// <summary>
@@ -58,11 +61,12 @@ internal sealed class SegmentEvaluator(
         IReadOnlyList<Segment> segments, IReadOnlyList<RuleSet> ruleSets, string questionLanguage, CancellationToken ct)
     {
         var work = BuildWork(segments, ruleSets, questionLanguage, include: null);
+        var hits = await cache.GetManyAsync(work.Select(w => w.CacheKey).ToList(), ct);
         var uncached = new List<WorkItem>();
         var cached = 0;
         foreach (var item in work)
         {
-            if (await cache.GetAsync(item.CacheKey, ct) is null)
+            if (!hits.ContainsKey(item.CacheKey))
             {
                 uncached.Add(item);
             }
@@ -99,18 +103,18 @@ internal sealed class SegmentEvaluator(
             throw new InvalidOperationException("Není zaregistrovaný klient Jevu (IJevClient). Zapněte Jev.UseMock nebo zaregistrujte vlastního klienta.");
         }
 
+        var hits = await cache.GetManyAsync(work.Select(w => w.CacheKey).ToList(), ct);
         var cached = new List<(Segment Segment, JevResult Result)>();
         var uncached = new List<WorkItem>();
         foreach (var item in work)
         {
-            var hit = await cache.GetAsync(item.CacheKey, ct);
-            if (hit is null)
+            if (hits.TryGetValue(item.CacheKey, out var hit))
             {
-                uncached.Add(item);
+                cached.Add((item.Segment, hit));
             }
             else
             {
-                cached.Add((item.Segment, hit));
+                uncached.Add(item);
             }
         }
 
@@ -125,6 +129,7 @@ internal sealed class SegmentEvaluator(
         }
 
         var results = new ConcurrentBag<(Segment Segment, JevResult Result)>();
+        var failed = new ConcurrentBag<string>();
         var completed = 0;
         var errors = 0;
         long tokens = 0;
@@ -171,6 +176,7 @@ internal sealed class SegmentEvaluator(
             catch (Exception ex) when (ex is not OperationCanceledException)
             {
                 Interlocked.Increment(ref errors);
+                failed.Add(request.Segment.Hash);
                 logger.LogWarning(ex, "Jev evaluation of segment {Hash} ({Modules}) failed", request.Segment.Hash, string.Join(", ", request.Items.Select(i => i.Module)));
             }
             finally
@@ -209,6 +215,7 @@ internal sealed class SegmentEvaluator(
             Errors = errors,
             InputTokens = tokens,
             Model = modelName,
+            NotEvaluated = [.. failed.Order(StringComparer.Ordinal)],
         };
     }
 
@@ -223,7 +230,7 @@ internal sealed class SegmentEvaluator(
                 where segment.Kind == (set.AppliesTo == RuleValidator.Sentence ? SegmentKind.Sentence : SegmentKind.LegalParagraph)
                 where include is null || include(segment, set)
                 let state = BuildState(segment)
-                select new WorkItem(segment, questions[set], state, JevCacheKey.Create(model, set.Version, questionLanguage, questions[set], state), set.Module))
+                select new WorkItem(segment, questions[set], state, JevCacheKeys.Create(JevCacheKind.Detail, model, set.Version, questionLanguage, questions[set], state), set.Module))
             .ToList();
     }
 
@@ -276,7 +283,7 @@ internal sealed class SegmentEvaluator(
                 },
             });
 
-    private sealed record WorkItem(Segment Segment, Dictionary<string, JevQuestion> Questions, object State, string CacheKey, string Module);
+    private sealed record WorkItem(Segment Segment, Dictionary<string, JevQuestion> Questions, object State, JevCacheKey CacheKey, string Module);
 
     /// <summary>One request to Jev: a segment with the questions of all its rule sets that are not in the cache.</summary>
     private sealed record Request(Segment Segment, object State, List<WorkItem> Items)

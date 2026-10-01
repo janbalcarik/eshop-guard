@@ -41,7 +41,11 @@ internal static partial class HtmlText
 
     /// <param name="root">Subtree to read.</param>
     /// <param name="skip">Elements to leave out with their whole subtree, e.g. navigation in the page frame.</param>
-    public static List<TextBlock> ExtractBlocks(INode? root, Func<IElement, bool>? skip = null)
+    /// <param name="removed">
+    /// Elements that count as not in the document at all, also inside headings: reading without them gives the same blocks as
+    /// reading a copy of the document from which they were removed, so one parse of the page serves every reader.
+    /// </param>
+    public static List<TextBlock> ExtractBlocks(INode? root, Func<IElement, bool>? skip = null, IReadOnlySet<IElement>? removed = null)
     {
         var blocks = new List<TextBlock>();
         if (root is null)
@@ -50,12 +54,12 @@ internal static partial class HtmlText
         }
 
         var buffer = new StringBuilder();
-        Walk(root, buffer, blocks, skip);
+        Walk(root, buffer, blocks, skip, removed);
         Flush(buffer, blocks);
         return blocks;
     }
 
-    private static void Walk(INode node, StringBuilder buffer, List<TextBlock> blocks, Func<IElement, bool>? skip)
+    private static void Walk(INode node, StringBuilder buffer, List<TextBlock> blocks, Func<IElement, bool>? skip, IReadOnlySet<IElement>? removed)
     {
         foreach (var child in node.ChildNodes)
         {
@@ -65,16 +69,16 @@ internal static partial class HtmlText
                     buffer.Append(text.Data);
                     break;
                 case IElement element:
-                    VisitElement(element, buffer, blocks, skip);
+                    VisitElement(element, buffer, blocks, skip, removed);
                     break;
             }
         }
     }
 
-    private static void VisitElement(IElement element, StringBuilder buffer, List<TextBlock> blocks, Func<IElement, bool>? skip)
+    private static void VisitElement(IElement element, StringBuilder buffer, List<TextBlock> blocks, Func<IElement, bool>? skip, IReadOnlySet<IElement>? removed)
     {
         var tag = element.LocalName;
-        if (SkippedElements.Contains(tag) || (skip?.Invoke(element) ?? false))
+        if (removed?.Contains(element) == true || SkippedElements.Contains(tag) || (skip?.Invoke(element) ?? false))
         {
             return;
         }
@@ -90,7 +94,7 @@ internal static partial class HtmlText
         {
             Flush(buffer, blocks);
             var heading = new StringBuilder();
-            AppendInline(element, heading);
+            AppendInline(element, heading, removed);
             var text = Tidy(heading.ToString());
             if (text.Length > 0)
             {
@@ -103,17 +107,17 @@ internal static partial class HtmlText
         if (BlockElements.Contains(tag) || IsBadge(element))
         {
             Flush(buffer, blocks);
-            Walk(element, buffer, blocks, skip);
+            Walk(element, buffer, blocks, skip, removed);
             Flush(buffer, blocks);
         }
         else if (FormattingElements.Contains(tag))
         {
-            Walk(element, buffer, blocks, skip);
+            Walk(element, buffer, blocks, skip, removed);
         }
         else
         {
             buffer.Append(' ');
-            Walk(element, buffer, blocks, skip);
+            Walk(element, buffer, blocks, skip, removed);
             buffer.Append(' ');
         }
     }
@@ -134,7 +138,7 @@ internal static partial class HtmlText
     };
 
     /// <summary>Text of a heading: everything inside becomes one line with the same separator rules.</summary>
-    private static void AppendInline(INode node, StringBuilder buffer)
+    private static void AppendInline(INode node, StringBuilder buffer, IReadOnlySet<IElement>? removed)
     {
         foreach (var child in node.ChildNodes)
         {
@@ -143,18 +147,69 @@ internal static partial class HtmlText
                 case IText text:
                     buffer.Append(text.Data);
                     break;
-                case IElement element when SkippedElements.Contains(element.LocalName):
+                case IElement element when removed?.Contains(element) == true || SkippedElements.Contains(element.LocalName):
                     break;
                 case IElement element when FormattingElements.Contains(element.LocalName):
-                    AppendInline(element, buffer);
+                    AppendInline(element, buffer, removed);
                     break;
                 case IElement element:
                     buffer.Append(' ');
-                    AppendInline(element, buffer);
+                    AppendInline(element, buffer, removed);
                     buffer.Append(' ');
                     break;
             }
         }
+    }
+
+    /// <summary>
+    /// <see cref="INode.TextContent"/> of the node without the text of <paramref name="removed"/> subtrees: the text the node
+    /// would have in a copy of the document without them.
+    /// </summary>
+    public static string TextContent(INode node, IReadOnlySet<IElement>? removed)
+    {
+        if (removed is null || removed.Count == 0)
+        {
+            return node.TextContent;
+        }
+
+        var text = new StringBuilder();
+        AppendText(node, text, removed);
+        return text.ToString();
+    }
+
+    private static void AppendText(INode node, StringBuilder text, IReadOnlySet<IElement> removed)
+    {
+        foreach (var child in node.ChildNodes)
+        {
+            switch (child)
+            {
+                case IText t:
+                    text.Append(t.Data);
+                    break;
+                case IElement element when !removed.Contains(element):
+                    AppendText(element, text, removed);
+                    break;
+            }
+        }
+    }
+
+    /// <summary>True when the element or one of its ancestors up to (not including) <paramref name="stop"/> is in <paramref name="removed"/>.</summary>
+    public static bool IsRemoved(IElement element, IReadOnlySet<IElement>? removed, INode? stop = null)
+    {
+        if (removed is null || removed.Count == 0)
+        {
+            return false;
+        }
+
+        for (var current = element; current is not null && current != stop; current = current.ParentElement)
+        {
+            if (removed.Contains(current))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static void Flush(StringBuilder buffer, List<TextBlock> blocks)

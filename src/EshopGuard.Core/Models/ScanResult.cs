@@ -55,6 +55,12 @@ public sealed class ScanResult
     /// <summary>URLs that were not downloaded because robots.txt disallows them.</summary>
     public IReadOnlyList<string> RobotsBlockedUrls { get; init; } = [];
 
+    /// <summary>URLs that were not downloaded because their address leads into an internal or local network (SSRF protection).</summary>
+    public IReadOnlyList<string> BlockedUrls { get; init; } = [];
+
+    /// <summary>Pages that were downloaded but not read (the extraction took too long); they were not checked.</summary>
+    public IReadOnlyList<NotProcessedPage> NotProcessedPages { get; init; } = [];
+
     /// <summary>Profiles of page templates used in the scan, with the pages that used them and what they left out.</summary>
     public IReadOnlyList<ProfileUse> Profiles { get; init; } = [];
 
@@ -63,4 +69,16 @@ public sealed class ScanResult
 
     /// <summary>Statistics of the run.</summary>
     public required ScanStats Stats { get; init; }
+}
+
+/// <summary>
+/// A downloaded page whose text was not read, so nothing on it was checked.
+/// </summary>
+public sealed class NotProcessedPage
+{
+    /// <summary>Final URL of the page.</summary>
+    public required string Url { get; init; }
+
+    /// <summary>Why: <c>extract_timeout</c> (the extraction took longer than <c>crawl.extract_timeout_seconds</c>).</summary>
+    public required string Reason { get; init; }
 }

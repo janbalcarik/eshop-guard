@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
-using EshopGuard.Core.Cache;
 using EshopGuard.Core.Jev;
 using EshopGuard.Core.Options;
+using EshopGuard.Core.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EshopGuard.Core.Tests;
@@ -53,19 +53,23 @@ internal static class BaselineScenarios
     }
 
     /// <summary>Empty cache that records every key it is asked for.</summary>
-    private sealed class KeyRecordingJevCache : IJevCache
+    internal sealed class KeyRecordingJevCache : IJevCache
     {
-        private readonly ConcurrentDictionary<string, byte> _keys = new(StringComparer.Ordinal);
+        private readonly ConcurrentDictionary<JevCacheKey, byte> _keys = new();
 
-        public IReadOnlyCollection<string> Keys => [.. _keys.Keys.Order(StringComparer.Ordinal)];
+        /// <summary>Legacy keys (as the cache before change 5), sorted.</summary>
+        public IReadOnlyCollection<string> Keys => [.. _keys.Keys.Select(k => k.LegacyKey).Distinct().Order(StringComparer.Ordinal)];
 
-        public Task<JevResult?> GetAsync(string key, CancellationToken ct = default)
+        /// <summary>All structured keys.</summary>
+        public IReadOnlyCollection<JevCacheKey> StructuredKeys => [.. _keys.Keys];
+
+        public Task<JevResult?> GetAsync(JevCacheKey key, CancellationToken ct = default)
         {
             _keys.TryAdd(key, 0);
             return Task.FromResult<JevResult?>(null);
         }
 
-        public Task SetAsync(string key, JevResult result, CancellationToken ct = default)
+        public Task SetAsync(JevCacheKey key, JevResult result, CancellationToken ct = default)
         {
             _keys.TryAdd(key, 0);
             return Task.CompletedTask;

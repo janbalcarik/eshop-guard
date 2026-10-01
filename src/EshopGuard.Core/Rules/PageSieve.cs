@@ -1,10 +1,10 @@
 using System.Collections.Concurrent;
 using System.Runtime.ExceptionServices;
-using EshopGuard.Core.Cache;
 using EshopGuard.Core.Jev;
 using EshopGuard.Core.Models;
 using EshopGuard.Core.Options;
 using EshopGuard.Core.Segmentation;
+using EshopGuard.Core.Storage;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -51,16 +51,22 @@ internal sealed class PageSieve(
         long characters = 0;
         var calls = 0;
         var cached = 0;
-        foreach (var (url, chunk) in chunks)
+        var keys = chunks
+            .Select(c => c.Chunk.Text.Length > sieve.MaxRequestChars
+                ? (JevCacheKey?)null
+                : JevCacheKeys.Create(JevCacheKind.Sieve, options.Value.Jev.Model, sieve.Version, language, questions, c.Chunk.Text))
+            .ToList();
+        var hits = await cache.GetManyAsync(keys.OfType<JevCacheKey>().ToList(), ct);
+        for (var i = 0; i < chunks.Count; i++)
         {
-            if (chunk.Text.Length > sieve.MaxRequestChars)
+            var (url, chunk) = chunks[i];
+            if (keys[i] is not { } key)
             {
                 work.Add(new Prepared(url, chunk, questions, null, null));
                 continue;
             }
 
-            var key = JevCacheKey.Create(options.Value.Jev.Model, sieve.Version, language, questions, chunk.Text);
-            var hit = await cache.GetAsync(key, ct);
+            var hit = hits.GetValueOrDefault(key);
             work.Add(new Prepared(url, chunk, questions, key, hit));
             if (hit is null)
             {
@@ -111,7 +117,7 @@ internal sealed class PageSieve(
                     var result = await client.EvaluateAsync(item.Chunk.Text, item.Questions, stop.Token);
                     Interlocked.Add(ref tokens, result.Usage.InputTokens);
                     answers[item] = result;
-                    await cache.SetAsync(item.CacheKey!, result, ct);
+                    await cache.SetAsync(item.CacheKey!.Value, result, ct);
                 }
                 finally
                 {
@@ -170,5 +176,5 @@ internal sealed class PageSieve(
 
     /// <summary>A chunk ready for the sieve; <see cref="CacheKey"/> is null for a chunk that is too long to send.</summary>
     internal sealed record Prepared(
-        string Url, SieveChunk Chunk, Dictionary<string, JevQuestion> Questions, string? CacheKey, JevResult? Cached);
+        string Url, SieveChunk Chunk, Dictionary<string, JevQuestion> Questions, JevCacheKey? CacheKey, JevResult? Cached);
 }

@@ -42,7 +42,7 @@ public class RestTextTests
             .Extract(new Uri("https://shop.example/krem"), $"<html><body>{Description}</body></html>").MainBlocks;
         var footer = new HashSet<string> { TextTools.NormalizeForHash("© Bylinkovo s. r. o., všetky práva vyhradené.") };
 
-        var remainder = ContentExtractor.ReadRemainder(new Uri("https://shop.example/krem"), Page, description, footer);
+        var remainder = ContentExtractor.ReadRemainder(new Uri("https://shop.example/krem"), new AngleSharp.Html.Parser.HtmlParser().ParseDocument(Page), description, footer);
         var (rest, navigation) = (remainder.Rest, remainder.NavigationChars);
 
         var texts = rest.Select(b => b.Text).ToList();
@@ -107,7 +107,7 @@ public class RestTextTests
         var description = new ContentExtractor(NullLogger<ContentExtractor>.Instance)
             .Extract(new Uri("https://shop.example/krem"), $"<html><body>{Description}</body></html>").MainBlocks;
 
-        var remainder = ContentExtractor.ReadRemainder(new Uri("https://shop.example/krem"), html, description, []);
+        var remainder = ContentExtractor.ReadRemainder(new Uri("https://shop.example/krem"), new AngleSharp.Html.Parser.HtmlParser().ParseDocument(html), description, []);
 
         var texts = remainder.Rest.Select(b => b.Text).ToList();
         Assert.DoesNotContain(texts, t => t.Contains("marhuľových", StringComparison.Ordinal));

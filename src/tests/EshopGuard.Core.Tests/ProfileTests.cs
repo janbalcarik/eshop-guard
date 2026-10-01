@@ -79,7 +79,7 @@ public class ProfileTests
     {
         var html = Product(1);
         var content = Extract(html);
-        var application = ProfileMatcher.Apply(new HtmlParser().ParseDocument(html), content, ProfileFor(products: true, posts: false, home: false));
+        var application = ProfileMatcher.ApplyNonDestructive(new HtmlParser().ParseDocument(html), content, ProfileFor(products: true, posts: false, home: false));
 
         var skipped = application.Content.ProfileSkippedBlocks.Select(b => b.Text).ToList();
         var remaining = Remaining(application.Content);
@@ -110,7 +110,7 @@ public class ProfileTests
             ],
         };
 
-        var application = ProfileMatcher.Apply(new HtmlParser().ParseDocument(html), content, wrong);
+        var application = ProfileMatcher.ApplyNonDestructive(new HtmlParser().ParseDocument(html), content, wrong);
 
         Assert.Contains(application.Blocked, b => b.Selector == "main" && b.Reason == ProfileMatcher.BlockReason.ContainsCheckedRegion);
         Assert.Contains(Cookie, application.Content.ProfileSkippedBlocks.Select(b => b.Text));
@@ -129,7 +129,7 @@ public class ProfileTests
             Regions = [Region("related_products", ProfileRegion.Skip, "article")],
         };
 
-        var application = ProfileMatcher.Apply(new HtmlParser().ParseDocument(html), content, wrong);
+        var application = ProfileMatcher.ApplyNonDestructive(new HtmlParser().ParseDocument(html), content, wrong);
 
         Assert.Equal(ProfileMatcher.BlockReason.ContainsMainText, Assert.Single(application.Blocked).Reason);
         Assert.Empty(application.Content.ProfileSkippedBlocks);

@@ -75,6 +75,12 @@ Každá změna má v `proposal.md` oddíl „K rozhodnutí“, celkem asi 320 bo
   - v nočním okně vyhrazený podíl limitu Jevu pro sledování (P3);
   - noční úlohy konektorů rozložené podle minuty e-shopu, ne pevně ve 2:00.
 - **Stahování:** cookie zvlášť pro každou verzi (`UseCookies = false` u sdíleného klienta), ověří se ostrým porovnáním.
+- **Změna 5 (návrhy z jejího oddílu K rozhodnutí, použité při implementaci 1. 10. 2026):**
+  - rozsahy SSRF podle návrhu designu včetně 100.64.0.0/10, dokumentačních a testovacích sítí, multicastu, `64:ff9b::/96`, IPv4 mapovaných do IPv6 a navíc 6to4 (`2002::/16`, kontroluje se vložená IPv4);
+  - otisk věty = prvních 8 bajtů SHA-256 normalizovaného textu, bez nového balíčku;
+  - limit čtení stránky 30 s (`crawl.extract_timeout_seconds`);
+  - SmartReader 0.11.1 přijme hotový dokument (`Reader(string, IHtmlDocument)`), ale mění ho, proto dostává hlubokou kopii jediného čtení; výsledky stejné na 430 stránkách;
+  - nahrávky cizích e-shopů jen lokálně (`src/snapshots/`, `src/baselines/`).
 - **Pravidla SK a CZ:** stejné id otázek s jiným zněním → oddělené dotazy na Jev, jeden nález s verdikty po zemích. Dnešní seznamy slov (`LegalPageSlugs` apod.) zůstávají ve změně 5 kvůli shodě výsledků, nahrazení je samostatný úkol.
 - **Konektor:**
   - šifrované tajemství webhooku (`webhook_secret_enc`);

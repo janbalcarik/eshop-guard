@@ -22,6 +22,35 @@ internal sealed class FileSystemPageFetcher(string root, Uri baseUrl) : IPageFet
     /// <summary>The Slovak fixture e-shop (Fixtures/site-sk) under the same base URL.</summary>
     public static FileSystemPageFetcher ForSlovakFixture() => new(Path.Combine(AppContext.BaseDirectory, "Fixtures", "site-sk"), DefaultBaseUrl);
 
+    /// <summary>Answers carry an ETag of their body, and a request with the same <c>If-None-Match</c> gets 304.</summary>
+    public bool UseETags { get; init; }
+
+    /// <summary>Validators of the conditional requests, in order (null for a plain request).</summary>
+    public ConcurrentQueue<(Uri Url, string? IfNoneMatch)> Conditional { get; } = new();
+
+    public async Task<FetchResponse> FetchAsync(FetchRequest request, CancellationToken ct)
+    {
+        Conditional.Enqueue((request.Url, request.IfNoneMatch));
+        var response = await FetchAsync(request.Url, ct);
+        if (!UseETags || response.Body is null)
+        {
+            return response;
+        }
+
+        var etag = "\"" + Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(response.Body))[..16] + "\"";
+        return request.IfNoneMatch == etag
+            ? new FetchResponse { Url = request.Url, StatusCode = 304, ETag = etag }
+            : new FetchResponse
+            {
+                Url = response.Url,
+                StatusCode = response.StatusCode,
+                MediaType = response.MediaType,
+                Charset = response.Charset,
+                Body = response.Body,
+                ETag = etag,
+            };
+    }
+
     public Task<FetchResponse> FetchAsync(Uri url, CancellationToken ct)
     {
         Requested.Enqueue(url);

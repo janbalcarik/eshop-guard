@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace EshopGuard.Core.Models;
 
 /// <summary>
@@ -87,7 +89,17 @@ public sealed class Segment
     public bool SieveExempt { get; init; } = true;
 
     /// <summary>Modules whose questions the sieve left out for this segment (no chunk with it was flagged).</summary>
+    [JsonObjectCreationHandling(JsonObjectCreationHandling.Populate)]
     public HashSet<string> SkippedModules { get; } = [];
+
+    private long? _fingerprint;
+
+    /// <summary>
+    /// 64-bit fingerprint of the text alone (without context, case and spacing): the same sentence on other pages or in
+    /// another language version of the shop has the same fingerprint.
+    /// </summary>
+    [JsonIgnore]
+    public long Fingerprint => _fingerprint ??= Segmentation.SentenceFingerprint.Of(Text);
 }
 
 /// <summary>

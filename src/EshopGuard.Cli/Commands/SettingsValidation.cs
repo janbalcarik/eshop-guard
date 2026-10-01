@@ -14,6 +14,28 @@ internal static class SettingsValidation
             .Select(m => m.ToLowerInvariant())
             .ToList();
 
+    /// <summary>Values of settings.yaml that must be positive, and keys that may not be set there; null when all is fine.</summary>
+    public static string? ValidateSettings(SettingsFile settings)
+    {
+        var crawl = settings.Crawl;
+        foreach (var (key, value) in new[]
+        {
+            ("crawl.extract_timeout_seconds", crawl.ExtractTimeoutSeconds),
+            ("crawl.fetch_batch_max_pages", crawl.FetchBatchMaxPages),
+            ("crawl.fetch_batch_max_seconds", crawl.FetchBatchMaxSeconds),
+        })
+        {
+            if (value <= 0)
+            {
+                return $"{key} musí být kladné číslo (je {value}).";
+            }
+        }
+
+        return crawl.AllowPrivateNetwork
+            ? "crawl.allow_private_network nejde nastavit v settings.yaml; vnitřní síť povolí jen volba --allow-private-network u místního testovacího e-shopu."
+            : null;
+    }
+
     public static ValidationResult Validate(string modules, string country, string questionLanguage)
     {
         if (country is not ("cz" or "sk"))

@@ -66,9 +66,13 @@ public sealed class RecordingPageFetcher : IPageFetcher
     }
 
     /// <inheritdoc />
-    public async Task<FetchResponse> FetchAsync(Uri url, CancellationToken ct)
+    public Task<FetchResponse> FetchAsync(Uri url, CancellationToken ct) => FetchAsync(new FetchRequest(url), ct);
+
+    /// <inheritdoc />
+    public async Task<FetchResponse> FetchAsync(FetchRequest request, CancellationToken ct)
     {
-        var response = await _inner.FetchAsync(url, ct);
+        var url = request.Url;
+        var response = await _inner.FetchAsync(request, ct);
         string? body = null;
         if (response.Body is { } bytes)
         {

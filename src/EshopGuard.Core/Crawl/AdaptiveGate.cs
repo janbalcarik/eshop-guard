@@ -49,6 +49,28 @@ internal sealed class AdaptiveGate
     /// <summary>Requests the server answered with 429 or 503.</summary>
     public int Throttled { get; private set; }
 
+    /// <summary>A gate that goes on from the saved state of an earlier batch.</summary>
+    public static AdaptiveGate FromState(Pipeline.PaceState state)
+    {
+        var gate = new AdaptiveGate(state.Rate, state.MaxRate, state.Adaptive) { Throttled = state.Throttled };
+        if (state.NextRequestAt is { } next && next > DateTimeOffset.UtcNow)
+        {
+            gate._nextTimestamp = Stopwatch.GetTimestamp() + (long)((next - DateTimeOffset.UtcNow).TotalSeconds * Stopwatch.Frequency);
+        }
+
+        return gate;
+    }
+
+    /// <summary>The state to go on with in the next batch.</summary>
+    public Pipeline.PaceState ToState()
+    {
+        lock (_rateLock)
+        {
+            var wait = Stopwatch.GetElapsedTime(Stopwatch.GetTimestamp(), Interlocked.Read(ref _nextTimestamp));
+            return new Pipeline.PaceState(_rate, _maxRate, _adaptive, Throttled, wait > TimeSpan.Zero ? DateTimeOffset.UtcNow + wait : null);
+        }
+    }
+
     /// <summary>Lowers the maximum, for example to 1/Crawl-delay from robots.txt.</summary>
     public void Limit(double maxRate)
     {

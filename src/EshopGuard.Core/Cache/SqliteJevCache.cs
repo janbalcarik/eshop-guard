@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Text.Json;
 using EshopGuard.Core.Jev;
 using EshopGuard.Core.Options;
+using EshopGuard.Core.Storage;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -9,7 +10,9 @@ using Microsoft.Extensions.Options;
 namespace EshopGuard.Core.Cache;
 
 /// <summary>
-/// Cache in a local SQLite file: table <c>cache(key, response_json, created_at)</c>.
+/// Cache in a local SQLite file: table <c>cache(key, response_json, created_at)</c>, keyed by
+/// <see cref="JevCacheKey.LegacyKey"/> (the key before change 5, so stored answers stay valid). Transitional: change 5b
+/// moves the CLI cache to PostgreSQL.
 /// </summary>
 internal sealed class SqliteJevCache : IJevCache
 {
@@ -31,17 +34,59 @@ internal sealed class SqliteJevCache : IJevCache
         _logger = logger;
     }
 
-    public async Task<JevResult?> GetAsync(string key, CancellationToken ct = default)
+    /// <summary>Keys per query of <see cref="GetManyAsync"/> (SQLite allows 32 766 parameters).</summary>
+    private const int KeysPerQuery = 500;
+
+    public async Task<JevResult?> GetAsync(JevCacheKey key, CancellationToken ct = default)
     {
         await using var connection = await OpenAsync(ct);
         await using var command = connection.CreateCommand();
         command.CommandText = "SELECT response_json FROM cache WHERE key = $key";
-        command.Parameters.AddWithValue("$key", key);
-        if (await command.ExecuteScalarAsync(ct) is not string json)
+        command.Parameters.AddWithValue("$key", key.LegacyKey);
+        return await command.ExecuteScalarAsync(ct) is string json ? Parse(key.LegacyKey, json) : null;
+    }
+
+    /// <summary>One <c>IN</c> query per 500 keys.</summary>
+    public async Task<IReadOnlyDictionary<JevCacheKey, JevResult>> GetManyAsync(IReadOnlyList<JevCacheKey> keys, CancellationToken ct = default)
+    {
+        ArgumentNullException.ThrowIfNull(keys);
+        var found = new Dictionary<JevCacheKey, JevResult>();
+        if (keys.Count == 0)
         {
-            return null;
+            return found;
         }
 
+        var byLegacy = keys.GroupBy(k => k.LegacyKey, StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.ToList(), StringComparer.Ordinal);
+        await using var connection = await OpenAsync(ct);
+        foreach (var chunk in byLegacy.Keys.Chunk(KeysPerQuery))
+        {
+            await using var command = connection.CreateCommand();
+            var names = chunk.Select((_, i) => "$k" + i.ToString(CultureInfo.InvariantCulture)).ToList();
+            command.CommandText = $"SELECT key, response_json FROM cache WHERE key IN ({string.Join(", ", names)})";
+            for (var i = 0; i < chunk.Length; i++)
+            {
+                command.Parameters.AddWithValue(names[i], chunk[i]);
+            }
+
+            await using var reader = await command.ExecuteReaderAsync(ct);
+            while (await reader.ReadAsync(ct))
+            {
+                var legacy = reader.GetString(0);
+                if (Parse(legacy, reader.GetString(1)) is { } result)
+                {
+                    foreach (var key in byLegacy[legacy])
+                    {
+                        found[key] = result;
+                    }
+                }
+            }
+        }
+
+        return found;
+    }
+
+    private JevResult? Parse(string key, string json)
+    {
         try
         {
             return JsonSerializer.Deserialize<JevResult>(json, JevClient.Json);
@@ -53,12 +98,12 @@ internal sealed class SqliteJevCache : IJevCache
         }
     }
 
-    public async Task SetAsync(string key, JevResult result, CancellationToken ct = default)
+    public async Task SetAsync(JevCacheKey key, JevResult result, CancellationToken ct = default)
     {
         await using var connection = await OpenAsync(ct);
         await using var command = connection.CreateCommand();
         command.CommandText = "INSERT OR REPLACE INTO cache (key, response_json, created_at) VALUES ($key, $json, $createdAt)";
-        command.Parameters.AddWithValue("$key", key);
+        command.Parameters.AddWithValue("$key", key.LegacyKey);
         command.Parameters.AddWithValue("$json", JsonSerializer.Serialize(result, JevClient.Json));
         command.Parameters.AddWithValue("$createdAt", DateTimeOffset.UtcNow.ToString("O", CultureInfo.InvariantCulture));
         await command.ExecuteNonQueryAsync(ct);

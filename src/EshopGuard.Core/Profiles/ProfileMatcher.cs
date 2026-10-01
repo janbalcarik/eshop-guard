@@ -158,10 +158,10 @@ internal static partial class ProfileMatcher
     /// main text (a selector that matches something else on this page), and a block also shown outside the skip regions
     /// (a badge on the product and on a related tile) stays.
     /// </summary>
-    /// <param name="document">A fresh parse of the page; it is changed.</param>
+    /// <param name="document">The parse of the page; it is only read (skip regions are left out, not removed).</param>
     /// <param name="content">What the extractor took from the page.</param>
     /// <param name="profile">The profile the page fits.</param>
-    public static Application Apply(IDocument document, ExtractedPage content, PageProfile profile)
+    public static Application ApplyNonDestructive(IDocument document, ExtractedPage content, PageProfile profile)
     {
         var body = document.Body;
         if (body is null)
@@ -207,12 +207,8 @@ internal static partial class ProfileMatcher
             return new Application(content, [], blocked);
         }
 
-        foreach (var element in remove)
-        {
-            element.Remove();
-        }
-
-        var kept = HtmlText.ExtractBlocks(body, ContentExtractor.IsNavigation).Select(b => TextTools.NormalizeForHash(b.Text)).ToHashSet();
+        var removed = remove.ToHashSet();
+        var kept = HtmlText.ExtractBlocks(body, ContentExtractor.Navigation(removed), removed).Select(b => TextTools.NormalizeForHash(b.Text)).ToHashSet();
         var byRole = new Dictionary<string, int>(StringComparer.Ordinal);
         var skippedBlocks = new List<TextBlock>();
         bool Keep(TextBlock block)

@@ -3,7 +3,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.RateLimiting;
+using EshopGuard.Core.Storage;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -11,7 +11,7 @@ namespace EshopGuard.Core.Jev;
 
 /// <summary>
 /// Thin client of <c>POST /v1/systemone</c>: one state, all questions of a module in one request.
-/// Global request limit, exponential backoff with jitter for 408, 429, 529 and 5xx (honouring <c>Retry-After</c>
+/// Request limit through <see cref="IRateLimiter"/>, exponential backoff with jitter for 408, 429, 529 and 5xx (honouring <c>Retry-After</c>
 /// and <c>retry-after-ms</c>), fatal errors for 401, 402 and 403. The key is sent only in the header and never logged.
 /// </summary>
 internal sealed class JevClient : IJevClient, IDisposable
@@ -31,25 +31,16 @@ internal sealed class JevClient : IJevClient, IDisposable
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly JevOptions _options;
     private readonly ILogger<JevClient> _logger;
-    private readonly TokenBucketRateLimiter _limiter;
+    private readonly IRateLimiter _limiter;
+    private readonly LocalRateLimiter? _ownLimiter;
 
-    public JevClient(IHttpClientFactory httpClientFactory, IOptions<JevOptions> options, ILogger<JevClient> logger)
+    /// <summary>A client; without an <see cref="IRateLimiter"/> it limits its requests itself like <see cref="LocalRateLimiter"/>.</summary>
+    public JevClient(IHttpClientFactory httpClientFactory, IOptions<JevOptions> options, ILogger<JevClient> logger, IRateLimiter? limiter = null)
     {
         _httpClientFactory = httpClientFactory;
         _options = options.Value;
         _logger = logger;
-
-        // Requests per minute spread evenly over seconds, rounded down so the limit is never exceeded.
-        var perSecond = Math.Max(1, _options.RequestsPerMinute / 60);
-        _limiter = new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
-        {
-            TokenLimit = perSecond,
-            TokensPerPeriod = perSecond,
-            ReplenishmentPeriod = TimeSpan.FromSeconds(1),
-            QueueLimit = int.MaxValue,
-            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-            AutoReplenishment = true,
-        });
+        _limiter = limiter ?? (_ownLimiter = new LocalRateLimiter(options));
     }
 
     public async Task<JevResult> EvaluateAsync(object state, IReadOnlyDictionary<string, JevQuestion> questions, CancellationToken ct)
@@ -65,7 +56,7 @@ internal sealed class JevClient : IJevClient, IDisposable
         var maxAttempts = Math.Max(1, _options.MaxRetries);
         for (var attempt = 1; ; attempt++)
         {
-            using var lease = await _limiter.AcquireAsync(1, ct);
+            using var lease = await _limiter.AcquireAsync(RateResource.Jev, 1, RequestPriority.P2, ct);
             TimeSpan wait;
             string failure;
             try
@@ -128,7 +119,7 @@ internal sealed class JevClient : IJevClient, IDisposable
         }
     }
 
-    public void Dispose() => _limiter.Dispose();
+    public void Dispose() => _ownLimiter?.Dispose();
 
     private JevResult Parse(string text, IReadOnlyDictionary<string, JevQuestion> questions)
     {

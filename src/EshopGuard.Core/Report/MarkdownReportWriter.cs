@@ -334,6 +334,24 @@ internal sealed class MarkdownReportWriter : IReportWriter
                 md.AppendLine($"  - {page.Url} ({ReportFormat.PageTypeName(page.Type)}, {page.VisibleTextChars} znaků čitelného textu, {sign})");
             }
         }
+        if (result.NotProcessedPages.Count > 0)
+        {
+            md.AppendLine($"- Stránky, které se nepodařilo přečíst v časovém limitu ({result.NotProcessedPages.Count}); nezkontrolovalo se na nich nic:");
+            foreach (var page in result.NotProcessedPages)
+            {
+                md.AppendLine($"  - {page.Url}");
+            }
+        }
+
+        if (result.BlockedUrls.Count > 0)
+        {
+            md.AppendLine($"- Adresy, které vedou do vnitřní nebo místní sítě, se nestáhly (ochrana proti SSRF) ({result.BlockedUrls.Count}):");
+            foreach (var url in result.BlockedUrls)
+            {
+                md.AppendLine($"  - {url}");
+            }
+        }
+
         md.AppendLine("- Navigace a filtry (menu, seznamy kategorií, drobečková navigace, volby filtrů): jde o odkazy a volby, ne o tvrzení.");
         md.AppendLine("- Výpisy jiných produktů na stránce (podobné produkty, dlaždice s cenou a odkazem na jiný produkt): jejich texty se kontrolují na stránce toho produktu; při kontrole jen vzorku stránek se produkty mimo vzorek nekontrolují.");
         if (stats.ProfileSkippedTextChars > 0)

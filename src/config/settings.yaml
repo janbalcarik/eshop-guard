@@ -13,6 +13,11 @@ crawl:
   max_redirects: 5
   max_link_depth: 3
   max_sitemap_urls: 50000
+  # Nejdelší čtení jedné stránky v sekundách; stránka, která trvá déle, se nepřečte a hlásí se jako nezkontrolovaná.
+  extract_timeout_seconds: 30
+  # Stahování po dávkách: nejvýš tolik stránek nebo sekund v jedné dávce, další dávka pokračuje, kde předchozí skončila.
+  fetch_batch_max_pages: 100
+  fetch_batch_max_seconds: 60
   # Stránka s menším počtem znaků čitelného textu v HTML (včetně menu a patičky) se hlásí jako nenačtená:
   # web ji nejspíš vykresluje JavaScriptem, který nástroj nespouští. Taková stránka není zkontrolovaná.
   min_page_text_chars: 200

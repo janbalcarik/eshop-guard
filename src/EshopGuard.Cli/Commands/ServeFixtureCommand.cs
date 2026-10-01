@@ -36,6 +36,7 @@ internal sealed class ServeFixtureCommand : AsyncCommand<ServeFixtureSettings>
 
         var server = new FixtureServer(root, settings.Port);
         AnsiConsole.MarkupLine($"Testovací e-shop běží na [bold]{server.Prefix}[/] (ukončení Ctrl+C).");
+        AnsiConsole.MarkupLine($"Sken: eshopguard scan {Markup.Escape(server.Prefix)} --allow-private-network (místní adresa je jinak zablokovaná ochranou proti SSRF).");
         await server.RunAsync(line => AnsiConsole.WriteLine(line), cancellationToken);
         return 0;
     }
