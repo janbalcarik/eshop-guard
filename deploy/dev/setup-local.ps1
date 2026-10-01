@@ -8,8 +8,9 @@
   2. Spustí deploy/sql/00_roles.sql jako postgres pro databáze eshopguard, eshopguard_test a eshopguard_test_jobs
      (testy fronty úloh mají vlastní databázi, protože mažou ops.jobs).
      Hesla dostane psql jen v proměnných prostředí svého procesu, ne v parametrech.
-  3. Zapíše připojení do dotnet user-secrets (eshopguard-data, eshopguard-api, eshopguard-worker, eshopguard-tests)
-     přes standardní vstup, ne jako argument.
+  3. Zapíše připojení do dotnet user-secrets (eshopguard-data, eshopguard-api, eshopguard-worker, eshopguard-cli,
+     eshopguard-tests) přes standardní vstup, ne jako argument. CLI (eshopguard-cli) má cache v databázi eshopguard
+     jako role eshopguard_worker.
 
   Heslo superuživatele postgres se čte jen z $env:PGPASSWORD nastaveného v této relaci; skript ho nikam neukládá.
   Žádné vygenerované heslo se nevypisuje. Opakované spuštění vygeneruje nová hesla rolí a přepíše user-secrets.
@@ -89,6 +90,9 @@ Set-UserSecrets 'eshopguard-api' @{
 Set-UserSecrets 'eshopguard-worker' @{
     ConnectionStrings = @{ Worker = New-ConnectionString 'eshopguard' 'eshopguard_worker' $passwords['WORKER'] }
 }
+Set-UserSecrets 'eshopguard-cli' @{
+    ConnectionStrings = @{ Cli = New-ConnectionString 'eshopguard' 'eshopguard_worker' $passwords['WORKER'] }
+}
 Set-UserSecrets 'eshopguard-tests' @{
     ConnectionStrings = @{
         Owner = New-ConnectionString 'eshopguard_test' 'eshopguard_owner' $passwords['OWNER']
@@ -103,4 +107,5 @@ Write-Host ''
 Write-Host 'Hotovo. Další kroky:'
 Write-Host '  dotnet tool restore'
 Write-Host '  dotnet ef database update --project src/EshopGuard.Data'
+Write-Host '  dotnet run --project src/EshopGuard.Cli -- cache init   (jednou: tenant cli pro cache CLI)'
 Write-Host '  (testovací databáze eshopguard_test a eshopguard_test_jobs migrují testy samy)'

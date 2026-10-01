@@ -134,7 +134,7 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
             return 1;
         }
 
-        if (configuration.MissingKeyMessage(settings.Mock) is { } missingKey)
+        if ((configuration.MissingKeyMessage(settings.Mock) ?? configuration.MissingDatabaseMessage(settings.Mock)) is { } missingKey)
         {
             AnsiConsole.MarkupLine($"[red]{Markup.Escape(missingKey)}[/]");
             return 1;
@@ -166,10 +166,16 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
                 registry.AddEshopGuardReplay(replay);
             }
         });
+
+        if (await CliDatabase.CheckAsync(services, cancellationToken) is { } databaseError)
+        {
+            AnsiConsole.MarkupLine($"[red]{Markup.Escape(databaseError)}[/]");
+            return 1;
+        }
         var logger = services.GetRequiredService<ILogger<ScanCommand>>();
         var guard = services.GetRequiredService<IEshopGuard>();
         logger.LogInformation("Jev: {Mode}, key from {Source}, cache {Cache}",
-            settings.Mock ? "mock" : "API", settings.Mock ? "-" : configuration.ApiKeySource, settings.Mock || settings.NoCache ? "off" : configuration.Settings.Cache.Path);
+            settings.Mock ? "mock" : "API", settings.Mock ? "-" : configuration.ApiKeySource, settings.Mock || settings.NoCache ? "off" : "PostgreSQL (tenant cli)");
 
         // The library asks for confirmation in the middle of the scan; the live progress display cannot show a prompt,
         // so the scan runs in two displays: crawling until the estimate arrives, then the evaluation.

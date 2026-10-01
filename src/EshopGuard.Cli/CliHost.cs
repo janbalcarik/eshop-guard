@@ -7,7 +7,8 @@ namespace EshopGuard.Cli;
 
 /// <summary>
 /// Builds the library container for one command. Commands build it themselves because
-/// switches such as <c>--mock</c> and <c>--no-cache</c> change the registrations.
+/// switches such as <c>--mock</c> and <c>--no-cache</c> change the registrations; without <c>--mock</c> the cache is in
+/// PostgreSQL (<see cref="CliDatabase"/>), and the command checks it with <see cref="CliDatabase.CheckAsync"/> first.
 /// </summary>
 internal static class CliHost
 {
@@ -31,6 +32,15 @@ internal static class CliHost
             builder.AddSerilog(logger, dispose: true);
         });
         register?.Invoke(services);
+
+        // A run that may pay keeps its answers in PostgreSQL; a mock run never touches the database, so its made-up answers
+        // never reach the cache.
+        if (!useMock)
+        {
+            CliDatabase.Register(services, configuration.CacheConnectionString
+                ?? throw new InvalidOperationException(configuration.MissingDatabaseMessage(useMock)), cacheAnswers: !noCache);
+        }
+
         services.AddEshopGuard(options => configuration.Apply(options, useMock, noCache));
         return services.BuildServiceProvider();
     }

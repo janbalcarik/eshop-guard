@@ -11,7 +11,7 @@ internal sealed class SieveAnswerConfiguration : IEntityTypeConfiguration<SieveA
     public void Configure(EntityTypeBuilder<SieveAnswer> builder)
     {
         builder.ToTable("sieve_answers", Schemas.Checks);
-        builder.HasKey(x => new { x.TenantId, x.QuestionSetHash, x.ChunkHash });
+        builder.HasKey(x => new { x.TenantId, x.CacheKey });
         builder.HasOne<Tenant>().WithMany().HasForeignKey(x => x.TenantId).OnDelete(DeleteBehavior.Restrict);
     }
 }

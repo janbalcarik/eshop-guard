@@ -1,12 +1,13 @@
 using EshopGuard.Core.Jev;
 using EshopGuard.Core.Pipeline;
+using EshopGuard.Core.Profiles;
 using EshopGuard.Core.Storage;
 
 namespace EshopGuard.Core.Tests;
 
 /// <summary>
-/// Behaviour every <see cref="IJevCache"/> must have, the PostgreSQL one of change 5b too: idempotent writes, batch reads
-/// that leave out missing keys, and the answer stored under the key of its kind.
+/// Behaviour every <see cref="IJevCache"/> must have, the PostgreSQL one of change 5b too: idempotent writes (the first
+/// answer stays), batch reads that leave out missing keys, and the answer stored under the key of its kind.
 /// </summary>
 public abstract class JevCacheContractTests
 {
@@ -25,7 +26,7 @@ public abstract class JevCacheContractTests
         : JevCacheKeys.Create(kind, "jev-1.13.0", "sieve-1", "en", new Dictionary<string, JevQuestion> { ["sieve_eco"] = new() { Type = "noul", Instructions = "Topic?" } }, state);
 
     [Fact]
-    public async Task SetTwice_KeepsOneAnswer_TheLastOne()
+    public async Task SetTwice_KeepsTheFirstAnswer()
     {
         var cache = CreateCache();
         var key = Key("Věta.");
@@ -33,7 +34,10 @@ public abstract class JevCacheContractTests
         await cache.SetAsync(key, Answer(0.2), TestContext.Current.CancellationToken);
         await cache.SetAsync(key, Answer(0.9), TestContext.Current.CancellationToken);
 
-        Assert.Equal(0.9, (await cache.GetAsync(key, TestContext.Current.CancellationToken))!.Answers["eco_claim"].Noul);
+        var stored = await cache.GetAsync(key, TestContext.Current.CancellationToken);
+        Assert.Equal(0.2, stored!.Answers["eco_claim"].Noul);
+        Assert.Equal("jev-1.13.0", stored.Model);
+        Assert.Equal(150, stored.Usage.InputTokens);
     }
 
     [Fact]
@@ -151,5 +155,80 @@ public abstract class UrlFrontierStoreContractTests
         Assert.Equal(PipelineJson.Serialize(state), PipelineJson.Serialize(restored));
         Assert.Equal("https://shop.sk/obchodne-podmienky", restored.LegalQueue.Peek().Url.AbsoluteUri);
         Assert.Equal(7, restored.Counters.Requests);
+    }
+}
+
+/// <summary>Behaviour of every <see cref="IRewriteCache"/>: an answer with its model is stored, replaced and read back.</summary>
+public abstract class RewriteCacheContractTests
+{
+    protected abstract IRewriteCache CreateCache();
+
+    [Fact]
+    public async Task Answer_IsStoredReplacedAndReadBack()
+    {
+        var cache = CreateCache();
+        var ct = TestContext.Current.CancellationToken;
+        var key = "rw:" + Guid.NewGuid().ToString("N");
+
+        Assert.Null(await cache.GetAsync(key, ct));
+        await cache.SetAsync(key, """{"changes": [], "kept": [{"finding_id": "F1", "reason_cs": "složení"}]}""", "gpt-6.1-sol", ct);
+        var first = await cache.GetAsync(key, ct);
+        await cache.SetAsync(key, """{"changes": [], "kept": []}""", null, ct);
+        var second = await cache.GetAsync(key, ct);
+
+        Assert.Equal("gpt-6.1-sol", first!.Value.Model);
+        using (var json = System.Text.Json.JsonDocument.Parse(first.Value.Json))
+        {
+            Assert.Equal("složení", json.RootElement.GetProperty("kept")[0].GetProperty("reason_cs").GetString());
+        }
+
+        Assert.Null(second!.Value.Model);
+        Assert.Equal(0, System.Text.Json.JsonDocument.Parse(second.Value.Json).RootElement.GetProperty("kept").GetArrayLength());
+    }
+}
+
+/// <summary>Behaviour of every <see cref="IPageProfileStore"/>: profiles of a site are kept whole, oldest first, per site.</summary>
+public abstract class PageProfileStoreContractTests
+{
+    protected abstract IPageProfileStore CreateStore();
+
+    private static PageProfile Profile(string site, int number, DateTimeOffset createdAt) => new()
+    {
+        Id = $"{site}#{number}",
+        Site = site,
+        CreatedAt = createdAt,
+        Model = "gpt-6.1-sol",
+        PromptVersion = "profile-1",
+        SampleUrls = [$"https://{site}/", $"https://{site}/produkt-1"],
+        Regions =
+        [
+            new ProfileRegion { Role = "cookie_bar", Action = ProfileRegion.Skip, Selector = "#cookies", Example = "Súhlasím", Reason = "lišta" },
+            new ProfileRegion { Role = "main_description", Action = ProfileRegion.Check, Selector = "main", RejectedBecause = null },
+        ],
+    };
+
+    [Fact]
+    public async Task Profiles_AreKeptWholeOldestFirstPerSite()
+    {
+        var store = CreateStore();
+        var ct = TestContext.Current.CancellationToken;
+        var site = $"shop-{Guid.NewGuid():N}.sk";
+        var at = new DateTimeOffset(2026, 10, 1, 8, 0, 0, TimeSpan.Zero);
+
+        Assert.Empty(await store.GetAsync(site, ct));
+        await store.AddAsync(Profile(site, 2, at.AddMinutes(5)), ct);
+        await store.AddAsync(Profile(site, 1, at), ct);
+        await store.AddAsync(Profile(site, 1, at), ct);
+        await store.AddAsync(Profile("jiny-" + site, 1, at), ct);
+
+        var profiles = await store.GetAsync(site, ct);
+        Assert.Equal([$"{site}#1", $"{site}#2"], profiles.Select(p => p.Id));
+        var first = profiles[0];
+        Assert.Equal(site, first.Site);
+        Assert.Equal(at, first.CreatedAt);
+        Assert.Equal("gpt-6.1-sol", first.Model);
+        Assert.Equal("profile-1", first.PromptVersion);
+        Assert.Equal([$"https://{site}/", $"https://{site}/produkt-1"], first.SampleUrls);
+        Assert.Equal(System.Text.Json.JsonSerializer.Serialize(Profile(site, 1, at).Regions), System.Text.Json.JsonSerializer.Serialize(first.Regions));
     }
 }

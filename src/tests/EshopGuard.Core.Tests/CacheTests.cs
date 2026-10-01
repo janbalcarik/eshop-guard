@@ -1,55 +1,15 @@
-using EshopGuard.Core.Cache;
 using EshopGuard.Core.Jev;
 using EshopGuard.Core.Options;
 using EshopGuard.Core.Storage;
-using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace EshopGuard.Core.Tests;
 
 /// <summary>
-/// SQLite cache of Jev responses: the second run of the same scan is served from the cache and costs nothing.
+/// Cache of Jev responses: the second run of the same scan is served from the cache and costs nothing.
 /// </summary>
 public class CacheTests
 {
-    [Fact]
-    public async Task Sqlite_StoresAndReturnsResponses()
-    {
-        var directory = Directory.CreateTempSubdirectory("EshopGuard-cache-").FullName;
-        try
-        {
-            var options = new EshopGuardOptions();
-            options.Cache.Path = Path.Combine(directory, "nested", "cache.sqlite");
-            var cache = new SqliteJevCache(Microsoft.Extensions.Options.Options.Create(options), NullLogger<SqliteJevCache>.Instance);
-            var result = new JevResult
-            {
-                Model = "jev-1.13.0",
-                Answers = new Dictionary<string, JevAnswer> { ["eco_claim"] = new() { Type = "noul", Noul = 0.97 } },
-                Usage = new JevUsage { InputTokens = 180, OutputTokens = 10 },
-            };
-
-            var key = new JevCacheKey(JevCacheKind.Detail, "q", "s", "key");
-            Assert.Null(await cache.GetAsync(key with { LegacyKey = "missing" }, TestContext.Current.CancellationToken));
-            await cache.SetAsync(key, result, TestContext.Current.CancellationToken);
-            var loaded = await cache.GetAsync(key, TestContext.Current.CancellationToken);
-
-            Assert.NotNull(loaded);
-            Assert.Equal(0.97, loaded.Answers["eco_claim"].Noul);
-            Assert.Equal(180, loaded.Usage.InputTokens);
-
-            // The SQLite file is keyed by the legacy key only, as before change 5.
-            var many = await cache.GetManyAsync([key, key with { LegacyKey = "missing" }, key with { Kind = JevCacheKind.Sieve }], TestContext.Current.CancellationToken);
-            Assert.Equal(2, many.Count);
-            Assert.Equal(0.97, many[key].Answers["eco_claim"].Noul);
-        }
-        finally
-        {
-            SqliteConnection.ClearAllPools();
-            Directory.Delete(directory, recursive: true);
-        }
-    }
-
     [Fact]
     public void Key_DependsOnModelVersionLanguageQuestionsAndContext()
     {
@@ -75,73 +35,56 @@ public class CacheTests
     [Fact]
     public async Task SecondScan_IsServedFromCacheAndCostsNothing()
     {
-        var directory = Directory.CreateTempSubdirectory("EshopGuard-cache-").FullName;
+        var cache = new InMemoryJevCache();
         var client = new CountingJevClient();
-        try
-        {
-            var first = await ScanAsync(client, Path.Combine(directory, "cache.sqlite"));
-            var callsAfterFirst = client.Calls;
-            var second = await ScanAsync(client, Path.Combine(directory, "cache.sqlite"));
+        var first = await ScanAsync(client, cache);
+        var callsAfterFirst = client.Calls;
+        var second = await ScanAsync(client, cache);
 
-            Assert.True(first.Stats.JevCalls > 0);
-            Assert.Equal(0, first.Stats.JevCacheHits);
-            Assert.Equal(callsAfterFirst, first.Stats.JevCalls);
+        Assert.True(first.Stats.JevCalls > 0);
+        Assert.Equal(0, first.Stats.JevCacheHits);
+        Assert.Equal(callsAfterFirst, first.Stats.JevCalls);
 
-            Assert.Equal(0, second.Stats.JevCalls);
-            Assert.Equal(first.Stats.JevCalls, second.Stats.JevCacheHits);
-            Assert.Equal(0, second.Stats.InputTokens);
-            Assert.Equal(0m, second.Stats.EstimatedCostUsd);
-            Assert.Equal(callsAfterFirst, client.Calls);
-            Assert.Equal(first.Findings.Select(f => f.RuleId).Order(), second.Findings.Select(f => f.RuleId).Order());
-        }
-        finally
-        {
-            SqliteConnection.ClearAllPools();
-            Directory.Delete(directory, recursive: true);
-        }
+        Assert.Equal(0, second.Stats.JevCalls);
+        Assert.Equal(first.Stats.JevCalls, second.Stats.JevCacheHits);
+        Assert.Equal(0, second.Stats.InputTokens);
+        Assert.Equal(0m, second.Stats.EstimatedCostUsd);
+        Assert.Equal(callsAfterFirst, client.Calls);
+        Assert.Equal(first.Findings.Select(f => f.RuleId).Order(), second.Findings.Select(f => f.RuleId).Order());
     }
 
     [Fact]
     public async Task Requests_AskAllModulesOfASentenceAtOnceAndCacheEachModuleSeparately()
     {
-        var directory = Directory.CreateTempSubdirectory("EshopGuard-cache-").FullName;
+        var cache = new InMemoryJevCache();
         var client = new CountingJevClient();
-        try
-        {
-            var cachePath = Path.Combine(directory, "cache.sqlite");
-            var ecoOnly = await ScanAsync(client, cachePath, "sk", ["eco"]);
-            var askedBefore = client.Requests.Count;
-            var all = await ScanAsync(client, cachePath, "sk", []);
+        var ecoOnly = await ScanAsync(client, cache, "sk", ["eco"]);
+        var askedBefore = client.Requests.Count;
+        var all = await ScanAsync(client, cache, "sk", []);
 
-            // eco answers come from the cache; dur and ucp questions of one sentence go in one request.
-            var sentenceRequests = client.Requests.Skip(askedBefore).Where(q => q.Any(id => id.StartsWith("dur_", StringComparison.Ordinal))).ToList();
-            Assert.NotEmpty(sentenceRequests);
-            Assert.All(sentenceRequests, q =>
-            {
-                Assert.DoesNotContain(q, id => id.StartsWith("eco_", StringComparison.Ordinal));
-                Assert.Contains(q, id => id.StartsWith("ucp_", StringComparison.Ordinal));
-            });
-            Assert.Equal(ecoOnly.Stats.JevCalls, all.Stats.JevCacheHits);
-            Assert.Equal(all.Stats.JevCalls, client.Requests.Count - askedBefore);
-        }
-        finally
+        // eco answers come from the cache; dur and ucp questions of one sentence go in one request.
+        var sentenceRequests = client.Requests.Skip(askedBefore).Where(q => q.Any(id => id.StartsWith("dur_", StringComparison.Ordinal))).ToList();
+        Assert.NotEmpty(sentenceRequests);
+        Assert.All(sentenceRequests, q =>
         {
-            SqliteConnection.ClearAllPools();
-            Directory.Delete(directory, recursive: true);
-        }
+            Assert.DoesNotContain(q, id => id.StartsWith("eco_", StringComparison.Ordinal));
+            Assert.Contains(q, id => id.StartsWith("ucp_", StringComparison.Ordinal));
+        });
+        Assert.Equal(ecoOnly.Stats.JevCalls, all.Stats.JevCacheHits);
+        Assert.Equal(all.Stats.JevCalls, client.Requests.Count - askedBefore);
     }
 
-    private static async Task<Models.ScanResult> ScanAsync(IJevClient client, string cachePath, string country = "cz", IReadOnlyList<string>? modules = null)
+    private static async Task<Models.ScanResult> ScanAsync(IJevClient client, IJevCache cache, string country = "cz", IReadOnlyList<string>? modules = null)
     {
         var services = new ServiceCollection();
         services.AddLogging();
         services.AddSingleton(client);
+        services.AddSingleton(cache);
         services.AddSingleton<Crawl.IPageFetcher>(country == "sk" ? FileSystemPageFetcher.ForSlovakFixture() : FileSystemPageFetcher.ForFixture());
         services.AddEshopGuard(options =>
         {
             options.Crawl.RequestsPerSecond = 0;
             options.Jev.ApiKey = "not-used";
-            options.Cache.Path = cachePath;
             options.Rules.Directory = TestServices.RulesDirectory;
             options.Rules.LabelsFile = TestServices.LabelsFile;
             options.Rules.LegalRequirementsFile = TestServices.LegalRequirementsFile;

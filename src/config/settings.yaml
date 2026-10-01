@@ -64,8 +64,8 @@ cost:
 budget:
   max_calls_without_confirm: 5000
 
-cache:
-  path: cache/jev-cache.sqlite
+# Cache odpovědí Jevu, přepisů a profilů šablon je v PostgreSQL (tenant cli), ne tady: připojení ConnectionStrings:Cli
+# (proměnná prostředí ConnectionStrings__Cli, .env nebo user-secrets projektu EshopGuard.Cli), jednou eshopguard cache init.
 
 rules:
   directory: rules
@@ -90,7 +90,7 @@ rewrite:
 profiles:
   # Profily šablon stránek: model přepisu (rewrite.model) jednou podle vzorových stránek označí oblasti šablony a které
   # z nich se smí vynechat (navigace, výpisy jiných produktů, cookie lišta, pole formulářů, košík). Profil se uloží do
-  # souboru cache a použije se i v dalších skenech. Hlavní text stránky se nikdy nevynechává; stránka, na kterou žádný
+  # databáze cache (PostgreSQL) a použije se i v dalších skenech. Hlavní text stránky se nikdy nevynechává; stránka, na kterou žádný
   # profil nesedí, se kontroluje celá. Vypnutí: enabled: false.
   enabled: true
   # Stránka sedí na profil, když mimo jeho oblasti zůstane nejvýš tento podíl textu (měřeno 1. 10. 2026: vlastní 0 %, cizí 94–97 %).

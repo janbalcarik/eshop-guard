@@ -33,7 +33,6 @@ public class JevLiveTests
         {
             options.Jev.UseMock = false;
             options.Jev.ApiKey = ApiKey;
-            options.Cache.Enabled = false;
         });
         var result = await provider.GetRequiredService<IEshopGuard>()
             .ScanSiteAsync(FileSystemPageFetcher.DefaultBaseUrl, new ScanOptions { Country = country }, ct: TestContext.Current.CancellationToken);

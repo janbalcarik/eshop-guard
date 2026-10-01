@@ -3,13 +3,18 @@
 ## ADDED Requirements
 
 ### Requirement: Cache jen v PostgreSQL
-Systém MUST ukládat odpovědi Jevu, přepisy textů a profily šablon výhradně do PostgreSQL (`checks.jev_answers`, `fixes.rewrite_cache`, `shop.page_profiles`) po tenantech pod RLS a nesmí pro ně vytvářet žádný lokální soubor.
+Systém MUST ukládat odpovědi Jevu, přepisy textů a profily šablon výhradně do PostgreSQL (`checks.jev_answers`, `checks.sieve_answers`, `fixes.rewrite_cache`, `shop.page_profiles`) po tenantech pod RLS a nesmí pro ně vytvářet žádný lokální soubor.
 
 #### Scenario: Běh CLI nevytvoří soubory
-- GIVEN prázdná pracovní složka a dostupná databáze s tenantem `cli`
-- WHEN uživatel spustí `eshopguard scan http://localhost:8000 --mock`
+- GIVEN prázdná pracovní složka
+- WHEN uživatel spustí `eshopguard scan http://localhost:8000 --mock --allow-private-network`
 - THEN po běhu neexistuje složka `cache/` ani soubor `*.sqlite`, `*.sqlite-shm` nebo `*.sqlite-wal`
-- AND odpovědi z běhu jsou v `checks.jev_answers` u tenanta `cli`
+
+#### Scenario: Odpovědi ostrého běhu jsou v databázi
+- GIVEN testovací databáze s tenantem `cli` a falešný klient Jevu
+- WHEN se testovací e-shop zkontroluje dvakrát s úložišti PostgreSQL
+- THEN odpovědi prvního běhu jsou v `checks.jev_answers` a `checks.sieve_answers` u tenanta `cli`
+- AND druhý běh nepošle na Jev žádný požadavek a dá stejné výstupy
 
 #### Scenario: Izolace mezi tenanty
 - GIVEN odpověď uložená u tenanta A
@@ -20,63 +25,45 @@ Systém MUST ukládat odpovědi Jevu, přepisy textů a profily šablon výhradn
 Systém MUST v CLI i ve workeru používat tytéž implementace `PgJevCache`, `PgRewriteCache` a `PgPageProfileStore` registrované jedním rozšířením. Liší se jen připojení a určení tenanta.
 
 #### Scenario: Registrace služeb
-- GIVEN sestavený kontejner služeb CLI a kontejner služeb workeru
-- WHEN se z obou vyžádá `IJevCache`, `IRewriteCache` a `IPageProfileStore`
-- THEN oba vrátí instance tříd `PgJevCache`, `PgRewriteCache` a `PgPageProfileStore`
-
-#### Scenario: Stejná odpověď v CLI i ve workeru
-- GIVEN odpověď Jevu uložená workerem u tenanta `cli` v testovací databázi
-- WHEN CLI vyhodnotí stejnou větu se stejnou sadou otázek
-- THEN odpověď najde v cache a Jev nevolá
+- GIVEN sestavený kontejner služeb CLI bez `--mock`
+- WHEN se z něj vyžádá `IJevCache`, `IRewriteCache` a `IPageProfileStore`
+- THEN vrátí instance tříd `PgJevCache`, `PgRewriteCache` a `PgPageProfileStore` z rozšíření `AddEshopGuardPostgresStores`
 
 ### Requirement: Klíč cache kompatibilní s dneškem
-Systém MUST počítat klíč odpovědi Jevu stejně jako dnešní kód (`sha256:…`, `JevCacheKey.LegacyKey`), aby převedené a nové odpovědi měly shodné klíče.
+Systém MUST počítat klíč odpovědi Jevu stejně jako dnešní kód (`sha256:…`, `JevCacheKey.LegacyKey`), aby CLI i worker měly pro stejnou otázku a stav shodný klíč.
 
 #### Scenario: Referenční klíče
-- GIVEN seznam klíčů segmentů testovacích e-shopů zachycený před změnou
+- GIVEN seznam klíčů segmentů testovacích e-shopů zachycený před změnou 5
 - WHEN se klíče spočítají novým kódem
 - THEN jsou všechny shodné
 
-### Requirement: Převod dnešní SQLite cache
-Systém MUST nabídnout příkaz `eshopguard cache import --from <soubor>`. Ten převede všechny odpovědi Jevu a přepisy ze SQLite do PostgreSQL u tenanta `cli`, je idempotentní, soubor jen čte a nevolá Jev ani OpenAI.
+### Requirement: Falešný klient nikdy neplní cache
+Systém MUST při běhu s `--mock` nepoužít cache ani databázi, aby se vymyšlené odpovědi nikdy nedostaly mezi skutečné.
 
-#### Scenario: Úplný převod
-- GIVEN `src/cache/jev-cache.sqlite` se 66 159 odpověďmi a 36 přepisy
-- WHEN uživatel spustí `eshopguard cache import --from src/cache/jev-cache.sqlite`
-- THEN příkaz vypíše 66 159 převedených odpovědí a 36 přepisů
-- AND náhodný vzorek 500 odpovědí se po normalizaci JSON shoduje se SQLite
-- AND vedle souboru nevznikl `-shm` ani `-wal`
-
-#### Scenario: Opakovaný převod
-- GIVEN převod už jednou proběhl
-- WHEN se spustí znovu
-- THEN nepřibude žádný řádek a příkaz vypíše 0 nových
-
-#### Scenario: Poškozený řádek
-- GIVEN řádek SQLite s neplatným JSON
-- WHEN převod narazí na tento řádek
-- THEN řádek přeskočí, vypíše jeho klíč do seznamu nepřevedených a pokračuje
-- AND na konci uvede počet nepřevedených (nic se tiše nezahodí)
+#### Scenario: Běh s falešným klientem bez databáze
+- GIVEN žádné připojení k databázi
+- WHEN uživatel spustí `eshopguard scan <url> --mock`
+- THEN sken proběhne bez připojení k databázi a nic do cache nezapíše
 
 ### Requirement: Bez databáze žádné placené volání
-Systém MUST ukončit CLI s jasnou chybou ještě před odhadem ceny a před prvním voláním Jevu nebo OpenAI, když PostgreSQL není dostupná nebo chybí tenant `cli`.
+Systém MUST ukončit CLI s jasnou chybou ještě před stažením, odhadem ceny a prvním voláním Jevu nebo OpenAI, když PostgreSQL není dostupná, chybí migrace nebo chybí tenant `cli`.
 
 #### Scenario: Nedostupná databáze
 - GIVEN neplatný `ConnectionStrings__Cli`
 - WHEN uživatel spustí `eshopguard scan https://example.sk`
 - THEN CLI skončí chybou „Databáze cache není dostupná“ s nenulovým návratovým kódem
-- AND neproběhne žádné volání Jevu ani OpenAI
+- AND neproběhne žádné stažení ani volání Jevu nebo OpenAI
 
 #### Scenario: Chybějící tenant
 - GIVEN databáze bez tenanta `cli`
 - WHEN uživatel spustí `eshopguard scan`
 - THEN CLI skončí s radou spustit `eshopguard cache init` a nic nevolá
 
-### Requirement: SQLite odstraněna z knihovny
-Systém MUST po této změně neobsahovat v `EshopGuard.Core` žádnou implementaci SQLite ani balíček `Microsoft.Data.Sqlite`. Čtení SQLite smí zůstat jen v převodním příkazu CLI, dokud ho uživatel nezruší.
+### Requirement: SQLite odstraněna
+Systém MUST po této změně neobsahovat žádnou implementaci SQLite ani balíček `Microsoft.Data.Sqlite`.
 
 #### Scenario: Kontrola závislostí
 - GIVEN sestavené řešení
-- WHEN se projdou `PackageReference` všech projektů kromě `EshopGuard.Cli`
+- WHEN se projdou `PackageReference` všech projektů
 - THEN žádný neodkazuje na `Microsoft.Data.Sqlite`
-- AND v `src/EshopGuard.Core` není třída začínající `Sqlite`
+- AND v `src/` není třída začínající `Sqlite`

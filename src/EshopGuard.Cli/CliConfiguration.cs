@@ -20,8 +20,6 @@ internal sealed class SettingsFile
 
     public BudgetOptions Budget { get; set; } = new();
 
-    public CacheOptions Cache { get; set; } = new();
-
     public RulesOptions Rules { get; set; } = new();
 
     /// <summary>Rewrite by an OpenAI model; the key comes from OPENAI_API_KEY, never from this file.</summary>
@@ -78,6 +76,38 @@ internal sealed class CliConfiguration
 
     public Uri? BaseUrl { get; init; }
 
+    /// <summary>
+    /// Connection to PostgreSQL with the cache (role <c>eshopguard_worker</c>, tenant <c>cli</c>): <c>ConnectionStrings__Cli</c>
+    /// from the environment or <c>.env</c>, or <c>ConnectionStrings:Cli</c> from the user-secrets of the CLI. Never printed.
+    /// </summary>
+    public string? CacheConnectionString { get; init; }
+
+    /// <summary>A run that may pay needs the cache; with <c>--mock</c> the database is never touched.</summary>
+    public string? MissingDatabaseMessage(bool useMock)
+    {
+        if (useMock)
+        {
+            return null;
+        }
+
+        if (string.IsNullOrWhiteSpace(CacheConnectionString))
+        {
+            return "Chybí připojení k databázi cache: nastavte ConnectionStrings__Cli (proměnná prostředí nebo .env), nebo user-secrets projektu "
+                + "EshopGuard.Cli (ConnectionStrings:Cli; deploy/dev/setup-local.ps1 to udělá). Pro zkoušku bez databáze použijte --mock.";
+        }
+
+        try
+        {
+            _ = new Npgsql.NpgsqlConnectionStringBuilder(CacheConnectionString);
+            return null;
+        }
+        catch (ArgumentException)
+        {
+            // The parser's message may quote the value.
+            return "Připojení k databázi cache (ConnectionStrings:Cli) není platný připojovací řetězec.";
+        }
+    }
+
     /// <summary>Set only by <c>--allow-private-network</c>, never by settings.yaml (protection against SSRF).</summary>
     public bool AllowPrivateNetwork { get; set; }
 
@@ -116,6 +146,7 @@ internal sealed class CliConfiguration
             ApiKeySource = apiKeySource,
             OpenAiApiKey = Get(environment, "OPENAI_API_KEY") ?? ReadUserEnvironment("OPENAI_API_KEY"),
             BaseUrl = Uri.TryCreate(baseUrl, UriKind.Absolute, out var parsed) ? parsed : null,
+            CacheConnectionString = Get(environment, "ConnectionStrings__Cli") ?? ReadUserSecret("ConnectionStrings:Cli"),
             Model = Get(environment, "JEV_MODEL"),
         };
         configuration.Notes.AddRange(notes);
@@ -159,11 +190,9 @@ internal sealed class CliConfiguration
         options.Segmentation = Settings.Segmentation;
         options.Cost = Settings.Cost;
         options.Budget = Settings.Budget;
-        options.Cache = Settings.Cache;
         options.Rules = Settings.Rules;
         options.Rewrite = Settings.Rewrite;
         options.Profiles = Settings.Profiles;
-        options.Cache.Enabled = !noCache;
         options.Rewrite.ApiKey = OpenAiApiKey;
         options.Rewrite.UseMock = useMock;
 
@@ -201,6 +230,15 @@ internal sealed class CliConfiguration
         var value = dotEnv.TryGetValue(name, out var fromFile) && !string.IsNullOrWhiteSpace(fromFile)
             ? fromFile
             : Environment.GetEnvironmentVariable(name);
+        return string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+    }
+
+    /// <summary>User-secrets id of the CLI (<c>dotnet user-secrets set --project src/EshopGuard.Cli</c>).</summary>
+    public const string UserSecretsId = "eshopguard-cli";
+
+    private static string? ReadUserSecret(string key)
+    {
+        var value = Microsoft.Extensions.Configuration.UserSecretsConfigurationExtensions.AddUserSecrets(new Microsoft.Extensions.Configuration.ConfigurationBuilder(), UserSecretsId).Build()[key];
         return string.IsNullOrWhiteSpace(value) ? null : value.Trim();
     }
 

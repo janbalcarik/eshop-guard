@@ -1,3 +1,5 @@
+using EshopGuard.Core.Fix;
+using EshopGuard.Core.Profiles;
 using EshopGuard.Core.Storage;
 
 namespace EshopGuard.Core.Tests;
@@ -20,4 +22,14 @@ public sealed class InMemoryPageContentStoreTests : PageContentStoreContractTest
 public sealed class InMemoryUrlFrontierStoreTests : UrlFrontierStoreContractTests
 {
     protected override IUrlFrontierStore CreateStore() => new InMemoryUrlFrontierStore();
+}
+
+public sealed class InMemoryRewriteCacheTests : RewriteCacheContractTests
+{
+    protected override IRewriteCache CreateCache() => new InMemoryRewriteCache();
+}
+
+public sealed class InMemoryPageProfileStoreTests : PageProfileStoreContractTests
+{
+    protected override IPageProfileStore CreateStore() => new InMemoryPageProfileStore();
 }

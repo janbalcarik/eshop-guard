@@ -6,7 +6,7 @@ Stav:
 
 - **M1 hotový:** stahování, extrakce, segmentace, deduplikace.
 - **M2 hotový:** pravidla v YAML, falešný klient Jevu, vyhodnocení a všechny výstupy.
-- **M3 hotový:** skutečný klient Jevu (limit požadavků, opakování při 429/529/5xx, počítání tokenů a ceny), SQLite cache.
+- **M3 hotový:** skutečný klient Jevu (limit požadavků, opakování při 429/529/5xx, počítání tokenů a ceny), cache odpovědí (od změny 5b v PostgreSQL).
 - **Katalog kontrol, první sady (26. 9. 2026):** `eco` draft7 a nový modul `ucp` draft3 (viz `rules/CHANGELOG.md`). Primárním trhem je Slovensko, kde od 27. 9. 2026 platí zákazy podle směrnice EmpCo. Živý test na testovacím e-shopu prochází.
 - **M4:** evaluace přesnosti.
 
@@ -190,7 +190,7 @@ Fronta je tabulka `ops.jobs` (knihovna `src/EshopGuard.Jobs`). API úlohy jen za
 - `.env` (zkopírujte z `.env.example`): klíč a adresa API Jevu. Když `JEV_API_KEY` chybí, použije se proměnná prostředí `TYPESAFE_API_KEY` (i z uživatelského prostředí Windows). Klíč se nikam nezapisuje ani neloguje.
 - Tempo stahování se přizpůsobuje serveru: začíná na `crawl.requests_per_second` (1 za sekundu); dokud server odpovídá do 0,5 s bez chyb, zrychluje po 0,25 až na `max_requests_per_second` (3), při odpovědi pomalejší než 1,5 s nebo chybě zpomalí na 70 %, při 429 nebo 503 na polovinu a počká podle Retry-After (nejvýš 60 s) a stránku zkusí znovu (nejvýš dvakrát). Crawl-delay z robots.txt strop sníží. Stahuje se jedním spojením. `--rate` nastaví pevné tempo. Na vegis.sk (107 stránek, server odpovídá za 0,1 s) 111 požadavků za 42 s místo 3,6 min při pevných 0,5 za sekundu.
 - Souběžnost: `jev.requests_per_minute: 1200` a `concurrency: 8`, podle dokumentovaného limitu jev-1.13.0 (1 200 požadavků za minutu a 250 000 tokenů za sekundu, https://docs.typesafe.ai/models; limity se mohou měnit, vyšší nabízí firemní tarif). Při odezvě kolem 0,33 s stačí 8 souběžných požadavků na 20 za sekundu. Při odpovědi 429 nebo 529 klient počká a zkusí to znovu. Krátký test 300 požadavků s 32 souběžnými spojeními (77 za sekundu) chybu nevrátil jen proto, že se vešel pod minutový limit.
-- Cache odpovědí Jevu je v `cache/jev-cache.sqlite`. Opakovaný běh se stejnými texty a otázkami nic nestojí; změna znění otázky (nová `version`) cache pro danou sadu obejde. `--no-cache` ji vypne úplně.
+- Cache odpovědí Jevu, přepisů a profilů šablon je v PostgreSQL, stejně pro CLI i webovou aplikaci: tabulky `checks.jev_answers`, `checks.sieve_answers`, `fixes.rewrite_cache` a `shop.page_profiles` u vyhrazeného tenanta `cli`, role `eshopguard_worker` pod RLS. Žádný lokální soubor cache nevzniká. Připojení je `ConnectionStrings:Cli`: proměnná prostředí `ConnectionStrings__Cli`, `.env`, nebo user-secrets projektu `EshopGuard.Cli` (zapíše je `deploy/dev/setup-local.ps1`); nikdy `settings.yaml`. Jednou je potřeba `eshopguard cache init`, který založí tenanta `cli`; sken ho nikdy nezakládá sám. Bez dostupné databáze, s chybějící migrací nebo bez tenanta běh skončí chybou dřív, než cokoli stáhne nebo zaplatí. Opakovaný běh se stejnými texty a otázkami nic nestojí ani neubírá z limitu Jevu; změna znění otázky (nová `version`) cache pro danou sadu obejde. `--no-cache` vypne cache odpovědí a přepisů (profily šablon zůstávají, jsou šablonou obchodu). S `--mock` se CLI k databázi vůbec nepřipojuje: vymyšlené odpovědi falešného klienta se do cache nikdy nedostanou a profily šablon žijí jen v paměti běhu. Odpovědi ze staré `src/cache/jev-cache.sqlite` se nepřevádějí (rozhodnutí 1. 10. 2026), kód soubor nečte.
 - Stahuje se po dávkách: nejvýš `crawl.fetch_batch_max_pages` (100) stránek nebo `fetch_batch_max_seconds` (60 s) v jedné dávce, další dávka pokračuje, kde předchozí skončila (stav fronty URL, tempo a čítače). Výsledek nezávisí na velikosti dávky. Čtení jedné stránky má limit `crawl.extract_timeout_seconds` (30 s); stránka, která trvá déle, se nepřečte a zpráva ji uvede v části „Co nebylo zkontrolováno“.
 
 ## Spuštění na testovacím e-shopu
@@ -232,7 +232,7 @@ Zpráva uvádí **pokrytí**: kolik viditelného textu se zkontrolovalo, kolik p
 
 1. Po stažení se každá stránka porovná s uloženými profily obchodu. Použije ten, který nechá nejméně jejího textu mimo známé oblasti. Navigace a dlaždice jiných produktů se počítají jako známé vždy. Když i nejlepší profil nechá mimo víc než `max_unknown_share` (10 %), stránka nesedí žádnému.
 2. Nesedící stránky se seskupí podle stavby (podobnost názvů prvků a tříd aspoň `template_similarity`, 0,75). Skupina aspoň `min_template_pages` (3) stránek dostane nový profil: model přepisu (`rewrite.model`) dostane zjednodušenou kostru `sample_pages` (3) vzorových stránek a vrátí oblasti šablony se selektory a akcí „kontrolovat“ nebo „vynechat“. První profil obchodu vidí i úvodní stránku a stránku jiné skupiny, aby se naučil společný rámec. Za sken vznikne nejvýš `max_new_profiles_per_scan` (5) profilů. Jejich cena je v odhadu před spuštěním, nad `max_usd_without_confirm` se potvrzuje.
-3. Profil se ověří na vzorových stránkách a uloží do souboru cache (tabulka `page_profiles`). Další skeny ho použijí bez modelu, takže rozdíly mezi skeny pocházejí z obchodu, ne z modelu. Nový profil vznikne jen tehdy, když stránky přestanou sedět: obchod změní šablonu nebo přibude sekce s jinou stavbou.
+3. Profil se ověří na vzorových stránkách a uloží do databáze cache (tabulka `shop.page_profiles`, e-shop podle domény). Další skeny ho použijí bez modelu, takže rozdíly mezi skeny pocházejí z obchodu, ne z modelu. Nový profil vznikne jen tehdy, když stránky přestanou sedět: obchod změní šablonu nebo přibude sekce s jinou stavbou.
 
 Profil jen ubírá, a to bloky hlavičky, patičky a ostatního textu. **Hlavní text nikdy.** Vynechat smí jen role navigace, výpisy produktů, cookie lišta, přihlášení, vyhledávání, košík, sdílení a pole formulářů. Jinou roli model vynechat nemůže, oblast se kontroluje. Přeskakovací oblast se na stránce nepoužije, když obsahuje oblast ke kontrole nebo delší blok hlavního textu: selektor tam zjevně zachytil něco jiného. Při ověřování na vzorových stránkách se taková oblast změní na kontrolovanou. Blok, který je i mimo vynechané oblasti (odznak u produktu i u podobného produktu), zůstává. Právní stránky a nenačtené stránky profil nepoužívají. Pravidla, která hledají povinné údaje kdekoli na stránce, vidí i vynechané části. Co se vynechalo, je v `pages.jsonl` (`profile_id`, `profile_unknown_share`, `profile_skipped_text`) a v `profiles.json`. Bez klíče OpenAI nebo s `--mock` se nové profily nevytvářejí a stránky bez profilu se kontrolují celé.
 
@@ -256,7 +256,7 @@ Vezme výsledky hotového skenu (`findings.json`, `pages.jsonl`) a stránky s n�
 
 - Zadání je v `config/rewrite.yaml`: pokyny, příklady špatných a dobrých znění a doslovné výňatky ze zákona, směrnice a výkladu Komise. Tato společná část jde v každém požadavku první a je pro všechny stránky stejná, takže ji OpenAI po první stránce účtuje z mezipaměti (0,10 místo 2,00 USD za milion tokenů); stránka a její nálezy jdou až za ni. Každou změnu zadání zapište do `rules/CHANGELOG.md` a zvyšte `version`.
 - Klíč je v `OPENAI_API_KEY` (`.env`, proměnná prostředí nebo uživatelské prostředí Windows); nikam se nezapisuje. Na kontrolu přepisů je potřeba i klíč Jevu.
-- Před voláním vypíše odhad ceny; nad `rewrite.max_usd_without_confirm` (1 USD) se zeptá, `--yes` dotaz přeskočí. Hotové přepisy se ukládají do `cache/jev-cache.sqlite` (tabulka `rewrite_cache`) podle stránky, nálezů, modelu a verze zadání, takže opakovaný běh nic nestojí.
+- Před voláním vypíše odhad ceny; nad `rewrite.max_usd_without_confirm` (1 USD) se zeptá, `--yes` dotaz přeskočí. Hotové přepisy se ukládají do databáze cache (tabulka `fixes.rewrite_cache`) podle stránky, nálezů, modelu a verze zadání, takže opakovaný běh nic nestojí.
 - Měřeno 30. 9. 2026: vegis.sk 24 stránek, 36 nálezů za 0,25 USD (91 s), naturfyt.sk 12 stránek, 28 nálezů za 0,15 USD (81 s); z mezipaměti OpenAI 78–81 % vstupu. Kontrola přepisů Jevem stojí setiny centu.
 - Návrhy píše jazykový model: před zveřejněním je musí zkontrolovat člověk a konečné znění posoudit právník. Kontrola pravidly není úplná pojistka.
 
@@ -268,6 +268,7 @@ Vezme výsledky hotového skenu (`findings.json`, `pages.jsonl`) a stránky s n�
 | `check-text "<text>"` | Vyhodnotí jeden text. Volby: `--kind`, `--modules`, `--country`, `--category` (kategorie výrobku pro modul `lr`), `--question-lang`, `--mock`. |
 | `rewrite <složka skenu>` | Navrhne přepis problematických pasáží modelem OpenAI a znovu je zkontroluje. Volby: `--country`, `--limit`, `--mock`, `--no-cache`, `--yes`. |
 | `serve-fixture` | Lokální testovací e-shop (`--port`, `--root`). |
+| `cache init` | Jednou založí v databázi cache tenanta `cli` a vypíše, kolik odpovědí, přepisů a profilů cache obsahuje. |
 | `bench-extract --replay <složka>` | Změří čas procesoru na stránku pro čtení HTML, extrakci, typ stránky a profily šablon nad nahrávkou (`--runs`, sestavení Release). |
 | `evaluate` | Měření přesnosti na označeném vzorku (M4). |
 
@@ -293,7 +294,6 @@ Nástroj stahuje jen adresy `http` a `https` na portech 80 a 443 bez jména a he
 services.AddEshopGuard(options =>
 {
     options.Jev.ApiKey = configuration["TYPESAFE_API_KEY"];   // nebo options.Jev.UseMock = true
-    options.Cache.Path = "cache/jev-cache.sqlite";
     options.Rules.Directory = "rules";
     options.Rules.LabelsFile = "config/labels.yaml";
 });
@@ -304,4 +304,4 @@ var result = await guard.AnalyzeTextsAsync(
     new AnalyzeOptions { Country = "cz" });   // výchozí je "sk"
 ```
 
-Knihovna je rozdělená na kroky (`EshopGuard.Core.Pipeline`): zjištění rozsahu (robots.txt, sitemap), stahování po dávkách, extrakce, profily šablon, segmenty, odhad ceny, síto, Jev, pravidla a přepis. Vstupy a výstupy kroků jsou záznamy serializovatelné do JSON (se `schema_version`), takže je worker může ukládat mezi úlohami a jiný stroj pokračuje po pádu. `IEshopGuard` je spouští v paměti za sebou (`InMemoryPipelineRunner`), stejně jako dřív jedna služba. Úložiště jsou za rozhraními `EshopGuard.Core.Storage` (`IJevCache`, `IRewriteCache`, `IPageProfileStore`, `IPageContentStore`, `IPageStore`, `IUrlFrontierStore`, `IRateLimiter`); host je zaregistruje před `AddEshopGuard`, jinak platí výchozí (SQLite cache, úložiště v paměti). Knihovna nezávisí na databázi (`CoreDependencyTests`).
+Knihovna je rozdělená na kroky (`EshopGuard.Core.Pipeline`): zjištění rozsahu (robots.txt, sitemap), stahování po dávkách, extrakce, profily šablon, segmenty, odhad ceny, síto, Jev, pravidla a přepis. Vstupy a výstupy kroků jsou záznamy serializovatelné do JSON (se `schema_version`), takže je worker může ukládat mezi úlohami a jiný stroj pokračuje po pádu. `IEshopGuard` je spouští v paměti za sebou (`InMemoryPipelineRunner`), stejně jako dřív jedna služba. Úložiště jsou za rozhraními `EshopGuard.Core.Storage` (`IJevCache`, `IRewriteCache`, `IPageProfileStore`, `IPageContentStore`, `IPageStore`, `IUrlFrontierStore`, `IRateLimiter`); host je zaregistruje před `AddEshopGuard`, jinak platí výchozí (bez cache, úložiště v paměti). Cache v PostgreSQL registruje `services.AddEshopGuardPostgresStores(...)` z `EshopGuard.Data` (CLI s tenantem `cli`, worker s tenantem úlohy). Knihovna nezávisí na databázi (`CoreDependencyTests`).

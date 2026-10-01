@@ -20,9 +20,6 @@ public sealed class EshopGuardOptions
     /// <summary>Location of rule sets and label lists.</summary>
     public RulesOptions Rules { get; set; } = new();
 
-    /// <summary>Cache of Jev responses.</summary>
-    public CacheOptions Cache { get; set; } = new();
-
     /// <summary>Price used for the cost estimate.</summary>
     public CostOptions Cost { get; set; } = new();
 
@@ -229,18 +226,6 @@ public sealed class RulesOptions
 
     /// <summary>YAML file with the block sieve; when it is missing, the sieve is off.</summary>
     public string SieveFile { get; set; } = "config/sieve.yaml";
-}
-
-/// <summary>
-/// Cache of Jev responses.
-/// </summary>
-public sealed class CacheOptions
-{
-    /// <summary>When false, every segment is evaluated again.</summary>
-    public bool Enabled { get; set; } = true;
-
-    /// <summary>Path of the SQLite cache file.</summary>
-    public string Path { get; set; } = "cache/jev-cache.sqlite";
 }
 
 /// <summary>

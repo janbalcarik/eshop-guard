@@ -71,4 +71,6 @@ if ! command -v pwsh >/dev/null 2>&1; then
 fi
 PGPASSWORD=postgres pwsh -NoProfile -File "$REPO_ROOT/deploy/dev/setup-local.ps1" -PgBin /usr/lib/postgresql/18/bin
 dotnet ef database update --project src/EshopGuard.Data --no-build
+echo "== Tenant cli pro cache CLI (eshopguard cache init)"
+(cd src && dotnet run --project EshopGuard.Cli --no-build -- cache init)
 echo "Hotovo. Testy bez placených: dotnet test --solution src/EshopGuard.sln --filter-not-trait \"Category=Jev\""

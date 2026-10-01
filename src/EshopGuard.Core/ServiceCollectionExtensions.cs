@@ -83,50 +83,35 @@ public static class ServiceCollectionExtensions
             });
         services.TryAddSingleton<IHostAddressResolver, DnsHostAddressResolver>();
 
-        // The Jev client and cache are chosen when the container is built: the mock needs no key and no network,
-        // and its made-up answers must never reach the real cache.
+        // The Jev and rewrite clients are chosen when the container is built: the mock needs no key and no network. The
+        // caches are the host's (PostgreSQL, EshopGuard.Data); without one the library caches nothing, and a host must never
+        // give one to the mock, whose made-up answers must never reach the real cache.
         var probe = new EshopGuardOptions();
         configure(probe);
         if (probe.Jev.UseMock)
         {
             services.TryAddSingleton<IJevClient, MockJevClient>();
-            services.TryAddSingleton<IJevCache, NullJevCache>();
         }
         else
         {
             services.AddHttpClient(JevClient.HttpClientName, (provider, client) =>
                 client.Timeout = TimeSpan.FromSeconds(provider.GetRequiredService<IOptions<JevOptions>>().Value.TimeoutSeconds));
             services.TryAddSingleton<IJevClient, JevClient>();
-            if (probe.Cache.Enabled)
-            {
-                services.TryAddSingleton<IJevCache, SqliteJevCache>();
-            }
-            else
-            {
-                services.TryAddSingleton<IJevCache, NullJevCache>();
-            }
         }
 
-        // The rewrite model follows the same pattern: the mock pays nothing and never fills the real cache.
         if (probe.Rewrite.UseMock)
         {
             services.TryAddSingleton<IRewriteClient, MockRewriteClient>();
-            services.TryAddSingleton<IRewriteCache, NullRewriteCache>();
         }
         else
         {
             services.AddHttpClient(OpenAiRewriteClient.HttpClientName, (provider, client) =>
                 client.Timeout = TimeSpan.FromSeconds(provider.GetRequiredService<IOptions<RewriteOptions>>().Value.TimeoutSeconds));
             services.TryAddSingleton<IRewriteClient, OpenAiRewriteClient>();
-            if (probe.Cache.Enabled)
-            {
-                services.TryAddSingleton<IRewriteCache, SqliteRewriteCache>();
-            }
-            else
-            {
-                services.TryAddSingleton<IRewriteCache, NullRewriteCache>();
-            }
         }
+
+        services.TryAddSingleton<IJevCache, NullJevCache>();
+        services.TryAddSingleton<IRewriteCache, NullRewriteCache>();
 
         services.TryAddSingleton<IOptions<RewriteOptions>>(provider =>
             Microsoft.Extensions.Options.Options.Create(provider.GetRequiredService<IOptions<EshopGuardOptions>>().Value.Rewrite));
@@ -145,8 +130,8 @@ public static class ServiceCollectionExtensions
         services.TryAddSingleton<SegmentBuilder>();
         services.TryAddSingleton<SegmentEvaluator>();
         services.TryAddSingleton<PageSieve>();
-        // Profiles are kept even with --no-cache: they are the shop's template, not a cached answer.
-        services.TryAddSingleton<IPageProfileStore, SqlitePageProfileStore>();
+        // Profiles are the shop's template, not a cached answer; the host keeps them (PostgreSQL), otherwise only in memory.
+        services.TryAddSingleton<IPageProfileStore, InMemoryPageProfileStore>();
         services.TryAddSingleton<IProfileModel, OpenAiProfileModel>();
 
         // Storage of one run in memory; the web application registers its database and file store before this call.

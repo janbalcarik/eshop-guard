@@ -11,7 +11,7 @@ public sealed class ProjectReferenceTests
     internal static readonly IReadOnlyDictionary<string, string[]> Allowed = new Dictionary<string, string[]>
     {
         ["EshopGuard.Core"] = [],
-        ["EshopGuard.Cli"] = ["EshopGuard.Core"],
+        ["EshopGuard.Cli"] = ["EshopGuard.Core", "EshopGuard.Data"],
         ["EshopGuard.Storage"] = [],
         ["EshopGuard.Data"] = ["EshopGuard.Core"],
         ["EshopGuard.Jobs"] = ["EshopGuard.Core", "EshopGuard.Data", "EshopGuard.Storage"],

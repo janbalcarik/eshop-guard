@@ -182,7 +182,6 @@ public class RewriteTests
             options.Rules.LegalRequirementsFile = TestServices.LegalRequirementsFile;
             options.Rules.SieveFile = TestServices.SieveFile;
             options.Rewrite.PromptFile = TestServices.RewritePromptFile;
-            options.Cache.Enabled = false;
         });
         return services.BuildServiceProvider();
     }

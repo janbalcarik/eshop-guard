@@ -47,7 +47,7 @@ internal static class TenantDataSeeder
         db.Add(new Invitation { Email = $"invite-{Guid.NewGuid():N}@example.invalid", Role = MembershipRole.Editor, TokenHash = Guid.NewGuid().ToByteArray().Concat(Guid.NewGuid().ToByteArray()).ToArray(), ExpiresAt = now.AddDays(7), InvitedBy = tenant.UserId });
         db.Add(new PaymentMethod { StripePaymentMethodId = "pm_" + Guid.NewGuid().ToString("N"), Brand = "visa", Last4 = "4242", ExpMonth = 8, ExpYear = 2028, IsDefault = true });
         db.Add(new JevAnswer { CacheKey = "sha256:" + Guid.NewGuid().ToString("N"), Response = Json("{\"probabilities\":[0.1]}"), Model = "jev-test" });
-        db.Add(new SieveAnswer { QuestionSetHash = new byte[32], ChunkHash = Guid.NewGuid().ToByteArray(), Probabilities = [0.1f, 0.9f] });
+        db.Add(new SieveAnswer { CacheKey = "sha256:" + Guid.NewGuid().ToString("N"), Response = Json("{\"answers\":{}}"), Model = "jev-test" });
         db.Add(new RewriteCacheEntry { Key = "rw:" + Guid.NewGuid().ToString("N"), Answer = Json("{}"), Model = "gpt-test" });
         db.Add(new OutboxMessage { Kind = OutboxKind.Email, Payload = Json("{}") });
         db.Add(new AuditLogEntry { At = now, ActorUserId = tenant.UserId, ActorKind = AuditActorKind.User, Action = "test.seed", Ip = IPAddress.Loopback });

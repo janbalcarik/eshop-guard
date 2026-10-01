@@ -47,7 +47,9 @@ public sealed class SnapshotTests
             Assert.Skip($"Chybí referenční výstupy {baseline} (DumpSnapshotBaseline).");
         }
 
+        // The baseline folder also keeps the extraction hashes of the old code (SingleParseEquivalenceTests); the scan does not write them.
         var expected = OutputNormalizer.Read(baseline);
+        expected.Remove("extraction-hashes.txt");
         var actual = await ScanReplayAsync(snapshot, url);
 
         Assert.True(expected.SequenceEqual(actual), OutputNormalizer.Differences(expected, actual));

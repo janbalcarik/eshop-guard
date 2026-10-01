@@ -15,7 +15,7 @@ internal sealed class InMemoryJevCache : IJevCache
     public Task SetAsync(JevCacheKey key, JevResult result, CancellationToken ct = default)
     {
         ArgumentNullException.ThrowIfNull(result);
-        _answers[key.LegacyKey] = result;
+        _answers.TryAdd(key.LegacyKey, result);
         return Task.CompletedTask;
     }
 }

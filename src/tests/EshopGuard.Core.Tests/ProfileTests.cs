@@ -3,6 +3,7 @@ using EshopGuard.Core.Extract;
 using EshopGuard.Core.Models;
 using EshopGuard.Core.Options;
 using EshopGuard.Core.Profiles;
+using EshopGuard.Core.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -142,10 +143,10 @@ public class ProfileTests
         try
         {
             var model = new FakeProfileModel();
-            var cache = Path.Combine(root, "cache.sqlite");
+            var store = new InMemoryPageProfileStore();
             WriteSite(root, products: 3, posts: 0);
 
-            var first = await ScanAsync(root, model, cache);
+            var first = await ScanAsync(root, model, store);
 
             Assert.Equal(1, first.Stats.ProfilesCreated);
             var sample = Assert.Single(model.Requests);
@@ -162,7 +163,7 @@ public class ProfileTests
 
             // A blog section appears: the products keep their stored profile, the posts get a profile of their own.
             WriteSite(root, products: 3, posts: 3);
-            var second = await ScanAsync(root, model, cache);
+            var second = await ScanAsync(root, model, store);
 
             Assert.Equal(2, model.Requests.Count);
             Assert.All(model.Requests[1], s => Assert.Contains("/clanok", s.Url, StringComparison.Ordinal));
@@ -174,14 +175,13 @@ public class ProfileTests
             Assert.Contains(second.Segments, s => s.Text == "Autorka píše o bylinkách už desať rokov.");
 
             // Everything is stored: a third scan writes nothing.
-            var third = await ScanAsync(root, model, cache);
+            var third = await ScanAsync(root, model, store);
             Assert.Equal(2, model.Requests.Count);
             Assert.Equal(0, third.Stats.ProfilesCreated);
             Assert.Equal(0, third.Stats.PagesWithoutProfile);
         }
         finally
         {
-            Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools();
             Directory.Delete(root, recursive: true);
         }
     }
@@ -196,7 +196,7 @@ public class ProfileTests
             WriteSite(root, products: 3, posts: 0);
             JevCallEstimate? seen = null;
 
-            var result = await ScanAsync(root, model, Path.Combine(root, "cache.sqlite"), (estimate, _) =>
+            var result = await ScanAsync(root, model, new InMemoryPageProfileStore(), (estimate, _) =>
             {
                 seen = estimate;
                 return Task.FromResult(false);
@@ -211,7 +211,6 @@ public class ProfileTests
         }
         finally
         {
-            Microsoft.Data.Sqlite.SqliteConnection.ClearAllPools();
             Directory.Delete(root, recursive: true);
         }
     }
@@ -225,14 +224,15 @@ public class ProfileTests
             var model = new FakeProfileModel { Unavailable = "chybí klíč OpenAI (OPENAI_API_KEY)" };
             WriteSite(root, products: 3, posts: 0);
 
-            var result = await ScanAsync(root, model, Path.Combine(root, "cache.sqlite"));
+            var store = new InMemoryPageProfileStore();
+            var result = await ScanAsync(root, model, store);
 
             Assert.Empty(model.Requests);
             Assert.Equal(1, result.Stats.ProfilesPlanned);
             Assert.Equal(0, result.Stats.ProfilesCreated);
             Assert.All(result.Pages, p => Assert.Null(p.ProfileId));
             Assert.Contains(result.Segments, s => s.Text == Cookie);
-            Assert.False(File.Exists(Path.Combine(root, "cache.sqlite")));
+            Assert.Empty(await store.GetAsync("fixture.test", TestContext.Current.CancellationToken));
         }
         finally
         {
@@ -240,11 +240,11 @@ public class ProfileTests
         }
     }
 
-    private static async Task<ScanResult> ScanAsync(string root, FakeProfileModel model, string cache,
+    private static async Task<ScanResult> ScanAsync(string root, FakeProfileModel model, IPageProfileStore store,
         Func<JevCallEstimate, CancellationToken, Task<bool>>? confirm = null)
     {
         var fetcher = new FileSystemPageFetcher(root, FileSystemPageFetcher.DefaultBaseUrl);
-        await using var provider = TestServices.Create(fetcher, o => o.Cache.Path = cache, register: s => s.AddSingleton<IProfileModel>(model));
+        await using var provider = TestServices.Create(fetcher, register: s => s.AddSingleton<IProfileModel>(model).AddSingleton(store));
         return await provider.GetRequiredService<IEshopGuard>().ScanSiteAsync(
             FileSystemPageFetcher.DefaultBaseUrl,
             new ScanOptions { Country = "sk", UseSieve = false, ConfirmJevCalls = confirm },

@@ -4,6 +4,8 @@
     <OutputType>Exe</OutputType>
     <AssemblyName>eshopguard</AssemblyName>
     <RootNamespace>EshopGuard.Cli</RootNamespace>
+    <!-- ConnectionStrings:Cli (the cache in PostgreSQL), set by deploy/dev/setup-local.ps1. -->
+    <UserSecretsId>eshopguard-cli</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,10 +14,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EshopGuard.Core\EshopGuard.Core.csproj" />
+    <ProjectReference Include="..\EshopGuard.Data\EshopGuard.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="DotNetEnv" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     <PackageReference Include="Serilog" />
     <PackageReference Include="Serilog.Extensions.Logging" />

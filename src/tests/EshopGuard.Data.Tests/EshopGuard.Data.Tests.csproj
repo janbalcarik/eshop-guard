@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <Compile Include="..\Shared\TestDatabase.cs" Link="Shared\TestDatabase.cs" />
+    <!-- The behaviour every store must have (change 5); the PostgreSQL stores inherit it. -->
+    <Compile Include="..\EshopGuard.Core.Tests\Storage\StoreContractTests.cs" Link="Stores\StoreContractTests.cs" />
   </ItemGroup>
 
 </Project>

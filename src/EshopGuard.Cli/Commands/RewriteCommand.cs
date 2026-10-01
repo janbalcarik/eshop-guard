@@ -59,7 +59,8 @@ internal sealed class RewriteCommand : AsyncCommand<RewriteSettings>
             return 1;
         }
 
-        var missing = new[] { configuration.MissingKeyMessage(settings.Mock), configuration.MissingOpenAiKeyMessage(settings.Mock) }.FirstOrDefault(m => m is not null);
+        var missing = new[] { configuration.MissingKeyMessage(settings.Mock), configuration.MissingOpenAiKeyMessage(settings.Mock), configuration.MissingDatabaseMessage(settings.Mock) }
+            .FirstOrDefault(m => m is not null);
         if (missing is not null)
         {
             AnsiConsole.MarkupLine($"[red]{Markup.Escape(missing)}[/]");
@@ -78,6 +79,12 @@ internal sealed class RewriteCommand : AsyncCommand<RewriteSettings>
         }
 
         await using var services = CliHost.BuildServices(configuration, Path.Combine(settings.RunDirectory, "rewrite.log"), settings.Mock, settings.NoCache);
+
+        if (await CliDatabase.CheckAsync(services, cancellationToken) is { } databaseError)
+        {
+            AnsiConsole.MarkupLine($"[red]{Markup.Escape(databaseError)}[/]");
+            return 1;
+        }
         var rewriter = services.GetRequiredService<ITextRewriter>();
         try
         {

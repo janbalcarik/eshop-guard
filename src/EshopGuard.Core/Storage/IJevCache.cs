@@ -3,8 +3,10 @@ using EshopGuard.Core.Jev;
 namespace EshopGuard.Core.Storage;
 
 /// <summary>
-/// Cache of Jev answers. The CLI keeps them in a local SQLite file (by <see cref="JevCacheKey.LegacyKey"/>), the web
-/// application in PostgreSQL (by <see cref="JevCacheKey.QuestionSetHash"/> and <see cref="JevCacheKey.StateHash"/>).
+/// Cache of Jev answers: the answers of the sentences and chunks a run asked, so that unchanged text is never paid or
+/// counted against the request limit again. The CLI and the web application keep them in PostgreSQL by
+/// <see cref="JevCacheKey.LegacyKey"/> per tenant (<c>EshopGuard.Data.Stores.PgJevCache</c>); without a host store the
+/// library caches nothing.
 /// </summary>
 public interface IJevCache
 {
@@ -27,6 +29,6 @@ public interface IJevCache
         return found;
     }
 
-    /// <summary>Stores an answer; storing the same key again replaces it.</summary>
+    /// <summary>Stores an answer; when the key is already stored, the first answer stays (findings never change silently).</summary>
     Task SetAsync(JevCacheKey key, JevResult result, CancellationToken ct = default);
 }

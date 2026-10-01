@@ -83,7 +83,7 @@ internal sealed class CheckTextCommand : AsyncCommand<CheckTextSettings>
             return 1;
         }
 
-        if (configuration.MissingKeyMessage(settings.Mock) is { } missingKey)
+        if ((configuration.MissingKeyMessage(settings.Mock) ?? configuration.MissingDatabaseMessage(settings.Mock)) is { } missingKey)
         {
             AnsiConsole.MarkupLine($"[red]{Markup.Escape(missingKey)}[/]");
             return 1;
@@ -91,6 +91,12 @@ internal sealed class CheckTextCommand : AsyncCommand<CheckTextSettings>
 
         Directory.CreateDirectory("out");
         await using var services = CliHost.BuildServices(configuration, Path.Combine("out", "check-text.log"), settings.Mock, settings.NoCache);
+
+        if (await CliDatabase.CheckAsync(services, cancellationToken) is { } databaseError)
+        {
+            AnsiConsole.MarkupLine($"[red]{Markup.Escape(databaseError)}[/]");
+            return 1;
+        }
         var guard = services.GetRequiredService<IEshopGuard>();
 
         AnalysisResult result;
