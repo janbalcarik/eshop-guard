@@ -30,7 +30,7 @@ Zatím se nic nestaví, dokument je podklad pro postup po fázích (část 8).
 | Výčty | `text` s omezením `CHECK`. Snadno se rozšiřuje migrací, EF je mapuje na .NET enum |
 | Proměnlivá data | `jsonb`: odpovědi Jevu, oblasti profilu, obsah událostí, přehled ceny, statistiky běhu |
 | Souběžné úpravy | `xmin` jako token souběžnosti (Npgsql) u tabulek, které edituje člověk (návrhy oprav, doklady, předplatné) |
-| Soubory | Mimo databázi v úložišti S3 (MinIO lokálně nebo souborový systém), v databázi jen klíč. Cesty `tenants/{tenant}/shops/{shop}/…` |
+| Soubory | Mimo databázi za rozhraním `IBlobStore`, v databázi jen klíč. Cesty `tenants/{tenant}/shops/{shop}/…`. Rozhodnuto 1. 10. 2026: zatím lokální souborový systém (na serveru svazek Dockeru), úložiště v cloudu (Azure, AWS…) později jako další implementace; MinIO se nepoužívá |
 | Velké tabulky | Rozdělené na části (partitioning): po e-shopu nebo tenantovi (`HASH`) nebo po měsících (`RANGE`), podle části 6. Primární klíč pak obsahuje klíč dělení |
 | Texty zákazníka | Jen v tabulkách tenanta a v jeho souborech. Nikdy v provozních logech ani v globálních tabulkách |
 
@@ -263,7 +263,7 @@ eshop-guard/
       Tenancy/                 ITenantContext, interceptor „SET LOCAL app.tenant_id“
       Stores/                  PostgreSQL implementace IJevCache, IRewriteCache, IPageProfileStore, …
       Bulk/                    hromadný zápis přes COPY (otisky vět, spotřeba)
-    EshopGuard.Storage/      IBlobStore: S3/MinIO a souborový systém (vývoj, testy)
+    EshopGuard.Storage/      IBlobStore: zatím souborový systém, cloud později (rozhodnuto 1. 10. 2026)
     EshopGuard.Jobs/         fronta, leasy, sloty, limity, zámky domén, plánovač, obsluha úloh po druzích
     EshopGuard.Billing/      ceník, Stripe (Checkout, webhooky, změny cen), SuperFaktúra (faktury, e-faktúra)
     EshopGuard.Connectors/   Shoptet, Upgates, WooCommerce, Shopify (čtení, webhooky, dorovnání, zápis)
@@ -272,7 +272,7 @@ eshop-guard/
     EshopGuard.Worker/       Generic Host: obsluha úloh ze EshopGuard.Jobs podle nastavených slotů
   web/                         Next.js podle návrhu UI + Payload CMS (prezentační web, schéma cms), next-intl, messages/sk.json, messages/cs.json
   deploy/
-    docker-compose.dev.yml     MinIO (PostgreSQL běží lokálně jako služba)
+    (docker-compose.dev.yml s MinIO zrušen 1. 10. 2026; PostgreSQL běží lokálně jako služba)
     docker-compose.prod.yml    jeden server: caddy, web, api, worker, postgres, walg
   tests/
     EshopGuard.Core.Tests/   dnešních 192 testů

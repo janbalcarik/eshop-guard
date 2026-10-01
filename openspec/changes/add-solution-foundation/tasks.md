@@ -2,7 +2,7 @@
 
 Cesty jsou relativní ke kořeni `D:\_github\Overko\eshop-guard`. Žádný úkol nevolá Jev ani OpenAI.
 
-> **Stav 1. 10. 2026:** řešení, projekty a testy jsou ve skutečnosti pod `src/` (`src/EshopGuard.sln`, `src/tests/…`, `src/Directory.Packages.props`); `deploy/`, `.config/` a `global.json` jsou v kořeni repozitáře. Ověřeno v cloudu proti PostgreSQL 18.6; MinIO (skupina 8) čeká na rozhodnutí.
+> **Stav 1. 10. 2026:** řešení, projekty a testy jsou ve skutečnosti pod `src/` (`src/EshopGuard.sln`, `src/tests/…`, `src/Directory.Packages.props`); `deploy/`, `.config/` a `global.json` jsou v kořeni repozitáře. Ověřeno v cloudu proti PostgreSQL 18.6. Úložiště je podle rozhodnutí z 1. 10. 2026 jen souborové (skupina 8).
 
 ## 1. Řešení a společné nastavení sestavení
 
@@ -17,6 +17,7 @@ Cesty jsou relativní ke kořeni `D:\_github\Overko\eshop-guard`. Žádný úkol
 
 - [x] 2.1 `src/EshopGuard.Data/EshopGuard.Data.csproj` (`UserSecretsId` `eshopguard-data`, `ProjectReference` `EshopGuard.Core`, balíčky EF Core, Npgsql, Design s `PrivateAssets=all`, Hosting.Abstractions, Configuration.UserSecrets).
 - [x] 2.2 `src/EshopGuard.Storage/EshopGuard.Storage.csproj` (bez odkazů na projekty, `AWSSDK.S3`, `Microsoft.Extensions.Options.ConfigurationExtensions`, `Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions`).
+  - Poznámka: Upraveno skupinou 8: bez `AWSSDK.S3`.
 - [x] 2.3 `src/EshopGuard.Jobs/EshopGuard.Jobs.csproj` (odkazy `Core`, `Data`, `Storage`), `src/EshopGuard.Billing/EshopGuard.Billing.csproj` (`Data`, `Jobs`), `src/EshopGuard.Connectors/EshopGuard.Connectors.csproj` (`Core`, `Data`, `Storage`, `Jobs`); bez zdrojových souborů.
 - [x] 2.4 `src/EshopGuard.Api/EshopGuard.Api.csproj` (`Microsoft.NET.Sdk.Web`, `UserSecretsId` `eshopguard-api`, odkazy `Data`, `Storage`, `Jobs`, `Billing`, `Connectors`), `Properties/launchSettings.json` (`http://localhost:5080`, `Development`).
 - [x] 2.5 `src/EshopGuard.Worker/EshopGuard.Worker.csproj` (`Microsoft.NET.Sdk.Worker`, `UserSecretsId` `eshopguard-worker`, odkazy `Core`, `Data`, `Storage`, `Jobs`, `Billing`, `Connectors`).
@@ -28,6 +29,7 @@ Cesty jsou relativní ke kořeni `D:\_github\Overko\eshop-guard`. Žádný úkol
 - [x] 3.2 Ověřit, že skript neobsahuje žádné heslo, nesahá na jinou databázi než `:db_name` (žádný výskyt `eia_registry`) a při chybějící proměnné skončí nenulovým kódem (spustit s neúplnými proměnnými, zkontrolovat `$LASTEXITCODE` a že v `pg_roles` nic nepřibylo).
 - [x] 3.3 `deploy/dev/setup-local.ps1`: parametry `-PgBin` (výchozí `C:\Program Files\PostgreSQL\18\bin`), kontrola `$env:PGPASSWORD` (jinak výzva nastavit ho v relaci, nic neukládá); hesla `[System.Security.Cryptography.RandomNumberGenerator]::GetHexString(40)`; nastavení proměnných `ESHOPGUARD_*_PASSWORD` jen pro proces `psql`; spuštění `00_roles.sql` pro `eshopguard` a `eshopguard_test`.
 - [x] 3.4 Ve `setup-local.ps1` zapsat připojení do user-secrets přes standardní vstup (`$json | dotnet user-secrets set --project <projekt>`): `eshopguard-data` (`ConnectionStrings:Migrations`), `eshopguard-api` (`ConnectionStrings:App`, `Storage:S3:AccessKey`, `Storage:S3:SecretKey`), `eshopguard-worker` (`ConnectionStrings:Worker`, klíče S3), `eshopguard-tests` (`ConnectionStrings:Owner`, `:App`, `:Worker`, `:Admin`, `:Cms` pro `eshopguard_test`, klíče S3, `Storage:S3:Bucket=eshopguard-test`); vytvořit `deploy/.env` (MinIO root a uživatel aplikace), pokud neexistuje.
+  - Poznámka: Upraveno skupinou 8: bez klíčů S3 a bez `deploy/.env`.
 - [x] 3.5 Spustit `setup-local.ps1` lokálně; přepis výstupu neobsahuje žádné vygenerované heslo (porovnat s `secrets.json`); `psql -U eshopguard_app -d eshopguard -c "select current_user"` s heslem z user-secrets projde.
   - Poznámka: Ověřeno v cloudu (Linux, PowerShell 7.6, `-PgBin /usr/lib/postgresql/18/bin`): výstup neobsahuje žádné ze 7 hesel, `select current_user` jako `eshopguard_app` projde. Na Windows spustí uživatel.
 
@@ -49,9 +51,9 @@ Cesty jsou relativní ke kořeni `D:\_github\Overko\eshop-guard`. Žádný úkol
 - [x] 5.1 `BlobKey.cs`: `ForShop`, `ForTenant`, `Prefix`, validace částí (`^[A-Za-z0-9][A-Za-z0-9._-]{0,199}$`, ne `.`/`..`, celkem ≤ 1 024 znaků), `ToString()` vrací klíč.
 - [x] 5.2 `IBlobStore.cs` podle designu (dokumentační komentáře: `PutAsync` přepisuje, `OpenReadAsync` vrací `null`, `DeleteAsync` bez chyby u neexistujícího).
 - [x] 5.3 `FileSystemBlobStore.cs`: atomický zápis (dočasný soubor + `File.Move(overwrite: true)`), kontrola, že cesta je pod kořenem, `DeletePrefixAsync` maže složku pod kořenem, `GetReadUrlAsync` → `null`.
-- [x] 5.4 `S3BlobStore.cs`: `AmazonS3Config` (`ServiceURL`, `ForcePathStyle`, `AuthenticationRegion`, `RequestChecksumCalculation = WHEN_REQUIRED`, `ResponseChecksumValidation = WHEN_REQUIRED`), `PutObject`, `GetObject` (404 → `null`), `DeleteObject`, `DeletePrefixAsync` přes `ListObjectsV2` + `DeleteObjects` po 1 000, `GetPreSignedURL` s omezením `MaxSignedUrlMinutes`.
-- [x] 5.5 `StorageOptions.cs`, `StorageServiceCollectionExtensions.AddEshopGuardStorage(IConfiguration)` (neznámý `Provider` nebo chybějící klíč S3 → `config.storage_provider_invalid` / `config.storage_key_missing`), `Health/StorageHealthCheck.cs` (`storage.unreachable`, `storage.bucket_missing`).
-  - Poznámka: `StorageConfigurationException` je v projektu Storage (nesmí odkazovat na Data). Konfigurace se ověřuje při startu (`ValidateOnStart`). Navíc kód `storage.access_denied`.
+- [x] 5.4 ~~`S3BlobStore.cs`~~ Zrušeno 1. 10. 2026 (rozhodnutí uživatele: zatím jen souborové úložiště, cloud později jako další implementace `IBlobStore`). Napsaný `S3BlobStore` a balíček `AWSSDK.S3` odstraněny.
+- [x] 5.5 `StorageOptions.cs` (`Provider`, `FileSystem:Root` bez výchozí hodnoty), `StorageServiceCollectionExtensions.AddEshopGuardStorage()` (neznámý `Provider` → `config.storage_provider_invalid`, chybějící `Root` → `config.storage_key_missing`, kontrola při startu), `Health/StorageHealthCheck.cs` (`storage.unreachable`).
+  - Poznámka: `StorageConfigurationException` je v projektu Storage (nesmí odkazovat na Data). Konfigurace se ověřuje při startu (`ValidateOnStart`).
 
 ## 6. API
 
@@ -59,7 +61,7 @@ Cesty jsou relativní ke kořeni `D:\_github\Overko\eshop-guard`. Žádný úkol
   - Poznámka: Odmítnutý start API výjimku nechytá (proces skončí nenulovým kódem 134, log obsahuje jen kód): `WebApplicationFactory` výjimku vstupního bodu potřebuje vidět. Worker vrací kód 1.
 - [x] 6.2 `Health/DatabaseHealthCheck.cs` (`SELECT 1`, role, migrace; mapování výjimek na kódy) a `Health/HealthResponseWriter.cs` (JSON podle designu, 200/503, bez `exception` a `description`).
 - [x] 6.3 `appsettings.json` bez `ConnectionStrings` a klíčů; `appsettings.Development.json` se `Storage:Provider=S3`, `ServiceUrl=http://localhost:9000`, `Region=us-east-1`, `Bucket=eshopguard-dev`, `ForcePathStyle=true`.
-  - Poznámka: Podle K rozhodnutí 3 (MinIO nedostupné, viz skupina 8) má `appsettings.Development.json` `Storage:Provider=FileSystem`, `Root=.data/blobs`.
+  - Poznámka: `appsettings.json` má `Storage:Provider=FileSystem` bez složky (na serveru `Storage__FileSystem__Root`), `appsettings.Development.json` `Root=.data/blobs`.
 
 ## 7. Worker
 
@@ -68,13 +70,14 @@ Cesty jsou relativní ke kořeni `D:\_github\Overko\eshop-guard`. Žádný úkol
 - [x] 7.3 `Program.cs`: `Host.CreateApplicationBuilder`, `AddEshopGuardData(…, DatabaseRole.Worker)`, `AddEshopGuardStorage`, `Configure<HostOptions>(o => o.ShutdownTimeout = TimeSpan.FromSeconds(options.ShutdownSeconds))`, `AddHostedService<WorkerSkeletonService>()`, JSON log; `Properties/launchSettings.json` s `DOTNET_ENVIRONMENT=Development` (jen v něm se načtou user-secrets `eshopguard-worker`).
   - Poznámka: Hostitel se skládá ve `WorkerHost.CreateBuilder`, který používají `Program.cs` i testy.
 
-## 8. Lokální MinIO
+## 8. Úložiště: jen souborový systém (rozhodnuto 1. 10. 2026)
 
-- [ ] 8.1 `deploy/docker-compose.dev.yml` podle designu (`name: eshopguard-dev`, MinIO s pevnou značkou obrazu ověřenou podle K rozhodnutí 3, porty `127.0.0.1:9000` a `127.0.0.1:9001`, `${MINIO_ROOT_USER:?chybí v deploy/.env}`, svazek `minio-data`, healthcheck; `minio-init` s `depends_on: condition: service_healthy`).
-  - Poznámka: Blokováno: obrazy `minio/minio` a `minio/mc` na Docker Hubu už nejsou (404 k 1. 10. 2026), quay.io vyžaduje přihlášení (K rozhodnutí 3). Čeká na rozhodnutí uživatele o náhradě (SeaweedFS, Garage, nebo jen souborové úložiště ve vývoji).
-- [ ] 8.2 `deploy/minio/minio-init.sh` (idempotentní: `mc alias set`, `mc mb --ignore-existing` pro `eshopguard-dev` a `eshopguard-test`, `mc admin policy create` z `eshopguard-rw-policy.json`, `mc admin user add`, `mc admin policy attach`) a `deploy/minio/eshopguard-rw-policy.json`.
-- [ ] 8.3 `deploy/.env.example` s prázdnými `MINIO_ROOT_USER`, `MINIO_ROOT_PASSWORD`, `ESHOPGUARD_S3_ACCESS_KEY`, `ESHOPGUARD_S3_SECRET_KEY`.
-- [ ] 8.4 `docker compose -f deploy/docker-compose.dev.yml up -d` a ověřit buckety (`mc ls`) a že uživatel aplikace nesmí `mc mb` (odmítnuto).
+Původní úkoly s MinIO (`docker-compose.dev.yml`, `minio-init.sh`, politika bucketu, `deploy/.env.example`) jsou zrušené: obrazy `minio/minio` a `minio/mc` na Docker Hubu nejsou (404) a uživatel rozhodl o souborovém úložišti za rozhraním `IBlobStore`, úložiště v cloudu (Azure, AWS…) později jako další implementace.
+
+- [x] 8.1 Odstranit `S3BlobStore`, nastavení `Storage:S3:*` a `Storage:MaxSignedUrlMinutes`, balíček `AWSSDK.S3` a testy `S3BlobStoreTests` (kategorie `S3`).
+- [x] 8.2 `Storage:FileSystem:Root` bez výchozí hodnoty; `appsettings.json` API a workeru `Storage:Provider=FileSystem`; chybějící složka zastaví start (`StartupGuardWithoutDatabaseTests.MissingStorageRoot_StopsStartupWithKeyName`, `WorkerWithoutConnectionTests.MissingStorageRoot_IsRefusedWithKeyName`).
+- [x] 8.3 `/health`: složku nejde vytvořit → `storage.unreachable` (`HealthEndpointWithoutDatabaseTests.Health_WithUnwritableStorage_ReportsStorageUnreachable`).
+- [x] 8.4 `setup-local.ps1` bez `deploy/.env` a klíčů S3; README, CLAUDE.md, proposal, design a specifikace bez MinIO.
 
 ## 9. Testy
 
@@ -90,8 +93,7 @@ Cesty jsou relativní ke kořeni `D:\_github\Overko\eshop-guard`. Žádný úkol
 - [x] 9.8 `DatabaseRoleGuardTests.cs` a `MigrationStatusTests.cs` (bez databáze): superuživatel, `BYPASSRLS` u `App`/`Worker`, `BYPASSRLS` u `Admin` povolen, jiná role, čekající a přebývající migrace.
 - [x] 9.9 `tests/EshopGuard.Storage.Tests/BlobKeyTests.cs`: platné klíče, `..`, `.`, prázdná část, lomítko v části, absolutní cesta, příliš dlouhý klíč.
 - [x] 9.10 `BlobStoreContractTests.cs` (abstraktní: zápis/čtení bajt po bajtu, přepis, `null` pro neexistující, `DeleteAsync` bez chyby, `DeletePrefixAsync` smaže jen prefix tenanta) a `FileSystemBlobStoreTests.cs` (+ zrušený zápis nenechá soubor).
-- [ ] 9.11 `S3BlobStoreTests.cs` (`Category=S3`, bucket `eshopguard-test`): smlouva z 9.10, anonymní GET → 403, podepsaný odkaz platí a po vypršení vrátí 403.
-  - Poznámka: Ověřeno jen proti emulátoru moto v cloudu (Docker ani MinIO tam nejsou): smlouva `IBlobStore`, mazání prefixu, podepsaný odkaz a chybějící bucket projdou (12 z 13). Vypršení podepsaného odkazu moto bez autentizace nevynucuje a s autentizací má chyby v ověřování podpisů (stejné i s boto3). Ověřit proti skutečnému serveru S3 podle rozhodnutí ve skupině 8.
+- [x] 9.11 ~~`S3BlobStoreTests.cs`~~ Zrušeno 1. 10. 2026 spolu s `S3BlobStore` (skupina 8).
 - [x] 9.12 `tests/EshopGuard.Api.Tests/HealthEndpointTests.cs` (`Category=Db`, `WebApplicationFactory<Program>` s prostředím `Testing`, aby se nenačetly user-secrets `eshopguard-api` s vývojovou databází; `ConnectionStrings:App` z `TestConfiguration` na `eshopguard_test`; úložiště `FileSystem` v dočasné složce): 200 a čtyři kontroly `ok`; nedostupný port databáze → 503 `db.unreachable`; tělo neobsahuje `Exception`, `Password`, `Host=`.
   - Poznámka: Test s nedostupnou databází běží bez pojistky při startu (jinak by API nenastartovalo) a nepotřebuje kategorii `Db`.
 - [x] 9.13 `StartupGuardTests.cs` (`Category=Db`): připojení `Admin` → start selže `db.role_bypasses_rls`; `Owner` → `db.unexpected_role`; chybějící `ConnectionStrings:App` → `config.connection_string_missing`.
@@ -104,14 +106,15 @@ Cesty jsou relativní ke kořeni `D:\_github\Overko\eshop-guard`. Žádný úkol
 ## 10. Dokumentace
 
 - [x] 10.1 `README.md`: oddíl „Lokální databáze a úložiště“ (PostgreSQL 18.6 jako služba, `setup-local.ps1` s `$env:PGPASSWORD` jen v relaci, `docker compose -f deploy/docker-compose.dev.yml up -d`, `dotnet tool restore`, `dotnet ef database update --project src/EshopGuard.Data`), oddíl „Testy“ (`dotnet test`, kategorie `Db`, `S3`, `Jev`, filtr podle 9.1, placené testy jen se souhlasem); věta, že `postgres` se používá jen pro `00_roles.sql`.
+  - Poznámka: Upraveno skupinou 8: bez Compose a MinIO; README popisuje souborové úložiště a povinné `Storage:FileSystem:Root`.
 
 ## 11. Ověření
 
 - [x] 11.1 `dotnet build EshopGuard.sln`: 0 chyb.
 - [x] 11.2 `dotnet test EshopGuard.sln` s filtrem bez kategorie `Jev`: všech pět testovacích projektů hlásí nenulové počty, 0 selhání; `EshopGuard.Core.Tests` má stejný počet testů jako po změně 1 (192 podle podkladů).
-  - Poznámka: Cloud: 316 testů (Core 190, Data 43, Storage 51, Api 25, Worker 7), 315 prošlo; jediné selhání je vypršení podepsaného odkazu proti moto (viz 9.11).
+  - Poznámka: Cloud: 310 testů (Core 190, Data 43, Storage 42, Api 27, Worker 8), všechny prošly.
 - [x] 11.3 `dotnet test` s filtrem bez `Db` a `S3` a bez spuštěného PostgreSQL a MinIO: projde a výstup uvádí vynechané testy; bez filtru testy `Db` selžou se jménem chybějícího klíče (ověřit s prázdným `ESHOPGUARD_TEST_ConnectionStrings__App`).
-  - Poznámka: 271 testů prošlo s vypnutým PostgreSQL. Microsoft.Testing.Platform počet vynechaných testů nevypisuje, je vidět jen z rozdílu celkového počtu (316 → 271). S prázdným `ESHOPGUARD_TEST_ConnectionStrings__App` selže 5 testů se zprávou „Chybí konfigurace testů: ConnectionStrings:App“.
+  - Poznámka: 271 testů prošlo s vypnutým PostgreSQL. Microsoft.Testing.Platform počet vynechaných testů nevypisuje, je vidět jen z rozdílu celkového počtu (tehdy 316 → 271). S prázdným `ESHOPGUARD_TEST_ConnectionStrings__App` selže 5 testů se zprávou „Chybí konfigurace testů: ConnectionStrings:App“.
 - [ ] 11.4 `psql` jako `postgres`: `select rolname, rolsuper, rolbypassrls from pg_roles where rolname like 'eshopguard%'` odpovídá tabulce rolí; `\l eshopguard` a `\l eshopguard_test` mají vlastníka `eshopguard_owner`; databáze `eia_registry` je beze změny (stejný vlastník a `datacl` jako před změnou).
   - Poznámka: Role a atributy ověřené v cloudu; kontrolu `eia_registry` (v cloudu neexistuje) udělá uživatel lokálně.
 - [x] 11.5 `dotnet run --project src/EshopGuard.Api` (Development, MinIO běží) a `curl -i http://localhost:5080/health`: 200 a čtyři kontroly `ok`. Zastavit službu `postgresql-x64-18` → 503 `db.unreachable`; službu znovu spustit.

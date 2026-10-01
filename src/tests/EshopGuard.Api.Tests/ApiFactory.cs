@@ -12,7 +12,7 @@ namespace EshopGuard.Api.Tests;
 /// The API in environment <c>Testing</c> (user-secrets <c>eshopguard-api</c> with the development database are not loaded),
 /// with an explicit <c>ConnectionStrings:App</c>, a temporary file store and captured logs.
 /// </summary>
-internal sealed class ApiFactory(string? appConnectionString, bool withStartupGuard = true) : WebApplicationFactory<Program>
+internal sealed class ApiFactory(string? appConnectionString, bool withStartupGuard = true, bool withStorageRoot = true, string? storageRoot = null) : WebApplicationFactory<Program>
 {
     private readonly DirectoryInfo _blobs = Directory.CreateTempSubdirectory("eshopguard-api-");
 
@@ -23,7 +23,7 @@ internal sealed class ApiFactory(string? appConnectionString, bool withStartupGu
         builder.UseEnvironment("Testing");
         builder.UseSetting("ConnectionStrings:App", appConnectionString ?? string.Empty);
         builder.UseSetting("Storage:Provider", "FileSystem");
-        builder.UseSetting("Storage:FileSystem:Root", _blobs.FullName);
+        builder.UseSetting("Storage:FileSystem:Root", withStorageRoot ? storageRoot ?? _blobs.FullName : string.Empty);
         builder.ConfigureServices(services =>
         {
             services.AddSingleton<ILoggerProvider>(Logs);

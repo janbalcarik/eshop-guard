@@ -56,13 +56,12 @@ dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"
 |---|---|---|
 | (bez kategorie) | nic, ani síť | – |
 | `Db` | PostgreSQL s databází `eshopguard_test` a user-secrets `eshopguard-tests` | selže se jménem chybějícího klíče |
-| `S3` | úložiště kompatibilní s S3 s bucketem `eshopguard-test` | selže se jménem chybějícího klíče |
 | `Jev` | klíč `JEV_API_KEY` nebo `TYPESAFE_API_KEY`, placené volání | přeskočí se |
 
-Testy `Db` a `S3` se bez prostředí záměrně nepřeskočí, aby nic neprošlo naprázdno. Vynechat je jde jen filtrem, např. na počítači bez databáze:
+Testy `Db` se bez prostředí záměrně nepřeskočí, aby nic neprošlo naprázdno. Vynechat je jde jen filtrem, např. na počítači bez databáze:
 
 ```bash
-dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev" --filter-not-trait "Category=Db" --filter-not-trait "Category=S3"
+dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev" --filter-not-trait "Category=Db"
 ```
 
 Jeden testovací projekt přímo (nativní runner xUnit, jiná syntaxe filtru):
@@ -102,9 +101,9 @@ Webová aplikace (`src/EshopGuard.Api`, `src/EshopGuard.Worker`) se připojuje k
 
    Testovací databázi `eshopguard_test` migrují testy samy.
 
-3. Spuštění: `dotnet run --project src/EshopGuard.Api` (http://localhost:5080, stav na `/health`) a `dotnet run --project src/EshopGuard.Worker`. Ve vývoji se soubory ukládají do `.data/blobs` (mimo git, `Storage:Provider = FileSystem`).
+3. Spuštění: `dotnet run --project src/EshopGuard.Api` (http://localhost:5080, stav na `/health`) a `dotnet run --project src/EshopGuard.Worker`. Ve vývoji se soubory ukládají do `.data/blobs` ve složce projektu (např. `src/EshopGuard.Api/.data/blobs`, mimo git).
 
-Úložiště souborů je za rozhraním `IBlobStore` (`src/EshopGuard.Storage`): `FileSystemBlobStore` pro vývoj a testy, `S3BlobStore` pro S3 na serveru. Klíče souborů tenanta začínají `tenants/{tenantId}/`.
+Úložiště souborů je za rozhraním `IBlobStore` (`src/EshopGuard.Storage`). Zatím existuje jen `FileSystemBlobStore` (lokální složka, na serveru připojený svazek); úložiště v cloudu (Azure, AWS…) se později přidá jako další implementace a vybere se v `Storage:Provider`. Složka se musí nastavit výslovně (`Storage:FileSystem:Root`, na serveru `Storage__FileSystem__Root`), jinak aplikace nenastartuje (`config.storage_key_missing`). Klíče souborů tenanta začínají `tenants/{tenantId}/`.
 
 ## Nastavení
 

@@ -1,8 +1,9 @@
 namespace EshopGuard.Storage;
 
 /// <summary>
-/// Files outside the database (HTML snapshots, extractions, PDFs). Implementations: <see cref="S3BlobStore"/>
-/// (S3 at the provider, MinIO in development) and <see cref="FileSystemBlobStore"/> (tests, development without Docker).
+/// Files outside the database (HTML snapshots, extractions, PDFs). The only implementation so far is
+/// <see cref="FileSystemBlobStore"/> (a local folder, in production on a mounted volume); cloud stores (Azure, AWS…)
+/// are added later as further implementations selected by <c>Storage:Provider</c>.
 /// </summary>
 public interface IBlobStore
 {
@@ -22,6 +23,7 @@ public interface IBlobStore
     Task<int> DeletePrefixAsync(BlobKey prefix, CancellationToken ct = default);
 
     /// <summary>Time-limited read link, or <c>null</c> when the store cannot sign links (file system: the API streams the file).</summary>
+    /// <remarks>Cloud implementations should cap <paramref name="validFor"/> and keep their containers private.</remarks>
     Task<Uri?> GetReadUrlAsync(BlobKey key, TimeSpan validFor, CancellationToken ct = default);
 }
 

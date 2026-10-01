@@ -9,7 +9,7 @@ namespace EshopGuard.Storage;
 /// </summary>
 public sealed partial class BlobKey : IEquatable<BlobKey>
 {
-    /// <summary>Longest allowed key (S3 allows 1 024 bytes; parts are ASCII).</summary>
+    /// <summary>Longest allowed key (fits common object stores such as S3 and Azure Blob Storage; parts are ASCII).</summary>
     public const int MaxLength = 1024;
 
     private BlobKey(string value, bool isPrefix)

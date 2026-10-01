@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 namespace EshopGuard.Tests.Shared;
 
 /// <summary>
-/// Configuration of tests that need PostgreSQL or S3: user-secrets <c>eshopguard-tests</c> (written by
+/// Configuration of tests that need PostgreSQL: user-secrets <c>eshopguard-tests</c> (written by
 /// <c>deploy/dev/setup-local.ps1</c>), overridable by environment variables <c>ESHOPGUARD_TEST_…</c>
 /// (e.g. <c>ESHOPGUARD_TEST_ConnectionStrings__App</c>). A missing key fails the test with its name; nothing is skipped.
 /// </summary>

@@ -1,7 +1,7 @@
 #Requires -Version 7.4
 <#
 .SYNOPSIS
-  Lokální databáze a úložiště EshopGuard: role, databáze eshopguard a eshopguard_test, user-secrets a deploy/.env pro MinIO.
+  Lokální databáze EshopGuard: role, databáze eshopguard a eshopguard_test a user-secrets s připojením.
 
 .DESCRIPTION
   1. Vygeneruje pět hesel databázových rolí (RandomNumberGenerator).
@@ -9,7 +9,6 @@
      Hesla dostane psql jen v proměnných prostředí svého procesu, ne v parametrech.
   3. Zapíše připojení do dotnet user-secrets (eshopguard-data, eshopguard-api, eshopguard-worker, eshopguard-tests)
      přes standardní vstup, ne jako argument.
-  4. Vytvoří deploy/.env pro MinIO (root a uživatel aplikace), pokud ještě neexistuje.
 
   Heslo superuživatele postgres se čte jen z $env:PGPASSWORD nastaveného v této relaci; skript ho nikam neukládá.
   Žádné vygenerované heslo se nevypisuje. Opakované spuštění vygeneruje nová hesla rolí a přepíše user-secrets.
@@ -32,7 +31,6 @@ $ErrorActionPreference = 'Stop'
 
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..' '..')).Path
 $rolesSql = Join-Path $repoRoot 'deploy' 'sql' '00_roles.sql'
-$envFile = Join-Path $repoRoot 'deploy' '.env'
 $psqlName = if ($IsWindows) { 'psql.exe' } else { 'psql' }
 $psql = Join-Path $PgBin $psqlName
 if (-not (Test-Path $psql)) {
@@ -47,14 +45,6 @@ if ([string]::IsNullOrEmpty($env:PGPASSWORD)) {
 }
 
 function New-Secret { [System.Security.Cryptography.RandomNumberGenerator]::GetHexString(40).ToLowerInvariant() }
-
-function Read-EnvFile([string] $path) {
-    $values = @{}
-    foreach ($line in Get-Content -LiteralPath $path) {
-        if ($line -match '^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$') { $values[$Matches[1]] = $Matches[2] }
-    }
-    $values
-}
 
 function Set-UserSecrets([string] $id, [hashtable] $values) {
     # JSON jde přes standardní vstup: hesla nejsou v parametrech procesu.
@@ -87,39 +77,16 @@ finally {
     foreach ($role in $roles) { Remove-Item -Path "Env:ESHOPGUARD_${role}_PASSWORD" -ErrorAction SilentlyContinue }
 }
 
-# 3. deploy/.env pro MinIO (jen pokud chybí; existující hesla se nemění, MinIO je má uložená ve svazku)
-if (-not (Test-Path $envFile)) {
-    $lines = @(
-        '# Vytvořil deploy/dev/setup-local.ps1. Mimo git. Hesla MinIO pro deploy/docker-compose.dev.yml.'
-        'MINIO_ROOT_USER=eshopguard-root'
-        "MINIO_ROOT_PASSWORD=$(New-Secret)"
-        'ESHOPGUARD_S3_ACCESS_KEY=eshopguard-app'
-        "ESHOPGUARD_S3_SECRET_KEY=$(New-Secret)"
-    )
-    Set-Content -LiteralPath $envFile -Value $lines -Encoding utf8NoBOM
-    Write-Host "== deploy/.env vytvořen"
-}
-else {
-    Write-Host "== deploy/.env už existuje, beze změny"
-}
-$minio = Read-EnvFile $envFile
-foreach ($key in 'ESHOPGUARD_S3_ACCESS_KEY', 'ESHOPGUARD_S3_SECRET_KEY') {
-    if (-not $minio.ContainsKey($key) -or [string]::IsNullOrEmpty($minio[$key])) { throw "V deploy/.env chybí $key." }
-}
-$s3Keys = @{ AccessKey = $minio['ESHOPGUARD_S3_ACCESS_KEY']; SecretKey = $minio['ESHOPGUARD_S3_SECRET_KEY'] }
-
-# 4. user-secrets
+# 3. user-secrets
 Write-Host '== user-secrets'
 Set-UserSecrets 'eshopguard-data' @{
     ConnectionStrings = @{ Migrations = New-ConnectionString 'eshopguard' 'eshopguard_owner' $passwords['OWNER'] }
 }
 Set-UserSecrets 'eshopguard-api' @{
     ConnectionStrings = @{ App = New-ConnectionString 'eshopguard' 'eshopguard_app' $passwords['APP'] }
-    Storage = @{ S3 = $s3Keys }
 }
 Set-UserSecrets 'eshopguard-worker' @{
     ConnectionStrings = @{ Worker = New-ConnectionString 'eshopguard' 'eshopguard_worker' $passwords['WORKER'] }
-    Storage = @{ S3 = $s3Keys }
 }
 Set-UserSecrets 'eshopguard-tests' @{
     ConnectionStrings = @{
@@ -128,16 +95,6 @@ Set-UserSecrets 'eshopguard-tests' @{
         Worker = New-ConnectionString 'eshopguard_test' 'eshopguard_worker' $passwords['WORKER']
         Admin = New-ConnectionString 'eshopguard_test' 'eshopguard_admin' $passwords['ADMIN']
         Cms = New-ConnectionString 'eshopguard_test' 'eshopguard_cms' $passwords['CMS']
-    }
-    Storage = @{
-        S3 = @{
-            ServiceUrl = 'http://localhost:9000'
-            Region = 'us-east-1'
-            Bucket = 'eshopguard-test'
-            ForcePathStyle = $true
-            AccessKey = $s3Keys.AccessKey
-            SecretKey = $s3Keys.SecretKey
-        }
     }
 }
 

@@ -88,7 +88,6 @@ Hesla k databázi, přístupové klíče úložiště a klíče služeb (Jev, Op
 - GIVEN všechny soubory `appsettings*.json` a `launchSettings.json` pod `src/` a konfigurační soubory (`*.json`, `*.yml`, `*.yaml`, `*.sql`, `*.ps1`, `*.sh`, `.env.example`) pod `deploy/` a `tests/` (bez `deploy/.env` mimo repozitář)
 - WHEN test `SecretsHygieneTests` projde jejich obsah
 - THEN žádný z nich neobsahuje `Password=` ani `PASSWORD:` s doslovnou hodnotou (povolený je jen odkaz na proměnnou)
-- AND `deploy/docker-compose.dev.yml` uvádí hesla jen jako odkaz na proměnnou `${…}`
 - AND `deploy/.env` je v `.gitignore`
 
 #### Scenario: Heslo se nedostane do logu ani při chybě
@@ -122,10 +121,10 @@ Hesla k databázi, přístupové klíče úložiště a klíče služeb (Jev, Op
 - THEN test selže s názvem projektu (nový projekt se musí do pravidel výslovně přidat)
 
 ### Requirement: Základ: Sestavení a testy jedním příkazem
-`dotnet build EshopGuard.sln` MUST projít bez chyb a `dotnet test EshopGuard.sln` MUST spustit testy všech testovacích projektů. Testy, které potřebují PostgreSQL (`Category=Db`) nebo MinIO (`Category=S3`), MUST bez konfigurace prostředí selhat se jménem chybějícího klíče, ne se tiše přeskočit; vynechat je smí jen výslovný filtr. Placené testy (`Category=Jev`) MUST NOT běžet bez výslovného souhlasu uživatele.
+`dotnet build EshopGuard.sln` MUST projít bez chyb a `dotnet test EshopGuard.sln` MUST spustit testy všech testovacích projektů. Testy, které potřebují PostgreSQL (`Category=Db`), MUST bez konfigurace prostředí selhat se jménem chybějícího klíče, ne se tiše přeskočit; vynechat je smí jen výslovný filtr. Placené testy (`Category=Jev`) MUST NOT běžet bez výslovného souhlasu uživatele.
 
 #### Scenario: dotnet test spustí všechny projekty
-- GIVEN lokální databáze `eshopguard_test` po migraci, běžící MinIO a vyplněné user-secrets `eshopguard-tests`
+- GIVEN lokální databáze `eshopguard_test` po migraci a vyplněné user-secrets `eshopguard-tests`
 - WHEN se spustí `dotnet test EshopGuard.sln` s filtrem bez kategorie `Jev`
 - THEN výsledek uvádí testy z `EshopGuard.Core.Tests`, `EshopGuard.Data.Tests`, `EshopGuard.Storage.Tests`, `EshopGuard.Api.Tests` a `EshopGuard.Worker.Tests`
 - AND `EshopGuard.Core.Tests` má stejný počet testů jako po změně 1 (192 podle podkladů) a žádný neselže
@@ -138,14 +137,14 @@ Hesla k databázi, přístupové klíče úložiště a klíče služeb (Jev, Op
 
 #### Scenario: Výslovné vynechání testů s databází
 - GIVEN vývojář bez lokálního PostgreSQL
-- WHEN spustí `dotnet test` s filtrem, který vynechá kategorie `Db` a `S3`
-- THEN projdou ostatní testy a výstup uvádí, kolik testů filtr vynechal
+- WHEN spustí `dotnet test` s filtrem, který vynechá kategorii `Db`
+- THEN projdou ostatní testy a žádný test kategorie `Db` se nespustí
 
 ### Requirement: Základ: Kontrola stavu API
 API MUST mít `GET /health`, který ověří spojení s databází, roli spojení, aplikované migrace a dostupnost úložiště souborů. Odpověď MUST obsahovat jen názvy kontrol, stavy a kódy chyb, nikdy text výjimky, řetězec připojení, heslo nebo název hostitele. Když kterákoli kontrola selže, odpověď MUST mít stav HTTP 503.
 
 #### Scenario: Vše v pořádku
-- GIVEN API běží jako `eshopguard_app`, migrace jsou aplikované a bucket `eshopguard-dev` existuje
+- GIVEN API běží jako `eshopguard_app`, migrace jsou aplikované a složka `Storage:FileSystem:Root` je zapisovatelná
 - WHEN klient zavolá `GET /health`
 - THEN odpověď má stav 200, `status = ok` a kontroly `database`, `database_role`, `migrations`, `storage` ve stavu `ok`
 
@@ -155,10 +154,10 @@ API MUST mít `GET /health`, který ověří spojení s databází, roli spojen�
 - THEN odpověď má stav 503 a kontrola `database` má `status = failed` a `code = db.unreachable`
 - AND tělo odpovědi neobsahuje text výjimky Npgsql
 
-#### Scenario: Chybí bucket
-- GIVEN `Storage:S3:Bucket` ukazuje na neexistující bucket
+#### Scenario: Úložiště nejde zapsat
+- GIVEN `Storage:FileSystem:Root` ukazuje na místo, kde nejde vytvořit složku (např. existující soubor)
 - WHEN klient zavolá `GET /health`
-- THEN odpověď má stav 503 a kontrola `storage` má `code = storage.bucket_missing`
+- THEN odpověď má stav 503 a kontrola `storage` má `code = storage.unreachable`
 
 ### Requirement: Základ: Kostra workeru s korektním ukončením
 `EshopGuard.Worker` MUST běžet jako .NET Generic Host, MUST se při startu ohlásit identitou `{MachineName}:{ProcessId}` (nebo `Worker:Id`) a MUST se při ukončení (SIGTERM, Ctrl+C) zastavit do `Worker:ShutdownSeconds`. Ukončení MUST být zapsané v logu kódem `worker.stopped`.
@@ -175,7 +174,7 @@ API MUST mít `GET /health`, který ověří spojení s databází, roli spojen�
 - THEN skončí nenulovým kódem s kódem `config.connection_string_missing` a názvem klíče
 
 ### Requirement: Základ: Úložiště souborů za rozhraním IBlobStore
-Systém MUST ukládat soubory (snímky HTML, extrakce, PDF) mimo databázi přes `IBlobStore` s implementacemi pro S3/MinIO a souborový systém. Klíče souborů tenanta MUST začínat `tenants/{tenantId}/` a u e-shopu `tenants/{tenantId}/shops/{shopId}/`. Klíč s `..`, prázdnou částí, lomítkem uvnitř části nebo absolutní cestou MUST být odmítnut. Úložiště MUST NOT být veřejně čitelné.
+Systém MUST ukládat soubory (snímky HTML, extrakce, PDF) mimo databázi přes rozhraní `IBlobStore`; zatím jedinou implementací je lokální souborový systém, další poskytovatel (Azure, AWS…) se přidá jako nová implementace bez změny volajícího kódu. Klíče souborů tenanta MUST začínat `tenants/{tenantId}/` a u e-shopu `tenants/{tenantId}/shops/{shopId}/`. Klíč s `..`, prázdnou částí, lomítkem uvnitř části nebo absolutní cestou MUST být odmítnut. Soubory MUST NOT být dostupné přímo z internetu, jen přes API.
 
 #### Scenario: Zápis a čtení souboru e-shopu
 - GIVEN `BlobKey.ForShop(tenant, shop, "pages", "p1.html.gz")`
@@ -194,28 +193,20 @@ Systém MUST ukládat soubory (snímky HTML, extrakce, PDF) mimo databázi přes
 - THEN vrátí `null` (ne prázdný proud)
 - AND `DeleteAsync` na stejný klíč skončí bez chyby
 
-#### Scenario: Anonymní přístup k bucketu
-- GIVEN bucket `eshopguard-test` v MinIO s nahraným souborem
-- WHEN se soubor stáhne bez podpisu (anonymní HTTP GET)
-- THEN MinIO vrátí 403
-- AND odkaz z `GetReadUrlAsync` s platností 1 minuta soubor vrátí a po vypršení vrátí 403
+#### Scenario: Přerušený zápis
+- GIVEN soubor, který už pod klíčem existuje
+- WHEN se nový zápis přeruší (zrušení, chyba proudu)
+- THEN pod klíčem zůstane původní obsah a nezůstane žádný napůl zapsaný ani dočasný soubor
 
-### Requirement: Základ: Lokální úložiště S3 pro vývoj
-Repozitář MUST obsahovat `deploy/docker-compose.dev.yml`, který spustí MinIO jen na `127.0.0.1` a jednorázově založí buckety `eshopguard-dev` a `eshopguard-test` a uživatele aplikace s právy jen na tyto buckety. Přístupové údaje MUST být jen v `deploy/.env` mimo repozitář; bez nich MUST Compose odmítnout start.
+### Requirement: Základ: Souborové úložiště s výslovně nastavenou složkou
+Úložiště MUST být vybrané nastavením `Storage:Provider`; zatím jediná platná hodnota je `FileSystem`. Složka `Storage:FileSystem:Root` MUST být nastavená výslovně (bez výchozí hodnoty), aby soubory na serveru neskončily mimo připojený svazek. Neplatné nastavení MUST zastavit start API i workeru s kódem a názvem klíče, bez hodnoty.
 
-#### Scenario: Čisté spuštění
-- GIVEN `deploy/.env` vytvořený skriptem `setup-local.ps1`
-- WHEN se spustí `docker compose -f deploy/docker-compose.dev.yml up -d`
-- THEN MinIO odpovídá na `http://127.0.0.1:9000/minio/health/live`
-- AND existují buckety `eshopguard-dev` a `eshopguard-test`
-- AND uživatel aplikace smí zapisovat do `eshopguard-dev`, ale nesmí založit nový bucket
+#### Scenario: Chybí složka úložiště
+- GIVEN `Storage:Provider = FileSystem` a `Storage:FileSystem:Root` není nastavená
+- WHEN se spustí API nebo worker
+- THEN start selže s `config.storage_key_missing: Storage:FileSystem:Root`
 
-#### Scenario: Chybí deploy/.env
-- GIVEN soubor `deploy/.env` neexistuje
-- WHEN se spustí `docker compose -f deploy/docker-compose.dev.yml up -d`
-- THEN Compose skončí chybou „chybí v deploy/.env“ a žádný kontejner nevznikne
-
-#### Scenario: Opakované spuštění inicializace
-- GIVEN buckety a uživatel už existují
-- WHEN se `minio-init` spustí znovu
-- THEN skončí bez chyby a nic nezdvojí ani nesmaže
+#### Scenario: Neznámý poskytovatel
+- GIVEN `Storage:Provider` je prázdný nebo má hodnotu bez implementace (např. `Azure`)
+- WHEN se spustí API nebo worker
+- THEN start selže s `config.storage_provider_invalid: Storage:Provider`

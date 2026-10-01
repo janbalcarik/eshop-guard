@@ -11,7 +11,7 @@ context: |
   Cílová architektura (podklady v ../../*.md, hlavně architektura-multitenant-worker-2026-10-01.md
   a databaze-a-plan-implementace-2026-10-01.md):
   - Next.js frontend (aplikace + prezentační web s Payload CMS 3), ASP.NET Core API, N workerů (.NET Generic Host);
-  - PostgreSQL 18 (data, fronta úloh SKIP LOCKED s leasy, limity, RLS po tenantech) + S3/MinIO;
+  - PostgreSQL 18 (data, fronta úloh SKIP LOCKED s leasy, limity, RLS po tenantech) + soubory za rozhraním IBlobStore (zatím lokální souborový systém, cloud později);
   - workery i API se připojují přímo do DB v jedné privátní síti;
   - start na jednom serveru: Ubuntu 24.04 + Docker Compose (caddy, web, api, worker, postgres, walg -> S3);
   - platby Stripe (Checkout: jednorázová analýza + předplatné s 30denní zkušební dobou), faktury SuperFaktúra (SK e-faktúra Peppol od 1. 1. 2027);

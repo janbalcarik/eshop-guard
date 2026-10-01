@@ -31,9 +31,8 @@ public static class StorageServiceCollectionExtensions
             throw new StorageConfigurationException(failure.Code, failure.Key);
         }
 
-        return options.Provider == StorageOptions.S3Provider
-            ? new S3BlobStore(options.S3, options.MaxSignedUrlMinutes)
-            : new FileSystemBlobStore(options.FileSystem.Root);
+        // Further providers (Azure Blob Storage, S3, …) are added here as new IBlobStore implementations.
+        return new FileSystemBlobStore(options.FileSystem.Root!);
     }
 }
 
@@ -43,31 +42,11 @@ internal sealed class StorageOptionsValidator : IValidateOptions<StorageOptions>
     public ValidateOptionsResult Validate(string? name, StorageOptions options) =>
         Check(options) is { } failure ? ValidateOptionsResult.Fail($"{failure.Code}: {failure.Key}") : ValidateOptionsResult.Success;
 
-    internal static (string Code, string Key)? Check(StorageOptions options)
+    internal static (string Code, string Key)? Check(StorageOptions options) => options.Provider switch
     {
-        switch (options.Provider)
-        {
-            case StorageOptions.FileSystemProvider:
-                return string.IsNullOrWhiteSpace(options.FileSystem.Root) ? (StorageErrorCodes.KeyMissing, "Storage:FileSystem:Root") : null;
-            case StorageOptions.S3Provider:
-                if (string.IsNullOrWhiteSpace(options.S3.Bucket))
-                {
-                    return (StorageErrorCodes.KeyMissing, "Storage:S3:Bucket");
-                }
-
-                if (string.IsNullOrWhiteSpace(options.S3.AccessKey))
-                {
-                    return (StorageErrorCodes.KeyMissing, "Storage:S3:AccessKey");
-                }
-
-                if (string.IsNullOrWhiteSpace(options.S3.SecretKey))
-                {
-                    return (StorageErrorCodes.KeyMissing, "Storage:S3:SecretKey");
-                }
-
-                return options.MaxSignedUrlMinutes is < 1 or > 10080 ? (StorageErrorCodes.KeyMissing, "Storage:MaxSignedUrlMinutes") : null;
-            default:
-                return (StorageErrorCodes.ProviderInvalid, "Storage:Provider");
-        }
-    }
+        StorageOptions.FileSystemProvider when string.IsNullOrWhiteSpace(options.FileSystem.Root)
+            => (StorageErrorCodes.KeyMissing, "Storage:FileSystem:Root"),
+        StorageOptions.FileSystemProvider => null,
+        _ => (StorageErrorCodes.ProviderInvalid, "Storage:Provider"),
+    };
 }

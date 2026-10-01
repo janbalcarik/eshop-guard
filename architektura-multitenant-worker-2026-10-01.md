@@ -51,7 +51,7 @@ src/
   EshopGuard.Api         backend API
   EshopGuard.Worker      worker
 web/                       frontend Next.js
-deploy/                    docker-compose pro vývoj (postgres, minio, api, worker, web) a pro produkční server (část 7.1)
+deploy/                    skripty databáze a vývoje, docker-compose pro produkční server (část 7.1); MinIO se nepoužívá (rozhodnuto 1. 10. 2026)
 ```
 
 ## 3. Multitenance
@@ -259,8 +259,8 @@ Pro start stačí jeden server: noční sledování 100 e-shopů je v průměru 
 | `postgres` | PostgreSQL, data na disku serveru, port jen ve vnitřní síti Dockeru |
 | `walg` | průběžná záloha změn databáze (WAL) a denní plná záloha do S3 u jiného poskytovatele |
 
-- Soubory (snímky HTML, protokoly PDF) jdou do S3 kompatibilního úložiště mimo server.
-- Pro vývoj na počítači je stejný Compose s MinIO místo S3.
+- Soubory (snímky HTML, protokoly PDF) jdou přes rozhraní `IBlobStore`. Rozhodnuto 1. 10. 2026: zatím do lokálního souborového systému (svazek Dockeru, zálohovaný mimo server), úložiště v cloudu (Azure, AWS…) později jako další implementace.
+- Pro vývoj na počítači stačí souborový systém, MinIO se nepoužívá.
 - **Kód je stejný jako pro víc serverů.** Fronta s leasy, globální limity v databázi i živý průběh přes `LISTEN/NOTIFY` fungují s jednou instancí i s deseti. Přechod na víc serverů tak znamená jiné nasazení, ne změnu aplikace.
 
 **Nasazení nové verze:**

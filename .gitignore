@@ -10,7 +10,7 @@ TestResults/
 .vs/
 *.user
 
-# Lokální data vývoje (souborové úložiště), hesla pro MinIO a balíčky migrací
+# Lokální data vývoje (souborové úložiště), provozní hesla (deploy/.env, změna 17) a balíčky migrací
 .data/
 deploy/.env
 *.efbundle

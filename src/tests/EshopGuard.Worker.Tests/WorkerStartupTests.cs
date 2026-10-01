@@ -57,4 +57,15 @@ public sealed class WorkerWithoutConnectionTests
         Assert.True(logs.Contains("config.connection_string_missing ConnectionStrings:Worker"));
         Assert.False(logs.Contains("worker.started"));
     }
+
+    [Fact]
+    public async Task MissingStorageRoot_IsRefusedWithKeyName()
+    {
+        var logs = new InMemoryLoggerProvider();
+        using var host = WorkerTestHost.Build(logs, new Dictionary<string, string?> { ["Storage:FileSystem:Root"] = "" });
+
+        var ex = await Assert.ThrowsAsync<Microsoft.Extensions.Options.OptionsValidationException>(() => host.StartAsync(TestContext.Current.CancellationToken));
+        Assert.Equal(["config.storage_key_missing: Storage:FileSystem:Root"], ex.Failures);
+        Assert.False(logs.Contains("worker.started"));
+    }
 }

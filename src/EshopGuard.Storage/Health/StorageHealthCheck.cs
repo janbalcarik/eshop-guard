@@ -3,7 +3,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 namespace EshopGuard.Storage.Health;
 
 /// <summary>
-/// <c>/health</c> check of the file store: file system writes and deletes <c>health/probe</c>, S3 lists the bucket.
+/// <c>/health</c> check of the file store through <see cref="IBlobStoreProbe"/> (file system: writes and deletes <c>health/probe</c>).
 /// The result carries only a code in <c>data["code"]</c>.
 /// </summary>
 public sealed class StorageHealthCheck(IServiceProvider services) : IHealthCheck
@@ -23,6 +23,11 @@ public sealed class StorageHealthCheck(IServiceProvider services) : IHealthCheck
         catch (StorageConfigurationException ex)
         {
             code = ex.Code;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            // The store could not be created, e.g. the root folder cannot be made.
+            code = StorageErrorCodes.Unreachable;
         }
 
         return code is null

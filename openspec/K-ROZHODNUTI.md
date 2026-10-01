@@ -6,6 +6,13 @@ Každá změna má v `proposal.md` oddíl „K rozhodnutí“, celkem asi 320 bo
 - **C** jsou mezery v plánu;
 - **D** se ověří v dokumentaci během práce.
 
+## Rozhodnuto
+
+- **Úložiště souborů (1. 10. 2026, uživatel, změna 2):** soubory (snímky HTML, extrakce, PDF, doklady) se zatím ukládají do lokálního souborového systému za rozhraním `IBlobStore` (`FileSystemBlobStore`; na serveru připojený svazek Dockeru, složka `Storage:FileSystem:Root` povinná). Úložiště v cloudu (Azure, AWS…) se přidá později jako další implementace `IBlobStore` vybraná v `Storage:Provider`. MinIO se nepoužívá (obrazy `minio/minio` a `minio/mc` na Docker Hubu nejsou). Provoz poběží na dedikovaném serveru s Dockerem. Dopad na další změny:
+  - změna 8: `S3PageContentStore` stojí nad `IBlobStore`, jen ho při implementaci pojmenovat podle úložiště (např. `BlobPageContentStore`); testy proti souborovému systému, ne MinIO;
+  - změna 14: média CMS (`@payloadcms/storage-s3`, veřejné čtení ze S3) řešit při implementaci (lokální úložiště Payloadu, nebo cloud přes nový poskytovatel);
+  - změna 17: zálohy databáze (WAL-G) dál do S3 u jiného poskytovatele; nově je potřeba zálohovat i svazek se soubory (bod 9 „Zálohy souborů v S3 aplikace“ přepracovat) a nastavit `Storage__FileSystem__Root`.
+
 ## A. Rozhoduje uživatel (produkt, obchod, právo)
 
 | # | Otázka | Doporučení | Kde |
@@ -92,6 +99,6 @@ Každá změna má v `proposal.md` oddíl „K rozhodnutí“, celkem asi 320 bo
   - zápis stránky (`description` × `content`);
   - názvy událostí a kódování podpisu;
   - zda předává identitu do nastavení doplňku.
-- **Ostatní:** podpora PostgreSQL 18 ve WAL-G; verze Next.js podporovaná Payloadem 3; licence obrazu MinIO.
+- **Ostatní:** podpora PostgreSQL 18 ve WAL-G; verze Next.js podporovaná Payloadem 3. (Licence obrazu MinIO už není potřeba, viz Rozhodnuto.)
 
 Podrobné body jsou v `changes/<změna>/proposal.md`, oddíl „K rozhodnutí“.

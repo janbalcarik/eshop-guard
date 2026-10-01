@@ -34,4 +34,14 @@ public sealed class StartupGuardWithoutDatabaseTests
         Assert.Equal(DataErrorCodes.ConnectionStringMissing, ex.Code);
         Assert.Contains(factory.Logs.Logs, l => l.Message.Contains("config.connection_string_missing ConnectionStrings:App", StringComparison.Ordinal));
     }
+
+    [Fact]
+    public async Task MissingStorageRoot_StopsStartupWithKeyName()
+    {
+        // appsettings.json selects FileSystem but has no root: production must set Storage__FileSystem__Root explicitly.
+        await using var factory = new ApiFactory(appConnectionString: null, withStorageRoot: false);
+
+        var ex = Assert.Throws<Microsoft.Extensions.Options.OptionsValidationException>(() => factory.CreateClient());
+        Assert.Equal(["config.storage_key_missing: Storage:FileSystem:Root"], ex.Failures);
+    }
 }

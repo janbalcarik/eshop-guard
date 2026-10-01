@@ -53,4 +53,31 @@ public sealed class HealthEndpointWithoutDatabaseTests
             Assert.DoesNotContain(forbidden, body, StringComparison.OrdinalIgnoreCase);
         }
     }
+
+    [Fact]
+    public async Task Health_WithUnwritableStorage_ReportsStorageUnreachable()
+    {
+        // A file where the root folder should be: the folder cannot be created.
+        var file = Path.GetTempFileName();
+        try
+        {
+            await using var factory = new ApiFactory(
+                "Host=127.0.0.1;Port=1;Database=eshopguard_test;Username=eshopguard_app;Password=x;Timeout=2",
+                withStartupGuard: false,
+                storageRoot: Path.Combine(file, "blobs"));
+            using var client = factory.CreateClient();
+
+            using var response = await client.GetAsync("/health", TestContext.Current.CancellationToken);
+            using var json = JsonDocument.Parse(await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken));
+
+            Assert.Equal(HttpStatusCode.ServiceUnavailable, response.StatusCode);
+            var storage = json.RootElement.GetProperty("checks").EnumerateArray().Single(c => c.GetProperty("name").GetString() == "storage");
+            Assert.Equal("failed", storage.GetProperty("status").GetString());
+            Assert.Equal("storage.unreachable", storage.GetProperty("code").GetString());
+        }
+        finally
+        {
+            File.Delete(file);
+        }
+    }
 }
