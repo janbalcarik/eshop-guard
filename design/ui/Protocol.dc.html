@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<title>Protokol o kontrole</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&amp;family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:"Figtree",system-ui,sans-serif;background:#FFFFFF;color:#17191C}
+</style>
+</helmet>
+<div style="width: 820px; height: 1160px; box-sizing: border-box; background: #FFFFFF; padding: 52px 56px; display: flex; flex-direction: column; gap: 22px;">
+<header style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0E5A52; padding-bottom: 16px;">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<span style="display: flex; align-items: center; gap: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 15px; font-weight: 700; color: #0E5A52;"><span style="width: 22px; height: 22px; border-radius: 6px; background: #0E5A52; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg></span>EshopGuard</span>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px; font-weight: 700;">Protokol o kontrole textov e-shopu</h1>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 12px; color: #4A4F57;"><span>Č. EG-2026-0142</span><span>Vystavené 31. 10. 2026</span><span>Strana 1 z 3</span></div>
+</header>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px; font-size: 13px;">
+<span><span style="color: #5F646C;">E-shop:</span> bylinkovo.sk</span>
+<span><span style="color: #5F646C;">Obdobie:</span> 30. 9. – 31. 10. 2026</span>
+<span><span style="color: #5F646C;">Úvodná kontrola:</span> 30. 9. 2026, 5 872 stránok</span>
+<span><span style="color: #5F646C;">Sledovanie:</span> celý e-shop, zmenené stránky denne</span>
+<span style="grid-column: span 2;"><span style="color: #5F646C;">Pravidlá:</span> eco-2026-09-30-draft13, dur-2026-09-30-draft3, ucp-2026-09-26-draft4, legal-sk-2026-09-26-draft4 (zákon č. 108/2024 Z. z. v znení od 27. 9. 2026)</span>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{summary}}" as="s" hint-placeholder-count="4">
+<div style="border: 1px solid #E2E0D8; border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px;"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 700;">{{s.value}}</span><span style="font-size: 12px; color: #4A4F57;">{{s.label}}</span></div>
+</sc-for>
+</div>
+
+<section style="display: flex; flex-direction: column; gap: 8px;">
+<h2 style="margin: 0; font-size: 15px; font-weight: 700;">Rozhodnutia a opravy</h2>
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #5F646C; border-bottom: 1px solid #CFCCC2; padding-bottom: 6px;">
+<span style="grid-column: span 2;">Dátum</span><span style="grid-column: span 3;">Stránky</span><span style="grid-column: span 3;">Pôvodne</span><span style="grid-column: span 3;">Riešenie</span><span style="grid-column: span 1;">Bod</span>
+</div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 10px; font-size: 12px; line-height: 17px; border-bottom: 1px solid #EFEEE8; padding-bottom: 6px;">
+<span style="grid-column: span 2; color: #4A4F57;">{{r.date}}</span><span style="grid-column: span 3;">{{r.pages}}</span><span style="grid-column: span 3; color: #9A1C1C;">{{r.before}}</span><span style="grid-column: span 3;">{{r.fix}}</span><span style="grid-column: span 1; color: #4A4F57;">{{r.ref}}</span>
+</div>
+</sc-for>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px;">
+<h2 style="margin: 0; font-size: 15px; font-weight: 700;">Doklady prevádzkovateľa</h2>
+<ul style="margin: 0; padding-left: 18px; font-size: 12px; line-height: 19px; color: #33373D;">
+<li>„Vegan“, značka Biopurus: certifikát Vegan, zaznamenané 30. 9. 2026 (19 produktov).</li>
+<li>„EU Ecolabel“, prací gél Tierra Verde: licencia overená v katalógu EU Ecolabel 1. 10. 2026 (3 produkty).</li>
+<li>„Kontrolovaná prírodná kozmetika“, značka Kvitok: certifikát BDIH platný do 20. 10. 2026, pripomenuté 30. 9. 2026 (6 produktov).</li>
+</ul>
+</section>
+
+<footer style="margin-top: auto; border-top: 1px solid #CFCCC2; padding-top: 12px; font-size: 11px; line-height: 16px; color: #5F646C;">
+Protokol zaznamenáva kontrolu textov nástrojom EshopGuard a rozhodnutia prevádzkovateľa. Nie je právnym posúdením ani certifikátom. O nálezoch „na posúdenie“ a „na overenie“ rozhodol prevádzkovateľ; návrhy textov pripravila umelá inteligencia a pred zverejnením ich schválil prevádzkovateľ.
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":820,"height":1160}}'>
+class Component extends DCLogic {
+renderVals() {
+return {
+summary: [
+{ value: '43', label: 'nálezov pri úvodnej kontrole' },
+{ value: '31', label: 'opravených a zverejnených' },
+{ value: '6', label: 'ponechaných s dokladom' },
+{ value: '6', label: 'čaká na rozhodnutie' },
+],
+rows: [
+{ date: '30. 9. 2026', pages: 'Zubná pasta + bambusová kefka', before: '„v ekologickom sete“', fix: 'Nahradené „v sete so zubnou kefkou s bambusovou rukoväťou“, zverejnené 30. 9.', ref: 'bod 6' },
+{ date: '30. 9. 2026', pages: '36 produktov (hromadne)', before: '„Všetky naše produkty balíme ekologicky.“', fix: 'Nahradené „Obal: papierová krabica bez plastovej výplne.“', ref: 'bod 6' },
+{ date: '1. 10. 2026', pages: 'Sviečky Vodnár (4)', before: '„Doba horenia: 22 hodín“', fix: 'Odstránené, údaj sa nedá doložiť', ref: 'bod 36' },
+{ date: '1. 10. 2026', pages: 'Obchodné podmienky', before: 'odkaz na zrušenú platformu ODR', fix: 'Odkaz odstránený', ref: '–' },
+{ date: '2. 10. 2026', pages: '19 produktov Biopurus', before: '„Vegan“', fix: 'Ponechané, doklad: certifikát Vegan', ref: '–' },
+{ date: '3. 10. 2026', pages: 'Šampón s ílom a mätou', before: '„Prírodný šampón“ (na posúdenie)', fix: 'Ponechané, rozhodla J. Kováčová', ref: '–' },
+],
+};
+}
+}
+</script>
+</body>
+</html>

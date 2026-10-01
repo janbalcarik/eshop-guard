@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<title>Pripojenie e-shopu</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&amp;family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:"Figtree",system-ui,sans-serif;background:#F6F5F1;color:#17191C}
+a{color:#0E5A52}a:hover{color:#0B4A43}
+</style>
+</helmet>
+<div style="width: 1440px; height: 960px; box-sizing: border-box; background: #F6F5F1; display: flex; flex-direction: column;">
+<header style="height: 72px; box-sizing: border-box; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #E2E0D8; background: #FFFFFF;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<div style="width: 30px; height: 30px; border-radius: 8px; background: #0E5A52; display: flex; align-items: center; justify-content: center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg></div>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 700;">EshopGuard</span>
+</div>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600;">
+<li style="display: flex; align-items: center; gap: 8px; color: #1C6B3E;"><span style="width: 24px; height: 24px; border-radius: 999px; background: #E4F4EA; display: flex; align-items: center; justify-content: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg></span>Účet</li>
+<li style="width: 32px; height: 1px; background: #CFCCC2;"></li>
+<li style="display: flex; align-items: center; gap: 8px; color: #0B4A43;"><span style="width: 24px; height: 24px; border-radius: 999px; background: #0E5A52; color: #FFFFFF; display: flex; align-items: center; justify-content: center;">2</span>Pripojenie</li>
+<li style="width: 32px; height: 1px; background: #CFCCC2;"></li>
+<li style="display: flex; align-items: center; gap: 8px; color: #5F646C;"><span style="width: 24px; height: 24px; border-radius: 999px; border: 1px solid #CFCCC2; display: flex; align-items: center; justify-content: center;">3</span>Rozsah a spustenie</li>
+</ol>
+<a href="Dashboard.dc.html" style="font-size: 14px; color: #4A4F57;">Preskočiť</a>
+</header>
+
+<div style="flex-grow: 1; padding: 40px 120px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 40px;">
+<form style="grid-column: span 7; display: flex; flex-direction: column; gap: 22px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 36px; font-weight: 700; letter-spacing: -0.01em;">Pripojte svoj e-shop</h1>
+<p style="margin: 0; font-size: 17px; color: #4A4F57;">Zadajte adresu. Rozpoznáme platformu a ponúkneme najlepší spôsob pripojenia.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<label for="shop-url" style="font-size: 14px; font-weight: 600;">Adresa e-shopu</label>
+<div style="height: 52px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; border: 1px solid #0E5A52; border-radius: 10px; padding: 0 8px 0 16px; background: #FFFFFF; box-shadow: 0 0 0 3px #CFE6E0;">
+<input id="shop-url" type="url" value="https://bylinkovo.sk" style="flex-grow: 1; border: 0; background: transparent; font-family: inherit; font-size: 17px; color: #17191C;">
+<span style="display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: #1C6B3E; background: #E4F4EA; padding: 6px 10px; border-radius: 8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Rozpoznané: Shoptet</span>
+</div>
+</div>
+
+<fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 12px;">
+<legend style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">Ako chcete e-shop pripojiť</legend>
+
+<label style="display: flex; gap: 14px; padding: 20px; border: 2px solid #0E5A52; border-radius: 14px; background: #FFFFFF;">
+<input type="radio" name="source" checked style="accent-color: #0E5A52; margin-top: 4px; width: 18px; height: 18px;">
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px;">
+<span style="display: flex; align-items: center; gap: 10px;"><span style="font-size: 17px; font-weight: 600;">Pripojiť cez Shoptet</span><span style="font-size: 12px; font-weight: 600; background: #0E5A52; color: #FFFFFF; padding: 3px 9px; border-radius: 999px;">Odporúčané</span></span>
+<span style="display: flex; flex-direction: column; gap: 6px; font-size: 15px; color: #33373D;">
+<span style="display: flex; gap: 8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Texty presne tak, ako ich máte v administrácii</span>
+<span style="display: flex; gap: 8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Opravy publikujete do e-shopu jedným klikom</span>
+<span style="display: flex; gap: 8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Zmenu produktu zistíme hneď po uložení</span>
+</span>
+<span style="font-size: 13px; color: #5F646C;">Otvorí sa Shoptet, kde prístup povolíte. Povolenie môžete kedykoľvek zrušiť.</span>
+</span>
+<span style="align-self: center; flex-shrink: 0; height: 44px; display: flex; align-items: center; padding: 0 18px; border-radius: 10px; background: #0E5A52; color: #FFFFFF; font-size: 15px; font-weight: 600;">Pripojiť Shoptet</span>
+</label>
+
+<label style="display: flex; gap: 14px; padding: 18px 20px; border: 1px solid #CFCCC2; border-radius: 14px; background: #FFFFFF;">
+<input type="radio" name="source" style="accent-color: #0E5A52; margin-top: 4px; width: 18px; height: 18px;">
+<span style="display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 16px; font-weight: 600;">Produktový feed</span><span style="font-size: 14px; line-height: 20px; color: #4A4F57;">Adresa XML feedu pre Heureku alebo Google. Len čítanie, opravy budete kopírovať ručne.</span></span>
+</label>
+
+<label style="display: flex; gap: 14px; padding: 18px 20px; border: 1px solid #CFCCC2; border-radius: 14px; background: #FFFFFF;">
+<input type="radio" name="source" style="accent-color: #0E5A52; margin-top: 4px; width: 18px; height: 18px;">
+<span style="display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 16px; font-weight: 600;">Len adresa webu</span><span style="font-size: 14px; line-height: 20px; color: #4A4F57;">Stránky prejdeme ako zákazník. Funguje pre každý e-shop, opravy budete kopírovať ručne.</span></span>
+</label>
+</fieldset>
+
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<a href="Login.dc.html" style="font-size: 15px; color: #4A4F57;">Späť</a>
+<a href="OnboardingScope.dc.html" style="height: 48px; display: flex; align-items: center; gap: 8px; background: #0E5A52; color: #FFFFFF; text-decoration: none; padding: 0 24px; border-radius: 10px; font-size: 16px; font-weight: 600;">Pokračovať
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</div>
+</form>
+
+<aside style="grid-column: span 5; align-self: start; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600;">Čo ktorý spôsob umožní</h2>
+<table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+<thead>
+<tr style="color: #5F646C; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em;">
+<th scope="col" style="text-align: left; font-weight: 600; padding: 0 0 10px;"></th>
+<th scope="col" style="font-weight: 600; padding: 0 0 10px;">Pripojenie</th>
+<th scope="col" style="font-weight: 600; padding: 0 0 10px;">Feed</th>
+<th scope="col" style="font-weight: 600; padding: 0 0 10px;">Web</th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{rows}}" as="row" hint-placeholder-count="5">
+<tr style="border-top: 1px solid #EFEEE8;">
+<th scope="row" style="text-align: left; font-weight: 500; padding: 12px 8px 12px 0;">{{row.label}}</th>
+<td style="text-align: center; padding: 12px 0;"><span style="{{row.aStyle}}">{{row.a}}</span></td>
+<td style="text-align: center; padding: 12px 0;"><span style="{{row.bStyle}}">{{row.b}}</span></td>
+<td style="text-align: center; padding: 12px 0;"><span style="{{row.cStyle}}">{{row.c}}</span></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+<div style="display: flex; gap: 10px; align-items: flex-start; background: #F6F5F1; border-radius: 10px; padding: 12px;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 8v5M12 16.5v.01"></path></svg>
+<p style="margin: 0; font-size: 14px; line-height: 20px; color: #4A4F57;">Aj pri pripojení prejdeme aj samotný web: odznaky, pätičku a bannery vidí zákazník len tam.</p>
+</div>
+</aside>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+renderVals() {
+const yes = 'display: inline-block; font-size: 13px; font-weight: 600; color: #1C6B3E; background: #E4F4EA; padding: 3px 10px; border-radius: 999px;';
+const no = 'display: inline-block; font-size: 13px; font-weight: 500; color: #5F646C;';
+const part = 'display: inline-block; font-size: 13px; font-weight: 600; color: #8A4B00; background: #FEF1DC; padding: 3px 10px; border-radius: 999px;';
+const v = { y: ['áno', yes], n: ['nie', no], p: ['čiastočne', part] };
+const rows = [
+{ label: 'Presné texty produktov', a: 'y', b: 'p', c: 'p' },
+{ label: 'Publikovanie opráv jedným klikom', a: 'y', b: 'n', c: 'n' },
+{ label: 'Zmena zistená hneď po uložení', a: 'y', b: 'n', c: 'n' },
+{ label: 'Odznaky, pätička, bannery', a: 'y', b: 'n', c: 'y' },
+{ label: 'Funguje pre každý e-shop', a: 'n', b: 'y', c: 'y' },
+];
+return {
+rows: rows.map((r) => ({
+label: r.label,
+a: v[r.a][0], aStyle: v[r.a][1],
+b: v[r.b][0], bStyle: v[r.b][1],
+c: v[r.c][0], cStyle: v[r.c][1],
+})),
+};
+}
+}
+</script>
+</body>
+</html>

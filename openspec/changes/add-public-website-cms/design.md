@@ -1,5 +1,8 @@
 # Design: Prezentační web s Payload CMS a jazykové základy
 
+> **Předloha UI:** `design/ui/` v kořeni repozitáře (úvodní stránka `Main.dc.html` a přihlášení `Login*.dc.html`); popis souborů v `design/ui/README.md`. Rozvržení, texty, barvy a stavy se přebírají odtud.
+
+
 Cesty jsou relativně ke kořeni repozitáře `eshop-guard/` (po změně 1). Kostru `web/`, tokeny a písma zakládá změna 13 (skupina 2).
 
 ## Technical Approach

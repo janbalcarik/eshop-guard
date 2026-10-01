@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<title>EshopGuard – úvod a cenník</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&amp;family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:"Figtree",system-ui,sans-serif;background:#F6F5F1;color:#17191C}
+a{color:#0E5A52}a:hover{color:#0B4A43}
+</style>
+</helmet>
+<div style="width: 1440px; height: 4084px; box-sizing: border-box; background: #F6F5F1; display: flex; flex-direction: column;">
+
+<header style="height: 80px; box-sizing: border-box; padding: 0 80px; display: flex; align-items: center; justify-content: space-between;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<div style="width: 32px; height: 32px; border-radius: 8px; background: #0E5A52; display: flex; align-items: center; justify-content: center;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>
+</div>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -0.01em;">EshopGuard</span>
+</div>
+<nav style="display: flex; align-items: center; gap: 32px; font-size: 15px; font-weight: 500;">
+<a href="#ako" style="color: #17191C; text-decoration: none;">Ako to funguje</a>
+<a href="#napojenie" style="color: #17191C; text-decoration: none;">Napojenie</a>
+<a href="#co" style="color: #17191C; text-decoration: none;">Čo kontrolujeme</a>
+<a href="#cennik" style="color: #17191C; text-decoration: none;">Cenník</a>
+<div style="position: relative;">
+<button type="button" onClick="{{toggleLang}}" aria-haspopup="true" aria-expanded="{{langExpanded}}" aria-label="Jazyk" style="height: 40px; display: flex; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid #CFCCC2; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 600; color: #17191C; cursor: pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"></path></svg>SK<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{langChevron}}"></path></svg></button>
+<sc-if value="{{langOpen}}" hint-placeholder-val="{{false}}">
+<div role="menu" style="position: absolute; right: 0; top: 48px; z-index: 10; width: 230px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 12px; box-shadow: 0 14px 36px rgba(23, 25, 28, 0.16); padding: 6px; display: flex; flex-direction: column; gap: 2px;">
+<a href="#" role="menuitemradio" aria-checked="true" style="display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 6px 10px; border-radius: 8px; text-decoration: none; background: #E3F0ED; color: #0B4A43;"><span style="flex-grow: 1; display: flex; flex-direction: column; gap: 1px;"><span style="font-size: 15px; font-weight: 600;">Slovensko</span><span style="font-size: 13px; color: #5F646C;">slovenčina</span></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M5 12.5l4.2 4.2L19 7"></path></svg></a>
+<a href="#" role="menuitemradio" aria-checked="false" style="display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 6px 10px; border-radius: 8px; text-decoration: none; color: #17191C;"><span style="flex-grow: 1; display: flex; flex-direction: column; gap: 1px;"><span style="font-size: 15px; font-weight: 600;">Česko</span><span style="font-size: 13px; color: #5F646C;">čeština</span></span></a>
+</div>
+</sc-if>
+</div>
+<a href="Login.dc.html" style="color: #17191C; text-decoration: none;">Prihlásiť sa</a>
+<a href="Login.dc.html" style="background: #0E5A52; color: #FFFFFF; text-decoration: none; padding: 11px 18px; border-radius: 8px; font-weight: 600;">Vyskúšať zadarmo</a>
+</nav>
+</header>
+
+<section style="padding: 72px 80px 96px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; align-items: center;">
+<div style="display: flex; flex-direction: column; gap: 28px;">
+<div style="align-self: flex-start; display: flex; align-items: center; gap: 8px; background: #E3F0ED; color: #0B4A43; font-size: 14px; font-weight: 600; padding: 7px 12px; border-radius: 999px;">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2"></path></svg>
+Nové pravidlá platia od 27. 9. 2026
+</div>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 60px; line-height: 64px; font-weight: 700; letter-spacing: -0.02em;">Texty vášho e-shopu v súlade s novým zákonom</h1>
+<p style="margin: 0; font-size: 20px; line-height: 30px; color: #4A4F57; max-width: 560px;">Skontrolujeme každú stránku e-shopu, ukážeme, čo presne je problém a prečo, a navrhneme opravený text. Vy ho len potvrdíte.</p>
+<form style="display: flex; gap: 12px; max-width: 580px;">
+<label for="hero-url" style="position: absolute; width: 1px; height: 1px; overflow: hidden;">Adresa e-shopu</label>
+<input id="hero-url" type="url" placeholder="https://vas-eshop.sk" style="flex-grow: 1; height: 56px; box-sizing: border-box; border: 1px solid #CFCCC2; border-radius: 10px; padding: 0 18px; font-family: inherit; font-size: 17px; background: #FFFFFF; color: #17191C;">
+<a href="Login.dc.html" style="height: 56px; box-sizing: border-box; display: flex; align-items: center; gap: 8px; background: #0E5A52; color: #FFFFFF; text-decoration: none; padding: 0 24px; border-radius: 10px; font-size: 17px; font-weight: 600;">Skontrolovať zadarmo
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+</a>
+</form>
+<div style="display: flex; gap: 14px; align-items: flex-start; max-width: 580px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #CDE6D8; border-radius: 12px; padding: 16px 18px;">
+<span style="width: 40px; height: 40px; flex-shrink: 0; border-radius: 10px; background: #E3F0ED; color: #0B4A43; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13M12 7C10.5 4 7 3.5 7 5.8 7 7 9.5 7 12 7zM12 7c1.5-3 5-3.5 5-1.2C17 7 14.5 7 12 7z"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 4px;">
+<span style="font-size: 17px; font-weight: 600;">100 stránok skontrolujeme zadarmo</span>
+<span style="font-size: 15px; line-height: 22px; color: #4A4F57;">Uvidíte počet nálezov, päť najzávažnejších s vysvetlením a ukážku opraveného textu. Stačí e-mail, platobnú kartu nepotrebujete.</span>
+</span>
+</div>
+<div style="display: flex; gap: 24px; font-size: 15px; color: #4A4F57;">
+<span style="display: flex; align-items: center; gap: 8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Kontrola beží na pozadí</span>
+<span style="display: flex; align-items: center; gap: 8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Výsledok pošleme e-mailom</span>
+<span style="display: flex; align-items: center; gap: 8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Odkaz na paragraf pri každom náleze</span>
+</div>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 24px 48px -24px rgba(23, 25, 28, 0.18);">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<span style="font-size: 13px; color: #5F646C;">bylinkovo.sk / zubná pasta + bambusová kefka</span>
+<span style="font-size: 17px; font-weight: 600;">Návrh opravy textu</span>
+</div>
+<span style="background: #FDECEC; color: #9A1C1C; font-size: 13px; font-weight: 600; padding: 5px 10px; border-radius: 999px;">Porušenie · príloha č. 1 bod 6</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+<div style="background: #FBFAF7; border: 1px solid #E2E0D8; border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #5F646C;">Pôvodne</span>
+<p style="margin: 0; font-size: 15px; line-height: 24px;">Okamžitý komfort pre citlivé zuby v <span style="background: #FDECEC; color: #9A1C1C; text-decoration: line-through;">ekologickom sete</span>.</p>
+</div>
+<div style="background: #F3FAF6; border: 1px solid #CDE6D8; border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1C6B3E;">Navrhované</span>
+<p style="margin: 0; font-size: 15px; line-height: 24px;">Okamžitý komfort pre citlivé zuby v <span style="background: #D6EFDF; color: #14532D;">sete so zubnou kefkou s bambusovou rukoväťou</span>.</p>
+</div>
+</div>
+<div style="display: flex; gap: 12px; align-items: flex-start; background: #F6F5F1; border-radius: 10px; padding: 14px 16px;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><path d="M12 4v16M5 20h14M7 7h10M7 7l-3 6h6l-3-6zM17 7l-3 6h6l-3-6z"></path></svg>
+<p style="margin: 0; font-size: 14px; line-height: 21px; color: #4A4F57;">„Ekologický“ je všeobecné environmentálne tvrdenie. Namiesto neho uvádzame konkrétny údaj, ktorý je už na stránke.</p>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<span style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #1C6B3E; font-weight: 600;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Nový text prešiel kontrolou</span>
+<div style="display: flex; gap: 8px;">
+<button type="button" style="height: 40px; padding: 0 16px; border: 1px solid #CFCCC2; background: #FFFFFF; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 500; color: #17191C;">Upraviť</button>
+<button type="button" style="height: 40px; padding: 0 16px; border: 0; background: #0E5A52; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600; color: #FFFFFF;">Prijať</button>
+</div>
+</div>
+</div>
+</section>
+
+<section id="ako" style="background: #FFFFFF; padding: 88px 80px; display: flex; flex-direction: column; gap: 48px;">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 40px; line-height: 46px; font-weight: 700; letter-spacing: -0.015em;">Ako to funguje</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px;">
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 44px; font-weight: 700; color: #0E5A52;">1</span>
+<h3 style="margin: 0; font-size: 21px; font-weight: 600;">Pripojíte e-shop</h3>
+<p style="margin: 0; font-size: 16px; line-height: 25px; color: #4A4F57;">Shoptet, Upgates, BiznisWeb, WooCommerce či Shopify pripojíte na pár klikov. Iný e-shop skontrolujeme cez produktový feed alebo priamo z webu. Všetko beží na pozadí.</p>
+<a href="#napojenie" style="font-size: 15px; font-weight: 600;">Možnosti napojenia</a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 44px; font-weight: 700; color: #0E5A52;">2</span>
+<h3 style="margin: 0; font-size: 21px; font-weight: 600;">Uvidíte, čo je problém</h3>
+<p style="margin: 0; font-size: 16px; line-height: 25px; color: #4A4F57;">Nálezy v troch skupinách: porušenie podľa textu zákona, na posúdenie a na overenie. Pri každom vysvetlenie a konkrétne ustanovenie.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 44px; font-weight: 700; color: #0E5A52;">3</span>
+<h3 style="margin: 0; font-size: 21px; font-weight: 600;">Dostanete opravený text</h3>
+<p style="margin: 0; font-size: 16px; line-height: 25px; color: #4A4F57;">Pôvodný a navrhovaný text vedľa seba. Údaje, ktoré poznáte len vy, doplníte do pripraveného políčka. Pri pripojenom e-shope opravu publikujete jedným klikom.</p>
+</div>
+</div>
+</section>
+
+<section id="napojenie" style="padding: 88px 80px; display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 40px; line-height: 46px; font-weight: 700; letter-spacing: -0.015em;">Napojenie na e-shop</h2>
+<p style="margin: 0; font-size: 18px; line-height: 28px; color: #4A4F57; max-width: 900px;">Skontrolujeme každý e-shop, stačí adresa webu. S napojením na platformu zachytíme zmeny produktov rýchlejšie a opravy publikujete priamo do e-shopu.</p>
+</div>
+<div style="display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 24px; align-items: stretch;">
+<div style="background: #FFFFFF; border: 2px solid #0E5A52; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 18px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+<div style="display: flex; align-items: center; gap: 12px;">
+<span style="width: 40px; height: 40px; border-radius: 10px; background: #E3F0ED; color: #0B4A43; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0V8zM12 17v4"></path></svg></span>
+<h3 style="margin: 0; font-size: 22px; font-weight: 600;">Napojenie na platformu</h3>
+</div>
+<span style="background: #E3F0ED; color: #0B4A43; font-size: 13px; font-weight: 600; padding: 5px 10px; border-radius: 999px;">Odporúčame</span>
+</div>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #33373D;">E-shop pripojíte cez doplnok alebo prístupový kľúč, postup vás prevedie krok za krokom. Počet zverejnených produktov pre cenu zistíme presne.</p>
+<div style="display: flex; flex-direction: column;">
+<div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px; padding: 0 0 10px; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5F646C;"><span>Platforma</span><span>Zmeny produktov</span><span>Publikovanie opravy</span></div>
+<div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px; padding: 12px 0; border-top: 1px solid #EFEEE8; font-size: 15px; line-height: 22px;"><span style="font-weight: 600;">Shoptet</span><span>do niekoľkých minút</span><span>jedným klikom, dá sa vrátiť</span></div>
+<div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px; padding: 12px 0; border-top: 1px solid #EFEEE8; font-size: 15px; line-height: 22px;"><span style="font-weight: 600;">Upgates</span><span>do niekoľkých minút</span><span>jedným klikom pri produktoch s kódom, inak skopírovaním</span></div>
+<div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px; padding: 12px 0; border-top: 1px solid #EFEEE8; font-size: 15px; line-height: 22px;"><span style="font-weight: 600;">WooCommerce</span><span>do niekoľkých minút</span><span>jedným klikom, dá sa vrátiť</span></div>
+<div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px; padding: 12px 0; border-top: 1px solid #EFEEE8; font-size: 15px; line-height: 22px;"><span style="font-weight: 600;">Shopify</span><span>do niekoľkých minút</span><span>jedným klikom, dá sa vrátiť</span></div>
+<div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px; padding: 12px 0; border-top: 1px solid #EFEEE8; border-bottom: 1px solid #EFEEE8; font-size: 15px; line-height: 22px;"><span style="font-weight: 600;">BiznisWeb</span><span>každý deň</span><span>s balíkom Partner Package od BiznisWebu, inak skopírovaním</span></div>
+</div>
+<span style="font-size: 14px; line-height: 21px; color: #5F646C;">Stránky, články a kategórie kontrolujeme pri všetkých platformách každý deň. Ak produkt uložíte ako skrytý alebo koncept, skontrolujeme ho ešte pred zverejnením (okrem BiznisWebu).</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 24px;">
+<div style="flex: 1 1 0; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; align-items: center; gap: 12px;">
+<span style="width: 40px; height: 40px; border-radius: 10px; background: #F6F5F1; color: #0E5A52; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"></path></svg></span>
+<h3 style="margin: 0; font-size: 20px; font-weight: 600;">Produktový feed</h3>
+</div>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #33373D;">Zadáte adresu XML feedu, ktorý už máte pre Heureku alebo Google Nákupy.</p>
+<span style="display: flex; gap: 10px; font-size: 15px; line-height: 22px; color: #4A4F57;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 3px;"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Popisy produktov kontrolujeme každý deň</span>
+<span style="display: flex; gap: 10px; font-size: 15px; line-height: 22px; color: #4A4F57;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 3px;"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Opravený text skopírujete do administrácie</span>
+</div>
+<div style="flex: 1 1 0; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; align-items: center; gap: 12px;">
+<span style="width: 40px; height: 40px; border-radius: 10px; background: #F6F5F1; color: #0E5A52; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"></path></svg></span>
+<h3 style="margin: 0; font-size: 20px; font-weight: 600;">Len adresa webu</h3>
+</div>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #33373D;">Nič neinštalujete. Stránky prejdeme ako zákazník a rešpektujeme robots.txt.</p>
+<span style="display: flex; gap: 10px; font-size: 15px; line-height: 22px; color: #4A4F57;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 3px;"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Všetky verejné stránky kontrolujeme každý deň</span>
+<span style="display: flex; gap: 10px; font-size: 15px; line-height: 22px; color: #4A4F57;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 3px;"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Opravený text skopírujete do administrácie</span>
+</div>
+</div>
+</div>
+<div style="display: flex; align-items: flex-start; gap: 14px; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 18px 24px;">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px;"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v6M12 7.5v.5"></path></svg>
+<span style="font-size: 15px; line-height: 23px; color: #4A4F57;"><strong style="color: #17191C;">Web prechádzame vždy, aj pri napojení.</strong> Pätičku, odznaky, košík a ďalšie texty šablóny platformy cez prístupový kľúč neposielajú, preto ich kontrolujeme priamo na webe.</span>
+</div>
+</section>
+
+<section id="co" style="background: #FFFFFF; padding: 88px 80px; display: flex; flex-direction: column; gap: 40px;">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 40px; line-height: 46px; font-weight: 700; letter-spacing: -0.015em;">Čo kontrolujeme</h2>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px;">
+<div style="background: #FBFAF7; border: 1px solid #E2E0D8; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 18px; font-weight: 600;">Environmentálne tvrdenia</h3>
+<p style="margin: 0; font-size: 15px; line-height: 23px; color: #4A4F57;">„Ekologický“, „udržateľný“, značky a odznaky udržateľnosti, tvrdenia o celku namiesto časti.</p>
+<span style="font-size: 13px; color: #5F646C;">Zákon č. 108/2024 Z. z., príloha č. 1 body 3, 6, 7, 8</span>
+</div>
+<div style="background: #FBFAF7; border: 1px solid #E2E0D8; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 18px; font-weight: 600;">Životnosť a opraviteľnosť</h3>
+<p style="margin: 0; font-size: 15px; line-height: 23px; color: #4A4F57;">Tvrdenia o životnosti, predčasná výmena spotrebného materiálu, neoriginálne diely.</p>
+<span style="font-size: 13px; color: #5F646C;">Nové povinnosti od 27. 9. 2026</span>
+</div>
+<div style="background: #FBFAF7; border: 1px solid #E2E0D8; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 18px; font-weight: 600;">Recenzie</h3>
+<p style="margin: 0; font-size: 15px; line-height: 23px; color: #4A4F57;">Tvrdenia o overených recenziách, odmeny za hodnotenie, zverejňovanie len kladných recenzií.</p>
+<span style="font-size: 13px; color: #5F646C;">Čierna listina nekalých praktík</span>
+</div>
+<div style="background: #FBFAF7; border: 1px solid #E2E0D8; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 18px; font-weight: 600;">Povinné informácie</h3>
+<p style="margin: 0; font-size: 15px; line-height: 23px; color: #4A4F57;">Reklamácie, odstúpenie od zmluvy, riešenie sporov, harmonizované oznámenie, funkcia odstúpenia.</p>
+<span style="font-size: 13px; color: #5F646C;">Čo pokutuje SOI</span>
+</div>
+</div>
+</section>
+
+<section id="cennik" style="padding: 80px 80px; display: flex; flex-direction: column; gap: 32px;">
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 40px; line-height: 46px; font-weight: 700; letter-spacing: -0.015em;">Cenník</h2>
+<p style="margin: 0; font-size: 18px; line-height: 28px; color: #4A4F57; max-width: 900px;">Najprv zadarmo skontrolujeme 100 stránok vášho e-shopu. Potom za každý e-shop platíte dve veci: <strong style="color: #17191C;">úvodnú analýzu raz</strong>, ktorá obsahuje aj <strong style="color: #17191C;">prvý mesiac sledovania zmien</strong>, a od druhého mesiaca <strong style="color: #17191C;">sledovanie celého e-shopu mesačne</strong>. Cena závisí od veľkosti e-shopu. Ceny sú bez DPH, sledovanie môžete kedykoľvek zrušiť.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: stretch;">
+<div style="background: #FFFFFF; border: 2px solid #0E5A52; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; align-items: center; gap: 10px;"><span style="width: 28px; height: 28px; border-radius: 999px; background: #0E5A52; color: #FFFFFF; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center;">1</span><span style="font-size: 14px; font-weight: 600; color: #0B4A43;">Jednorazovo · za každý e-shop</span></div>
+<h3 style="margin: 0; font-size: 24px; font-weight: 600;">Úvodná analýza</h3>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #33373D;">Skontrolujeme všetky stránky e-shopu, pripravíme návrhy opravených textov a otázky, na ktoré viete odpovedať len vy.</p>
+<div style="display: flex; flex-direction: column; font-size: 15px;">
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #EFEEE8;"><span>E-shop do 500 produktov</span><span style="font-weight: 600;">[CENA] €</span></div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #EFEEE8;"><span>do 2 000 produktov</span><span style="font-weight: 600;">[CENA] €</span></div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #EFEEE8;"><span>do 5 000 produktov</span><span style="font-weight: 600;">[CENA] €</span></div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #EFEEE8;"><span>do 20 000 produktov</span><span style="font-weight: 600;">[CENA] €</span></div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #EFEEE8; border-bottom: 1px solid #EFEEE8;"><span>viac ako 20 000 produktov</span><span style="font-weight: 600;">dohodou</span></div>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; background: #E3F0ED; color: #0B4A43; border-radius: 10px; padding: 10px 14px; font-size: 15px; font-weight: 600;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>V cene: prvý mesiac sledovania zmien</div>
+<span style="font-size: 14px; color: #5F646C;">Počítame zverejnené produkty v každej jazykovej verzii e-shopu (varianty nie). Kategórie, články a ostatné stránky sú v cene. Presnú cenu uvidíte po ukážke 100 stránok zadarmo, ešte pred platbou.</span>
+<a href="Login.dc.html" style="margin-top: auto; height: 48px; display: flex; align-items: center; justify-content: center; background: #0E5A52; color: #FFFFFF; text-decoration: none; border-radius: 10px; font-weight: 600;">Skontrolovať e-shop</a>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; align-items: center; gap: 10px;"><span style="width: 28px; height: 28px; border-radius: 999px; background: #0E5A52; color: #FFFFFF; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center;">2</span><span style="font-size: 14px; font-weight: 600; color: #0B4A43;">Mesačne · za každý e-shop</span></div>
+<h3 style="margin: 0; font-size: 24px; font-weight: 600;">Sledovanie zmien</h3>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #33373D;">Sledujeme vždy celý e-shop. Pri napojenom e-shope skontrolujeme zmeny produktov do niekoľkých minút, ostatné stránky každý deň, a pri novom náleze pošleme e-mail aj návrh opravy.</p>
+<div style="display: flex; flex-direction: column; font-size: 15px;">
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #EFEEE8;"><span>E-shop do 500 produktov</span><span style="font-weight: 600;">[CENA] € / mesiac</span></div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #EFEEE8;"><span>do 2 000 produktov</span><span style="font-weight: 600;">[CENA] € / mesiac</span></div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #EFEEE8;"><span>do 5 000 produktov</span><span style="font-weight: 600;">[CENA] € / mesiac</span></div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #EFEEE8;"><span>do 20 000 produktov</span><span style="font-weight: 600;">[CENA] € / mesiac</span></div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #EFEEE8; border-bottom: 1px solid #EFEEE8;"><span>viac ako 20 000 produktov</span><span style="font-weight: 600;">dohodou</span></div>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; background: #F6F5F1; border-radius: 10px; padding: 10px 14px; font-size: 15px; font-weight: 600; color: #17191C;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"></path></svg>Od 3. e-shopu v účte sledovanie o [X] % lacnejšie</div>
+<span style="font-size: 14px; line-height: 21px; color: #5F646C;">Sledovanie sa zapne hneď po úvodnej analýze a prvý mesiac je v jej cene. Potom platíte za každý e-shop mesačne kartou, zrušiť ho môžete kedykoľvek jedným klikom. Týždeň pred prvou platbou vám pripomenieme, koľko a kedy zaplatíte.</span>
+<a href="Login.dc.html" style="margin-top: auto; height: 48px; display: flex; align-items: center; justify-content: center; border: 1px solid #0E5A52; color: #0E5A52; text-decoration: none; border-radius: 10px; font-weight: 600;">Vybrať</a>
+</div>
+</div>
+<div style="display: flex; align-items: flex-start; gap: 16px; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 22px 28px;">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><path d="M5 3h14v18H5zM8 7h8M8 11h2M12 11h2M8 15h2M12 15h2M16 11v4"></path></svg>
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<span style="font-size: 17px; font-weight: 600;">Príklad</span>
+<span style="font-size: 15px; line-height: 23px; color: #4A4F57;">Máte dva e-shopy s 5 834 a 200 produktmi. Za každý raz zaplatíte úvodnú analýzu: za e-shop do 20 000 produktov a za e-shop do 500 produktov. Sledovanie oboch beží hneď a prvý mesiac je v cene. Od druhého mesiaca platíte mesačne sledovanie e-shopu do 20 000 produktov a e-shopu do 500 produktov, každý od dňa svojej analýzy.</span>
+</div>
+</div>
+</section>
+
+<footer style="padding: 48px 80px; display: flex; justify-content: space-between; align-items: flex-start; gap: 48px; font-size: 14px; color: #5F646C; margin-top: auto;">
+<p style="margin: 0; max-width: 640px; line-height: 22px;">EshopGuard nenahrádza právne poradenstvo. Nálezy odkazujú na konkrétne ustanovenia zákona č. 108/2024 Z. z. a návrhy textov pripravuje jazykový model; pred zverejnením ich skontrolujte.</p>
+<nav style="display: flex; gap: 24px;">
+<a href="#" style="color: #4A4F57;">Obchodné podmienky</a>
+<a href="#" style="color: #4A4F57;">Ochrana súkromia</a>
+<a href="#" style="color: #4A4F57;">Kontakt</a>
+</nav>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4084}}'>
+class Component extends DCLogic {
+renderVals() {
+const langOpen = Boolean(this.state && this.state.langOpen);
+return {
+langOpen,
+langExpanded: langOpen ? 'true' : 'false',
+langChevron: langOpen ? 'M6 15l6-6 6 6' : 'M6 9l6 6 6-6',
+toggleLang: () => this.setState({ langOpen: !langOpen }),
+};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<title>Opravy</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&amp;family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:"Figtree",system-ui,sans-serif;background:#F6F5F1;color:#17191C}
+a{color:#0E5A52}a:hover{color:#0B4A43}
+</style>
+</helmet>
+<div style="width: 1440px; height: 960px; box-sizing: border-box; background: #F6F5F1; display: flex;">
+<dc-import name="Sidebar" active="fixes" hint-size="248px,960px"></dc-import>
+<main style="flex-grow: 1; min-width: 0; padding: 28px 32px; display: flex; flex-direction: column; gap: 20px;">
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 700; letter-spacing: -0.01em;">Opravy</h1>
+<span style="font-size: 15px; color: #4A4F57;">28 stránok s nálezom · spolu 43 nálezov · kontrola 30. 9. 2026</span>
+</div>
+<div style="display: flex; align-items: center; gap: 12px;">
+<label style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #4A4F57;">Verzia
+<select style="height: 42px; padding: 0 10px; border: 1px solid #CFCCC2; border-radius: 10px; background: #FFFFFF; font-family: inherit; font-size: 14px; color: #17191C;"><option>Všetky verzie</option><option>Slovenčina</option><option>Čeština</option></select></label>
+<div role="group" aria-label="Zobrazenie" style="display: flex; background: #EFEEE8; border-radius: 10px; padding: 4px; gap: 4px;">
+<button type="button" aria-pressed="true" style="height: 34px; padding: 0 14px; border: 0; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 14px; font-weight: 600; color: #17191C; box-shadow: 0 1px 2px rgba(23,25,28,0.08);">Podľa stránok</button>
+<button type="button" aria-pressed="false" style="height: 34px; padding: 0 14px; border: 0; border-radius: 8px; background: transparent; font-family: inherit; font-size: 14px; font-weight: 500; color: #4A4F57;">Podľa nálezov</button>
+</div>
+<a href="Protocol.dc.html" style="font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 6px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Protokol (PDF)</a>
+</div>
+</div>
+
+<div role="tablist" aria-label="Stav opráv" style="display: flex; gap: 4px; border-bottom: 1px solid #E2E0D8;">
+<button type="button" role="tab" aria-selected="true" style="height: 44px; padding: 0 16px; border: 0; border-bottom: 2px solid #0E5A52; background: transparent; font-family: inherit; font-size: 15px; font-weight: 600; color: #17191C; display: flex; align-items: center; gap: 8px;">Na riešenie <span style="font-size: 12px; background: #EFEEE8; color: #33373D; padding: 2px 8px; border-radius: 999px;">24</span></button>
+<button type="button" role="tab" aria-selected="false" style="height: 44px; padding: 0 16px; border: 0; background: transparent; font-family: inherit; font-size: 15px; font-weight: 500; color: #4A4F57; display: flex; align-items: center; gap: 8px;">Na schválenie <span style="font-size: 12px; background: #E3F0ED; color: #0B4A43; padding: 2px 8px; border-radius: 999px;">12</span></button>
+<button type="button" role="tab" aria-selected="false" style="height: 44px; padding: 0 16px; border: 0; background: transparent; font-family: inherit; font-size: 15px; font-weight: 500; color: #4A4F57; display: flex; align-items: center; gap: 8px;">Potrebujeme vašu odpoveď <span style="font-size: 12px; background: #EFEAFB; color: #5B3E9A; padding: 2px 8px; border-radius: 999px;">12</span></button>
+<button type="button" role="tab" aria-selected="false" style="height: 44px; padding: 0 16px; border: 0; background: transparent; font-family: inherit; font-size: 15px; font-weight: 500; color: #4A4F57; display: flex; align-items: center; gap: 8px;">Publikované <span style="font-size: 12px; background: #E4F4EA; color: #1C6B3E; padding: 2px 8px; border-radius: 999px;">4</span></button>
+</div>
+
+<section aria-label="Hromadné opravy" style="background: #FFFFFF; border: 1px solid #D9CFF3; border-radius: 14px; padding: 14px 20px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+<span style="display: flex; align-items: center; gap: 12px;"><span style="width: 36px; height: 36px; border-radius: 10px; background: #EFEAFB; color: #5B3E9A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8h11v11H8zM5 16V5h11"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 600;">Hromadné opravy: 7 textov sa opakuje na 91 stránkach</span><span style="font-size: 14px; color: #4A4F57;">Vyriešite ich 7 rozhodnutiami namiesto 91. Na stránkach sa potom už neukážu.</span></span></span>
+<a href="GroupFix.dc.html" style="height: 38px; display: flex; align-items: center; padding: 0 16px; border-radius: 10px; background: #0E5A52; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 600; flex-shrink: 0;">Začať hromadné opravy</a>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;">
+<a href="GroupFix.dc.html" style="display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px; border-radius: 999px; background: #EFEAFB; color: #3F2A70; text-decoration: none; font-size: 14px; font-weight: 500;">„Všetky naše produkty balíme ekologicky.“<span style="font-size: 12px; font-weight: 600; background: #FFFFFF; padding: 1px 8px; border-radius: 999px;">38</span></a>
+<a href="GroupFix.dc.html" style="display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px; border-radius: 999px; background: #EFEAFB; color: #3F2A70; text-decoration: none; font-size: 14px; font-weight: 500;">„Vegan“ · otázka na doklad<span style="font-size: 12px; font-weight: 600; background: #FFFFFF; padding: 1px 8px; border-radius: 999px;">19</span></a>
+<a href="GroupFix.dc.html" style="display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px; border-radius: 999px; background: #EFEAFB; color: #3F2A70; text-decoration: none; font-size: 14px; font-weight: 500;">„Certifikovaná prírodná kozmetika“<span style="font-size: 12px; font-weight: 600; background: #FFFFFF; padding: 1px 8px; border-radius: 999px;">11</span></a>
+<a href="GroupFix.dc.html" style="display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px; border-radius: 999px; background: #EFEAFB; color: #3F2A70; text-decoration: none; font-size: 14px; font-weight: 500; background: #FFFFFF; border: 1px solid #D9CFF3;">+ 4 ďalšie</a>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 10px;">
+<sc-for list="{{pages}}" as="p" hint-placeholder-count="7">
+<a href="{{p.href}}" style="text-decoration: none; color: #17191C; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 14px 20px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; align-items: center;">
+<span style="grid-column: span 7; display: flex; flex-direction: column; gap: 6px; min-width: 0;">
+<span style="display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 16px; font-weight: 600;">{{p.title}}</span><span style="font-size: 13px; color: #5F646C;">{{p.path}}</span></span>
+<sc-if value="{{p.isQuestion}}" hint-placeholder-val="{{false}}">
+<span style="font-size: 14px; color: #5B3E9A; display: flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17v.01"></path></svg>{{p.question}}</span>
+</sc-if>
+<sc-if value="{{p.isDiff}}" hint-placeholder-val="{{true}}">
+<span style="font-size: 14px; color: #4A4F57; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><del style="background: #FDECEC; color: #9A1C1C;">{{p.before}}</del> → <ins style="background: #D6EFDF; color: #14532D; text-decoration: none;">{{p.after}}</ins></span>
+</sc-if>
+</span>
+<span style="grid-column: span 3; display: flex; flex-direction: column; gap: 6px;">
+<span style="display: flex; gap: 6px; flex-wrap: wrap;">
+<sc-for list="{{p.chips}}" as="c" hint-placeholder-count="1"><span style="{{c.style}}">{{c.label}}</span></sc-for>
+</span>
+<span style="font-size: 13px; color: #5F646C;">{{p.work}}</span>
+</span>
+<span style="grid-column: span 2; display: flex; align-items: center; justify-content: flex-end; gap: 12px;">
+<span style="{{p.statusStyle}}">{{p.status}}</span>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5F646C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M9 6l6 6-6 6"></path></svg>
+</span>
+</a>
+</sc-for>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+renderVals() {
+const b = 'flex-shrink: 0; font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 8px; white-space: nowrap;';
+const st = {
+approve: { label: 'Na schválenie', style: b + ' background: #E3F0ED; color: #0B4A43;' },
+answer: { label: 'Potrebujeme odpoveď', style: b + ' background: #EFEAFB; color: #5B3E9A;' },
+};
+const chip = 'font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 999px;';
+const chips = {
+text: [' background: #FDECEC; color: #9A1C1C;', 'porušenie', 'porušenia', 'porušení'],
+assess: [' background: #FEF1DC; color: #8A4B00;', 'na posúdenie', 'na posúdenie', 'na posúdenie'],
+verify: [' background: #E6EEFB; color: #1E4E9C;', 'na overenie', 'na overenie', 'na overenie'],
+};
+const label = (kind, n) => `${n} ${n === 1 ? chips[kind][1] : n < 5 ? chips[kind][2] : chips[kind][3]}`;
+const pages = [
+{ title: 'Zubná pasta + bambusová kefka', path: '/zubna-pasta-bambusova-kefka', before: 'v ekologickom sete', after: 'v sete so zubnou kefkou s bambusovou rukoväťou', counts: { text: 6 }, work: '5 zmien · 1 otázka', s: 'answer', href: 'Review.dc.html' },
+{ title: 'Sviečka Vodnár', path: '/sviecka-vodnar', question: 'Máte podklad k dobe horenia 22 hodín (napr. test výrobcu)?', counts: { verify: 1 }, work: '1 otázka', s: 'answer', href: 'ReviewQuestion.dc.html' },
+{ title: 'Celý e-shop: šablóna', path: 'lišta výhod a pätička na každej stránke', before: 'Vyberáme to najlepšie z prírody', after: 'Vyberáme bylinky, oleje a kozmetiku', counts: { assess: 1 }, work: '1 zmena · raz pre celý web', s: 'approve', href: 'GroupFix.dc.html' },
+{ title: 'Celý e-shop: košík a objednávka', path: 'povinné informácie', question: 'Zobrazuje sa v košíku harmonizované oznámenie? Máte tlačidlo „odstúpiť od zmluvy tu“?', counts: { verify: 2 }, work: '2 otázky', s: 'answer', href: 'ReviewQuestion.dc.html' },
+{ title: 'Obchodné podmienky', path: '/obchodne-podmienky', before: 'odkaz na platformu ODR', after: 'odkaz odstránený (platforma zrušená)', counts: { text: 1, verify: 1 }, work: '1 zmena · 1 otázka (certifikáty SGS, TÜV)', s: 'answer', href: 'Review.dc.html' },
+{ title: 'Rozjasňujúce sérum 30 ml', path: '/rozjasnujuce-serum', question: 'Má výrobok platný certifikát COSMOS?', counts: { verify: 1 }, work: '1 otázka', s: 'answer', href: 'ReviewQuestion.dc.html' },
+{ title: 'BIO olej z granátového jablka', path: '/bio-olej-granatove-jablko', before: 'ekologickou CO₂ extrakciou', after: 'CO₂ extrakciou bez rozpúšťadiel', counts: { text: 2 }, work: '2 zmeny', s: 'approve', href: 'Review.dc.html' },
+
+];
+return {
+pages: pages.map((p) => ({
+...p,
+isQuestion: Boolean(p.question),
+isDiff: !p.question,
+chips: Object.entries(p.counts).map(([kind, n]) => ({ label: label(kind, n), style: chip + chips[kind][0] })),
+status: st[p.s].label,
+statusStyle: st[p.s].style,
+})),
+};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<title>Na overenie</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&amp;family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:"Figtree",system-ui,sans-serif;background:#F6F5F1;color:#17191C}
+a{color:#0E5A52}a:hover{color:#0B4A43}
+</style>
+</helmet>
+<div style="width: 1440px; height: 960px; box-sizing: border-box; background: #F6F5F1; display: flex;">
+<dc-import name="Sidebar" active="verify" hint-size="248px,960px"></dc-import>
+<main style="flex-grow: 1; min-width: 0; padding: 28px 32px; display: flex; flex-direction: column; gap: 20px;">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 700; letter-spacing: -0.01em;">Na overenie</h1>
+<span style="font-size: 15px; color: #4A4F57; max-width: 820px;">Tu nerozhoduje text, ale fakt, ktorý poznáte len vy: certifikát, test výrobcu alebo to, čo zákazník vidí v košíku. Stačí odpovedať áno alebo nie. Pri odpovedi „nie“ pripravíme opravu textu.</span>
+</div>
+
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+<section style="display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0; font-size: 15px; font-weight: 600; color: #33373D;">{{g.title}}</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+<sc-for list="{{g.items}}" as="t" hint-placeholder-count="2">
+<article style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px;">
+<a href="#" style="font-size: 13px; color: #4A4F57;">{{t.page}}</a>
+<span style="font-size: 12px; color: #5F646C;">{{t.law}}</span>
+</div>
+<sc-if value="{{t.hasQuote}}" hint-placeholder-val="{{true}}"><p style="margin: 0; font-size: 14px; color: #33373D;">„{{t.quote}}“</p></sc-if>
+<p style="margin: 0; font-size: 16px; font-weight: 600; line-height: 22px;">{{t.question}}</p>
+<div style="display: flex; gap: 8px;">
+<button type="button" style="height: 38px; padding: 0 14px; border: 1px solid #0E5A52; background: #FFFFFF; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600; color: #0E5A52;">{{t.yes}}</button>
+<button type="button" style="height: 38px; padding: 0 14px; border: 1px solid #CFCCC2; background: #FFFFFF; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 500; color: #33373D;">{{t.no}}</button>
+</div>
+</article>
+</sc-for>
+</div>
+</section>
+</sc-for>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+renderVals() {
+const groups = [
+{ title: 'Certifikáty a značky', items: [
+{ page: 'Rozjasňujúce sérum 30 ml', law: 'príloha č. 1 bod 3', quote: 'Morská zložka spĺňa organické normy COSMOS.', question: 'Má výrobok platný certifikát COSMOS?', yes: 'Áno, certifikát máme', no: 'Nie, odstrániť tvrdenie' },
+{ page: 'Obchodné podmienky', law: 'príloha č. 1 bod 3', quote: 'Výrobky sú BIO, certifikované SGS alebo TÜV.', question: 'Sú certifikované všetky výrobky, alebo len niektoré?', yes: 'Všetky, doložíme', no: 'Nie všetky, upraviť text' },
+] },
+{ title: 'Tvrdenia o výrobku', items: [
+{ page: 'Sviečka Vodnár', law: 'tvrdenie o životnosti, od 27. 9. 2026', quote: 'Doba horenia: 22 hodín', question: 'Viete dobu horenia doložiť, napríklad testom výrobcu?', yes: 'Áno, vieme doložiť', no: 'Nie, upraviť text' },
+{ page: 'Chmeľový vankúšik', law: 'predčasná výmena, od 27. 9. 2026', quote: 'Vymeňte každé 2–3 mesiace.', question: 'Je výmena po 2–3 mesiacoch naozaj potrebná?', yes: 'Áno, je potrebná', no: 'Nie, upraviť text' },
+] },
+{ title: 'Povinné informácie', items: [
+{ page: 'Celý e-shop', law: 'harmonizované oznámenie, od 27. 9. 2026', quote: '', question: 'Zobrazuje sa v košíku alebo v potvrdení objednávky harmonizované oznámenie o zodpovednosti za vady?', yes: 'Áno, je tam', no: 'Nie, pripraviť text' },
+{ page: 'Celý e-shop', law: 'povinné od 19. 6. 2026', quote: '', question: 'Máte v e-shope tlačidlo „odstúpiť od zmluvy tu“?', yes: 'Áno, máme', no: 'Nie, čo treba doplniť' },
+] },
+];
+return { groups: groups.map((g) => ({ ...g, items: g.items.map((t) => ({ ...t, hasQuote: t.quote.length > 0 })) })) };
+}
+}
+</script>
+</body>
+</html>

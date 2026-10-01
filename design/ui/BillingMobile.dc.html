@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<title>Predplatné a platby na mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&amp;family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:"Figtree",system-ui,sans-serif;background:#F6F5F1;color:#17191C}
+a{color:#0E5A52}a:hover{color:#0B4A43}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #F6F5F1; display: flex; flex-direction: column;">
+<header style="height: 60px; flex-shrink: 0; box-sizing: border-box; padding: 0 8px; display: flex; align-items: center; gap: 4px; background: #FFFFFF; border-bottom: 1px solid #E2E0D8;">
+<a href="Mobile.dc.html" aria-label="Späť" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #33373D;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></a>
+<span style="font-size: 17px; font-weight: 600;">Predplatné a platby</span>
+</header>
+
+<div style="flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px;">
+<span style="font-size: 14px; line-height: 20px; color: #4A4F57;">Za každý e-shop úvodná analýza raz (prvý mesiac sledovania v cene), potom sledovanie mesačne. Od 3. e-shopu −[X] %. Ceny bez DPH.</span>
+
+<sc-for list="{{shops}}" as="s" hint-placeholder-count="3">
+<section style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+<span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 600;">{{s.shop}}</span><span style="font-size: 13px; color: #5F646C;">{{s.size}}</span></span>
+<span style="{{s.badgeStyle}}">{{s.status}}</span>
+</div>
+<div style="display: flex; justify-content: space-between; font-size: 14px; border-top: 1px solid #EFEEE8; padding-top: 8px;"><span style="color: #4A4F57;">Ďalšia platba</span><span style="font-weight: 600;">{{s.next}} · [CENA] €</span></div>
+<span style="font-size: 13px; color: #4A4F57;">{{s.price}}</span>
+<a href="#" style="align-self: flex-start; min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 600; color: #8A2A1F;">Zrušiť sledovanie</a>
+</section>
+</sc-for>
+
+<a href="Onboarding.dc.html" style="min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #0E5A52; color: #0E5A52; text-decoration: none; border-radius: 10px; font-size: 15px; font-weight: 600;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Pridať ďalší e-shop</a>
+
+<section style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 12px;">
+<span style="width: 44px; height: 30px; flex-shrink: 0; border-radius: 6px; background: #17191C; color: #FFFFFF; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center;">VISA</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 15px; font-weight: 600;">•••• 4242</span><span style="font-size: 12px; color: #5F646C;">pre všetky e-shopy</span></span>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 12px; border: 1px solid #CFCCC2; border-radius: 10px; text-decoration: none; color: #17191C; font-size: 14px; font-weight: 600;">Zmeniť</a>
+</section>
+
+<section aria-label="Faktúry" style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; display: flex; flex-direction: column;">
+<h2 style="margin: 0; padding: 14px 16px; font-size: 16px; font-weight: 600; border-bottom: 1px solid #EFEEE8;">Faktúry <span style="font-size: 14px; font-weight: 500; color: #5F646C;">· 18</span></h2>
+<sc-for list="{{visibleInvoices}}" as="inv" hint-placeholder-count="4">
+<a href="#" style="text-decoration: none; color: #17191C; padding: 12px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #EFEEE8; min-height: 44px;">
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px; font-weight: 600;">{{inv.label}}</span><span style="font-size: 12px; color: #5F646C;">{{inv.date}} · [SUMA] €</span></span>
+<span style="{{inv.badgeStyle}}">{{inv.status}}</span>
+</a>
+</sc-for>
+<button type="button" onClick="{{toggleInvoices}}" style="min-height: 48px; border: 0; background: transparent; font-family: inherit; font-size: 15px; font-weight: 600; color: #0E5A52;">{{toggleLabel}}</button>
+</section>
+</div>
+
+<nav aria-label="Hlavné menu" style="height: 72px; flex-shrink: 0; box-sizing: border-box; padding: 0 8px 8px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: #FFFFFF; border-top: 1px solid #E2E0D8;">
+<a href="Mobile.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: #4A4F57; font-size: 12px; font-weight: 500;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"></path></svg>Prehľad</a>
+<a href="Fixes.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: #4A4F57; font-size: 12px; font-weight: 500;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"></path></svg>Opravy · 24</a>
+<a href="Monitoring.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: #4A4F57; font-size: 12px; font-weight: 500;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.5-6 5 12 2.5-6H21"></path></svg>Sledovanie</a>
+<a href="BillingMobile.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: #0B4A43; font-size: 12px; font-weight: 600;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20c1.5-3.5 4.4-5 8-5s6.5 1.5 8 5"></path></svg>Účet</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const badge = 'font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 8px; white-space: nowrap;';
+const paid = { status: 'Zaplatená', badgeStyle: badge + ' background: #E4F4EA; color: #1C6B3E;' };
+const planned = { status: 'Naplánovaná', badgeStyle: badge + ' background: #EFEEE8; color: #4A4F57;' };
+const showAll = Boolean(this.state && this.state.showAll);
+const names = [['4', 'apríl', '2027'], ['3', 'marec', '2027'], ['2', 'február', '2027'], ['1', 'január', '2027'], ['12', 'december', '2026'], ['11', 'november', '2026']];
+const monthly = [];
+names.forEach(([m, name, y]) => {
+monthly.push({ date: '5. ' + m + '. ' + y, label: 'Sledovanie · bylinkovo-darceky.sk · ' + name, ...paid });
+monthly.push({ date: '1. ' + m + '. ' + y, label: 'Sledovanie · bylinkovo.sk · ' + name, ...paid });
+});
+const invoices = [
+{ date: '20. 5. 2027', label: 'Sledovanie · bylinkovo.cz', ...planned },
+{ date: '5. 5. 2027', label: 'Sledovanie · bylinkovo-darceky.sk · máj', ...planned },
+{ date: '1. 5. 2027', label: 'Sledovanie · bylinkovo.sk · máj', ...planned },
+{ date: '20. 4. 2027', label: 'Úvodná analýza · bylinkovo.cz', ...paid },
+...monthly,
+{ date: '5. 10. 2026', label: 'Úvodná analýza · bylinkovo-darceky.sk', ...paid },
+{ date: '1. 10. 2026', label: 'Úvodná analýza · bylinkovo.sk', ...paid },
+];
+return {
+shops: [
+{ shop: 'bylinkovo.sk', size: '2 verzie, 11 668 produktov · do 20 000', status: 'Aktívne', badgeStyle: badge + ' background: #E4F4EA; color: #1C6B3E;', next: '1. 5. 2027', price: '[CENA] € mesačne' },
+{ shop: 'bylinkovo-darceky.sk', size: '200 produktov · do 500', status: 'Aktívne', badgeStyle: badge + ' background: #E4F4EA; color: #1C6B3E;', next: '5. 5. 2027', price: '[CENA] € mesačne' },
+{ shop: 'bylinkovo.cz', size: '1 460 produktov · do 2 000', status: 'Prvý mesiac v cene', badgeStyle: badge + ' background: #E3F0ED; color: #0B4A43;', next: '20. 5. 2027', price: 'Do 19. 5. v cene analýzy, potom [CENA] € mesačne, −[X] % ako 3. e-shop' },
+],
+visibleInvoices: showAll ? invoices : invoices.slice(0, 4),
+toggleLabel: showAll ? 'Zobraziť menej' : 'Zobraziť všetky faktúry (18)',
+toggleInvoices: () => this.setState({ showAll: !showAll }),
+};
+}
+}
+</script>
+</body>
+</html>

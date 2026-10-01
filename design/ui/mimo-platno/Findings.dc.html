@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<title>Nálezy</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&amp;family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:"Figtree",system-ui,sans-serif;background:#F6F5F1;color:#17191C}
+a{color:#0E5A52}a:hover{color:#0B4A43}
+</style>
+</helmet>
+<div style="width: 1440px; height: 960px; box-sizing: border-box; background: #F6F5F1; display: flex;">
+<dc-import name="Sidebar" active="findings" hint-size="248px,960px"></dc-import>
+<main style="flex-grow: 1; min-width: 0; padding: 28px 32px; display: flex; flex-direction: column; gap: 20px;">
+<div style="display: flex; align-items: flex-end; justify-content: space-between;">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 700; letter-spacing: -0.01em;">Nálezy</h1>
+<span style="font-size: 15px; color: #4A4F57;">43 nálezov na 31 stránkach · kontrola 30. 9. 2026</span>
+</div>
+<a href="#" style="font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 6px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Export do CSV</a>
+</div>
+
+<div role="tablist" aria-label="Skupiny nálezov" style="display: flex; gap: 4px; border-bottom: 1px solid #E2E0D8;">
+<button type="button" role="tab" aria-selected="true" style="height: 44px; padding: 0 16px; border: 0; border-bottom: 2px solid #0E5A52; background: transparent; font-family: inherit; font-size: 15px; font-weight: 600; color: #17191C; display: flex; align-items: center; gap: 8px;">Porušenia <span style="font-size: 12px; background: #FDECEC; color: #9A1C1C; padding: 2px 8px; border-radius: 999px;">14</span></button>
+<button type="button" role="tab" aria-selected="false" style="height: 44px; padding: 0 16px; border: 0; background: transparent; font-family: inherit; font-size: 15px; font-weight: 500; color: #4A4F57; display: flex; align-items: center; gap: 8px;">Na posúdenie <span style="font-size: 12px; background: #FEF1DC; color: #8A4B00; padding: 2px 8px; border-radius: 999px;">23</span></button>
+<button type="button" role="tab" aria-selected="false" style="height: 44px; padding: 0 16px; border: 0; background: transparent; font-family: inherit; font-size: 15px; font-weight: 500; color: #4A4F57; display: flex; align-items: center; gap: 8px;">Na overenie <span style="font-size: 12px; background: #E6EEFB; color: #1E4E9C; padding: 2px 8px; border-radius: 999px;">6</span></button>
+<button type="button" role="tab" aria-selected="false" style="height: 44px; padding: 0 16px; border: 0; background: transparent; font-family: inherit; font-size: 15px; font-weight: 500; color: #4A4F57; display: flex; align-items: center; gap: 8px;">Opravené <span style="font-size: 12px; background: #E4F4EA; color: #1C6B3E; padding: 2px 8px; border-radius: 999px;">9</span></button>
+</div>
+
+<div style="display: flex; align-items: center; gap: 10px;">
+<label for="find-search" style="width: 320px; height: 40px; box-sizing: border-box; display: flex; align-items: center; gap: 10px; padding: 0 12px; border: 1px solid #E2E0D8; border-radius: 10px; background: #FFFFFF; color: #5F646C;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-3.5-3.5"></path></svg>
+<input id="find-search" type="search" placeholder="Hľadať v textoch" style="flex-grow: 1; border: 0; background: transparent; font-family: inherit; font-size: 15px;">
+</label>
+<button type="button" style="height: 40px; display: flex; align-items: center; gap: 6px; padding: 0 14px; border: 1px solid #E2E0D8; border-radius: 10px; background: #FFFFFF; font-family: inherit; font-size: 14px; font-weight: 500; color: #33373D;">Téma: všetky<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button>
+<button type="button" style="height: 40px; display: flex; align-items: center; gap: 6px; padding: 0 14px; border: 1px solid #E2E0D8; border-radius: 10px; background: #FFFFFF; font-family: inherit; font-size: 14px; font-weight: 500; color: #33373D;">Stav: neopravené<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button>
+<button type="button" style="height: 40px; display: flex; align-items: center; gap: 6px; padding: 0 14px; border: 1px solid #E2E0D8; border-radius: 10px; background: #FFFFFF; font-family: inherit; font-size: 14px; font-weight: 500; color: #33373D;">Zoskupiť podľa stránky<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button>
+</div>
+
+<section style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;">
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; padding: 10px 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5F646C; background: #FBFAF7; border-bottom: 1px solid #EFEEE8;">
+<span style="grid-column: span 5;">Text na stránke</span><span style="grid-column: span 3;">Stránka</span><span style="grid-column: span 2;">Stav</span><span style="grid-column: span 2; text-align: right;">Akcia</span>
+</div>
+
+<div style="border-bottom: 1px solid #EFEEE8; background: #FBFDFC;">
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; padding: 16px 20px; align-items: center;">
+<span style="grid-column: span 5; display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 15px;">„Okamžitý komfort pre citlivé zuby v <mark style="background: #FDECEC; color: #9A1C1C; padding: 0 2px;">ekologickom sete</mark>.“</span><span style="font-size: 13px; color: #5F646C;">Všeobecné environmentálne tvrdenie · Tvrdenie o celku, hoci ide o časť</span></span>
+<span style="grid-column: span 3; font-size: 14px; color: #33373D;">Zubná pasta + bambusová kefka</span>
+<span style="grid-column: span 2;"><span style="font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 8px; background: #E3F0ED; color: #0B4A43;">Návrh pripravený</span></span>
+<span style="grid-column: span 2; display: flex; justify-content: flex-end;"><a href="Review.dc.html" style="height: 36px; display: flex; align-items: center; padding: 0 14px; border-radius: 8px; background: #0E5A52; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 600;">Otvoriť návrh</a></span>
+</div>
+<div style="margin: 0 20px 18px; padding: 16px; border-radius: 12px; background: #F6F5F1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;">
+<div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5F646C;">Prečo je to problém</span><span style="font-size: 14px; line-height: 21px;">„Ekologický“ uvádza zákon ako príklad všeobecného environmentálneho tvrdenia. Bez konkrétneho upresnenia priamo pri tvrdení je zakázané. Navyše sa týka celého setu, hoci ekologický môže byť len jeden diel.</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5F646C;">Zákon</span><span style="font-size: 14px; line-height: 21px;">Zákon č. 108/2024 Z. z., príloha č. 1 body 6 a 7, v znení od 27. 9. 2026</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5F646C;">Čo urobiť</span><span style="font-size: 14px; line-height: 21px;">Tvrdenie odstráňte, alebo ho nahraďte konkrétnym a doložiteľným údajom priamo pri ňom. Návrh je pripravený.</span></div>
+</div>
+</div>
+
+<sc-for list="{{rows}}" as="row" hint-placeholder-count="6">
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; padding: 16px 20px; align-items: center; border-bottom: 1px solid #EFEEE8;">
+<span style="grid-column: span 5; display: flex; flex-direction: column; gap: 4px; min-width: 0;"><span style="font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">„{{row.text}}“</span><span style="font-size: 13px; color: #5F646C;">{{row.rule}}</span></span>
+<span style="grid-column: span 3; font-size: 14px; color: #33373D;">{{row.page}}</span>
+<span style="grid-column: span 2;"><span style="{{row.statusStyle}}">{{row.status}}</span></span>
+<span style="grid-column: span 2; display: flex; justify-content: flex-end;"><a href="Review.dc.html" style="height: 36px; display: flex; align-items: center; padding: 0 14px; border-radius: 8px; border: 1px solid #CFCCC2; color: #17191C; text-decoration: none; font-size: 14px; font-weight: 600;">Otvoriť návrh</a></span>
+</div>
+</sc-for>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+renderVals() {
+const s = 'font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 8px;';
+const st = {
+ready: { label: 'Návrh pripravený', style: s + ' background: #E3F0ED; color: #0B4A43;' },
+waiting: { label: 'Čaká na váš údaj', style: s + ' background: #EFEAFB; color: #5B3E9A;' },
+};
+const rows = [
+{ s: 'waiting', text: 'Biologicky rozložiteľná rukoväť', page: 'Zubná pasta + bambusová kefka', rule: 'Všeobecné environmentálne tvrdenie' },
+{ s: 'ready', text: 'Bambusová kefka – ekologická alternatíva', page: 'Zubná pasta + bambusová kefka', rule: 'Všeobecné environmentálne tvrdenie' },
+{ s: 'ready', text: 'Kúpa tohto masla je vedomé rozhodnutie – pre pokožku aj pre planétu.', page: 'Bambucké maslo 50 g', rule: '„Udržateľný“ alebo „vedomý“ bez upresnenia' },
+{ s: 'waiting', text: 'Značka je viac než kozmetika – je to ochrana starých stromov karité.', page: 'Bambucké maslo 50 g', rule: 'Tvrdenie o celku, hoci ide o časť' },
+{ s: 'ready', text: 'Spôsob výroby: ekologická CO₂ extrakcia zo semien', page: 'BIO olej z granátového jablka', rule: 'Všeobecné environmentálne tvrdenie' },
+{ s: 'ready', text: 'Vždy sa zameriavame na výrobky z udržateľných zdrojov.', page: 'O nás', rule: '„Udržateľný“ alebo „vedomý“ bez upresnenia' },
+];
+return { rows: rows.map((r) => ({ ...r, status: st[r.s].label, statusStyle: st[r.s].style })) };
+}
+}
+</script>
+</body>
+</html>

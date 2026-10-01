@@ -1,5 +1,8 @@
 # Design: Webová aplikace EshopGuard (Next.js)
 
+> **Předloha UI:** `design/ui/` v kořeni repozitáře (všechny obrazovky aplikace); popis souborů v `design/ui/README.md`. Rozvržení, texty, barvy a stavy se přebírají odtud.
+
+
 Cesty jsou relativně ke kořeni repozitáře `eshop-guard/` (po přejmenování ve změně 1).
 
 ## Technical Approach

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<title>Sledovanie zmien</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&amp;family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:"Figtree",system-ui,sans-serif;background:#F6F5F1;color:#17191C}
+a{color:#0E5A52}a:hover{color:#0B4A43}
+</style>
+</helmet>
+<div style="width: 1440px; height: 960px; box-sizing: border-box; background: #F6F5F1; display: flex;">
+<dc-import name="Sidebar" active="monitoring" hint-size="248px,960px"></dc-import>
+<main style="flex-grow: 1; min-width: 0; padding: 28px 32px; display: flex; flex-direction: column; gap: 22px;">
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 700; letter-spacing: -0.01em;">Sledovanie zmien</h1>
+<span style="font-size: 15px; color: #4A4F57; max-width: 720px;">Zmenu produktu nám Shoptet ohlási hneď po uložení a text skontrolujeme do niekoľkých minút. Ostatné stránky webu porovnávame raz denne. Pri novom probléme vám napíšeme.</span>
+</div>
+<button type="button" style="height: 40px; padding: 0 16px; border: 1px solid #CFCCC2; background: #FFFFFF; border-radius: 10px; font-family: inherit; font-size: 15px; font-weight: 500; color: #17191C;">Nastavenia sledovania</button>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+<div style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+<span style="font-size: 14px; font-weight: 600; color: #4A4F57;">Sledujeme celý e-shop</span>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 34px; font-weight: 700; line-height: 38px;">5 872 <span style="font-size: 18px; color: #5F646C; font-weight: 600;">stránok</span></span>
+<span style="font-size: 14px; color: #4A4F57;">Pásmo do 20 000 produktov · prvý mesiac v cene do 31. 10.</span>
+<a href="Billing.dc.html" style="font-size: 14px; font-weight: 600;">Predplatné a platby</a>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+<span style="font-size: 14px; font-weight: 600; color: #4A4F57;">Dnešná kontrola o 6:00</span>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 34px; font-weight: 700; line-height: 38px;">3 <span style="font-size: 18px; color: #5F646C; font-weight: 600;">zmenené stránky</span></span>
+<span style="font-size: 14px; color: #4A4F57;">1 nový nález · 1 oprava potvrdená · 1 bez problému</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+<span style="font-size: 14px; font-weight: 600; color: #4A4F57;">Upozornenia</span>
+<label style="display: flex; align-items: center; justify-content: space-between; font-size: 15px;">E-mail pri novom porušení
+<span style="width: 40px; height: 24px; border-radius: 999px; background: #0E5A52; position: relative; display: inline-block;"><span style="position: absolute; top: 3px; right: 3px; width: 18px; height: 18px; border-radius: 999px; background: #FFFFFF;"></span></span></label>
+<label style="display: flex; align-items: center; justify-content: space-between; font-size: 15px;">Kontrola pri uložení, aj skrytých produktov
+<span style="width: 40px; height: 24px; border-radius: 999px; background: #0E5A52; position: relative; display: inline-block;"><span style="position: absolute; top: 3px; right: 3px; width: 18px; height: 18px; border-radius: 999px; background: #FFFFFF;"></span></span></label>
+<label style="display: flex; align-items: center; justify-content: space-between; font-size: 15px;">Týždenný súhrn
+<span style="width: 40px; height: 24px; border-radius: 999px; background: #CFCCC2; position: relative; display: inline-block;"><span style="position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 999px; background: #FFFFFF;"></span></span></label>
+<span style="font-size: 13px; color: #5F646C;">Posielame na jana@bylinkovo.sk</span>
+</div>
+</div>
+
+<section style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;">
+<div style="padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EFEEE8;">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600;">Posledné zmeny</h2>
+<button type="button" style="height: 34px; display: flex; align-items: center; gap: 6px; padding: 0 12px; border: 1px solid #E2E0D8; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 14px; color: #33373D;">Posledných 7 dní<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; padding: 10px 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5F646C; background: #FBFAF7; border-bottom: 1px solid #EFEEE8;">
+<span style="grid-column: span 2;">Kedy</span><span style="grid-column: span 3;">Stránka</span><span style="grid-column: span 3;">Čo sa zmenilo</span><span style="grid-column: span 4;">Výsledok kontroly</span>
+</div>
+<sc-for list="{{rows}}" as="row" hint-placeholder-count="6">
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; padding: 14px 20px; align-items: center; border-bottom: 1px solid #EFEEE8; font-size: 15px;">
+<span style="grid-column: span 2; color: #4A4F57;">{{row.when}}</span>
+<span style="grid-column: span 3; font-weight: 500;">{{row.page}}</span>
+<span style="grid-column: span 3; color: #33373D;">{{row.what}}</span>
+<span style="grid-column: span 4; display: flex; align-items: center; justify-content: space-between; gap: 12px;"><span style="{{row.resultStyle}}">{{row.result}}</span>
+<sc-if value="{{row.hasAction}}" hint-placeholder-val="{{false}}"><a href="Review.dc.html" style="font-size: 14px; font-weight: 600;">Otvoriť návrh</a></sc-if></span>
+</div>
+</sc-for>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+renderVals() {
+const b = 'font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 8px;';
+const r = {
+new: { label: 'Nový nález: porušenie', style: b + ' background: #FDECEC; color: #9A1C1C;' },
+assess: { label: 'Nový nález: na posúdenie', style: b + ' background: #FEF1DC; color: #8A4B00;' },
+fixed: { label: 'Oprava potvrdená', style: b + ' background: #E4F4EA; color: #1C6B3E;' },
+ok: { label: 'Bez problému', style: b + ' background: #EFEEE8; color: #4A4F57;' },
+};
+const rows = [
+{ when: 'Dnes 10:05', page: 'Sviečka Levanduľa (skrytý)', what: 'Kontrola pred zverejnením, pri uložení', r: 'new', action: true },
+{ when: 'Dnes 9:42', page: 'Bambucké maslo 50 g', what: 'Nový odsek v popise (hlásenie zo Shoptetu)', r: 'new', action: true },
+{ when: 'Dnes 6:00', page: 'Levanduľový olej 10 ml', what: 'Zmenený text o dostupnosti', r: 'ok' },
+{ when: 'Včera 6:00', page: 'Šampón s ílom a mätou', what: 'Nový produkt', r: 'assess', action: true },
+{ when: '28. 9. 6:00', page: 'Zubná pasta + bambusová kefka', what: 'Zverejnené prijaté opravy', r: 'fixed' },
+{ when: '27. 9. 6:00', page: 'O nás', what: 'Prepísaný úvod', r: 'ok' },
+];
+return { rows: rows.map((x) => ({ ...x, result: r[x.r].label, resultStyle: r[x.r].style, hasAction: Boolean(x.action) })) };
+}
+}
+</script>
+</body>
+</html>

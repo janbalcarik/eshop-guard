@@ -16,7 +16,7 @@ context: |
   - start na jednom serveru: Ubuntu 24.04 + Docker Compose (caddy, web, api, worker, postgres, walg -> S3);
   - platby Stripe (Checkout: jednorázová analýza + předplatné s 30denní zkušební dobou), faktury SuperFaktúra (SK e-faktúra Peppol od 1. 1. 2027);
   - vícejazyčnost od začátku (sk, cs; další trhy později), místa prodeje a jazykové verze e-shopu, verdikt nálezu po zemích.
-  Návrh UI: plátno https://claude.ai/artifact/34wYLsJzieFtmWdueAwYay (obrazovky Main, Login 2a–2c, Onboarding 3a–3d, Dashboard, Fixes, Review, GroupFix, Monitoring, Billing, Evidence, Protocol, Mobile).
+  Návrh UI: soubory v design/ui/*.dc.html (předloha pro frontend, popis v design/ui/README.md), živé plátno https://claude.ai/artifact/34wYLsJzieFtmWdueAwYay (obrazovky Main, Login 2a–2c, Onboarding 3a–3d, Dashboard, Fixes, Review, GroupFix, Monitoring, Billing, Evidence, Protocol, Mobile).
 
   Závazné zásady:
   - logika v knihovně, CLI/API/worker jsou tenké vrstvy;

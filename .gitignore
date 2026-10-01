@@ -20,3 +20,6 @@ podklady/*
 podklady/predpisy-*/**/*.html
 podklady/predpisy-*/**/*.xhtml
 podklady/predpisy-*/**/*.pdf
+
+# Výzkumné skripty a výsledky (obsahují stažené texty cizích e-shopů), jen lokálně
+research/

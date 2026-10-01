@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<title>Oprava stránky s otázkou</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&amp;family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:"Figtree",system-ui,sans-serif;background:#F6F5F1;color:#17191C}
+a{color:#0E5A52}a:hover{color:#0B4A43}
+</style>
+</helmet>
+<div style="width: 1440px; height: 960px; box-sizing: border-box; background: #F6F5F1; display: flex; overflow: hidden;">
+<dc-import name="Sidebar" active="fixes" hint-size="248px,960px"></dc-import>
+<main style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; position: relative;">
+<div style="padding: 22px 32px 16px; display: flex; flex-direction: column; gap: 14px;">
+<nav aria-label="Navigácia" style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #5F646C;">
+<a href="Fixes.dc.html" style="color: #4A4F57;">Opravy</a><span>/</span><span style="color: #17191C;">Sviečka Vodnár</span>
+</nav>
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -0.01em;">Sviečka Vodnár</h1>
+<div style="display: flex; align-items: center; gap: 12px;">
+<a href="#" style="font-size: 14px;">bylinkovo.sk/sviecka-vodnar</a>
+<span style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #4A4F57;"><span style="width: 8px; height: 8px; border-radius: 999px; background: #2E9E5B;"></span>Text zo Shoptetu, produkt č. 177</span>
+</div>
+</div>
+</div>
+
+<div style="flex-grow: 1; min-height: 0; padding: 0 32px 96px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px;">
+<section aria-label="Otázky a zmeny" style="grid-column: span 8; display: flex; flex-direction: column; gap: 12px;">
+<div style="background: #FFFFFF; border: 2px solid #0E5A52; border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<span style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #4A4F57;">Otázka 1 <span style="background: #E6EEFB; color: #1E4E9C; padding: 2px 8px; border-radius: 999px;">Na overenie</span></span>
+<span style="font-size: 13px; color: #5F646C;">Odpovedala Jana Kováčová dnes o 10:14</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #5F646C;">Na stránke</span>
+<p style="margin: 0; font-size: 15px; background: #F6F5F1; border-radius: 8px; padding: 10px 12px;">Doba horenia: 22 hodín</p>
+</div>
+<p style="margin: 0; font-size: 18px; font-weight: 600; line-height: 26px;">Máte podklad k dobe horenia (napr. test výrobcu), alebo ho viete na požiadanie získať?</p>
+<div role="group" aria-label="Odpoveď" style="display: flex; gap: 10px;">
+<button type="button" aria-pressed="false" style="height: 44px; padding: 0 18px; border: 1px solid #CFCCC2; background: #FFFFFF; border-radius: 10px; font-family: inherit; font-size: 15px; font-weight: 500; color: #33373D;">Áno, vieme doložiť</button>
+<button type="button" aria-pressed="true" style="height: 44px; display: flex; align-items: center; gap: 8px; padding: 0 18px; border: 2px solid #5B3E9A; background: #EFEAFB; border-radius: 10px; font-family: inherit; font-size: 15px; font-weight: 600; color: #3F2A70;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Nie, nevieme doložiť</button>
+</div>
+<span style="font-size: 13px; color: #5F646C;">Nápis na obale nestačí. Odpoveď platí pre všetky 4 sviečky Vodnár s rovnakým údajom a uložíme ju medzi <a href="Evidence.dc.html" style="font-weight: 600;">Doklady</a>.</span>
+
+<div style="border-top: 1px solid #EFEEE8; padding-top: 14px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<span style="font-size: 15px; font-weight: 600;">Podľa vašej odpovede navrhujeme</span>
+<div style="display: flex; gap: 8px;">
+<button type="button" style="height: 34px; padding: 0 12px; border: 1px solid #CFCCC2; background: #FFFFFF; border-radius: 8px; font-family: inherit; font-size: 13px; font-weight: 500; color: #33373D;">Upraviť</button>
+<button type="button" style="height: 34px; padding: 0 14px; border: 0; background: #0E5A52; border-radius: 8px; font-family: inherit; font-size: 13px; font-weight: 600; color: #FFFFFF;">Prijať</button>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; font-size: 15px; line-height: 23px;">
+<div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #5F646C;">Pôvodný text</span><p style="margin: 0;"><del style="background: #FDECEC; color: #9A1C1C;">Doba horenia: 22 hodín</del></p></div>
+<div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #5F646C;">Navrhovaný text</span><p style="margin: 0; color: #4A4F57; font-style: italic;">Riadok odstrániť</p></div>
+</div>
+<p style="margin: 0; font-size: 14px; line-height: 21px; color: #4A4F57;">Keby ste odpovedali „áno“, údaj zostane a doklad si len odložte pre prípadnú kontrolu SOI.</p>
+</div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 10px; padding: 2px 16px; font-size: 13px; color: #5F646C;"><div style="flex-grow: 1; height: 1px; background: #E2E0D8;"></div>Ostatný text stránky je bez nálezu<div style="flex-grow: 1; height: 1px; background: #E2E0D8;"></div></div>
+</section>
+
+<aside aria-label="Prečo sa pýtame" style="grid-column: span 4; align-self: start; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 16px;">
+<span style="font-size: 15px; font-weight: 600;">Prečo sa pýtame</span>
+<p style="margin: 0; font-size: 14px; line-height: 21px;">Doba horenia je tvrdenie o životnosti výrobku. Od 27. 9. 2026 je zakázané, ak nie je pravdivé. Či je pravdivé, z webu nezistíme – to viete len vy.</p>
+<div style="display: flex; gap: 10px; align-items: flex-start; background: #F6F5F1; border-radius: 10px; padding: 12px;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M12 4v16M5 20h14M7 7h10M7 7l-3 6h6l-3-6zM17 7l-3 6h6l-3-6z"></path></svg>
+<div style="display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 14px; font-weight: 600;">Zákon č. 108/2024 Z. z., príloha č. 1 bod 36</span><a href="#" style="font-size: 13px;">Zobraziť znenie ustanovenia</a></div>
+</div>
+<p style="margin: 0; font-size: 13px; line-height: 19px; color: #5F646C;">Na žiadosť SOI alebo súdu musí obchodník správnosť tvrdenia preukázať (§ 9 ods. 12).</p>
+</aside>
+</div>
+
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 76px; box-sizing: border-box; padding: 0 32px; background: #FFFFFF; border-top: 1px solid #E2E0D8; display: flex; align-items: center; gap: 16px;">
+<div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1;">
+<span style="font-size: 15px; font-weight: 600;">Odpovedané 1 z 1 · prijaté 0 z 1 zmien</span>
+<span style="font-size: 13px; color: #5F646C;">Prijaté zmeny zapíšeme do Shoptetu, pôvodný text si uložíme a zmenu môžete vrátiť.</span>
+</div>
+<button type="button" style="height: 44px; display: flex; align-items: center; gap: 8px; padding: 0 20px; border: 0; background: #0E5A52; border-radius: 10px; font-family: inherit; font-size: 15px; font-weight: 600; color: #FFFFFF;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V9M7 14l5-5 5 5M5 4h14"></path></svg>Publikovať do e-shopu</button>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

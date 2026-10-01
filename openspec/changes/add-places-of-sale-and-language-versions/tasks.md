@@ -3,7 +3,7 @@
 Cesty jsou po přejmenování ze změny 1 a po rozdělení na kroky ze změny 5 (`eshop-guard/`).
 
 ## 1. Příprava
-- [ ] 1.1 Zkopírovat výsledky výzkumu ze `scratchpad/langprobe/` (`sales_out/*.json`, `validate_report.json`, `pairs_*.jsonl`, skripty `sales.py`, `validate.py`, `switchcheck.py`, `pairs.py`, `probe.py`) do lokální složky `research/langprobe-2026-10-01/` a přidat `research/` do `.gitignore` (obsahují texty cizích e-shopů). Hotovo: soubory jsou na místě, scratchpad se smí smazat.
+- [x] 1.1 (Hotovo 1. 10. 2026: zkopírováno do `research/langprobe-2026-10-01/`, `research/` je v `.gitignore`.) Zkopírovat výsledky výzkumu ze `scratchpad/langprobe/` (`sales_out/*.json`, `validate_report.json`, `pairs_*.jsonl`, skripty `sales.py`, `validate.py`, `switchcheck.py`, `pairs.py`, `probe.py`) do lokální složky `research/langprobe-2026-10-01/` a přidat `research/` do `.gitignore` (obsahují texty cizích e-shopů). Hotovo: soubory jsou na místě, scratchpad se smí smazat.
 - [ ] 1.2 Přidat `config/markets.yaml` (trhy `sk` a `cz`, `readable_languages`, `tlds`, oddíl `versions` podle designu), `src/EshopGuard.Core/Markets/MarketCatalog.cs` a `MarketsOptions` v `Options/EshopGuardOptions.cs`. Test `Markets/MarketCatalogTests.cs`: podporované trhy = průnik trhů s jurisdikcemi zapnutých sad pravidel a povolení hostitele; neznámý klíč v souboru je chyba načtení.
 
 ## 2. Technické znaky bez modelu

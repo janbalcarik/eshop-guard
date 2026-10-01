@@ -1,0 +1,223 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "AccountMenu.dc.html": {
+      "h": 960,
+      "title": "Sdílené: menu účtu po kliknutí na jméno (předplatné, nastavení, jazyk)",
+      "w": 248,
+      "x": 3218,
+      "y": 7564
+    },
+    "Billing.dc.html": {
+      "h": 960,
+      "title": "8 · Předplatné a platby (po e-shopech; stav po půl roce, 3 e-shopy; faktury s vlastním posuvníkem)",
+      "w": 1440,
+      "x": 6080,
+      "y": 5884
+    },
+    "BillingMobile.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "title": "9b · Předplatné a platby na mobilu (faktury rozbalením, bez vnořeného posuvníku)",
+      "w": 390,
+      "x": 3546,
+      "y": 7564
+    },
+    "Dashboard.dc.html": {
+      "h": 960,
+      "title": "4 · Přehled",
+      "w": 1440,
+      "x": 6080,
+      "y": 4454
+    },
+    "Evidence.dc.html": {
+      "h": 960,
+      "title": "10 · Doklady (zadané jednou, platí všude)",
+      "w": 1440,
+      "x": 0,
+      "y": 7564
+    },
+    "Fixes.dc.html": {
+      "h": 960,
+      "title": "5 · Opravy (po stránkách, filtr jazykové verze, hromadné opravy, šablona)",
+      "w": 1440,
+      "x": 7600,
+      "y": 4454
+    },
+    "GroupFix.dc.html": {
+      "h": 960,
+      "title": "6c · Hromadná oprava (stejný text na 38 stránkách)",
+      "w": 1440,
+      "x": 3040,
+      "y": 5884
+    },
+    "Login.dc.html": {
+      "h": 960,
+      "is_interactive": true,
+      "title": "2a · Přihlášení: odkaz v e-mailu (výchozí), heslem, Google; přepínač jazyka; nový účet vznikne kliknutím na odkaz",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "LoginConfirm.dc.html": {
+      "h": 960,
+      "title": "2c · Po kliknutí na odkaz: potvrzení tlačítkem (odkaz nespotřebuje náhled pošty); vypršelý odkaz → „Poslať nový odkaz“",
+      "w": 1440,
+      "x": 4560,
+      "y": 0
+    },
+    "LoginSent.dc.html": {
+      "h": 960,
+      "title": "2b · Odkaz odeslán (vlevo náhled e-mailu, platnost 15 min, jednorázový)",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "h": 4084,
+      "title": "1 · Úvodní stránka: vydání SK/CZ (přepínač, obsah z CMS), 100 stránek zdarma, napojení na e-shop, ceník",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "Mobile.dc.html": {
+      "h": 844,
+      "title": "9 · Přehled na mobilu",
+      "w": 390,
+      "x": 2420,
+      "y": 7564
+    },
+    "Monitoring.dc.html": {
+      "h": 960,
+      "title": "7 · Sledování změn (i kontrola při uložení)",
+      "w": 1440,
+      "x": 4560,
+      "y": 5884
+    },
+    "Onboarding.dc.html": {
+      "h": 960,
+      "title": "3a · Připojení e-shopu (platforma rozpoznána)",
+      "w": 1440,
+      "x": 0,
+      "y": 4454
+    },
+    "OnboardingOther.dc.html": {
+      "h": 960,
+      "title": "3b · Připojení e-shopu (platforma nerozpoznána)",
+      "w": 1440,
+      "x": 1520,
+      "y": 4454
+    },
+    "OnboardingScope.dc.html": {
+      "h": 1040,
+      "title": "3c · Kde predávate (len podporované krajiny), jazykové verzie vetou, rozsah, cena a spustenie",
+      "w": 1440,
+      "x": 3040,
+      "y": 4454
+    },
+    "Protocol.dc.html": {
+      "h": 1160,
+      "title": "11 · Protokol o kontrole (PDF)",
+      "w": 820,
+      "x": 1520,
+      "y": 7564
+    },
+    "Review.dc.html": {
+      "h": 1240,
+      "title": "6a · Oprava stránky (verdikt po zemích SK/CZ, text v kontextu, hromadná změna, co pomůže, zkratky)",
+      "w": 1440,
+      "x": 0,
+      "y": 5884
+    },
+    "ReviewQuestion.dc.html": {
+      "h": 960,
+      "title": "6b · Oprava stránky po odpovědi na otázku",
+      "w": 1440,
+      "x": 1520,
+      "y": 5884
+    },
+    "Sidebar.dc.html": {
+      "h": 960,
+      "is_interactive": true,
+      "title": "Sdílené: boční menu",
+      "w": 248,
+      "x": 2890,
+      "y": 7564
+    },
+    "VersionDetails.dc.html": {
+      "h": 960,
+      "title": "3d · Jazykové verze z ukázky (jazyk textů, vlastní texty, porovnání, co jde do ceny)",
+      "w": 1440,
+      "x": 4560,
+      "y": 4454
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-09-30T15:10:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "row1": {
+      "kind": "title1",
+      "maxW": 6080,
+      "text": "Veřejná část: co to umí, ukázka zdarma, napojení, kolik to stojí, přihlášení",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "row2": {
+      "kind": "title1",
+      "maxW": 9040,
+      "text": "Aplikace: připojení e-shopu, první kontrola, přehled, opravy po stránkách",
+      "w": 240,
+      "x": 0,
+      "y": 4154
+    },
+    "row3": {
+      "kind": "title1",
+      "maxW": 7520,
+      "text": "Oprava stránky, otázky, hromadná oprava, sledování změn, předplatné",
+      "w": 240,
+      "x": 0,
+      "y": 5584
+    },
+    "row4": {
+      "kind": "title1",
+      "maxW": 3936,
+      "text": "Doklady, protokol, mobil a sdílené prvky",
+      "w": 240,
+      "x": 0,
+      "y": 7264
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Login.dc.html",
+    "LoginSent.dc.html",
+    "LoginConfirm.dc.html",
+    "Onboarding.dc.html",
+    "OnboardingOther.dc.html",
+    "OnboardingScope.dc.html",
+    "VersionDetails.dc.html",
+    "Dashboard.dc.html",
+    "Fixes.dc.html",
+    "Review.dc.html",
+    "ReviewQuestion.dc.html",
+    "GroupFix.dc.html",
+    "Monitoring.dc.html",
+    "Billing.dc.html",
+    "Evidence.dc.html",
+    "Protocol.dc.html",
+    "Mobile.dc.html",
+    "Sidebar.dc.html",
+    "AccountMenu.dc.html",
+    "BillingMobile.dc.html"
+  ],
+  "pages": [],
+  "title": "EshopGuard – návrh webu"
+}

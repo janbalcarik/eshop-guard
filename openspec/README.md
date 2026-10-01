@@ -18,7 +18,7 @@ Podklady jsou v nadřazené složce `D:\_github\Overko`:
 - `navrhy-rozvoje-2026-09-30.md`;
 - `podklady/reserse/konektory-api-2026-10-01.md`.
 
-Návrh UI: https://claude.ai/artifact/34wYLsJzieFtmWdueAwYay
+Návrh UI je v repozitáři v `design/ui/` (21 obrazovek `*.dc.html`, popis v `design/ui/README.md`). Živé plátno: https://claude.ai/artifact/34wYLsJzieFtmWdueAwYay
 
 ## Jak s plánem pracovat v Claude Code
 

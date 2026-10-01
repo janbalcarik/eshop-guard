@@ -2,7 +2,7 @@
 
 ## Intent
 
-**Problém.** Po změnách 9–12 umí API přihlásit uživatele, založit e-shop, spočítat cenu, přijmout platbu a vrátit nálezy, opravy, doklady a faktury. Zákazník to ale nemá kde vidět. Dnes existuje jen CLI a návrh UI na plátně (`webdesign/project/*.dc.html`). Prodejní tok „ukázka zdarma → zaplacená analýza → schválené opravy“ tak nejde projít.
+**Problém.** Po změnách 9–12 umí API přihlásit uživatele, založit e-shop, spočítat cenu, přijmout platbu a vrátit nálezy, opravy, doklady a faktury. Zákazník to ale nemá kde vidět. Dnes existuje jen CLI a návrh UI na plátně (`design/ui/*.dc.html`, popis v `design/ui/README.md`). Prodejní tok „ukázka zdarma → zaplacená analýza → schválené opravy“ tak nejde projít.
 
 **Proč teď.** Fáze 3 „Web MVP“ v architektuře (část 10) končí, když projde „prodejní tok od bezplatné kontroly po zaplacenou analýzu“. F7 v plánu implementace (databáze, část 8) to upřesňuje: „Proklikání celého toku na lokálním prostředí slovensky i česky, mobilní šířka bez vodorovného posunu“. Bez frontendu nejde začít pilot (strategie, část 5: říjen–listopad 2026).
 

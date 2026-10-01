@@ -9,7 +9,7 @@
 - Cena podle pásma má počítat produkty ve verzích s vlastními texty. Bez rozboru verzí ji nejde spočítat ani garantovat.
 
 **Co změna přinese.**
-- V ukázce zdarma rozbor míst prodeje: technické znaky bez modelu, pak dvě volání modelu s doslovnými citacemi, které se ověří proti textu stránek. Ověřeno 1. 10. 2026 na 9 e-shopech (vegis, naturfyt, bonami, freshlabels, goodie, havlikovaapoteka, panakeia, nutriadapt, footshop; `gpt-6.1-sol`, skript `scratchpad/langprobe/sales.py`):
+- V ukázce zdarma rozbor míst prodeje: technické znaky bez modelu, pak dvě volání modelu s doslovnými citacemi, které se ověří proti textu stránek. Ověřeno 1. 10. 2026 na 9 e-shopech (vegis, naturfyt, bonami, freshlabels, goodie, havlikovaapoteka, panakeia, nutriadapt, footshop; `gpt-6.1-sol`, skript `research/langprobe-2026-10-01/sales.py`):
   - cena 0,42 USD celkem, 0,03–0,08 USD na e-shop (průměr 0,047);
   - citace 62 z 62 doslova nalezeny v textu stránek;
   - domovská země 8 z 9 správně (panakeia.cz správně SK), 1× poctivě „nejisté“ (goodie, chyběla adresa);
@@ -27,7 +27,7 @@
 - `architektura-multitenant-worker-2026-10-01.md`, část 12: „Čtyři různé věci, které se nesmí slít“, „Místa prodeje e-shopu“ (Proč, Pojem, Zásady, Jak to funguje 1–5, Ověření), „Jazykové verze e-shopu“ (Proč, Jedno pravidlo, Která verze se kontroluje, Najít a přepnout, Co klient uvidí, Cena, Rozbor verzí v ukázce zdarma, Ověření, Přepínání bez JavaScriptu, Pojistky, Cena rozhodnuto); část 11, body 9 a 10;
 - `databaze-a-plan-implementace-2026-10-01.md`: část 3.2 (`shops.home_country`, `shops.language`, `shop_markets`, `shop_languages`), 3.3 (`pages.language`, `hreflang_group`, `external_id`), 3.9 (`ref.markets`, `ref.locales`), část 8 fáze F3;
 - `navrhy-rozvoje-2026-09-30.md`: návrh 13 (konektory), 19 (další země a jazyky), 21 (Chromium);
-- ověřovací skripty a výsledky (jen pro odkaz): `scratchpad/langprobe/sales.py`, `validate.py`, `switchcheck.py`, `pairs.py`, `sales_out/*.json`, `validate_report.json`;
+- ověřovací skripty a výsledky (jen pro odkaz): `research/langprobe-2026-10-01/sales.py`, `validate.py`, `switchcheck.py`, `pairs.py`, `sales_out/*.json`, `validate_report.json`;
 - kód: `src/EshopGuard.Core/Crawl/Crawler.cs`, `UrlTools.cs`, `SitemapParser.cs`, `HttpPageFetcher.cs`, `Extract/ContentExtractor.cs`, `JsonLdReader.cs`, `Fix/IRewriteClient.cs`, `Fix/OpenAiRewriteClient.cs`, `Profiles/ProfileModel.cs` (vzor volání modelu se schématem).
 
 Cesty jsou po přejmenování ze změny 1 a po rozdělení na kroky ze změny 5.

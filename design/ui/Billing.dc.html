@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<title>Predplatné a platby</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&amp;family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:"Figtree",system-ui,sans-serif;background:#F6F5F1;color:#17191C}
+a{color:#0E5A52}a:hover{color:#0B4A43}
+</style>
+</helmet>
+<div style="width: 1440px; height: 960px; box-sizing: border-box; background: #F6F5F1; display: flex;">
+<dc-import name="Sidebar" active="billing" monitoring-count="3 e-shopy" monitoring-note="Ďalšia platba 1. 5. 2027" hint-size="248px,960px"></dc-import>
+<main style="flex-grow: 1; min-width: 0; min-height: 0; padding: 28px 32px; display: flex; flex-direction: column; gap: 20px;">
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-shrink: 0;">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 700; letter-spacing: -0.01em;">Predplatné a platby</h1>
+<span style="font-size: 15px; color: #4A4F57; max-width: 860px;">Za každý e-shop platíte <strong style="color: #17191C;">úvodnú analýzu raz</strong> (prvý mesiac sledovania je v jej cene) a potom <strong style="color: #17191C;">sledovanie celého e-shopu mesačne</strong>, od dňa jeho analýzy. Od 3. e-shopu je sledovanie o [X] % lacnejšie. Ceny bez DPH.</span>
+</div>
+<a href="Onboarding.dc.html" style="height: 42px; flex-shrink: 0; display: flex; align-items: center; gap: 8px; padding: 0 16px; background: #0E5A52; color: #FFFFFF; text-decoration: none; border-radius: 10px; font-size: 15px; font-weight: 600;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Pridať ďalší e-shop</a>
+</div>
+
+<section aria-label="E-shopy v účte" style="flex-shrink: 0; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;">
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; padding: 10px 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5F646C; background: #FBFAF7; border-bottom: 1px solid #EFEEE8;">
+<span style="grid-column: span 3;">E-shop</span><span style="grid-column: span 2;">Úvodná analýza</span><span style="grid-column: span 3;">Sledovanie zmien</span><span style="grid-column: span 2;">Ďalšia platba</span><span style="grid-column: span 2;"></span>
+</div>
+<sc-for list="{{shops}}" as="s" hint-placeholder-count="3">
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; padding: 12px 20px; align-items: center; border-bottom: 1px solid #EFEEE8; font-size: 15px;">
+<span style="grid-column: span 3; display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 600;">{{s.shop}}</span><span style="font-size: 13px; color: #5F646C;">{{s.size}}</span></span>
+<span style="grid-column: span 2; display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 600;">[CENA] €</span><span style="font-size: 13px; color: #5F646C;">zaplatená {{s.paid}}</span></span>
+<span style="grid-column: span 3; display: flex; flex-direction: column; align-items: flex-start; gap: 4px;"><span style="{{s.badgeStyle}}">{{s.status}}</span><span style="font-size: 13px; color: #4A4F57;">{{s.price}}</span></span>
+<span style="grid-column: span 2; display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 600;">{{s.next}}</span><span style="font-size: 13px; color: #5F646C;">[CENA] € · karta •••• 4242</span></span>
+<a href="#" style="grid-column: span 2; justify-self: end; font-size: 14px; font-weight: 600; color: #8A2A1F;">Zrušiť sledovanie</a>
+</div>
+</sc-for>
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; font-size: 16px; font-weight: 700;"><span>Sledovanie spolu mesačne, so zľavou za 3. e-shop</span><span>[CENA] €</span></div>
+</section>
+
+<div style="flex-shrink: 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px;">
+<section aria-label="Platobná karta" style="grid-column: span 5; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 18px 22px; display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600;">Platobná karta</h2>
+<div style="display: flex; align-items: center; gap: 12px;">
+<span style="width: 44px; height: 30px; border-radius: 6px; background: #17191C; color: #FFFFFF; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center;">VISA</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 15px; font-weight: 600;">•••• 4242 · platí do 08/28</span><span style="font-size: 13px; color: #5F646C;">pre všetky e-shopy v účte</span></span>
+<a href="#" style="height: 38px; display: flex; align-items: center; padding: 0 14px; border: 1px solid #CFCCC2; border-radius: 10px; text-decoration: none; color: #17191C; font-size: 14px; font-weight: 600;">Zmeniť kartu</a>
+</div>
+<span style="font-size: 13px; line-height: 19px; color: #5F646C;">Po zrušení sledovania e-shopu beží sledovanie do konca zaplateného obdobia, potom sa zastaví. Nálezy, opravy a doklady zostanú.</span>
+</section>
+<section aria-label="Pásma podľa veľkosti e-shopu" style="grid-column: span 7; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 18px 22px; display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600;">Cena sledovania podľa veľkosti e-shopu</h2>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px;">
+<sc-for list="{{tiers}}" as="t" hint-placeholder-count="5">
+<div style="{{t.style}}"><span style="font-size: 14px; font-weight: 600;">{{t.label}}</span><span style="font-size: 13px; color: #5F646C;">{{t.price}}</span></div>
+</sc-for>
+</div>
+<span style="font-size: 13px; line-height: 19px; color: #5F646C;">Pásmo určujeme podľa počtu zverejnených produktov v každej jazykovej verzii, varianty sa nepočítajú zvlášť. Kategórie, články a ostatné stránky e-shopu sledujeme v cene. Počet zistíme z prepojenia s e-shopom alebo z jeho webu. Keď e-shop prerastie pásmo, upozorníme vás a vyššie pásmo platí od ďalšieho obdobia.</span>
+</section>
+</div>
+
+<section aria-label="Faktúry" style="flex: 1 1 auto; min-height: 0; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;">
+<div style="flex-shrink: 0; padding: 12px 20px; border-bottom: 1px solid #EFEEE8; display: flex; align-items: center; gap: 16px;">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600; flex-grow: 1;">Faktúry <span style="font-size: 14px; font-weight: 500; color: #5F646C;">· 18</span></h2>
+<label style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #4A4F57;">E-shop
+<select style="height: 36px; padding: 0 10px; border: 1px solid #CFCCC2; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 14px; color: #17191C;"><option>Všetky e-shopy</option><option>bylinkovo.sk</option><option>bylinkovo-darceky.sk</option><option>bylinkovo.cz</option></select></label>
+<label style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #4A4F57;">Rok
+<select style="height: 36px; padding: 0 10px; border: 1px solid #CFCCC2; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 14px; color: #17191C;"><option>Všetky</option><option>2027</option><option>2026</option></select></label>
+<a href="#" style="height: 36px; display: flex; align-items: center; gap: 6px; padding: 0 12px; border: 1px solid #CFCCC2; border-radius: 8px; text-decoration: none; color: #17191C; font-size: 14px; font-weight: 600;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Stiahnuť ZIP</a>
+</div>
+<div style="flex-shrink: 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; padding: 8px 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5F646C; background: #FBFAF7; border-bottom: 1px solid #EFEEE8;">
+<span style="grid-column: span 2;">Dátum</span><span style="grid-column: span 5;">Položka</span><span style="grid-column: span 2;">Suma s DPH</span><span style="grid-column: span 2;">Stav</span><span style="grid-column: span 1;"></span>
+</div>
+<div role="region" aria-label="Zoznam faktúr" tabindex="0" style="flex: 1 1 auto; min-height: 0; overflow-y: auto;">
+<sc-for list="{{invoices}}" as="inv" hint-placeholder-count="8">
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; padding: 10px 20px; align-items: center; border-bottom: 1px solid #EFEEE8; font-size: 15px;">
+<span style="grid-column: span 2;">{{inv.date}}</span>
+<span style="grid-column: span 5; color: #4A4F57;">{{inv.label}}</span>
+<span style="grid-column: span 2; font-weight: 600;">[SUMA] €</span>
+<span style="grid-column: span 2;"><span style="{{inv.badgeStyle}}">{{inv.status}}</span></span>
+<sc-if value="{{inv.hasPdf}}" hint-placeholder-val="{{true}}">
+<a href="#" style="grid-column: span 1; justify-self: end; font-size: 14px; font-weight: 600;">PDF</a>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+renderVals() {
+const badge = 'font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 8px;';
+const paid = { status: 'Zaplatená', hasPdf: true, badgeStyle: badge + ' background: #E4F4EA; color: #1C6B3E;' };
+const planned = { status: 'Naplánovaná', hasPdf: false, badgeStyle: badge + ' background: #EFEEE8; color: #4A4F57;' };
+const tier = 'display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 10px; border: 1px solid #E2E0D8;';
+const current = 'display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 10px; border: 2px solid #0E5A52; background: #F3FAF8;';
+const active = badge + ' background: #E4F4EA; color: #1C6B3E;';
+const trial = badge + ' background: #E3F0ED; color: #0B4A43;';
+const months = [
+['2027', '4', 'apríl'], ['2027', '3', 'marec'], ['2027', '2', 'február'], ['2027', '1', 'január'],
+['2026', '12', 'december'], ['2026', '11', 'november'],
+];
+const monthly = [];
+months.forEach(([year, month, name]) => {
+monthly.push({ date: '5. ' + month + '. ' + year, label: 'Sledovanie zmien · bylinkovo-darceky.sk · ' + name, ...paid });
+monthly.push({ date: '1. ' + month + '. ' + year, label: 'Sledovanie zmien · bylinkovo.sk · ' + name, ...paid });
+});
+return {
+shops: [
+{ shop: 'bylinkovo.sk', size: '2 jazykové verzie, 11 668 produktov · pásmo do 20 000', paid: '1. 10. 2026', status: 'Aktívne', badgeStyle: active, price: '[CENA] € mesačne', next: '1. 5. 2027' },
+{ shop: 'bylinkovo-darceky.sk', size: '200 produktov · pásmo do 500', paid: '5. 10. 2026', status: 'Aktívne', badgeStyle: active, price: '[CENA] € mesačne', next: '5. 5. 2027' },
+{ shop: 'bylinkovo.cz', size: '1 460 produktov · pásmo do 2 000', paid: '20. 4. 2027', status: 'Prvý mesiac v cene do 19. 5.', badgeStyle: trial, price: 'potom [CENA] € mesačne, −[X] % ako 3. e-shop', next: '20. 5. 2027' },
+],
+tiers: [
+{ label: 'do 500 produktov', price: '[CENA] € / mesiac', style: current },
+{ label: 'do 2 000 produktov', price: '[CENA] € / mesiac', style: current },
+{ label: 'do 5 000 produktov', price: '[CENA] € / mesiac', style: tier },
+{ label: 'do 20 000 produktov', price: '[CENA] € / mesiac', style: current },
+{ label: 'viac ako 20 000', price: 'dohodou', style: tier },
+],
+invoices: [
+{ date: '20. 5. 2027', label: 'Sledovanie zmien · bylinkovo.cz · 20. 5.–19. 6.', ...planned },
+{ date: '5. 5. 2027', label: 'Sledovanie zmien · bylinkovo-darceky.sk · máj', ...planned },
+{ date: '1. 5. 2027', label: 'Sledovanie zmien · bylinkovo.sk · máj', ...planned },
+{ date: '20. 4. 2027', label: 'Úvodná analýza · bylinkovo.cz · s 1. mesiacom sledovania', ...paid },
+...monthly,
+{ date: '5. 10. 2026', label: 'Úvodná analýza · bylinkovo-darceky.sk · s 1. mesiacom sledovania', ...paid },
+{ date: '1. 10. 2026', label: 'Úvodná analýza · bylinkovo.sk · s 1. mesiacom sledovania', ...paid },
+],
+};
+}
+}
+</script>
+</body>
+</html>

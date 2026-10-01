@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<title>Potvrdenie prihlásenia</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&amp;family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:"Figtree",system-ui,sans-serif;background:#F6F5F1;color:#17191C}
+a{color:#0E5A52}a:hover{color:#0B4A43}
+</style>
+</helmet>
+<div style="width: 1440px; height: 960px; box-sizing: border-box; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); background: #F6F5F1;">
+<div style="background: #0E3B36; color: #F3F1EA; padding: 64px 80px; display: flex; flex-direction: column; justify-content: space-between;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<div style="width: 32px; height: 32px; border-radius: 8px; background: #F3F1EA; display: flex; align-items: center; justify-content: center;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3B36" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>
+</div>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; font-weight: 700;">EshopGuard</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 28px; max-width: 520px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 44px; line-height: 50px; font-weight: 700; letter-spacing: -0.015em;">Kontrola beží za vás. Vy len potvrdíte opravy.</h1>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 16px; font-size: 17px; line-height: 25px; color: #D5DCD8;">
+<li style="display: flex; gap: 12px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9FD3C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Prvých 100 stránok skontrolujeme zadarmo, bez platobnej karty</li>
+<li style="display: flex; gap: 12px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9FD3C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Pri každom náleze vysvetlenie a paragraf zákona</li>
+<li style="display: flex; gap: 12px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9FD3C5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>Opravený text pripravený na skopírovanie alebo publikovanie</li>
+</ul>
+</div>
+<span style="font-size: 14px; color: #A9B4AF;">Nenahrádza právne poradenstvo.</span>
+</div>
+<div style="display: flex; align-items: center; justify-content: center; padding: 64px;">
+<div style="width: 420px; display: flex; flex-direction: column; gap: 20px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 32px; font-weight: 700;">Prihlásenie do EshopGuard</h2>
+<p style="margin: 0; font-size: 16px; line-height: 24px; color: #4A4F57;">Pokračujete ako <strong style="color: #17191C;">jana@bylinkovo.sk</strong>.</p>
+</div>
+<a href="Dashboard.dc.html" style="height: 48px; display: flex; align-items: center; justify-content: center; background: #0E5A52; color: #FFFFFF; text-decoration: none; border-radius: 10px; font-size: 16px; font-weight: 600;">Prihlásiť sa</a>
+<div style="display: flex; gap: 12px; align-items: flex-start; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 12px; padding: 14px 16px;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E5A52" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><path d="M12 5v14M5 12h14"></path></svg>
+<span style="font-size: 14px; line-height: 21px; color: #4A4F57;">Ide o nový účet? Po prihlásení pridáte e-shop a hneď spustíme kontrolu 100 stránok zadarmo. <a href="Onboarding.dc.html" style="font-weight: 600;">Ukážka pre nový účet</a></span>
+</div>
+<p style="margin: 0; font-size: 14px; line-height: 21px; color: #5F646C;">Nežiadali ste o prihlásenie? Stránku zatvorte, nič sa nestane.</p>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

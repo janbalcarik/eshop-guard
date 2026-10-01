@@ -18,7 +18,11 @@ EshopGuard kontroluje texty e-shopů podle spotřebitelského práva. Primárně
 - `openspec/`: implementační plán.
   - Pořadí 18 změn je v `openspec/README.md`.
   - Otevřená rozhodnutí jsou v `openspec/K-ROZHODNUTI.md`.
-- Návrh UI: https://claude.ai/artifact/34wYLsJzieFtmWdueAwYay
+- `design/ui/`: schválený návrh UI, 21 obrazovek `*.dc.html` a `canvas.json`.
+  - Popis je v `design/ui/README.md`.
+  - Živé plátno: https://claude.ai/artifact/34wYLsJzieFtmWdueAwYay
+  - Frontend se staví podle těchto souborů.
+- `research/` (jen lokálně, mimo git): výzkumné skripty a výsledky (místa prodeje, jazykové verze).
 
 ## Jak pracovat
 - **Česky.** Odpovědi, dokumenty i specifikace. Kód a identifikátory anglicky jako dosud.

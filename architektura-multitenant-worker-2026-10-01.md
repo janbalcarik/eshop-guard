@@ -413,7 +413,7 @@ Závěr: stahování a CPU se škálují přidáním workerů. Jev se škáluje 
    - protokol uvádí, podle kterých zemí kontrola proběhla.
 5. **Při sledování:** nový silný znak (nová jazyková verze, nová měna) vyvolá upozornění „Vyzerá to, že predávate aj …“. Trh se sám nepřidá.
 
-**Ověření 1. 10. 2026 (9 e-shopů: vegis, naturfyt, bonami, freshlabels, goodie, havlikovaapoteka, panakeia, nutriadapt, footshop; gpt-6.1-sol, skript `scratchpad/langprobe/sales.py`):**
+**Ověření 1. 10. 2026 (9 e-shopů: vegis, naturfyt, bonami, freshlabels, goodie, havlikovaapoteka, panakeia, nutriadapt, footshop; gpt-6.1-sol, skript `research/langprobe-2026-10-01/sales.py`, jen lokálně):**
 
 | Měřítko | Výsledek |
 |---|---|
@@ -481,7 +481,7 @@ Metody:
 
 Výsledek: věty na 3c a podrobnosti na 3d. Český text na slovenské verzi je upozornění, ne porušení. Pravidla se na něj použijí stejně.
 
-**Ověření 1. 10. 2026 (46 uložených párů z 5 e-shopů, 0,043 USD, skript `scratchpad/langprobe/validate.py`):**
+**Ověření 1. 10. 2026 (46 uložených párů z 5 e-shopů, 0,043 USD, skript `research/langprobe-2026-10-01/validate.py`, jen lokálně):**
 - výsledek souhlasí s ručním čtením ve 44 ze 46 párů:
   - bonami 10× překlad;
   - havlikovaapoteka 6× překlad, 1× zkráceno;
