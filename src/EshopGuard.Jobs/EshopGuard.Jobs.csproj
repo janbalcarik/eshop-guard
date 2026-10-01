@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Job queue and handlers: filled by change 4 (add-job-queue-and-worker). -->
+  <PropertyGroup>
+    <RootNamespace>EshopGuard.Jobs</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EshopGuard.Core\EshopGuard.Core.csproj" />
+    <ProjectReference Include="..\EshopGuard.Data\EshopGuard.Data.csproj" />
+    <ProjectReference Include="..\EshopGuard.Storage\EshopGuard.Storage.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EshopGuard.Worker\EshopGuard.Worker.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Shared\TestDatabase.cs" Link="Shared\TestDatabase.cs" />
+    <Compile Include="..\Shared\InMemoryLoggerProvider.cs" Link="Shared\InMemoryLoggerProvider.cs" />
+  </ItemGroup>
+
+</Project>

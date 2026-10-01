@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- E-shop platform connectors: filled by change 15 (add-shoptet-connector). -->
+  <PropertyGroup>
+    <RootNamespace>EshopGuard.Connectors</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EshopGuard.Core\EshopGuard.Core.csproj" />
+    <ProjectReference Include="..\EshopGuard.Data\EshopGuard.Data.csproj" />
+    <ProjectReference Include="..\EshopGuard.Storage\EshopGuard.Storage.csproj" />
+    <ProjectReference Include="..\EshopGuard.Jobs\EshopGuard.Jobs.csproj" />
+  </ItemGroup>
+
+</Project>

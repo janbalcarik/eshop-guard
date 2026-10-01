@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>EshopGuard.Api</RootNamespace>
+    <UserSecretsId>eshopguard-api</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EshopGuard.Data\EshopGuard.Data.csproj" />
+    <ProjectReference Include="..\EshopGuard.Storage\EshopGuard.Storage.csproj" />
+    <ProjectReference Include="..\EshopGuard.Jobs\EshopGuard.Jobs.csproj" />
+    <ProjectReference Include="..\EshopGuard.Billing\EshopGuard.Billing.csproj" />
+    <ProjectReference Include="..\EshopGuard.Connectors\EshopGuard.Connectors.csproj" />
+  </ItemGroup>
+
+</Project>

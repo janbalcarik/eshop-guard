@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EshopGuard.Storage\EshopGuard.Storage.csproj" />
+  </ItemGroup>
+
+</Project>

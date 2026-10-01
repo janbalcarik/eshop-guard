@@ -1,0 +1,26 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <!-- Common settings of the test projects (xUnit v3 as a Microsoft.Testing.Platform application, see global.json). -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <!-- Database and storage tests read user-secrets eshopguard-tests (written by deploy/dev/setup-local.ps1). -->
+  <PropertyGroup Condition="'$(MSBuildProjectName)' != 'EshopGuard.Core.Tests'">
+    <UserSecretsId>eshopguard-tests</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(MSBuildProjectName)' != 'EshopGuard.Core.Tests'">
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" />
+    <Compile Include="$(MSBuildThisFileDirectory)Shared\TestConfiguration.cs" Link="Shared\TestConfiguration.cs" />
+  </ItemGroup>
+</Project>

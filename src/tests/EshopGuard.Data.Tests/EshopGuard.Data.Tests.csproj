@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EshopGuard.Data\EshopGuard.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Shared\TestDatabase.cs" Link="Shared\TestDatabase.cs" />
+  </ItemGroup>
+
+</Project>

@@ -38,28 +38,73 @@ Každá věta jde do větných modulů (na Slovensku `eco`, `dur` a `ucp`, v Če
 
 ## Požadavky
 
-- .NET SDK 10.0.4xx (verze je zafixovaná v `global.json`).
+- .NET SDK 10.0.4xx (verze je zafixovaná v `global.json` v kořeni repozitáře).
+- Pro webovou aplikaci (API, worker) a jejich testy: PostgreSQL 18 na `localhost:5432` a PowerShell 7.4+ pro `deploy/dev/setup-local.ps1`. CLI databázi nepotřebuje.
 
 ## Sestavení a testy
 
-```bash
-dotnet build
-dotnet test
-```
-
-Testy nepotřebují síť. Testovací e-shop se čte ze souborů v `tests/EshopGuard.Core.Tests/Fixtures/site/` a testy používají skutečné soubory pravidel z `rules/` a `config/labels.yaml`.
-
-Testy s kategorií `Jev` projdou proti skutečnému API český testovací e-shop (`Fixtures/site`, země cz, očekávání v `Fixtures/expected_findings.json`) a slovenský (`Fixtures/site-sk`, země sk, `Fixtures/expected_findings_sk.json`). Běží, jen když je k dispozici klíč (`JEV_API_KEY` nebo `TYPESAFE_API_KEY`), a stojí dohromady asi 0,02 USD. Bez něj:
+Z kořene repozitáře:
 
 ```bash
-dotnet test -- --filter-not-trait "Category=Jev"
+dotnet build src/EshopGuard.sln
+dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"
 ```
 
-Jen živý test:
+`dotnet test` běží v režimu Microsoft.Testing.Platform (nastavení `test.runner` v `global.json`) a spustí všech pět testovacích projektů. Kategorie testů:
+
+| Kategorie | Potřebuje | Bez prostředí |
+|---|---|---|
+| (bez kategorie) | nic, ani síť | – |
+| `Db` | PostgreSQL s databází `eshopguard_test` a user-secrets `eshopguard-tests` | selže se jménem chybějícího klíče |
+| `S3` | úložiště kompatibilní s S3 s bucketem `eshopguard-test` | selže se jménem chybějícího klíče |
+| `Jev` | klíč `JEV_API_KEY` nebo `TYPESAFE_API_KEY`, placené volání | přeskočí se |
+
+Testy `Db` a `S3` se bez prostředí záměrně nepřeskočí, aby nic neprošlo naprázdno. Vynechat je jde jen filtrem, např. na počítači bez databáze:
 
 ```bash
-dotnet test -- --filter-trait "Category=Jev"
+dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev" --filter-not-trait "Category=Db" --filter-not-trait "Category=S3"
 ```
+
+Jeden testovací projekt přímo (nativní runner xUnit, jiná syntaxe filtru):
+
+```bash
+dotnet run --project src/tests/EshopGuard.Core.Tests -- -trait- "Category=Jev"
+```
+
+Testy `EshopGuard.Core.Tests` nepotřebují síť. Testovací e-shop se čte ze souborů v `src/tests/EshopGuard.Core.Tests/Fixtures/site/` a testy používají skutečné soubory pravidel z `src/rules/` a `src/config/labels.yaml`.
+
+Testy s kategorií `Jev` projdou proti skutečnému API český testovací e-shop (`Fixtures/site`, země cz, očekávání v `Fixtures/expected_findings.json`) a slovenský (`Fixtures/site-sk`, země sk, `Fixtures/expected_findings_sk.json`). Běží, jen když je k dispozici klíč (`JEV_API_KEY` nebo `TYPESAFE_API_KEY`), a stojí dohromady asi 0,02 USD. Spouštějte je jen po odhadu ceny a se souhlasem:
+
+```bash
+dotnet test --solution src/EshopGuard.sln --filter-trait "Category=Jev"
+```
+
+## Lokální databáze a úložiště
+
+Webová aplikace (`src/EshopGuard.Api`, `src/EshopGuard.Worker`) se připojuje k databázi `eshopguard` výhradně jako `eshopguard_app` / `eshopguard_worker`. Superuživatel obchází Row-Level Security, proto ho aplikace při startu odmítne (`db.role_bypasses_rls`). Účet `postgres` se používá jen jednou, pro založení rolí skriptem `deploy/sql/00_roles.sql`.
+
+1. Role, databáze `eshopguard` a `eshopguard_test`, user-secrets (PowerShell 7, heslo `postgres` jen v této relaci):
+
+   ```powershell
+   $env:PGPASSWORD = 'postgres'
+   ./deploy/dev/setup-local.ps1            # -PgBin, pokud psql není v C:\Program Files\PostgreSQL\18\bin
+   Remove-Item Env:PGPASSWORD
+   ```
+
+   Skript vygeneruje hesla rolí, nikam je nevypíše a uloží připojení do `dotnet user-secrets` (`eshopguard-data`, `eshopguard-api`, `eshopguard-worker`, `eshopguard-tests`). Opakované spuštění vygeneruje nová hesla a role uvede do správného stavu.
+
+2. Migrace (jako `eshopguard_owner`, připojení `ConnectionStrings:Migrations` z user-secrets `eshopguard-data`):
+
+   ```bash
+   dotnet tool restore
+   dotnet ef database update --project src/EshopGuard.Data
+   ```
+
+   Testovací databázi `eshopguard_test` migrují testy samy.
+
+3. Spuštění: `dotnet run --project src/EshopGuard.Api` (http://localhost:5080, stav na `/health`) a `dotnet run --project src/EshopGuard.Worker`. Ve vývoji se soubory ukládají do `.data/blobs` (mimo git, `Storage:Provider = FileSystem`).
+
+Úložiště souborů je za rozhraním `IBlobStore` (`src/EshopGuard.Storage`): `FileSystemBlobStore` pro vývoj a testy, `S3BlobStore` pro S3 na serveru. Klíče souborů tenanta začínají `tenants/{tenantId}/`.
 
 ## Nastavení
 

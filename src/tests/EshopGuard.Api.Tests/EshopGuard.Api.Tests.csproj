@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EshopGuard.Api\EshopGuard.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Shared\TestDatabase.cs" Link="Shared\TestDatabase.cs" />
+    <Compile Include="..\Shared\InMemoryLoggerProvider.cs" Link="Shared\InMemoryLoggerProvider.cs" />
+  </ItemGroup>
+
+</Project>

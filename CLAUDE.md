@@ -13,8 +13,10 @@ EshopGuard kontroluje texty e-shopů podle spotřebitelského práva. Primárně
   - Podklady: `podklady/` (v gitu jen `reserse/` a texty zákonů `.txt`).
 - `src/`: řešení .NET 10 (`EshopGuard.sln`).
   - Projekty `EshopGuard.Core` (knihovna) a `EshopGuard.Cli` (tenké CLI).
-  - Testy `src/tests/EshopGuard.Core.Tests`.
+  - Webová aplikace (změna 2): `EshopGuard.Data` (EF Core, role, migrace), `.Storage` (`IBlobStore`), `.Jobs`, `.Billing`, `.Connectors`, `.Api`, `.Worker`. Povolený směr závislostí hlídá `ProjectReferenceTests`.
+  - Testy `src/tests/EshopGuard.*.Tests`, společné nastavení `src/tests/Directory.Build.props`, verze balíčků `src/Directory.Packages.props`.
   - Pravidla `src/rules/*.yaml`, nastavení `src/config/*.yaml`.
+- `deploy/`: `sql/00_roles.sql` (role a databáze), `dev/setup-local.ps1` (lokální nastavení).
 - `openspec/`: implementační plán.
   - Pořadí 18 změn je v `openspec/README.md`.
   - Otevřená rozhodnutí jsou v `openspec/K-ROZHODNUTI.md`.
@@ -57,11 +59,13 @@ EshopGuard kontroluje texty e-shopů podle spotřebitelského práva. Primárně
 
 ## Sestavení a testy
 - Sestavení: `dotnet build src/EshopGuard.sln`.
-- Testy bez placených, Windows: `src/tests/EshopGuard.Core.Tests/bin/Debug/net10.0/EshopGuard.Core.Tests.exe -notrait "Category=Jev"`. Stav 1. 10. 2026: 190 prošlo.
-- Testy bez placených, Linux: `dotnet run --project src/tests/EshopGuard.Core.Tests -- -notrait "Category=Jev"`.
-- `dotnet test` hlásí 0 testů (Microsoft.Testing.Platform v `global.json`). Oprava je ve změně 2.
+- Testy bez placených (Windows i Linux, z kořene repozitáře): `dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"`. Stav 1. 10. 2026: 316 testů v pěti projektech, z toho 190 v `EshopGuard.Core.Tests`.
+  - Kategorie `Db` potřebuje PostgreSQL a user-secrets `eshopguard-tests` (`deploy/dev/setup-local.ps1`), `S3` úložiště S3. Bez prostředí selžou se jménem klíče; vynechat jen filtrem `--filter-not-trait "Category=Db" --filter-not-trait "Category=S3"`.
+  - Jeden projekt přímo: `dotnet run --project src/tests/EshopGuard.Core.Tests -- -trait- "Category=Jev"`.
+- `global.json` (pin SDK a `test.runner` = Microsoft.Testing.Platform) je v kořeni repozitáře, proto `dotnet test` funguje odkudkoli v repozitáři.
 - Soubory ukládat v **UTF-8**. Při přejmenování se kvůli jinému kódování rozbil regex s `€`, `Kč`, `zł` v `ContentExtractor.cs`.
 
 ## Lokální prostředí
-- PostgreSQL 18 na `localhost:5432`. Admin `postgres/postgres` jen pro zakládací skript rolí.
-- Cloud: přípravný skript `scripts/cloud-setup.sh` (.NET SDK podle `src/global.json`, PostgreSQL 18, OpenSpec CLI).
+- PostgreSQL 18 na `localhost:5432`. Admin `postgres/postgres` jen pro zakládací skript rolí (`deploy/dev/setup-local.ps1` → `deploy/sql/00_roles.sql`).
+- Migrace: `dotnet tool restore` a `dotnet ef database update --project src/EshopGuard.Data` (jako `eshopguard_owner`).
+- Cloud: přípravný skript `scripts/cloud-setup.sh` (.NET SDK podle `global.json`, PostgreSQL 18, OpenSpec CLI, PowerShell, role, user-secrets a migrace).

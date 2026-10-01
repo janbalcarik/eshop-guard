@@ -10,6 +10,12 @@ TestResults/
 .vs/
 *.user
 
+# Lokální data vývoje (souborové úložiště), hesla pro MinIO a balíčky migrací
+.data/
+deploy/.env
+*.efbundle
+efbundle.exe
+
 # Podklady: do gitu jen vlastní rešerše a texty zákonů (.txt); stažené originály a cizí dokumenty mimo git
 podklady/*
 !podklady/README.md

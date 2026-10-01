@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Orders, payments and invoices: filled by change 12 (add-billing-and-invoicing). -->
+  <PropertyGroup>
+    <RootNamespace>EshopGuard.Billing</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EshopGuard.Data\EshopGuard.Data.csproj" />
+    <ProjectReference Include="..\EshopGuard.Jobs\EshopGuard.Jobs.csproj" />
+  </ItemGroup>
+
+</Project>
