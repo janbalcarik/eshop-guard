@@ -1,0 +1,72 @@
+﻿# Tasks
+
+Cesty jsou po přejmenování ze změny 1 a po rozdělení na kroky ze změny 5 (`eshop-guard/`).
+
+## 1. Příprava
+- [ ] 1.1 Před jakoukoli úpravou pravidel zachytit referenční texty: pomocný test `DumpRuleTexts` (kategorie `Baseline`) zapíše `tests/EshopGuard.Core.Tests/Baselines/rule-texts-cs.json` (pro každou sadu, pravidlo a jurisdikci sady: `Title`, `ExplanationFor(j)`, `Recommendation`) a ověří, že referenční výstupy testovacích e-shopů ze změny 5 (`Baselines/site`, `Baselines/site-sk`) existují.
+- [ ] 1.2 Ověřit v `podklady/predpisy-cz/cz-159-2026-novela-financni-sluzby-na-dalku-tlacitko-odstoupeni.txt` znění § 1830a odst. 1 a 2, § 1820 odst. 1 písm. i) a účinnost 1. 1. 2027 a v `podklady/reserse/cz-informacni-povinnosti.md` oddíl `cz_withdrawal_button`; doslovné citace zapsat do `rules/CHANGELOG.md` k nové verzi `legal_cz` se stavem „ověřit“ (proposal K rozhodnutí 9).
+
+## 2. Model verdiktů a kódů
+- [ ] 2.1 Přidat `src/EshopGuard.Core/Models/JurisdictionVerdict.cs` (`VerdictStatus.Finding`, `Upcoming`), `FindingNote.cs`, `ScanWarning.cs`, `SiteObligation.cs` (`met`, `missing`, `upcoming`, `not_checked`, kód důvodu, `EffectiveFrom`, URL), `JurisdictionCoverage.cs`.
+- [ ] 2.2 Upravit `Models/Finding.cs` podle designu (oddíl 2): `Verdicts`, `Strictest`, odvozené `Severity`, `Checkability`, `Band`, `Score`, `Params`, `TextFingerprint`; odebrat `Title`, `Explanation`, `Recommendation` a textové `Notes`. Upravit `Models/ScanResult.cs` a `Models/AnalysisModels.cs` (`Jurisdictions`, `Warnings` jako `ScanWarning`, `SiteObligations`, `JurisdictionCoverage`).
+- [ ] 2.3 Přidat `Rules/EngineCodes.cs` se všemi kódy z tabulky v designu (oddíl 4).
+- [ ] 2.4 Přidat `Rules/VerdictOrder.cs` (K rozhodnutí 3). Test `Rules/VerdictOrderTests.cs`: porušení před posouzením, závažnost při shodě skupiny, `upcoming` za platnými, stabilní pořadí jurisdikcí.
+- [ ] 2.5 Upravit `Rules/RuleModels.cs`: `RuleDefinition.EffectiveFrom` (`Dictionary<string, DateOnly>`), `JurisdictionOverrides`, `UserQuestions`; odebrat textová pole; `LegalReference.Status` jako kód (`to_verify`, `to_complete`) s převodem dnešních hodnot „ověřit“ a „doplnit“; `LabelNote.Id`; `RuleCatalog.Texts`, `CompleteLocales`.
+
+## 3. Texty pravidel v jazykových souborech
+- [ ] 3.1 Přidat `Rules/Texts/IRuleTextProvider.cs`, `YamlRuleTextProvider.cs`, `RuleTexts.cs`, `RuleTextValidator.cs` (úplnost, zástupné symboly, `review`, shoda `source_version` se sadou) a `RulesOptions.TextsDirectory`, `Locales`, `RequiredLocales` v `Options/EshopGuardOptions.cs`.
+- [ ] 3.2 Přidat `Rules/Texts/RuleTextRenderer.cs` a `RenderedFinding.cs` (varianta vysvětlení podle jurisdikce verdiktu, dosazení parametrů, formát čísel a dat podle `cs-CZ` a `sk-SK`, chybějící text = výjimka).
+- [ ] 3.3 Přidat `src/EshopGuard.Cli/Commands/RulesExtractTextsCommand.cs` (`eshopguard rules extract-texts`) a spustit ho: texty `eco`, `dur`, `ucp`, `legal_cz` do `rules/texts/cs/`, texty `legal_sk` do `rules/texts/sk/legal_sk.yaml`; ze zapnutých `rules/*.yaml` odstranit `title`, `explanation`, `explanation_by_jurisdiction`, `recommendation`. `version` sad se nemění.
+- [ ] 3.4 Napsat `rules/texts/cs/_engine.yaml`: text pro každý kód z `EngineCodes`, převzatý doslova z dnešních vět v `RuleEngine.cs`, `EshopGuardService.cs` (ve změně 5 `RulesStep`, `ScanResultAssembler`), `Crawler.cs` (ve změně 5 `DiscoveryStep`, `FetchStep`) a `PageProfiler.cs` (`ProfileStep`); vestavěný nález `legal_pages_missing` z `RuleEngine.MissingLegalPages`.
+- [ ] 3.5 Doplnit `id` ke každé položce `label_notes` v `config/labels.yaml`, přesunout `note` do `rules/texts/cs/_labels.yaml` a upravit `Rules/LabelMatcher.cs` (`NotesFor` vrací id).
+- [ ] 3.6 Test `Rules/RuleTextExtractionTests.cs`: `RuleTextRenderer` pro `cs` vrátí pro každé pravidlo a jurisdikci přesně texty z `Baselines/rule-texts-cs.json`.
+- [ ] 3.7 Upravit `Rules/YamlRuleSetProvider.cs` a `Rules/RuleValidator.cs`: zapnutá sada nesmí mít textová pole a musí mít soubor textů v každém jazyce z `RequiredLocales`; vypnuté `lr.yaml` a `ucp_parked.yaml` jdou zapnout jen s úplnými texty; `user_questions` povinné u `checkability: verify` (K rozhodnutí 13); `effective_from` a `jurisdiction_overrides` jen pro jurisdikce sady.
+- [ ] 3.8 Přidat `rules/question-set-hashes.json` (otisk `QuestionSetHash` pro každou dvojici modul a verze) a kontrolu v `RuleValidator`: změna otázek bez nové `version` je chyba.
+- [ ] 3.9 Přidat `src/EshopGuard.Cli/Commands/RulesTextsCheckCommand.cs` (`eshopguard rules check-texts [--update-hashes]`: úplnost a stav kontroly po jazycích a souborech).
+- [ ] 3.10 Test `Rules/RuleTextCompletenessTests.cs`: pro každý jazyk z `Locales` úplnost klíčů pravidel zapnutých sad, `user_questions`, kódů `EngineCodes` v `_engine.yaml`, poznámek v `_labels.yaml`, stejné zástupné symboly; neúplný jazyk není v `CompleteLocales`. Do dokončení skupiny 4 má `sk` kategorii `PendingTranslation` a test `cs` musí projít.
+
+## 4. Překlad a kontrola textů
+- [ ] 4.1 Vygenerovat kostry `rules/texts/sk/{eco,dur,ucp,legal_cz,_engine,_labels}.yaml` a `rules/texts/cs/legal_sk.yaml` se všemi klíči, prázdnými hodnotami a prázdným `review` (příkaz `rules extract-texts --skeleton <jazyk>`).
+- [ ] 4.2 Rozhodnutí uživatele: kdo překládá a kdo kontroluje a zda smí návrh napsat model (proposal K rozhodnutí 8). Bez rozhodnutí nepokračovat úkoly 4.3–4.5.
+- [ ] 4.3 **Placené, odhad ceny + souhlas uživatele (jen pokud 4.2 povolí návrh modelem):** návrh slovenského překladu modelem `gpt-6.1-sol` (OpenAI). Odhad před voláním: ~21 000 znaků textů pravidel + texty nástroje a značek (neměřeno, odhad ~30 000 znaků), tedy ~10 000 vstupních tokenů (3,2 znaku na token) × 2 USD/M + ~12 000 výstupních × 10 USD/M ≈ 0,15 USD; přesné číslo spočítá skript před odesláním. Výsledek zapsat s `review.machine_draft: true`.
+- [ ] 4.4 Lidský překlad nebo kontrola všech souborů `rules/texts/sk/` (názvy, vysvětlení, vysvětlení pro `cz`, doporučení, otázky pro uživatele, `_engine.yaml`, `_labels.yaml`); kontrolor vyplní `review.reviewed_by` a `reviewed_at` a odstraní `machine_draft`. Hotovo: `eshopguard rules check-texts` vypíše všechny soubory `sk` jako úplné a zkontrolované.
+- [ ] 4.5 Lidský český překlad `rules/texts/cs/legal_sk.yaml` (8 pravidel sady `legal_sk`) s vyplněným `review`. Hotovo: `RuleTextCompletenessTests` pro `cs` projde i se sadou `legal_sk`.
+- [ ] 4.6 Projít odkazy `jurisdiction: sk` ve všech sadách a přepsat je celé slovensky („v znení“, „účinnosť“) beze změny čísel ustanovení; seznam změn zapsat do `rules/CHANGELOG.md`; stav `to_verify` zůstává (K rozhodnutí 11).
+- [ ] 4.7 Navrhnout znění otázek pro uživatele u 13 pravidel s `checkability: verify` (`eco_climate_claim_unsupported`, `eco_company_climate_claim`, `eco_label_unrecognized`, `eco_future_claim`, `dur_lifetime_claim`, `dur_repairable_claim`, `dur_consumable_early`, `dur_non_original_damage`, `dur_update_necessary`, `ucp_review_reward_any`, `ucp_reviews_verified_claim`, `legal_harmonized_notice_missing`, `legal_withdrawal_function_missing`) podle návrhu rozvoje 7 a nechat je schválit uživatelem (K rozhodnutí 13).
+
+## 5. Více jurisdikcí v knihovně
+- [ ] 5.1 Upravit `Options/ScanOptions.cs` a `Options/AnalyzeOptions.cs`: `Jurisdictions` (výchozí `[Country]`), `AsOf`; `Country` zůstává jako zkratka. `TimeProvider.System` registrovat v `ServiceCollectionExtensions` přes `TryAdd`.
+- [ ] 5.2 Přidat `Rules/RuleSetSelector.cs` a `RuleSetBinding.cs` (z dnešního `SelectRuleSets`, upozornění jako kódy, `JurisdictionCoverage`).
+- [ ] 5.3 Přidat `Rules/QuestionKey.cs`; `Segment.Probabilities` klíčovat `{sada}:{id}`; `Report/SegmentsCsvWriter.cs` píše v záhlaví samotné `id`, když je v běhu jednoznačné (vždy u jedné země), jinak `{id}@{sada}`.
+- [ ] 5.4 Upravit `Rules/SegmentEvaluator.cs` (`Group`): samostatný požadavek pro sadu, jejíž otázka má stejné id a jinou definici; klíče cache po sadách beze změny.
+- [ ] 5.5 Upravit `Rules/RuleValidator.cs`: stejná id pravidel a otázek mezi sadami různých jurisdikcí povolit jen při stejném `module` a `applies_to`; mezi sadami stejné jurisdikce zůstávají chybou.
+- [ ] 5.6 Upravit `Rules/RuleEngine.cs`: vazby (sada, jurisdikce), verdikty s odkazy a `jurisdiction_overrides`, sloučení podle (`RuleId`, `SegmentHash`) a u celého webu podle `RuleId`, `MergeRepeatedTexts` a `MergeSameTexts` se slučováním verdiktů, řazení podle `VerdictOrder`.
+- [ ] 5.7 Účinnost: `RuleEngineInput.AsOf`, verdikt `Upcoming` s pásmem `Review` a poznámkou `effective_from`; vyplnit `effective_from` v `rules/eco.yaml` a `rules/dur.yaml` (`sk: 2026-09-27`), `rules/legal_sk.yaml` (`legal_harmonized_notice_missing` `sk: 2026-09-27`, `legal_withdrawal_function_missing` `sk: 2026-06-19`) podle dnešních odkazů (K rozhodnutí 14).
+- [ ] 5.8 `ScanResult.SiteObligations` v `RuleEngine` a `ScanResultAssembler` (stavy a kódy důvodů podle designu, oddíl 3).
+- [ ] 5.9 Nahradit české věty kódy v `RuleEngine.cs`, `Pipeline/RulesStep.cs`, `Pipeline/ScanResultAssembler.cs`, `Pipeline/DiscoveryStep.cs`, `Pipeline/FetchStep.cs`, `Pipeline/ProfileStep.cs` a `Profiles/ProfileModel.cs` (`UnavailableReason` jako kód).
+- [ ] 5.10 Testy `Rules/MultiJurisdictionTests.cs` (společný požadavek pro `ucp`, dva požadavky pro `legal_adr`, jedna země beze změny počtu volání, pokrytí `eco` pro `cz`, jeden nález `legal_adr_missing` se dvěma verdikty), `Rules/EffectiveDateTests.cs`, `Rules/SiteObligationTests.cs`, `Rules/NoSentencesInResultTests.cs`; upravit `RulesTests.cs`, `AnalyzeTextsTests.cs`, `ScanFixtureTests.cs`, `ScanSlovakFixtureTests.cs`, `LegalRequirementTests.cs` na kódy a verdikty bez změny očekávaných nálezů v `Fixtures/expected_findings*.json`.
+
+## 6. České pravidlo pro tlačítko odstoupení
+- [ ] 6.1 Doplnit do `rules/legal_cz.yaml` pravidla `legal_withdrawal_function_missing` (`site_signal`, odkaz s nápisem „Odstoupit od smlouvy“, `verify`, `high`, `effective_from: {cz: 2027-01-01}`) a `legal_withdrawal_button_info_missing` (`site_presence`, otázky `legal_withdrawal_online_option` a `legal_withdrawal_button_location` z rešerše), odkazy ze znění v podkladech se stavem `to_verify`; nová `version`, záznam v `rules/CHANGELOG.md` a `rules/question-set-hashes.json`.
+- [ ] 6.2 Texty nových pravidel v `rules/texts/cs/legal_cz.yaml` a `rules/texts/sk/legal_cz.yaml` (včetně otázky pro uživatele) s lidskou kontrolou.
+- [ ] 6.3 Test `Rules/CzWithdrawalButtonTests.cs` s pevnými signály stránek: odkaz je → `met`; odkaz chybí a `AsOf` 2. 1. 2027 → nález `verify`; `AsOf` 1. 10. 2026 → `upcoming`; jurisdikce jen `sk` → pravidlo neběží.
+- [ ] 6.4 **Placené, odhad ceny + souhlas uživatele:** živý test kategorie `Jev` nad `Fixtures/site` (země `cz`) s novými otázkami `legal_cz`; odhad podle README asi 0,02 USD za oba živé testy, před spuštěním vypsat odhad z dotazu a počkat na souhlas. Hotovo: `expected_findings.json` doplněný o očekávání nových pravidel.
+
+## 7. Okraje: zprávy, přepis, popis sad, CLI
+- [ ] 7.1 Přidat `Report/FindingDocument.cs` a upravit `Report/FindingsJsonWriter.cs` (kódy, parametry, verdikty a texty v jazyce běhu).
+- [ ] 7.2 Upravit `Report/MarkdownReportWriter.cs`, `Report/FindingsCsvWriter.cs` a `Report/ReportFormat.cs`: texty přes `RuleTextRenderer`, verdikty po zemích u každého nálezu, oddíl povinností za celý web po zemích s účinností, pokrytí jurisdikcí; při jedné zemi a `cs` stejný text jako dnes.
+- [ ] 7.3 Upravit `Fix/ScanOutputReader.cs` na `FindingDocument`. Test: přepis ze složky skenu nového tvaru načte kódy a verdikty.
+- [ ] 7.4 Upravit `Fix/RewriteModels.cs` (`RewriteInput.Jurisdictions`) a `Fix/PageRewriter.cs` (`CheckAsync` ve všech jurisdikcích, stavy podle designu, oddíl 6). Test `RewriteMultiJurisdictionTests.cs`: nález jen v `cz` → `StillFinding`; bez nálezu → `Resolved`; jen `verify` → `VerifyFindings`.
+- [ ] 7.5 Upravit `Fix/RewritePrompt.cs`: texty nálezů přes `RuleTextRenderer` v jazyce obsahu e-shopu a vysvětlení všech verdiktů; nová `RewritePrompt.Version` (K rozhodnutí 5). Test v `RewriteTests.cs` s `MockRewriteClient`: zadání obsahuje slovenské texty pro slovenský obsah.
+- [ ] 7.6 Přidat `Rules/RuleSetDescriptor.cs` a `RuleCatalog.Describe()`. Test: oprava textu změní `SourceHash`, ne `QuestionSetHash` ani `Version`.
+- [ ] 7.7 Upravit `src/EshopGuard.Cli/Commands/ScanCommand.cs`, `CheckTextCommand.cs`, `RewriteCommand.cs` a `SettingsValidation.cs`: `--jurisdictions` (čárkami, jen `sk`, `cz`), `--lang` (`cs`, `sk`; neúplný jazyk = chyba před stahováním), `--as-of` (datum); `--country` zůstává.
+- [ ] 7.8 Doplnit `README.md`: kontrola pro víc zemí, verdikty, účinnost, jazyky textů, postup překladu a kontroly (`rules check-texts`).
+
+## 8. Ověření
+- [ ] 8.1 `dotnet build` a `dotnet test -- --filter-not-trait "Category=Jev"` projdou včetně nových testů.
+- [ ] 8.2 Běh nad `Fixtures/site` (`cz`, `cs`) a `Fixtures/site-sk` (`sk`, `cs`) dá `report.md`, `findings.csv` a texty ve `findings.json` shodné s referenčními výstupy změny 5 (`PipelineEquivalenceTests` s porovnáním textů).
+- [ ] 8.3 Běh `scan ... --jurisdictions sk,cz --mock` nad `Fixtures/site-sk`: počítadlo falešného klienta Jevu ukáže pro věty stejný počet požadavků jako běh jen `sk` a pro právní odstavce dva požadavky tam, kde se otázky liší; nálezy mají verdikty `sk` a `cz`; výsledek zapsat sem.
+- [ ] 8.4 `eshopguard rules check-texts` vypíše `cs` i `sk` jako úplné a zkontrolované; `RuleTextCompletenessTests` pro `sk` přejde z kategorie `PendingTranslation` do běžných testů.
+- [ ] 8.5 **Placené, odhad ceny + souhlas uživatele:** běh nad nahrávkou vegis.sk ze změny 5 (`--replay snapshots/vegis.sk --jurisdictions sk,cz`) s Jevem a cache. Očekávání: nová volání jen pro otázky `legal_cz` u právních odstavců; před spuštěním vypsat odhad z dotazu CLI a počkat na souhlas. Porovnat SK verdikty s během jen `sk` (musí se shodovat).
+- [ ] 8.6 **Placené, odhad ceny + souhlas uživatele:** nové zadání přepisu znehodnotí cache přepisů; přepis vegis.sk (24 stránek, 30. 9. 2026 stál 0,25 USD) a naturfyt.sk (12 stránek, 0,15 USD) zopakovat jen se souhlasem a porovnat kvalitu návrhů se starými (`out/prepis/*.md`).
+- [ ] 8.7 Spustit `openspec validate add-multi-jurisdiction-rules-and-rule-texts` a opravit chyby formátu.

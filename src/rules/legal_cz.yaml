@@ -1,0 +1,68 @@
+# Povinné informace e-shopu v Česku. Návrh k odladění a právní kontrole.
+version: "legal-cz-2026-09-29-draft3"
+module: legal
+applies_to: legal_paragraph
+jurisdictions: [cz]
+presence_threshold: 0.7
+questions:
+  legal_adr:
+    type: yes_no
+    text_en: "Does this text name the body for out-of-court resolution of consumer disputes (for example the Czech Trade Inspection Authority, ČOI) or link to its website?"
+    text_cs: "Uvádí tento text subjekt mimosoudního řešení spotřebitelských sporů (např. Českou obchodní inspekci) nebo odkaz na jeho web?"
+  legal_complaints:
+    type: yes_no
+    text_en: "Does this text explain how or where a customer can make a complaint about defective goods, that is, exercise the right from defective performance? Answer no if it only mentions complaints without saying how or where to make them."
+    text_cs: "Vysvětluje tento text, jak nebo kde může zákazník reklamovat vadné zboží, tedy uplatnit právo z vadného plnění? Pokud reklamace jen zmiňuje a neříká, jak nebo kde je uplatnit, odpověz ne."
+  legal_withdrawal:
+    type: yes_no
+    text_en: "Does this text inform the consumer about the right to withdraw from a contract concluded at a distance, including the time limit and the procedure?"
+    text_cs: "Informuje tento text spotřebitele o právu odstoupit od smlouvy uzavřené na dálku, včetně lhůty a postupu?"
+  legal_withdrawal_form:
+    type: yes_no
+    text_en: "Does this text contain a model withdrawal form or a link to one?"
+    text_cs: "Obsahuje tento text vzorový formulář pro odstoupení od smlouvy nebo odkaz na něj?"
+
+rules:
+  - id: legal_adr_missing
+    title: "Chybí informace o mimosoudním řešení sporů"
+    scope: site_presence
+    question: legal_adr
+    severity: high
+    checkability: text
+    legal_refs:
+      - {jurisdiction: cz, ref: "§ 14 odst. 1 zákona č. 634/1992 Sb., o ochraně spotřebitele", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 1820 odst. 1 písm. s) zákona č. 89/2012 Sb., občanský zákoník", status: "ověřit"}
+    explanation: "Prodávající musí spotřebitele informovat o subjektu mimosoudního řešení spotřebitelských sporů."
+    recommendation: "Doplňte do obchodních podmínek příslušný subjekt (typicky ČOI) a odkaz na jeho web."
+  - id: legal_complaints_missing
+    title: "Chybí informace o reklamacích"
+    scope: site_presence
+    question: legal_complaints
+    severity: high
+    checkability: text
+    legal_refs:
+      - {jurisdiction: cz, ref: "§ 13 zákona č. 634/1992 Sb., o ochraně spotřebitele", status: "ověřit"}
+    explanation: "Prodávající musí informovat o rozsahu, podmínkách a způsobu reklamace a o tom, kde ji lze uplatnit."
+    recommendation: "Doplňte reklamační podmínky včetně místa a způsobu uplatnění."
+  - id: legal_withdrawal_missing
+    title: "Chybí informace o odstoupení od smlouvy"
+    scope: site_presence
+    question: legal_withdrawal
+    code_checks:
+      - {type: regex_required, pattern: '(?i)(14|čtrnáct\w*)\s*-?\s*(dn|den)'}
+    severity: high
+    checkability: text
+    legal_refs:
+      - {jurisdiction: cz, ref: "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník", status: "ověřit"}
+    explanation: "Před uzavřením smlouvy na dálku musí spotřebitel dostat podmínky, lhůtu a postup pro odstoupení."
+    recommendation: "Doplňte podmínky, 14denní lhůtu a postup pro odstoupení."
+  - id: legal_withdrawal_form_missing
+    title: "Chybí vzorový formulář pro odstoupení"
+    scope: site_presence
+    question: legal_withdrawal_form
+    severity: medium
+    checkability: text
+    legal_refs:
+      - {jurisdiction: cz, ref: "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník", status: "ověřit"}
+    explanation: "Spolu s informací o odstoupení musí spotřebitel dostat vzorový formulář."
+    recommendation: "Přidejte vzorový formulář pro odstoupení od smlouvy."

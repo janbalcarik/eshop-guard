@@ -1,0 +1,1108 @@
+23.5.2023
+SK
+Úradný vestník Európskej únie
+L 135/1
+NARIADENIE EURÓPSKEHO PARLAMENTU A RADY (EÚ) 2023/988
+z 10. mája 2023
+o všeobecnej bezpečnosti výrobkov, ktorým sa mení nariadenie Európskeho parlamentu a Rady (EÚ) č. 1025/2012 a smernica Európskeho parlamentu a Rady (EÚ) 2020/1828 a zrušuje smernica Európskeho parlamentu a Rady 2001/95/ES a smernica Rady 87/357/EHS
+(Text s významom pre EHP)
+EURÓPSKY PARLAMENT A RADA EURÓPSKEJ ÚNIE,
+so zreteľom na Zmluvu o fungovaní Európskej únie, a najmä na jej článok 114,
+so zreteľom na návrh Európskej komisie,
+po postúpení návrhu legislatívneho aktu národným parlamentom,
+so zreteľom na stanovisko Európskeho hospodárskeho a sociálneho výboru (1),
+konajúc v súlade s riadnym legislatívnym postupom (2),
+keďže:
+(1)
+V smernici Európskeho parlamentu a Rady 2001/95/ES (3) sa stanovuje požiadavka, na základe ktorej musia byť spotrebiteľské výrobky bezpečné, a orgány dohľadu nad trhom jednotlivých členských štátov musia v súvislosti s nebezpečnými výrobkami podnikať príslušné kroky a vymieňať si na tento účel informácie prostredníctvom systému Únie na rýchlu výmenu informácií (RAPEX).
+(2)
+Smernicu 2001/95/ES je potrebné vzhľadom na vývoj v oblasti nových technológií a online predaja zrevidovať a aktualizovať, aby sa zaistil súlad s vývojom harmonizačných právnych predpisov Únie a právnych predpisov v oblasti normalizácie, aby sa zabezpečilo lepšie fungovanie spätného prevzatia výrobkov z dôvodu bezpečnosti a vytvoril sa jasnejší rámec pre napodobneniny potravín, ktoré doposiaľ upravuje smernica Rady 87/357/EHS (4). V záujme jasnosti by sa smernice 2001/95/ES a 87/357/EHS mali zrušiť a nahradiť týmto nariadením.
+(3)
+Nariadenie predstavuje vhodný právny nástroj, keďže ukladá jasné a podrobné pravidlá, ktoré neponechávajú priestor na odlišnú transpozíciu členskými štátmi. Výber nariadenia namiesto smernice takisto umožňuje lepšie splniť cieľ, ktorým je zaistenie súladu s legislatívnym rámcom pre dohľad nad trhom, pokiaľ ide o výrobky, ktoré patria do rozsahu pôsobnosti harmonizačných právnych predpisov Únie, kde je uplatniteľný právny nástroj tiež nariadenie, konkrétne nariadenie Európskeho parlamentu a Rady (EÚ) 2019/1020 (5). Takáto voľba ešte viac zníži regulačné zaťaženie prostredníctvom jednotného uplatňovania pravidiel bezpečnosti výrobkov v celej Únii.
+(4)
+Cieľom tohto nariadenia je prispieť k dosiahnutiu cieľov uvedených v článku 169 Zmluvy o fungovaní Európskej únie (ďalej len „ZFEÚ“). Mal by sa zamerať najmä na zaistenie zdravia a bezpečnosti spotrebiteľov a fungovania vnútorného trhu, pokiaľ ide o výrobky určené pre spotrebiteľov.
+(5)
+Cieľom tohto nariadenia by mala byť ochrana spotrebiteľov a ich bezpečnosti ako jednej zo základných zásad právneho rámca Únie, ktorá je zakotvená v Charte základných práv Európskej únie (ďalej len „charta“). Nebezpečné výrobky môžu mať pre spotrebiteľov a občanov veľmi negatívne dôsledky. Všetci spotrebitelia vrátane tých najzraniteľnejších, ako sú deti, staršie osoby alebo osoby so zdravotným postihnutím, majú právo na bezpečné výrobky. Spotrebitelia by mali mať k dispozícii dostatočné prostriedky na presadzovanie uvedeného práva a členské štáty by mali mať k dispozícii primerané nástroje a opatrenia na presadzovanie tohto nariadenia.
+(6)
+Napriek vývoju harmonizačných právnych predpisov Únie špecifických pre jednotlivé odvetvia, ktoré upravujú bezpečnostné hľadiská konkrétnych výrobkov alebo konkrétnych kategórií výrobkov, je prakticky nemožné prijať právo Únie pre všetky spotrebiteľské výrobky, ktoré existujú alebo môžu byť vyvinuté. Je preto potrebný široký legislatívny rámec horizontálnej povahy, ktorý vyplní medzery a doplní ustanovenia v existujúcich alebo pripravovaných harmonizačných právnych predpisov Únie špecifických pre jednotlivé odvetvia a zabezpečí ochranu spotrebiteľov, ktorá nie je zaistená uvedenými právnymi predpismi, najmä s cieľom dosiahnuť vysokú úroveň ochrany zdravia a bezpečnosti spotrebiteľov, ako sa vyžaduje v článkoch 114 a 169 ZFEÚ.
+(7)
+Zároveň by sa v súvislosti s výrobkami, na ktoré sa vzťahujú harmonizačné právne predpisy Únie špecifické pre jednotlivé odvetvia, mal jasne stanoviť rozsah pôsobnosti rôznych častí tohto nariadenia, aby sa zabránilo prekrývaniu jednotlivých ustanovení a zabezpečil jasný právny rámec.
+(8)
+Zatiaľ čo niektoré ustanovenia tohto nariadenia, ako je väčšina povinností hospodárskych subjektov, by sa nemali uplatňovať na výrobky, na ktoré sa vzťahujú harmonizačné právne predpisy Únie, niektoré ďalšie ustanovenia tohto nariadenia dopĺňajú harmonizačné právne predpisy Únie, a preto by sa na takéto výrobky mali uplatňovať. Na spotrebiteľské výrobky, na ktoré sa vzťahujú harmonizačné právne predpisy Únie, by sa mala v prípade, že uvedené harmonizačné právne predpisy Únie neupravujú určité druhy rizík, uplatňovať najmä všeobecná požiadavka na bezpečnosť výrobkov a súvisiace ustanovenia. Ustanovenia tohto nariadenia týkajúce sa povinností prevádzkovateľov online trhov, povinností hospodárskych subjektov v prípade nehôd, práva spotrebiteľov na informácie a na prostriedok nápravy, ako aj spätného prevzatia výrobkov z dôvodu bezpečnosti by sa mali uplatňovať na výrobky, na ktoré sa vzťahujú harmonizačné právne predpisy Únie, pokiaľ takéto harmonizačné právne predpisy Únie neobsahujú osobitné ustanovenia s rovnakým cieľom. Podobne sa na účely harmonizačných právnych predpisov Únie už používa systém RAPEX, ako sa uvádza v článku 20 nariadenia (EÚ) 2019/1020: ustanovenia tohto nariadenia upravujúce systém Safety Gate a jeho fungovanie by sa preto mali uplatňovať na výrobky, na ktoré sa vzťahujú harmonizačné právne predpisy Únie.
+(9)
+Toto nariadenie by sa malo vzťahovať na výrobky, ktoré sú určené výlučne na profesionálne použitie, ale následne sa dostali na spotrebiteľský trh, pretože by za racionálne predvídateľných podmienok používania mohli predstavovať riziko pre zdravie a bezpečnosť spotrebiteľov.
+(10)
+Lieky podliehajú posudzovaniu pred uvedením na trh, ktoré zahŕňa špecifickú analýzu pomeru rizika a prínosu. Tieto výrobky by preto mali byť z rozsahu pôsobnosti tohto nariadenia vylúčené.
+(11)
+V práve Únie týkajúcom sa potravín, krmív a súvisiacich oblastí sa stanovuje osobitný systém na zaistenie bezpečnosti výrobkov, na ktoré sa toto právo uplatňuje. Potraviny a krmivá majú totiž osobitný právny rámec stanovený najmä nariadením Európskeho parlamentu a Rady (ES) č. 178/2002 (6). Potraviny a krmivá sú okrem toho regulované aj nariadením Európskeho parlamentu a Rady (EÚ) 2017/625 (7), ktorým sa zabezpečuje harmonizovaný prístup, pokiaľ ide o úradné kontroly na overenie dodržiavania potravinového a krmivového práva a pravidiel pre zdravie zvierat a dobré životné podmienky zvierat. Potraviny a krmivá by sa preto mali vyňať z rozsahu pôsobnosti tohto nariadenia s výnimkou materiálov a predmetov určených na styk s potravinami, pokiaľ ide o riziká, na ktoré sa nevzťahuje nariadenie Európskeho parlamentu a Rady (ES) č. 1935/2004 (8) alebo iné osobitné právne predpisy týkajúce sa potravín, ktoré sa vzťahujú len na chemické a biologické riziká súvisiace s potravinami.
+(12)
+Živé rastliny podliehajú osobitnému právnemu rámcu stanovenému najmä nariadením Európskeho parlamentu a Rady (EÚ) 2016/2031 (9), v ktorom sa zohľadňujú osobitosti týchto produktov s cieľom zaistiť bezpečnosť spotrebiteľov.
+(13)
+Vedľajšie živočíšne produkty sú materiály živočíšneho pôvodu, ktoré ľudia nekonzumujú. Tieto produkty, napríklad krmivá, podliehajú osobitnému právnemu rámcu stanovenému najmä nariadením Európskeho parlamentu a Rady (ES) č. 1069/2009 (10).
+(14)
+Prípravky na ochranu rastlín, označované aj ako pesticídy, podliehajú osobitným ustanoveniam upravujúcim ich autorizáciu na vnútroštátnej úrovni na základe nariadenia Európskeho parlamentu a Rady (ES) č. 1107/2009 (11), a preto by takisto mali byť vylúčené z rozsahu pôsobnosti tohto nariadenia.
+(15)
+Lietadlá uvedené v článku 2 ods. 3 písm. d) nariadenia Európskeho parlamentu a Rady (EÚ) 2018/1139 (12) podliehajú vzhľadom na ich obmedzené riziko pre bezpečnosť civilného letectva regulačnej kontrole členských štátov. Uvedené lietadlá by preto mali byť vyňaté z rozsahu pôsobnosti tohto nariadenia.
+(16)
+Požiadavky stanovené v tomto nariadení by sa mali uplatňovať na použité výrobky alebo opravené, renovované či recyklované výrobky, ktoré opätovne vstupujú do dodávateľského reťazca v rámci obchodnej činnosti, s výnimkou tých výrobkov, v prípade ktorých spotrebiteľ nemôže odôvodnene očakávať, že spĺňajú najmodernejšie bezpečnostné normy, ako sú výrobky, ktoré sa výslovne prezentujú ako výrobky, ktoré sa majú opraviť alebo renovovať, alebo ktoré sú sprístupnené na trhu ako zberateľské predmety historického významu.
+(17)
+Toto nariadenie by sa nemalo vzťahovať na služby. S cieľom chrániť zdravie a bezpečnosti spotrebiteľov by však výrobky, ktoré sa dodávajú alebo sprístupňujú spotrebiteľom v rámci poskytovania služieb, vrátane výrobkov, ktorým sú spotrebitelia počas poskytovania určitej služby priamo vystavení, mali patriť do rozsahu pôsobnosti tohto nariadenia. Z rozsahu pôsobnosti tohto nariadenia by sa však mali vyňať zariadenia, ktorými sa spotrebitelia prepravujú alebo ktorými cestujú, ak tieto zariadenia priamo obsluhuje poskytovateľ služieb v rámci dopravnej služby, pretože sa musia riešiť v súvislosti s bezpečnosťou poskytovanej služby.
+(18)
+Starožitnosti, ako sú umelecké diela alebo zberateľské predmety, sú osobitné kategórie výrobkov, v prípade ktorých nemožno očakávať, že spĺňajú bezpečnostné požiadavky stanovené týmto nariadením, a preto by sa mali vylúčiť z rozsahu jeho pôsobnosti. S cieľom zabrániť tomu, aby sa iné výrobky mylne považovali za výrobky patriace do týchto kategórií, je nutné vziať do úvahy, že umelecké diela sú výrobkami vytvorenými výlučne na umelecké účely, že zberateľské predmety sú dostatočne vzácne a majú historický alebo vedecký význam odôvodňujúci ich zbieranie a uchovávanie a že starožitnosti, ak už nie sú umeleckými dielami alebo zberateľskými predmetmi, alebo oboje, majú mimoriadny vek. Pri posudzovaní toho, či je výrobok starožitnosťou, ako je umelecké dielo alebo zberateľský predmet, by sa mohla zohľadniť príloha IX k smernici Rady 2006/112/ES (13).
+(19)
+Svetová zdravotnícka organizácia definuje zdravie ako stav úplnej telesnej, duševnej a sociálnej pohody, a nie len ako neprítomnosť choroby alebo postihnutia.
+(20)
+Do rozsahu pôsobnosti tohto nariadenia by mal patriť aj predaj na diaľku vrátane online predaja. Online predaj neustále a sústavne rástol, čo viedlo k vytvoreniu nových obchodných modelov, k novým výzvam týkajúcim sa bezpečnosti výrobkov a k vzniku nových subjektov na trhu, ako sú prevádzkovatelia online trhov.
+(21)
+V prípade, že sa výrobok ponúka na predaj online alebo inými prostriedkami predaja na diaľku, výrobok by sa mal považovať za sprístupnený na trhu, ak je ponuka na predaj zameraná na spotrebiteľov v Únii. V súlade s platnými pravidlami Únie o medzinárodnom súkromnom práve by sa na stanovenie toho, či je ponuka zameraná na spotrebiteľov v Únii, mala vykonať analýza jednotlivých prípadov. Ponuka na predaj by sa mala považovať za zameranú na spotrebiteľov v Únii, ak príslušný hospodársky subjekt akýmkoľvek spôsobom smeruje svoje činnosti do členského štátu. Pri analýzach jednotlivých prípadov by sa mali zohľadniť relevantné faktory, ako sú geografické oblasti, do ktorých je možné odosielanie, dostupné jazyky používané pri ponuke alebo objednávaní, spôsoby platby, použitie meny členského štátu alebo názov domény zaregistrovaný v jednom z členských štátov. V prípade online predaja nepostačuje skutočnosť, že je rozhranie hospodárskych subjektov alebo prevádzkovateľov online trhov dostupné v členskom štáte, v ktorom má spotrebiteľ sídlo alebo bydlisko.
+(22)
+Podľa všeobecnej požiadavky na bezpečnosť stanovenej v tomto nariadení by hospodárske subjekty mali byť povinné uvádzať na trh len bezpečné výrobky. Takáto vysoká úroveň bezpečnosti by sa mala dosiahnuť predovšetkým prostredníctvom návrhu a vlastností výrobku, pričom by sa malo zohľadniť zamýšľané a predvídateľné použitie a podmienky používania výrobku. Prípadné zostávajúce riziká by sa mali zmierniť určitými zárukami, ako sú upozornenia a pokyny.
+(23)
+Pri posudzovaní bezpečnosti výrobkov by sa mali zohľadniť všetky relevantné aspekty výrobkov, najmä ich vlastnosti, ako sú fyzikálne, mechanické a chemické vlastnosti, a ich vzhľad, ako aj osobitné potreby a riziká, ktoré výrobky predstavujú pre určité kategórie spotrebiteľov, ktorí budú pravdepodobne výrobky používať, najmä deti, staršie osoby a osoby so zdravotným postihnutím. Uvedené riziká môžu zahŕňať aj environmentálne riziko, pokiaľ predstavuje riziko pre zdravie a bezpečnosť spotrebiteľov. V uvedenom posúdení by sa malo zohľadniť zdravotné riziko, ktoré predstavujú digitálne prepojené výrobky, vrátane rizika pre duševné zdravie, predovšetkým zraniteľných spotrebiteľov, najmä detí. Výrobcovia by preto pri posudzovaní bezpečnosti digitálne prepojených výrobkov, ktoré pravdepodobne budú mať vplyv na deti, mali zabezpečiť, aby výrobky, ktoré sprístupňujú na trhu, spĺňali najvyššie normy bezpečnosti, ochrany a ochrany súkromia už v štádiu návrhu v najlepšom záujme detí. Okrem toho, ak je na zaistenie bezpečnosti výrobkov pre určitú kategóriu osôb potrebné poskytnúť osobitné informácie, pri posudzovaní bezpečnosti výrobkov by sa malo zohľadniť aj to, či sú tieto informácie k dispozícii a či sú prístupné. Pri posudzovaní bezpečnosti všetkých výrobkov by sa mala zohľadniť aj skutočnosť, že výrobok musí byť bezpečný počas celej svojej životnosti.
+(24)
+Predmety, ktoré sa prepájajú s inými predmetmi alebo nezabudované predmety, ktoré ovplyvňujú spôsob, akým funguje iný predmet, môžu predstavovať riziko pre bezpečnosť výrobku. Tomuto aspektu by sa mala venovať náležitá pozornosť ako potenciálnemu riziku. Prepojenia, ktoré by predmet mohol mať s externými predmetmi, a ich vzájomný vplyv by nemali ohroziť jeho bezpečnosť.
+(25)
+Nové technológie môžu predstavovať nové riziká pre zdravie a bezpečnosť spotrebiteľov alebo menia spôsob, akým by sa existujúce riziká mohli prejaviť, napríklad výrobok môže vonkajším zásahom niekto hekovať alebo zmeniť jeho vlastnosti. Nové technológie by mohli podstatne zmeniť pôvodný výrobok, napríklad prostredníctvom aktualizácií softvéru, ktoré by potom mali podliehať novému posúdeniu rizika, ak by táto podstatná zmena mala mať vplyv na bezpečnosť výrobku.
+(26)
+Špecifické kyberneticko-bezpečnostné riziká, ktoré ovplyvňujú bezpečnosť spotrebiteľov, ako aj protokoly a certifikácie, sa môžu riešiť v odvetvových právnych predpisoch. V prípadoch, keď tieto odvetvové právne predpisy nemožno uplatniť, by sa však malo zabezpečiť, aby príslušné hospodárske subjekty a vnútroštátne orgány zohľadňovali pri navrhovaní výrobkov a ich posudzovaní riziká spojené s novými technológiami s cieľom zaistiť, že zmeny vykonané na výrobku neohrozia jeho bezpečnosť.
+(27)
+S cieľom umožniť účinné a konzistentné uplatňovanie všeobecnej požiadavky na bezpečnosť stanovenej v tomto nariadení je dôležité využívať európske normy vzťahujúce sa na určité výrobky a riziká. Európske normy, na ktoré boli uverejnené odkazy v súlade so smernicou 2001/95/ES, by mali naďalej zaručovať predpoklad zhody so všeobecnou požiadavkou na bezpečnosť stanovenou v tomto nariadení. Žiadosti o normalizáciu, ktoré Komisia vydala v súlade so smernicou 2001/95/ES, by sa mali považovať za žiadosti o normalizáciu vydané v súlade s týmto nariadením. V prípade, že sa rovnaká norma vzťahuje na rôzne riziká alebo kategórie rizík, zhoda výrobku s časťou normy, ktorá sa vzťahuje na príslušné riziko alebo kategóriu rizika, by tiež znamenala predpoklad bezpečnosti samotného výrobku, pokiaľ ide o príslušné riziko alebo kategóriu rizika.
+(28)
+Keď Komisia zistí, že na zaistenie súladu určitých výrobkov so všeobecnou požiadavkou na bezpečnosť stanovenou v tomto nariadení je potrebné prijať európsku normu, mala by uplatniť príslušné ustanovenia nariadenia Európskeho parlamentu a Rady (EÚ) č. 1025/2012 (14) a požiadať jednu alebo viacero európskych normalizačných organizácií, aby navrhli alebo určili normu, ktorá je vhodná na to, aby sa ňou zaistilo, že výrobky, ktoré takúto normu spĺňajú, možno považovať za bezpečné.
+(29)
+Výrobky by mohli predstavovať rôzne riziká pre jednotlivé pohlavia a v normalizačných činnostiach by sa to malo zohľadniť s cieľom zamedziť rozdielom v bezpečnosti, a teda rozdielom v bezpečnosti z hľadiska pohlavia. Vo vyhlásení Európskej hospodárskej komisie OSN o rodovo citlivých normách sa uvádza niekoľko opatrení, ktoré by mali národné normalizačné orgány a organizácie zaoberajúce sa tvorbou noriem zahrnúť do svojho akčného plánu pre rodovo responzívne normy a tvorbu noriem s cieľom dosiahnuť rodovo vyvážené, reprezentatívne a inkluzívne normy.
+(30)
+Spolu s úpravou nariadenia (EÚ) č. 1025/2012 by sa mal zaviesť osobitný postup prijímania osobitných požiadaviek na bezpečnosť za pomoci osobitného výboru stanoveného v tomto nariadení.
+(31)
+Ak neexistujú európske normy, vnútroštátne právo členského štátu, v ktorom sa výrobok sprístupňuje na trhu, stanovujúce požiadavky na bezpečnosť a ochranu zdravia by malo byť v súlade s právom Únie, najmä s článkami 34 a 36 ZFEÚ.
+(32)
+Hospodárske subjekty by mali niesť primeranú zodpovednosť za bezpečnosť výrobkov v závislosti od svojho postavenia v dodávateľskom reťazci, aby sa zabezpečila vysoká úroveň ochrany zdravia a bezpečnosti spotrebiteľov a zároveň efektívne fungovanie vnútorného trhu. Všetky hospodárske subjekty, ktoré zasahujú do dodávateľského a distribučného reťazca, by mali prijať primerané opatrenia a zabezpečiť, aby na trhu sprístupňovali iba také výrobky, ktoré sú bezpečné a v zhode s týmto nariadením. Je potrebné stanoviť jasné a primerané rozdelenie povinností zodpovedajúce postaveniu každého subjektu v dodávateľskom a distribučnom procese. Napríklad pokiaľ ide o overenie toho, či si výrobca a prípadne dovozca splnil svoje povinnosti, od distribútora by sa malo vyžadovať len to, aby vykonával overenia skutkového stavu, a nie posúdenie informácií, ktoré mu výrobca a prípadne dovozca poskytol. Informácie o identifikácii výrobku a hospodárskych subjektov, ako aj pokyny a bezpečnostné informácie by okrem toho mohli hospodárske subjekty poskytovať v digitálnej forme prostredníctvom elektronických riešení, ako je kód QR alebo kód dátovej matice.
+(33)
+Výrobcovia by mali vypracovať technickú dokumentáciu týkajúcu sa výrobkov, ktoré uvádzajú na trh, ktorá by mala obsahovať informácie potrebné na preukázanie toho, že tieto výrobky sú bezpečné. Technická dokumentácia by mala byť založená na internej analýze rizík, ktorú vykonal výrobca. Množstvo informácií, ktoré sa majú poskytnúť v technickej dokumentácii, by malo byť primerané zložitosti výrobku a možným rizikám identifikovaným výrobcom. Výrobcovia by mali poskytnúť najmä všeobecný opis výrobku a prvky potrebné na posúdenie jeho bezpečnosti. V prípade zložitých výrobkov alebo výrobkov, ktoré predstavujú možné riziká, si informácie, ktoré sa majú poskytnúť, môžu vyžadovať širší opis výrobku. V takýchto prípadoch by sa mala zahrnúť aj analýza týchto rizík a technické prostriedky prijaté na zmiernenie alebo odstránenie rizík. Ak výrobok spĺňa európske normy alebo iné prvky, ktoré sa uplatňujú na splnenie všeobecnej požiadavky na bezpečnosť stanovenej v tomto nariadení, mal by sa uviesť aj zoznam príslušných európskych noriem alebo iných prvkov.
+(34)
+Každá fyzická alebo právnická osoba, ktorá buď uvádza výrobok na trh pod svojím menom alebo svojou ochrannou známkou, alebo podstatne upraví výrobok takým spôsobom, že to môže mať vplyv na zhodu s požiadavkami tohto nariadenia, by sa mala považovať za výrobcu a mala by plniť povinnosti výrobcu.
+(35)
+Úprava výrobku fyzikálnymi alebo digitálnymi prostriedkami by mohla mať vplyv na povahu a vlastnosti výrobku spôsobom, ktorý sa nepredpokladal v pôvodnom posúdení rizika výrobku a ktorý by mohol ohroziť bezpečnosť výrobku. Takáto úprava by sa preto mala považovať za podstatnú úpravu a v prípade, že ju neurobí spotrebiteľ alebo iný subjekt v jeho mene, mala by viesť k tomu, že výrobok sa bude považovať za nový výrobok od iného výrobcu. S cieľom zabezpečiť súlad so všeobecnou požiadavkou na bezpečnosť stanovenou v tomto nariadení by sa osoba, ktorá vykonáva túto podstatnú úpravu, mala považovať za výrobcu a mali by sa na ňu vzťahovať rovnaké povinnosti. Táto požiadavka by sa mala uplatňovať len na upravenú časť výrobku, ak úprava neovplyvňuje celý výrobok. S cieľom zabrániť zbytočnému a neprimeranému zaťaženiu by sa od osoby vykonávajúcej podstatnú úpravu nemalo vyžadovať opakovanie skúšok a vypracovanie novej dokumentácie o aspektoch výrobku, na ktoré úprava nemá vplyv. Dôkaz o tom, že úprava nemá vplyv na celý výrobok, by mala predložiť osoba vykonávajúca podstatnú úpravu.
+(36)
+Hospodárske subjekty by mali zaviesť interné postupy overovania zhody, prostredníctvom ktorých interne zabezpečia účinné a rýchle plnenie svojich povinností, ako aj vytvoriť podmienky na včasné reagovanie v prípade nebezpečného výrobku.
+(37)
+S cieľom zabrániť uvedeniu nebezpečných výrobkov na trh by hospodárske subjekty mali mať povinnosť začleniť do svojich výrobných alebo marketingových činností vnútorné postupy zabezpečujúce súlad s príslušnými požiadavkami tohto nariadenia. Takéto vnútorné postupy by mali určovať samotné hospodárske subjekty vo vzťahu k svojej úlohe v dodávateľskom reťazci a typu dotknutých výrobkov a môžu byť založené napríklad na organizačných postupoch, usmerneniach, normách alebo vymenovaní ad hoc správcu. Zavedenie a formát takýchto vnútorných postupov by mali zostať vo výlučnej zodpovednosti príslušných hospodárskych subjektov.
+(38)
+Spolupráca všetkých hospodárskych subjektov a prevádzkovateľov online trhov s orgánmi dohľadu nad trhom s cieľom odstrániť alebo zmierniť riziká pre príslušné výrobky sprístupnené na trhu je nevyhnutná. Žiadosti, ktoré im predkladajú orgány dohľadu nad trhom, by však mali byť prispôsobené úlohe, ktorú zohrávajú v dodávateľskom reťazci, a ich príslušným právnym povinnostiam.
+(39)
+Priamy predaj realizovaný hospodárskymi subjektmi usadenými mimo Únie prostredníctvom online kanálov bráni orgánom dohľadu nad trhom v činnosti v oblasti boja proti nebezpečným výrobkom v Únii, keďže hospodárske subjekty nemusia byť v mnohých prípadoch usadené v Únii ani mať v Únii právneho zástupcu. Preto je potrebné zabezpečiť, aby mali orgány dohľadu nad trhom primerané právomoci a prostriedky na účinný boj proti predaju nebezpečných výrobkov online. S cieľom zaistiť účinné presadzovanie tohto nariadenia by sa povinnosť stanovená v článku 4 ods. 1, 2 a 3 nariadenia (EÚ) 2019/1020 mala rozšíriť na výrobky, ktoré nepatria do rozsahu pôsobnosti harmonizačných právnych predpisov Únie, aby sa zabezpečilo, že existuje zodpovedný hospodársky subjekt usadený v Únii, ktorý je poverený úlohami týkajúcimi sa takýchto výrobkov a ktorý je kontaktnou osobou pre orgány dohľadu nad trhom a, v prípade potreby s ohľadom na možné riziká súvisiace s výrobkom, včas plní konkrétne úlohy s cieľom zaistiť bezpečnosť týchto výrobkov. Tieto osobitné úlohy by mali zahŕňať pravidelné kontroly súladu s technickou dokumentáciou, informáciami o výrobku a výrobcovi, pokynmi a bezpečnostnými informáciami.
+(40)
+S cieľom uľahčiť kontroly v rámci celého dodávateľského reťazca by sa pri výrobku mali uvádzať kontaktné údaje hospodárskeho subjektu usadeného v Únii, ktorý je zodpovedný za výrobky patriace do rozsahu pôsobnosti tohto nariadenia.
+(41)
+Aby sa hospodárske subjekty, ktoré sú malé a stredné podniky (ďalej len „MSP“) vrátane mikropodnikov, dokázali vyrovnať s novými povinnosťami uloženými týmto nariadením, Komisia by mala poskytnúť praktické usmernenia a prispôsobené pokyny, napríklad priamy kanál na spojenie s odborníkmi v prípade otázok, a zohľadniť pri tom potrebu zjednodušiť a obmedziť administratívnu záťaž.
+(42)
+Zabezpečenie identifikácie výrobkov a poskytovanie informácií o výrobcovi a iných príslušných hospodárskych subjektoch v rámci celého dodávateľského reťazca pomáha identifikovať hospodárske subjekty a v prípade potreby prijímať v súvislosti s nebezpečnými výrobkami účinné a primerané nápravné opatrenia, akým je napríklad cielené spätné prevzatie. Identifikácia výrobkov a poskytovanie informácií o výrobcovi a iných príslušných hospodárskych subjektoch tak zabezpečuje, aby spotrebitelia, vrátane osôb so zdravotným postihnutím, a orgány dohľadu nad trhom dostávali presné informácie o nebezpečných výrobkoch, čím sa zvyšuje dôvera v trh a predchádza sa zbytočnému narúšaniu obchodu. Výrobky by preto mali obsahovať informácie, ktoré umožnia ich identifikáciu a identifikáciu výrobcu a prípadne dovozcu a iných príslušných hospodárskych subjektov. Takéto požiadavky by sa mohli pre určité druhy výrobkov sprísniť, keďže môžu predstavovať vážne riziko pre zdravie a bezpečnosť spotrebiteľov, a to prostredníctvom systému zhromažďovania a uchovávania údajov, ktorý by okrem identifikácie výrobku umožňoval aj identifikáciu jeho zložiek alebo hospodárskych subjektov zapojených do jeho dodávateľského reťazca. Tým by nemali byť dotknuté požiadavky na informácie stanovené v smernici Európskeho parlamentu a Rady 2011/83/EÚ (15), týkajúce sa hlavných vlastností tovaru v rozsahu primeranom nosiču a povahe tovaru. Za obrázok by sa mala považovať fotografia, ilustrácia alebo iný piktografický prvok, ktorý ľahko umožňuje identifikáciu výrobku alebo potenciálneho výrobku.
+(43)
+Zabezpečením toho, aby výrobcovia oznamovali nehody spôsobené výrobkom, ktorý sprístupnili na trhu, sa zlepší informovanosť orgánov dohľadu nad trhom a umožní sa lepšia identifikácia potenciálne nebezpečných kategórií výrobkov. Pravidlá týkajúce sa zodpovednosti hospodárskych subjektov za chybné výrobky sú stanovené v osobitnom práve Únie a takéto oznamovanie a zhromažďovanie údajov by sa preto nemali považovať za priznanie zodpovednosti za chybný výrobok alebo za potvrdenie zodpovednosti podľa príslušného práva Únie alebo vnútroštátneho práva.
+(44)
+Aby bolo možné včas odhaliť nové riziká a iné trendy na trhu súvisiace s bezpečnosťou výrobkov, všetky zainteresované strany vrátane spotrebiteľských alebo podnikateľských organizácií by sa mali nabádať, aby orgány dohľadu nad trhom a Komisiu upozorňovali na informácie, ktoré majú k dispozícii, s cieľom odhaliť a vyšetriť porušenia tohto nariadenia.
+(45)
+Prevádzkovatelia online trhov zohrávajú kľúčovú úlohu v dodávateľskom reťazci, keďže umožňujú hospodárskym subjektom dostať sa k vyššiemu počtu spotrebiteľov, a tým aj v systéme bezpečnosti výrobkov.
+(46)
+V rámci nových komplexných obchodných modelov spojených s online predajom môže ten istý subjekt poskytovať rôzne služby. V závislosti od povahy služieb poskytovaných pre daný výrobok môže ten istý subjekt patriť do rôznych kategórií obchodných modelov podľa tohto nariadenia. Ak subjekt poskytuje pre daný výrobok len online sprostredkovateľské služby, potom by bol vo vzťahu k tomuto výrobku považovaný len za prevádzkovateľa online trhu. V prípade, že ten istý subjekt poskytuje služby online trhu na predaj konkrétneho výrobku a koná aj ako hospodársky subjekt podľa tohto nariadenia, považoval by sa aj za príslušný hospodársky subjekt. V takom prípade by teda dotknutý subjekt musel dodržiavať povinnosti vzťahujúce sa na relevantný hospodársky subjekt. Napríklad, ak prevádzkovateľ online trhu aj distribuuje výrobok, potom by sa v súvislosti s predajom distribuovaného produktu považoval za distribútora. Podobne, ak by daný subjekt predával svoje vlastné značkové výrobky, konal by ako výrobca, a preto by musel spĺňať požiadavky uplatniteľné na výrobcov. Niektoré subjekty sa takisto môžu považovať za poskytovateľov logistických služieb, ak ponúkajú logistické služby. Takéto prípady by sa preto museli posudzovať individuálne.
+(47)
+Vzhľadom na to, že prevádzkovatelia online trhov zohrávajú dôležitú úlohu pri sprostredkovaní predaja výrobkov medzi obchodníkmi a spotrebiteľmi, takéto subjekty by mali niesť pri riešení otázky online predaja nebezpečných výrobkov väčšiu zodpovednosť. V smernici Európskeho parlamentu a Rady 2000/31/ES (16) sa stanovuje všeobecný rámec pre elektronický obchod a určité povinnosti pre online platformy. Nariadením Európskeho parlamentu a Rady (EÚ) 2022/2065 (17) sa upravuje povinnosť a zodpovednosť poskytovateľov sprostredkovateľských služieb online, pokiaľ ide o nezákonný obsah vrátane nebezpečných výrobkov. Uvedené nariadenie sa uplatňuje bez toho, aby boli dotknuté pravidlá stanovené v práve Únie v oblasti ochrany spotrebiteľov a bezpečnosti výrobkov. Na základe horizontálneho právneho rámca stanoveného v uvedenom nariadení by sa preto mali v súlade s článkom 2 ods. 4 písm. f) uvedeného nariadenia zaviesť osobitné požiadavky nevyhnutné na účinné riešenie otázky predaja nebezpečných výrobkov online. V rozsahu, v akom sa v tomto nariadení stanovujú požiadavky v súvislosti s bezpečnosťou výrobkov, ktoré majú spĺňať prevádzkovatelia online trhov s cieľom zabezpečiť súlad s určitými ustanoveniami nariadenia (EÚ) 2022/2065, by uvedené požiadavky nemali mať vplyv na uplatňovanie nariadenia (EÚ) 2022/2065, ktoré sa naďalej uplatňuje na uvedených prevádzkovateľov online trhov.
+(48)
+V záväzku k bezpečnosti výrobkov, ktorý bol prvýkrát podpísaný v roku 2018 a ku ktorému sa odvtedy pripojilo viacero prevádzkovateľov online trhov, sa stanovuje niekoľko dobrovoľných záväzkov v oblasti bezpečnosti výrobkov. Ukázalo sa, že záväzok k bezpečnosti výrobkov je opodstatnený, pokiaľ ide o zlepšenie ochrany spotrebiteľov pred nebezpečnými výrobkami, ktoré sa predávajú online. S cieľom posilniť ochranu spotrebiteľov tým, že sa zabráni poškodeniu ich života, zdravia a bezpečnosti, a zabezpečiť spravodlivú hospodársku súťaž na vnútornom trhu sa prevádzkovatelia online trhov nabádajú, aby prijali tieto dobrovoľné záväzky s cieľom zabrániť, aby sa do ponuky opätovne zaraďovali nebezpečné výrobky, ktoré už boli stiahnuté. Používanie technológií a digitálnych procesov a zlepšenia systémov varovania, najmä portálu Safety Gate, môžu umožniť automatickú identifikáciu a nahlasovanie oznámených nebezpečných výrobkov a vykonávanie automatizovaných náhodných kontrol na portáli Safety Gate.
+(49)
+Prevádzkovatelia online trhov by mali v súlade s osobitnými povinnosťami stanovenými v tomto nariadení konať s náležitou starostlivosťou, pokiaľ ide o obsah umiestnený na ich online rozhraniach, ktorý sa týka bezpečnosti výrobkov. Preto by sa mali v tomto nariadení stanoviť pre všetkých prevádzkovateľov online trhov povinnosti náležitej starostlivosti, pokiaľ ide o obsah umiestnený na ich online rozhraniach, ktorý sa týka bezpečnosti výrobkov.
+(50)
+Prevádzkovatelia online trhov by sa okrem toho mali na účely účinného dohľadu nad trhom zaregistrovať na portáli Safety Gate a uviesť na portáli Safety Gate informácie týkajúce sa ich jednotných kontaktných miest, aby sa uľahčilo oznamovanie informácií o problémoch s bezpečnosťou výrobkov. Komisia by mala zabezpečiť, aby bola registrácia jednoduchá a používateľsky ústretová. Jednotné kontaktné miesto podľa tohto nariadenia môže byť totožné s kontaktným miestom podľa článku 11 nariadenia (EÚ) 2022/2065 bez toho, aby bol ohrozený cieľ, ktorým je rýchle a osobitné riešenie problémov súvisiacich s bezpečnosťou výrobkov.
+(51)
+Prevádzkovatelia online trhov by mali určiť jednotné kontaktné miesto pre spotrebiteľov. Toto jednotné kontaktné miesto by malo slúžiť ako jednotné kontaktné miesto pre komunikáciu so spotrebiteľmi o otázkach bezpečnosti výrobkov, ktoré potom možno presmerovať na príslušné oddelenie služieb online trhu. To by nemalo brániť tomu, aby spotrebitelia mali k dispozícii ďalšie kontaktné miesta pre konkrétne služby. Jednotné kontaktné miesto podľa tohto nariadenia môže byť totožné s kontaktným miestom podľa článku 12 nariadenia (EÚ) 2022/2065.
+(52)
+Aby mohli prevádzkovatelia online trhov plniť svoje povinnosti podľa tohto nariadenia, najmä pokiaľ ide o včasné a účinné dodržiavanie príkazov verejných orgánov, spracúvanie oznámení iných tretích strán a spoluprácu s orgánmi dohľadu nad trhom v kontexte nápravných opatrení na požiadanie, mali by mať k dispozícii vnútorný mechanizmus na riešenie otázok súvisiacich s bezpečnosťou výrobkov.
+(53)
+V článku 14 ods. 4 nariadenia (EÚ) 2019/1020 sa v prípade, že nie sú k dispozícii iné účinné prostriedky na odstránenie vážneho rizika, udeľuje orgánom dohľadu nad trhom právomoc požadovať odstránenie obsahu, ktorý sa vzťahuje na príslušné výrobky, z online rozhrania alebo požadovať explicitné zobrazenie varovania koncových používateľov, keď majú prístup k online rozhraniu. Na toto nariadenie by sa mali uplatňovať aj právomoci zverené orgánom dohľadu nad trhom na základe článku 14 ods. 4 nariadenia (EÚ) 2019/1020. V záujme účinného dohľadu nad trhom podľa tohto nariadenia a s cieľom zabrániť tomu, aby sa na trhu Únie nachádzali nebezpečné výrobky, by sa tieto právomoci mali uplatňovať vo všetkých potrebných a primeraných prípadoch, ako aj na výrobky, ktoré predstavujú menšie ako vážne riziko. Je nevyhnutné, aby prevádzkovatelia online trhov takéto príkazy splnili čo najskôr. Týmto nariadením sa preto v tejto súvislosti zavádzajú záväzné lehoty. Uvedené právomoci by sa mali vykonávať v súlade s článkom 9 nariadenia (EÚ) 2022/2065.
+(54)
+Príkazy, ktoré od prevádzkovateľa online trhu takisto vyžadujú, aby zo svojho online rozhrania odstránil všetok rovnaký obsah týkajúci sa ponuky nebezpečného výrobku uvedeného v príkaze, by mali identifikovať prvky, ktoré určia rovnaké ponuky a umožnia prevádzkovateľovi online trhu, aby ich odstránil, na základe informácií zobrazených obchodníkmi, a to v rozsahu, aby sa od prevádzkovateľa online trhu nevyžadovalo vykonať nezávislé posúdenie tohto obsahu.
+(55)
+Ak informácie získané zo systému rýchleho varovania Safety Gate neobsahujú presnú jednotnú adresu zdroja (URL) a prípadne ďalšie informácie, ktoré by umožnili identifikovať obsah odkazujúci na ponuku nebezpečného výrobku, prevádzkovatelia online trhov by mali aj tak zohľadniť postúpené informácie, ako sú identifikátory výrobku, ak sú k dispozícii, a iné informácie o vysledovateľnosti, v súvislosti s akýmikoľvek opatreniami, ktoré prijmú prevádzkovatelia online trhov z vlastnej iniciatívy a ktorých cieľom je prípadne odhaliť, identifikovať, odstrániť alebo zrušiť prístup k týmto ponukám nebezpečných výrobkov na ich online rozhraní. Portál Safety Gate by sa však mal modernizovať a aktualizovať s cieľom uľahčiť prevádzkovateľom online trhov odhaľovanie nebezpečných výrobkov a na tento účel by malo byť možné vykonávať ustanovenia tohto nariadenia o odstránení obsahu odkazujúceho na ponuku nebezpečného výrobku z online rozhraní prostredníctvom oznamovacieho systému navrhnutého a vyvinutého v rámci portálu Safety Gate.
+(56)
+Povinnosti uložené pre prevádzkovateľov online trhov týmto nariadením by nemali predstavovať všeobecnú povinnosť monitorovať informácie, ktoré prenášajú alebo uchovávajú, ani by od prevádzkovateľov online trhov nemali vyžadovať, aby aktívne zisťovali skutočnosti alebo okolnosti, ktoré naznačujú nezákonnú činnosť, ako napríklad predaj nebezpečných výrobkov online. Aby prevádzkovatelia online trhov mohli využiť výnimku zo zodpovednosti za hostingové služby podľa smernice 2000/31/ES a nariadenia (EÚ) 2022/2065 mali by však urýchlene odstraňovať obsah odkazujúci na ponuku nebezpečného výrobku zo svojich online rozhraní, a to po tom, ako sa o tejto skutočnosti reálne dozvedia, alebo, v prípade nárokov na náhradu škody, ak získajú vedomosť o obsahu, ktorý odkazuje na ponuku nebezpečného výrobku, najmä v prípadoch, keď bol prevádzkovateľ online trhu informovaný o skutočnostiach alebo okolnostiach, na základe ktorých mal obozretný hospodársky subjekt zistiť predmetnú nezákonnosť. Prevádzkovatelia online trhov by mali spracúvať oznámenia týkajúce sa obsahu, ktorý odkazuje na ponuku nebezpečného výrobku, prijaté v súlade s článkom 16 nariadenia (EÚ) 2022/2065 v dodatočných časových rámcoch stanovených týmto nariadením. Okrem toho sa prevádzkovatelia online trhov nabádajú, aby výrobky pred umiestnením na svoje rozhranie skontrolovali prostredníctvom portálu Safety Gate.
+(57)
+Na účely článku 22 nariadenia (EÚ) 2022/2065 a v súvislosti s bezpečnosťou výrobkov predávaných online by mal koordinátor digitálnych služieb považovať najmä spotrebiteľské organizácie a združenia zastupujúce záujmy spotrebiteľov a iné relevantné zainteresované strany na základe ich žiadosti za dôveryhodných nahlasovateľov, ak sú splnené podmienky stanovené v uvedenom článku.
+(58)
+Vysledovateľnosť výrobkov je základom účinného dohľadu nad trhom s nebezpečnými výrobkami a nápravných opatrení. Spotrebitelia by mali byť chránení pred nebezpečnými výrobkami rovnakým spôsobom v offline aj online predajných kanáloch, a to aj pri nákupe výrobkov na online trhoch. Na základe ustanovení nariadenia (EÚ) 2022/2065 týkajúcich sa vysledovateľnosti obchodníkov by prevádzkovatelia online trhov nemali umožňovať zaradenie konkrétneho výrobku do ponuky na svojich platformách, pokiaľ obchodník neposkytol všetky informácie týkajúce sa bezpečnosti a vysledovateľnosti tohto výrobku, ako sa uvádza v tomto nariadení. Takéto informácie by sa mali zobrazovať spolu s ponukou výrobku, aby spotrebitelia mohli využívať tie isté informácie, ktoré sú dostupné online aj offline. Prevádzkovatelia online trhov by však nemali byť zodpovední za overovanie úplnosti, správnosti a presnosti samotných informácií, keďže povinnosť zabezpečiť vysledovateľnosť výrobkov nesie príslušný obchodník.
+(59)
+Takisto je dôležité, aby prevádzkovatelia online trhov úzko spolupracovali s orgánmi dohľadu nad trhom, obchodníkmi a príslušnými hospodárskymi subjektmi v oblasti bezpečnosti výrobkov. Povinnosť spolupracovať s orgánmi dohľadu nad trhom sa poskytovateľom služieb informačnej spoločnosti ukladá podľa článku 7 ods. 2 nariadenia (EÚ) 2019/1020 v súvislosti s výrobkami, na ktoré sa vzťahuje uvedené nariadenie. Táto povinnosť by sa preto mala rozšíriť na všetky spotrebiteľské výrobky. Orgány dohľadu nad trhom napríklad neustále zlepšujú technologické nástroje, ktoré používajú v rámci dohľadu nad online trhom na identifikáciu nebezpečných výrobkov, ktoré sa predávajú online. Aby boli tieto nástroje funkčné, prevádzkovatelia online trhov by mali poskytovať prístup k svojim rozhraniam. Orgány dohľadu nad trhom by navyše na účely zaistenia bezpečnosti výrobkov mali mať aj možnosť na základe odôvodnenej žiadosti extrahovať údaje z online rozhrania v prípade technických prekážok, ktoré zaviedli prevádzkovatelia online trhov alebo online predajcovia. Prevádzkovatelia online trhov by mali spolupracovať aj pri spätnom prevzatí výrobkov a pri oznamovaní nehôd.
+(60)
+Právny rámec pre dohľad nad trhom s výrobkami, na ktoré sa vzťahujú harmonizačné právne predpisy Únie, stanovený v nariadení (EÚ) 2019/1020, a právny rámec pre dohľad nad trhom s výrobkami, na ktoré sa vzťahuje toto nariadenie, by mali byť čo najviac súdržné. Preto je potrebné zosúladiť oba súbory ustanovení, pokiaľ ide o činnosti dohľadu nad trhom, povinnosti, právomoci, opatrenia a spoluprácu medzi orgánmi dohľadu nad trhom. Na tento účel by sa na výrobky, na ktoré sa vzťahuje toto nariadenie, mali takisto uplatňovať článok 10, článok 11 ods. 1 až 7, články 12 až 15, článok 16 ods. 1 až 5, články 18 a 19 a články 21 až 24 nariadenia (EÚ) 2019/1020.
+(61)
+Podľa nariadenia Európskeho parlamentu a Rady (EÚ) č. 952/2013 (18) (Colný kódex Únie) sa výrobky z tretích krajín určené na sprístupnenie na trhu Únie alebo určené na súkromné použitie alebo spotrebu na colnom území Únie prepúšťajú do colného režimu „prepustenie do voľného obehu“. Cieľom tohto postupu je splniť formality stanovené v súvislosti s dovozom tovaru vrátane presadzovania uplatniteľných ustanovení práva Únie, aby sa tento tovar mohol sprístupniť na trhu Únie ako akýkoľvek výrobok vyrobený v Únii. Pokiaľ ide o bezpečnosť spotrebiteľov, tieto výrobky musia byť v súlade s týmto nariadením, a najmä so všeobecnou požiadavkou na bezpečnosť, ktorá je stanovená v tomto nariadení.
+(62)
+Kapitola VII nariadenia (EÚ) 2019/1020, ktorou sa stanovujú pravidlá kontroly výrobkov, ktoré vstupujú na trh Únie, je už priamo uplatniteľná na výrobky, na ktoré sa vzťahuje toto nariadenie. Orgány zodpovedné za tieto kontroly by ich mali vykonávať na základe analýzy rizika uvedenej v článkoch 46 a 47 nariadenia (EÚ) č. 952/2013, vykonávacích právnych predpisov a zodpovedajúcich usmernení. Týmto nariadením sa preto nijako nemení kapitola VII nariadenia (EÚ) 2019/1020 ani spôsob, ako sú orgány zodpovedné za kontroly výrobkov, ktoré vstupujú na trh Únie, organizované a ako vykonávajú svoje činnosti.
+(63)
+Členské štáty by mali zabezpečiť, aby všetky opatrenia prijaté ich príslušnými orgánmi podľa tohto nariadenia podliehali účinným súdnym prostriedkom nápravy v súlade s článkom 47 charty.
+(64)
+Vnútroštátne orgány by mali mať možnosť doplniť tradičné činnosti dohľadu nad trhom zamerané na bezpečnosť výrobkov činnosťami dohľadu nad trhom zameranými na interné postupy overovania zhody, ktoré zaviedli hospodárske subjekty, aby zaistili bezpečnosť výrobkov. Orgány dohľadu nad trhom by mali mať možnosť požadovať od výrobcu, aby uviedol, na ktoré ďalšie výrobky – vyrobené rovnakým postupom alebo obsahujúce rovnaké komponenty považované za predstavujúce riziko alebo tvoriace súčasť tej istej výrobnej šarže – sa vzťahuje rovnaké riziko.
+(65)
+Členské štáty by tiež mali zabezpečiť, aby orgány dohľadu nad trhom mali dostatočné odborné znalosti a zdroje na všetky svoje činnosti v oblasti presadzovania práva.
+(66)
+Výmena informácií medzi členskými štátmi a Komisiou o uplatňovaní tohto nariadenia by sa mala zaviesť na základe ukazovateľov výstupov, ktoré by umožnili meranie efektívnosti právnych predpisov Únie v oblasti bezpečnosti výrobkov.
+(67)
+Mala by existovať účinná, rýchla a presná výmena informácií o nebezpečných výrobkoch, aby sa zabezpečilo, že sa v súvislosti s týmito výrobkami prijmú primerané opatrenia a že sa tým ochráni zdravie a bezpečnosť spotrebiteľov.
+(68)
+Systém RAPEX by sa mal zmodernizovať, aby umožňoval, aby sa v súvislosti s výrobkami, ktoré predstavujú riziko presahujúce územie jedného členského štátu, prijali efektívnejšie nápravné opatrenia v rámci celej Únie. V záujme lepšej zrozumiteľnosti a širšieho dosahu na spotrebiteľov je vhodné zmeniť skrátený názov RAPEX na systém Safety Gate. Systém Safety Gate zahŕňa tri prvky: po prvé, systém na rýchlu výmenu informácií o nebezpečných nepotravinových výrobkoch, prostredníctvom ktorého si vnútroštátne orgány a Komisia môžu vymieňať informácie o takýchto výrobkoch (systém rýchleho varovania Safety Gate); po druhé, webový portál, ktorý slúži na poskytovanie informácií verejnosti a umožňuje verejnosti podávať sťažnosti (portál Safety Gate); a po tretie, webový portál, ktorý umožní podnikom plniť si svoju povinnosť informovať orgány a spotrebiteľov o nebezpečných výrobkoch a nehodách (Safety Business Gateway). Medzi rôznymi prvkami systému Safety Gate by mali existovať rozhrania. Systém rýchleho varovania Safety Gate je interný systém, prostredníctvom ktorého si orgány a Komisia vymieňajú informácie o opatreniach týkajúcich sa nebezpečných výrobkov a ktorý môže obsahovať dôverné informácie. Na portáli Safety Gate by sa mal uverejniť výpis upozornení s cieľom informovať verejnosť o nebezpečných výrobkoch. Safety Business Gateway je webový portál, prostredníctvom ktorého podniky informujú orgány dohľadu nad trhom členských štátov o nebezpečných výrobkoch a nehodách. Komisia by mala vypracovať technické riešenie s cieľom zabezpečiť, aby informácie zapísané podnikmi do Safety Business Gateway, ktoré majú upozorniť spotrebiteľov na určité riziká, mohli byť bez zbytočného odkladu sprístupnené spotrebiteľom na portáli Safety Gate. Komisia by okrem toho mala vyvinúť interoperabilné rozhranie, ktoré umožní prevádzkovateľom online trhov ľahko, rýchlo a spoľahlivo prepojiť svoje rozhrania s portálom Safety Gate.
+(69)
+Členské štáty by mali prostredníctvom systému rýchleho varovania Safety Gate oznamovať povinné aj dobrovoľné nápravné opatrenia, ktorých cieľom je zabrániť možnému uvedeniu výrobku na trh, obmedziť ho alebo uložiť osobitné podmienky z dôvodu vážneho rizika, ktoré predstavuje pre zdravie a bezpečnosť spotrebiteľov, alebo v prípade výrobkov, na ktoré sa vzťahuje nariadenie (EÚ) 2019/1020, aj z dôvodu iných relevantných verejných záujmov koncových používateľov.
+(70)
+Podľa článku 34 nariadenia (EÚ) 2019/1020 majú orgány členských štátov oznamovať opatrenia prijaté v súvislosti s výrobkami, na ktoré sa vzťahuje uvedené nariadenie a ktoré predstavujú menšie ako vážne riziko, prostredníctvom informačného a komunikačného systému uvedeného v uvedenom článku, zatiaľ čo nápravné opatrenia prijaté v súvislosti s výrobkami, na ktoré sa vzťahuje toto nariadenie a ktoré predstavujú menšie ako vážne riziko, by sa tiež mohli oznamovať v systéme rýchleho varovania Safety Gate. Členské štáty a Komisia by mali verejnosti sprístupniť informácie týkajúce sa rizík, ktoré výrobky predstavujú pre zdravie a bezpečnosť spotrebiteľov. Pre spotrebiteľov a podniky je vhodné, aby všetky informácie o nápravných opatreniach prijatých v súvislosti s výrobkami, ktoré predstavujú vážne riziko, boli uložené v systéme rýchleho varovania Safety Gate, čo umožní sprístupniť relevantné informácie o nebezpečných výrobkoch verejnosti prostredníctvom portálu Safety Gate. Je dôležité zabezpečiť, aby všetky uvedené informácie boli k dispozícii v úradnom jazyku (úradných jazykoch) členského štátu, v ktorom má spotrebiteľ bydlisko, a aby boli zrozumiteľne a pochopiteľne napísané. Členské štáty sa preto vyzývajú, aby v systéme rýchleho varovania Safety Gate oznamovali všetky nápravné opatrenia súvisiace s výrobkami, ktoré predstavujú riziko pre zdravie a bezpečnosť spotrebiteľov.
+(71)
+V prípade, že sa informácie musia oznámiť v informačnom a komunikačnom systéme v súlade s nariadením (EÚ) 2019/1020, existuje možnosť, aby sa takéto oznámenia vykonali priamo v systéme rýchleho varovania Safety Gate alebo aby sa vygenerovali z informačného a komunikačného systému pre dohľad nad trhom, ktorý je stanovený v článku 34 nariadenia (EÚ) 2019/1020. Na tento účel by Komisia mala spravovať a ďalej rozvíjať rozhranie, ktoré bolo vytvorené na prenos informácií medzi týmto informačným a komunikačným systémom a systémom rýchleho varovania Safety Gate, s cieľom zabrániť dvojitému vkladaniu údajov a uľahčiť takýto prenos.
+(72)
+Komisia by mala spravovať a ďalej rozvíjať webový portál Safety Business Gateway, ktorý umožňuje hospodárskym subjektom plniť si svoje povinnosti informovať orgány dohľadu nad trhom a spotrebiteľov o nebezpečných výrobkoch, ktoré sprístupnili na trhu. Mal by umožňovať rýchlu a efektívnu výmenu informácií medzi hospodárskymi subjektmi a vnútroštátnymi orgánmi a uľahčiť poskytovanie informácií spotrebiteľom zo strany hospodárskych subjektov.
+(73)
+Môžu sa vyskytnúť prípady, keď sa vážne riziko nebude dať uspokojivo odstrániť prostredníctvom opatrení prijatých dotknutým členským štátom alebo nejakým iným postupom podľa práva Únie a bude ho potrebné riešiť na úrovni Únie. Takáto situácia by mohla nastať najmä v prípade nových vznikajúcich rizík alebo rizík, ktoré majú dosah na zraniteľných spotrebiteľov. Preto by Komisia mala mať možnosť prijať opatrenia, a to buď z vlastnej iniciatívy, alebo na žiadosť členských štátov. Takéto opatrenia by sa mali prispôsobiť závažnosti a naliehavosti situácie. Okrem toho je potrebné zaviesť primeraný mechanizmus, na základe ktorého by Komisia mohla okamžite prijať uplatniteľné dočasné opatrenia.
+(74)
+Určenie rizika týkajúceho sa výrobku a jeho úrovne vychádza z posúdenia rizika vykonaného príslušnými subjektmi. Členské štáty môžu dôjsť pri takomto posudzovaní rizika k odlišným výsledkom, pokiaľ ide o existenciu rizika alebo jeho úroveň. To by mohlo ohroziť správne fungovanie vnútorného trhu a rovnaké podmienky pre spotrebiteľov a hospodárske subjekty. Preto by sa mal zriadiť mechanizmus, ktorý Komisii umožní poskytnúť stanovisko k spornej otázke.
+(75)
+Komisia by mala pravidelne vypracúvať správu o uplatňovaní mechanizmu podľa článku 29, ktorá by sa mala predkladať Európskej sieti orgánov členských štátov zodpovedných za bezpečnosť výrobkov podľa tohto nariadenia (ďalej len „sieť pre bezpečnosť spotrebiteľov“). V uvedenej správe by sa mali identifikovať hlavné kritériá uplatňované členskými štátmi pri posudzovaní rizík a ich vplyv na vnútorný trh a na rovnakú úroveň ochrany spotrebiteľa, a to s cieľom umožniť členským štátom a Komisii harmonizovať prístupy a kritériá posudzovania rizík.
+(76)
+Sieť pre bezpečnosť spotrebiteľov posilňuje spoluprácu medzi členskými štátmi v oblasti presadzovania bezpečnosti výrobkov. Uľahčuje najmä činnosti výmeny informácií, organizáciu spoločných činností dohľadu nad trhom a výmenu odborných poznatkov a najlepších postupov. Mala by tiež prispieť k harmonizácii metodík na zber údajov o bezpečnosti výrobkov, ako aj k zvýšeniu interoperability medzi regionálnymi, odvetvovými, vnútroštátnymi a európskymi informačnými systémami pre bezpečnosť výrobkov. Sieť pre bezpečnosť spotrebiteľov by mala byť riadne zastúpená a mala by sa zúčastňovať na koordinačných a kooperačných činnostiach siete Únie pre súlad výrobkov stanovenej v nariadení (EÚ) 2019/1020 vždy, keď je potrebné koordinovať činnosti, ktoré patria do rozsahu pôsobnosti oboch nariadení, na účely zaistenia ich účinnosti.
+(77)
+Aby sa zachovala súdržnosť právneho rámca pre dohľad nad trhom a zároveň zabezpečila účinnú spolupráca medzi sieťou pre bezpečnosť spotrebiteľov a sieťou Únie pre súlad výrobkov zameranou na štruktúrovanú koordináciu a spoluprácu medzi orgánmi presadzovania práva členských štátov a Komisiou, ktorá je stanovená v nariadení (EÚ) 2019/1020, je potrebné prepojiť sieť pre bezpečnosť spotrebiteľov so sieťou Únie pre súlad výrobkov, pokiaľ ide o činnosti uvedené v článkoch 11, 12, 13 a 21 nariadenia (EÚ) 2019/1020.
+(78)
+Orgány dohľadu nad trhom by mali vykonávať spoločné činnosti s inými orgánmi alebo organizáciami zastupujúcimi hospodárske subjekty alebo spotrebiteľov s cieľom podporiť bezpečnosť výrobkov a identifikovať nebezpečné výrobky vrátane tých, ktoré sa ponúkajú na predaj online. Orgány dohľadu nad trhom a prípadne Komisia by pritom mali zabezpečiť, aby výber výrobkov a výrobcov, ako aj vykonávané činnosti nevytvárali situácie, ktoré by mohli narušiť hospodársku súťaž alebo ovplyvniť objektívnosť, nezávislosť a nestrannosť jednotlivých strán. Orgány dohľadu nad trhom by mali čo najskôr sprístupniť verejnosti dohody o spoločných činnostiach za predpokladu, že takéto uverejnenie neohrozí účinnosť činností, ktoré sa majú vykonať.
+(79)
+Komisia by mala pravidelne organizovať spoločnú činnosť, prostredníctvom ktorej by orgány dohľadu nad trhom mali vykonávať inšpekcie výrobkov získaných pod utajenou totožnosťou online alebo offline, najmä tých výrobkov, ktoré sa najčastejšie oznamujú v systéme Safety Gate.
+(80)
+Simultánne koordinované kontrolné akcie (ďalej len „kontrolné akcie“) sú osobitné opatrenia na presadzovanie práva, ktoré by mohli ešte viac zvýšiť bezpečnosť výrobkov, a preto by sa mali vykonávať s cieľom odhaliť online aj offline porušenia tohto nariadenia. Kontrolné akcie by sa mali vykonávať najmä vtedy, keď z trhových trendov, sťažností spotrebiteľov alebo iných náznakov vyplýva, že pri určitých výrobkoch alebo kategóriách výrobkov sa často zisťuje, že predstavujú vážne riziko.
+(81)
+Vo všeobecnosti by sa mal zabezpečiť prístup verejnosti k informáciám o bezpečnosti výrobkov, ktoré majú orgány k dispozícii. Pri sprístupňovaní informácií o bezpečnosti výrobkov verejnosti by sa však v zmysle v článku 339 ZFEÚ malo dbať na ochranu služobného tajomstva, a to takým spôsobom, ktorý je v súlade s potrebou zaistiť účinnosť činností dohľadu nad trhom a ochranných opatrení.
+(82)
+Sťažnosti sú dôležité z hľadiska zvyšovania povedomia vnútroštátnych orgánov o bezpečnosti a účinnosti činností dohľadu a kontroly v súvislosti s nebezpečnými výrobkami. Členské štáty by preto mali spotrebiteľom a iným zainteresovaným stranám, ako sú spotrebiteľské organizácie a hospodárske subjekty, poskytnúť možnosť predkladať takéto sťažnosti.
+(83)
+Verejné rozhranie systému rýchleho varovania Safety Gate, portálu Safety Gate umožňuje širokej verejnosti vrátane spotrebiteľov, hospodárskych subjektov a prevádzkovateľov online trhov, aby boli informovaní o nápravných opatreniach prijatých v súvislosti s nebezpečnými výrobkami, ktoré sa nachádzajú na trhu Únie. Samostatná časť portálu Safety Gate umožňuje spotrebiteľom informovať Komisiu o výrobkoch, ktoré sa nachádzajú na trhu a predstavujú riziko pre zdravie a bezpečnosť spotrebiteľov. Komisia by mala v prípade potreby prijať primerané následné opatrenia, predovšetkým postúpiť takéto informácie dotknutým vnútroštátnym orgánom. Databáza a webové sídlo systému Safety Gate by mali byť ľahko prístupné pre osoby so zdravotným postihnutím.
+(84)
+Po overení presnosti informácií prijatých od spotrebiteľov a iných zainteresovaných strán by Komisia mala zabezpečiť primerané následné opatrenia. Komisia by predovšetkým mala postúpiť informácie príslušným členským štátom, aby príslušný orgán dohľadu nad trhom mohol postupovať podľa potreby. Je dôležité, aby boli spotrebitelia a iné zainteresované strany riadne informované o opatreniach Komisie.
+(85)
+Ak sa zistí, že výrobok, ktorý sa už predal spotrebiteľom, je nebezpečný, môže dôjsť k tomu, že sa na účely ochrany spotrebiteľov v Únii, bude musieť realizovať jeho spätné prevzatie. Spotrebitelia si nemusia uvedomovať, že vlastnia výrobok, ktorý je predmetom spätného prevzatia. S cieľom zvýšiť účinnosť spätného prevzatia je preto dôležité zlepšiť komunikáciu vo vzťahu k dotknutým spotrebiteľom. Priamy kontakt je najúčinnejším spôsobom na zvýšenie informovanosti spotrebiteľov o spätnom prevzatí a na podporu príslušných opatrení. Všetky skupiny spotrebiteľov ho zároveň považujú za najlepší komunikačný kanál. V záujme zaistenia bezpečnosti spotrebiteľov je dôležité, aby boli informovaní rýchlo a spoľahlivo. Hospodárske subjekty a v prípade potreby prevádzkovatelia online trhov by preto mali využívať údaje o zákazníkoch, ktoré majú k dispozícii, na informovanie spotrebiteľov o spätných prevzatiach a bezpečnostných upozorneniach súvisiacich s výrobkami, ktoré si kúpili. Preto je potrebné zaviesť právnu povinnosť, ktorá bude od hospodárskych subjektov a prevádzkovateľov online trhov vyžadovať, aby použili akékoľvek údaje o zákazníkoch, ktoré už majú k dispozícii, na informovanie spotrebiteľov o spätných prevzatiach a bezpečnostných upozorneniach. V tejto súvislosti by hospodárske subjekty a prevádzkovatelia online trhov mali zabezpečiť, aby sa možnosť priameho kontaktu so zákazníkmi v prípade spätného prevzatia alebo bezpečnostného upozornenia, ktoré sa ich týkajú, zahrnula do existujúcich zákazníckych vernostných programov a systémov registrácie výrobkov, prostredníctvom ktorých sa zákazníci vyzývajú, aby po kúpe výrobku dobrovoľne oznámili výrobcovi určité informácie, ako napríklad ich meno, kontaktné údaje, model výrobku alebo sériové číslo. Samotná skutočnosť, že spätné prevzatie výrobku je zamerané na spotrebiteľov, by nemala hospodárskym subjektom a prevádzkovateľom online trhov brániť v tom, aby informovali všetkých zákazníkov o oznámení o spätnom prevzatí výrobku ani aby ponúkali nápravné opatrenia iným koncovým používateľom. Hospodárske subjekty a prevádzkovatelia online trhov by sa mali nabádať, aby prijali takéto opatrenia, najmä v prípade mikropodnikov a malých podnikov, ktoré konajú ako spotrebitelia.
+(86)
+Spotrebitelia by mali byť nabádaní k registrácii výrobkov, aby mohli dostávať informácie o spätnom prevzatí výrobkov a bezpečnostné upozornenia. Komisia by mala byť splnomocnená prijímať vykonávacie akty s cieľom spresniť, že v prípade niektorých konkrétnych výrobkov alebo kategórií výrobkov by spotrebitelia mali mať vždy možnosť zaregistrovať výrobok, ktorý si kúpili, aby boli priamo informovaní o spätnom prevzatí výrobku alebo o bezpečnostnom upozornení týkajúcom sa tohto výrobku. Pri určovaní konkrétnych výrobkov alebo kategórií výrobkov, na ktoré sa vzťahuje uvedená požiadavka, by sa mala venovať náležitá pozornosť životnému cyklu predmetných výrobkov alebo kategórií výrobkov, ako aj rizikám, ktoré výrobky predstavujú, frekvencii spätného prevzatia a kategórii používateľov výrobkov, najmä zraniteľných spotrebiteľov.
+(87)
+Jedna tretina spotrebiteľov naďalej používa nebezpečné výrobky napriek tomu, že si všimla oznámenie o spätnom prevzatí, a to najmä preto, že sú tieto oznámenia zložito formulované alebo minimalizujú hroziace riziko. Oznámenie o spätnom prevzatí by preto malo byť jasné, transparentné, malo by jasne opisovať hroziace riziko a vyhýbať sa akýmkoľvek pojmom, výrazom alebo iným prvkom, ktoré by mohli znížiť vnímanie rizika spotrebiteľmi. Spotrebitelia by takisto mali mať možnosť získať v prípade potreby viac informácií na bezplatnom telefónnom čísle alebo prostredníctvom iného interaktívneho nástroja.
+(88)
+S cieľom povzbudiť spotrebiteľov k tomu, aby reagovali na spätné prevzatia, je rovnako dôležité, aby opatrenia, ktoré sa požadujú od spotrebiteľov, boli čo najjednoduchšie a aby ponúkané prostriedky nápravy boli účinné, bezplatné a včasné. Smernica Európskeho parlamentu a Rady (EÚ) 2019/771 (19) poskytuje spotrebiteľom zmluvné prostriedky nápravy v prípade nesúladu fyzického tovaru, ktorý existoval v čase dodania tovaru a ktorý sa prejavil v dobe zodpovednosti stanovenej členskými štátmi v súlade s článkom 10 ods. 3 uvedenej smernice. Článok 14 smernice Európskeho parlamentu a Rady (EÚ) 2019/770 (20) sa uplatňuje aj na hmotné nosiče, ako sú DVD, CD, USB kľúče a pamäťové karty, ktoré sa používajú na prenos digitálneho obsahu. Situácie, keď sa nebezpečné výrobky sťahujú z trhu, však odôvodňujú existenciu osobitného súboru pravidiel, ktoré by sa mali uplatňovať bez toho, aby boli dotknuté zmluvné prostriedky nápravy, pretože ich ciele sú odlišné. Zatiaľ čo zmluvné prostriedky nápravy slúžia na nápravu nesúladu tovaru so zmluvou, prostriedky nápravy v prípade spätného prevzatia slúžia na zabezpečenie odstránenia nebezpečných výrobkov z trhu, ako aj na primeranú nápravu pre spotrebiteľa. V dôsledku toho existujú veľké rozdiely medzi týmito dvoma súbormi možných prostriedkov nápravy: po prvé, v prípade spätného prevzatia výrobku podľa tohto nariadenia by nemalo existovať žiadne časové obmedzenie na aktiváciu prostriedkov nápravy; po druhé, spotrebiteľ by mal byť oprávnený požadovať nápravu od príslušného hospodárskeho subjektu, nie nevyhnutne od obchodníka. Okrem toho v prípade spätného prevzatia výrobku by spotrebiteľ nemal byť povinný preukazovať, že výrobok je nebezpečný.
+(89)
+Vzhľadom na rôzne ciele prostriedkov nápravy poskytovaných v prípade spätného prevzatia nebezpečného výrobku a prostriedkov nápravy v prípade nesúladu tovaru so zmluvou by spotrebitelia mali používať systém zodpovedajúci príslušnej situácii. Napríklad, ak spotrebiteľ dostane oznámenie o spätnom prevzatí výrobku s opisom prostriedkov nápravy, ktoré má spotrebiteľ k dispozícii, mal by konať podľa pokynov uvedených v oznámení o spätnom prevzatí výrobku. Napriek tomu by nemal byť zbavený možnosti požiadať predávajúceho o nápravu z dôvodu nesúladu nebezpečného tovaru so zmluvou.
+(90)
+Keď bola spotrebiteľovi poskytnutá náprava v nadväznosti na spätné prevzatie výrobku, spotrebiteľ by nemohol mať nárok na prostriedok nápravy za nesúlad tovaru so zmluvou z dôvodov súvisiacich so skutočnosťou, že výrobok bol nebezpečný, pretože nesúlad už neexistuje. Podobne v prípade, že sa spotrebiteľ dovoláva práva spotrebiteľa na prostriedok nápravy podľa smernice (EÚ) 2019/770 alebo smernice (EÚ) 2019/771, nemá nárok na prostriedok nápravy podľa tohto nariadenia v súvislosti s tým istým problémom s bezpečnosťou. Ak však nie sú splnené iné požiadavky na zhodu týkajúce sa toho istého tovaru, predávajúci by bol naďalej zodpovedný za takýto nesúlad tovaru so zmluvou, a to aj vtedy, ak by sa spotrebiteľovi poskytol prostriedok nápravy po spätnom prevzatí nebezpečného výrobku.
+(91)
+Hospodárske subjekty, ktoré iniciujú spätné prevzatie výrobku, by mali spotrebiteľom ponúknuť aspoň dve možnosti spomedzi opravy, výmeny alebo primeranej náhrady hodnoty výrobku, ktorý je spätne prevzatý, s výnimkou prípadov, keď je to nemožné alebo neprimerané. Ponúknutie možnosti výberu spotrebiteľom medzi prostriedkami nápravy môže zlepšiť účinnosť spätného prevzatia výrobku. Okrem toho by sa mali podporovať stimuly na motivovanie spotrebiteľov k účasti na spätnom prevzatí výrobku, ako sú zľavy alebo poukážky, s cieľom zvýšiť účinnosť spätného prevzatia výrobku. Oprava výrobku by sa mala považovať za možný prostriedok nápravy len vtedy, ak je možné zaistiť bezpečnosť opraveného výrobku. Výška náhrady by sa mala prinajmenšom rovnať cene, ktorú zaplatil spotrebiteľ, bez toho, aby bola dotknutá ďalšia náhrada ustanovená vo vnútroštátnych právnych predpisoch. Ak nie je k dispozícii žiadny dôkaz o zaplatenej cene, mala by sa poskytnúť primeraná náhrada hodnoty spätne prevzatého výrobku. V prípade spätného prevzatia hmotného nosiča digitálneho obsahu v zmysle článku 2 bodu 1 smernice (EÚ) 2019/770 by vrátená suma mala pokryť všetky sumy, ktoré spotrebiteľ zaplatil na základe zmluvy, ako sa stanovuje v článku 16 ods. 1 uvedenej smernice. Žiadnym prostriedkom nápravy by nemalo byť dotknuté právo spotrebiteľov na náhradu škody podľa vnútroštátneho práva.
+(92)
+Prostriedky nápravy ponúkané v prípade spätného prevzatia výrobku z dôvodu bezpečnosti by nemali nadmerne zaťažovať spotrebiteľov ani ich vystavovať riziku. Ak prostriedok nápravy zahŕňa aj likvidáciu spätne prevzatého výrobku, táto likvidácia by sa mala vykonať s náležitým zohľadnením cieľov v oblasti životného prostredia a udržateľnosti stanovených na úrovni Únie a na vnútroštátnej úrovni. Oprava spotrebiteľmi by sa okrem toho mala považovať za možný prostriedok nápravy len vtedy, ak ju spotrebiteľ môže ľahko a bezpečne vykonať, napríklad výmenou batérie alebo skrátením nadmerne dlhých sťahovacích šnúr na detskom odeve, ak sa tak stanovuje v oznámení o spätnom prevzatí. Opravou spotrebiteľmi by navyše nemali byť dotknuté práva spotrebiteľov podľa smerníc (EÚ) 2019/770 a (EÚ) 2019/771. Hospodárske subjekty by preto v takýchto situáciách nemali ukladať spotrebiteľom povinnosť opraviť nebezpečný výrobok.
+(93)
+Týmto nariadením by sa takisto mali nabádať hospodárske subjekty a prevádzkovatelia online trhov, aby uzatvárali dobrovoľné memorandá o porozumení s príslušnými orgánmi, Komisiou alebo organizáciami zastupujúcimi spotrebiteľov alebo hospodárske subjekty, s cieľom prijímať dobrovoľné záväzky týkajúce sa bezpečnosti výrobkov, ktoré presahujú právne povinnosti stanovené v práve Únie.
+(94)
+Spotrebitelia by mali byť oprávnení presadzovať svoje práva v súvislosti s povinnosťami uloženými hospodárskym subjektom alebo prevádzkovateľom online trhov podľa tohto nariadenia prostredníctvom žalôb v zastúpení v súlade so smernicou Európskeho parlamentu a Rady (EÚ) 2020/1828 (21). Na tento účel by sa v tomto nariadení malo stanoviť, že smernica (EÚ) 2020/1828 sa uplatňuje na žaloby v zastúpení týkajúce sa porušení tohto nariadenia, ktoré poškodzujú alebo môžu poškodiť kolektívne záujmy spotrebiteľov. Preto by sa mala zodpovedajúcim spôsobom zmeniť príloha I k uvedenej smernici. Je na členských štátoch, aby zabezpečili, aby sa uvedená zmena zohľadnila v ich transpozičných opatreniach prijatých v súlade s uvedenou smernicou, i keď prijatie vnútroštátnych transpozičných opatrení v tejto súvislosti nie je podmienkou uplatniteľnosti uvedenej smernice na uvedené žaloby v zastúpení. Uplatniteľnosť uvedenej smernice na žaloby v zastúpení podané vo veci porušení ustanovení tohto nariadenia, ktorých sa dopustili hospodárske subjekty alebo prevádzkovatelia online trhov a ktoré poškodzujú alebo môžu poškodiť kolektívne záujmy spotrebiteľov, by sa mala začať od dátumu začatia uplatňovania tohto nariadenia. Do uvedeného dátumu by spotrebitelia mali mať možnosť spoľahnúť sa na uplatniteľnosť smernice (EÚ) 2020/1828 v súlade s bodom 8 prílohy I k uvedenej smernici.
+(95)
+Únia by mala mať v rámci dohôd uzavretých medzi Úniou a tretími krajinami alebo medzinárodnými organizáciami alebo v rámci dohôd uzavretých medzi Komisiou a orgánmi tretích krajín alebo medzinárodnými organizáciami možnosť spolupracovať a vymieňať si informácie týkajúce sa bezpečnosti výrobkov s regulačnými orgánmi tretích krajín alebo medzinárodnými organizáciami, okrem iného s cieľom zabrániť obehu nebezpečných výrobkov na trhu. Takáto spolupráca a výmena informácií by mala rešpektovať pravidlá Únie v oblasti ochrany dôverných a osobných údajov. Osobné údaje by sa mali prenášať len v rozsahu, v akom je takáto výmena nevyhnutná výlučne na účely ochrany zdravia alebo bezpečnosti spotrebiteľov.
+(96)
+Systematická výmena informácií medzi Komisiou a tretími krajinami alebo medzinárodnými organizáciami o bezpečnosti spotrebných výrobkov a o preventívnych, reštriktívnych a nápravných opatreniach by mala byť založená na reciprocite, ktorá zahŕňa rovnocennú, ale nie nevyhnutne identickú výmenu informácií v záujme vzájomného prospechu. Výmena informácií s treťou krajinou vyrábajúcou tovar určený na trh Únie by mohla spočívať v tom, že Komisia zašle vybrané informácie zo systému rýchleho varovania Safety Gate týkajúce sa výrobkov pochádzajúcich z tejto tretej krajiny. Výmenou za to môže táto tretia krajina zaslať informácie o následných opatreniach prijatých na základe prijatých oznámení. Takáto spolupráca by mohla prispieť k cieľu, ktorým je zastavenie nebezpečných výrobkov pri zdroji a zabránenie ich vstupu na trh Únie.
+(97)
+Aby sa zaistil výrazný odrádzajúci účinok sankcií vo vzťahu k hospodárskym subjektom a prípadne prevádzkovateľom online trhov a zabránilo sa tak uvádzaniu nebezpečných výrobkov na trh, mali by byť sankcie primerané druhu porušenia, možnej výhode pre hospodársky subjekt alebo prevádzkovateľa online trhu a druhu a závažnosti ujmy, ktorú utrpel spotrebiteľ. Sankcie by mali byť účinné, primerané a odrádzajúce.
+(98)
+Pri ukladaní sankcií by sa mala náležite zohľadniť povaha, závažnosť a trvanie predmetného porušenia. Ukladanie sankcií by malo byť primerané a malo by byť v súlade s právom Únie a vnútroštátnym právom, ako aj s uplatniteľnými procesnými zárukami a so zásadami charty.
+(99)
+S cieľom zachovať vysokú úroveň zdravia a bezpečnosti spotrebiteľov by sa mala na Komisiu delegovať právomoc prijímať akty v súlade s článkom 290 ZFEÚ, pokiaľ ide o identifikáciu a vysledovateľnosť výrobkov, ktoré predstavujú potenciálne vážne riziko pre zdravie a bezpečnosť spotrebiteľov, a fungovanie systému rýchleho varovania Safety Gate, najmä pokiaľ ide o prijímanie spôsobov a postupov na výmenu informácií týkajúcich sa opatrení oznámených prostredníctvom systému rýchleho varovania Safety Gate a kritérií na posúdenie úrovne rizika. Je osobitne dôležité, aby Komisia počas prípravných prác uskutočnila príslušné konzultácie, a to aj na úrovni expertov, a aby tieto konzultácie vykonávala v súlade so zásadami stanovenými v Medziinštitucionálnej dohode z 13. apríla 2016 o lepšej tvorbe práva (22). Predovšetkým, v záujme rovnakého zastúpenia pri príprave delegovaných aktov, sa všetky dokumenty doručujú Európskemu parlamentu a Rade v rovnakom čase ako expertom z členských štátov, a experti Európskeho parlamentu a Rady majú systematický prístup na zasadnutia skupín expertov Komisie, ktoré sa zaoberajú prípravou delegovaných aktov.
+(100)
+Aby sa zabezpečili jednotné podmienky vykonávania tohto nariadenia, mali by sa na Komisiu preniesť vykonávacie právomoci, a to pokiaľ ide o prijatie osobitných požiadaviek na bezpečnosť, určenie ukazovateľov výstupov, na základe ktorých musia členské štáty oznamovať údaje týkajúce sa vykonávania tohto nariadenia; špecifikovanie úloh a funkcií jednotných vnútroštátnych kontaktných miest; prijatie opatrení týkajúcich sa krokov Únie proti výrobkom, ktoré predstavujú vážne riziko; stanovenie spôsobov zasielania informácií spotrebiteľmi v rámci portálu Safety Gate a špecifikovanie zavedenia interoperabilného rozhrania na portáli Safety Gate; stanovenie požiadaviek na registráciu výrobkov na účely spätného prevzatia výrobku z dôvodu bezpečnosti, ako aj pokiaľ ide o prijatie vzoru oznámenia o spätnom prevzatí. Uvedené právomoci by sa mali vykonávať v súlade s nariadením Európskeho parlamentu a Rady (EÚ) č. 182/2011 (23).
+(101)
+Komisia by mala okamžite prijať uplatniteľné vykonávacie akty, ak sa to vyžaduje na základe vážnych a naliehavých dôvodov v riadne odôvodnených prípadoch týkajúcich sa zdravia a ochrany spotrebiteľov.
+(102)
+Komisia by mala vykonať hodnotenie vykonávania sankcií stanovených v tomto nariadení, pokiaľ ide o ich účinnosť a odrádzajúci účinok, a v prípade potreby prijať legislatívny návrh v súvislosti s ich presadzovaním.
+(103)
+Určité ustanovenia nariadenia (EÚ) č. 1025/2012 by sa mali zmeniť s cieľom zohľadniť osobitosti tohto nariadenia, a najmä potrebu určiť osobitné požiadavky na bezpečnosť podľa tohto nariadenia pred predložením žiadosti európskej normalizačnej organizácii.
+(104)
+Smernica 87/357/EHS, ktorá sa vzťahuje na spotrebiteľské výrobky, ktoré sa podobajú potravinám, hoci potravinami nie sú, a mohli by sa za ne ľahko zameniť, v dôsledku čoho by ich spotrebitelia, najmä deti, mohli vkladať do úst, cmúľať alebo prehltnúť a ktoré by mohli spôsobiť napríklad dusenie, otravu, perforáciu či zablokovanie tráviaceho ústrojenstva, viedla ku kontroverznému výkladu. Okrem toho uvedená smernica bola prijatá v čase, keď bol právny rámec pre bezpečnosť spotrebiteľských výrobkov veľmi obmedzený. Z týchto dôvodov by sa smernica 87/357/EHS mala zrušiť a nahradiť týmto nariadením, najmä ustanoveniami tohto nariadenia, ktoré zabezpečujú, že po posúdení rizika sa za nebezpečné budú považovať výrobky, ktoré môžu byť škodlivé pri vkladaní do úst, cmúľaní alebo požití a výrobky, ktoré by sa z dôvodu ich formy, vône, farby, vzhľadu, balenia, označovania, objemu, veľkosti alebo iných vlastností mohli zameniť s potravinami. Pri hodnotení by orgány dohľadu nad trhom mali okrem iného zohľadniť, že – ako rozhodol Súdny dvor Európskej únie – nie je potrebné objektívnymi a podloženými údajmi preukazovať, že vkladanie do úst, cmúľanie alebo požitie výrobkov imitujúcich potraviny môže predstavovať riziká, ako je udusenie, otrava alebo perforácia či zablokovanie tráviaceho traktu. Príslušné vnútroštátne orgány by však mali v jednotlivých prípadoch posúdiť, či sú takéto výrobky nebezpečné, a toto posúdenie odôvodniť.
+(105)
+S cieľom poskytnúť hospodárskym subjektom a prevádzkovateľom online trhov dostatočný čas na prispôsobenie sa požiadavkám tohto nariadenia vrátane požiadaviek na informácie je potrebné stanoviť dostatočné prechodné obdobie po dátume nadobudnutia účinnosti tohto nariadenia, počas ktorého sa výrobky, na ktoré sa vzťahuje smernica 2001/95/ES a ktoré sú v súlade s uvedenou smernicou, môžu naďalej uvádzať na trh. Členské štáty by preto nemali brániť sprístupneniu takýchto výrobkov na trhu vrátane ponúk na predaj.
+(106)
+Keďže ciele tohto nariadenia, t. j. zlepšiť fungovanie vnútorného trhu a zároveň zabezpečiť vysokú úroveň ochrany spotrebiteľov, nemožno uspokojivo dosiahnuť na úrovni členských štátov vzhľadom na potrebu vysokého stupňa spolupráce a súdržnej činnosti medzi príslušnými orgánmi členských štátov a potrebu mechanizmu rýchlej a účinnej výmeny informácií o nebezpečných výrobkoch v Únii, ale z dôvodu celoúnijného charakteru problému ich možno lepšie dosiahnuť na úrovni Únie, môže Únia prijať opatrenia v súlade so zásadou subsidiarity podľa článku 5 Zmluvy o Európskej únii. V súlade so zásadou proporcionality podľa uvedeného článku toto nariadenie neprekračuje rámec nevyhnutný na dosiahnutie tohto cieľa.
+(107)
+Ak je na účely tohto nariadenia potrebné spracúvať osobné údaje, toto spracúvanie by sa malo vykonávať v súlade s právom Únie o ochrane osobných údajov. Na každé spracúvanie osobných údajov podľa tohto nariadenia sa vzťahujú nariadenia (EÚ) 2016/679 (24) a (EÚ) 2018/1725 (25) a prípadne smernica Európskeho parlamentu a Rady 2002/58/ES (26). Keď spotrebitelia nahlásia výrobok v portáli Safety Gate, mali by sa uložiť len tie osobné údaje, ktoré sú potrebné na nahlásenie nebezpečného výrobku, a to počas obdobia nepresahujúceho päť rokov od zapísania takýchto údajov do registra. Výrobcovia a dovozcovia by mali viesť register sťažností spotrebiteľov len dovtedy, kým je to potrebné na účely tohto nariadenia. Ak sú výrobcovia a dovozcovia fyzickými osobami, mali by zverejniť svoje mená, aby sa zabezpečilo, že spotrebiteľ je schopný identifikovať výrobok na účely vysledovateľnosti.
+(108)
+V súlade s článkom 42 nariadenia (EÚ) 2018/1725 sa konzultovalo s európskym dozorným úradníkom pre ochranu údajov,
+PRIJALI TOTO NARIADENIE:
+KAPITOLA I
+VŠEOBECNÉ USTANOVENIA
+Článok 1
+Cieľ a predmet úpravy
+1. Cieľom tohto nariadenia je zlepšiť fungovanie vnútorného trhu a zároveň zabezpečiť vysokú úroveň ochrany spotrebiteľov.
+2. Týmto nariadením sa stanovujú základné pravidlá bezpečnosti spotrebiteľských výrobkov uvedených na trh alebo sprístupnených na trhu.
+Článok 2
+Rozsah pôsobnosti
+1. Toto nariadenie sa uplatňuje na výrobky uvedené na trh alebo sprístupnené na trhu, pokiaľ podľa práva Únie, ktoré upravuje bezpečnosť dotknutých výrobkov, neexistujú osobitné ustanovenia s rovnakým cieľom.
+Ak výrobky podliehajú osobitným požiadavkám na bezpečnosť stanoveným v práve Únie, toto nariadenie sa vzťahuje iba na tie aspekty a riziká alebo kategórie rizík, ktoré nie sú zahrnuté do týchto požiadaviek.
+Pokiaľ ide o výrobky, na ktoré sa vzťahujú osobitné požiadavky stanovené v harmonizačných právnych predpisoch Únie vymedzených v článku 3 bode 27:
+a)
+kapitola II sa neuplatňuje v súvislosti s rizikami alebo kategóriami rizík, na ktoré sa vzťahujú harmonizačné právne predpisy Únie;
+b)
+oddiel 1 kapitoly III, kapitoly V a VII a kapitoly IX až XI sa neuplatňujú.
+2. Toto nariadenie sa neuplatňuje na:
+a)
+lieky na humánne použitie alebo na veterinárne použitie;
+b)
+potraviny;
+c)
+krmivá;
+d)
+živé rastliny a zvieratá, geneticky modifikované organizmy a geneticky modifikované mikroorganizmy v uzavretých priestoroch a ani na výrobky z rastlín a zvierat priamo sa vzťahujúce na ich budúce rozmnožovanie;
+e)
+vedľajšie živočíšne produkty a odvodené produkty;
+f)
+prípravky na ochranu rastlín;
+g)
+zariadenia, ktorými sa spotrebitelia prepravujú alebo ktorými cestujú, ak toto zariadenie priamo obsluhuje poskytovateľ služieb v rámci dopravnej služby poskytovanej spotrebiteľom a neobsluhujú ho samotní spotrebitelia;
+h)
+lietadlá uvedené v článku 2 ods. 3 písm. d) nariadenia (EÚ) 2018/1139;
+i)
+starožitnosti.
+3. Toto nariadenie sa uplatňuje na výrobky uvedené na trh alebo sprístupnené na trhu bez ohľadu na to, či sú nové, použité, opravené alebo obnovené. Neuplatňuje sa na výrobky, ktoré sa majú opraviť alebo obnoviť pred použitím, ak sú tieto výrobky uvedené na trh alebo sprístupnené na trhu a sú jasne označené ako také.
+4. Týmto nariadením nie sú dotknuté pravidlá stanovené v práve Únie o ochrane spotrebiteľa.
+5. Toto nariadenie sa vykonáva s náležitým ohľadom na zásadu predbežnej opatrnosti.
+Článok 3
+Vymedzenie pojmov
+Na účely tohto nariadenia sa uplatňuje toto vymedzenie pojmov:
+1.
+„výrobok“ je každý predmet, ktorý je alebo nie je prepojený s inými predmetmi, dodávaný alebo sprístupňovaný, či už za protihodnotu alebo nie, a to aj v súvislosti s poskytovaním služby, ktorý je určený pre spotrebiteľov alebo je pravdepodobné, že bude za racionálne predvídateľných podmienok použitý spotrebiteľmi, aj keď nie je pre nich určený;
+2.
+„bezpečný výrobok“ je akýkoľvek výrobok, ktorý za bežných alebo racionálne predvídateľných podmienok používania, vrátane skutočného trvania používania, nepredstavuje žiadne riziko alebo len minimálne riziká zlučiteľné s používaním výrobku, ktoré sa považujú za prijateľné a sú v súlade s vysokou úrovňou ochrany zdravia a bezpečnosti spotrebiteľov;
+3.
+„nebezpečný výrobok“ je akýkoľvek výrobok, ktorý nie je „bezpečným výrobkom“;
+4.
+„riziko“ je pravdepodobná miera výskytu nebezpečenstva spôsobujúceho poškodenie a stupeň závažnosti tohto poškodenia;
+5.
+„vážne riziko“ je riziko, pri ktorom sa na základe posúdenia rizika a s prihliadnutím na bežné a predvídateľné používanie výrobku usudzuje, že si vyžaduje rýchly zásah orgánov dohľadu nad trhom, vrátane prípadov, keď účinky rizika nie sú okamžité;
+6.
+„sprístupnenie na trhu“ je každá dodávka výrobku na distribúciu, spotrebu alebo používanie na trhu Únie v rámci obchodnej činnosti, či už za poplatok alebo bezplatne;
+7.
+„uvedenie na trh“ je prvé sprístupnenie výrobku na trhu Únie;
+8.
+„výrobca“ je každá fyzická alebo právnická osoba, ktorá vyrába výrobok alebo si výrobok dáva navrhnúť alebo vyrobiť a predáva ho pod menom alebo pod ochrannou známkou tejto osoby;
+9.
+„splnomocnený zástupca“ je akákoľvek fyzická alebo právnická osoba usadená v Únii, ktorá dostala od výrobcu písomné poverenie, aby v súvislosti s konkrétnymi úlohami týkajúcimi sa povinností výrobcu podľa tohto nariadenia konala v mene tohto výrobcu;
+10.
+„dovozca“ je každá fyzická alebo právnická osoba usadená v Únii, ktorá uvádza na trh Únie výrobok z tretej krajiny;
+11.
+„distribútor“ je každá fyzická alebo právnická osoba v dodávateľskom reťazci okrem výrobcu alebo dovozcu, ktorá sprístupňuje výrobok na trhu;
+12.
+„poskytovateľ logistických služieb“ je každá fyzická alebo právnická osoba, ktorá v rámci obchodnej činnosti ponúka aspoň dve z týchto služieb: skladovanie, balenie, adresovanie a odosielanie bez vlastníctva príslušných výrobkov okrem poštových služieb vymedzených v článku 2 bode 1 smernice Európskeho parlamentu a Rady 97/67/ES (27), služieb dodávania balíkov vymedzených v článku 2 bode 2 nariadenia Európskeho parlamentu a Rady (EÚ) 2018/644 (28) a akýchkoľvek iných poštových služieb alebo služieb nákladnej dopravy;
+13.
+„hospodársky subjekt“ je výrobca, splnomocnený zástupca, dovozca, distribútor, poskytovateľ logistických služieb alebo akákoľvek iná fyzická alebo právnická osoba, ktorá podlieha povinnostiam súvisiacim s výrobou výrobkov alebo s ich sprístupňovaním na trhu v súlade s týmto nariadením;
+14.
+„prevádzkovateľ online trhu“ je poskytovateľ sprostredkovateľskej služby používajúci online rozhranie, ktoré spotrebiteľom umožňuje uzatvárať zmluvy na diaľku s obchodníkmi o predaji výrobkov;
+15.
+„online rozhranie“ je akýkoľvek softvér vrátane webového sídla, časti webového sídla alebo aplikácie vrátane mobilných aplikácií;
+16.
+„zmluva uzavretá na diaľku“ je zmluva uzavretá na diaľku vymedzená v článku 2 bode 7 smernice 2011/83/EÚ;
+17.
+„spotrebiteľ“ je akákoľvek fyzická osoba, ktorá koná na účely, ktoré sa netýkajú jej obchodnej činnosti, podnikateľskej činnosti, remesla alebo povolania;
+18.
+„obchodník“ je akákoľvek fyzická osoba alebo právnická osoba bez ohľadu na to, či je v súkromnom alebo vo verejnom vlastníctve, ktorá koná, a to aj prostredníctvom inej osoby konajúcej v mene tejto fyzickej alebo právnickej osoby alebo na účet tejto fyzickej alebo právnickej osoby, na účely súvisiace s obchodnou, podnikateľskou, remeselnou alebo profesijnou činnosťou fyzickej alebo právnickej osoby;
+19.
+„európska norma“ je európska norma vymedzená v článku 2 bodu 1 písm. b) nariadenia (EÚ) č. 1025/2012;
+20.
+„medzinárodná norma“ je medzinárodná norma vymedzená v článku 2 bodu 1 písm. a) nariadenia (EÚ) č. 1025/2012;
+21.
+„národná norma“ je národná norma vymedzená v článku 2 bodu 1 písm. d) nariadenia (EÚ) č. 1025/2012;
+22.
+„európska normalizačná organizácia“ je európska normalizačná organizácia uvedená v prílohe I k nariadeniu (EÚ) č. 1025/2012;
+23.
+„dohľad nad trhom“ je činnosť vykonávaná orgánmi dohľadu nad trhom a opatrenia nimi prijímané na zabezpečenie toho, aby boli výrobky v súlade s požiadavkami stanovenými v tomto nariadení;
+24.
+„orgán dohľadu nad trhom“ je orgán určený členským štátom podľa článku 10 nariadenia (EÚ) 2019/1020 ako orgán zodpovedný za organizovanie a vykonávanie dohľadu nad trhom na území daného členského štátu;
+25.
+„spätné prevzatie“ je každé opatrenie zamerané na dosiahnutie vrátenia výrobku, ktorý sa už sprístupnil spotrebiteľovi;
+26.
+„stiahnutie“ je každé opatrenie, ktorého cieľom je zabrániť tomu, aby bol výrobok, ktorý je v dodávateľskom reťazci, sprístupnený na trhu;
+27.
+„harmonizačné právne predpisy Únie“ sú právne predpisy Únie uvedené v prílohe I k nariadeniu (EÚ) 2019/1020 a akékoľvek iné právne predpisy Únie, ktorými sa harmonizujú podmienky uvádzania výrobkov, na ktoré sa uvedené nariadenie vzťahuje, na trh;
+28.
+„starožitnosti“ sú výrobky, ako sú zberateľské predmety alebo umelecké diela, v súvislosti s ktorými spotrebitelia nemôžu odôvodnene očakávať, že spĺňajú najmodernejšie bezpečnostné normy.
+Článok 4
+Predaj na diaľku
+Výrobky ponúkané na predaj online alebo prostredníctvom iných prostriedkov predaja na diaľku sa považujú za sprístupnené na trhu, ak je ponuka zacielená na spotrebiteľov v Únii. Ponuka na predaj sa považuje za zacielenú na spotrebiteľov v Únii, ak príslušný hospodársky subjekt akýmkoľvek spôsobom smeruje svoju činnosť do jedného členského štátu alebo viacerých členských štátov.
+KAPITOLA II
+POŽIADAVKY NA BEZPEČNOSŤ
+Článok 5
+Všeobecné požiadavky na bezpečnosť
+Hospodárske subjekty uvádzajú na trh alebo sprístupňujú na trhu len bezpečné výrobky.
+Článok 6
+Aspekty posudzovania bezpečnosti výrobkov
+1. Pri posudzovaní toho, či je výrobok bezpečný, sa zohľadňujú najmä tieto aspekty:
+a)
+vlastnosti výrobku vrátane jeho dizajnu, technických prvkov, zloženia, balenia, návodu na montáž a prípadne inštaláciu, používanie a údržbu;
+b)
+vplyv na iné výrobky, ak možno racionálne predpokladať, že výrobok sa bude používať s inými výrobkami, vrátane vzájomného prepojenia týchto výrobkov;
+c)
+vplyv, ktorý môžu mať iné výrobky na výrobok, ktorý sa má posúdiť, ak možno racionálne predpokladať, že tento výrobok sa bude používať s inými výrobkami, vrátane vplyvu nezabudovaných predmetov, ktoré majú určiť, zmeniť alebo doplniť spôsob, akým výrobok, ktorý sa má posúdiť, funguje, čo sa musí zohľadniť pri posudzovaní bezpečnosti výrobku, ktorý sa má posúdiť;
+d)
+prezentácia výrobku, označenie vrátane označenia vekovej vhodnosti pre deti, všetky varovania a návody na jeho bezpečné používanie a bezpečnú likvidáciu a všetky ostatné označenia alebo informácie týkajúce sa výrobku;
+e)
+kategórie spotrebiteľov používajúcich výrobok, najmä posúdením rizika pre zraniteľných spotrebiteľov, ako sú deti, starší ľudia a osoby so zdravotným postihnutím, ako aj vplyvu rodových rozdielov na zdravie a bezpečnosť;
+f)
+vzhľad výrobku, ak je pravdepodobné, že bude viesť spotrebiteľov k používaniu výrobku spôsobom odlišným od toho, na čo bol určený, a najmä:
+i)
+ak sa výrobok podobá potravine, hoci potravinou nie je, a mohol by sa ľahko zameniť s potravinou z dôvodu svojej formy, vône, farby, vzhľadu, obalu, označenia, objemu, rozmerov alebo iných vlastností, a preto by si ho spotrebitelia, najmä deti, mohli vložiť do úst, cmúľať alebo požiť;
+ii)
+ak je pravdepodobné, že výrobok, i keď nie je navrhnutý alebo určený na používanie deťmi, budú používať deti, alebo pripomína predmet, ktorý sa všeobecne považuje za lákavý pre deti alebo ktorý je určený na používanie deťmi, a to z dôvodu jeho vzhľadu, balenia alebo vlastností;
+g)
+ak si to vyžaduje povaha výrobku, vhodné kyberneticko-bezpečnostné prvky potrebné na ochranu výrobku pred vonkajšími vplyvmi vrátane škodlivých zámerov tretích strán, ak by takýto vplyv mohol mať dosah na bezpečnosť výrobku vrátane možnej straty prepojenia;
+h)
+ak si to vyžaduje povaha výrobku, funkcie výrobku týkajúce sa vývoja, učenia a predikcie.
+2. Možnosť dosiahnutia vyššej úrovne bezpečnosti alebo dostupnosť iných výrobkov predstavujúcich menší stupeň ohrozenia nie je dostatočným dôvodom na to, aby sa výrobok považoval za nebezpečný výrobok.
+Článok 7
+Predpoklad zhody so všeobecnou požiadavkou na bezpečnosť
+1. Na účely tohto nariadenia sa výrobok pokladá za výrobok, ktorý je v zhode so všeobecnou požiadavkou na bezpečnosť stanovenou v článku 5 tohto nariadenia v týchto prípadoch:
+a)
+je v zhode s príslušnými európskymi normami alebo ich časťami, pokiaľ ide o zahrnuté riziká a kategórie rizík podľa týchto noriem, na ktoré boli v súlade s článkom 10 ods. 7 nariadenia (EÚ) č. 1025/2012 uverejnené odkazy v Úradnom vestníku Európskej únie; alebo
+b)
+ak neexistujú žiadne príslušné európske normy uvedené v písmene a) tohto odseku, výrobok je v zhode s vnútroštátnymi požiadavkami, pokiaľ ide o riziká a kategórie rizík, na ktoré sa vzťahujú požiadavky na bezpečnosť a ochranu zdravia stanovené vo vnútroštátnom práve členského štátu, v ktorom sa výrobok sprístupňuje na trhu, za predpokladu, že takéto právo je v súlade s právom Únie.
+2. Komisia prijme vykonávacie akty určujúce osobitné požiadavky na bezpečnosť, na ktoré sa majú vzťahovať európske normy, s cieľom zaistiť, aby výrobky, ktoré sú v zhode s týmito európskymi normami, spĺňali všeobecnú požiadavku na bezpečnosť stanovenú v článku 5. Uvedené vykonávacie akty sa prijmú v súlade s postupom preskúmania uvedeným v článku 46 ods. 3
+3. Predpoklad zhody so všeobecnou požiadavkou na bezpečnosť podľa odseku 1 však nebráni orgánom dohľadu nad trhom prijať všetky primerané opatrenia podľa tohto nariadenia, ak existuje dôkaz, že napriek tomuto predpokladu je výrobok nebezpečný.
+Článok 8
+Dodatočné prvky, ktoré sa majú zohľadňovať pri posudzovaní bezpečnosti výrobkov
+1. Na účely článku 6 a v prípadoch, keď sa neuplatňuje predpoklad bezpečnosti podľa článku 7, sa pri posudzovaní toho, či je výrobok bezpečný, zohľadňujú najmä tieto prvky, ak sú k dispozícii:
+a)
+európske normy iné, ako sú normy, na ktoré boli uverejnené odkazy v Úradnom vestníku Európskej únie v súlade s článkom 10 ods. 7 nariadenia (EÚ) č. 1025/2012;
+b)
+medzinárodné normy;
+c)
+medzinárodné dohody;
+d)
+systémy dobrovoľnej certifikácie alebo podobné rámce tretích strán na posudzovanie zhody, najmä tie, ktoré sú určené na podporu práva Únie;
+e)
+odporúčania alebo usmernenia Komisie týkajúce sa posudzovania bezpečnosti výrobkov;
+f)
+národné normy vypracované členskými štátmi, v ktorých sa výrobok sprístupňuje;
+g)
+najnovšie poznatky a technológie vrátane stanoviska uznávaných vedeckých orgánov a odborných výborov;
+h)
+zásady správnej praxe pre bezpečnosť výrobkov platné v príslušnom odvetví;
+i)
+racionálne očakávania spotrebiteľa týkajúce sa bezpečnosti;
+j)
+požiadavky na bezpečnosť prijaté v súlade s článkom 7 ods. 2
+KAPITOLA III
+POVINNOSTI HOSPODÁRSKYCH SUBJEKTOV
+Oddiel 1
+Článok 9
+Povinnosti výrobcov
+1. Výrobcovia pri uvádzaní svojich výrobkov na trh zabezpečia, aby boli tieto výrobky navrhnuté a vyrobené v súlade so všeobecnou požiadavkou na bezpečnosť stanovenou v článku 5.
+2. Pred uvedením svojich výrobkov na trh výrobcovia vykonajú internú analýzu rizík a vypracujú technickú dokumentáciu obsahujúcu aspoň všeobecný opis výrobku a jeho najdôležitejších vlastností relevantných pre posúdenie jeho bezpečnosti.
+Ak je to vhodné vzhľadom na možné riziká súvisiace s výrobkom, technická dokumentácia uvedená v prvom pododseku obsahuje podľa potreby aj:
+a)
+analýzu možných rizík súvisiacich s výrobkom a riešení prijatých na odstránenie alebo zmiernenie takýchto rizík vrátane výsledkov všetkých správ týkajúcich sa skúšok vykonaných výrobcom alebo inou stranou v jeho mene; a
+b)
+zoznam všetkých príslušných európskych noriem uvedených v článku 7 ods. 1 písm. a) alebo iných prvkov uvedených v článku 7 ods. 1 písm. b) alebo článku 8, ktoré sa uplatňujú na účely splnenia všeobecnej požiadavky na bezpečnosť stanovenej v článku 5.
+Ak sa ktorákoľvek z európskych noriem, požiadaviek na bezpečnosť a ochranu zdravia alebo ktorýkoľvek z prvkov uvedených v článku 7 ods. 1 alebo článku 8 uplatňuje len čiastočne, výrobcovia uvedú časti, ktoré sa uplatnili.
+3. Výrobcovia zabezpečia, aby technická dokumentácia uvedená v odseku 2 bola aktuálna. Výrobcovia uchovávajú uvedenú dokumentáciu k dispozícii pre orgány dohľadu nad trhom po dobu desiatich rokov po tom, ako uviedli výrobok na trh, a na požiadanie ju sprístupňujú týmto orgánom.
+4. Výrobcovia zabezpečia, aby boli zavedené postupy na zachovanie zhody sériovo vyrábaných výrobkov so všeobecnou požiadavkou na bezpečnosť stanovenou v článku 5.
+5. Výrobcovia zabezpečia, aby bolo na ich výrobkoch uvedené typové číslo, číslo šarže alebo sériové číslo, alebo iný údaj, ktorý umožňuje identifikáciu výrobku a ktorý je pre spotrebiteľa dobre viditeľný a čitateľný, a tam, kde to rozmer a povaha výrobku neumožňujú, aby sa požadované informácie uvádzali na obale alebo v sprievodnej dokumentácii výrobku.
+6. Výrobcovia uvedú svoje meno, registrované obchodné meno alebo registrovanú ochrannú známku, svoju poštovú a elektronickú adresu a, ak je odlišná, poštovú alebo elektronickú adresu jednotného kontaktného miesta, na ktorom ich možno kontaktovať. Tieto informácie sa umiestnia na výrobku alebo, ak to nie je možné, na jeho obale alebo v sprievodnej dokumentácii výrobku.
+7. Výrobcovia zabezpečia, aby k ich výrobku boli priložené jasné návody na použitie a bezpečnostné pokyny v jazyku, ktorý je pre spotrebiteľov ľahko zrozumiteľný, podľa určenia členského štátu, v ktorom sa výrobok sprístupňuje na trhu. Uvedená požiadavka sa neuplatňuje, ak sa výrobok môže používať bezpečne a podľa určenia výrobcu bez takýchto návodov na použitie a bezpečnostných pokynov.
+8. Ak sa výrobca na základe informácií, ktoré má k dispozícii domnieva alebo má dôvod sa domnievať, že výrobok, ktorý uviedol na trh je nebezpečným výrobkom, výrobca bezodkladne:
+a)
+prijme nápravné opatrenia potrebné na účinné uvedenie výrobku do zhody, podľa potreby vrátane stiahnutia alebo spätného prevzatia;
+b)
+informuje o tom spotrebiteľov v súlade s článkom 35 alebo článkom36 alebo oboma; a
+c)
+informuje o tom prostredníctvom Safety Business Gateway orgány dohľadu nad trhom členských štátov, v ktorých bol výrobok sprístupnený na trhu.
+Na účely prvého pododseku písm. b) a c) výrobca uvedie podrobné údaje najmä o riziku pre zdravie a bezpečnosť spotrebiteľov a o každom už prijatom nápravnom opatrení a, ak je údaj k dispozícii, o množstve výrobkov, ktoré sú stále v obehu na trhu, podľa jednotlivých členských štátov.
+9. Komisia zabezpečí, aby výrobcovia mohli poskytovať informácie určené na varovanie spotrebiteľov prostredníctvom Safety Business Gateway a aby sa spotrebiteľom bez zbytočného odkladu sprístupnili na portáli Safety Gate.
+10. Výrobcovia zabezpečia, aby ostatné hospodárske subjekty, zodpovedné osoby a prevádzkovatelia online trhov v dotknutom dodávateľskom reťazci boli včas informovaní o všetkých bezpečnostných problémoch, ktoré zistili.
+11. Výrobcovia zverejnia komunikačné kanály, napríklad telefónne číslo, elektronickú adresu alebo vyhradenú časť svojho webového sídla, pričom zohľadnia potreby prístupnosti pre osoby so zdravotným postihnutím, ktoré umožňujú spotrebiteľom podávať sťažnosti a informovať výrobcov o akejkoľvek nehode alebo akomkoľvek probléme s bezpečnosťou, s ktorými sa v súvislosti s výrobkom stretli.
+12. Výrobcovia vyšetria prijaté sťažnosti a získané informácie o nehodách, ktoré sa týkajú bezpečnosti výrobkov, ktoré sprístupnili na trhu a ktoré sťažovateľ označil za nebezpečné, a vedú interný register uvedených sťažností, ako aj spätne prevzatých výrobkov a akýchkoľvek nápravných opatrení prijatých s cieľom dosiahnuť zhodu výrobku.
+13. V internom registri sťažností sa uchovávajú len tie osobné údaje, ktoré sú potrebné na to, aby výrobca vyšetril sťažnosť týkajúcu sa údajne nebezpečného výrobku. Takéto údaje sa uchovávajú len tak dlho, ako je potrebné na účely vyšetrovania, a v žiadnom prípade nie dlhšie ako päť rokov po ich zápise do registra.
+Článok 10
+Povinnosti splnomocnených zástupcov
+1. Výrobca môže písomným splnomocnením vymenovať splnomocneného zástupcu.
+2. Splnomocnený zástupca vykonáva úlohy uvedené v splnomocnení od výrobcu. Splnomocnený zástupca poskytne orgánu dohľadu nad trhom na požiadanie kópiu uvedeného splnomocnenia. Splnomocnenie musí splnomocnenému zástupcovi umožňovať plniť prinajmenšom tieto úlohy:
+a)
+poskytovať orgánu dohľadu nad trhom na odôvodnenú žiadosť tohto orgánu všetky informácie a dokumentáciu potrebné na preukázanie bezpečnosti výrobku, a to v úradnom jazyku, ktorému tento orgán rozumie;
+b)
+ak sa splnomocnený zástupca domnieva alebo má dôvod domnievať sa, že predmetný výrobok je nebezpečný, informovať o tom výrobcu;
+c)
+informovať príslušné vnútroštátne orgány o každom opatrení prijatom na odstránenie rizík, ktoré predstavujú výrobky, na ktoré sa vzťahuje splnomocnenie, prostredníctvom oznámenia na Safety Business Gateway, ak informácie ešte neposkytol výrobca, alebo na pokyn výrobcu;
+d)
+na žiadosť príslušných vnútroštátnych orgánov s nimi spolupracovať v súvislosti s akýmkoľvek opatrením prijatým na účinné odstránenie rizík, ktoré predstavujú výrobky, na ktoré sa vzťahuje jeho splnomocnenie.
+Článok 11
+Povinnosti dovozcov
+1. Pred uvedením výrobku na trh dovozcovia zabezpečia, aby výrobok spĺňal všeobecnú požiadavku na bezpečnosť stanovenú v článku 5 a aby výrobca spĺňal požiadavky stanovené v článku 9 ods. 2, 5 a 6.
+2. Ak sa dovozca na základe informácií, ktoré má k dispozícii, domnieva alebo má dôvod sa domnievať, že výrobok nie je v zhode s článkom 5 a článkom 9 ods. 2, 5 a 6, neuvedie výrobok na trh, kým sa výrobok neuvedie do zhody. V prípade, že výrobok je nebezpečný, dovozca o tom bezodkladne informuje výrobcu a zabezpečí, aby o tom boli informované orgány dohľadu nad trhom prostredníctvom Safety Business Gateway.
+3. Dovozcovia uvedú svoje meno, registrované obchodné meno alebo registrovanú ochrannú známku, svoju poštovú a elektronickú adresu a, ak je odlišná, poštovú alebo elektronickú adresu jednotného kontaktného miesta, na ktorom ich možno kontaktovať. Tieto informácie sa umiestnia na výrobku alebo, ak to nie je možné, na jeho obale alebo v sprievodnej dokumentácii výrobku. Dovozcovia sa ubezpečia, že žiadne informácie vyžadované právom Únie uvedené na označení, ktoré poskytol výrobca, nie sú prekryté iným, dodatočným označením.
+4. Dovozcovia zabezpečia, aby boli k výrobku, ktorý dovážajú, priložené jasné návody na použitie a bezpečnostné pokyny v jazyku, ktorý je pre spotrebiteľov ľahko zrozumiteľný, podľa určenia členského štátu, v ktorom sa výrobok sprístupňuje na trhu, s výnimkou prípadov, keď sa výrobok môže používať bezpečne a podľa určenia výrobcu bez takýchto návodov na použitie a bezpečnostných pokynov.
+5. Dovozcovia zabezpečia, aby v čase, keď nesú za výrobok zodpovednosť, podmienky jeho uskladnenia alebo prepravy neohrozovali jeho zhodu so všeobecnou požiadavkou na bezpečnosť stanovenou v článku 5, ani jeho zhodu s článkom 9 ods. 5 a 6.
+6. Dovozcovia uchovávajú kópiu technickej dokumentácie uvedenej v článku 9 ods. 2 k dispozícii pre orgány dohľadu nad trhom po dobu 10 rokov po tom, ako uviedli výrobok na trh, a zabezpečia, aby sa týmto orgánom na požiadanie mohli podľa potreby sprístupniť dokumenty uvedené v článku 9 ods. 2
+7. Dovozcovia spolupracujú s orgánmi dohľadu nad trhom a výrobcom s cieľom zaistiť, že výrobok je bezpečný.
+8. Ak sa dovozca na základe informácií, ktoré má k dispozícii, domnieva alebo má dôvod sa domnievať, že výrobok, ktorý uviedol na trh, je nebezpečným výrobkom, dovozca bezodkladne:
+a)
+informuje o tom výrobcu;
+b)
+zabezpečí, aby boli prijaté nápravné opatrenia potrebné na účinné uvedenie výrobku do zhody, podľa potreby vrátane stiahnutia alebo spätného prevzatia; ak takéto opatrenia neboli prijaté, dovozca ich bezodkladne prijme;
+c)
+zabezpečí, aby spotrebitelia o tom boli bezodkladne informovaní v súlade s článkom 35 alebo článkom36 alebo oboma; a
+d)
+informuje o tom orgány dohľadu nad trhom členských štátov, v ktorých bol výrobok sprístupnený na trhu, prostredníctvom Safety Business Gateway.
+Na účely prvého pododseku písm. c) a d) dovozca uvedie podrobné údaje najmä o riziku pre zdravie a bezpečnosť spotrebiteľov a o každom už prijatom nápravnom opatrení a, ak je údaj k dispozícii, o množstve výrobkov, ktoré sú stále v obehu na trhu, podľa jednotlivých členských štátov.
+9. Dovozcovia overia, či sú spotrebiteľom verejne k dispozícii komunikačné kanály uvedené v článku 9 ods. 11, ktoré im umožňujú podávať sťažnosti a oznamovať akúkoľvek nehodu alebo problém s bezpečnosťou, s ktorým sa v súvislosti s výrobkom stretli. Ak takéto kanály nie sú k dispozícii, dovozcovia ich zriadia, pričom zohľadnia potreby prístupnosti pre osoby so zdravotným postihnutím.
+10. Dovozcovia vyšetria prijaté sťažnosti a získané informácie o nehodách týkajúce sa bezpečnosti výrobkov, ktoré sprístupnili na trhu a ktoré sťažovateľ označil za nebezpečné, a uvedené sťažnosti, ako aj spätne prevzaté výrobky a akékoľvek nápravné opatrenia prijaté s cieľom dosiahnuť zhodu výrobku zaevidujú do registra uvedeného v článku 9 ods. 12 alebo do svojho vlastného interného registra. Dovozcovia včas informujú výrobcu, distribútorov a prípadne poskytovateľov logistických služieb a prevádzkovateľov online trhov o vykonanom vyšetrovaní a o výsledkoch vyšetrovania.
+11. V registri sťažností sa uchovávajú len tie osobné údaje, ktoré sú potrebné na to, aby dovozca vyšetril sťažnosť týkajúcu sa údajne nebezpečného výrobku. Takéto údaje sa uchovávajú len tak dlho, ako je potrebné na účely vyšetrovania, a v žiadnom prípade nie dlhšie ako päť rokov po ich zápise do registra.
+Článok 12
+Povinnosti distribútorov
+1. Pred sprístupnením výrobku na trhu distribútori overia, že výrobca a prípadne dovozca splnili požiadavky stanovené v článku 9 ods. 5, 6, a 7 a prípadne v článku 11 ods. 3 a 4.
+2. Distribútori zabezpečia, aby v čase, keď nesú za výrobok zodpovednosť, podmienky jeho uskladnenia alebo prepravy neohrozovali jeho zhodu so všeobecnou požiadavkou na bezpečnosť stanovenou v článku 5, ani jeho zhodu s článkom 9 ods. 5, 6 a 7 a prípadne článkom 11 ods. 3 a 4.
+3. Ak sa distribútor na základe informácií, ktoré má k dispozícii, domnieva alebo má dôvod sa domnievať, že výrobok nie je v zhode s článkom 5, článkom 9 ods. 5, 6 a 7 a prípadne článkom 11 ods. 3 a 4, distribútor nesprístupní výrobok na trhu, pokiaľ sa výrobok neuvedie do zhody.
+4. Ak sa distribútor na základe informácií, ktoré má k dispozícii, domnieva alebo má dôvod sa domnievať, že výrobok, ktorý sprístupnil na trhu, je nebezpečným výrobkom alebo nie je v zhode s článkom 9 ods. 5, 6 a 7 a prípadne článkom 11 ods. 3 a 4:
+a)
+bezodkladne o tom informuje výrobcu alebo prípadne dovozcu;
+b)
+zabezpečí, aby boli prijaté nápravné opatrenia potrebné na účinné uvedenie výrobku do zhody, podľa potreby vrátane stiahnutia alebo spätného prevzatia; a
+c)
+zabezpečí, aby o tom boli bezodkladne informované orgány dohľadu nad trhom členských štátov, v ktorých bol výrobok sprístupnený na trhu, prostredníctvom Safety Business Gateway.
+Na účely prvého pododseku písm. b) a c) distribútor poskytne primerané podrobné údaje, ktoré sú k dispozícii, o riziku pre zdravie a bezpečnosť spotrebiteľov, o počte dotknutých výrobkov a o akýchkoľvek už prijatých nápravných opatreniach.
+Článok 13
+Prípady, v ktorých sa povinnosti výrobcov vzťahujú na iné osoby
+1. Fyzická alebo právnická osoba sa považuje za výrobcu na účely tohto nariadenia a vzťahujú sa na ňu povinnosti výrobcu stanovené v článku 9, ak táto fyzická alebo právnická osoba uvádza výrobok na trh pod menom alebo ochrannou známkou tejto fyzickej alebo právnickej osoby.
+2. Fyzická alebo právnická osoba iná ako výrobca, ktorá výrobok podstatne upravuje, sa na účely tohto nariadenia považuje za výrobcu a vzťahujú sa na ňu povinnosti výrobcu stanovené v článku 9, pokiaľ ide o tú časť výrobku, ktorej sa úprava týka, alebo pokiaľ ide o celý výrobok, ak má podstatná úprava vplyv na jeho bezpečnosť.
+3. Úprava výrobku fyzickými alebo digitálnymi prostriedkami sa považuje za podstatnú, ak má vplyv na bezpečnosť výrobku a ak sú splnené tieto kritériá:
+a)
+úprava mení výrobok spôsobom, s ktorým sa pri pôvodnom posudzovaní rizika výrobku nepočítalo;
+b)
+v dôsledku úpravy sa zmenila povaha nebezpečenstva, vzniklo nové nebezpečenstvo alebo sa zvýšila úroveň rizika a
+c)
+úpravy neboli vykonané samotnými spotrebiteľmi alebo v ich mene na ich vlastné použitie.
+Článok 14
+Vnútorné procesy v oblasti bezpečnosti výrobkov
+Hospodárske subjekty zabezpečia, aby mali zavedené vnútorné procesy v oblasti bezpečnosti výrobkov, ktoré im umožnia dodržiavať príslušné požiadavky tohto nariadenia.
+Článok 15
+Spolupráca hospodárskych subjektov s orgánmi dohľadu nad trhom
+1. Hospodárske subjekty spolupracujú s orgánmi dohľadu nad trhom pri prijímaní opatrení, ktoré by mohli odstrániť alebo zmierniť riziká, ktoré predstavujú výrobky, ktoré sprístupnili na trhu.
+2. Hospodársky subjekt poskytne na žiadosť orgánu dohľadu nad trhom všetky potrebné informácie, najmä:
+a)
+úplný opis rizika, ktoré daný výrobok predstavuje, súvisiacich sťažností a známych nehôd a
+b)
+opis každého nápravného opatrenia prijatého na riešenie daného rizika.
+3. Hospodárske subjekty na požiadanie takisto identifikujú a oznámia tieto relevantné informácie týkajúce sa vysledovateľnosti výrobku:
+a)
+každý hospodársky subjekt, ktorý im dodal výrobok alebo časť, komponent alebo softvér zabudovaný do výrobku a
+b)
+každý hospodársky subjekt, ktorému výrobok dodali.
+4. Hospodárske subjekty musia byť schopné predložiť informácie uvedené v odseku 2 počas desiatich rokov po tom, čo im bol výrobok dodaný, alebo prípadne po tom, čo výrobok dodali.
+5. Hospodárske subjekty musia byť schopné predložiť informácie uvedené v odseku 3 počas šiestich rokov po tom, čo im bol dodaný výrobok alebo časť, komponent alebo akýkoľvek softvér zabudovaný do výrobku, alebo prípadne po tom, čo výrobok dodali.
+6. Orgány dohľadu nad trhom môžu požiadať hospodárske subjekty, aby predkladali pravidelné správy o pokroku, a môžu rozhodnúť o tom, či alebo kedy sa môže nápravné opatrenie považovať za ukončené.
+Článok 16
+Zodpovedná osoba v prípade výrobkov uvádzaných na trh Únie
+1. Výrobok, na ktorý sa vzťahuje toto nariadenie, sa neuvedie na trh, pokiaľ nie je v Únii usadený hospodársky subjekt, ktorý je zodpovedný za úlohy stanovené v článku 4 ods. 3 nariadenia (EÚ) 2019/1020 v súvislosti s daným výrobkom. Článok 4 ods. 2 a 3 uvedeného nariadenia sa uplatňuje na výrobky, na ktoré sa vzťahuje toto nariadenie. Na účely tohto nariadenia sa odkazy na „harmonizačné právne predpisy Únie“ a „uplatniteľné harmonizačné právne predpisy Únie“ v článku 4 ods. 3 uvedeného nariadenia považujú za odkazy na „toto nariadenie“.
+2. Bez toho, aby boli dotknuté akékoľvek povinnosti hospodárskych subjektov podľa tohto nariadenia, hospodársky subjekt uvedený v odseku 1 tohto článku okrem úloh uvedených v článku 4 ods. 3 nariadenia (EÚ) 2019/1020 a s cieľom zaistiť bezpečnosť výrobku, za ktorý je zodpovedný, ak je to vhodné vzhľadom na možné riziká súvisiace s výrobkom, pravidelne kontroluje:
+a)
+či je výrobok v súlade s technickou dokumentáciou uvedenou v článku 9 ods. 2 tohto nariadenia;
+b)
+či výrobok spĺňa požiadavky stanovené v článku 9 ods. 5, 6 a 7 tohto nariadenia.
+Hospodársky subjekt uvedený v odseku 1 tohto článku poskytne na žiadosť orgánov dohľadu nad trhom zdokumentované dôkazy o vykonaných kontrolách.
+3. Meno, registrované obchodné meno alebo registrovaná ochranná známka a kontaktné údaje vrátane poštovej a elektronickej adresy hospodárskeho subjektu uvedeného v odseku 1 sa uvádzajú na výrobku alebo na jeho obale, na balíku alebo v sprievodnom dokumente.
+Článok 17
+Informácie pre hospodárske subjekty
+1. Komisia bezplatne poskytne hospodárskym subjektom všeobecné informácie týkajúce sa tohto nariadenia.
+2. Členské štáty poskytnú hospodárskym subjektom na ich žiadosť a bezplatne konkrétne informácie týkajúce sa vykonávania tohto nariadenia na vnútroštátnej úrovni a vnútroštátnych pravidiel bezpečnosti výrobkov uplatniteľných na výrobky, na ktoré sa vzťahuje toto nariadenie. Na uvedený účel sa uplatňuje článok 9 ods. 1 a 4 nariadenia Európskeho parlamentu a Rady (EÚ) 2019/515 (29).
+Komisia prijme osobitné usmernenia pre hospodárske subjekty s osobitným zreteľom na potreby subjektov, ktoré sa kvalifikujú ako MSP vrátane mikropodnikov, týkajúce sa toho, ako plniť povinnosti stanovené v tomto nariadení.
+Článok 18
+Osobitné požiadavky na vysledovateľnosť určitých výrobkov, kategórií alebo skupín výrobkov
+1. V prípade určitých výrobkov, kategórií alebo skupín výrobkov, ktoré môžu predstavovať vážne riziko pre zdravie a bezpečnosť spotrebiteľov na základe nehôd zaznamenaných na Safety Business Gateway, štatistík systému Safety Gate a na základe výsledkov spoločných činností v oblasti bezpečnosti výrobkov a iných relevantných ukazovateľov alebo dôkazov, a po konzultácii so sieťou pre bezpečnosť spotrebiteľov, príslušnými expertnými skupinami a príslušnými zainteresovanými stranami môže Komisia zriadiť systém vysledovateľnosti, ktorý musia využívať hospodárske subjekty, ktoré uvádzajú tieto výrobky na trh a sprístupňujú ich na trhu.
+2. Systém vysledovateľnosti pozostáva zo zhromažďovania a uchovávania údajov, a to aj elektronickými prostriedkami, ktoré umožňujú identifikovať výrobok, jeho komponenty alebo hospodárske subjekty zapojené do jeho dodávateľského reťazca, ako aj zo spôsobov zobrazovania týchto údajov a prístupu k nim vrátane umiestnenia nosiča údajov na výrobku, jeho obale alebo do sprievodných dokumentov.
+3. Komisia je splnomocnená prijímať delegované akty v súlade s článkom 45 s cieľom doplniť toto nariadenie prostredníctvom:
+a)
+určenia výrobkov, kategórií alebo skupín výrobkov alebo komponentov, ktoré môžu predstavovať vážne riziko pre zdravie a bezpečnosť spotrebiteľov, ako sa uvádza v odseku 1. Komisia v príslušných delegovaných aktoch uvedie, či použila metodiku posudzovania rizík stanovenú vo vykonávacom rozhodnutí Komisie (EÚ) 2019/417 (30), alebo, ak táto metodika nie je vhodná pre daný výrobok, podrobne opíše použitú metodiku;
+b)
+špecifikovania druhu údajov, ktoré majú hospodárske subjekty zhromažďovať a uchovávať prostredníctvom systému vysledovateľnosti uvedeného v odseku 2;
+c)
+špecifikovania spôsobov zobrazenia údajov a prístupu k nim vrátane umiestnenia nosiča údajov na výrobku, jeho obale alebo do sprievodných dokumentov, ako sa uvádza v odseku 2;
+d)
+určenia subjektov, ktoré majú prístup k údajom uvedeným v písmene b), a údajov, ku ktorým majú prístup, vrátane spotrebiteľov, hospodárskych subjektov, prevádzkovateľov online trhov, príslušných vnútroštátnych orgánov, Komisie a organizácií verejného záujmu, alebo akejkoľvek organizácie konajúcej v ich mene.
+4. Orgány dohľadu nad trhom, spotrebitelia, hospodárske subjekty a iné relevantné subjekty majú bezplatný prístup k údajom uvedeným v odseku 3 na základe príslušných prístupových práv stanovených v uplatniteľnom delegovanom akte prijatom podľa odseku 3 písm. d).
+5. Pri prijímaní opatrení uvedených v odseku 3 Komisia zohľadňuje:
+a)
+nákladovú účinnosť opatrení vrátane ich vplyvu na podniky, najmä MSP;
+b)
+primeraný časový rámec, ktorý hospodárskym subjektom umožní pripraviť sa na tieto opatrenia a
+c)
+zlučiteľnosť a interoperabilitu s inými systémami vysledovateľnosti výrobkov, ktoré už boli zriadené na úrovni Únie alebo na medzinárodnej úrovni.
+Oddiel 2
+Článok 19
+Povinnosti hospodárskych subjektov v prípade predaja na diaľku
+Ak hospodárske subjekty sprístupňujú výrobky na trhu online alebo prostredníctvom iných prostriedkov predaja na diaľku, v príslušnej ponuke týchto výrobkov sa jasne a viditeľne uvádzajú aspoň tieto informácie:
+a)
+meno, registrované obchodné meno alebo registrovaná ochranná známka výrobcu, ako aj poštová a elektronická adresa, na ktorej ho možno kontaktovať;
+b)
+ak výrobca nie je usadený v Únii, meno, poštová a elektronická adresa zodpovednej osoby v zmysle článku 16 ods. 1 tohto nariadenia alebo článku 4 ods. 1 nariadenia (EÚ) 2019/1020;
+c)
+informácie umožňujúce identifikáciu výrobku vrátane jeho obrázku, typu a akéhokoľvek iného identifikátora výrobku a
+d)
+všetky upozornenia alebo bezpečnostné pokyny, ktoré sa umiestňujú na výrobok alebo obal alebo uvádzajú v sprievodnej dokumentácii v súlade s týmto nariadením alebo uplatniteľnými harmonizačnými právnymi predpismi Únie v jazyku, ktorý je pre spotrebiteľov ľahko zrozumiteľný a ktorý určil členský štát, v ktorom sa výrobok sprístupňuje na trhu.
+Článok 20
+Povinnosti hospodárskych subjektov v prípade nehôd súvisiacich s bezpečnosťou výrobkov
+1. Výrobca zabezpečí, aby sa nehoda spôsobená výrobkom uvedeným na trh alebo sprístupneným na trhu oznámila príslušným orgánom členského štátu, v ktorom k nehode došlo, prostredníctvom Safety Business Gateway, a to bez zbytočného odkladu od okamihu, keď sa o nehode dozvedel. V oznámení sa uvádza typ a identifikačné číslo výrobku, ako aj okolnosti nehody, ak sú známe. Výrobca na požiadanie oznámi príslušným orgánom akékoľvek ďalšie relevantné informácie.
+2. Na účely odseku 1 výrobca oznámi príslušným orgánom udalosti spojené s používaním výrobku, ktoré mali za následok smrť jednotlivca alebo závažné trvalé či dočasné nepriaznivé účinky na zdravie a bezpečnosť jednotlivca, vrátane zranení, iných poškodení tela, chorôb a chronických účinkov na zdravie.
+3. Dovozcovia a distribútori, ktorí sa dozvedia o nehode spôsobenej výrobkom, ktorý uviedli na trh alebo sprístupnili na trhu, o tom bez zbytočného odkladu informujú výrobcu. Výrobca vykoná oznámenie v súlade s odsekom 1 alebo dá dovozcovi alebo jednému z distribútorov pokyn, aby ho vykonal.
+4. Ak výrobca výrobku nie je usadený v Únii, zodpovedná osoba v zmysle článku 16 ods. 1 tohto nariadenia alebo článku 4 ods. 1 nariadenia (EÚ) 2019/1020, ktorá má vedomosť o nehode, zabezpečí vykonanie oznámenia.
+Článok 21
+Informácie v elektronickom formáte
+Bez toho, aby bol dotknutý článok 9 ods. 5, 6 a 7, článok 11 ods. 3 a článok 16 ods. 3 a príslušné ustanovenia harmonizačných právnych predpisov Únie, hospodárske subjekty môžu dodatočne sprístupniť informácie uvedené v daných ustanoveniach v digitálnom formáte prostredníctvom elektronických technických riešení, ktoré sú jasne viditeľné na výrobku alebo, ak to nie je možné, na jeho obale alebo v sprievodnej dokumentácii výrobku. Tieto informácie musia byť v jazyku, ktorý je pre spotrebiteľov ľahko zrozumiteľný a ktorý určil členský štát, v ktorom sa výrobok sprístupňuje na trhu, vrátane vo formátoch prístupných pre osoby so zdravotným postihnutím.
+KAPITOLA IV
+PREVÁDZKOVATELIA ONLINE TRHOV
+Článok 22
+Osobitné povinnosti prevádzkovateľov online trhov v súvislosti s bezpečnosťou výrobkov
+1. Bez toho, aby boli dotknuté všeobecné povinnosti stanovené v článku 11 nariadenia (EÚ) 2022/2065, prevádzkovatelia online trhov určia jednotné kontaktné miesto umožňujúce priamu komunikáciu elektronickými prostriedkami s orgánmi dohľadu nad trhom členských štátov v súvislosti s problémami s bezpečnosťou výrobkov, najmä na účely oznamovania príkazov vydaných podľa odseku 4 tohto článku.
+Prevádzkovatelia online trhov sa zaregistrujú v portáli Safety Gate a uvedú na portáli Safety Gate informácie týkajúce sa ich jednotného kontaktného miesta.
+2. Bez toho, aby boli dotknuté všeobecné povinnosti stanovené v článku 12 nariadenia (EÚ) 2022/2065, prevádzkovatelia online trhov určia jednotné kontaktné miesto, ktoré spotrebiteľom umožní priamo a rýchlo s nimi komunikovať v súvislosti s problémami s bezpečnosťou výrobkov.
+3. Prevádzkovatelia online trhov zabezpečia, aby mali zavedené vnútorné procesy v oblasti bezpečnosti výrobkov, a mohli tak bez zbytočného odkladu splniť príslušné požiadavky tohto nariadenia.
+4. Pokiaľ ide o právomoci udelené členskými štátmi v súlade s článkom 14 nariadenia (EÚ) 2019/1020, členské štáty udelia svojim orgánom dohľadu nad trhom potrebnú právomoc vydať príkaz, pokiaľ ide o konkrétny obsah týkajúci sa ponuky nebezpečného výrobku, ktorým sa od prevádzkovateľov online trhov vyžaduje, aby takýto obsah odstránili zo svojho online rozhrania, aby k nemu znemožnili prístup alebo aby zobrazovali výslovné upozornenie. Takéto príkazy sa vydávajú v súlade s minimálnymi podmienkami stanovenými v článku 9 ods. 2 nariadenia (EÚ) 2022/2065.
+Prevádzkovatelia online trhov prijmú potrebné opatrenia na prijímanie a spracúvanie príkazov vydaných podľa tohto odseku a konajú bez zbytočného odkladu a v každom prípade do dvoch pracovných dní od prijatia príkazu. Informujú orgán dohľadu nad trhom vydávajúci príkaz o vykonaní príkazu elektronickými prostriedkami využitím kontaktných údajov orgánu dohľadu nad trhom uverejnených na portáli Safety Gate.
+5. V príkazoch vydaných podľa odseku 4 sa môže od prevádzkovateľa online trhu vyžadovať, aby počas predpísaného obdobia zo svojho online rozhrania odstraňoval všetok identický obsah týkajúci sa ponuky predmetného nebezpečného výrobku, znemožňoval prístup k nemu alebo zobrazoval výslovné upozornenie za predpokladu, že vyhľadanie dotknutého obsahu sa obmedzuje na informácie uvedené v príkaze a nevyžaduje od prevádzkovateľa online trhu, aby vykonal nezávislé posúdenie daného obsahu, a že vyhľadanie a odstránenie možno primerane vykonať spoľahlivými automatizovanými nástrojmi.
+6. Prevádzkovatelia online trhov zohľadňujú pravidelné informácie o nebezpečných výrobkoch oznamované orgánmi dohľadu nad trhom v súlade s článkom 26, ktoré dostávajú prostredníctvom portálu Safety Gate, na účely prípadného uplatnenia dobrovoľných opatrení zameraných na odhaľovanie, identifikáciu a odstránenie obsahu týkajúceho sa ponúk nebezpečných výrobkov na ich online trhu alebo na znemožnenie prístupu k takémuto obsahu, a to aj využitím interoperabilného rozhrania k portálu Safety Gate v súlade s článkom 34. Informujú orgán, ktorý zaslal oznámenie do systému rýchleho varovania Safety Gate, o každom prijatom opatrení využitím kontaktných údajov orgánu dohľadu nad trhom uverejnených na portáli Safety Gate.
+7. Na účely súladu s článkom 31 ods. 3 nariadenia (EÚ) 2022/2065, pokiaľ ide o bezpečnosť výrobkov, prevádzkovatelia online trhov používajú aspoň portál Safety Gate.
+8. Prevádzkovatelia online trhov bez zbytočného odkladu a v každom prípade do troch pracovných dní od obdržania oznámenia spracujú oznámenia týkajúce sa problémov s bezpečnosťou výrobku, pokiaľ ide o výrobok ponúkaný na predaj online prostredníctvom ich služieb, prijaté v súlade s článkom 16 nariadenia (EÚ) 2022/2065.
+9. Na účely súladu s požiadavkami článku 31 ods. 1 a 2 nariadenia (EÚ) 2022/2065, pokiaľ ide o informácie o bezpečnosti výrobkov, prevádzkovatelia online trhov navrhujú a organizujú svoje online rozhranie spôsobom, ktorý obchodníkom ponúkajúcim výrobok umožňuje poskytovať aspoň nasledujúce informácie o každom ponúkanom výrobku a ktorý zabezpečuje, aby boli tieto informácie zobrazené alebo inak ľahko dostupné pre spotrebiteľov pri ponuke výrobku:
+a)
+meno, registrované obchodné meno alebo registrovaná ochranná známka výrobcu, ako aj poštová a elektronická adresa, na ktorej ho možno kontaktovať;
+b)
+ak výrobca nie je usadený v Únii, meno, poštová a elektronická adresa zodpovednej osoby v zmysle článku 16 ods. 1 tohto nariadenia alebo článku 4 ods. 1 nariadenia (EÚ) 2019/1020;
+c)
+informácie umožňujúce identifikáciu výrobku vrátane jeho obrázku, jeho typu a akéhokoľvek iného identifikátora výrobku a
+d)
+všetky upozornenia alebo bezpečnostné pokyny, ktoré sa majú umiestniť na výrobok alebo k nemu priložiť v súlade s týmto nariadením alebo uplatniteľnými harmonizačnými právnymi predpismi Únie v jazyku, ktorý je pre spotrebiteľov ľahko zrozumiteľný a ktorý určil členský štát, v ktorom sa výrobok sprístupňuje na trhu.
+10. Interné postupy uvedené v odseku 3 zahŕňajú mechanizmy, ktoré obchodníkom umožňujú poskytovať:
+a)
+informácie v súlade s odsekom 9 tohto článku vrátane informácií o výrobcovi usadenom v Únii alebo prípadne o zodpovednej osobe v zmysle článku 16 ods. 1 tohto nariadenia alebo článku 4 ods. 1 nariadenia (EÚ) 2019/1020 a
+b)
+ich samocertifikáciu, ktorou sa zaväzujú ponúkať len výrobky, ktoré sú v súlade s týmto nariadením, a prípadne dodatočné identifikačné informácie v súlade s článkom 30 ods. 1 nariadenia (EÚ) 2022/2065.
+11. Na účely súladu s článkom 23 nariadenia (EÚ) 2022/2065, pokiaľ ide o bezpečnosť výrobkov, prevádzkovatelia online trhov na primeraný čas a po vydaní predchádzajúceho varovania pozastavia poskytovanie svojich služieb obchodníkom, ktorí často ponúkajú výrobky, ktoré nie sú v súlade s týmto nariadením.
+12. Prevádzkovatelia online trhov spolupracujú s orgánmi dohľadu nad trhom, s obchodníkmi a s príslušnými hospodárskymi subjektmi s cieľom uľahčiť akékoľvek opatrenie prijaté na odstránenie alebo, ak to nie je možné, na zmiernenie rizík, ktoré predstavuje výrobok, ktorý je alebo bol prostredníctvom ich služieb ponúkaný online.
+Prevádzkovatelia online trhov najmä:
+a)
+zabezpečia, aby spotrebiteľom poskytovali primerané a včasné informácie, a to aj prostredníctvom:
+i)
+priameho informovania všetkých dotknutých spotrebiteľov, ktorí si kúpili prostredníctvom ich rozhraní predmetný výrobok, v prípade spätného prevzatia výrobku z dôvodu bezpečnosti, o ktorom skutočne vedia, alebo ak je potrebné upozorniť spotrebiteľov na určité informácie, aby sa zaručilo bezpečné používanie výrobku (ďalej len „bezpečnostné upozornenie“) v súlade s článkom 35 alebo článkom 36 alebo oboma;
+ii)
+uverejňovania informácií o spätnom prevzatí výrobkov z dôvodu bezpečnosti na svojich online rozhraniach;
+b)
+informujú príslušný hospodársky subjekt o rozhodnutí odstrániť obsah alebo znemožniť prístup k obsahu, ktorý sa týka ponuky nebezpečného výrobku;
+c)
+spolupracujú s orgánmi dohľadu nad trhom a s príslušnými hospodárskymi subjektmi s cieľom zabezpečiť účinné spätné prevzatie výrobkov, a to aj tým, že sa zdržia vytvárania prekážok spätného prevzatia výrobkov;
+d)
+prostredníctvom Safety Business Gateway bezodkladne informujú orgány dohľadu nad trhom členských štátov, v ktorých bol príslušný výrobok sprístupnený na trhu, o nebezpečných výrobkoch, ktoré boli ponúkané na ich online rozhraniach, o ktorých skutočne vedia, poskytnutím príslušných podrobností, ktoré majú k dispozícii, o riziku pre zdravie a bezpečnosť spotrebiteľov, o množstve výrobkov, ktoré sú stále v obehu na trhu v jednotlivých členských štátoch, ak je údaj k dispozícii, a o každom nápravnom opatrení, ktoré sa podľa ich vedomia už prijalo;
+e)
+spolupracujú v súvislosti s nehodami, ktoré im boli oznámené, a to aj prostredníctvom:
+i)
+bezodkladného informovania príslušných obchodníkov a hospodárskych subjektov o informáciách, ktoré prijali v súvislosti s nehodami alebo problémami s bezpečnosťou, ak majú vedomosť o tom, že daný výrobok títo obchodníci ponúkali prostredníctvom svojich rozhraní;
+ii)
+oznamovania, bez zbytočného odkladu a prostredníctvom Safety Business Gateway, každej nehody, o ktorej boli informovaní a ktorej výsledkom je vážne ohrozenie alebo skutočné poškodenie zdravia alebo vážne ohrozenie bezpečnosti spotrebiteľa spôsobené výrobkom sprístupneným na ich online trhu, a informovania výrobcu;
+f)
+spolupracujú s orgánmi presadzovania práva na úrovni Únie a na vnútroštátnej úrovni vrátane Európskeho úradu pre boj proti podvodom (OLAF) prostredníctvom pravidelnej a štruktúrovanej výmeny informácií o ponukách, ktoré prevádzkovatelia online trhov odstránili na základe tohto článku;
+g)
+umožňujú prístup online nástrojov prevádzkovaných orgánmi dohľadu nad trhom k svojim rozhraniam na účely identifikácie nebezpečných výrobkov;
+h)
+spolupracujú, pokiaľ možno, pri identifikácii dodávateľského reťazca nebezpečných výrobkov tým, že odpovedajú na žiadosti o údaje, ak príslušné informácie nie sú verejne dostupné;
+i)
+na odôvodnenú žiadosť orgánov dohľadu nad trhom v prípade, že prevádzkovatelia online trhov alebo online predajcovia zaviedli technické prekážky extrakcie údajov z ich online rozhraní (data scraping), umožňujú získanie takýchto údajov len na účely zaistenia bezpečnosti výrobkov na základe identifikačných parametrov poskytnutých žiadajúcimi orgánmi dohľadu nad trhom.
+KAPITOLA V
+DOHĽAD NAD TRHOM A VYKONÁVANIE
+Článok 23
+Dohľad nad trhom
+1. Na výrobky, na ktoré sa vzťahuje toto nariadenie, sa uplatňuje článok 10, článok 11 ods. 1 až 7, články 12 až 15, článok 16 ods. 1 až 5, články 18 a 19 a články 21 až 24 nariadenia (EÚ) 2019/1020.
+2. Na účely tohto nariadenia sa nariadenie (EÚ) 2019/1020 uplatňuje takto:
+a)
+odkazy na „harmonizačné právne predpisy Únie“, „uplatniteľné harmonizačné právne predpisy Únie“, „toto nariadenie a na účely uplatňovania harmonizačných právnych predpisov Únie“, „príslušné harmonizačné právne predpisy Únie“ a „harmonizačné právne predpisy Únie alebo toto nariadenie“ v článkoch 11, 13, 14, 16, 18 a 23 uvedeného nariadenia sa považujú za odkazy na „toto nariadenie“;
+b)
+odkaz na „uvedené právne predpisy a toto nariadenie“ uvedený v článku 11 ods. 1 písm. b) uvedeného nariadenia sa považuje za odkaz na „toto nariadenie“;
+c)
+odkazy na „sieť“ v článkoch 11 až 13 a článku 21 uvedeného nariadenia sa považujú za odkazy na „sieť a sieť pre bezpečnosť spotrebiteľov“ uvedené v článku 30 tohto nariadenia;
+d)
+odkazy na „nesúlad“, „nesúlady“ a „nie je v súlade“ v článku 11, článkoch 13 až 16 a článkoch 22 a 23 uvedeného nariadenia sa považujú za odkazy na „nesúlad s týmto nariadením“;
+e)
+odkaz na „článok 41“ v článku 14 ods. 4 písm. i) uvedeného nariadenia sa považuje za odkaz na „článok 44 tohto nariadenia“;
+f)
+odkaz na „článok 20“ v článku 19 ods. 1 uvedeného nariadenia sa považuje za odkaz na „článok 26 tohto nariadenia“.
+3. Ak bol identifikovaný nebezpečný výrobok, orgány dohľadu nad trhom môžu požiadať výrobcu o informácie o iných výrobkoch, ktoré boli vyrobené rovnakým postupom, obsahujú rovnaké komponenty alebo sú súčasťou tej istej výrobnej šarže a ktoré predstavujú rovnaké riziko.
+Článok 24
+Podávanie správ
+1. Členské štáty oznámia Komisii najneskôr dva roky po prijatí vykonávacieho aktu uvedeného v odseku 2 a potom každý rok údaje týkajúce sa uplatňovania tohto nariadenia.
+Na základe oznámenia členských štátov Komisia každoročne vypracuje súhrnnú správu a sprístupní ju verejnosti.
+2. Komisia prostredníctvom vykonávacích aktov určí ukazovatele výstupov, na základe ktorých majú členské štáty oznamovať údaje uvedené v odseku 1 tohto článku. Uvedené vykonávacie akty sa prijmú v súlade s postupom preskúmania uvedeným v článku 46 ods. 3.
+KAPITOLA VI
+SYSTÉM RÝCHLEHO VAROVANIA SAFETY GATE A SAFETY BUSINESS GATEWAY
+Článok 25
+Systém rýchleho varovania Safety Gate
+1. Komisia ďalej rozvíja, modernizuje a spravuje systém na rýchlu výmenu informácií o nápravných opatreniach týkajúcich sa nebezpečných nepotravinových výrobkov (ďalej len „systém rýchleho varovania Safety Gate“) a zlepšuje jeho efektívnosť.
+2. Komisia a členské štáty majú prístup k systému rýchleho varovania Safety Gate. Každý členský štát určí na tento účel jednotné národné kontaktné miesto, ktoré zodpovedá aspoň za kontrolu úplnosti oznámení a za ich predkladanie na validáciu Komisii, ako aj za komunikáciu s Komisiou v súvislosti s úlohami stanovenými v článku 26 ods. 1 až 6.
+Komisia prijme vykonávací akt, v ktorom stanoví funkcie a úlohy jednotných národných kontaktných miest. Uvedený vykonávací akt sa prijme v súlade s postupom preskúmania uvedeným v článku 46 ods. 3
+Článok 26
+Oznamovanie nebezpečných výrobkov prostredníctvom systému rýchleho varovania Safety Gate
+1. Členské štáty oznámia prostredníctvom systému rýchleho varovania Safety Gate nápravné opatrenia, ktoré prijali ich orgány alebo hospodárske subjekty na základe:
+a)
+ustanovení tohto nariadenia v súvislosti s nebezpečnými výrobkami, ktoré predstavujú vážne riziko pre zdravie a bezpečnosť spotrebiteľov a
+b)
+článku 20 nariadenia (EÚ) 2019/1020.
+2. Členské štáty môžu prostredníctvom systému rýchleho varovania Safety Gate oznámiť aj plánované nápravné opatrenia v súvislosti s výrobkami, ktoré predstavujú vážne riziko, ak to považujú za potrebné vzhľadom na naliehavosť rizika pre zdravie alebo bezpečnosť spotrebiteľov.
+3. Bez toho, aby bol dotknutý odsek 1 tohto článku, členské štáty informujú Komisiu o nápravných opatreniach prijatých ich orgánmi alebo hospodárskymi subjektmi na základe tohto nariadenia a Komisia zašle uvedené informácie ostatným členským štátom. Na daný účel môžu členské štáty prostredníctvom systému rýchleho varovania Safety Gate oznámiť nápravné opatrenia, ktoré prijali ich orgány alebo hospodárske subjekty na základe tohto nariadenia, harmonizačných právnych predpisov Únie a nariadenia (EÚ) 2019/1020 v súvislosti s výrobkami, ktoré predstavujú menšie ako vážne riziko.
+4. Vnútroštátne orgány predkladajú oznámenia podľa odseku 1 prostredníctvom systému rýchleho varovania Safety Gate bezodkladne a v každom prípade do štyroch pracovných dní od prijatia nápravného opatrenia.
+5. Komisia do štyroch pracovných dní po prijatí úplného oznámenia skontroluje, či je oznámenie v súlade s týmto článkom a s požiadavkami týkajúcimi sa fungovania systému rýchleho varovania Safety Gate vymedzenými Komisiou na základe odseku 10. Ak je oznámenie v súlade s týmto článkom a uvedenými požiadavkami, Komisia ho zašle ostatným členským štátom.
+6. Členské štáty bez zbytočného odkladu oznámia prostredníctvom systému rýchleho varovania Safety Gate každú aktualizáciu, zmenu alebo zrušenie nápravných opatrení uvedených v odsekoch 1, 2 a 3.
+7. Ak členský štát oznámi nápravné opatrenia prijaté v súvislosti s výrobkami, ktoré predstavujú vážne riziko, ostatné členské štáty oznámia prostredníctvom systému rýchleho varovania Safety Gate nápravné opatrenia alebo iné kroky, ktoré následne prijali v súvislosti s rovnakými výrobkami, a všetky ďalšie relevantné informácie vrátane výsledkov všetkých vykonaných skúšok alebo analýz, a to bez zbytočného odkladu a v každom prípade najneskôr do štyroch pracovných dní od prijatia uvedených opatrení alebo krokov.
+8. Ak Komisia aj na základe informácií, ktoré dostali spotrebitelia alebo organizácie spotrebiteľov, identifikuje výrobky, ktoré môžu predstavovať vážne riziko a v súvislosti s ktorými členské štáty nepredložili oznámenie prostredníctvom systému rýchleho varovania Safety Gate, informuje o tom členské štáty. Členské štáty vykonajú príslušné overenia a v prípade, že prijmú opatrenia, oznámia ich v súlade s odsekom 1 prostredníctvom systému rýchleho varovania Safety Gate.
+9. Komisia zavedie rozhranie uvedené v článku 20 ods. 5 nariadenia (EÚ) 2019/1020 medzi informačným a komunikačným systémom uvedeným v článku 34 uvedeného nariadenia a systémom rýchleho varovania Safety Gate s cieľom umožniť vyvolanie návrhu oznámenia v systéme rýchleho varovania Safety Gate z uvedeného informačného a komunikačného systému, aby sa zabránilo dvojitému vkladaniu údajov.
+10. Komisia prijme delegované akty v súlade s článkom 45 s cieľom doplniť toto nariadenie tým, že spresní najmä:
+a)
+prístup do systému rýchleho varovania Safety Gate;
+b)
+fungovanie systému rýchleho varovania Safety Gate;
+c)
+informácie, ktoré sa majú vkladať do systému rýchleho varovania Safety Gate;
+d)
+požiadavky, ktoré musia oznámenia spĺňať a
+e)
+kritériá na posúdenie úrovne rizika.
+Článok 27
+Safety Business Gateway
+1. Komisia spravuje webový portál, ktorý hospodárskym subjektom a prevádzkovateľom online trhov umožňuje ľahko poskytovať orgánom dohľadu nad trhom a spotrebiteľom informácie uvedené v článku 9 ods. 8 a 9, článku 10 ods. 2 písm. c), článku 11 ods. 2 a 8, článku 12 ods. 4, článkoch 20 a 22 („Safety Business Gateway“).
+2. Komisia vypracuje usmernenia pre praktické používanie Safety Business Gateway.
+KAPITOLA VII
+ÚLOHA KOMISIE A KOORDINÁCIA PRESADZOVANIA PRÁVA
+Článok 28
+Opatrenia Únie proti výrobkom, ktoré predstavujú vážne riziko
+1. Ak sa Komisia dozvie o výrobku alebo osobitnej kategórii alebo skupine výrobkov, ktoré predstavujú vážne riziko pre zdravie a bezpečnosť spotrebiteľov, môže z vlastnej iniciatívy alebo na žiadosť členských štátov prijať prostredníctvom vykonávacích aktov akékoľvek vhodné opatrenia prispôsobené závažnosti a naliehavosti situácie, ak:
+a)
+riziko sa nedá vzhľadom na povahu problému s bezpečnosťou, ktorý výrobok, kategória alebo skupina výrobkov predstavuje, riešiť s použitím iných postupov stanovených osobitnými právnom Únie platným pre dotknuté výrobky takým spôsobom, ktorý by zodpovedal miere závažnosti a naliehavosti prípadu a
+b)
+riziko sa dá účinne odstrániť len prijatím vhodných opatrení uplatniteľných na úrovni Únie, aby sa zabezpečila konzistentná a vysoká úroveň ochrany zdravia a bezpečnosti spotrebiteľov a správne fungovanie vnútorného trhu.
+Uvedené opatrenia môžu zahŕňať opatrenia, ktorými sa zakazuje, pozastavuje alebo obmedzuje uvádzanie takýchto výrobkov na trh alebo ich sprístupňovanie na trhu, alebo ktoré stanovujú osobitné podmienky prípadného posudzovania zhody, pokiaľ ide o požiadavku na bezpečnosť, alebo ich uvádzania na trh, napríklad testovanie reprezentatívnej vzorky uvedených výrobkov, s cieľom zabezpečiť vysokú úroveň ochrany bezpečnosti spotrebiteľov.
+Členské štáty prijmú v rámci svojej právomoci všetky primerané opatrenia na presadzovanie práva potrebné na zabezpečenie účinného vykonávania uvedených vykonávacích aktov. Príslušné orgány dotknutých členských štátov informujú Komisiu o opatreniach prijatých na presadzovanie práva.
+Komisia pravidelne hodnotí účinnosť opatrení na presadzovanie práva prijatých členskými štátmi a o výsledku tohto hodnotenia informuje sieť pre bezpečnosť spotrebiteľov.
+2. Vykonávacie akty uvedené v odseku 1 sa prijmú v súlade s postupom preskúmania uvedeným v článku 46 ods. 3 V uvedených vykonávacích aktoch sa určí dátum, ku ktorému sa prestanú uplatňovať.
+3. Komisia môže z riadne odôvodnených vážnych a naliehavých dôvodov týkajúcich sa zdravia a bezpečnosti spotrebiteľov prijať okamžite uplatniteľné vykonávacie akty v súlade s postupom uvedeným v článku 46 ods. 4
+4. Vývoz z Únie v prípade výrobku, ktorého uvedenie na trh Únie alebo sprístupnenie na trhu Únie bolo zakázané na základe opatrenia prijatého v súlade s odsekom 1 alebo odsekom 3, sa zakazuje, pokiaľ sa vývoz v danom opatrení výslovne nepovoľuje z riadne odôvodnených dôvodov.
+5. Každý členský štát môže Komisii predložiť odôvodnenú žiadosť o preskúmanie potreby prijatia opatrenia uvedeného v odseku 1 alebo odseku 3.
+Článok 29
+Žiadosť o stanovisko Komisie k rozdielom v posúdení rizika
+1. Výrobky, ktoré sa považujú za nebezpečné na základe rozhodnutia orgánu dohľadu nad trhom v jednom členskom štáte podľa tohto nariadenia, musia považovať za nebezpečné aj orgány dohľadu nad trhom v ostatných členských štátoch.
+2. Ak orgány dohľadu nad trhom v rôznych členských štátoch dospejú na základe ich vlastného vyšetrovania a posúdenia rizika k odlišným záverom, pokiaľ ide o identifikovanie rizika alebo úroveň rizika, ktorýkoľvek členský štát môže vec postúpiť Komisii so žiadosťou o jej stanovisko k tejto veci a Komisia bez zbytočného odkladu vydá stanovisko k identifikovaniu rizika alebo prípadne úrovni rizika príslušného výrobku. V prípade, že sa táto vec Komisii nepostúpi, Komisia môže napriek tomu vydať stanovisko z vlastného podnetu. Na účely vydania stanoviska uvedeného v tomto odseku môže Komisia požiadať o príslušné informácie a dokumenty a vyzve všetky členské štáty, aby vyjadrili svoje názory.
+3. Ak Komisia vydá stanovisko podľa odseku 2, členské štáty ho náležite zohľadnia.
+4. Komisia vypracuje usmernenia pre praktické uplatňovanie tohto článku.
+5. Komisia pravidelne vypracúva správu o uplatňovaní tohto článku a predkladá ju sieti pre bezpečnosť spotrebiteľov.
+Článok 30
+Sieť pre bezpečnosť spotrebiteľov
+1. Týmto sa zriaďuje európska sieť orgánov členských štátov zodpovedných za bezpečnosť výrobkov (ďalej len „sieť pre bezpečnosť spotrebiteľov“).
+Účelom siete pre bezpečnosť spotrebiteľov je slúžiť ako platforma pre štruktúrovanú koordináciu a spoluprácu medzi orgánmi členských štátov a Komisiou pri zvyšovaní bezpečnosti výrobkov v Únii.
+2. Komisia podporuje fungovanie siete pre bezpečnosť spotrebiteľov a zúčastňuje sa na ňom, najmä vo forme administratívnej spolupráce.
+3. Úlohy siete pre bezpečnosť spotrebiteľov sú najmä:
+a)
+uľahčovať pravidelnú výmenu informácií o posudzovaní rizika, nebezpečných výrobkoch, skúšobných metódach a výsledkoch skúšok, normách, metodikách zberu údajov, interoperabilite informačných a komunikačných systémov, najnovšom vývoji vo vede a používaní nových technológií, ako aj o iných aspektoch súvisiacich s kontrolnými činnosťami;
+b)
+organizovať zriadenie a výkon spoločných projektov týkajúcich sa dohľadu a skúšania, a to aj v kontexte elektronického obchodu;
+c)
+podporovať výmenu odborných poznatkov a najlepších postupov a spoluprácu v oblasti odbornej prípravy;
+d)
+zlepšiť spoluprácu na úrovni Únie, pokiaľ ide o sledovanie nebezpečných výrobkov, ich stiahnutie a spätné prevzatie;
+e)
+uľahčovať posilnenú a štruktúrovanú spoluprácu medzi členskými štátmi v oblasti presadzovania bezpečnosti výrobkov, najmä s cieľom uľahčiť činnosti uvedené v článku 32 a
+f)
+uľahčovať vykonávanie tohto nariadenia.
+4. Sieť pre bezpečnosť spotrebiteľov koordinuje svoju činnosť s ostatnými existujúcimi činnosťami Únie týkajúcimi sa dohľadu nad trhom a bezpečnosti spotrebiteľov a v prípade potreby spolupracuje a vymieňa si informácie s ostatnými sieťami, skupinami a orgánmi Únie.
+5. Sieť pre bezpečnosť spotrebiteľov prijme svoj pracovný program, v ktorom okrem iného stanoví priority v oblasti bezpečnosti výrobkov a rizík, na ktoré sa vzťahuje toto nariadenie, v Únii.
+Zasadnutia siete pre bezpečnosť spotrebiteľov sa konajú v pravidelných intervaloch a v prípade potreby na riadne odôvodnenú žiadosť Komisie alebo členského štátu.
+Sieť pre bezpečnosť spotrebiteľov môže na svoje zasadnutia pozvať odborníkov a iné tretie strany vrátane spotrebiteľských organizácií.
+6. Sieť pre bezpečnosť spotrebiteľov je riadne zastúpená a pravidelne sa zúčastňuje na príslušných činnostiach siete Únie pre súlad výrobkov zriadenej podľa článku 29 nariadenia (EÚ) 2019/1020 a prispieva k jej činnostiam v súvislosti s bezpečnosťou výrobkov s cieľom zabezpečiť primeranú koordináciu činností dohľadu nad trhom v harmonizovaných aj neharmonizovaných oblastiach.
+Článok 31
+Spoločné činnosti v oblasti bezpečnosti výrobkov
+1. V rámci činností uvedených v článku 30 ods. 3 písm. b) sa orgány dohľadu nad trhom môžu dohodnúť s inými príslušnými orgánmi alebo organizáciami zastupujúcimi hospodárske subjekty alebo spotrebiteľov na vykonávaní činností zameraných na zaistenie bezpečnosti a ochrany zdravia spotrebiteľov v súvislosti s osobitnými kategóriami výrobkov sprístupnených na trhu, najmä kategórií výrobkov, v prípade ktorých sa často zistí, že predstavujú vážne riziko pre zdravie a bezpečnosť spotrebiteľov.
+2. Príslušné orgány dohľadu nad trhom a strany uvedené v odseku 1 zabezpečia, aby dohoda o výkone takýchto činností neviedla k nekalej hospodárskej súťaži medzi hospodárskymi subjektmi, a nemala vplyv na objektívnosť, nezávislosť a nestrannosť týchto strán.
+3. Komisia pravidelne organizuje spoločné činnosti orgánov dohľadu nad trhom, pričom orgány dohľadu nad trhom vykonávajú inšpekcie týkajúce sa výrobkov ponúkaných online alebo offline, ktoré tieto orgány získali na základe utajenej totožnosti.
+4. Orgán dohľadu nad trhom môže využiť akékoľvek informácie získané na základe spoločných činností vykonávaných v rámci akéhokoľvek vyšetrovania týkajúceho sa bezpečnosti výrobkov, ktoré vykonáva.
+5. Dotknutý orgán dohľadu nad trhom sprístupní dohodu o spoločných činnostiach vrátane mien zúčastnených strán verejnosti a vloží uvedenú dohodu do informačného a komunikačného systému uvedeného v článku 34 nariadenia (EÚ) 2019/1020. Komisia uvedenú dohodu sprístupní na portáli Safety Gate.
+Článok 32
+Simultánne koordinované kontrolné akcie orgánov dohľadu nad trhom („kontrolné akcie“)
+1. Dotknuté orgány dohľadu nad trhom vykonávajú simultánne koordinované kontrolné akcie (ďalej len „kontrolné akcie“) týkajúce sa konkrétnych výrobkov alebo kategórií výrobkov s cieľom skontrolovať súlad s týmto nariadením.
+2. Pokiaľ sa zapojené orgány dohľadu nad trhom nedohodnú inak, kontrolné akcie koordinuje Komisia. Koordinátor kontrolnej akcie v prípade potreby zverejňuje jej súhrnné výsledky.
+3. Pri vykonávaní kontrolných akcií môžu zapojené orgány dohľadu nad trhom používať vyšetrovacie právomoci stanovené v kapitole V, ako aj akékoľvek iné právomoci, ktoré im boli udelené na základe vnútroštátneho práva.
+4. Orgány dohľadu nad trhom môžu vyzvať úradníkov Komisie a iné sprevádzajúce osoby oprávnené Komisiou, aby sa zúčastnili na kontrolných akciách.
+KAPITOLA VIII
+PRÁVO NA INFORMÁCIE A NA PROSTRIEDOK NÁPRAVY
+Článok 33
+Výmena informácií medzi orgánmi a širokou verejnosťou
+1. Informácie o opatreniach týkajúcich sa výrobkov predstavujúcich riziko pre zdravie a bezpečnosť spotrebiteľov, ktoré majú orgány členských štátov alebo Komisia k dispozícii, sa vo všeobecnosti sprístupnia verejnosti v súlade s požiadavkami na transparentnosť a bez toho, aby boli dotknuté obmedzenia, ktoré sa vyžadujú v súvislosti s monitorovaním a vyšetrovaním. Verejnosť má predovšetkým prístup k informáciám týkajúcim sa identifikácie výrobku, povahy rizika a prijatých opatrení. Uvedené informácie sa poskytujú aj vo formátoch prístupných pre osoby so zdravotným postihnutím.
+2. Členské štáty a Komisia podniknú kroky potrebné na zabezpečenie toho, aby sa od ich úradníkov a zástupcov vyžadovalo, aby chránili informácie získané na účely tohto nariadenia. S uvedenými informáciami sa zaobchádza ako s dôvernými v súlade s právom Únie a vnútroštátnym právom.
+3. Ochrana služobného tajomstva nebráni tomu, aby sa informácie dôležité pre zabezpečenie účinnosti činností spojených so sledovaním trhu a dohľadom nad trhom odovzdali príslušným orgánom členských štátov a Komisii. Orgány prijímajúce informácie, na ktoré sa vzťahuje služobného tajomstvo, zabezpečia ich ochranu v súlade s právom Únie a vnútroštátnym právom.
+4. Členské štáty umožnia spotrebiteľom a iným zainteresovaným stranám podávať príslušným orgánom sťažnosti týkajúce sa bezpečnosti výrobkov, činností súvisiacich s dohľadom a kontrolou vo vzťahu ku konkrétnym výrobkom, ako aj prípadov, keď prostriedky nápravy ponúkané spotrebiteľom v prípade spätného prevzatia výrobkov nie sú uspokojivé. Takéto sťažnosti sa náležite prešetria. Príslušné orgány sťažovateľovi poskytnú v súlade s vnútroštátnym právom primerané informácie o prešetrení.
+Článok 34
+Portál Safety Gate
+1. Komisia na účely článku 9 ods. 9, článkov 20 a 22, článku 31 ods. 5 a článku 33 ods. 1 spravuje portál Safety Gate, ktorý poskytuje širokej verejnosti bezplatný a otvorený prístup k vybraným informáciám oznámeným v súlade s článkom 26 („portál Safety Gate“).
+2. Portál Safety Gate má intuitívne rozhranie pre používateľov a informácie poskytované na danom portáli sú ľahko prístupné verejnosti vrátane osôb so zdravotným postihnutím.
+3. Spotrebitelia a iné zainteresované strany majú možnosť informovať Komisiu o výrobkoch, ktoré môžu predstavovať riziko pre zdravie a bezpečnosť spotrebiteľov, prostredníctvom osobitnej sekcie portálu Safety Gate. Komisia náležite zohľadní získané informácie a v prípade potreby po overení ich presnosti bez zbytočného odkladu postúpi tieto informácie príslušným členským štátom, aby zabezpečila náležité prešetrenie týchto informácií. Komisia o svojich krokoch informuje spotrebiteľov a ostatné zainteresované strany.
+4. Komisia prijme prostredníctvom vykonávacieho aktu spôsoby zasielania informácií spotrebiteľmi v súlade s odsekom 3, ako aj spôsoby postupovania takýchto informácií dotknutým vnútroštátnym orgánom na účely prijatia prípadných následných opatrení. Tento vykonávací akt sa prijme v súlade s postupom preskúmania uvedeným v článku 46 ods. 3
+5. Komisia do 13. decembra 2024 vyvinie interoperabilné rozhranie, ktoré umožní prevádzkovateľom online trhov prepojiť ich rozhrania s portálom Safety Gate.
+6. Komisia prijme vykonávacie akty, v ktorých spresní zavedenie interoperabilného rozhrania portálu Safety Gate v súlade s odsekom 5, najmä pokiaľ ide o prístup do systému a jeho fungovanie. Uvedené vykonávacie akty sa prijmú v súlade s postupom preskúmania uvedeným v článku 46 ods. 3
+Článok 35
+Informácie o bezpečnosti výrobkov, ktoré majú poskytovať hospodárske subjekty a prevádzkovatelia online trhov spotrebiteľom
+1. V prípade spätného prevzatia výrobku z dôvodu bezpečnosti alebo ak spotrebitelia musia byť upozornení na určité informácie, aby sa zabezpečilo bezpečné používanie výrobku (ďalej len „bezpečnostné upozornenie“), hospodárske subjekty v súlade so svojimi príslušnými povinnosťami stanovenými v článkoch 9, 10, 11 a 12 a prevádzkovatelia online trhov v súlade so svojimi povinnosťami stanovenými v článku 22 ods. 12 zabezpečia, aby všetci dotknutí spotrebitelia, ktorých vedia identifikovať, boli informovaní priamo a bez zbytočného odkladu. Hospodárske subjekty a prípadne prevádzkovatelia online trhov, ktorí zhromažďujú osobné údaje svojich zákazníkov, využívajú tieto informácie na účely spätného prevzatia a vydávania bezpečnostných upozornení.
+2. Ak majú hospodárske subjekty a prevádzkovatelia online trhov zavedené systémy registrácie výrobkov alebo zákaznícke vernostné programy umožňujúce identifikáciu výrobkov kúpených zákazníkmi na iné účely ako kontaktovanie svojich zákazníkov s cieľom oboznámiť ich s bezpečnostnými informáciami, ponúknu svojim zákazníkom možnosť poskytnúť oddelené kontaktné údaje len na účely súvisiace s bezpečnosťou. Osobné údaje získané na uvedený účel sa obmedzujú na nevyhnutné minimum a použijú sa len na kontaktovanie spotrebiteľov v prípade spätného prevzatia alebo vydania bezpečnostného upozornenia.
+3. Komisia môže prostredníctvom vykonávacích aktov stanoviť pre konkrétne výrobky alebo kategórie výrobkov požiadavky, ktoré majú spĺňať hospodárske subjekty a prevádzkovatelia online trhov s cieľom poskytnúť spotrebiteľom možnosť zaregistrovať výrobok, ktorý kúpili, aby mohli byť priamo informovaní v prípade spätného prevzatia výrobku z dôvodu bezpečnosti alebo vydania bezpečnostného upozornenia v súvislosti s daným výrobkom v súlade s odsekom 1 tohto článku. Uvedené vykonávacie akty sa prijmú v súlade s postupom preskúmania uvedeným v článku 46 ods. 3
+4. Ak nie je možné kontaktovať všetkých dotknutých spotrebiteľov podľa odseku 1, hospodárske subjekty a prevádzkovatelia online trhov v súlade so svojimi príslušnými povinnosťami šíria jasné a viditeľné oznámenie o spätnom prevzatí alebo bezpečnostné upozornenie prostredníctvom iných vhodných kanálov, pričom zabezpečia, aby sa táto informácia dostala k čo najširšiemu okruhu spotrebiteľov, na čo prípadne využijú webové sídlo spoločnosti, kanály sociálnych médií, informačné bulletiny a maloobchodné predajne, a v prípade potreby aj oznámenia v masmédiách a iných komunikačných kanáloch. Informácie musia byť prístupné osobám so zdravotným postihnutím.
+Článok 36
+Oznámenie o spätnom prevzatí
+1. Ak sa informácie o spätnom prevzatí výrobku z dôvodu bezpečnosti poskytnú spotrebiteľom v písomnej forme v súlade s článkom 35 ods. 1 a 4, musia mať formu oznámenia o spätnom prevzatí.
+2. Oznámenie o spätnom prevzatí, ktoré je pre spotrebiteľov ľahko zrozumiteľné, musí byť dostupné v jazyku, resp. jazykoch členského štátu, resp. členských štátov, v ktorých bol výrobok sprístupnený na trhu, a musí obsahovať tieto prvky:
+a)
+nadpis pozostávajúci zo slov „Spätné prevzatie výrobku z dôvodu bezpečnosti“;
+b)
+jasný opis výrobku, ktorý je predmetom spätného prevzatia, vrátane:
+i)
+obrázku, názvu a značky výrobku;
+ii)
+identifikačného čísla výrobku, ako je číslo šarže alebo sériové číslo, a prípadne grafické označenie toho, kde ich možno na výrobku nájsť, a
+iii)
+informácií o tom, kedy, kde a kým bol výrobok predaný, ak sú k dispozícii;
+c)
+jasný opis nebezpečenstva spojeného s výrobkom, ktorý je predmetom spätného prevzatia, pričom sa treba vyhnúť akýmkoľvek prvkom, ktoré by mohli znížiť vnímanie rizika spotrebiteľmi, ako je použitie pojmov a výrazov ako „dobrovoľný“, „preventívny“, „na základe vlastného uváženia“, „vo výnimočných situáciách“ alebo „v konkrétnych situáciách“ alebo informácia o tom, že nebola hlásená žiadna nehoda;
+d)
+jasný opis opatrení, ktoré by mali spotrebitelia podniknúť, vrátane pokynu, aby okamžite prestali používať výrobok, ktorý je predmetom spätného prevzatia;
+e)
+jasný opis prostriedkov nápravy, ktoré majú spotrebitelia k dispozícii v súlade s článkom 37;
+f)
+bezplatné telefónne číslo alebo interaktívnu online službu, kde môžu spotrebitelia získať viac informácií v príslušnom úradnom jazyku, resp. jazykoch Únie; a
+g)
+prípadnú výzvu na poskytnutie informácií o spätnom prevzatí ďalším osobám.
+3. Komisia prostredníctvom vykonávacích aktov stanoví vzor oznámenia o spätnom prevzatí, pričom zohľadní vedecký vývoj a vývoj na trhu. Uvedené vykonávacie akty sa prijmú v súlade s konzultačným postupom uvedeným v článku 46 ods. 2 Komisia sprístupní uvedený vzor vo formáte, ktorý hospodárskym subjektom umožní ľahko vytvoriť oznámenie o spätnom prevzatí, a to aj v prístupných formátoch pre osoby so zdravotným postihnutím.
+Článok 37
+Prostriedky nápravy v prípade spätného prevzatia výrobku z dôvodu bezpečnosti
+1. Bez toho, aby boli dotknuté smernice (EÚ) 2019/770 a (EÚ) 2019/771, v prípade spätného prevzatia výrobku z dôvodu bezpečnosti iniciovaného hospodárskym subjektom alebo nariadeného vnútroštátnym príslušným orgánom hospodársky subjekt zodpovedný za spätné prevzatie výrobku z dôvodu bezpečnosti ponúkne spotrebiteľovi účinný, bezplatný a včasný prostriedok nápravy.
+2. Bez toho, aby boli dotknuté akékoľvek iné prostriedky nápravy, ktoré hospodársky subjekt zodpovedný za spätné prevzatie môže spotrebiteľovi ponúknuť, hospodársky subjekt ponúkne spotrebiteľovi výber medzi aspoň dvoma z týchto prostriedkov nápravy:
+a)
+oprava výrobku, ktorý je predmetom spätného prevzatia;
+b)
+nahradenie výrobku, ktorý je predmetom spätného prevzatia, bezpečným výrobkom rovnakého typu a aspoň rovnakej hodnoty a kvality; alebo
+c)
+primeraná náhrada hodnoty výrobku, ktorý je predmetom spätného prevzatia, za predpokladu, že výška náhrady sa rovná aspoň cene, ktorú zaplatil spotrebiteľ.
+Odchylne od prvého pododseku môže hospodársky subjekt ponúknuť spotrebiteľovi len jeden prostriedok nápravy, ak by iné prostriedky nápravy neboli možné alebo by v porovnaní s navrhovaným prostriedkom nápravy spôsobili hospodárskemu subjektu zodpovednému za spätné prevzatie výrobku z dôvodu bezpečnosti náklady, ktoré by boli neprimerané, a to vzhľadom na všetky okolnosti vrátane toho, či by sa alternatívny prostriedok nápravy mohol poskytnúť bez závažných ťažkostí pre spotrebiteľa.
+Spotrebiteľ má nárok na vrátenie peňazí za výrobok vždy, keď hospodársky subjekt zodpovedný za spätné prevzatie výrobku z dôvodu bezpečnosti nedokončil opravu alebo nahradenie výrobku v primeranej lehote a bez závažných ťažkostí pre spotrebiteľa.
+3. Oprava spotrebiteľom sa považuje za účinný prostriedok nápravy len vtedy, ak ju spotrebiteľ môže vykonať ľahko a bezpečne a ak sa uvádza v oznámení o spätnom prevzatí. Hospodársky subjekt zodpovedný za spätné prevzatie výrobku z dôvodu bezpečnosti poskytne v takýchto prípadoch spotrebiteľom potrebné pokyny, bezplatné náhradné diely alebo aktualizácie softvéru. Opravou, ktorú vykoná spotrebiteľ, spotrebiteľ nestráca práva stanovené v smerniciach (EÚ) 2019/770 a (EÚ) 2019/771.
+4. Likvidácia výrobku spotrebiteľmi sa zahrnie do opatrení, ktoré majú spotrebitelia podniknúť podľa článku 36 ods. 2 písm. d), len ak spotrebiteľ môže takúto likvidáciu vykonať ľahko a bezpečne, a nie je ním dotknuté právo spotrebiteľa na vrátenie peňazí alebo nahradenie výrobku, ktorý je predmetom spätného prevzatia, podľa odseku 1 tohto článku.
+5. Prostriedok nápravy nesmie spotrebiteľovi spôsobiť závažné ťažkosti. Spotrebiteľ nenesie náklady na prepravu ani iný spôsob vrátenia výrobku. V prípade výrobkov, ktoré vzhľadom na svoju povahu nie sú prenosné, zabezpečí hospodársky subjekt vyzdvihnutie výrobku.
+Článok 38
+Memorandá o porozumení
+1. Príslušné vnútroštátne orgány a Komisia môžu podporovať dobrovoľné memorandá o porozumení s hospodárskymi subjektmi alebo prevádzkovateľmi online trhov, ako aj s organizáciami zastupujúcimi spotrebiteľov alebo hospodárske subjekty, zamerané na prijatie dobrovoľných záväzkov s cieľom zvýšiť bezpečnosť výrobkov.
+2. Dobrovoľnými záväzkami podľa takýchto memoránd o porozumení nie sú dotknuté povinnosti hospodárskych subjektov a prevádzkovateľov online trhov podľa tohto nariadenia a iného príslušného práva Únie.
+Článok 39
+Žaloby v zastúpení
+Na žaloby v zastúpení podané vo veci porušení ustanovení tohto nariadenia, ktorých sa dopustili hospodárske subjekty a prevádzkovatelia online trhov a ktoré poškodzujú alebo môžu poškodiť kolektívne záujmy spotrebiteľov, sa uplatňuje smernica (EÚ) 2020/1828.
+KAPITOLA IX
+MEDZINÁRODNÁ SPOLUPRÁCA
+Článok 40
+Medzinárodná spolupráca
+1. S cieľom zlepšiť celkovú úroveň bezpečnosti výrobkov sprístupňovaných na trhu a zabezpečiť rovnaké podmienky na medzinárodnej úrovni môže Komisia spolupracovať, a to aj prostredníctvom výmeny informácií, s orgánmi tretích krajín alebo medzinárodnými organizáciami v oblasti uplatňovania tohto nariadenia. Každá takáto spolupráca je založená na reciprocite, obsahuje ustanovenia o dôvernosti zodpovedajúce ustanoveniam platným v Únii a zabezpečuje, aby sa každá výmena informácií uskutočňovala v súlade s uplatniteľným právom Únie. Spolupráca alebo výmena informácií sa môže okrem iného týkať:
+a)
+činností v oblasti presadzovania práva a opatrení týkajúcich sa bezpečnosti, a to aj s cieľom zabrániť obehu nebezpečných výrobkov, vrátane dohľadu nad trhom;
+b)
+metód posudzovania rizika a skúšania výrobkov;
+c)
+prípadov koordinovaného spätného prevzatia výrobkov a iných podobných opatrení;
+d)
+vedeckých, technických a regulačných otázok zameraných na zlepšenie bezpečnosti výrobkov a vypracovanie spoločných priorít a prístupov na medzinárodnej úrovni;
+e)
+nových otázok, ktoré majú zásadný význam pre zdravie a bezpečnosť;
+f)
+používania nových technológií na zlepšenie bezpečnosti výrobkov a zvýšenie vysledovateľnosti v dodávateľskom reťazci;
+g)
+činností súvisiacich s tvorbou noriem;
+h)
+výmeny úradníkov a programov odbornej prípravy.
+2. Komisia môže tretím krajinám alebo medzinárodným organizáciám poskytnúť vybrané informácie zo systému rýchleho varovania Safety Gate a získať príslušné informácie o bezpečnosti výrobkov a o preventívnych, reštriktívnych a nápravných opatreniach prijatých týmito tretími krajinami alebo medzinárodnými organizáciami. Komisia v prípade potreby oznámi takéto informácie vnútroštátnym orgánom.
+3. Výmena informácií uvedená v odseku 2 môže mať formu:
+a)
+nesystematickej výmeny v riadne odôvodnených a osobitných prípadoch; alebo
+b)
+systematickej výmeny založenej na administratívnej dohode, v ktorej sa uvádza druh informácií, ktoré sa majú vymieňať, a spôsoby tejto výmeny.
+4. Plná účasť na systéme rýchleho varovania Safety Gate môže byť otvorená pre žiadajúce krajiny a tretie krajiny za predpokladu, že ich právne predpisy sú v súlade s príslušným právom Únie a že sa zúčastňujú na európskom systéme normalizácie. Takáto účasť zahŕňa také isté povinnosti, aké vyplývajú podľa tohto nariadenia členským štátom, vrátane oznamovacích povinností a povinností prijať následné opatrenia. Plná účasť na systéme rýchleho varovania Safety Gate vychádza z dohôd medzi Úniou a týmito krajinami v súlade s podmienkami, ktoré sú stanovené v týchto dohodách.
+5. Akákoľvek výmena informácií podľa tohto článku sa v prípade, že sa týka osobných údajov, uskutočňuje v súlade s pravidlami Únie o ochrane údajov. Osobné údaje sa prenášajú len v rozsahu, v akom je takáto výmena nevyhnutná výlučne na účely ochrany zdravia alebo bezpečnosti spotrebiteľov.
+6. Informácie vymieňané podľa tohto článku sa používajú výlučne na účely ochrany zdravia alebo bezpečnosti spotrebiteľov.
+KAPITOLA X
+FINANČNÉ USTANOVENIA
+Článok 41
+Financovanie činností
+1. V súvislosti s uplatňovaním tohto nariadenia Únia financuje tieto činnosti:
+a)
+plnenie úloh siete pre bezpečnosť spotrebiteľov;
+b)
+vývoj a prevádzku systému rýchleho varovania Safety Gate vrátane vývoja elektronických riešení interoperability na výmenu údajov:
+i)
+medzi systémom rýchleho varovania Safety Gate a vnútroštátnymi systémami dohľadu nad trhom;
+ii)
+medzi systémom rýchleho varovania Safety Gate a colnými systémami;
+iii)
+s inými príslušnými obmedzenými systémami, ktoré orgány dohľadu nad trhom používajú na účely presadzovania práva;
+c)
+vývoj a správu portálu Safety Gate a Safety Business Gateway vrátane verejného neobmedzeného softvérového rozhrania na výmenu údajov s platformami a tretími stranami.
+2. V súvislosti s uplatňovaním tohto nariadenia Únia môže financovať tieto činnosti:
+a)
+vývoj nástrojov medzinárodnej spolupráce uvedených v článku 40;
+b)
+vypracovanie a aktualizáciu príspevkov k usmerneniam v oblasti dohľadu nad trhom a bezpečnosti výrobkov;
+c)
+sprístupňovanie odborných alebo vedeckých poznatkov Komisii s cieľom poskytnúť jej pomoc pri realizácii administratívnej spolupráce v oblasti dohľadu nad trhom;
+d)
+vykonávanie predbežných alebo doplnkových prác v súvislosti s vykonávaním činností dohľadu nad trhom súvisiacich s uplatňovaním tohto nariadenia, ako sú štúdie, programy, hodnotenia, usmernenia, porovnávacie analýzy, vzájomné spoločné návštevy a programy návštev, výmena personálu, výskumná práca, vývoj a správa databáz, činnosti týkajúce sa odbornej prípravy, laboratórna práca, skúšky spôsobilosti, medzilaboratórne skúšky a práca týkajúca sa posudzovania zhody;
+e)
+kampane dohľadu nad trhom a súvisiace aktivity Únie vrátane zdrojov a vybavenia, nástrojov IT a odbornej prípravy;
+f)
+činnosti vykonávané v rámci programov technickej pomoci, spolupráce s tretími krajinami a propagácie a skvalitňovania politík a systémov Únie v oblasti dohľadu nad trhom medzi zainteresovanými stranami na úrovni Únie a medzinárodnej úrovni vrátane činností vykonávaných spotrebiteľskými organizáciami na zlepšenie informovanosti spotrebiteľov.
+3. Finančná pomoc Únie na činnosti podľa tohto nariadenia sa vykonáva v súlade s nariadením Európskeho parlamentu a Rady (EÚ, Euratom) 2018/1046 (31) buď priamo, alebo nepriamo delegovaním úloh súvisiacich s plnením rozpočtu na subjekty uvedené v článku 62 ods. 1 písm. c) uvedeného nariadenia.
+4. Rozpočtové prostriedky pridelené na činnosti uvedené v tomto nariadení určuje každoročne Európsky parlament a Rada v medziach limitov platného finančného rámca.
+5. Rozpočtové prostriedky určené Európskym parlamentom a Radou na financovanie činností dohľadu nad trhom môžu pokrývať aj výdavky vzťahujúce sa na prípravné činnosti a činnosti monitorovania, kontroly, auditu a hodnotenia, ktoré sa vyžadujú na účely riadenia činností podľa tohto nariadenia a dosahovania ich cieľov; ide najmä o štúdie, stretnutia odborníkov, informačné a komunikačné opatrenia vrátane inštitucionálnej komunikácie politických priorít Únie, pokiaľ súvisia so všeobecnými cieľmi činností dohľadu nad trhom, výdavky spojené so sieťami informačných technológií zameranými na spracovanie a výmenu informácií a všetky ďalšie výdavky na technickú a administratívnu pomoc, ktoré Komisia vynakladá na riadenie činností podľa tohto nariadenia.
+Článok 42
+Ochrana finančných záujmov Únie
+1. Komisia prijme príslušné opatrenia na zabezpečenie toho, aby sa pri vykonávaní opatrení financovaných na základe tohto nariadenia chránili finančné záujmy Únie prostredníctvom uplatňovania preventívnych opatrení na zamedzenie podvodov, korupcie a iných nezákonných činností, prostredníctvom účinných kontrol a v prípade, že sa zistia nezrovnalosti, prostredníctvom vymáhania neoprávnene vyplatených súm a prípadne prostredníctvom účinných, primeraných a odrádzajúcich správnych a finančných sankcií.
+2. Komisia alebo jej zástupcovia a Dvor audítorov majú právomoc vykonať formou kontrol dokumentov a kontrol na mieste audit u všetkých prijímateľov grantov, dodávateľov a subdodávateľov, ktorým boli poskytnuté finančné prostriedky Únie v rámci Programu pre jednotný trh a nadväzujúceho programu v súlade s ustanoveniami a postupmi stanovenými v nariadení Rady (Euratom, ES) č. 2185/96 (32).
+3. OLAF môže vykonávať vyšetrovania vrátane kontrol a inšpekcií na mieste v súlade s ustanoveniami a postupmi stanovenými v nariadení Európskeho parlamentu a Rady (EÚ, Euratom) č. 883/2013 (33) a v nariadení (Euratom, ES) č. 2185/96 s cieľom zistiť, či v súvislosti s dohodou o grante alebo rozhodnutím o grante alebo zmluvou financovanou z programu nedošlo k podvodu, korupcii alebo akémukoľvek inému protiprávnemu konaniu poškodzujúcemu finančné záujmy Únie.
+4. Bez toho, aby boli dotknuté odseky 1, 2 a 3, dohody o spolupráci s tretími krajinami a medzinárodnými organizáciami, zmluvy, dohody o grante a rozhodnutia o grante vyplývajúce z vykonávania tohto nariadenia obsahujú ustanovenia výslovne oprávňujúce Komisiu, Dvor audítorov a úrad OLAF vykonávať takéto audity a vyšetrovania v súlade s ich príslušnými právomocami.
+KAPITOLA XI
+ZÁVEREČNÉ USTANOVENIA
+Článok 43
+Zodpovednosť
+1. Žiadne rozhodnutie prijaté na základe tohto nariadenia, ktoré stanovuje obmedzenia týkajúce sa uvedenia výrobku na trh alebo jeho sprístupnenia na trhu alebo vyžaduje jeho stiahnutie či spätné prevzatie, nemá vplyv na posúdenie zodpovednosti dotknutej strany na základe vnútroštátneho práva platného v danom prípade.
+2. Toto nariadenie nemá vplyv na smernicu Rady 85/374/EHS (34).
+Článok 44
+Sankcie
+1. Členské štáty stanovia pravidlá, pokiaľ ide o sankcie uplatniteľné pri porušení tohto nariadenia, ktorými sa zavádzajú povinnosti hospodárskych subjektov a prevádzkovateľov online trhov, a prijmú všetky opatrenia potrebné na to, aby zabezpečili ich vykonávanie v súlade s vnútroštátnym právom.
+2. Stanovené sankcie musia byť účinné, primerané a odrádzajúce.
+3. Členské štáty do 13. decembra 2024 oznámia Komisii tieto pravidlá a tieto opatrenia, ak už neboli oznámené predtým, a bezodkladne jej oznámia každú následnú zmenu, ktorá sa ich týka.
+Článok 45
+Vykonávanie delegovania právomoci
+1. Komisii sa udeľuje právomoc prijímať delegované akty za podmienok stanovených v tomto článku.
+2. Právomoc prijímať delegované akty uvedené v článku 18 ods. 3 a článku 26 ods. 10 sa Komisii udeľuje na dobu neurčitú od 12. júna 2023.
+3. Delegovanie právomocí uvedené v článku 18 ods. 3 a v článku 26 ods. 10 môže Európsky parlament alebo Rada kedykoľvek odvolať. Rozhodnutím o odvolaní sa ukončuje delegovanie právomoci, ktoré sa v ňom uvádza. Rozhodnutie nadobúda účinnosť dňom nasledujúcim po jeho uverejnení v Úradnom vestníku Európskej únie alebo k neskoršiemu dátumu, ktorý je v ňom určený. Nie je ním dotknutá platnosť delegovaných aktov, ktoré už nadobudli účinnosť.
+4. Komisia pred prijatím delegovaného aktu konzultuje s expertmi určenými jednotlivými členskými štátmi v súlade so zásadami stanovenými v Medziinštitucionálnej dohode z 13. apríla 2016 o lepšej tvorbe práva.
+5. Komisia oznamuje delegovaný akt hneď po jeho prijatí súčasne Európskemu parlamentu a Rade.
+6. Delegovaný akt prijatý podľa článku 18 ods. 3 alebo článku 26 ods. 10 nadobudne účinnosť, len ak Európsky parlament alebo Rada voči nemu nevzniesli námietku v lehote troch mesiacov odo dňa oznámenia uvedeného aktu Európskemu parlamentu a Rade alebo ak pred uplynutím uvedenej lehoty Európsky parlament a Rada informovali Komisiu o svojom rozhodnutí nevzniesť námietku. Na podnet Európskeho parlamentu alebo Rady sa táto lehota predĺži o dva mesiace.
+Článok 46
+Postup výboru
+1. Komisii pomáha výbor. Uvedený výbor je výborom v zmysle nariadenia (EÚ) č. 182/2011.
+2. Ak sa odkazuje na tento odsek, uplatňuje sa článok 4 nariadenia (EÚ) č. 182/2011.
+3. Ak sa odkazuje na tento odsek, uplatňuje sa článok 5 nariadenia (EÚ) č. 182/2011.
+4. Ak sa odkazuje na tento odsek, uplatňuje sa článok 8 nariadenia (EÚ) č. 182/2011 v spojení s jeho článkom 5.
+Článok 47
+Hodnotenie a preskúmanie
+1. Komisia do 13. decembra 2029 vykoná hodnotenie tohto nariadenia. Komisia predloží správu o hlavných zisteniach Európskemu parlamentu, Rade a Európskemu hospodárskemu a sociálnemu výboru. V uvedenej správe sa posúdi, či sa týmto nariadením, a najmä článkami 18, 20 a 25, dosiahol cieľ, ktorým je zlepšenie ochrany spotrebiteľov pred nebezpečnými výrobkami, pričom sa zohľadnia výzvy, ktoré predstavujú nové technológie, a jeho vplyv na podniky, a najmä na MSP.
+2. Komisia do 13. decembra 2029 vypracuje hodnotiacu správu o uplatňovaní článku 16. V uvedenej správe sa posúdi najmä rozsah pôsobnosti, účinky a náklady a prínosy uvedeného článku. V prípade potreby sa k správe pripojí legislatívny návrh.
+3. Komisia do 13. decembra 2027 posúdi spôsoby vykonávania ustanovení o odstraňovaní nezákonného obsahu z online trhov uvedených v článku 22 ods. 4, 5 a 6 prostredníctvom systému oznamovania Únie navrhnutého a vyvinutého v rámci portálu Safety Gate. V prípade potreby sa k tomuto posúdeniu pripojí legislatívny návrh.
+4. Komisia do 13. decembra 2026 uverejní správu o fungovaní prepojenia medzi informačným a komunikačným systémom uvedeným v článku 34 nariadenia (EÚ) 2019/1020 a portálom Safety Gate uvedeným v tomto nariadení vrátane informácií o ich príslušných funkciách, ďalších zlepšeniach alebo prípadne o vývoji nového rozhrania.
+5. Komisia do 13. decembra 2029 vypracuje hodnotiacu správu o uplatňovaní článku 44. V uvedenej správe sa posúdi najmä účinnosť a odrádzajúci účinok sankcií uložených podľa uvedeného článku. V prípade potreby sa k správe pripojí legislatívny návrh.
+6. Členské štáty poskytnú Komisii na požiadanie informácie potrebné na vykonanie hodnotenia tohto nariadenia.
+Článok 48
+Zmeny nariadenia (EÚ) č. 1025/2012
+Nariadenie (EÚ) č. 1025/2012 sa mení takto:
+1.
+V článku 10 sa dopĺňa tento odsek:
+„7. Ak európska norma vypracovaná na podporu nariadenia Európskeho parlamentu a Rady (EÚ) 2023/988 (*1) spĺňa všeobecnú požiadavku na bezpečnosť stanovenú v článku 5 uvedeného nariadenia a osobitné požiadavky na bezpečnosť uvedené v článku 7 ods. 2 uvedeného nariadenia, Komisia bezodkladne uverejní odkaz na uvedenú európsku normu v Úradnom vestníku Európskej únie.
+(*1) Nariadenie Európskeho parlamentu a Rady (EÚ) 2023/988 z 10. mája 2023 o všeobecnej bezpečnosti výrobkov, ktorým sa mení nariadenie Európskeho parlamentu a Rady (EÚ) č. 1025/2012 a smernica Európskeho parlamentu a Rady (EÚ) 2020/1828 a zrušuje smernica Európskeho parlamentu a Rady 2001/95/ES a smernica Rady 87/357/EHS (Ú. v. EÚ L 135, 23.5.2023, s. 1).“
+"
+2.
+V článku 11 sa odseky 1, 2 a 3 nahrádzajú takto:
+„1. Ak sa členský štát alebo Európsky parlament domnieva, že harmonizovaná norma alebo európska norma vypracovaná na podporu nariadenia (EÚ) 2023/988 nespĺňa úplne požiadavky, na ktoré sa má vzťahovať a ktoré sú stanovené v príslušných harmonizačných právnych predpisoch Únie alebo v uvedenom nariadení, informuje o tom Komisiu, pričom uvedie podrobné vysvetlenie. Komisia po porade s výborom zriadeným príslušným harmonizačným právnym predpisom Únie, ak existuje, alebo s výborom zriadeným uvedeným nariadením či po iných formách konzultácie so sektorovými expertmi rozhodne:
+a)
+či v Úradnom vestníku Európskej únie uverejní, neuverejní alebo uverejní s obmedzením odkazy na príslušnú harmonizovanú normu alebo európsku normu vypracovanú na podporu uvedeného nariadenia; a
+b)
+či v Úradnom vestníku Európskej únie ponechá, ponechá s obmedzením alebo zruší odkazy na príslušnú harmonizovanú normu alebo európsku normu vypracovanú na podporu uvedeného nariadenia.
+2. Komisia uverejní na svojej webovej stránke informácie o harmonizovaných normách a európskych normách vypracovaných na podporu nariadenia (EÚ) 2023/988, ktoré boli predmetom rozhodnutia podľa odseku 1.
+3. Komisia informuje o každom rozhodnutí prijatom podľa odseku 1 príslušnú európsku normalizačnú organizáciu a v prípade potreby požiada o revíziu príslušných harmonizovaných noriem alebo európskych noriem vypracovaných na podporu nariadenia (EÚ) 2023/988.“
+Článok 49
+Zmena smernice (EÚ) 2020/1828
+V prílohe I k smernici (EÚ) 2020/1828 sa bod 8 nahrádza takto:
+„8.
+Nariadenie Európskeho parlamentu a Rady (EÚ) 2023/988 z 10. mája 2023 o všeobecnej bezpečnosti výrobkov, ktorým sa mení nariadenie Európskeho parlamentu a Rady (EÚ) č. 1025/2012 a smernica Európskeho parlamentu a Rady (EÚ) 2020/1828 a zrušuje smernica Európskeho parlamentu a Rady 2001/95/ES a smernica Rady 87/357/EHS (Ú. v. EÚ L 135, 23.5.2023, s. 1).“
+Článok 50
+Zrušenie
+1. Smernice 87/357/EHS a 2001/95/ES sa zrušujú s účinnosťou od 13. decembra 2024.
+2. Odkazy na zrušené smernice sa považujú za odkazy na toto nariadenie a na nariadenie (EÚ) č. 1025/2012 a znejú v súlade s tabuľkou zhody uvedenou v prílohe k tomuto nariadeniu.
+Článok 51
+Prechodné ustanovenie
+Členské štáty nebránia tomu, aby sa na trhu sprístupňovali výrobky, na ktoré sa vzťahuje smernica 2001/95/ES a ktoré sú v zhode s uvedenou smernicou a boli uvedené na trh pred 13. decembrom 2024.
+Článok 52
+Nadobudnutie účinnosti a uplatňovanie
+Toto nariadenie nadobúda účinnosť dvadsiatym dňom nasledujúcim po jeho uverejnení v Úradnom vestníku Európskej únie.
+Uplatňuje sa od 13. decembra 2024.
+Toto nariadenie je záväzné v celom rozsahu a priamo uplatniteľné vo všetkých členských štátoch.
+V Štrasburgu 10. mája 2023
+Za Európsky parlament
+predsedníčka
+R. METSOLA
+Za Radu
+predsedníčka
+J. ROSWALL
+(1)
+Ú. v. EÚ C 105, 4.3.2022, s. 99.
+(2) Pozícia Európskeho parlamentu z 30. marca 2023 (zatiaľ neuverejnená v úradnom vestníku) a rozhodnutie Rady z 25. apríla 2023.
+(3) Smernica Európskeho parlamentu a Rady 2001/95/ES z 3. decembra 2001 o všeobecnej bezpečnosti výrobkov (Ú. v. ES L 11, 15.1.2002, s. 4).
+(4) Smernica Rady 87/357/EHS z 25. júna 1987 o harmonizácii právnych predpisov členských štátov týkajúcich sa výrobkov, ktorých vlastnosti sa javia ako iné, než v skutočnosti sú, a ktoré preto ohrozujú zdravie alebo bezpečnosť spotrebiteľov (Ú. v. ES L 192, 11.7.1987, s. 49).
+(5) Nariadenie Európskeho parlamentu a Rady (EÚ) 2019/1020 z 20. júna 2019 o dohľade nad trhom a súlade výrobkov a o zmene smernice 2004/42/ES a nariadení (ES) č. 765/2008 a (EÚ) č. 305/2011 (Ú. v. EÚ L 169, 25.6.2019, s. 1).
+(6) Nariadenie Európskeho parlamentu a Rady (EÚ) č. 178/2002 z 28. januára 2002, ktorým sa ustanovujú všeobecné zásady a požiadavky potravinového práva, zriaďuje Európsky úrad pre bezpečnosť potravín a stanovujú postupy v záležitostiach bezpečnosti potravín (Ú. v. ES L 31, 1.2.2002, s. 1).
+(7) Nariadenie Európskeho parlamentu a Rady (EÚ) 2017/625 z 15. marca 2017 o úradných kontrolách a iných úradných činnostiach vykonávaných na zabezpečenie uplatňovania potravinového a krmivového práva a pravidiel pre zdravie zvierat a dobré životné podmienky zvierat, pre zdravie rastlín a pre prípravky na ochranu rastlín, o zmene nariadení Európskeho parlamentu a Rady (ES) č. 999/2001, (ES) č. 396/2005, (ES) č. 1069/2009, (ES) č. 1107/2009, (EÚ) č. 1151/2012, (EÚ) č. 652/2014, (EÚ) 2016/429 a (EÚ) 2016/2031, nariadení Rady (ES) č. 1/2005 a (ES) č. 1099/2009 a smerníc Rady 98/58/ES, 1999/74/ES, 2007/43/ES, 2008/119/ES a 2008/120/ES a o zrušení nariadení Európskeho parlamentu a Rady (ES) č. 854/2004 a (ES) č. 882/2004, smerníc Rady 89/608/EHS, 89/662/EHS, 90/425/EHS, 91/496/EHS, 96/23/ES, 96/93/ES a 97/78/ES a rozhodnutia Rady 92/438/EHS (nariadenie o úradných kontrolách) (Ú. v. EÚ L 95, 7.4.2017, s. 1).
+(8) Nariadenie Európskeho parlamentu a Rady (ES) č. 1935/2004 z 27. októbra 2004 o materiáloch a predmetoch určených na styk s potravinami a o zrušení smerníc 80/590/EHS a 89/109/EHS (Ú. v. EÚ L 338, 13.11.2004, s. 4).
+(9) Nariadenie Európskeho parlamentu a Rady (EÚ) 2016/2031 z 26. októbra 2016 o ochranných opatreniach proti škodcom rastlín, ktorým sa menia nariadenia Európskeho parlamentu a Rady (EÚ) č. 228/2013, (EÚ) č. 652/2014 a (EÚ) č. 1143/2014 a zrušujú smernice Rady 69/464/EHS, 74/647/EHS, 93/85/EHS, 98/57/ES, 2000/29/ES, 2006/91/ES a 2007/33/ES (Ú. v. EÚ L 317, 23.11.2016, s. 4).
+(10) Nariadenie Európskeho parlamentu a Rady (ES) č. 1069/2009 z 21. októbra 2009, ktorým sa ustanovujú zdravotné predpisy týkajúce sa vedľajších živočíšnych produktov a odvodených produktov neurčených na ľudskú spotrebu a ktorým sa zrušuje nariadenie (ES) č. 1774/2002 (nariadenie o vedľajších živočíšnych produktoch) (Ú. v. EÚ L 300, 14.11.2009, s. 1).
+(11) Nariadenie Európskeho parlamentu a Rady (ES) č. 1107/2009 z 21. októbra 2009 o uvádzaní prípravkov na ochranu rastlín na trh a o zrušení smerníc Rady 79/117/EHS a 91/414/EHS (Ú. v. EÚ L 309, 24.11.2009, s. 1).
+(12) Nariadenie Európskeho parlamentu a Rady (EÚ) 2018/1139 zo 4. júla 2018 o spoločných pravidlách v oblasti civilného letectva, ktorým sa zriaďuje Agentúra Európskej únie pre bezpečnosť letectva a ktorým sa menia nariadenia Európskeho parlamentu a Rady (ES) č. 2111/2005, (ES) č. 1008/2008, (EÚ) č. 996/2010, (EÚ) č. 376/2014 a smernice Európskeho parlamentu a Rady 2014/30/EÚ a 2014/53/EÚ a zrušujú nariadenia Európskeho parlamentu a Rady (ES) č. 552/2004 a (ES) č. 216/2008 a nariadenie Rady (EHS) č. 3922/91 (Ú. v. EÚ L 212, 22.8.2018, s. 1).
+(13) Smernica Rady 2006/112/ES z 28. novembra 2006 o spoločnom systéme dane z pridanej hodnoty (Ú. v. EÚ L 347, 11.12.2006, s. 1).
+(14) Nariadenie Európskeho parlamentu a Rady (EÚ) č. 1025/2012 z 25. októbra 2012 o európskej normalizácii, ktorým sa menia a dopĺňajú smernice Rady 89/686/EHS a 93/15/EHS a smernice Európskeho parlamentu a Rady 94/9/ES, 94/25/ES, 95/16/ES, 97/23/ES, 98/34/ES, 2004/22/ES, 2007/23/ES, 2009/23/ES a 2009/105/ES a ktorým sa zrušuje rozhodnutie Rady 87/95/EHS a rozhodnutie Európskeho parlamentu a Rady č. 1673/2006/ES (Ú. v. EÚ L 316, 14.11.2012, s. 12).
+(15) Smernica Európskeho parlamentu a Rady 2011/83/EÚ z 25. októbra 2011 o právach spotrebiteľov, ktorou sa mení a dopĺňa smernica Rady 93/13/EHS a smernica Európskeho parlamentu a Rady 1999/44/ES a ktorou sa zrušuje smernica Rady 85/577/EHS a smernica Európskeho parlamentu a Rady 97/7/ES (Ú. v. EÚ L 304, 22.11.2011, s. 64).
+(16) Smernica Európskeho parlamentu a Rady 2000/31/ES z 8. júna 2000 o určitých právnych aspektoch služieb informačnej spoločnosti na vnútornom trhu, najmä o elektronickom obchode (smernica o elektronickom obchode) (Ú. v. ES L 178, 17.7.2000, s. 1).
+(17) Nariadenie Európskeho parlamentu a Rady (EÚ) 2022/2065 z 19. októbra 2022 o jednotnom trhu s digitálnymi službami a o zmene smernice 2000/31/ES (akt o digitálnych službách) (Ú. v. EÚ L 277, 27.10.2022, s. 1).
+(18) Nariadenie Európskeho parlamentu a Rady (EÚ) č. 952/2013 z 9. októbra 2013, ktorým sa ustanovuje Colný kódex Únie (Ú. v. EÚ L 269, 10.10.2013, s. 1).
+(19) Smernica Európskeho parlamentu a Rady (EÚ) 2019/771 z 20. mája 2019 o určitých aspektoch týkajúcich sa zmlúv o predaji tovaru, ktorou sa mení nariadenie (EÚ) 2017/2394 a smernica 2009/22/ES a zrušuje smernica 1999/44/ES (Ú. v. EÚ L 136, 22.5.2019, s. 28).
+(20) Smernica Európskeho parlamentu a Rady (EÚ) 2019/770 z 20. mája 2019 o určitých aspektoch týkajúcich sa zmlúv o dodávaní digitálneho obsahu a digitálnych služieb (Ú. v. EÚ L 136, 22.5.2019, s. 1).
+(21) Smernica Európskeho parlamentu a Rady (EÚ) 2020/1828 z 25. novembra 2020 o žalobách v zastúpení na ochranu kolektívnych záujmov spotrebiteľov a o zrušení smernice 2009/22/ES (Ú. v. EÚ L 409, 4.12.2020, s. 1).
+(22)
+Ú. v. EÚ L 123, 12.5.2016, s. 1.
+(23) Nariadenie Európskeho parlamentu a Rady (EÚ) č. 182/2011 zo 16. februára 2011, ktorým sa ustanovujú pravidlá a všeobecné zásady mechanizmu, na základe ktorého členské štáty kontrolujú vykonávanie vykonávacích právomocí Komisie (Ú. v. EÚ L 55, 28.2.2011, s. 13).
+(24) Nariadenie Európskeho parlamentu a Rady (EÚ) 2016/679 z 27. apríla 2016 o ochrane fyzických osôb pri spracúvaní osobných údajov a o voľnom pohybe takýchto údajov, ktorým sa zrušuje smernica 95/46/ES (všeobecné nariadenie o ochrane údajov) (Ú. v. EÚ L 119, 4.5.2016, s. 1).
+(25) Nariadenie Európskeho parlamentu a Rady (EÚ) 2018/1725 z 23. októbra 2018 o ochrane fyzických osôb pri spracúvaní osobných údajov inštitúciami, orgánmi, úradmi a agentúrami Únie a o voľnom pohybe takýchto údajov, ktorým sa zrušuje nariadenie (ES) č. 45/2001 a rozhodnutie č. 1247/2002/ES (Ú. v. EÚ L 295, 21.11.2018, s. 39).
+(26) Smernica Európskeho parlamentu a Rady 2002/58/ES z 12. júla 2002, týkajúca sa spracovávania osobných údajov a ochrany súkromia v sektore elektronických komunikácií (smernica o súkromí a elektronických komunikáciách) (Ú. v. ES L 201, 31.7.2002, s. 37).
+(27) Smernica Európskeho parlamentu a Rady 97/67/ES z 15. decembra 1997 o spoločných pravidlách rozvoja vnútorného trhu poštových služieb Spoločenstva a zlepšovaní kvality služieb (Ú. v. ES L 15, 21.1.1998, s. 14).
+(28) Nariadenie Európskeho parlamentu a Rady (EÚ) 2018/644 z 18. apríla 2018 o službách cezhraničného dodávania balíkov (Ú. v. EÚ L 112, 2.5.2018, s. 19).
+(29) Nariadenie Európskeho parlamentu a Rady (EÚ) 2019/515 z 19. marca 2019 o vzájomnom uznávaní tovaru, ktorý je v súlade s právnymi predpismi uvedený na trh v inom členskom štáte, a o zrušení nariadenia (ES) č. 764/2008 (Ú. v. EÚ L 91, 29.3.2019, s. 1).
+(30) Vykonávacie rozhodnutie Komisie (EÚ) 2019/417 z 8. novembra 2018, ktorým sa stanovujú usmernenia pre riadenie systému Európskej únie na rýchlu výmenu informácií (RAPEX) vytvoreného podľa článku 12 smernice 2001/95/ES o všeobecnej bezpečnosti výrobkov a jeho systému oznamovania (Ú. v. EÚ L 73, 15.3.2019, s. 121).
+(31) Nariadenie Európskeho parlamentu a Rady (EÚ, Euratom) 2018/1046 z 18. júla 2018 o rozpočtových pravidlách, ktoré sa vzťahujú na všeobecný rozpočet Únie, o zmene nariadení (EÚ) č. 1296/2013, (EÚ) č. 1301/2013, (EÚ) č. 1303/2013, (EÚ) č. 1304/2013, (EÚ) č. 1309/2013, (EÚ) č. 1316/2013, (EÚ) č. 223/2014, (EÚ) č. 283/2014 a rozhodnutia č. 541/2014/EÚ a o zrušení nariadenia (EÚ, Euratom) č. 966/2012 (Ú. v. EÚ L 193, 30.7.2018, s. 1).
+(32) Nariadenie Rady (Euratom, ES) č. 2185/96 z 11. novembra 1996 o kontrolách a inšpekciách na mieste, vykonávaných Komisiou s cieľom ochrany finančných záujmov Európskych spoločenstiev pred spreneverou a inými podvodmi (Ú. v. ES L 292, 15.11.1996, s. 2).
+(33) Nariadenie Európskeho parlamentu a Rady (EÚ, Euratom) č. 883/2013 z 11. septembra 2013 o vyšetrovaniach vykonávaných Európskym úradom pre boj proti podvodom (OLAF), ktorým sa zrušuje nariadenie Európskeho parlamentu a Rady (ES) č. 1073/1999 a nariadenie Rady (Euratom) č. 1074/1999 (Ú. v. EÚ L 248, 18.9.2013, s. 1).
+(34) Smernica Rady 85/374/EHS z 25. júla 1985 o aproximácii zákonov, iných právnych predpisov a správnych opatrení členských štátov o zodpovednosti za chybné výrobky (Ú. v. ES L 210, 7.8.1985, s. 29).
+PRÍLOHA
+TABUĽKA ZHODY
+Smernica 87/357/EHS
+Smernica 2001/95/ES
+Nariadenie (EÚ) č. 1025/2012
+Toto nariadenie
+Článok 1 ods. 2
+Článok 2 ods. 1 a 2
+Článok 2 s výnimkou písmena a) druhého pododseku a písmena b) druhého pododseku
+Článok 3
+Článok 2 písm. a) druhý pododsek
+Článok 2 ods. 2 bod i) a článok 2 ods. 3
+Článok 2 písm. b) druhý pododsek
+Článok 6 ods. 2
+Článok 3 ods. 1
+Článok 5
+Článok 3 ods. 2
+Článok 7 ods. 1
+Článok 3 ods. 3
+Článok 8
+Článok 3 ods. 4
+Článok 7 ods. 3
+Článok 4 ods. 1 písm. a) a b)
+Článok 10 ods. 1
+Článok 7 ods. 2
+Článok 4 ods. 1 písm. c)
+–
+–
+Článok 4 ods. 1 písm. d)
+–
+–
+Článok 4 ods. 2 prvý pododsek
+Článok 10 ods. 7
+Článok 48 ods. 1 písm. a)
+Článok 4 ods. 2 druhý pododsek
+–
+–
+Článok 4 ods. 2 tretí a štvrtý pododsek
+Článok 11 ods. 1 písm. b)
+Článok 48 ods. 1 písm. b)
+Článok 5 ods. 1 prvý pododsek
+Článok 9 ods. 7
+Článok 5 ods. 1 druhý pododsek
+–
+Článok 5 ods. 1 tretí pododsek písm. a)
+Článok 9 ods. 10, 12 a 13 a článok 11 ods. 9 a 10
+Článok 5 ods. 1 tretí pododsek písm. b)
+Článok 9 ods. 8 a článok 11 ods. 8
+Článok 5 ods. 1 štvrtý pododsek písm. a)
+Článok 9 ods. 5 a 6 a článok 11 ods. 3
+Článok 5 ods. 1 štvrtý pododsek písm. b) prvá veta
+Článok 9 ods. 2 a 3
+Článok 5 ods. 1 štvrtý pododsek písm. b) druhá veta
+Článok 9 ods. 11, 12 a 13 a článok 11 ods. 9, 10 a 11
+Článok 5 ods. 1 piaty pododsek
+Článok 9 ods. 8 psím. a)
+Článok 5 ods. 2
+Článok 12 ods. 1 a 3
+Článok 5 ods. 3 prvý pododsek
+Článok 9 ods. 8, článok 11 ods. 8 a článok 12 ods. 4
+Článok 5 ods. 3 druhý pododsek
+–
+Článok 5 ods. 4
+Článok 15
+Články 6 až 9
+Článok 2 ods. 2, články 23 a 44
+Článok 10 ods. 1
+Článok 30
+Článok 10 ods. 2
+Články 31 a 32
+Článok 11 ods. 1 prvý pododsek
+Článok 26 ods. 3
+Článok 11 ods. 1 druhý pododsek
+–
+Článok 11 ods. 1 tretí pododsek
+Článok 26 ods. 10
+Článok 11 ods. 2
+Článok 26 ods. 5
+Článok 12 ods. 1 prvý a štvrtý pododsek
+Článok 26 ods. 1 a 2
+Článok 12 ods. 1 druhý pododsek
+–
+Článok 12 ods. 1 tretí pododsek
+–
+Článok 12 ods. 2
+Článok 26 ods. 5 a 7
+Článok 12 ods. 3
+Článok 26 ods. 10
+Článok 12 ods. 4
+Článok 40 ods. 2 až 6
+Článok 13
+Článok 28
+Články 14 a 15
+Článok 46
+Článok 16 ods. 1 prvý pododsek
+Článok 33 ods. 1
+Článok 16 ods. 1 druhý pododsek
+Článok 33 ods. 2
+Článok 16 ods. 2
+Článok 33 ods. 3
+Článok 17
+Článok 43 ods. 2
+Článok 18 ods. 1 a 2
+Článok 23
+Článok 18 ods. 3
+Článok 43 ods. 1
+Článok 19 ods. 1
+–
+Článok 19 ods. 2
+Článok 47
+Článok 20
+–
+Článok 21
+Článok 52
+Príloha I odsek 1
+Článok 9 ods. 8, článok 10 ods. 2 písm. c), článok 11 ods. 8 a článok 12 ods. 4
+Príloha I odseky 2 a 3
+Článok 26
+Príloha III
+–
+Príloha IV
+Príloha
+Články 1 a 2
+Článok 6 ods. 1 prvý pododsek a článok 6 ods. 1 písm. f) bod i)
+Články 3 až 7
+–

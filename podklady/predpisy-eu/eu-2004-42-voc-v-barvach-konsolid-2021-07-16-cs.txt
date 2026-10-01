@@ -1,0 +1,435 @@
+02004L0042 — CS — 16.07.2021 — 005.001
+
+Tento dokument slouží výhradně k informačním účelům a nemá žádný právní účinek. Orgány a instituce Evropské unie nenesou za jeho obsah žádnou odpovědnost. Závazná znění příslušných právních předpisů, včetně jejich právních východisek a odůvodnění, jsou zveřejněna v Úředním věstníku Evropské unie a jsou k dispozici v databázi EUR-Lex. Tato úřední znění jsou přímo dostupná přes odkazy uvedené v tomto dokumentu
+
+►B SMĚRNICE EVROPSKÉHO PARLAMENTU A RADY 2004/42/ES ze dne 21. dubna 2004 o omezování emisí těkavých organických sloučenin vznikajících při používání organických rozpouštědel v některých barvách a lacích a výrobcích pro opravy nátěru vozidel a o změně směrnice 1999/13/ES (Úř. věst. L 143 30.4.2004, s. 87)
+
+Ve znění:
+
+Úřední věstník
+
+Č. Strana Datum
+
+M1 NAŘÍZENÍ EVROPSKÉHO PARLAMENTU A RADY (ES) č. 1137/2008 ze dne 22. října 2008 L 311 1 21.11.2008
+
+►M2 SMĚRNICE EVROPSKÉHO PARLAMENTU A RADY 2008/112/ES ze dne 16. prosince 2008, L 345 68 23.12.2008
+
+►M3 SMĚRNICE KOMISE 2010/79/EU ze dne 19. listopadu 2010, L 304 18 20.11.2010
+
+►M4 NAŘÍZENÍ EVROPSKÉHO PARLAMENTU A RADY (EU) 2019/1020 ze dne 20. června 2019 L 169 1 25.6.2019
+
+►M5 NAŘÍZENÍ EVROPSKÉHO PARLAMENTU A RADY (EU) 2019/1243 ze dne 20. června 2019, L 198 241 25.7.2019
+
+▼B
+
+SMĚRNICE EVROPSKÉHO PARLAMENTU A RADY 2004/42/ES
+
+ze dne 21. dubna 2004
+
+o omezování emisí těkavých organických sloučenin vznikajících při používání organických rozpouštědel v některých barvách a lacích a výrobcích pro opravy nátěru vozidel a o změně směrnice 1999/13/ES
+
+Článek 1
+
+Účel a oblast působnosti
+
+1.
+
+Účelem této směrnice je omezit celkový obsah VOC v některých barvách a lacích a výrobcích pro opravy nátěru vozidel za účelem prevence nebo snížení znečištění ovzduší troposférickým ozonem, na jehož tvorbě se VOC podílejí.
+
+2.
+
+K dosažení cíle uvedeného v odstavci 1 harmonizuje tato směrnice technické specifikace pro některé barvy a laky a výrobky pro opravy nátěru vozidel.
+
+3.
+
+Tato směrnice se vztahuje na výrobky uvedené v příloze I.
+
+4.
+
+Touto směrnicí nejsou dotčena nebo ovlivněna opatření, včetně požadavků na označování, přijímaná na úrovni Společenství nebo na vnitrostátní úrovni k ochraně zdraví spotřebitelů a pracovníků a jejich pracovního prostředí.
+
+Článek 2
+
+Definice
+
+Pro účely této směrnice se:
+
+1. „příslušným orgánem“rozumí orgán či orgány nebo subjekty, které jsou podle právních předpisů členského státu odpovědné za plnění povinností vyplývajících z této směrnice;
+
+2. „látkami“rozumějí chemické prvky a jejich sloučeniny ve stavu, v jakém se vyskytují v přírodě nebo jsou vyrobeny v průmyslu, a to v pevném, kapalném nebo plynném skupenství;
+
+3. ►M2 „směsí“ ◄ rozumí směsi nebo roztoky, které se skládají ze dvou nebo více látek;
+
+4. „organickou sloučeninou“rozumí sloučenina, která obsahuje přinejmenším uhlík a jeden nebo více z těchto prvků: vodík, kyslík, síra, fosfor, křemík, dusík nebo halogen, s výjimkou oxidů uhlíku a anorganických uhličitanů a hydrogenuhličitanů;
+
+5. „těkavou organickou sloučeninou (VOC)“rozumí organická sloučenina, jejíž počáteční bod varu při atmosférickém tlaku 101,3 kPa je nižší nebo se rovná 250 °C;
+
+6. „obsahem VOC“rozumí množství těkavých organických sloučenin, vyjádřené v gramech na litr (g/l), ve složení výrobku ve stavu, jak je připraven k použití. Za část obsahu VOC se nepovažuje množství těkavých organických sloučenin v určitém výrobku, které během zasychání chemicky reagují za vzniku složky nátěrové hmoty;
+
+7. „organickým rozpouštědlem“rozumí VOC, která se používá samotně nebo ve spojení s jinými prostředky k rozpouštění nebo ředění surovin, výrobků nebo odpadů nebo která se používá jako čisticí prostředek k rozpouštění znečišťujících látek, jako dispergační činidlo, jako prostředek k úpravě viskozity či povrchového napětí, jako plastifikátor nebo jako konzervant;
+
+8. „nátěrovou hmotou“rozumí ►M2 směs ◄ , včetně všech organických rozpouštědel nebo ►M2 směs ◄ obsahujících organická rozpouštědla nutná k jeho správnému použití, ►M2 která se používá ◄ k vytváření filmu s dekorativním, ochranným nebo jiným funkčním účinkem na určitém povrchu;
+
+9. „filmem“rozumí souvislá vrstva vzniklá nanesením jednoho nebo několika nátěrů na určitý podklad;
+
+10. „vodou ředitelnými nátěrovými hmotami (VŘNH)“rozumějí nátěrové hmoty, jejichž viskozita se upravuje vodou;
+
+11. „rozpouštědlovými nátěrovými hmotami (RNH)“rozumějí nátěrové hmoty, jejichž viskozita se upravuje organickými rozpouštědly;
+
+12. „uváděním na trh“rozumí zpřístupnění třetím stranám, buď za úplatu, nebo bezplatně. Dovoz na celní území Společenství se pro účely této směrnice považuje za uvádění na trh.
+
+Článek 3
+
+Požadavky
+
+1.
+
+Členské státy zajistí, aby výrobky uvedené v příloze I byly ode dne stanoveného v příloze II uváděny na trh na jejich území pouze tehdy, jestliže obsah VOC v těchto výrobcích nepřekračuje mezní hodnoty stanovené v příloze II a jestliže jsou splněna ustanovení článku 4.
+
+Ke stanovení, zda byly dodrženy mezní hodnoty obsahu VOC podle přílohy II, se použijí analytické metody podle přílohy III.
+
+U výrobků uvedených v příloze I, k nimž je nutno přidat rozpouštědla nebo jiné složky obsahující rozpouštědla, aby byly připraveny k použití, se mezní hodnoty podle přílohy II vztahují na obsah VOC ve výrobku ve stavu, jak je připraven k použití.
+
+2.
+
+Odchylně od odstavce 1 členské státy osvobodí od plnění výše uvedených požadavků výrobky, které se prodávají výlučně k použití při činnosti, na kterou se vztahuje směrnice 1999/13/ES a která se vykonává v registrovaných nebo povolených zařízeních podle článků 3 a 4 uvedené směrnice.
+
+3.
+
+Pro účely restaurace a údržby budov a historických vozidel, kterým byla příslušnými orgány přiznána zvláštní historická a kulturní hodnota, mohou členské státy udělovat individuální povolení k prodeji a nákupu přísně omezeného množství výrobků, u nichž nejsou dodrženy mezní hodnoty obsahu VOC stanovené v příloze II.
+
+4.
+
+Výrobky spadající do oblasti působnosti této směrnice, které prokazatelně byly vyrobeny před datem uvedeným v příloze II a nesplňují požadavky odstavce 1, mohou být uvedeny na trh v období 12 měsíců ode dne, kdy požadavek vztahující se na dotyčný výrobek vstoupil v platnost.
+
+Článek 4
+
+Označování
+
+Členské státy zajistí, aby výrobky stanovené v příloze I byly při uvádění na trh opatřeny štítkem. Na štítku se uvede:
+
+a)
+
+podkategorie výrobků a příslušné mezní hodnoty VOC v g/l podle přílohy II;
+
+b)
+
+nejvyšší obsah VOC v g/l v výrobku ve stavu, jak je připraven k použití.
+
+Článek 5
+
+Příslušný orgán
+
+Členské státy určí příslušný orgán odpovědný za plnění povinností stanovených v této směrnici a nejpozději do 30. dubna 2005 o něm uvědomí Komisi.
+
+▼M4 —————
+
+▼B
+
+Článek 8
+
+Volný oběh
+
+Členské státy nesmějí z důvodů spojených s touto směrnicí zakazovat, omezovat nebo bránit uvádění na trh výrobků, na které se vztahuje tato směrnice a které ve stavu, jak jsou připraveny k použití, splňují požadavky této směrnice.
+
+Článek 9
+
+Přezkoumání
+
+Komise se vyzývá, aby Evropskému parlamentu a Radě předložila
+
+1.
+
+nejpozději do roku 2008 zprávu o výsledcích přezkoumání podle článku 10 směrnice 2001/81/ES. Ve zprávě budou posouzeny:
+
+a)
+
+rámcové podmínky a možnosti pro snížení obsahu VOC ve výrobcích, na které se nevztahuje tato směrnice, včetně aerosolů pro barvy a laky;
+
+b)
+
+možnosti dalšího snížení (etapy II) obsahu VOC ve výrobcích pro opravy nátěru vozidel;
+
+c)
+
+všechny nové aspekty týkající se socioekonomických účinků zavedení etapy II pro barvy a laky;
+
+2.
+
+nejpozději do 30 měsíců ode dne zavedení mezních hodnot obsahu VOC etapy II podle přílohy II zprávu, v níž bude zejména přihlédnuto ke zprávám podle článku 7 a k výsledkům technologického vývoje při výrobě barev, laků a výrobků pro opravy nátěru vozidel. V této zprávě budou posouzeny rámcové podmínky a možnosti pro další snížení obsahu VOC ve výrobcích, na které se vztahuje tato směrnice, včetně případného rozlišení mezi barvami používanými na interiéry a exteriéry podkategorií d) a e) podle přílohy I bodu 1.1 a přílohy II části A.
+
+K těmto zprávám budou v případě potřeby připojeny návrhy na změny této směrnice.
+
+Článek 10
+
+Sankce
+
+Členské státy stanoví pravidla pro sankce za porušení vnitrostátních ustanovení přijatých podle této směrnice a přijmou nezbytná opatření k zajištění jejich provádění. Sankce musí být účinné, přiměřené a odrazující. Členské státy oznámí tato pravidla a opatření Komisi nejpozději do 30. října 2005 a neprodleně ji uvědomí o všech jejich dalších změnách.
+
+▼M5
+
+Článek 11
+
+Přizpůsobení technickému pokroku
+
+Komisi je svěřena pravomoc přijímat akty v přenesené pravomoci v souladu s článkem 11a, kterými se mění příloha III za účelem jejího přizpůsobení technickému pokroku.
+
+▼M5
+
+Článek 11a
+
+Výkon přenesené pravomoci
+
+1.
+
+Pravomoc přijímat akty v přenesené pravomoci je svěřena Komisi za podmínek stanovených v tomto článku.
+
+2.
+
+Pravomoc přijímat akty v přenesené pravomoci uvedené v článku 11 je svěřena Komisi na dobu pěti let od 26. července 2019. Komise vypracuje zprávu o přenesené pravomoci nejpozději devět měsíců před koncem tohoto pětiletého období. Přenesení pravomoci se automaticky prodlužuje o stejně dlouhá období, pokud Evropský parlament nebo Rada nevysloví proti tomuto prodloužení námitku nejpozději tři měsíce před koncem každého z těchto období.
+
+3.
+
+Evropský parlament nebo Rada mohou přenesení pravomoci uvedené v článku 11 kdykoli zrušit. Rozhodnutím o zrušení se ukončuje přenesení pravomoci v něm blíže určené. Rozhodnutí nabývá účinku prvním dnem po zveřejnění v Úředním věstníku Evropské unie nebo k pozdějšímu dni, který je v něm upřesněn. Nedotýká se platnosti již platných aktů v přenesené pravomoci.
+
+4.
+
+Před přijetím aktu v přenesené pravomoci Komise vede konzultace s odborníky jmenovanými jednotlivými členskými státy v souladu se zásadami stanovenými v interinstitucionální dohodě ze dne 13. dubna 2016 o zdokonalení tvorby právních předpisů ( 1 ).
+
+5.
+
+Přijetí aktu v přenesené pravomoci Komise neprodleně oznámí současně Evropskému parlamentu a Radě.
+
+6.
+
+Akt v přenesené pravomoci přijatý podle článku 11 vstoupí v platnost, pouze pokud proti němu Evropský parlament nebo Rada nevysloví námitky ve lhůtě dvou měsíců ode dne, kdy jim byl tento akt oznámen, nebo pokud Evropský parlament i Rada před uplynutím této lhůty informují Komisi o tom, že námitky nevysloví. Z podnětu Evropského parlamentu nebo Rady se tato lhůta prodlouží o dva měsíce.
+
+▼B
+
+Článek 12
+
+Výbor
+
+1.
+
+Komisi je nápomocen výbor zřízený článkem 13 směrnice Rady 1999/13/ES (dále jen „výbor“).
+
+2.
+
+Odkazuje-li se na tento odstavec, použijí se články 5 a 7 rozhodnutí 1999/468/ES s ohledem na článek 8 zmíněného rozhodnutí.
+
+Doba uvedená v čl. 5 odst. 6 rozhodnutí 1999/468/ES je tři měsíce.
+
+▼M5 —————
+
+▼B
+
+Článek 13
+
+Změna směrnice 1999/13/ES
+
+1.
+
+Směrnice 1999/13/ES se mění takto:
+
+V příloze I v oddílu „Přestříkávání vozidel“ se zrušuje tato odrážka:
+
+—
+
+„—
+
+nanášení nátěrů na silniční vozidla ve smyslu směrnice 70/156/EHS nebo na jejich části prováděné jako součást oprav, konzervace nebo dekorace vozidla mimo výrobní zařízení nebo“.
+
+2.
+
+Bez ohledu na odstavec 1 mohou členské státy zachovat a zavádět vnitrostátní opatření ke kontrole emisí vznikajících při činnostech při opravě nátěru vozidel, které byly vyřazeny z oblasti působnosti směrnice 1999/13/ES.
+
+Článek 14
+
+Provedení
+
+1.
+
+Členské státy uvedou v účinnost právní a správní předpisy nezbytné pro dosažení souladu s touto směrnicí nejpozději do 30. října 2005 a neprodleně o nich uvědomí Komisi.
+
+Tyto předpisy přijaté členskými státy musí obsahovat odkaz na tuto směrnici nebo musí být takový odkaz učiněn při jejich úředním vyhlášení. Způsob odkazu si stanoví členské státy.
+
+2.
+
+Členské státy sdělí Komisi znění hlavních ustanovení vnitrostátních právních předpisů, které přijmou v oblasti působnosti této směrnice, a předloží jí tabulku ukazující, jak přijatá vnitrostátní ustanovení odpovídají ustanovením této směrnice.
+
+Článek 15
+
+Vstup v platnost
+
+Tato směrnice vstupuje v platnost dnem vyhlášení v Úředním věstníku Evropské unie .
+
+Článek 16
+
+Určení
+
+Tato směrnice je určena členským státům.
+
+PŘÍLOHA I
+
+OBLAST PŮSOBNOSTI
+
+1.
+
+Pro účely této směrnice se barvami a laky rozumějí výrobky uvedené níže v podkategoriích, s výjimkou aerosolů. Jsou to nátěrové hmoty používané pro budovy, jejich vybavení a příslušenství a s nimi spojené konstrukce, sloužící k dekorativním, funkčním a ochranným účelům.
+
+1.1
+
+Podkategorie:
+
+a) „matné nátěrové hmoty pro stěny a stropy v interiéru“jsou nátěrové hmoty určené k nanášení na vnitřní stěny a stropy, se stupněm lesku ≤ 25@60 o ;
+
+b) „lesklé nátěrové hmoty pro stěny a stropy v interiéru“jsou nátěrové hmoty určené k nanášení na vnitřní stěny a stropy, se stupněm lesku > 25@60 o ;
+
+c) „nátěrové hmoty pro venkovní stěny z minerálního podkladu“jsou nátěrové hmoty určené k nanášení na vnější zdivo, cihlové stěny nebo sádrové stěny;
+
+d) „vnitřní/venkovní barvy na dřevo, kov nebo plasty pro vybavení a obklady budov“jsou nátěrové hmoty určené k nanášení na dveřní a okenní konstrukce a obklady, které vytvářejí krycí film. Určeny jsou pro dřevěné, kovové nebo plastové podklady. Tato podkategorie zahrnuje též podkladové nátěrové hmoty a nátěrové hmoty pro mezivrstvy;
+
+e) „vnitřní/venkovní laky a mořidla na vybavení budov“jsou nátěrové hmoty určené k nanášení na vybavení budov a vytvářející průhledný nebo poloprůhledný film pro účely dekorace nebo ochrany dřeva, kovu a plastů. Tato podkategorie zahrnuje též krycí lazurovací hmoty na dřevo, kterými se rozumějí nátěrové hmoty vytvářející krycí film a sloužící k dekoraci nebo k ochraně dřeva před povětrnostními vlivy podle normy EN 927-1 (kategorie polostabilní);
+
+f) „nefilmotvorná mořidla“jsou mořidla, která v souladu s normou EN 927-1:1996 tvoří vrstvu průměrné tloušťky menší než 5 μm, měřeno metodou 5A podle normy ISO 2808:1997;
+
+g) „základní nátěrové hmoty“jsou nátěrové hmoty s těsnicím nebo izolačním účinkem určené k použití na dřevo nebo na stěny a stropy;
+
+h) „penetrační nátěrové hmoty“jsou nátěrové hmoty určené ke stabilizaci volných částic podkladu nebo k dosažení hydrofobních vlastností nebo k ochraně dřeva proti zmodrání;
+
+i) „jednosložkové speciální nátěrové hmoty“jsou speciální nátěrové hmoty na bázi filmotvorných látek. Jsou určeny pro aplikace se zvláštními požadavky, jako jsou základní a vrchní nátěry na plasty, základní nátěry na železné podklady, základní nátěry na reaktivní kovy, jako je zinek a hliník, antikorozní nátěry, nátěrové hmoty na podlahy, včetně dřevěných a betonových podlah, ochrana proti graffiti, protipožární nátěry a nátěry odpovídající hygienickým normám v potravinářském průmyslu a ve zdravotnických zařízeních;
+
+j) „vícesložkové speciální nátěrové hmoty“jsou nátěrové hmoty ke stejnému použití jako jednosložkové speciální nátěrové hmoty, avšak s druhou složkou (např. terciárními aminy) přidávanou před použitím;
+
+k) „vícebarevné nátěrové hmoty“jsou nátěrové hmoty, které přímo při prvním nanesení vytvářejí dvoubarevné nebo vícebarevné efekty;
+
+l) „nátěrové hmoty s dekorativními efekty“jsou nátěrové hmoty určené k vytváření zvláštních estetických efektů na speciálně upravených, předem natřených podkladech nebo podkladových nátěrech, s následným opracováním různými nástroji během fáze zasychání.
+
+2.
+
+Pro účely této směrnice se „výrobky pro opravy nátěru vozidel“ rozumějí výrobky uvedené níže v podkategoriích. Používají se k nátěru silničních vozidel nebo jejich částí podle směrnice 70/156/EHS, prováděnému jako součást oprav, konzervace nebo dekorace vozidla mimo výrobní zařízení.
+
+2.1
+
+Podkategorie:
+
+a) „výrobky pro přípravné a čisticí operace“ jsou výrobky určené k mechanickému nebo chemickému odstraňování starých nátěrů a rzi nebo k přípravě na nanášení nových nátěrů: i) „přípravné prostředky“ zahrnují čisticí prostředky na nástroje (výrobky určené k čištění stříkacích pistolí a dalších zařízení), odstraňovače nátěrů, odmašťovadla (včetně antistatických činidel pro plasty) a odstraňovače silikonu; ii) „čisticí prostředek“ je výrobek určený k odstranění povrchových nečistot během příprav na nanášení nátěrových hmot a před jejich nanesením;
+
+b) „karosářské plniče a tmely“jsou viskózní látky určené k vyplnění hlubokých nerovností povrchu před nanesením vyrovnávacího nátěru;
+
+c) „základní nátěrové hmoty“ jsou veškeré nátěrové hmoty určené k nanášení na holý povrch kovu nebo na existující nátěry jako ochrana proti korozi před nanesením vyrovnávací nátěrové hmoty: i) „vyrovnávací nátěrové hmoty“ jsou nátěrové hmoty určené k nanášení bezprostředně před nanesením vrchního nátěru ke zvýšení odolnosti proti korozi a přilnavosti vrchního nátěru a k dosažení rovnoměrné jakosti povrchu vyplněním drobných povrchových nerovností; ii) „základní nátěrové hmoty na kov“ jsou nátěrové hmoty určené k nanášení jako základní nátěr, jako jsou promotory přilnavosti, plniče, vyrovnávací nátěrové hmoty, podkladové nátěrové hmoty, základní nátěrové hmoty na plasty, nátěrové hmoty pro nanášení způsobem mokrý do mokrého, plniče neurčené k broušení a stříkací plniče; iii) „reaktivní základní nátěrové hmoty“ jsou nátěrové hmoty obsahující nejméně 0,5 hmotnostních % kyseliny fosforečné, určené k přímému nanášení na holý povrch kovu k zajištění odolnosti proti korozi a přilnavosti, nátěrové hmoty používané jako svařitelné základní nátěrové hmoty a mořicí roztoky pro galvanizované a pozinkované povrchy;
+
+d) „vrchní nátěrové hmoty“ jsou pigmentované nátěrové hmoty určené k nanášení v jedné nebo několika vrstvách k dosažení lesku a trvanlivosti; zahrnují veškeré výrobky užívané k těmto účelům, jako jsou podkladové nátěrové hmoty a laky: i) „podkladové nátěrové hmoty“ jsou pigmentované nátěrové hmoty určené k dosažení požadovaných barevných odstínů a optických efektů, avšak nikoli lesku nebo odolnosti povrchu nátěrového systému; ii) „laky“ jsou průhledné nátěrové hmoty určené k vytváření konečného lesku a odolnosti nátěrového systému;
+
+e) „speciální vrchní nátěrové hmoty“jsou nátěrové hmoty určené k nanášení jako vrchní nátěry se zvláštními vlastnostmi v jediné vrstvě, jako je metalíza a perleťové efekty, dále jsou to vysoce odolné barevné nebo čiré nátěry (např. nátěry odolné proti poškrábání a fluorované čiré nátěry), reflexní podkladové nátěry, vrchní nátěry se strukturními efekty (např. tepané efekty), protiskluzové nátěry, plniče na spodky karoserie, ochranné nátěry proti nárazům, nátěry interiérů a aerosoly.
+
+PŘÍLOHA II
+
+A. NEJVYŠŠÍ MEZNÍ HODNOTY OBSAHU VOC PRO BARVY A LAKY
+
+Podkategorie výrobků Druh Etapa I (g/l) ( *1 ) (od 1. 1. 2007) Etapa II (g/l) ( *1 ) (od 1. 1. 2010)
+
+a matné nátěrové hmoty pro stěny a stropy v interiéru (stupeň lesku ≤ 25@60 o ) VŘNH 75 30
+
+RNH 400 30
+
+b lesklé nátěrové hmoty pro stěny a stropy v interiéru (stupeň lesku > 25@60 o ) VŘNH 150 100
+
+RNH 400 100
+
+c nátěrové hmoty pro venkovní stěny z minerálního podkladu VŘNH 75 40
+
+RNH 450 430
+
+d vnitřní/venkovní barvy na dřevo a kov pro vybavení a obklady budov VŘNH 150 130
+
+RNH 400 300
+
+e vnitřní/venkovní laky a mořidla na vybavení budov, včetně krycích lazurovacích hmot na dřevo VŘNH 150 130
+
+RNH 500 400
+
+f vnitřní/venkovní nefilmotvorná mořidla VŘNH 150 130
+
+RNH 700 700
+
+g základní nátěrové hmoty VŘNH 50 30
+
+RNH 450 350
+
+h penetrační nátěrové hmoty VŘNH 50 30
+
+RNH 750 750
+
+i jednosložkové speciální nátěrové hmoty VŘNH 140 140
+
+RNH 600 500
+
+j vícesložkové reaktivní nátěrové hmoty pro specifické účely, např. na podlahy VŘNH 140 140
+
+RNH 550 500
+
+k vícebarevné nátěrové hmoty VŘNH 150 100
+
+RNH 400 100
+
+l nátěrové hmoty s dekorativními efekty VŘNH 300 200
+
+RNH 500 200
+
+( *1 ) g/l připravený k použití.
+
+B. NEJVYŠŠÍ MEZNÍ HODNOTY OBSAHU VOC PRO VÝROBKY PRO OPRAVY NÁTĚRU VOZIDEL
+
+Podkategorie výrobků Výrobky VOC g/l ( *1 ) (od 1. 1. 2007)
+
+a výrobky pro přípravné a čisticí operace přípravné prostředky 850
+
+čisticí prostředky 200
+
+b karosářské plniče a tmely všechny druhy 250
+
+c základní nátěrové hmoty vyrovnávací nátěrové hmoty a základní nátěrové hmoty (na kov) 540
+
+reaktivní základní nátěrové hmoty 780
+
+d vrchní nátěrové hmoty všechny druhy 420
+
+e speciální vrchní nátěrové hmoty všechny druhy 840
+
+( *1 ) g/l připravený k použití. Případný obsah vody ve výrobku připraveném k použití se odečte, s výjimkou výrobků v podkategorii a.
+
+▼M3
+
+PŘÍLOHA III
+
+METODY PODLE ČL. 3 ODST. 1
+
+Povolené metody pro výrobky o obsahu VOC nižším než 15 % hmotnostních bez přítomnosti reaktivních ředidel
+
+Parametr Jednotky Zkouška
+
+Metoda Datum zveřejnění
+
+Obsah VOC g/l ISO 11890-2 2006
+
+Povolené metody pro výrobky o obsahu VOC 15 % hmotnostních a více bez přítomnosti reaktivních ředidel
+
+Parametr Jednotky Zkouška
+
+Metoda Datum zveřejnění
+
+Obsah VOC g/l ISO 11890-1 2007
+
+Obsah VOC g/l ISO 11890-2 2006
+
+Povolené metody pro výrobky obsahující VOC za přítomnosti reaktivních ředidel
+
+Parametr Jednotky Zkouška
+
+Metoda Datum zveřejnění
+
+Obsah VOC g/l ASTMD 2369 2003
+
+( 1 ) Úř. věst. L 123, 12.5.2016, s. 1.

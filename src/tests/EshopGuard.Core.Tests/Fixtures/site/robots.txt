@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /kosik
+
+Sitemap: {{base_url}}/sitemap.xml

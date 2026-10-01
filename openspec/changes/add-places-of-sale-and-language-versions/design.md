@@ -1,0 +1,221 @@
+# Design: Místa prodeje a jazykové verze e-shopu
+
+Cesty jsou po přejmenování ze změny 1 a po rozdělení na kroky ze změny 5 (kořen `eshop-guard/`).
+
+## Technical Approach
+
+### 1. Číselník trhů
+
+`config/markets.yaml` (pro CLI; ve webu stejné hodnoty z `ref.markets`):
+
+```yaml
+markets:
+  - code: sk                 # = jurisdikce v pravidlech
+    country: SK              # ISO 3166-1 alpha-2, jak ho vrací model
+    language: sk             # jazyk verze pro tento trh
+    readable_languages: [sk, cs]   # verze v těchto jazycích čtou zákazníci tohoto trhu
+    tlds: [sk]               # domovská země z domény, když ji nejde doložit
+  - code: cz
+    country: CZ
+    language: cs
+    readable_languages: [cs, sk]
+    tlds: [cz]
+versions:
+  counted_min_own_share: 0.20      # architektura část 12, „návrh, neměřeno“
+  min_sample_products: 10          # K rozhodnutí 3
+  sample_pages: 100
+  paired_products: 20
+  language_fragments_per_version: 30
+```
+
+`MarketCatalog` načte soubor; `MarketCatalog.Supported` = trhy, pro které `RuleCatalog` má zapnuté sady pravidel (změna 6) a které hostitel povolí (`ref.markets.checks_status != none`). Ostatní země jsou nepodporované.
+
+### 2. Technické znaky (bez modelu)
+
+`ExtractStep` (změna 5) při jednom čtení dokumentu doplní do `PageExtract`:
+- `HtmlLang` (`/html/@lang`);
+- `Alternates`: `link[rel=alternate][hreflang]` → (jazyk, URL);
+- `Currencies`: `priceCurrency` z JSON-LD (`JsonLdReader`), `itemprop=priceCurrency`, `meta[property=product:price:currency]`;
+- `ProductIds`: `gtin`, `gtin8`, `gtin12`, `gtin13`, `gtin14`, `sku`, `mpn`, `productID` z JSON-LD produktu;
+- `PhoneNumbers`: odkazy `tel:` a čísla s mezinárodní předvolbou v textu (vzor čísla, ne slova);
+- `FooterLinks`: odkazy uvnitř rámu `footer`/`[role=contentinfo]`.
+
+`SitemapParser` (změna 5) doplní `xhtml:link rel=alternate hreflang` k položkám sitemap.
+
+`MarketSignalReader.Read(PageExtract home, IReadOnlyList<SitemapEntry> sitemap, Uri site)` → `MarketSignals`:
+- `HtmlLang`, `Hreflang` (sloučené ze stránky a sitemap), `Currencies`, `PhonePrefixes`, `Tld`;
+- `SwitcherCandidates`: odkazy úvodní stránky, jejichž cíl se od webu liší jen dvoupísmenným (`^/[a-z]{2}(-[a-z]{2})?/?$`) segmentem cesty, parametrem `lang`/`language`/`locale`, poddoménou, nebo jinou doménou se stejným prvním návěstím (`goodie.cz` → `goodie.sk`). Rozhoduje stavba adresy, ne text odkazu;
+- `ScriptOnlySwitchElements`: prvky s `onclick`, `data-lang`, `data-language` nebo `data-locale`, které nejsou odkazem s adresou;
+- `BrowserTranslationWidgets`: podpisy skriptů (`src` hostitele) překladových služeb (K rozhodnutí 6);
+- `HomeLinks` (nejvýš 300) a `FooterLinks`.
+
+### 3. Rozbor míst prodeje (model)
+
+Obě volání jdou přes `IMarketModel` (výchozí `OpenAiMarketModel` nad `IRewriteClient`, model `RewriteOptions.Model` = `gpt-6.1-sol`; testovací `MockMarketModel`). `RewriteRequest` dostane volitelné `ReasoningEffort` (`low` pro výběr, `medium` pro rozbor jako v `sales.py`).
+
+1. `SalesPageSelector.SelectAsync(MarketSignals)`: zadání `MarketPrompts.PickInstructions` a schéma `PickSchema` (z `sales.py`, `PICK_INSTR`, `PICK_SCHEMA`). Vstup = seznam odkazů „text | URL“ (úvodní stránka + patička). Výstup se ověří: jen URL ze seznamu, nejvýš 4, jen stejný web nebo kandidát verze. **Pojistka:** k vybraným stránkám se přidají stránky z `IShopPagesSource` (konektor, změna 15) a právní stránky, které ukázka už stáhla (`PageType.Legal`), dokud nejsou 4; když nic, výsledek nese kód `delivery_terms_not_found`.
+2. Stažení vybraných stránek přes `FetchStep` se seznamem URL (robots.txt, SSRF, tempo, User-Agent `EshopGuard/0.1`); texty z `PageExtract` (hlavní text + rám + ostatní text), ořez 8 000 znaků na stránku a 6 000 u úvodní (z `sales.py`).
+3. `PlacesOfSaleModel.AnalyzeAsync(MarketSignals, pages)`: zadání `MarketPrompts.SalesInstructions` podle `sales.py` rozšířené o tři síly důkazu; schéma `SalesSchema`:
+   - `home_country` (ISO nebo prázdné) a `home_evidence[]`;
+   - `countries[]`: `country`, `evidence_level` (`strong` | `delivery` | `generic`), `evidence[]` (`quote`, `source` = URL stránky nebo `signal:<název>`), `reason`;
+   - `eu_wide_delivery` (`stated`, `quote`);
+   - `language_versions[]`: `language`, `url`, `switch` (`path` | `subdomain` | `domain` | `query` | `cookie_or_script` | `unknown`), `evidence`;
+   - `uncertain` (text pro interní audit).
+4. `QuoteVerifier.Verify(result, pages, signals)`:
+   - normalizace: sjednocení mezer, malá písmena, odstranění uvozovek „“"' na okrajích (jako `sales.py`);
+   - citace stránky se hledá v textu citované stránky; když tam není, ale je doslova v jiné dodané stránce, přijme se s opraveným zdrojem a příznakem `source_corrected`; jinak se zahodí;
+   - citace `signal:<název>=<hodnota>` platí, jen když `MarketSignals` takový znak s takovou hodnotou má;
+   - země bez ověřeného důkazu se nenabídne a uloží se do `Rejected` s kódem `no_verified_evidence`;
+   - počty `QuotesVerified`, `QuotesDropped`.
+5. `PlacesOfSaleClassifier.Classify(...)` → `PlacesOfSaleResult`:
+   - síla důkazu z modelu, se dvěma pojistkami bez práce s textem: země, jejíž všechny ověřené citace jsou totožné s citací `eu_wide_delivery`, má nejvýš `generic`; vlastní jazyková verze v jazyce trhu nebo verze na doméně s TLD trhu (`LanguageVersionFinder`, ne `needs_confirmation`) zvedne sílu na `strong` (architektura: „silný: vlastní jazyková verze nebo doména“);
+   - `Supported` podle `MarketCatalog`; `Preselected` = podporovaná a (`strong` nebo `delivery`);
+   - domovská země: ověřená z modelu; jinak z `tlds` domény s `HomeBasis = DomainTld` a `NeedsConfirmation`; `.com` a jiné domény bez trhu = bez domovské země a kód `home_country_unknown`;
+   - kódy pro klienta: `delivery_terms_not_found`, `home_country_unknown`, `home_country_from_domain`, `quotes_dropped`;
+   - kódy selhání (fail-closed, výsledek pak nese jen technické znaky a domovskou zemi z domény k potvrzení): `market_analysis_failed` (chyba modelu), `market_analysis_not_confirmed` (odhad v CLI nepotvrzen), `model_missing_key`, `model_mock` (ze změny 6).
+
+`PlacesOfSaleDiff.Compare(previous, current)` (pro změnu 16): nové země se silným důkazem.
+
+### 4. Jazykové verze
+
+`LanguageVersionFinder.Find(MarketSignals, PlacesOfSaleResult?, IShopLanguageSource?)` → `LanguageVersionCandidate[]` (`Language` BCP 47, `BaseUrl`, `SwitchMethod`, `Source`, `Status`, `Evidence`):
+1. `hreflang` (stránky a sitemap): `Source = hreflang`, metoda podle rozdílu adresy proti webu (cesta, poddoména, doména, parametr);
+2. kandidáti přepínače: `Source = switcher`;
+3. jazyky z konektoru: `Source = connector`;
+4. když z 1–3 nic není a model verze uvedl: `Source = llm`;
+5. hlavní verze = web zadaný klientem s jazykem z `html lang` (nebo z jazyka textu, viz 5);
+6. jiná doména (hostitel, který není webem e-shopu ani jeho poddoménou) → `Status = needs_confirmation`; verze v jazyce nepodporovaného trhu → `Status = unsupported` (uloží se, nekontroluje, neukazuje).
+
+`VersionAccessProbe.ProbeAsync(candidate)` → `VersionAccess`:
+- **vlastní adresa** (cesta, poddoména, doména): stáhne vstupní stránku verze a porovná `html lang` s jazykem verze;
+- **parametr nebo cookie** (`?lang=sk`): stáhne přepínací adresu, z `FetchResponse.SetCookies` vezme cookie a dál prochází s ní (`SwitchMethod = cookie`);
+- **jazyk prohlížeče**: stáhne vstupní stránku s `Accept-Language` verze (`SwitchMethod = accept_language`);
+- **přepínač jen v JavaScriptu** (`ScriptOnlySwitchElements` a žádná adresa ani cookie): `Status = needs_browser`, kód `version_needs_browser`; verze se nekontroluje, dokud nepřijde vykreslení v Chromiu (návrh rozvoje 21);
+- **překlad v prohlížeči** (`BrowserTranslationWidgets` a verze bez vlastní adresy): `SwitchMethod = browser_translation`, kód `version_browser_translation`; kontroluje se původní text, verze se neprochází zvlášť; Weglot v režimu adres (`/sk/`) se prochází jako cesta;
+- **přesměrování podle IP nebo jazyka**: vstupní stránka verze vrátí `html lang` jiné verze → `Status = mismatch`, kód `version_language_mismatch` a nabídka konektoru;
+- **aplikace v JavaScriptu**: `RenderCheck` (`TextNotLoaded`) platí pro každou verzi zvlášť; verze, jejíž vstupní stránka se nenačte, má kód `version_text_not_loaded`.
+
+`VersionCrawlScope` (rozšíření `SiteScope` ze změny 5): `Host`, `BasePath`, `ExcludedBasePaths` (cesty ostatních verzí na stejném hostiteli), `Cookies`, `AcceptLanguage`, `ExpectedLanguage`, `VersionLanguage`. `UrlFrontier.Consider` přijme jen URL v rozsahu. Každá stránka dostane `PageInfo.Language` = jazyk verze a `HreflangGroup` = klíč skupiny alternativ (seřazené URL ze `Alternates`, otisk SHA-256, prvních 16 znaků).
+
+`FetchRequest` (změna 5) dostane `Cookies` a `AcceptLanguage`; `HttpPageFetcher` je pošle místo výchozích hlaviček. Klient `EshopGuard.Crawl` dostane `UseCookies = false` (K rozhodnutí 7); cookie drží `VersionCrawlScope` a `UrlFrontierState`.
+
+### 5. Která verze pro které místo prodeje
+
+`VersionMarketPlanner.Plan(versions, activeMarkets, MarketCatalog, mainVersion)` → `VersionPlan` (čistá funkce, bez sítě):
+- pro každý aktivní trh `m`: verze s `Language` = `m.language` a stavem `active`; když není, hlavní verze;
+- kontrolované verze = sjednocení; u každé `Jurisdictions` = všechny aktivní trhy, jejichž `readable_languages` obsahují jazyk verze;
+- verze s `needs_confirmation`, `needs_browser`, `mismatch`, `excluded` nebo `unsupported` se nekontrolují a plán je vyjmenuje s kódem;
+- `CountedProducts` = součet `product_count` kontrolovaných verzí s `Counted = true` (pro pásmo, změna 12);
+- `Recalculate(activeMarkets)` = nový plán bez stahování a modelu (odškrtnutí země na 3c).
+
+Příklad (tabulkový test): verze `cs` (hlavní) a `sk`, trhy SK + CZ → kontroluje se `cs` [cz, sk] a `sk` [sk, cz]; jen SK → `sk` [sk]; jen CZ → `cs` [cz]; verze jen `cs`, trhy SK + CZ → `cs` [cz, sk]; verze `cs`, `sk`, `pl`, trhy SK + CZ → `pl` se nekontroluje (`unsupported`).
+
+### 6. Rozbor verzí v ukázce
+
+Běží jen tehdy, když plán má víc než jednu kontrolovanou nebo potvrzovanou verzi pro podporované trhy.
+
+`VersionSamplePlanner.Plan(versions, sitemaps, budget = 100)` → `VersionSamplePlan`:
+- ~20 párů stejného produktu ve dvou verzích: párování přes `hreflang` (stránka nebo sitemap), ID z konektoru, `gtin*` (EAN), `sku`/`mpn`/`productID`; kandidáti z produktových URL sitemap ve stejném pořadí náhodně s pevným semínkem běhu;
+- povinné stránky každé verze: stránky vybrané v rozboru míst prodeje a jejich alternativy v ostatních verzích, jinak právní stránky ukázky (`PageType.Legal`);
+- zbytek rovnoměrně náhodné produkty po verzích;
+- když pár nejde vytvořit, `PairingMode = sentence_overlap`.
+
+`VersionComparer.CompareAsync(plan, extracts)` → `VersionComparisonResult` po verzích:
+- **jazyk textu**: `TextLanguageModel.LabelAsync(fragments)` jedno volání na verzi nad ~30 větami 30–300 znaků z `MainBlocks` produktových stránek (bez `RestBlocks`, kde bývají recenze a bloky dopravy); zadání a schéma z `validate.py` (`INSTR`, `SCHEMA`); výsledek `LanguageShare` (podíl vět po jazycích);
+- **vlastní texty**: otisky vět (`SentenceFingerprint`) hlavního textu produktových stránek verze proti všem ostatním kontrolovaným verzím; `OwnTextShare` = podíl unikátních vět bez shody (K rozhodnutí 4);
+- **druh rozdílu u páru** (bez modelu, prahy z `validate.py`, ověřeno 44 z 46): `identical` (stejný normalizovaný text), `untranslated` (převažující jazyk vět verze je jazyk druhé verze), `translation` (poměr délek 0,8–1,25 a rozdíl počtu vět nejvýš max(2; 15 %)), jinak `shortened_or_different` (K rozhodnutí 5); příklady s URL;
+- bez párů: `SentenceOverlapShare` = podíl vět jedné verze doslova obsažených v druhé;
+- **povinné stránky**: `MandatoryPagesDiffer` podle otisků vět, s URL;
+- **počet produktů**: produktové URL sitemap v rozsahu verze nebo konektor; neznámý = `null`;
+- **započítání**: `Counted = OwnTextShare ≥ counted_min_own_share` a aspoň `min_sample_products` produktových stránek s hlavním textem a známý počet produktů a úspěšné určení jazyka; jinak `Counted = false` s kódem `version_sample_insufficient`, `version_product_count_unknown` nebo `version_language_unknown`;
+- **upozornění**: `untranslated_text` (český text na slovenské verzi) je upozornění, ne porušení; pravidla se na text použijí stejně.
+
+### 7. Výstupy
+
+`MarketsAnalysisResult` (serializovatelný, `schema_version`):
+- `Markets[]` → `ShopMarketRow` (`CountryCode`, `IsHome`, `Status` `suggested`/`unsupported`, `EvidenceLevel`, `Source = detected`, `Evidence` (ověřené citace se zdrojem, znaky, `home_basis`, interní `reason` a `uncertain` modelu), `Preselected`);
+- `Versions[]` → `ShopLanguageRow` (`Language`, `BaseUrl`, `SwitchMethod`, `Source`, `Status`, `OwnTextShare`, `LanguageShare`, `Comparison` (kategorie párů s příklady, `MandatoryPagesDiffer`), `Counted`, `ProductCount`);
+- `Summary` pro 3c: kód a parametry jedné věty (`versions_single`, `versions_both_own_texts` {`languages`, `share`}, `versions_same_texts_menu_only` {`language`, `other`}, `versions_untranslated_texts` {`language`, `share`}, `version_other_domain_needs_confirmation` {`domain`}, `version_needs_browser`, `version_browser_translation`, `version_language_mismatch`, `version_sample_insufficient`);
+- `Details` pro 3d: po verzích kategorie, podíly, příklady, povinné stránky, důvody nezapočítání;
+- `Plan` (`VersionPlan`) a `Usage` (volání modelu, tokeny, cena).
+
+### 8. Odhad ceny
+
+`MarketAnalysisEstimate` se spočítá před každým voláním modelu podle `sales.py`: tokeny = znaky / 3,2; vstup × `rewrite.input_usd_per_million` (2,00), výstup × `rewrite.output_usd_per_million` (10,00); výběr: odkazy + zadání a 800 výstupních tokenů; rozbor: zadání + 2 000 + úvodní stránka + 4 × stránka a 4 000 výstupních tokenů; jazyk: 30 vět na verzi a 500 výstupních tokenů. Ověřené náklady (1. 10. 2026): 0,03–0,08 USD na e-shop za místa prodeje, 0,043 USD za jazyk 46 párů z 5 e-shopů. CLI odhad vypíše a nad `rewrite.max_usd_without_confirm` se zeptá; worker ho porovná s rozpočtem ukázky (změna 8).
+
+## Architecture Decisions
+
+1. **Model jen tam, kde struktura nestačí, a jen s ověřitelnými výroky.** Znaky (hreflang, html lang, měna, adresy verzí) jsou spolehlivé a zdarma; model rozhoduje o záměru prodeje a domovské zemi, ale každá jeho věta musí stát na citaci, kterou kód najde. Proto 62 z 62 citací a žádné vymyšlené země.
+2. **Tři síly důkazu místo dvou stavů.** Chyba freshlabels (26 zemí kvůli tabulce dopravy) ukázala, že „doručujeme“ není „cílíme“. Síla důkazu je vidět i klientovi.
+3. **Verze jako samostatný rozsah procházení.** Jedno pravidlo pro všechny varianty (každý text verze se kontroluje), žádné větvení podle toho, jestli se překládá jen menu. Stejný text v obou verzích zaplatí Jev jen jednou díky cache podle otisku věty.
+4. **Plán verzí jako čistá funkce.** Přepočet ceny po odškrtnutí země na 3c je okamžitý a stejný v API i v testech.
+5. **Bez slovníků slov.** Jazyk určuje model nad větami, stránky o prodeji model nad odkazy, přepínač stavba adresy. Výzkumná počítání písmen a hledání „popis“ ve třídách (`pairs.py`) do knihovny nejdou.
+6. **Cookie po rozsazích, ne sdílené.** Sdílený kontejner cookie by přenášel stav mezi weby a tenanty.
+
+## Data Flow
+
+```
+ukázka zdarma (změna 8) nebo CLI `markets`:
+  DiscoveryStep ─► sitemap (+ xhtml:link) ─┐
+  FetchStep(home) ─► ExtractStep ─► PageExtract (html lang, alternates, měny, ID, telefony, patička)
+                                          │
+                     MarketSignalReader ──► MarketSignals
+                                          │  odhad ─► potvrzení / rozpočet
+                     SalesPageSelector (model, ≤4 URL) + pojistka (patička, právní stránky, konektor)
+                     FetchStep(vybrané) ─► ExtractStep ─► texty stránek
+                     PlacesOfSaleModel (model) ─► QuoteVerifier ─► PlacesOfSaleClassifier ─► PlacesOfSaleResult
+                                          │
+                     LanguageVersionFinder ─► kandidáti ─► VersionAccessProbe ─► VersionAccess
+                     VersionMarketPlanner(aktivní/navržené trhy) ─► VersionPlan
+                     [víc verzí] VersionSamplePlanner ─► 100 stránek ─► FetchStep/ExtractStep po rozsazích verzí
+                                 VersionComparer + TextLanguageModel (model, 1 volání na verzi) ─► VersionComparisonResult
+                                          │
+                     MarketsAnalysisResult ─► (změna 8) shop_markets, shop_languages, pages.language
+                                          ─► (změna 10) 3c: věta, země s důvodem, cena; 3d: podrobnosti
+3c odškrtnutí země ─► VersionMarketPlanner.Recalculate ─► nové CountedProducts (bez sítě a modelu)
+analýza ─► pro každou kontrolovanou verzi VersionCrawlScope + Jurisdictions ─► kroky změny 5 a 6
+```
+
+## File Changes
+
+### Nové soubory (`src/EshopGuard.Core/`)
+
+- `Markets/MarketCatalog.cs` (`MarketDefinition`, načtení `config/markets.yaml`, `Supported`).
+- `Markets/MarketSignals.cs`, `Markets/MarketSignalReader.cs`.
+- `Markets/IMarketModel.cs`, `Markets/OpenAiMarketModel.cs`, `Markets/MockMarketModel.cs`, `Markets/MarketPrompts.cs` (zadání a schémata výběru a rozboru, `Version`).
+- `Markets/SalesPageSelector.cs`, `Markets/PlacesOfSaleModel.cs`, `Markets/QuoteVerifier.cs`, `Markets/PlacesOfSaleClassifier.cs`, `Markets/PlacesOfSaleResult.cs` (`CountryEvidence`, `EvidenceLevel`, `HomeBasis`, kódy), `Markets/PlacesOfSaleDiff.cs`.
+- `Markets/MarketAnalysisEstimate.cs`.
+- `Markets/IShopPagesSource.cs`, `Languages/IShopLanguageSource.cs` (implementuje změna 15).
+- `Languages/LanguageVersionCandidate.cs`, `Languages/LanguageVersionFinder.cs`.
+- `Languages/VersionAccess.cs`, `Languages/VersionAccessProbe.cs`.
+- `Languages/VersionCrawlScope.cs`.
+- `Languages/VersionMarketPlanner.cs`, `Languages/VersionPlan.cs`.
+- `Languages/VersionSamplePlanner.cs`, `Languages/VersionSamplePlan.cs`.
+- `Languages/ITextLanguageModel.cs`, `Languages/OpenAiTextLanguageModel.cs`, `Languages/MockTextLanguageModel.cs`.
+- `Languages/VersionComparer.cs`, `Languages/VersionComparisonResult.cs`.
+- `Markets/MarketsAnalysisResult.cs` (`ShopMarketRow`, `ShopLanguageRow`, `VersionSummary`, `VersionDetails`), `Markets/MarketsAnalyzer.cs` (orchestrace pro CLI a pro změnu 8).
+- `config/markets.yaml`.
+- `src/EshopGuard.Cli/Commands/MarketsCommand.cs` (`eshopguard markets <url> [--mock] [--yes] [--out]`, zápis `markets.json`).
+
+### Měněné soubory
+
+- `src/EshopGuard.Core/Extract/ContentExtractor.cs`, `Extract/ExtractedPage.cs` (`PageExtract`): `HtmlLang`, `Alternates`, `Currencies`, `ProductIds`, `PhoneNumbers`, `FooterLinks`.
+- `src/EshopGuard.Core/Extract/JsonLdReader.cs`: `priceCurrency`, `gtin*`, `sku`, `mpn`, `productID`.
+- `src/EshopGuard.Core/Crawl/SitemapParser.cs`: `xhtml:link` alternativy.
+- `src/EshopGuard.Core/Crawl/FetchRequest.cs`, `Crawl/IPageFetcher.cs` (`FetchResponse.SetCookies`), `Crawl/HttpPageFetcher.cs`: `Cookies`, `AcceptLanguage`, čtení `Set-Cookie`.
+- `src/EshopGuard.Core/Crawl/UrlTools.cs`: `IsInScope(Uri, VersionCrawlScope)`, `IsSubdomainOf`.
+- `src/EshopGuard.Core/Pipeline/UrlFrontier.cs`, `Pipeline/Contracts/SiteScope.cs`, `Pipeline/FetchStep.cs`, `Pipeline/ExtractStep.cs` (ze změny 5): rozsah verze, cookie a jazyk, `PageInfo.Language`, `HreflangGroup`, kontrola `html lang` proti `ExpectedLanguage`.
+- `src/EshopGuard.Core/Models/PageInfo.cs`: `Language`, `HreflangGroup`, `ProductIds`.
+- `src/EshopGuard.Core/Fix/IRewriteClient.cs` (`RewriteRequest.ReasoningEffort`), `Fix/OpenAiRewriteClient.cs` (použije ho, když je zadané).
+- `src/EshopGuard.Core/Options/EshopGuardOptions.cs`: `MarketsOptions` (`CatalogFile` = `config/markets.yaml`, `MaxSelectedPages` = 4, `PageTextChars` = 8 000, `HomeTextChars` = 6 000).
+- `src/EshopGuard.Core/ServiceCollectionExtensions.cs`: registrace služeb `Markets/` a `Languages/`; `MockMarketModel` a `MockTextLanguageModel` při `Rewrite.UseMock`; u klienta `EshopGuard.Crawl` `UseCookies = false`.
+- `src/EshopGuard.Cli/CliHost.cs`: registrace `MarketsCommand`.
+- `README.md`: příkaz `markets`, výstup `markets.json`, cookie po rozsazích.
+
+### Testy (`tests/EshopGuard.Core.Tests/`)
+
+- `Fixtures/versions/` (nové testovací e-shopy, generátor `generate_versions.py`): `path-shop` (`/` cs, `/sk/` sk, `hreflang`), `domain-shop-cz` a `domain-shop-sk` (dvě domény, přepínač odkazem), `cookie-shop` (`?lang=sk` nastaví cookie), `accept-language-shop` (verze podle hlavičky), `script-switch-shop` (přepínač tlačítkem s `onclick`), `widget-shop` (skript překladu v prohlížeči), `redirect-shop` (vrací vždy `html lang="cs"`), `spa-shop` (prázdný kořen aplikace u verze `sk`).
+- `MultiHostFileSystemPageFetcher.cs`: hostitel → složka, simulace `Set-Cookie`, cookie a `Accept-Language`.
+- `Markets/MarketSignalReaderTests.cs`, `Markets/QuoteVerifierTests.cs`, `Markets/PlacesOfSaleClassifierTests.cs` (případ freshlabels: tabulka cen dopravy 26 zemí → `delivery`, ne `strong`; obecné doručení do EU → `generic`, nepředvyplněné; nepodporované `PL` → `unsupported`), `Markets/SalesPageSelectorTests.cs` (URL mimo seznam se zahodí, pojistka z patičky a právních stránek), `Markets/HomeCountryTests.cs`.
+- `Languages/LanguageVersionFinderTests.cs`, `Languages/VersionAccessProbeTests.cs`, `Languages/VersionCrawlScopeTests.cs` (verze se nesmíchají), `Languages/VersionMarketPlannerTests.cs` (tabulka z designu, oddíl 5), `Languages/VersionComparerTests.cs` (syntetické páry, prahy `validate.py`, 20 %, nejistota), `Languages/VersionSamplePlannerTests.cs` (100 stránek, ~20 párů, povinné stránky, pevné semínko).
+- `Markets/MarketsCommandTests.cs` (CLI s `--mock` nad testovacími e-shopy).

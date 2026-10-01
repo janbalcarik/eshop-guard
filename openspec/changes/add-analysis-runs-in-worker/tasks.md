@@ -1,0 +1,126 @@
+# Tasks
+
+## 1. Migrace a úložiště dat
+
+- [ ] 1.1 `src/EshopGuard.Data/Migrations/Sql/analysis_runs.sql`: tabulka `checks.run_urls` podle designu (PK `run_id, scope_key, url_hash`, cizí klíč přes `tenant_id, run_id`, částečný index `WHERE state='pending'`), `ENABLE` a `FORCE ROW LEVEL SECURITY`, politika `tenant_id = current_setting('app.tenant_id')::uuid`, práva pro `eshopguard_worker` a čtení pro `eshopguard_app`.
+- [ ] 1.2 Tamtéž: funkce `shop.claim_free_sample(domain, tenant_id, shop_id)` se `SECURITY DEFINER` (vlastník `eshopguard_owner`, `EXECUTE` pro `eshopguard_app` a `eshopguard_worker`), vrací `true`/`false` bez údajů o jiném tenantovi.
+- [ ] 1.3 Tamtéž: jedinečné indexy `content.page_versions (shop_id, page_id, run_id)`, `checks.findings (shop_id, rule_id, page_id) WHERE scope='page'`, `checks.findings (shop_id, rule_id) WHERE scope='site'`, `fixes.fix_proposals (shop_id, created_run_id, page_id, field, block_index)`, `checks.run_events (run_id, id)`; jen ty, které změna 3 nevytvořila; rozšíření `CHECK` u `usage.usage_records.operation` o `market_analysis` a `version_language` (K rozhodnutí 5).
+- [ ] 1.4 `src/EshopGuard.Data/Migrations/20261015_AnalysisRuns.cs`: EF migrace spouštějící SQL z 1.1–1.3; entita `RunUrl` a `RunUrlConfiguration` v `Configurations/Checks/`.
+- [ ] 1.5 `src/EshopGuard.Data/Stores/PgJevCache.cs` (`IJevCache` nad `checks.jev_answers` a `checks.sieve_answers` podle `JevCacheKey.Kind`, `GetManyAsync` jedním dotazem, zápis přes `COPY` + `ON CONFLICT DO NOTHING`) a `PgRewriteCache.cs` (`fixes.rewrite_cache`).
+- [ ] 1.6 `src/EshopGuard.Data/Stores/PgPageProfileStore.cs` (`shop.page_profiles`, instance pro jednu úlohu s tenantem a e-shopem) a `PgPageStore.cs` (`IPageStore`: `GetValidatorsAsync`, `UpsertPageAsync`, `AddVersionAsync` jen při jiném `TextHash`, přepnutí `is_current`, `FindByFingerprintAsync` přes GIN).
+- [ ] 1.7 `src/EshopGuard.Data/Stores/PgUrlFrontierStore.cs` (`IUrlFrontierStore` nad `checks.run_urls` a `runs.progress.frontier`) a `src/EshopGuard.Storage/S3PageContentStore.cs` (`IPageContentStore` nad `IBlobStore`, klíče změny 5).
+- [ ] 1.8 `src/EshopGuard.Data/Stores/RunStore.cs`, `FindingStore.cs` (hromadný upsert po rozsazích segment, page, site se zachováním `first_run_id` a stavu; výskyty `ON CONFLICT DO NOTHING`), `FixProposalStore.cs`, `FreeSampleClaimStore.cs` (volá `shop.claim_free_sample`).
+- [ ] 1.9 `src/EshopGuard.Storage/RunBlobKeys.cs`: klíče `discovery`, `profiles`, `work`, `unchecked` pod `tenants/{tenant}/shops/{shop}/runs/{run}/`.
+- [ ] 1.10 Testy `tests/EshopGuard.Data.Tests/Stores/Pg*ContractTests.cs` a `S3PageContentStoreContractTests.cs`: všechny implementace z 1.5–1.7 dědí `StoreContractTests<TStore>` ze změny 5 a projdou proti `eshopguard_test` jako `eshopguard_worker`.
+- [ ] 1.11 Test `tests/EshopGuard.Data.Tests/RunUrlIsolationTests.cs`: dva tenanti se stejnou doménou; `run_urls`, `jev_answers`, `pages` přes EF i čistým SQL jako `eshopguard_app` vrací jen vlastní řádky; zápis s cizím `tenant_id` selže.
+- [ ] 1.12 Test `tests/EshopGuard.Data.Tests/IdempotentWriteTests.cs`: dvojí zápis stejné dávky do `pages`, `page_versions`, `findings`, `finding_occurrences`, `fix_proposals` nezmění počty řádků.
+- [ ] 1.13 `PgRateLimiter` (`IRateLimiter` nad `ops.rate_limit_buckets` s `RequestPriority`) jen tehdy, když ho nedodala změna 4 (K rozhodnutí 2 změny 5); test vyhrazeného podílu P0–P1.
+
+## 2. Stavový automat a služba běhů
+
+- [ ] 2.1 `src/EshopGuard.Jobs/Runs/RunKind.cs`, `RunStatus.cs`, `RunTrigger.cs`: výčty shodné s `CHECK` v `checks.runs`.
+- [ ] 2.2 `src/EshopGuard.Jobs/Runs/RunStateMachine.cs`: tabulka povolených přechodů z designu, `TryTransitionAsync` s `UPDATE … WHERE status=@from`, zápis `run.status` přes `RunEventWriter`.
+- [ ] 2.3 `src/EshopGuard.Jobs/Runs/IRunService.cs` a `RunService.cs`: `CreateFreeSampleAsync(shopId, requestedBy)`, `CreateFullAnalysisAsync` (`IShopOwnershipPolicy`, `IRunScopeResolver` pro `runs.jurisdictions` a `runs.modules`, `estimate.basis` z poslední ukázky), `MarkOrderPaidAsync`, `ApproveWithoutPaymentAsync` (audit `run.approved_without_payment`), `RequestCancelAsync`, `CreateConnectorCheckAsync` (jen založení, K rozhodnutí 15); běh a první úloha vždy v jedné transakci; chybové kódy podle designu.
+- [ ] 2.4 `src/EshopGuard.Jobs/Runs/IRunScopeResolver.cs`, `IShopOwnershipPolicy.cs` a `DenyAllOwnershipPolicy.cs` (registrovaná v hostiteli, dokud změna 10 nedodá implementace; K rozhodnutí 16); v testech `TestRunScopeResolver` a `AllowOwnershipPolicy`.
+- [ ] 2.5 `src/EshopGuard.Jobs/Runs/IRunPaymentGate.cs` a `OrderTablePaymentGate.cs`: `billing.orders.status = 'paid'` pro `run_id` nebo schválení v auditu; brána se ověří na konci `run.discover` i při `MarkOrderPaidAsync`.
+- [ ] 2.6 `src/EshopGuard.Jobs/Runs/RunPlan.cs` a `RunsOptions.cs`: kroky podle druhu běhu, priority (P0 `run.discover` a `run.markets`, jinak P2), `resource_class`, `dedupe_key` a `concurrency_key` podle tabulky v designu; `concurrency_key = free_sample` u ukázky.
+- [ ] 2.7 `src/EshopGuard.Jobs/Runs/RunBarrier.cs` a `RunProgress.cs`: přičtení čítače, `FOR UPDATE` na `checks.runs`, založení dalšího kroku s `dedupe_key`, vše v transakci dávky.
+- [ ] 2.8 Test `tests/EshopGuard.Jobs.Tests/Runs/RunStateMachineTests.cs`: všechny povolené přechody projdou, nepovolené a z konečných stavů se neprovedou a nezapíší událost.
+- [ ] 2.9 Test `tests/EshopGuard.Jobs.Tests/Runs/RunBarrierTests.cs`: 2 a 8 souběžně dokončených posledních dávek založí další krok právě jednou.
+- [ ] 2.10 Test `tests/EshopGuard.Jobs.Tests/Runs/RunServiceTests.cs`: zaplacení posune běh a druhé volání nic nezmění; `order_not_paid`; zaplacení během `discovering` posune běh hned po konci zjišťování; schválení bez platby zapíše audit; neověřené vlastnictví vrátí kód `IShopOwnershipPolicy` a běh nevznikne.
+
+## 3. Zjištění rozsahu a ukázka zdarma
+
+- [ ] 3.1 `src/EshopGuard.Jobs/Runs/Handlers/DiscoverHandler.cs`: sady pravidel se načtou první (chyba = `failed` `rules_invalid`), zámek domény, `DiscoveryStep`, robots.txt a sitemapy do `discovery/`, `UrlFrontierState` přes `PgUrlFrontierStore` pro každou kontrolovanou verzi (`scope_key`), hrubý `estimate.internal`, přechod do `awaiting_payment` (úvodní analýza; při zaplacené objednávce rovnou dál) nebo založení `run.markets` (ukázka).
+- [ ] 3.2 Tamtéž: konečné chyby `robots_disallow_all`, `target_not_allowed` (`FetchOutcome.Blocked` na úvodní adrese), `site_unreachable` → `failed` s kódem.
+- [ ] 3.3 `src/EshopGuard.Jobs/Runs/Handlers/MarketsHandler.cs`: rozbor míst prodeje a verzí ze změny 7 s odhadem ceny OpenAI před voláním a kontrolou stropu ukázky; zápis `shop.shop_markets` (`suggested`, `source = detected`, `evidence`, `detection_run_id`; nepodporované země `unsupported`) a `shop.shop_languages`; plán 100 stránek ze změny 7 do `run_urls` (`sample_pair`, `sample_mandatory`, `sample_random`); `runs.jurisdictions` z `IRunScopeResolver` nad navrženými místy prodeje.
+- [ ] 3.4 Test `tests/EshopGuard.Worker.Tests/FreeSampleRunTests.cs`: ukázka nad `Fixtures/site-sk` projde stavy bez `awaiting_payment`; druhý nárok (`www.` varianta, jiný tenant) vrátí `sample.already_used_for_domain` bez běhu a úlohy; malý e-shop dá plán se všemi stránkami.
+- [ ] 3.5 Test `tests/EshopGuard.Worker.Tests/SampleAllocationTests.cs`: testovací e-shop se slovenskou, českou a polskou verzí; plán ≤ 100 URL jen ze sk a cs, povinné stránky obou verzí, polská verze vynechaná.
+
+## 4. Stahování a extrakce po dávkách
+
+- [ ] 4.1 `src/EshopGuard.Jobs/Runs/Handlers/FetchBatchHandler.cs`: zámek domény v `ops.domains` (jinak odložení na `lease_until` a událost `crawl.waiting_domain`), `FetchStep` s dávkou do 100 URL nebo 60 s, `PaceState` a Crawl-delay z `ops.domains`, validátory z `PgPageStore.GetValidatorsAsync`, HTML přes `S3PageContentStore`, stav URL v `run_urls`, založení `run.extract` (úvodní analýza) a další dávky `run.fetch`.
+- [ ] 4.2 Tamtéž: ukázka s `ExtractInline = true` (zápis `pages` a verzí rovnou); verze s vlastní cookie nebo hlavičkou jazyka (změna 7) přes `FetchRequest`; `FetchOutcome.RedirectOffSite` → `offsite_redirect`, `Blocked` → `ssrf_blocked`, `TooLarge` → `too_large`, 404/410 → `gone`, 429/503 → `pending` do `crawl.max_url_attempts`.
+- [ ] 4.3 `src/EshopGuard.Jobs/Runs/Handlers/ExtractBatchHandler.cs`: `ExtractStep` s časovým limitem na stránku, uložené profily, zápis `pages` a `page_versions` u stránek se známým profilem nebo při vypnutých profilech, `StructureTokens` do `runs/{r}/profiles/candidates.json.gz`, `DiscoveredLink` do fronty URL, stavy `extracted`, `not_loaded`, `extract_timeout`.
+- [ ] 4.4 Test `tests/EshopGuard.Worker.Tests/CrawlBatchTests.cs`: URL zakázaná v robots.txt nedostane požadavek a má `robots_blocked`; všechny požadavky mají User-Agent začínající `EshopGuard/0.1`; dvě analýzy stejné domény od dvou tenantů nikdy nestahují současně (časy požadavků ve `FileSystemPageFetcher`); přesměrování na `169.254.169.254` → `ssrf_blocked`.
+- [ ] 4.5 Test `tests/EshopGuard.Worker.Tests/FairnessTests.cs`: analýza s 5 000 syntetickými stránkami (Jev s umělou latencí) a ukázka se 100 stránkami jiného tenanta; ukázka skončí dřív a dávky Jevu se ve frontě střídají.
+
+## 5. Profily, segmenty, odhad, síto a Jev
+
+- [ ] 5.1 `src/EshopGuard.Jobs/Runs/Handlers/ProfileHandler.cs`: `ProfileStep.PlanAsync` nad kandidáty z úložiště, `estimate.internal.openai.profiles_usd` uložit před prvním voláním, `CreateAsync` po jednom profilu do `shop.page_profiles`, založení dávek `run.refit`.
+- [ ] 5.2 `src/EshopGuard.Jobs/Runs/Handlers/RefitBatchHandler.cs`: `ProfileStep.RefitAsync`, zápis verzí stránek s `profile_id` a `profile_unknown_share`; stránky bez profilu se kontrolují celé a počítají do statistiky.
+- [ ] 5.3 `src/EshopGuard.Jobs/Runs/Handlers/SegmentHandler.cs`: `SegmentStep` nad extrakcemi čtenými proudově, `page_versions.segment_hashes` hromadně ze `SentenceFingerprints`, `SieveChunkInput` a `SegmentState` po 200 do `work/`.
+- [ ] 5.4 `src/EshopGuard.Jobs/Runs/Handlers/VersionsHandler.cs` (jen ukázka s víc verzemi): porovnání otisků vět mezi verzemi a jedno volání LLM na jazyk ~30 úseků ze změny 7; zápis `shop_languages.own_text_share`, `language_share`, `comparison`, `counted`, `product_count`, `sample_run_id`.
+- [ ] 5.5 `src/EshopGuard.Jobs/Runs/Handlers/EstimateHandler.cs`: `EstimateStep` → `estimate.internal` (`basis = segmented`), kontrola stropu ukázky (`sample_budget_exceeded`), založení dávek `run.sieve` ve stejné transakci.
+- [ ] 5.6 `src/EshopGuard.Jobs/Runs/Handlers/SieveBatchHandler.cs`, `PlanEvaluateHandler.cs`, `EvaluateBatchHandler.cs`: `SieveStep` po 200 úsecích, výběr stavů podle síta (stejné pravidlo jako dnešní `EvaluateWithSieveAsync`), `EvaluateStep` po 200 větách přes globální `IRateLimiter` (`RateResource.Jev`, `RequestPriority` běhu), odpovědi průběžně přes `UsageRecorder`, `NotEvaluated[]` do `work/`.
+- [ ] 5.7 Test `tests/EshopGuard.Worker.Tests/EvaluationBatchTests.cs`: odhad je uložený dřív než první volání `DeterministicTestJevClient`; druhý běh nad stejným textem má všechna volání z cache; překročený strop ukázky → `failed` bez volání.
+- [ ] 5.8 Test `tests/EshopGuard.Worker.Tests/RulesMemoryTests.cs`: syntetický e-shop s 5 000 stránkami; změřit vrchol paměti `run.segment` a `run.rules` a zapsat ho do výstupu testu.
+
+## 6. Pravidla, nálezy a souhrn ukázky
+
+- [ ] 6.1 `src/EshopGuard.Jobs/Runs/Handlers/RulesHandler.cs`: `RulesStep` se segmenty a pravděpodobnostmi z `PgJevCache`, texty a signály stránek z extrakcí, jurisdikce `runs.jurisdictions` (změna 6); `findings.segment_hash` = `Segment.Fingerprint` podle K rozhodnutí 3; zápis přes `FindingStore` včetně `verdicts`, `legal_refs`, `params`, `occurrences`.
+- [ ] 6.2 Tamtéž: výskyty do `finding_occurrences` s `block_index`; nálezy z nenačtených stránek a nepřečtených dokumentů jako dnes (`TextNotLoadedPages`, `UncheckedDocuments`).
+- [ ] 6.3 `src/EshopGuard.Jobs/Runs/SampleFindingOrder.cs` (`VerdictOrder.Compare` nad `Strictest`, pak skóre, výskyty, `rule_id`) a `SampleSummaryBuilder.cs` (`stats.sample`).
+- [ ] 6.4 Test `tests/EshopGuard.Jobs.Tests/Runs/SampleFindingOrderTests.cs`: nález `sk · porušení` je před `cz · na posouzení`; při shodě rozhoduje skóre, výskyty, `rule_id`.
+- [ ] 6.5 Test `tests/EshopGuard.Worker.Tests/FindingsWriteTests.cs`: nález pro `sk` a `cz` má oba verdikty a sloupce podle nejpřísnějšího; věta na 38 stránkách dá 1 nález a 38 výskytů; nález z ukázky ve stavu `approved` po úvodní analýze zachová stav a `first_run_id`.
+
+## 7. Přepisy a ukázka opravy
+
+- [ ] 7.1 `src/EshopGuard.Jobs/Runs/Handlers/RewriteBatchHandler.cs`: `RewriteStep` po 25 stránkách s nálezy skupin porušení a k posouzení, odhad do `estimate.internal.openai.rewrite_usd` před prvním voláním, zápis `fix_proposals` (`original_text`, `proposed_text`, `reason`, `placeholders`, `recheck_status`, `model`, `prompt_version`, `created_run_id`, `status = proposed`).
+- [ ] 7.2 Tamtéž pro ukázku: kandidát z `top_finding_ids` (`scope = segment`, nejpřísnější verdikt `text` nebo `assess`), `RewriteBatchInput` s jedním nálezem, další kandidát při `still_finding`, nejvýš `free_sample.max_example_attempts`; `example_fix_missing_reason` při neúspěchu.
+- [ ] 7.3 Test `tests/EshopGuard.Worker.Tests/SampleExampleFixTests.cs`: ukázka s nálezy dá jednu opravu s `recheck_status = ok`; ukázka jen s nálezy za celý web OpenAI nevolá a vrátí `no_rewritable_finding`; trvající nález → `still_finding`.
+
+## 8. Základ rozsahu, interní odhad a garantovaná cena
+
+- [ ] 8.1 `src/EshopGuard.Jobs/Runs/ScopeBasisBuilder.cs`: `estimate.basis` z `shop_languages` a plánu ukázky (po verzích `product_count`, `other_pages`, `counted`, `not_counted_reason`, `own_text_share`; `sitemap_url_count`, `source_run_id`); bez pásma a částky.
+- [ ] 8.2 `src/EshopGuard.Jobs/Runs/InternalCostEstimator.cs`: hrubý odhad po zjištění rozsahu (stránky × volání na stránku z nastavení), přesný z `RunEstimate`, profily z `ProfilePlan`, přepisy z odhadu `RewriteStep`; sazby ze stejné konfigurace jako CLI.
+- [ ] 8.3 `src/EshopGuard.Jobs/Runs/RunReadModel.cs`: čtení běhu pro API bez `estimate.internal` a bez jakékoli částky v USD.
+- [ ] 8.4 `FinalizeHandler`: porovnat součet `usage_records.cost_usd` s `estimate.internal.total_usd`; nad `runs.cost_alert_ratio` metrika `eshopguard.run.cost_over_estimate` a log Warning s `run_id` a `tenant_id`; běh se nezastavuje.
+- [ ] 8.5 Test `tests/EshopGuard.Jobs.Tests/Runs/ScopeBasisBuilderTests.cs`: sk s vlastními texty `counted`, cs jen menu `menu_only_translation`, verze nepodporovaného trhu `unsupported_market`; žádné pásmo ani částka.
+- [ ] 8.6 Test `tests/EshopGuard.Worker.Tests/GuaranteedPriceTests.cs`: úvodní analýza s 40 % stránek navíc doběhne bez zastavení a bez změny objednávky, vznikne metrika překročení; `RunReadModel` a `run_events` neobsahují USD.
+
+## 9. Spotřeba
+
+- [ ] 9.1 `src/EshopGuard.Jobs/Runs/UsageRecorder.cs`: zápis po `usage.flush_every` odpovědích nebo 2 s spolu s `jev_answers`/`sieve_answers`/`rewrite_cache` v jedné transakci; mapování `provider` a `operation` podle designu.
+- [ ] 9.2 `src/EshopGuard.Data/Bulk/UsageRecordWriter.cs`: zápis přes `COPY` do měsíční části `usage.usage_records`.
+- [ ] 9.3 Test `tests/EshopGuard.Worker.Tests/UsageParityTests.cs`: úvodní analýza `Fixtures/site-sk` přes worker a `InMemoryPipelineRunner` se stejnými deterministickými klienty; součty `calls`, `cache_hits`, `input_tokens`, `output_tokens` po službách se rovnají statistikám CLI přesně, cena ze součtu tokenů na 6 desetinných míst.
+- [ ] 9.4 Test `tests/EshopGuard.Data.Tests/UsageGrantsTests.cs`: role `eshopguard_app` nemá `SELECT` na `usage.usage_records`.
+
+## 10. Průběh, fronta a dokončení běhu
+
+- [ ] 10.1 `src/EshopGuard.Jobs/Runs/RunEventWriter.cs`: kódy z tabulky v designu, `pg_notify('run_events', run_id)` ve stejné transakci, `run.progress` nejvýš jednou za dávku, `message` nevyplňovat; čítače pro `SampleDto.progress` v `runs.progress`.
+- [ ] 10.2 `src/EshopGuard.Jobs/Runs/RunQueueEstimator.cs` (`IRunQueueEstimator`): pozice podle třídy běhu a stropu tenanta, odhad dokončení z doby dávek za poslední hodinu, `null` bez historie.
+- [ ] 10.3 `src/EshopGuard.Jobs/Runs/Handlers/FinalizeHandler.cs`: `UncheckedReport` → `finished`/`partial`/`failed`, `runs.stats` (`ScanResultAssembler` pro počty jako dnešní `ScanStats`, `unchecked`, `sample`), `estimate.basis` u ukázky, `runs/{r}/unchecked.json.gz`, aktualizace `shops` (`status`, `last_full_run_id`, `last_run_at`, `page_count`, `product_count`), řádek `ops.outbox` (`kind = email`, šablona `run_finished`, podle `notification_settings.email_run_finished`) a `iam.notifications`.
+- [ ] 10.4 Test `tests/EshopGuard.Worker.Tests/RunEventsTests.cs`: posluchač `LISTEN run_events` dostane oznámení až po potvrzení; vrácená transakce nic neoznámí; žádná událost neobsahuje větu ze stránek, částku v USD ani názvy „Jev“, „TypeSafe“, „OpenAI“.
+- [ ] 10.5 Test `tests/EshopGuard.Jobs.Tests/Runs/RunQueueEstimatorTests.cs`: dvě dřívější ukázky ve frontě → pozice 2; bez dokončených dávek odhad `null`.
+
+## 11. Chyby, samooprava, částečný výsledek a zrušení
+
+- [ ] 11.1 `src/EshopGuard.Jobs/Runs/StepErrorPolicy.cs` a `TransientStepException.cs`: rozdělení chyb podle tabulky v designu; fatální chyby služby pozastaví třídu úloh přes změnu 4 bez spotřeby pokusu a s událostí `run.paused_internal`.
+- [ ] 11.2 `FetchBatchHandler`: dlouhý výpadek e-shopu, odkládání přes `not_before`, po `runs.site_outage_max_hours` zbývající URL `failed` s kódem `site_unreachable`.
+- [ ] 11.3 `src/EshopGuard.Jobs/Runs/UncheckedReport.cs`: počty podle důvodu, `partial` při čemkoli nezkontrolovaném mimo robots.txt a filtr URL (K rozhodnutí 7), `failed` s kódem, když se nezkontrolovala žádná stránka.
+- [ ] 11.4 Zrušení: kontrola `cancel_requested` na začátku každé obsluhy a v transakci dokončení; čekající úlohy běhu `canceled`; událost `run.canceled`.
+- [ ] 11.5 Test `tests/EshopGuard.Jobs.Tests/Runs/StepErrorPolicyTests.cs`: 408/429/5xx/timeout dočasné, 401/403/`insufficient_quota` fatální, 404/410 a `Blocked` trvalé u položky.
+- [ ] 11.6 Test `tests/EshopGuard.Worker.Tests/PartialRunTests.cs`: 12 stránek s 500 a 3 nad 5 MB → `partial` s `{failed: 12, too_large: 3}`; 7 vět bez odpovědi Jevu → `partial` a výčet stránek; jen robots.txt → `finished` s výčtem; robots.txt zakazuje vše → `failed` `robots_disallow_all`.
+- [ ] 11.7 Test `tests/EshopGuard.Worker.Tests/TransientErrorTests.cs`: Jev vrací 503 tři minuty (simulovaný čas) → běh doběhne; OpenAI `insufficient_quota` → pozastavení třídy `llm`, po obnovení dokončení, `attempts` beze změny; e-shop 429 → URL zkoušená znovu a po limitu `failed`.
+- [ ] 11.8 Test `tests/EshopGuard.Worker.Tests/CancelRunTests.cs`: zrušení ve stavu `crawling` → žádný další požadavek na e-shop, běh `canceled`, stažené stránky zůstanou; pozdní dávka Jevu nezapíše nálezy.
+
+## 12. Hostitel workeru
+
+- [ ] 12.1 `src/EshopGuard.Jobs/ServiceCollectionExtensions.cs`: `AddAnalysisRuns()` registruje obsluhy, `IRunService`, odhady, `UsageRecorder`, `RunEventWriter`, `IRunQueueEstimator` a PostgreSQL úložiště z 1.5–1.7 pro úlohy.
+- [ ] 12.2 `src/EshopGuard.Worker/Program.cs` a `appsettings.json`: obsluhy podle `kind`, sloty `fetch`, `cpu` (podle jader), `jev`, `llm`, `system`; žádná logika běhů ve workeru.
+- [ ] 12.3 `src/EshopGuard.Worker/StartupChecks.cs`: odmítnout start s `CrawlOptions.AllowPrivateNetwork = true`, mimo Development s `crawl.user_agent` obsahujícím `doplnte-kontakt` a s `Jev:UseMock` mimo Development/Test; klíče `TYPESAFE_API_KEY` a `OPENAI_API_KEY` jen z proměnných prostředí.
+- [ ] 12.4 `src/EshopGuard.Worker/Dev/SeedRunCommand.cs`: `dev seed-run --tenant --shop-url --kind [--approve]` jen při `DOTNET_ENVIRONMENT=Development`.
+- [ ] 12.5 Test `tests/EshopGuard.Worker.Tests/StartupChecksTests.cs`: každá zakázaná konfigurace z 12.3 zastaví start s chybou.
+- [ ] 12.6 Test `tests/EshopGuard.Worker.Tests/LogSafetyTests.cs`: zachycené logy celého běhu neobsahují hodnotu testovacích klíčů ani žádnou větu ze stránek testovacího e-shopu; obsahují `tenant_id`, `run_id` a `job_id`.
+
+## 13. Ověření
+
+- [ ] 13.1 `tests/EshopGuard.Worker.Tests/Support/WorkerHarness.cs`, `DeterministicTestJevClient.cs`, `DeterministicTestRewriteClient.cs`, `BlobSnapshotPageFetcher.cs`: N workerů v procesu proti `eshopguard_test` (role `eshopguard_worker`), zabití workeru před potvrzením transakce.
+- [ ] 13.2 Test `tests/EshopGuard.Worker.Tests/FullAnalysisRunTests.cs`: úvodní analýza `Fixtures/site-sk` se 3 workery projde všemi stavy včetně `awaiting_payment` a skončí `finished`.
+- [ ] 13.3 Test `tests/EshopGuard.Worker.Tests/WorkerCrashTests.cs`: zabití workeru v dávce `run.fetch`, `run.extract`, `run.evaluate`, `run.rules` a `run.rewrite`; počty řádků `pages`, `page_versions`, `findings`, `finding_occurrences`, `fix_proposals` jako bez pádu, součet `usage_records.calls` nejvýš o volání v letu vyšší.
+- [ ] 13.4 Test `tests/EshopGuard.Worker.Tests/CliParityTests.cs`: nálezy workeru a `InMemoryPipelineRunner` nad `Fixtures/site` i `Fixtures/site-sk` jsou shodné jako množiny; rozdíl vypíše pravidlo, otisk textu a URL.
+- [ ] 13.5 Odhad ceny + souhlas uživatele pro živé srovnání na vegis.sk: spustit jen zjištění rozsahu (bez Jevu), spočítat odhad Jevu, profilů a přepisů pro celý web (orientačně ~32 USD podle 5,5 USD na 1 000 stránek, na celém webu neměřeno) a pro variantu 500 stránek; vysvětlit uživateli a počkat na souhlas (K rozhodnutí 11).
+- [ ] 13.6 Po souhlasu: `Live/VegisParityLiveTests.cs` s `ESHOPGUARD_LIVE_CONSENT=1`: úvodní analýza vegis.sk přes workery, potom `InMemoryPipelineRunner` nad snímkem z úložiště a `PgJevCache` tenanta; nálezy shodné, Jev zaplacený jednou, skutečná cena zapsaná vedle odhadu.
+- [ ] 13.7 Odhad ceny + souhlas uživatele pro živou ukázku zdarma na vegis.sk nebo naturfyt.sk (náklad podle strategie ~0,5–1 USD); po souhlasu ověřit souhrn ukázky, rozbor verzí a `estimate.basis`.
+- [ ] 13.8 `dotnet build` a `dotnet test` projdou včetně dnešních testů knihovny; změřené hodnoty (paměť z 5.8, cena z 13.6 a 13.7) zapsat do `CHANGELOG.md`.

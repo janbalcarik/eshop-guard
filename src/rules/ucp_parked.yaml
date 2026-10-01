@@ -1,0 +1,143 @@
+# VYPNUTO 26. 9. 2026: body černé listiny 7, 10, 17 a 20 (naléhavost, zákonná práva jako výhoda, léčebná tvrzení, „zdarma“).
+# Nejsou to nové povinnosti a ve zprávách ČOI a SOI v podkladech k nim doklad o pokutách není (zprávy „klamavé konání“ dál
+# nerozepisují). Odladěné znění (ucp draft3, viz rules/CHANGELOG.md) zůstává pro případné pozdější zapnutí.
+version: "ucp-parked-2026-09-26-draft1"
+module: ucp
+applies_to: sentence
+jurisdictions: [sk, cz]
+enabled: false
+questions:
+  ucp_urgency_time:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) say that an offer, price, discount or product is available only for a short or limited time, for example 'today only', 'last day', 'ends at midnight', 'only until Sunday', 'only 2 hours left' or a countdown? Answer no if no time limit is stated."
+    text_cs: "Uvádí věta (pole sentence), že nabídka, cena, sleva nebo produkt platí či je k dispozici jen krátce nebo omezenou dobu, například „jen dnes“, „poslední den“, „končí o půlnoci“, „jen do neděle“, „zbývají 2 hodiny“ nebo odpočet času? Pokud žádné časové omezení neuvádí, odpověz ne."
+  ucp_urgency_stock:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) stress that only a few items are left or that stock is about to run out, for example 'last 3 pieces', 'only 2 left', 'almost sold out', 'selling fast'? Answer no if it only states availability neutrally, such as 'In stock' or 'In stock: 12 pcs'."
+    text_cs: "Zdůrazňuje věta (pole sentence), že zbývá jen pár kusů nebo že zásoby brzy dojdou, například „poslední 3 kusy“, „zbývají jen 2“, „téměř vyprodáno“, „rychle mizí“? Pokud jen neutrálně uvádí dostupnost, například „Skladem“ nebo „Skladem 12 ks“, odpověz ne."
+  ucp_legal_right:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) mention a right that the law gives every consumer, such as withdrawing from an online purchase or returning goods within 14 days without giving a reason, a refund within 14 days, a 2-year warranty for defects (legal guarantee), or free repair or replacement of defective goods? Answer no if no such right is mentioned."
+    text_cs: "Zmiňuje věta (pole sentence) právo, které zákon dává každému spotřebiteli, například odstoupit od nákupu přes internet nebo vrátit zboží do 14 dnů bez udání důvodu, vrácení peněz do 14 dnů, dvouletou záruku za vady (zákonnou záruku) nebo bezplatnou opravu či výměnu vadného zboží? Pokud žádné takové právo nezmiňuje, odpověz ne."
+  ucp_shop_advantage:
+    type: yes_no
+    text_en: "Does the sentence (field sentence), read together with the text right next to it (context_before, context_after), present something as an advantage, bonus or special feature of buying from this shop (for example 'with us you get', 'our advantages', 'why shop with us', 'as a bonus', 'only with us')? Answer no if it only informs about rules, conditions or a procedure."
+    text_cs: "Prezentuje věta (pole sentence) spolu s textem hned vedle ní (context_before, context_after) něco jako výhodu, bonus nebo zvláštnost nákupu právě v tomto obchodě (například „u nás získáte“, „naše výhody“, „proč nakoupit u nás“, „jako bonus“, „jen u nás“)? Pokud jen informuje o pravidlech, podmínkách nebo postupu, odpověz ne."
+  ucp_beyond_legal_minimum:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) or the text right next to it (context_before, context_after) state a period or condition that goes beyond the legal minimum, for example more than 14 days to return goods, a warranty longer than 2 years, or free return shipping? Answer no if nothing beyond the legal minimum is stated."
+    text_cs: "Uvádí věta (pole sentence) nebo text hned vedle ní (context_before, context_after) lhůtu nebo podmínku nad zákonné minimum, například víc než 14 dní na vrácení zboží, záruku delší než 2 roky nebo zpětné poštovné zdarma? Pokud nic nad zákonné minimum neuvádí, odpověz ne."
+  ucp_cure:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) claim or suggest that the product cures, heals or treats a disease, illness, health disorder or disability (for example 'cures acne', 'heals arthritis', 'treats diabetes', 'gets rid of migraines for good')? Answer no for cosmetic or general well-being effects such as 'moisturises the skin', 'supports immunity' or 'helps you relax'."
+    text_cs: "Tvrdí nebo naznačuje věta (pole sentence), že produkt vyléčí, zhojí nebo léčí nemoc, zdravotní poruchu či postižení (například „léčí akné“, „vyléčí artrózu“, „léčí cukrovku“, „zbaví vás migrén navždy“)? U kosmetických účinků nebo obecných účinků na pohodu, jako „hydratuje pokožku“, „podporuje imunitu“ nebo „pomáhá relaxovat“, odpověz ne."
+  ucp_is_medicine:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) or the text right next to it (context_before, context_after) state that the product is a registered medicinal product (medicine) or a medical device? Answer no if this is not stated."
+    text_cs: "Uvádí věta (pole sentence) nebo text hned vedle ní (context_before, context_after), že produkt je registrovaný léčivý přípravek (lék) nebo zdravotnický prostředek? Pokud to neuvádí, odpověz ne."
+  ucp_free:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) itself describe a product, gift, sample, service or delivery as free, for example 'free', 'for free', 'gratis', 'free of charge', 'for 0 EUR' or 'for 0 CZK'? Answer yes even if a fee or a condition is attached to it. Answer no if nothing in the sentence itself is described as free, even when context_before or context_after mentions something free."
+    text_cs: "Označuje sama věta (pole sentence) produkt, dárek, vzorek, službu nebo dopravu jako bezplatné, například „zdarma“, „gratis“, „bezplatně“, „za 0 €“ nebo „za 0 Kč“? Odpověz ano i tehdy, když je s tím spojený poplatek nebo podmínka. Pokud ve větě samotné nic jako bezplatné označeno není, odpověz ne, i když context_before nebo context_after něco bezplatného zmiňuje."
+  ucp_free_extra_fee:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) or the text right next to it (context_before, context_after) say that the customer must pay a fee to get something described as free, such as a handling, packaging, processing, administration, activation or service fee? Answer no if nothing is described as free or no such fee is mentioned. Postage, delivery costs and a surcharge for a payment method the customer chooses (such as cash on delivery) do not count."
+    text_cs: "Uvádí věta (pole sentence) nebo text hned vedle ní (context_before, context_after), že za získání něčeho označeného jako bezplatné musí zákazník zaplatit poplatek, například manipulační, balicí (balné), zpracovatelský, administrativní, aktivační nebo servisní poplatek? Pokud nic jako bezplatné neoznačuje nebo takový poplatek neuvádí, odpověz ne. Poštovné, náklady na doručení a příplatek za zvolený způsob platby (například dobírku) se nepočítají."
+  ucp_free_with_purchase:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) or the text right next to it (context_before, context_after) say that a free product, gift or sample (not free delivery) is given only when the customer buys something else or spends a minimum amount (for example 'a free gift with every order over 1,000 CZK', 'buy 2, get 1 free')? Answer no if no free product or gift is mentioned or no such condition is stated."
+    text_cs: "Uvádí věta (pole sentence) nebo text hned vedle ní (context_before, context_after), že produkt, dárek nebo vzorek zdarma (ne doprava zdarma) zákazník dostane jen při nákupu něčeho jiného nebo nad určitou částku (například „dárek zdarma ke každé objednávce nad 1 000 Kč“, „kupte 2, třetí zdarma“)? Pokud žádný produkt ani dárek zdarma nezmiňuje nebo takovou podmínku neuvádí, odpověz ne."
+
+rules:
+  - id: ucp_false_urgency
+    title: "Tvrzení o omezené době nebo zásobě k ověření"
+    scope: segment
+    logic:
+      any: [{q: ucp_urgency_time, gte: 0.5}, {q: ucp_urgency_stock, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 7; Pokyny Komise 2021/C 526/01, oddíl 4.2.7 (falešné časovače a tvrzení o omezených zásobách)", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 11 (do 26. 9. 2026 bod 7)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. f) zákona č. 634/1992 Sb.", status: "ověřit"}
+    explanation: "Nepravdivé tvrzení, že nabídka platí jen velmi omezenou dobu, je zakázané za všech okolností. Podle Pokynů Komise sem patří i falešné odpočty času a nepravdivá tvrzení o omezených zásobách. Z textu nelze poznat, zda je tvrzení pravdivé, proto jde o nález k ověření."
+    recommendation: "Ověřte, že akce opravdu končí v uvedený čas a že údaj o zásobách odpovídá skladu. Pokud stejná cena platí i potom nebo „poslední kusy“ svítí dlouhodobě, tvrzení odstraňte."
+
+  - id: ucp_legal_rights_as_advantage
+    title: "Zákonné právo prezentované jako výhoda obchodu"
+    scope: segment
+    logic:
+      all: [{q: ucp_legal_right, gte: 0.5}, {q: ucp_shop_advantage, gte: 0.5}]
+      none: [{q: ucp_beyond_legal_minimum, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: high
+    checkability: text
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 10", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 14 (do 26. 9. 2026 bod 10); zákonná práva: § 19, § 20 ods. 1 a § 22 ods. 1 zákona č. 108/2024 Z. z., § 619 ods. 1 a § 623 Občianskeho zákonníka", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. i) zákona č. 634/1992 Sb.; zákonná práva: § 1829 odst. 1, § 1832 odst. 1, § 2165 odst. 1 a § 2169 občanského zákoníku", status: "ověřit"}
+    explanation: "Práva, která má spotřebitel ze zákona u každého prodejce (14 dní na odstoupení od nákupu na dálku, vrácení peněz do 14 dní, dva roky na uplatnění vady, bezplatná oprava nebo výměna), nesmí obchodník prezentovat jako přednost své nabídky."
+    recommendation: "Přesuňte tato práva z výhod obchodu do informací o nákupu, nebo jako výhodu uveďte jen to, co jde nad zákon (například 30 dní na vrácení)."
+
+  - id: ucp_free_with_fee
+    title: "„Zdarma“ s poplatkem"
+    scope: segment
+    logic:
+      all: [{q: ucp_free, gte: 0.5}, {q: ucp_free_extra_fee, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: high
+    checkability: text
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 20; Pokyny Komise 2021/C 526/01, oddíl 3.4", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 26 (do 26. 9. 2026 bod 21)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. t) zákona č. 634/1992 Sb.", status: "ověřit"}
+    explanation: "Co je „zdarma“, nesmí zákazníka stát nic kromě nevyhnutelných nákladů na reakci na nabídku a na převzetí nebo doručení. Manipulační, balicí nebo správní poplatek u věci zdarma je zakázaný za všech okolností."
+    recommendation: "Poplatek zrušte, nebo věc nepopisujte jako „zdarma“."
+
+  - id: ucp_free_with_purchase
+    title: "Dárek zdarma podmíněný nákupem k ověření"
+    scope: segment
+    logic:
+      all: [{q: ucp_free, gte: 0.5}, {q: ucp_free_with_purchase, gte: 0.5}]
+      none: [{q: ucp_free_extra_fee, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: low
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 20; Pokyny Komise 2021/C 526/01, oddíl 3.4 (vázané nabídky)", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 26 (do 26. 9. 2026 bod 21)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. t) zákona č. 634/1992 Sb.", status: "ověřit"}
+    explanation: "Dárek zdarma k nákupu je povolený, pokud je skutečně navíc a cena placeného zboží se kvůli němu nezvýšila ani se nezhoršila jeho jakost. To z textu poznat nejde, proto jde o nález k ověření."
+    recommendation: "Ověřte, že se placené zboží prodává za stejnou cenu i bez dárku."
+
+  - id: ucp_cure_claim
+    title: "Tvrzení, že produkt léčí nemoc"
+    scope: segment
+    logic:
+      all: [{q: ucp_cure, gte: 0.5}]
+      none: [{q: ucp_is_medicine, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: high
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 17; Pokyny Komise 2021/C 526/01, oddíl 3.3", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 23 (do 26. 9. 2026 bod 18)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. q) zákona č. 634/1992 Sb.", status: "ověřit"}
+    explanation: "Nepravdivé tvrzení, že produkt může léčit nebo vyléčit nemoc, zdravotní poruchu nebo postižení, je zakázané za všech okolností. U potravin, doplňků stravy a kosmetiky zakazují připisovat léčebné účinky i odvětvové předpisy."
+    recommendation: "Léčebné tvrzení odstraňte; u potravin a doplňků stravy používejte jen schválená zdravotní tvrzení."
+
+  - id: ucp_cure_claim_medicine
+    title: "Léčebné tvrzení u léku nebo zdravotnického prostředku k ověření"
+    scope: segment
+    logic:
+      all: [{q: ucp_cure, gte: 0.5}, {q: ucp_is_medicine, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: low
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 17", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 23 (do 26. 9. 2026 bod 18)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. q) zákona č. 634/1992 Sb.", status: "ověřit"}
+    explanation: "U registrovaného léku nebo zdravotnického prostředku může být léčebné tvrzení oprávněné, pokud odpovídá schválenému použití. Z textu nelze poznat, zda odpovídá."
+    recommendation: "Ověřte, že tvrzení odpovídá schválenému použití přípravku nebo prostředku."

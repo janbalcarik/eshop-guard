@@ -1,0 +1,438 @@
+# Zadání pro přepis problematických pasáží modelem OpenAI (checker rewrite).
+# Pořadí v požadavku: instructions, examples, legal_texts (společná část, pro všechny stránky bajt po bajtu stejná,
+# OpenAI ji po první stránce účtuje z mezipaměti) a teprve potom stránka s nálezy.
+# Každá změna znění zvyšuje version (je součástí klíče mezipaměti přepisů).
+# Pokyny a příklady vycházejí z pilotu na 24 stránkách vegis.sk (30. 9. 2026, 2. kolo). Právní texty jsou doslovné
+# výňatky ze stažených podkladů (cesty v source jsou relativní k D:/_github/Overko).
+version: "rewrite-2026-09-30-draft1"
+instructions: |
+  You help a Slovak e-shop rewrite passages of its website so that they comply with the Slovak consumer
+  protection act (zákon č. 108/2024 Z. z. as amended by zákon č. 310/2025 Z. z., in force since 27 September 2026) on
+  environmental claims, while keeping the commercial intent and every factual statement about the product.
+
+  You receive one web page: its URL, category, and full text split into numbered blocks (B1, B2, ...), plus the findings
+  of an automated check. Each finding names a sentence, the block(s) it is in, the rule it breaks and its group:
+  - "porušení": the wording itself breaks the law as written; the passage must change.
+  - "k posouzení": the law does not list the wording and the authority decides case by case how the average consumer
+    perceives it. Make the smallest change that removes the environmental impression, usually one word or one icon in
+    the finding's sentence. Keep category names, the shop's positioning and words that truthfully describe origin or
+    composition (for example "prírodný olej" for an oil that is natural); if the wording only describes origin or
+    composition, put the finding in "kept" with the reason. In "reason_cs" say what risk remains, if any.
+
+  Rules for the rewrite:
+  1. Never invent facts: no numbers, percentages, certifications, test results, origins, standards or partners that the
+     page text does not state. Where a specification needs a fact the page does not give, write a placeholder in
+     Slovak in square brackets, e.g. "[doplňte: za koľko mesiacov sa rukoväť rozloží a podľa akej normy]", and list it
+     in "placeholders". If the claim cannot be made specific without unknown facts, removing it is often the better fix.
+  2. Prefer specifying a claim with a fact stated elsewhere on the same page (for example the material of a part),
+     placed directly next to the claim, as the law requires the specification on the same medium.
+  3. Change only what is needed to fix the findings. You may rewrite whole sentences, the whole block, or an adjacent
+     block when the text must stay coherent. Never change dosage, composition, ingredient lists (INCI), sizes, prices,
+     usage instructions or health information, and never add new claims (environmental, social, health or quality).
+  4. Do not use generic environmental terms (ekologický, eco-friendly, zelený, šetrný k prírode/životnému prostrediu/
+     klíme, biologicky rozložiteľný, udržateľný, zodpovedný, vedomý, "pre planétu" and similar) in the new text unless the
+     specification is stated in the same block. "Udržateľný", "zodpovedný" and "vedomý" also cover social aspects
+     (recital 10), so an ecolabel alone never justifies them.
+  5. A claim about the whole product, set or company must not rest on one part or one activity (príloha č. 1 bod 7):
+     say which part or activity it is.
+  6. Words that name a quality or certification which may be true ("BIO", "organický", "vegánsky certifikované",
+     "spravodlivý obchod", "fair trade", "cruelty-free" and similar) are not deleted on suspicion. If the page states
+     what backs them (a named certification, "100 % zložiek z ekologického poľnohospodárstva"), keep the word and put
+     that fact directly next to it. If the page states nothing, keep the word, add a placeholder such as
+     "[doplňte: názov certifikácie alebo certifikačného systému, na ktorom je označenie založené]" and say in
+     "reason_cs" that without such a certification the word must be removed (príloha č. 1 bod 3 for labels and
+     badges, § 10 ods. 1 písm. b) and § 9 ods. 12 for statements).
+  7. Nature icons (🌿🌱💚🌍🌳) next to an environmental claim can themselves be an implicit claim (Commission Q&A 5);
+     drop them where you remove or narrow the claim, keep other emojis and the formatting style of the page.
+  8. Keep the Slovak language, the tone and the length of the original as far as possible. Return each changed block
+     in full ("original" = the block as given, "rewritten" = the whole new block; "" means delete the block).
+  9. Every finding id must appear either in some change's "finding_ids" or in "kept".
+  10. Write every "reason_cs" in Czech (not Slovak), one or two sentences: what was wrong and why the new wording is
+     lawful, citing the provision (for example "príloha č. 1 bod 6").
+  11. Follow the examples below: they show the mistakes a rewrite most often makes and what a good rewrite does instead.
+examples:
+  - situation: |
+      Finding porušení (príloha č. 1 body 6 a 7): „Okamžitý komfort pre citlivé zuby v ekologickom sete 🦷🌿✨.“ The set is a toothpaste and a toothbrush; another block says the toothbrush has a bamboo handle.
+    bad: |
+      Okamžitý komfort pre citlivé zuby v prírodnom a šetrnom sete 🦷🌿✨.
+    why_bad: |
+      Replaces one generic term with others („prírodný“, „šetrný“), keeps the leaf and still speaks about the whole set.
+    good: |
+      Okamžitý komfort pre citlivé zuby v sete so zubnou kefkou s bambusovou rukoväťou 🦷✨.
+    why_good: |
+      States the fact from the page instead of the generic term, says which part of the set it is about (bod 7) and drops the leaf.
+  - situation: |
+      Finding porušení: „🌱 biologicky rozložiteľná rukoväť“. The page says nothing about the conditions, the time or a test of the decomposition.
+    bad: |
+      Rukoväť sa v domácom komposte rozloží do 6 mesiacov.
+    why_bad: |
+      Invents a fact the page does not state; the shop would publish a claim it cannot prove (§ 9 ods. 12).
+    good: |
+      Biologicky rozložiteľná rukoväť – [doplňte: v akých podmienkach, za aký čas a podľa akej normy alebo skúšky sa rukoväť rozloží]
+    why_good: |
+      Keeps the claim only with a placeholder for the specification the law requires next to it; the reason says the claim must be deleted if the shop cannot fill it in.
+  - situation: |
+      Finding porušení: „BIO olej z granátového jablka získaný ekologickou CO₂ extrakciou zo semien patrí medzi najcennejšie rastlinné oleje.“ Other blocks say „Certifikovaná BIO kvalita (Ecocert)“ and „extrakcia bez rozpúšťadiel“.
+    bad: |
+      Olej z granátového jablka získaný CO₂ extrakciou zo semien patrí medzi najcennejšie rastlinné oleje.
+    why_bad: |
+      Deletes the true, certified BIO quality; only the generic word „ekologickou“ was the problem.
+    good: |
+      BIO olej z granátového jablka (Ecocert) získaný CO₂ extrakciou zo semien bez rozpúšťadiel patrí medzi najcennejšie rastlinné oleje.
+    why_good: |
+      Keeps BIO with the certification named next to it and replaces „ekologickou“ with the specific fact stated on the page.
+  - situation: |
+      Finding k posouzení (príloha č. 1 bod 3): „BIO osviežovač vzduchu v skriniach a kúpeľniach“. Nothing on the page backs „BIO“.
+    bad: |
+      Osviežovač vzduchu v skriniach a kúpeľniach
+    why_bad: |
+      Deletes a quality that may be true; whether the product is certified is a fact only the shop knows.
+    good: |
+      BIO [doplňte: názov certifikácie alebo certifikačného systému, na ktorom je označenie BIO založené] osviežovač vzduchu v skriniach a kúpeľniach
+    why_good: |
+      Keeps the word with a placeholder for its basis; the reason says that without such a certification „BIO“ must be removed.
+  - situation: |
+      Finding porušení (recital 10): „Kúpa tohto masla je vedomé rozhodnutie – pre pokožku aj pre planétu 💚“. Another block says every purchase supports an association of the women who make the butter and all income goes directly to them.
+    bad: |
+      Kúpa tohto masla je zodpovedná voľba pre planétu.
+    why_bad: |
+      Still generic: „zodpovedný“ and „pre planétu“ promise a benefit without saying what it is.
+    good: |
+      Kúpou tohto masla podporujete združenie žien, ktoré ho vyrábajú – všetky príjmy smerujú priamo im.
+    why_good: |
+      Replaces the promise with the specific fact stated on the page and makes no environmental claim; the green heart goes with the claim.
+  - situation: |
+      Finding porušení (príloha č. 1 bod 7): „Značka X je viac než kozmetika – je to ochrana starých stromov karité 🌳“. The page does not say what the brand does for the trees.
+    bad: |
+      Značka X chráni staré stromy karité.
+    why_bad: |
+      Still presents the whole brand as protecting trees without saying which activity it is.
+    good: |
+      Značka X podporuje [doplňte: akú konkrétnu činnosť na ochranu stromov karité, kto ju vykonáva a v akom rozsahu].
+    why_good: |
+      Asks for the specific activity; the reason says the sentence must go if the shop cannot fill it in.
+  - situation: |
+      Finding k posouzení: „100 % prírodný francúzsky zelený íl“ in the composition block of a clay mask.
+    bad: |
+      100 % zelený íl z Francúzska
+    why_bad: |
+      Removes a truthful description of the composition; for a finding to assess this loses information without need.
+    good: |
+      No change: the finding goes to „kept“ with the reason that the words describe the composition and origin, not an environmental benefit.
+    why_good: |
+      A finding to assess may be kept when its wording only describes origin or composition.
+  - situation: |
+      Finding porušení (recital 10) in one block: „Vždy sa zameriavame na vysoko kvalitné výrobky, výrobky z udržateľných zdrojov, od výrobcov, ktorí podporujú koncept spravodlivého obchodu. Hľadáme, skúmame a analyzujeme každý nový produkt, ktorý predávame.“
+    bad: |
+      Predávame kvalitné výrobky.
+    why_bad: |
+      Turns the whole block into something bland and drops statements that were not a problem.
+    good: |
+      Vždy sa zameriavame na vysoko kvalitné výrobky od výrobcov, ktorí podporujú koncept spravodlivého obchodu [doplňte: názov certifikácie, na ktorej je tvrdenie o spravodlivom obchode založené]. Hľadáme, skúmame a analyzujeme každý nový produkt, ktorý predávame.
+    why_good: |
+      Removes only the unspecified „z udržateľných zdrojov“, asks for the basis of the fair-trade claim and keeps the rest of the block word for word.
+  - situation: |
+      The Commission's example (Q&A 4): „Obal šetrný ku klíme“ with nothing more on the page.
+    bad: |
+      Obal šetrný k životnému prostrediu
+    why_bad: |
+      Swaps one generic claim for another.
+    good: |
+      If the page states it: „100 % energie použitej na výrobu tohto obalu pochádza z obnoviteľných zdrojov“. If not: „Obal [doplňte: v čom presne spočíva prínos obalu pre klímu]“, or delete the claim.
+    why_good: |
+      A specific, verifiable statement next to the claim is not a generic claim (recital 9); without the fact on the page only a placeholder or deletion is possible.
+  - situation: |
+      Finding porušení in a block that also gives the dosage: „Ekologický čistič na podlahy, 1 uzáver na 5 l vody.“
+    bad: |
+      Čistič na podlahy, podľa potreby rozrieďte vodou.
+    why_bad: |
+      Changes the dosage, which must never be touched.
+    good: |
+      Čistič na podlahy, 1 uzáver na 5 l vody.
+    why_good: |
+      Removes only the generic word; the dosage stays word for word.
+legal_texts:
+  - title: |
+      Zákon č. 108/2024 Z. z. v znení od 27. 9. 2026, § 2 písm. n) až q)
+    source: "podklady/predpisy-sk/sk-108-2024-ochrana-spotrebitela-zneni-od-2026-09-27.txt"
+    text: |
+      environmentálnym tvrdením dobrovoľné vyhlásenie alebo zobrazenie v akejkoľvek forme,
+      vrátane textového, obrazového, grafického alebo symbolického zobrazenia, ako je etiketa,
+      obchodná značka, názov spoločnosti, názov produktu alebo iné označenie použité v obchodnej
+      komunikácii, ktoré uvádza alebo naznačuje, že produkt, kategória produktu, značka
+      alebo obchodník
+      1.
+      má pozitívny vplyv na životné prostredie,
+      2.
+      má menej škodlivý vplyv na životné prostredie ako iný produkt, značka alebo obchodník,
+      3.
+      nemá vplyv na životné prostredie, alebo
+      4.
+      zmiernil za určitý čas svoj vplyv na životné prostredie,
+      o)
+      značkou udržateľnosti akákoľvek dobrovoľná verejná alebo súkromná známka dôveryhodnosti,
+      známka kvality alebo ich ekvivalent, ktorej cieľom je odlíšiť a propagovať produkt,
+      postup alebo obchodníka s odkazom na určité environmentálne vlastnosti, sociálne vlastnosti
+      alebo oboje, okrem povinnej značky podľa osobitných predpisov, 7a )
+      p)
+      certifikačným systémom nezávislý systém overovania, ktorým sa osvedčuje, že produkt,
+      postup alebo obchodník spĺňa požiadavky na používanie značky udržateľnosti, a ktorý
+      spĺňa tieto požiadavky:
+      1.
+      systém je za transparentných, spravodlivých a nediskriminačných podmienok prístupný
+      všetkým obchodníkom,
+      2.
+      požiadavky systému vypracúva vlastník systému po konzultácii s príslušnými odborníkmi
+      a zainteresovanými stranami a sú verejne dostupné,
+      3.
+      systém určuje postupy riešenia nesúladu s požiadavkami systému a predpokladá odňatie
+      alebo pozastavenie používania značky udržateľnosti, ak obchodník nedodrží požiadavky
+      systému, a
+      4.
+      monitorovanie dodržiavania požiadaviek systému vykonáva tretia osoba, ktorá je nezávislá
+      od vlastníka systému a obchodníka; spôsobilosť tretej osoby na výkon tejto činnosti
+      sa preukazuje podľa technických noriem 7b ) alebo podľa osobitných predpisov, 7c )
+      q)
+      uznanými vynikajúcimi environmentálnymi vlastnosťami environmentálne vlastnosti v
+      súlade s požiadavkami podľa osobitného predpisu 7d ) alebo podľa technických noriem 7e ) alebo environmentálne vlastnosti s najvyššou úrovňou vlastností podľa osobitných
+      predpisov.
+  - title: |
+      Tamže, poznámky pod čiarou 7d až 7f
+    source: "podklady/predpisy-sk/sk-108-2024-ochrana-spotrebitela-zneni-od-2026-09-27.txt"
+    text: |
+      7d)
+      Nariadenie Európskeho parlamentu a Rady (ES) č. 66/2010 z 25. novembra 2009 o environmentálnej
+      značke EÚ (Ú. v. EÚ L 27, 30. 1. 2010) v platnom znení.
+      7e)
+      Napríklad STN EN ISO 14024 Environmentálne značky a vyhlásenia. Environmentálne označovanie
+      typu I. Zásady a postupy (83 9024).
+      7f)
+      Napríklad nariadenie (EÚ) 2017/1369 v platnom znení.
+  - title: |
+      Tamže, § 9 ods. 12
+    source: "podklady/predpisy-sk/sk-108-2024-ochrana-spotrebitela-zneni-od-2026-09-27.txt"
+    text: |
+      Obchodník je povinný preukázať správnosť skutkových tvrdení týkajúcich sa obchodnej
+      praktiky orgánu dohľadu alebo súdu v konaní, v ktorom sa posudzuje, či je obchodná
+      praktika nekalou obchodnou praktikou, ak to vzhľadom na okolnosti prípadu možno považovať
+      za primerané s prihliadnutím na oprávnený záujem obchodníka, iného účastníka konania
+      alebo na kolektívne záujmy spotrebiteľov. Ak obchodník nepredloží dôkazy, alebo ak
+      orgán dohľadu alebo súd považuje predložené dôkazy za nedostatočné, skutkové tvrdenia
+      sa považujú za nesprávne.
+  - title: |
+      Tamže, § 10 ods. 1 písm. a) a b)
+    source: "podklady/predpisy-sk/sk-108-2024-ochrana-spotrebitela-zneni-od-2026-09-27.txt"
+    text: |
+      Klamlivé konanie je obchodná praktika, ktorá zapríčiňuje alebo môže zapríčiniť, že
+      priemerný spotrebiteľ urobí rozhodnutie o obchodnej transakcii, ktoré by inak neurobil,
+      pretože obsahuje nesprávne informácie a je preto nepravdivá, alebo akýmkoľvek spôsobom
+      uvádza do omylu alebo môže uviesť do omylu priemerného spotrebiteľa, a to aj ak je
+      táto informácia vecne správna vo vzťahu k
+      a)
+      existencii produktu alebo k povahe produktu,
+      b)
+      hlavným vlastnostiam produktu, ako sú jeho dostupnosť, výhody, riziká, vyhotovenie,
+      zloženie, príslušenstvo, environmentálne alebo sociálne vlastnosti, aspekty obehovosti,
+      ako sú životnosť, 48a ) opraviteľnosť alebo recyklovateľnosť, pomoc a služby poskytované po predaji produktu,
+      zodpovednosť za vady, výrobný postup, dátum výroby alebo dodania, spôsob dodania,
+      účel použitia, možnosti využitia, množstvo, špecifikácia, zemepisný pôvod alebo obchodný
+      pôvod, očakávané výsledky použitia alebo výsledky a podstatné ukazovatele skúšok alebo
+      kontrol vykonaných na produkte,
+  - title: |
+      Tamže, príloha č. 1 (obchodné praktiky, ktoré sa za každých okolností považujú za nekalé), body 3, 6, 7 a 8
+    source: "podklady/predpisy-sk/sk-108-2024-ochrana-spotrebitela-zneni-od-2026-09-27.txt"
+    text: |
+      Zobrazenie značky udržateľnosti, ktorá nie je založená na certifikačnom systéme alebo
+      ktorú nezaviedli orgány verejnej moci.
+      4.
+      Tvrdenie, že kódex správania je schválený orgánom verejnej moci alebo iným orgánom,
+      pričom tomu tak nie je.
+      5.
+      Tvrdenie, že obchodník (vrátane jeho obchodných praktík) alebo produkt bol schválený,
+      potvrdený alebo povolený orgánom verejnej moci alebo inou osobou, pričom tomu tak
+      nie je, alebo takéto tvrdenie bez toho, že by produkt spĺňal podmienky schválenia,
+      potvrdenia alebo povolenia.
+      6.
+      Všeobecné environmentálne tvrdenie v písomnej forme, ústnej forme alebo audiovizuálnej
+      forme, ktoré sa neuvádza na značke udržateľnosti, a pri ktorom sa v tom istom komunikačnom
+      prostriedku jasne a dôrazne neuvádza špecifikácia tvrdenia, ak obchodník nie je schopný
+      preukázať uznané vynikajúce environmentálne vlastnosti (napríklad „šetrný ku klíme“,
+      „šetrný k životnému prostrediu“, „zelený“, „ekologický“).
+      7.
+      Environmentálne tvrdenie o celom produkte alebo o celom podniku obchodníka, ak sa
+      týka len určitého aspektu produktu alebo konkrétnej činnosti obchodníka.
+      8.
+      Tvrdenie založené na kompenzácii emisií skleníkových plynov, že produkt má neutrálny,
+      znížený alebo pozitívny vplyv na životné prostredie z hľadiska emisií skleníkových
+      plynov.
+  - title: |
+      Směrnice (EU) 2024/825, odůvodnění 9
+    source: "podklady/predpisy-eu/eu-2024-825-empco-cs.txt"
+    text: |
+      Příloha I směrnice 2005/29/ES by rovněž měla být změněna tak, aby zakazovala uvádět obecná environmentální tvrzení bez uznaného vynikajícího environmentálního profilu, relevantního pro dané tvrzení. Příkladem takových obecných environmentálních tvrzení jsou „environmentálně šetrné“, ekologicky šetrné“, „zelené“, „přátelské k přírodě“, „ekologické“, „šetrné k životnímu prostředí“, „šetrné ke klimatu“, „jemné k životnímu prostředí“, „uhlíkově šetrné“, „energeticky úsporné“, „biologicky rozložitelné“, „na biologické bázi“ nebo podobná tvrzení, která naznačují vynikající environmentální profil nebo vytvářejí dojem takového profilu. Taková obecná environmentální tvrzení by měla být zakázána, pokud nelze prokázat uznaný vynikající environmentální profil. Pokud je environmentální tvrzení specifikováno jasným a výrazným způsobem na stejném nosiči, například ve stejném televizním nebo rozhlasovém reklamním spotu, na obalu produktu nebo v internetovém prodejním rozhraní, nepovažuje se za obecné environmentální tvrzení. Například tvrzení „balení šetrné ke klimatu“ by bylo obecným tvrzením, zatímco tvrzení „100 % energie použité k výrobě tohoto obalu pochází z obnovitelných zdrojů“ by bylo konkrétním tvrzením, které by nespadalo do působnosti tohoto zákazu, aniž by byla dotčena jiná ustanovení směrnice 2005/29/ES, která jsou na tato konkrétní tvrzení i nadále použitelná. Obecné environmentální tvrzení by navíc mohla představovat písemná nebo ústní tvrzení užitá v kombinaci s implicitními tvrzeními, jako jsou barvy nebo obrázky.
+  - title: |
+      Směrnice (EU) 2024/825, odůvodnění 10
+    source: "podklady/predpisy-eu/eu-2024-825-empco-cs.txt"
+    text: |
+      Uznaný vynikající environmentální profil lze prokázat souladem s nařízením (ES) č. 66/2010, nebo úředně uznanými systémy ekoznačky EN ISO 14024 v členských státech nebo odkazem na nejvyšší úroveň environmentálního profilu v případě konkrétního environmentálního znaku v souladu s dalšími příslušnými právními předpisy Unie, jako je třída A v souladu s nařízením Evropského parlamentu a Rady (EU) 2017/1369  ( 9 ) . Daný uznaný vynikající environmentální profil by měl být relevantní pro celé dané tvrzení. Například obecné environmentální tvrzení, jako je „energeticky úsporný“, by bylo možné uvádět na základě uznaného vynikajícího environmentálního profilu v souladu s nařízením (EU) 2017/1369. Naproti tomu obecné environmentální tvrzení, jako je „biologicky rozložitelný“, by nebylo možné založit na uznaném vynikajícím environmentálním profilu v souladu s nařízením (ES) č. 66/2010, pokud nejsou stanoveny požadavky na biologickou rozložitelnost v konkrétních kritériích ekoznačky EU týkající se příslušného produktu. Stejně tak by obchodník neměl uvádět obecné tvrzení, jako je „uvědomělé“, „udržitelné“ nebo „odpovědné“, výhradně na základě uznávaného vynikajícího environmentálního profilu, protože tato tvrzení se kromě environmentálních znaků týkají i jiných znaků, jako jsou sociální znaky.
+  - title: |
+      European Commission, Questions & Answers on Directive (EU) 2024/825 (September 2026), question 3 (excerpt)
+    source: "podklady/eu-komise/komise-qa-empco-2026-09.txt"
+    text: |
+      Accordingly, brand names, and product names regardless of their protection under 
+      intellectual property law may be assessed as environmental claims under the ECGT Directive 
+      if they convey an environmental message, either explicitly or implicitly. This asses sment 
+      must be made on a case-by-case basis, considering the overall commercial context, 
+      including visual elements, product packaging, marketing, and whether the presentation is 
+      likely to lead the average consumer to believe the product or brand has a positive or zero 
+      impact on the environment or is less damaging to the environment than other products, 
+      product categories, brands or traders, or has improved its impact over time. This also means 
+      that the use of terms such as ‘green’ or ‘blue’ in a brand name, company name or product 
+      name, or the use of such colours, does not automatically constitute an environmental 
+      claim under the ECGT Directive, where, in the relevant commercial context, those terms or 
+      colours are unlikely to lead the average consumer to expect that the brand, product 
+      or company offers an environmental benefit. 
+      However, if  terms such as ‘green’, ‘blue’, ‘eco’ ‘natural’ or ‘climate neutral’ are used in a 
+      brand name or product name in a way that is likely to create an environmental 
+      association for the average consumer, even without any other explicit advertising on 
+      the environmental benefits of the brand of product, then such use may constitute an 
+      environmental claim under the ECGT Directive. In that case, the trader would need to specify 
+      the environmental claim in cle ar and prominent terms on the same medium. If no such 
+      specification is provided, the claim is considered a generic environmental claim and must 
+      comply with the corresponding requirements, and the trader must demonstrate the 
+      recognised excellent environmental performance relevant to the claim made. According to 
+      Article 4(3)(a) and Recital 40 of the Directive (EU) 2015/2436 to approximate the laws of 
+      the Member States relating to trade marks (Recast), provisions relating to unfair competition
+  - title: |
+      Tamtéž, question 4
+    source: "podklady/eu-komise/komise-qa-empco-2026-09.txt"
+    text: |
+      A generic environmental claim is defined in Article 2(p) of the UCPD, as amended by Article 
+      1(1)(b) of the ECGT Directive, as follows: ‘any environmental claim made in written or oral 
+      form, including through audiovisual media, that is not included on a sustainability label and 
+      where the specification of the claim is not provide d in clear and prominent terms on the 
+      same medium’.  
+      This means that if a claim such as ‘gentle on the environment’, ‘nature’s friend’ or ‘green’ is 
+      included on a sustainability label, it will not be considered as a generic environmental claim.  
+      Such a sustainability label will be forbidden to be displayed if it is not based on a certification 
+      scheme or not established by public authorities. However, as stated in Recital 8 of the ECGT 
+      Directive, such labels can still be considered as constituting an environmental claim in the 
+      sense of Article 2(o) of the UCPD, as amended by Article 1(1)(b) of the ECGT Directive, if it 
+      is used in a way that suggests or creates the impression that a product has a positive or 
+      zero impact on the environment, or is less damaging to the environment than competing 
+      products. As such, claims made as part of a sustainability label can still be subject to other 
+      relevant provisions of the UCPD. This should preclude traders from using sustainability labels 
+      as a ‘safe haven’ for misleading or irrelevant claims.  
+      Recital 9 of the ECGT Directive refers to examples of generic environmental claims such as 
+      ‘environmentally friendly’, ‘eco -friendly’, ‘green’, ‘nature’s friend’, ‘ecological’, 
+      ‘environmentally correct’, ‘climate friendly’, ‘gentle on the environment’, ‘carbon friendly’, 
+      ‘energy efficient’, ‘biodegradable’, ‘biobased’ or similar statements that suggest excellent 
+      environmental performance. These generic environmental claims are prohibited if 
+      recognised excellent environmental performance cannot be demonstrated (Annex I point 4a 
+      to the UCPD, as amended by Article 1(4) of the ECGT Directive). Recital 9 further clarifies 
+      that:  
+      ‘Whenever the specification of the environmental claim is provided in clear and prominent 
+      terms on the same medium, such as the same advertising spot, the product’s packaging or 
+      online selling interface, the environmental claim is not considered to be a generic 
+      environmental claim.’ 
+      For example, the claim ‘climate -friendly packaging’ (without further specifications)  is 
+      considered a generic environmental claim and would be subject to the prohibition on such 
+      claims unless it is based on recognised excellent environmental performance. In contrast, a 
+
+       9 
+      claim like ‘100% of energy used to produce this packaging comes from renewable sources’ 
+      would be considered a specific environmental claim and does not fall under the prohibition 
+      on generic environmental claims. However, whether such a claim is permitted ultimately 
+      depends on the specific circumstances of the case, including how the claim is presented and 
+      what evidence is provided to support it. The environmental claim must also comply with 
+      other relevant provisions of the UCPD. 
+      In practice, the specification of the claim should be provided next to, or as part of, the claim 
+      in clear and prominent terms on the same medium (Recital 9 of the ECGT Directive and 
+      Article 2(p) of the UCPD, as amended by Article 1(1)(b) of the ECGT Directive).  In the 
+      current UCPD Guidance Notice, it is already highlighted that based on Article 7 of the UCPD 
+      concerning misleading omissions ‘in case environmental claims are made on the packaging 
+      of products or other communication channels (e.g. posters, billboards, magazines), which 
+      have limited space for specifications, the location of the main environm ental claim and 
+      supplementary information about the claim should enable an average consumer to 
+      understand the link between both’ and ‘If there is no space to specify the environmental 
+      claim, then the claim should generally not be made.’ (2021/C 526/01, 4.1 .1.4, page 80).  
+      This remains valid and does not change through the ECGT Directive.
+  - title: |
+      Tamtéž, question 5
+    source: "podklady/eu-komise/komise-qa-empco-2026-09.txt"
+    text: |
+      5. WHEN DESIGNING THE ARTWORK OF PACKAGING , SHOULD COMPANIES BE AWARE OF ANY 
+      ELEMENTS (E.G. ART WITH GREEN LEAVES OR WATER DROPS) THAT WOULD RISK BEING CONSIDERED 
+      TO CONTAIN A GENERIC ENVIRONMENTAL CLAIM OR A SUSTAINABILITY LABEL?  
+      When designing packaging artwork, companies should be mindful that certain visual 
+      elements, such as green leaves, water drops, or similar nature -related icons, may be 
+      interpreted by consumers as implicit environmental claims, that in combination with a claim 
+      made in written form or with a logo, depending on the context and presentation, could be 
+      subject to the requirements of the ECGT Directive, such as related to generic environmental 
+      claims or sustainability labels. 
+      Overall, traders should exercise caution when using icons, symbols, images, or artwork that 
+      could be perceived as (implicit) environmental claims or trust marks. For example, a green 
+      leaf or water drop, when combined with logos or pos itioned next to statements about 
+      sustainability or natural ingredients, may be seen by the average consumer as a voluntary 
+      trust mark or quality mark.  
+      Given the broad definition of sustainability labels in Article 2(1)(q) of the ECGT Directive 
+      (‘any voluntary trust mark, quality mark or equivalent, either public or private, that aims to 
+      set apart and promote a product, a process or a business by reference to its environmental 
+      or social characteristics, or both, and excludes any mandatory label required under Union 
+      or national law’), elements such as green leaves or water drops may fall within its scope 
+      depending on the intended use, the overall context of the communication, and most 
+      importantly, consumer perception.   
+      Moreover, as already indicated in the current UCPD Guidance Notice ‘accordingly, also the 
+      imagery and overall product presentation (i.e. layout, choice of colours, images, pictures, 
+      sounds, symbols or labels), should be a truthful and accurate representation of the scale of 
+      the environmental benefit, and should not overstate the benefit achieved. Implicit claims 
+      may, depending on the circumstances of the case, include the use of images (e.g. trees, 
+      rainforests, water, animals) and colours (e.g. blue or green backgrounds or text) that are 
+      associated with environmental sustainability.’ (UCPD Guidance (2021/C 526/01) under
+  - title: |
+      Tamtéž, question 7 (excerpt)
+    source: "podklady/eu-komise/komise-qa-empco-2026-09.txt"
+    text: |
+      7. HOW CAN A TRADER DEMONSTRATE ‘RECOGNISED EXCELLENT ENVIRONMENTAL PERFORMANCE’ 
+      IN ORDER TO LAWFULLY USE A GENERIC ENVIRONMENTAL CLAIM UNDER THE ECGT DIRECTIVE?  
+      Under Article 2(p) and Annex I point 4a to the UCPD, as amended by Article 1(1)(b), (4) of 
+      the ECGT Directive, a ‘generic environmental claim’ may only be used if it is based on 
+      recognised excellent environmental performance.  If the specification of the environmental 
+      claim is provided in clear and prominent terms on the same medium, such as the same 
+      advertising spot, the product’s packaging or online selling interface, this will not be 
+      considered a generic environmental claim.  
+      According to Article 2(s) of the UCPD, as amended by Article 1(1)(b) of the ECGT Directive 
+      ‘recognised excellent environ mental performance’ means ‘ environmental performance 
+      compliant with Regulation (EC) No 66/2010 of the European Parliament and of the Council 
+      or with national or regional EN ISO 14024 type I ecolabelling schemes officially recognised 
+      in the Member States, or top environmental performance in accordance with other applicable 
+      Union law’ . 
+      A trader has three possible ways to demonstrate ‘recognised excellent environmental 
+      performance’:  1) by compliance with the EU Ecolabel (Regulation (EC) No 66/2010)2;  2)   
+      by compliance with national or regional EN ISO 14024 type I ecolabelling schemes3, officially 
+
+      2 Therefore the products should be awarded with the EU Ecolabel. 
+      3 Therefore the products should be awarded with these national or regional ecolabels.  
+
+       11 
+      recognised in the Member States, such as the Nordic Swan, Blue Angel, the Austrian 
+      Ecolabel, or the Dutch Ecolabel (Milieukeur);  or 3) by compliance with top environmental 
+      performance for a specific environmental characteristic in accordance with other applicable 
+      Union laws, such as for example recognised excellent environmental performance in 
+      accordance with the Energy Labelling Regulation.   
+      It is important to highlight that the recognised excellent environmental performance in 
+      question should be relevant to the claim. For example, a generic environmental claim on a 
+      product such as ‘energy efficient’ could be made based on recognised excellent 
+      environmental performance in accordance with, for example, the Energy Labelling 
+      Regulation (Regulation (EU) 2017/1369). By contrast, a generic environmental claim such 
+      as ‘biodegradable’ could not be made based on the EU Ecolabel, if there are no requirements 
+      for biodegradability in the specific EU Ecolabel criteria related to the product in question. 
+      As the scope of the EU Ecolabel is to promote products with a reduced environmental impact 
+      during their entire life cycle, claims such as “better for the environment”, “environmentally 
+      friendly”, “green”, “ecological” or “eco-friendly” can be used on products awarded with the 
+      EU Ecolabel or national or regional EN ISO 14024 type I ecolabelling schemes officially 
+      recognised in the Member States.  
+      The only exception is for products that are mixtures (e.g. detergents, cosmetics, paints) 
+      when they are labelled according to th e Classification, Labelling and Packaging (CLP) 
+      Regulation4, as they need to comply with Article 25 (4) of that Regulation, according to 
+      which, statements such  as ‘non-toxic’, ‘non-harmful’, ‘non-polluting’, ‘ecological’ or any

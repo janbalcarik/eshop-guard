@@ -1,0 +1,252 @@
+# Seznamy značek podle rešerše podklady/reserse/znacky-udrzatelnosti.md (26. 9. 2026, 61 značek, citace ověřené proti
+# stažené dokumentaci vlastníků v podklady/znacky/). Posoudí právník.
+# Názvy se hledají jako celá slova bez ohledu na velikost písmen, diakritiku a interpunkci.
+
+# SK príloha č. 1 bod 6 (EU bod 4a): uznané vynikajúce environmentálne vlastnosti, § 2 písm. q).
+# EU Ecolabel a národní ekoznačky typu I podle EN ISO 14024; všech šest je i na seznamu úředně uznaných
+# (zpráva k čl. 11 nařízení 66/2010). Omlouvá jen tvrzení krytá kritérii výrobku (Q&A ot. 7).
+# Energetická třída sem nepatří: je jen pro energetická tvrzení a „A“ není nejvyšší u starých stupnic.
+excellent_performance_labels:
+  # EU Ecolabel (nařízení 66/2010)
+  - "EU Ecolabel"
+  - "Ecolabel EU"
+  - "Ekoznačka EU"                      # CZ; stejný tvar jako SK „Ekoznačka EÚ“
+  - "Ekoznačku EU"
+  - "Ekoznačkou EU"
+  - "Environmentálna značka EÚ"
+  # 2. pád („kritériá ekoznačky EU“) záměrně chybí: bývá i u výrobků bez udělené značky
+  - "Environmentálnu značku EÚ"
+  - "Environmentálnou značkou EÚ"
+  - "Európsky kvet"                     # starší SK název
+  - "Europäisches Umweltzeichen"
+  - "Europäischen Umweltzeichen"
+  # Environmentálne vhodný produkt (SK, zákon 469/2002)
+  - "Environmentálne vhodný produkt"
+  - "Environmentálne vhodný výrobok"    # starší název
+  # Ekologicky šetrný výrobek / služba (CZ, MŽP); holý název je i obecné tvrzení, proto jen s vazbou na značku
+  - "ekoznačka Ekologicky šetrný výrobek"
+  - "ekoznačku Ekologicky šetrný výrobek"
+  - "ekoznačkou Ekologicky šetrný výrobek"
+  - "ekoznačky Ekologicky šetrný výrobek"
+  - "ekoznačka Ekologicky šetrná služba"
+  - "ekoznačku Ekologicky šetrná služba"
+  - "ekoznačkou Ekologicky šetrná služba"
+  - "certifikát Ekologicky šetrný výrobek"
+  - "certifikátem Ekologicky šetrný výrobek"
+  - "ekoznačka EŠV"
+  - "ekoznačku EŠV"
+  - "ekoznačkou EŠV"
+  # Nordic Swan Ecolabel
+  - "Nordic Swan"                       # pokrývá „Nordic Swan Ecolabel“
+  - "Nordic Ecolabel"
+  - "Svanen"
+  - "Svanemærket"
+  - "Svanemerket"
+  - "Joutsenmerkki"
+  - "Severská labuť"                    # CZ i SK
+  - "severské labutě"                   # CZ 2. pád, pokyny Komise k UCPD
+  - "severskej labute"                  # SK 2. pád (neověřeno)
+  # Der Blaue Engel
+  - "Blauer Engel"
+  - "Blaue Engel"                       # „Der Blaue Engel“
+  - "Blauen Engel"
+  - "Blue Angel"
+  - "Modrý anděl"
+  - "Modrého anděla"
+  - "Modrý anjel"                       # SK (neověřeno)
+  # Österreichisches Umweltzeichen
+  - "Österreichisches Umweltzeichen"
+  - "Österreichischen Umweltzeichen"
+  - "Austrian Ecolabel"
+  - "Rakouská ekoznačka"                # (neověřeno)
+  # Milieukeur (NL); pro bod 3 NEOVĚŘENO, proto jen v tomto seznamu
+  - "Milieukeur"
+
+# SK príloha č. 1 bod 3 (EU bod 2a): značka založená na certifikačnom systéme alebo zavedená orgánom verejnej moci.
+# Jen značky s výsledkem „vyhovuje“. Obsahuje první seznam kromě Milieukeur a navíc tvary ve 2. pádě.
+sustainability_labels:
+  # --- orgány veřejné moci: ekoznačky (stejné jako výše, bez Milieukeur) ---
+  - "EU Ecolabel"
+  - "Ecolabel EU"
+  - "Ekoznačka EU"
+  - "Ekoznačku EU"
+  - "Ekoznačkou EU"
+  - "Ekoznačky EU"
+  - "Environmentálna značka EÚ"
+  - "Environmentálnu značku EÚ"
+  - "Environmentálnou značkou EÚ"
+  - "Environmentálnej značky EÚ"
+  - "Európsky kvet"
+  - "Europäisches Umweltzeichen"
+  - "Europäischen Umweltzeichen"
+  - "Environmentálne vhodný produkt"
+  - "Environmentálne vhodný výrobok"
+  - "ekoznačka Ekologicky šetrný výrobek"
+  - "ekoznačku Ekologicky šetrný výrobek"
+  - "ekoznačkou Ekologicky šetrný výrobek"
+  - "ekoznačky Ekologicky šetrný výrobek"
+  - "ekoznačka Ekologicky šetrná služba"
+  - "ekoznačku Ekologicky šetrná služba"
+  - "ekoznačkou Ekologicky šetrná služba"
+  - "certifikát Ekologicky šetrný výrobek"
+  - "certifikátem Ekologicky šetrný výrobek"
+  - "ekoznačka EŠV"
+  - "ekoznačku EŠV"
+  - "ekoznačkou EŠV"
+  - "Nordic Swan"
+  - "Nordic Ecolabel"
+  - "Svanen"
+  - "Svanemærket"
+  - "Svanemerket"
+  - "Joutsenmerkki"
+  - "Severská labuť"
+  - "severské labutě"
+  - "severskej labute"
+  - "Blauer Engel"
+  - "Blaue Engel"
+  - "Blauen Engel"
+  - "Blue Angel"
+  - "Modrý anděl"
+  - "Modrého anděla"
+  - "Modrý anjel"
+  - "Österreichisches Umweltzeichen"
+  - "Österreichischen Umweltzeichen"
+  - "Austrian Ecolabel"
+  - "Rakouská ekoznačka"
+  # --- orgány veřejné moci: EMAS (jen organizace, na výrobku zakázané) ---
+  - "EMAS"
+  # --- orgány veřejné moci: ekologické zemědělství ---
+  - "EU Organic"                        # pokrývá „EU organic logo“
+  - "Euro-leaf"                         # euro leaf
+  - "Euroleaf"                          # (neověřeno)
+  - "Eurolist"                          # SK název z roku 2010
+  - "logo EU pro ekologickou produkci"
+  - "Logo Evropské unie pro ekologickou produkci"
+  - "logo ekologickej poľnohospodárskej výroby"   # pokrývá „… Európskej únie“ i „… EÚ“
+  - "ekologické logo EÚ"
+  - "EU-Bio-Logo"
+  - "grafický znak ekologickej poľnohospodárskej výroby"
+  - "grafickým znakom ekologickej poľnohospodárskej výroby"
+  - "Produkt ekologického zemědělství"  # text českého znaku; riziko popisu bez loga je malé, biopotraviny řeší i eco_organic_food
+  - "biozebra"
+  - "Bio-Siegel"
+  - "Biosiegel"
+  - "Öko-Kennzeichen"
+  - "AB Agriculture Biologique"
+  # --- certifikační systémy: kosmetika (loga Ecocert, BDIH, ICEA, Cosmébio a Soil Association jen se signaturou COSMOS) ---
+  - "COSMOS ORGANIC"                    # pokrývá „certified COSMOS ORGANIC“, „Ecocert COSMOS ORGANIC“
+  - "COSMOS NATURAL"
+  - "COSMOS CERTIFIED"                  # suroviny
+  - "COSMOS APPROVED"                   # suroviny; u hotového výrobku podezřelé
+  - "COSMOS-standard"
+  - "NATRUE"
+  # --- certifikační systémy: textil ---
+  - "GOTS"
+  - "Global Organic Textile Standard"
+  - "Textile Exchange"
+  - "Global Recycled Standard"
+  - "GRS certified"
+  - "Recycled Claim Standard"
+  - "RCS certified"
+  - "Organic Content Standard"
+  - "OCS certified"
+  - "OCS 100"
+  - "OCS Blended"
+  - "Responsible Wool Standard"
+  - "RWS certified"
+  - "Responsible Down Standard"
+  - "RDS certified"
+  - "Responsible Mohair Standard"
+  - "Responsible Alpaca Standard"
+  # --- certifikační systémy: dřevo a papír ---
+  - "FSC"                               # pokrývá FSC 100%, FSC Mix, FSC Recycled, FSC-C012345
+  - "Forest Stewardship Council"
+  - "PEFC"
+  # --- certifikační systémy: potraviny, ryby, suroviny ---
+  - "Fairtrade"                         # pokrývá „Fairtrade Mark“, „FAIRTRADE certified“
+  - "fairtradový"
+  - "fairtradová"
+  - "fairtradové"
+  - "fairtradovou"
+  - "fairtradového"
+  - "fairtradových"
+  - "fairtradovej"                      # SK
+  - "Rainforest Alliance"               # pokrývá „Rainforest Alliance Certified“
+  - "MSC"
+  - "Marine Stewardship Council"
+  - "ASC"
+  - "Aquaculture Stewardship Council"
+  - "RSPO"
+  - "Roundtable on Sustainable Palm Oil"
+  - "UEBT certified"
+  # --- certifikační systémy: obaly ---
+  - "Seedling"                          # doloženo pro certifikáty DIN CERTCO
+
+# Záměrně NEZAŘAZENO (rešerše, oddíly C–G):
+#   nevyhovuje: Ecodetergents a „NATURAL/ORGANIC COSMETIC“ (Ecocert), ICEA Eco Bio Cosmesi/Detergenza/Vegan,
+#     CPK a CPK bio, Fair for Life, OK compost a OK biobased, bluesign a bluepass, Cradle to Cradle Certified,
+#     The Vegan Society a Veganblume, PETA, EVE VEGAN, Fair Wear, OEKO-TEX STeP, „ClimatePartner verified“,
+#     „Pending B Corp“, „1% for the Planet MEMBER“, „UEBT member“;
+#   NEOVĚŘENO: OEKO-TEX (STANDARD 100, MADE IN GREEN, ORGANIC COTTON, LEATHER STANDARD), V-Label,
+#     Leaping Bunny / Cruelty Free International, BDIH bez COSMOS a „Kontrollierte Naturkosmetik“, Vegan BDIH,
+#     Ecogarantie, NCS, NCP, Demeter, Naturland, Bioland, Bio Austria, USDA Organic, ClimatePartner certified,
+#     B Corp, 1% for the Planet CERTIFIED, BCI Cotton Label, UTZ, Cosmébio bez COSMOS, Soil Association organic;
+#   obecná slova (nikdy): bio, eko, eco, organic, natural, vegan, cruelty free, fair trade, ekologický,
+#     samotné Ecocert, ICEA, BDIH, Cosmebio, Demeter, COSMOS, Ecolabel, ekoznačka, Umweltzeichen.
+
+# Poznámky ke značkám, které rešerše posoudila jako nevyhovující nebo neověřené; nález u nich uvede důvod.
+# Značky s výsledkem „vyhovuje“ jsou v sustainability_labels a nález nedávají.
+label_notes:
+  - names: ["Ecocert", "Ecodetergent", "Ecodetergents"]
+    note: "Ecocert: logo vyhovuje jen se signaturou „COSMOS ORGANIC“ nebo „COSMOS NATURAL“ (pak jde o certifikační systém COSMOS). Vlastní standardy Ecocertu (Ecodetergents, Natural/Organic Cosmetic) podmínky nesplňují, protože vlastník systému je zároveň certifikátorem; oddělení, které Ecocert v roce 2026 chystá, není ověřené."
+  - names: ["BDIH", "Kontrollierte Natur-Kosmetik", "Kontrollierte Naturkosmetik"]
+    note: "BDIH: logo se signaturou COSMOS vyhovuje jako COSMOS. Starý standard BDIH („Kontrollierte Natur-Kosmetik“) a značka Vegan BDIH jsou neověřené: kontrolor IONC patří výhradně BDIH a veřejné dokumenty nedokládají všechny podmínky certifikačního systému."
+  - names: ["ICEA", "Eco Bio Cosmetics", "Ecobiocosmesi", "Eco Bio Detergenza"]
+    note: "ICEA: se signaturou COSMOS vyhovuje jako COSMOS. Vlastní standardy ICEA (Eco Bio Cosmesi, Natural Cosmetic, Eco Bio Detergenza, Vegetarian/Vegan) nevyhovují, vlastník je totožný s certifikátorem."
+  - names: ["Cosmebio"]
+    note: "Cosmébio: se signaturou COSMOS vyhovuje jako COSMOS; staré logo podle charty asociace je neověřené."
+  - names: ["Soil Association"]
+    note: "Soil Association: logo se signaturou COSMOS vyhovuje jako COSMOS; „Soil Association organic“ mimo kosmetiku certifikuje dceřiná společnost vlastníka bez doložené akreditace, je neověřené."
+  - names: ["Ecogarantie", "Eco Garantie"]
+    note: "Ecogarantie: neověřená. Kontroluje jiná osoba než vlastník (Certisys, TÜV NORD), ale akreditace pro rozsah Ecogarantie doložená není a o odvolání s konečnou platností rozhoduje orgán vlastníka."
+  - names: ["CPK", "CPK bio", "Certifikovaná přírodní kosmetika"]
+    note: "CPK a CPK bio: nevyhovují, standard, ochranné známky i certifikát jsou v rukou jedné organizace (KEZ o.p.s.)."
+  - names: ["Natural Cosmetics Standard", "Nature Care Product"]
+    note: "NCS a NCP: neověřené; jediný viditelný certifikační orgán má akreditaci jen pro NATRUE a je spoluautorem standardu. NCP navíc dovoluje označení „ecological“, které je obecným environmentálním tvrzením."
+  - names: ["The Vegan Society", "Vegan Trademark", "Veganblume", "Vegan-Blume"]
+    note: "The Vegan Society (Vegan Trademark): produkty kontroluje sám vlastník, podmínku nezávislé kontroly nesplňuje. Značkou udržitelnosti je, jen pokud ji obchod v kontextu spojuje s přínosem pro zvířata nebo přírodu (otázky a odpovědi Komise č. 15); vlastník sám uvádí, že nejde o environmentální certifikaci."
+  - names: ["V-Label", "VLabel"]
+    note: "V-Label: neověřená; jde o licenci a externí audity nemají doloženou akreditaci. Na kosmetice od kritérií 02.03 (9/2026) neznamená „netestováno na zvířatech“."
+  - names: ["Beauty Without Bunnies", "PETA Approved", "PETA-Approved Vegan"]
+    note: "PETA: vlastník sám uvádí, že jeho loga mají být používána jen v USA, Kanadě a Indii, ne v EU, a směrnici (EU) 2024/825 nesplňují."
+  - names: ["Leaping Bunny", "Cruelty Free International"]
+    note: "Leaping Bunny / Cruelty Free International: neověřená s vysokým rizikem; úplná kritéria jsou jen na vyžádání a kdo provádí audity a s jakou akreditací, není zveřejněno."
+  - names: ["EVE VEGAN", "Expertise Vegane Europe"]
+    note: "EVE VEGAN: nevyhovuje, kontrolu dokumentů, audit i certifikát zajišťuje sám vlastník."
+  - names: ["OEKO-TEX", "OEKOTEX"]
+    note: "OEKO-TEX (STANDARD 100, MADE IN GREEN, ORGANIC COTTON, LEATHER STANDARD): neověřená, dva certifikační instituty jsou akcionáři vlastníka systému; STANDARD 100 je hlavně zdravotní značka. OEKO-TEX STeP se na výrobku použít nesmí."
+  - names: ["bluesign", "bluepass"]
+    note: "bluesign: bluesign PRODUCT, bluesign APPROVED a bluepass Article nevyhovují; bluepass Consumer Product je neověřený."
+  - names: ["Cradle to Cradle Certified", "C2C Certified"]
+    note: "Cradle to Cradle Certified: nevyhovuje podmínkám certifikačního systému."
+  - names: ["Fair Wear"]
+    note: "Fair Wear: není certifikační systém výrobků, jako značka na výrobku nevyhovuje."
+  - names: ["Fair for Life"]
+    note: "Fair for Life: nevyhovuje (k 26. 9. 2026), vlastník standardu je totožný s certifikátorem."
+  - names: ["OK compost", "OK biobased"]
+    note: "OK compost a OK biobased (TÜV AUSTRIA): nevyhovují, podmínka kontroly nezávislou třetí stranou není splněná."
+  - names: ["BCI Cotton", "Better Cotton"]
+    note: "Better Cotton: BCI Cotton Label je neověřený; staré logo Better Cotton a členské logo na výrobku nevyhovují."
+  - names: ["ClimatePartner", "Climate Partner"]
+    note: "ClimatePartner: „ClimatePartner certified“ je neověřený, „ClimatePartner verified“ v EU nevyhovuje. Tvrzení o klimatické neutralitě založená na kompenzacích jsou zakázaná vždy (bod 8)."
+  - names: ["B Corp", "B Corporation"]
+    note: "Certified B Corporation: neověřená; „Pending B Corp“ je jen sebehodnocení a nevyhovuje."
+  - names: ["1% for the Planet"]
+    note: "1 % for the Planet: „CERTIFIED“ je neověřené, členské logo „MEMBER“ nevyhovuje."
+  - names: ["UEBT member"]
+    note: "„UEBT member“ je členské logo, ne certifikace; vyhovuje jen „UEBT certified“."
+  - names: ["Demeter", "Naturland", "Bioland", "Bio Austria", "USDA Organic"]
+    note: "Soukromé a zahraniční bio značky (Demeter, Naturland, Bioland, Bio Austria, USDA Organic) jsou podle rešerše neověřené: veřejné dokumenty nedokládají všechny podmínky certifikačního systému. U biopotravin rozhoduje certifikace podle nařízení (EU) 2018/848 (logo EU pro ekologickou produkci)."
+
+# Obrázky, jejichž alt text nebo název souboru obsahuje tato slova, se vypíšou k ruční kontrole.
+eco_image_keywords: ["eko", "eco", "green", "zelen", "bio", "nature", "sustainab"]

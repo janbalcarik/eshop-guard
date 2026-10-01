@@ -1,0 +1,21 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "fixture-eshop",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": [
+        "run",
+        "--project",
+        "D:/_github/eshop-guard/src/EshopGuard.Cli",
+        "--",
+        "serve-fixture",
+        "--port",
+        "8000",
+        "--root",
+        "D:/_github/eshop-guard/src/tests/EshopGuard.Core.Tests/Fixtures/site"
+      ],
+      "port": 8000
+    }
+  ]
+}

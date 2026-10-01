@@ -1,0 +1,100 @@
+﻿# Nastavení EshopGuard. Tajné hodnoty (klíč API) patří do .env, ne sem.
+
+crawl:
+  max_pages: 200
+  sample_products: 100
+  requests_per_second: 1.0
+  # Přizpůsobivé tempo: při rychlých odpovědích bez chyb až sem, při pomalých nebo 429/503 zpomalí; Crawl-delay ho sníží.
+  max_requests_per_second: 3.0
+  # Před skenováním cizího webu doplňte skutečný kontakt.
+  user_agent: "EshopGuard/0.1 (+mailto:doplnte-kontakt@example.cz)"
+  timeout_seconds: 20
+  max_page_bytes: 5242880
+  max_redirects: 5
+  max_link_depth: 3
+  max_sitemap_urls: 50000
+  # Stránka s menším počtem znaků čitelného textu v HTML (včetně menu a patičky) se hlásí jako nenačtená:
+  # web ji nejspíš vykresluje JavaScriptem, který nástroj nespouští. Taková stránka není zkontrolovaná.
+  min_page_text_chars: 200
+  legal_page_slugs:
+    - obchodni-podminky
+    - obchodne-podmienky
+    - reklamacni-rad
+    - reklamacny-poriadok
+    - reklamace
+    - reklamacie
+    - odstoupeni
+    - odstupenie
+    - vraceni
+    - vratenie
+    - doprava
+    - kontakt
+  product_sitemap_hints: [product, produkt, zbozi, tovar, item]
+
+segmentation:
+  # Segment se vyhodnotí, když má aspoň min_segment_length znaků (po sjednocení mezer; počítají se i mezery,
+  # číslice a interpunkce) A zároveň aspoň jedno slovo s min_word_letters písmeny (číslice a značky se nepočítají).
+  # Kratší úlomky se nevyhodnocují, ale zůstávají v kontextu sousedních vět.
+  # Hranice 3 znaky pouští i štítky „EKO“ a „BIO“; šum typu „189,90 Kč“ odfiltruje podmínka slova.
+  min_segment_length: 3
+  min_word_letters: 3
+  max_sentence_length: 600
+  max_paragraph_length: 1500
+  context_sentences: 2
+  max_context_chars: 600
+  boilerplate_page_share: 0.3
+  min_boilerplate_pages: 3
+
+jev:
+  # Dokumentovaný limit jev-1.13.0: 1 200 požadavků za minutu a 250 000 tokenů za sekundu (docs.typesafe.ai/models);
+  # při odezvě kolem 0,33 s na něj stačí 8 souběžných požadavků.
+  requests_per_minute: 1200
+  concurrency: 8
+  timeout_seconds: 30
+  max_retries: 6
+
+cost:
+  usd_per_million_input_tokens: 0.042
+
+budget:
+  max_calls_without_confirm: 5000
+
+cache:
+  path: cache/jev-cache.sqlite
+
+rules:
+  directory: rules
+  labels_file: config/labels.yaml
+  legal_requirements_file: config/legal_requirements.yaml
+  sieve_file: config/sieve.yaml
+
+rewrite:
+  # Přepis problematických pasáží (checker rewrite). Klíč je v OPENAI_API_KEY, ne tady.
+  # gpt-6.1-sol vybrán pilotem 30. 9. 2026 (24 stránek vegis.sk, ~1 cent na stránku); ceny developers.openai.com/api/docs/pricing.
+  model: gpt-6.1-sol
+  reasoning_effort: medium
+  prompt_file: config/rewrite.yaml
+  concurrency: 4
+  timeout_seconds: 300
+  max_retries: 5
+  input_usd_per_million: 2.00
+  cached_input_usd_per_million: 0.10
+  output_usd_per_million: 10.00
+  max_usd_without_confirm: 1.00
+
+profiles:
+  # Profily šablon stránek: model přepisu (rewrite.model) jednou podle vzorových stránek označí oblasti šablony a které
+  # z nich se smí vynechat (navigace, výpisy jiných produktů, cookie lišta, pole formulářů, košík). Profil se uloží do
+  # souboru cache a použije se i v dalších skenech. Hlavní text stránky se nikdy nevynechává; stránka, na kterou žádný
+  # profil nesedí, se kontroluje celá. Vypnutí: enabled: false.
+  enabled: true
+  # Stránka sedí na profil, když mimo jeho oblasti zůstane nejvýš tento podíl textu (měřeno 1. 10. 2026: vlastní 0 %, cizí 94–97 %).
+  max_unknown_share: 0.10
+  # Stránky jedné šablony mají aspoň takovou podobnost stavby (měřeno: stejná šablona 0,83–0,99, jiný typ stránky 0,32–0,67).
+  template_similarity: 0.75
+  min_template_pages: 3
+  max_new_profiles_per_scan: 5
+  sample_pages: 3
+  max_outline_chars: 80000
+  estimated_output_tokens: 3500
+  max_usd_without_confirm: 1.00

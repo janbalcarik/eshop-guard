@@ -1,0 +1,442 @@
+using System.Text.RegularExpressions;
+using AngleSharp.Dom;
+using AngleSharp.Html.Parser;
+using EshopGuard.Core.Crawl;
+using EshopGuard.Core.Models;
+using Microsoft.Extensions.Logging;
+
+namespace EshopGuard.Core.Extract;
+
+/// <summary>
+/// Extracts the main text (SmartReader, fallback heuristic), the page frame, title, meta description,
+/// JSON-LD, images and links from an HTML page.
+/// </summary>
+internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger)
+{
+    private const string ChromeSelector =
+        "header, footer, aside, [role=banner], [role=contentinfo], [role=complementary]";
+
+    private const string FallbackRemovedSelector =
+        "script, style, noscript, template, svg, nav, [role=navigation]";
+
+    private static readonly string[] BreadcrumbClasses = ["breadcrumb", "breadcrumbs"];
+
+    /// <summary>
+    /// SmartReader removes class attributes, but badges and breadcrumb trails are recognized by them;
+    /// "page" is SmartReader's own default.
+    /// </summary>
+    private static readonly string[] ClassesKeptBySmartReader = ["page", .. BreadcrumbClasses, .. HtmlText.BadgeClassNames];
+
+    /// <summary>
+    /// Navigation and interface: nav, ARIA navigation and menu roles, breadcrumb trails, lists whose every item is only a link
+    /// (category trees, brand lists, footer links) and labels of checkboxes and radio buttons (product filters).
+    /// The links themselves are read separately.
+    /// </summary>
+    internal static bool IsNavigation(IElement element)
+    {
+        if (element.LocalName == "nav" || IsLinkList(element) || IsOptionLabel(element))
+        {
+            return true;
+        }
+
+        if (element.GetAttribute("role") is "navigation" or "menu" or "menubar" or "menuitem")
+        {
+            return true;
+        }
+
+        return IsBreadcrumb(element);
+    }
+
+    private static bool IsBreadcrumb(IElement element) =>
+        (element.GetAttribute("itemtype") ?? "").Contains("BreadcrumbList", StringComparison.OrdinalIgnoreCase)
+        || (element.GetAttribute("aria-label") ?? "").Contains("breadcrumb", StringComparison.OrdinalIgnoreCase)
+        || element.ClassList.Any(c => BreadcrumbClasses.Contains(c, StringComparer.OrdinalIgnoreCase));
+
+    /// <summary>
+    /// Title, first h1, breadcrumb trail, microdata category and JSON-LD hints: the product category is read from these,
+    /// never from the sentence itself. Read before the fallback heuristic removes parts of the document.
+    /// </summary>
+    private static string ReadCategory(IDocument document, string title, JsonLdReader.Result jsonLd)
+    {
+        var parts = new List<string> { title };
+        if (document.QuerySelector("h1") is { } heading)
+        {
+            parts.Add(TextTools.Clean(heading.TextContent));
+        }
+
+        var breadcrumbs = document.All.Where(IsBreadcrumb).ToList();
+        foreach (var breadcrumb in breadcrumbs.Where(b => !breadcrumbs.Any(other => other != b && other.Contains(b))))
+        {
+            parts.Add(string.Join(" / ", HtmlText.ExtractBlocks(breadcrumb).Select(b => b.Text)));
+        }
+
+        foreach (var category in document.QuerySelectorAll("[itemprop=category]"))
+        {
+            parts.Add(TextTools.Clean(category.GetAttribute("content") ?? category.TextContent));
+        }
+
+        parts.AddRange(jsonLd.CategoryHints);
+        return string.Join(" | ", parts.Where(p => p.Length > 0).Distinct());
+    }
+
+    private static bool IsOptionLabel(IElement element)
+    {
+        if (element.LocalName != "label")
+        {
+            return false;
+        }
+
+        var input = element.QuerySelector("input")
+            ?? (element.GetAttribute("for") is { Length: > 0 } id ? element.Owner?.GetElementById(id) : null);
+        return input?.GetAttribute("type")?.ToLowerInvariant() is "checkbox" or "radio";
+    }
+
+    private static bool IsLinkList(IElement element)
+    {
+        if (element.LocalName is not ("ul" or "ol"))
+        {
+            return false;
+        }
+
+        var items = element.Children.Where(c => c.LocalName == "li").ToList();
+        return items.Count >= 2 && items.All(IsOnlyLinks);
+    }
+
+    /// <summary>Nearly all text of the item is inside links (nested link lists included).</summary>
+    private static bool IsOnlyLinks(IElement item)
+    {
+        var text = TextTools.Clean(item.TextContent);
+        if (text.Length == 0)
+        {
+            return true;
+        }
+
+        var linkText = TextTools.Clean(string.Join(" ", item.QuerySelectorAll("a").Select(a => a.TextContent)));
+        return linkText.Length >= text.Length * 0.9;
+    }
+
+    public ExtractedPage Extract(Uri url, string html)
+    {
+        var document = new HtmlParser().ParseDocument(html);
+        var baseUri = GetBaseUri(document, url);
+        var jsonLd = JsonLdReader.Read(document);
+        // Before the fallback heuristic removes scripts and the frame from the document.
+        var render = RenderCheck.Inspect(document);
+
+        // The frame is read before the fallback heuristic removes it from the document.
+        var chromeElements = document.QuerySelectorAll(ChromeSelector)
+            .Where(e => !HasAncestor(e, ChromeSelector) && !HasAncestor(e, "main, article"))
+            .ToList();
+        // Menus and breadcrumbs are navigation, not claims; the links themselves are read separately below.
+        var chromeRegions = chromeElements
+            .Select(e => (IReadOnlyList<TextBlock>)HtmlText.ExtractBlocks(e, IsNavigation))
+            .Where(blocks => blocks.Count > 0)
+            .ToList();
+
+        var images = ReadImages(document, baseUri);
+        var links = ReadLinks(document, baseUri);
+        var title = TextTools.Clean(document.Title);
+        var metaDescription = TextTools.Clean(GetMeta(document, "name", "description"));
+        var ogType = GetMeta(document, "property", "og:type");
+        var category = ReadCategory(document, title, jsonLd);
+
+        var (mainBlocks, method) = ExtractMain(url, html, document, chromeElements);
+
+        // A block that is also in the frame belongs to the frame; otherwise the footer would be evaluated twice.
+        var chromeTexts = chromeRegions.SelectMany(r => r).Select(b => TextTools.NormalizeForHash(b.Text)).ToHashSet();
+        mainBlocks = mainBlocks.Where(b => !chromeTexts.Contains(TextTools.NormalizeForHash(b.Text))).ToList();
+        var remainder = ReadRemainder(url, html, mainBlocks, chromeTexts);
+        // SmartReader may keep a "related products" row in the main text; its longer texts belong to the other products.
+        // Short blocks stay, so that a badge such as "Eco" shown on this product and on a related one is kept.
+        mainBlocks = mainBlocks
+            .Where(b => b.Text.Length < MinContainedChars || !remainder.ListingTexts.Contains(TextTools.NormalizeForHash(b.Text)))
+            .ToList();
+
+        return new ExtractedPage
+        {
+            Title = title.Length > 0 ? title : null,
+            MetaDescription = metaDescription.Length > 0 ? metaDescription : null,
+            OgType = ogType,
+            HasProductJsonLd = jsonLd.HasProduct,
+            JsonLdDescription = jsonLd.ProductDescription,
+            Category = category,
+            MainBlocks = mainBlocks,
+            ChromeRegions = chromeRegions,
+            Method = method,
+            Images = images,
+            Links = links,
+            Render = render,
+            RestBlocks = remainder.Rest,
+            NavigationChars = remainder.NavigationChars,
+            ListingChars = remainder.ListingChars,
+        };
+    }
+
+    /// <param name="Rest">Other visible text: neither main text, frame, navigation nor listing of other products.</param>
+    /// <param name="NavigationChars">Readable characters in navigation.</param>
+    /// <param name="ListingChars">Readable characters in tiles of other products.</param>
+    /// <param name="ListingTexts">Normalized blocks of those tiles.</param>
+    internal sealed record Remainder(List<TextBlock> Rest, int NavigationChars, int ListingChars, HashSet<string> ListingTexts);
+
+    /// <summary>
+    /// Everything visible that is neither main text nor frame nor navigation nor a listing of other products, read from a
+    /// fresh copy of the page the way the fallback heuristic reads it. A block already in the main text is left out:
+    /// exactly, or as a part of a longer main block when it has at least <see cref="MinContainedChars"/> characters
+    /// (SmartReader may join blocks), so that a short badge such as "Eco" is never dropped because the word occurs
+    /// somewhere in the main text.
+    /// </summary>
+    internal static Remainder ReadRemainder(Uri url, string html, IReadOnlyList<TextBlock> mainBlocks, HashSet<string> chromeTexts)
+    {
+        var document = new HtmlParser().ParseDocument(html);
+        var body = document.Body;
+        if (body is null)
+        {
+            return new Remainder([], 0, 0, []);
+        }
+
+        var navigationChars = CountNavigation(body);
+        var tiles = new List<IElement>();
+        CollectTiles(body, url, tiles);
+        var listingChars = tiles.Sum(RenderCheck.CountVisible);
+        var listingTexts = tiles.SelectMany(t => HtmlText.ExtractBlocks(t, IsNavigation))
+            .Select(b => TextTools.NormalizeForHash(b.Text))
+            .ToHashSet();
+
+        var frame = document.QuerySelectorAll(ChromeSelector)
+            .Where(e => !HasAncestor(e, ChromeSelector) && !HasAncestor(e, "main, article"));
+        foreach (var element in frame.Concat(body.QuerySelectorAll(FallbackRemovedSelector)).Concat(tiles).ToList())
+        {
+            element.Remove();
+        }
+
+        var main = mainBlocks.Select(b => TextTools.NormalizeForHash(b.Text)).ToList();
+        var mainSet = main.ToHashSet();
+        var mainJoined = string.Join("\n", main);
+        var rest = HtmlText.ExtractBlocks(body, IsNavigation)
+            .Where(b =>
+            {
+                var text = TextTools.NormalizeForHash(b.Text);
+                return text.Length > 0
+                    && !mainSet.Contains(text)
+                    && !chromeTexts.Contains(text)
+                    && !(text.Length >= MinContainedChars && mainJoined.Contains(text, StringComparison.Ordinal));
+            })
+            .ToList();
+        return new Remainder(rest, navigationChars, listingChars, listingTexts);
+    }
+
+    internal const int MinContainedChars = 30;
+
+    /// <summary>Fewest tiles that make a listing.</summary>
+    private const int MinTiles = 3;
+
+    /// <summary>A tile is short: name, price, a badge, maybe one line of description.</summary>
+    private const int MaxTileChars = 600;
+
+    /// <summary>A price: a number with a currency before or after it.</summary>
+    [GeneratedRegex(@"(\d[\d\s.,]*\s?(€|eur\b|kč|czk|zł|pln|ft\b|huf|lei\b|ron\b))|((€|eur\b|kč|czk|zł|pln|huf)\s?\d)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex PriceRegex();
+
+    /// <summary>
+    /// Tiles of other products ("related products", "you may also like", product listings): recognized by structure, never
+    /// by the heading or wording, which differ from shop to shop. A parent with at least <see cref="MinTiles"/> children of
+    /// the same element type, most of them short, each with a price and a link to another page of the same site. Their
+    /// texts are the other products' texts and are checked on those products' own pages. Navigation is not searched.
+    /// </summary>
+    internal static void CollectTiles(IElement element, Uri page, List<IElement> tiles)
+    {
+        if (HtmlText.IsSkipped(element.LocalName) || IsNavigation(element))
+        {
+            return;
+        }
+
+        var found = new HashSet<IElement>();
+        foreach (var group in element.Children.Where(c => !HtmlText.IsSkipped(c.LocalName)).GroupBy(c => c.LocalName))
+        {
+            var members = group.ToList();
+            if (members.Count < MinTiles)
+            {
+                continue;
+            }
+
+            var productTiles = members.Where(m => IsProductTile(m, page)).ToList();
+            if (productTiles.Count >= MinTiles && productTiles.Count * 10 >= members.Count * 6)
+            {
+                found.UnionWith(productTiles);
+            }
+        }
+
+        tiles.AddRange(found);
+        foreach (var child in element.Children.Where(c => !found.Contains(c)))
+        {
+            CollectTiles(child, page, tiles);
+        }
+    }
+
+    private static bool IsProductTile(IElement tile, Uri page)
+    {
+        var text = TextTools.Clean(tile.TextContent);
+        if (text.Length == 0 || RenderCheck.CountVisible(tile) > MaxTileChars || !PriceRegex().IsMatch(text))
+        {
+            return false;
+        }
+
+        // The tile itself may be the link (<a class="product" href="..."> with name and price inside).
+        var links = tile.LocalName == "a" ? tile.QuerySelectorAll("a[href]").Prepend(tile) : tile.QuerySelectorAll("a[href]");
+        return links.Any(a => LinksElsewhere(a.GetAttribute("href"), page));
+    }
+
+    /// <summary>A link to another page of the same site (host compared without "www.").</summary>
+    private static bool LinksElsewhere(string? href, Uri page)
+    {
+        var target = UrlTools.TryResolve(href, page);
+        if (target is null || target.Scheme is not ("http" or "https"))
+        {
+            return false;
+        }
+
+        static string Host(Uri u) => u.Host.StartsWith("www.", StringComparison.OrdinalIgnoreCase) ? u.Host[4..] : u.Host;
+        return string.Equals(Host(target), Host(page), StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(target.AbsolutePath.TrimEnd('/'), page.AbsolutePath.TrimEnd('/'), StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>The outermost navigation elements, in one pass from the top.</summary>
+    internal static void CollectNavigation(IElement element, List<IElement> found)
+    {
+        foreach (var child in element.Children)
+        {
+            if (HtmlText.IsSkipped(child.LocalName))
+            {
+                continue;
+            }
+
+            if (IsNavigation(child))
+            {
+                found.Add(child);
+            }
+            else
+            {
+                CollectNavigation(child, found);
+            }
+        }
+    }
+
+    /// <summary>Readable characters of the outermost navigation elements, in one pass from the top.</summary>
+    private static int CountNavigation(IElement element)
+    {
+        var count = 0;
+        foreach (var child in element.Children)
+        {
+            if (HtmlText.IsSkipped(child.LocalName))
+            {
+                continue;
+            }
+
+            count += IsNavigation(child) ? RenderCheck.CountVisible(child) : CountNavigation(child);
+        }
+
+        return count;
+    }
+
+    private (List<TextBlock> Blocks, ExtractionMethod Method) ExtractMain(
+        Uri url, string html, IDocument document, List<IElement> chromeElements)
+    {
+        try
+        {
+            // Never Reader.ParseArticle(url, html): that overload downloads the page itself.
+            var reader = new SmartReader.Reader(url.AbsoluteUri, html) { ClassesToPreserve = ClassesKeptBySmartReader };
+            var article = reader.GetArticle();
+            if (article.IsReadable && !string.IsNullOrWhiteSpace(article.Content))
+            {
+                var articleDocument = new HtmlParser().ParseDocument(article.Content);
+                var blocks = HtmlText.ExtractBlocks(articleDocument.Body, IsNavigation);
+                if (blocks.Count > 0)
+                {
+                    return (blocks, ExtractionMethod.Readability);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "SmartReader failed for {Url}, using fallback", url);
+        }
+
+        var body = document.Body;
+        if (body is null)
+        {
+            return ([], ExtractionMethod.Fallback);
+        }
+
+        foreach (var element in chromeElements.Concat(body.QuerySelectorAll(FallbackRemovedSelector)).ToList())
+        {
+            element.Remove();
+        }
+
+        return (HtmlText.ExtractBlocks(body, IsNavigation), ExtractionMethod.Fallback);
+    }
+
+    private static bool HasAncestor(IElement element, string selector)
+    {
+        for (var parent = element.ParentElement; parent is not null; parent = parent.ParentElement)
+        {
+            if (parent.Matches(selector))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static Uri GetBaseUri(IDocument document, Uri url)
+    {
+        var href = document.QuerySelector("base[href]")?.GetAttribute("href");
+        return UrlTools.TryResolve(href, url) ?? url;
+    }
+
+    private static string? GetMeta(IDocument document, string attribute, string value)
+    {
+        foreach (var meta in document.QuerySelectorAll("meta"))
+        {
+            if (string.Equals(meta.GetAttribute(attribute)?.Trim(), value, StringComparison.OrdinalIgnoreCase))
+            {
+                return meta.GetAttribute("content")?.Trim();
+            }
+        }
+
+        return null;
+    }
+
+    private static List<ImageInfo> ReadImages(IDocument document, Uri baseUri)
+    {
+        var images = new List<ImageInfo>();
+        foreach (var image in document.QuerySelectorAll("img"))
+        {
+            var src = UrlTools.TryResolve(image.GetAttribute("src") ?? image.GetAttribute("data-src"), baseUri);
+            if (src is null)
+            {
+                continue;
+            }
+
+            var alt = TextTools.Clean(image.GetAttribute("alt"));
+            images.Add(new ImageInfo { Src = src.AbsoluteUri, FileName = UrlTools.FileName(src), Alt = alt.Length > 0 ? alt : null });
+        }
+
+        return images;
+    }
+
+    private static List<PageLink> ReadLinks(IDocument document, Uri baseUri)
+    {
+        var links = new List<PageLink>();
+        foreach (var anchor in document.QuerySelectorAll("a[href]"))
+        {
+            var target = UrlTools.TryResolve(anchor.GetAttribute("href"), baseUri);
+            if (target is not null)
+            {
+                links.Add(new PageLink(target, TextTools.Clean(anchor.TextContent)));
+            }
+        }
+
+        return links;
+    }
+}

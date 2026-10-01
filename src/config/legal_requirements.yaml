@@ -1,0 +1,832 @@
+﻿# Zákonné požadavky platné pro všechny výrobky kategorie na trhu EU a tvrzení, která je vydávají za přednost:
+# SK zákon č. 108/2024 Z. z., príloha č. 1 bod 15 (od 27. 9. 2026), EU směrnice 2005/29/ES, příloha I bod 10a.
+# Zdroj: podklady/reserse/zakonne-poziadavky-ako-prednost.md (26. 9. 2026), oddíl 3.4 a příloha A; screening, ne právní
+# posouzení, všechny položky mají status „ověřit“. Vygenerováno z testovacího skriptu rešerše (pozitivní i negativní
+# věty jsou v tests/EshopGuard.Core.Tests/Fixtures/legal_requirements_cases.json).
+#
+# outcome (SK, bod 15): text = zákonný požadavek na všechny výrobky kategorie; verify = limit, výjimky nebo přechodné
+# období (k ověření); none = nad rámec zákona, smí zůstat; irrelevant = bezvýznamná výhoda (§ 10 ods. 2 písm. e), k ověření).
+# outcome_cz: totéž pro Česko dnes (odvětvový předpis u potravin, kosmetiky a kojenecké výživy, jinak § 5); modul lr zatím
+# běží jen pro Slovensko.
+#
+# Výraz tvrzení se skládá z položky se subst (subst_cz, subst_sk):
+#   (?i)(?:\b{abs}\s+{gap}(?:{subst})|\bbez-?(?:{adj})|\b(?:{en})\s*-?\s*free\b|\bfree\s+(?:from|of)\s+(?:{en})|\b0\s*%\s*(?:{subst})|{extra})
+#   abs = abs_cz nebo abs_sk; chybějící adj, en nebo extra se i s alternativou vynechají. Položka s claim se použije přímo.
+# Kategorie výrobku se hledá v názvu produktu, nadpisu, drobečkové navigaci a kategorii e-shopu, ne ve větě.
+macros:
+  abs_cz: '(?:bez(?:\s+(?:obsahu|přídavku|přidan\w*|použití|přísady|přítomnosti))?|neobsahuj\w*|nemá|zbaven\w*|prost[ýáéí])'
+  abs_sk: '(?:bez(?:\s+(?:obsahu|prídavku|pridan\w*|použitia|prísady|prítomnosti))?|neobsahuj\w*|nemá|zbaven\w*|prost[ýáéí])'
+  gap: '(?:(?!(?:obsahuj\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\b)[\w%-]+[\s,]+){0,3}?'
+categories:
+  laundry:
+    cz: '(?i)\bprac(?:í|ího|ích)\s+(?:prostředk\w*|prostředek|gel\w*|prášek|prášk\w*|kapsl\w*|tablet\w*|ubrousk\w*)|\b(?:gel|prášek|kapsle|tablety)\s+na\s+praní'
+    sk: '(?i)\bprac(?:í|ieho|ích|ie)\s+(?:prostried\w*|gél\w*|prášok|prášk\w*|kapsul\w*|tablet\w*)|\b(?:gél|prášok|kapsuly|tablety)\s+na\s+pranie'
+  dishwasher:
+    cz: '(?i)\b(?:do|pro)\s+(?:automatick\w*\s+)?myč(?:ky|ek|kách|ku)\b|\bmyčk\w*\s+nádobí'
+    sk: '(?i)\b(?:do|pre)\s+(?:automatick\w*\s+)?umývač(?:ky|iek|ku)\b|\bumývačk\w*\s+riadu'
+  handdish:
+    cz: '(?i)\bna\s+(?:ruční\s+)?mytí\s+nádobí|\bprostřed\w*\s+na\s+nádobí|\bčisticí\w*\s+prostřed\w*|\bčistič\w*'
+    sk: '(?i)\bna\s+(?:ručné\s+)?umývanie\s+riadu|\bprostried\w*\s+na\s+riad|\bčistiac\w*\s+prostried\w*|\bčistič\w*'
+  spray:
+    cz: '(?i)\bdeodorant\w*|\bantiperspirant\w*|\blak\w*\s+na\s+vlasy|\bsprej\w*|\bspray\w*|\baerosol\w*|\bpěn\w*\s+na\s+(?:vlasy|holení)'
+    sk: '(?i)\bdezodorant\w*|\bdeodorant\w*|\bantiperspirant\w*|\blak\w*\s+na\s+vlasy|\bsprej\w*|\bspray\w*|\baerosól\w*|\bpen\w*\s+na\s+(?:vlasy|holenie)'
+  fridge:
+    cz: '(?i)\blednic\w*|\bledničk\w*|\bchladni[cč]k\w*|\bmrazni[cč]k\w*|\bmrazák\w*'
+    sk: '(?i)\bchladni[cč]k\w*|\bmrazni[cč]k\w*|\bmraziak\w*'
+  babybottle:
+    cz: '(?i)\bkojeneck\w*\s+(?:lahv\w*|láhv\w*|lahev|láhev)|\b(?:lahv\w*|láhv\w*|lahev|láhev)\s+(?:pro\s+)?(?:kojen\w*|miminka)|\bdětsk\w*\s+(?:lahv\w*|láhv\w*|lahev|láhev)|\bhrne[cč]\w*\s+pro\s+(?:děti|kojence|batolata)'
+    sk: '(?i)\bdojčensk\w*\s+fľaš\w*|\bfľaš\w*\s+pre\s+(?:bábätk\w*|dojčat\w*)|\bdetsk\w*\s+fľaš\w*|\bhrnče\w*\s+pre\s+(?:deti|bábätk\w*)'
+  fcm:
+    cz: '(?i)\b(?:lahev|láhev|lahv\w*|láhv\w*)\s+na\s+(?:pití|vodu)|\bdóz\w*|\bbox\w*\s+na\s+(?:svačinu|jídlo|potraviny)|\bkrabičk\w*\s+na\s+(?:svačinu|jídlo)|\bsvačinov\w*|\bkuchyňsk\w*\s+náčin\w*|\bhrn(?:ek|ky|ků)\b|\btermohrn\w*|\btermosk\w*|\bkonzerv\w*'
+    sk: '(?i)\bfľaš\w*\s+na\s+(?:pitie|vodu)|\bdóz\w*|\bbox\w*\s+na\s+(?:desiatu|jedlo|potraviny)|\bdesiatov\w*|\bkuchynsk\w*\s+náčin\w*|\bhrnč\w*|\btermohrnč\w*|\btermosk\w*|\bkonzerv\w*'
+  thermalpaper:
+    cz: '(?i)\btermo(?:papír\w*|kotou[čc]\w*|rol\w*)|\bpokladní\w*\s+kotou[čc]\w*|\bkotou[čc]\w*\s+do\s+pokladn\w*|\bpapírov\w*\s+kotou[čc]\w*'
+    sk: '(?i)\btermo(?:papier\w*|kotúč\w*|rol\w*)|\bpokladni\w*\s+kotúč\w*|\bkotúč\w*\s+do\s+pokladn\w*|\bpapierov\w*\s+kotúč\w*'
+  toys:
+    cz: '(?i)\bhra[cč]k\w*|\bplyšák\w*|\bpanenk\w*|\bstavebnic\w*|\bchrastítk\w*|\bkousátk\w*|\bpro\s+děti\s+od\s+\d'
+    sk: '(?i)\bhra[cč]k\w*|\bplyšák\w*|\bbábik\w*|\bstavebnic\w*|\bhrkálk\w*|\bhryzátk\w*|\bpre\s+deti\s+od\s+\d'
+  cosmetics:
+    cz: '(?i)\bkrém\w*|\bsérum\b|\bšampon\w*|\bkondicionér\w*|\bsprchov\w*\s+gel\w*|\bmýdl\w*|\bpleťov\w*|\bmake-?up\w*|\brtěnk\w*|\blak\w*\s+na\s+nehty|\bdeodorant\w*|\bkosmetik\w*|\bkosmetick\w*|\bparfém\w*|\btělov\w*\s+mlék\w*|\bpeeling\w*|\bzubn\w*\s+past\w*|\bbalzám\w*'
+    sk: '(?i)\bkrém\w*|\bsérum\b|\bšampón\w*|\bkondicionér\w*|\bsprchov\w*\s+gél\w*|\bmydl\w*|\bpleťov\w*|\bmake-?up\w*|\brúž\w*|\blak\w*\s+na\s+nechty|\bdezodorant\w*|\bkozmetik\w*|\bkozmetick\w*|\bparfum\w*|\btelov\w*\s+mliek\w*|\bpeeling\w*|\bzubn\w*\s+past\w*|\bbalzam\w*'
+  leaveon:
+    cz: '(?i)\bkrém\w*|\bsérum\b|\btělov\w*\s+mlék\w*|\bpleťov\w*\s+(?:krém|sérum|mlék)\w*|\bmake-?up\w*|\bdeodorant\w*|\bbalzám\w*'
+    sk: '(?i)\bkrém\w*|\bsérum\b|\btelov\w*\s+mliek\w*|\bpleťov\w*\s+(?:krém|sérum|mliek)\w*|\bmake-?up\w*|\bdezodorant\w*|\bbalzam\w*'
+  rinseoff:
+    cz: '(?i)\bpeeling\w*|\bsprchov\w*\s+gel\w*|\bšampon\w*|\bmýdl\w*|\bčisticí\w*\s+gel\w*|\bscrub\w*|\bzubn\w*\s+past\w*'
+    sk: '(?i)\bpeeling\w*|\bsprchov\w*\s+gél\w*|\bšampón\w*|\bmydl\w*|\bčistiac\w*\s+gél\w*|\bscrub\w*|\bzubn\w*\s+past\w*'
+  plasticised:
+    cz: '(?i)\bměkčen\w*\s+(?:plast|PVC)\w*|\bPVC\b|\bvinyl\w*|\bpláštěnk\w*|\bholink\w*|\bkabel\w*|\bpodložk\w*'
+    sk: '(?i)\bmäkčen\w*\s+(?:plast|PVC)\w*|\bPVC\b|\bvinyl\w*|\bpláštenk\w*|\bgumák\w*|\bkábel\w*|\bpodložk\w*'
+  ce:
+    cz: '(?i)\bhra[cč]k\w*|\bnabíječk\w*|\bsluchátk\w*|\bspotřebič\w*|\belektronik\w*|\bLED\b|\bosobní\w*\s+ochrann\w*|\brespirátor\w*|\bpřilb\w*'
+    sk: '(?i)\bhra[cč]k\w*|\bnabíjačk\w*|\bslúchadl\w*|\bspotrebič\w*|\belektronik\w*|\bLED\b|\bosobn\w*\s+ochrann\w*|\brespirátor\w*|\bprilb\w*'
+  eee:
+    cz: '(?i)\bnabíječk\w*|\bsluchátk\w*|\btelefon\w*|\bnotebook\w*|\btelevizor\w*|\bspotřebič\w*|\bLED\b|\bkabel\w*|\bpowerbank\w*|\belektronik\w*|\bvysavač\w*|\bfén\w*|\bžehličk\w*|\bsvítidl\w*|\blamp\w*'
+    sk: '(?i)\bnabíjačk\w*|\bslúchadl\w*|\btelefón\w*|\bnotebook\w*|\btelevízor\w*|\bspotrebič\w*|\bLED\b|\bkábel\w*|\bpowerbank\w*|\belektronik\w*|\bvysávač\w*|\bfén\w*|\bžehličk\w*|\bsvietidl\w*|\blamp\w*'
+  battery:
+    cz: '(?i)\bbateri\w*|\bmonočlán\w*|\bakumulátor\w*|\bknoflíkov\w*\s+(?:článk|bateri)\w*|\bAAA?\b|\bCR\d{4}\b'
+    sk: '(?i)\bbatéri\w*|\bmonočlán\w*|\bakumulátor\w*|\bgombíkov\w*\s+(?:článk|batéri)\w*|\bAAA?\b|\bCR\d{4}\b'
+  textile:
+    cz: '(?i)\btri[cč]k\w*|\bmikin\w*|\bkalhot\w*|\bšat(?:y|ů|ech)\b|\bbund\w*|\bobuv\w*|\bbot(?:y|ách|ami)\b|\btenisk\w*|\bponož\w*|\bpovlečen\w*|\bručník\w*|\bkošil\w*|\bsukn\w*|\bpyžam\w*|\bspodn\w*\s+prádl\w*|\bpleny\b'
+    sk: '(?i)\btri[cč]k\w*|\bmikin\w*|\bnohavic\w*|\bšat(?:y|ov|ách)\b|\bbund\w*|\bobuv\w*|\btopánk\w*|\btenisk\w*|\bponož\w*|\bobliečk\w*|\buterák\w*|\bkošel\w*|\bsukn\w*|\bpyžam\w*|\bspodn\w*\s+bielizn\w*|\bplienk\w*'
+  leather:
+    cz: '(?i)\bkožen\w*|\bz\s+(?:pravé\s+)?kůže|\busň\w*|\brukavic\w*|\bopask\w*|\bpásek\b|\bpenězenk\w*|\bkabelk\w*|\bobuv\w*|\bbot(?:y|ách|ami)\b'
+    sk: '(?i)\bkožen\w*|\bz\s+(?:pravej\s+)?kože|\bruk[aá]vic\w*|\bopask\w*|\bpeňaženk\w*|\bkabelk\w*|\bobuv\w*|\btopánk\w*'
+  anyproduct:
+    cz: '(?i).'
+    sk: '(?i).'
+  foodpack:
+    cz: '(?i)\bobal\w*\s+(?:na|pro)\s+(?:potraviny|jídlo)|\bkelímk\w*|\bmenu\s*box\w*|\bkrabic\w*\s+na\s+pizz\w*|\bsáč(?:ek|ky|ků)\s+na\s+(?:potraviny|svačinu|pečivo)|\bpapírov\w*\s+sáč\w*'
+    sk: '(?i)\bobal\w*\s+(?:na|pre)\s+(?:potraviny|jedlo)|\bpohár\w*\s+na\s+(?:kávu|nápoje)|\bmenu\s*box\w*|\bkrabic\w*\s+na\s+pizz\w*|\bvrecúšk\w*\s+na\s+(?:potraviny|desiatu|pečivo)|\bpapierov\w*\s+vreck\w*'
+  jewellery:
+    cz: '(?i)\bšperk\w*|\bbižuteri\w*|\bnáušnic\w*|\bnáramk\w*|\bnáhrdelník\w*|\bprsten\w*|\bpřívěs\w*|\bpiercing\w*|\břetízk\w*|\bbrož\w*'
+    sk: '(?i)\bšperk\w*|\bbižutéri\w*|\bnáušnic\w*|\bnáramk\w*|\bnáhrdelník\w*|\bprsteň\w*|\bprsten\w*|\bprívesk\w*|\bpiercing\w*|\bretiazk\w*|\bbrošň\w*'
+  meat:
+    cz: '(?i)\bmas(?:o|a|em)\b|\bmase\b|\bkuř(?:e|ete|ata|at)\b|\bkuřec\w*|\bdrůbe\w*|\bvepř\w*|\bhověz\w*|\bkrůt\w*|\bslanin\w*|\bšunk\w*|\bsteak\w*|\bpárk\w*|\bklobás\w*|\bsalám\w*'
+    sk: '(?i)\bmäs(?:o|a|om)\b|\bmäse\b|\bkurč(?:a|ať|atá)\b|\bkurac\w*|\bhydin\w*|\bbravčov\w*|\bhovädz\w*|\bmorčac\w*|\bslanin\w*|\bšunk\w*|\bsteak\w*|\bpárk\w*|\bklobás\w*|\bsalám\w*'
+  food:
+    cz: '(?i)\bpotravin\w*|\bsušenk\w*|\bmargarín\w*|\bpečiv\w*|\boplatk\w*|\bčokolád\w*|\bchips\w*|\bpomazánk\w*|\bmražen\w*|\btyčink\w*|\bkeks\w*|\bpopcorn\w*|\bdort\w*'
+    sk: '(?i)\bpotravin\w*|\bsušienk\w*|\bmargarín\w*|\bpečiv\w*|\boblát\w*|\bčokolád\w*|\bčips\w*|\bnátierk\w*|\bmrazen\w*|\btyčink\w*|\bkeks\w*|\bpopcorn\w*|\btort\w*'
+  juice:
+    cz: '(?i)\bšťáv[ayě]\b|\bdžus\w*|\bmošt\w*'
+    sk: '(?i)\bšťav[ayu]\b|\bdžús\w*|\bmušt\w*'
+  honey:
+    cz: '(?i)\bmed(?:u|em)?\b|\bmedov[ýá]\b|\bpastov\w*\s+med\w*|\bkvětov\w*\s+med\w*|\blesní\w*\s+med\w*'
+    sk: '(?i)\bmed(?:u|om)?\b|\bpastovan\w*\s+med\w*|\bkvetov\w*\s+med\w*|\blesn\w*\s+med\w*'
+  butter:
+    cz: '(?i)\bmásl(?:o|a|em)\b|\bmásle\b'
+    sk: '(?i)\bmasl(?:o|a|om)\b|\bmasle\b'
+  plainyog:
+    cz: '(?i)\bbíl\w*\s+jogurt\w*|\bjogurt\w*\s+bíl\w*|\bpřírodní\w*\s+jogurt\w*|\bjogurt\w*\s+přírodní\w*|\bneochucen\w*\s+jogurt\w*|\bkefír\w*|\bacidofiln\w*|\bkysan\w*\s+mlék\w*|\bmlék(?:o|a)\b'
+    sk: '(?i)\bbiel\w*\s+jogurt\w*|\bjogurt\w*\s+biel\w*|\bprírodn\w*\s+jogurt\w*|\bjogurt\w*\s+prírodn\w*|\bneochuten\w*\s+jogurt\w*|\bkefír\w*|\bacidofiln\w*|\bkyslé\s+mliek\w*|\bmliek(?:o|a)\b'
+  infantformula:
+    cz: '(?i)\bkojeneck\w*\s+(?:výživ\w*|mlék\w*)|\bpočáteční\w*\s+(?:kojeneck\w*\s+)?výživ\w*|\bpokračovací\w*\s+(?:kojeneck\w*\s+)?výživ\w*|\bumělé\s+mléko'
+    sk: '(?i)\bdojčensk\w*\s+(?:výživ\w*|mliek\w*)|\bpočiatočn\w*\s+(?:dojčensk\w*\s+)?výživ\w*|\bnásledn\w*\s+(?:dojčensk\w*\s+)?výživ\w*|\bumelé\s+mlieko'
+  paint:
+    cz: '(?i)\bbarv(?:a|y|u)\s+na\s+(?:zeď|zdi|stěny|dřevo|kov)|\bnátěr\w*|\blak\w*\s+na\s+(?:dřevo|podlah\w*|kov)|\bemail\w*\s+barv\w*|\binteriérov\w*\s+barv\w*|\bfasádn\w*\s+barv\w*|\bmalířsk\w*\s+barv\w*'
+    sk: '(?i)\bfarb(?:a|y|u)\s+na\s+(?:stenu|steny|drevo|kov)|\bnáter\w*|\blak\w*\s+na\s+(?:drevo|podlah\w*|kov)|\bemail\w*\s+farb\w*|\binteriérov\w*\s+farb\w*|\bfasádn\w*\s+farb\w*|\bmaliarsk\w*\s+farb\w*'
+  thermometer:
+    cz: '(?i)\bteploměr\w*|\btlakoměr\w*|\bbarometr\w*|\bvlhkoměr\w*'
+    sk: '(?i)\bteplomer\w*|\btlakomer\w*|\bbarometer\w*|\bbarometr\w*|\bvlhkomer\w*'
+  furniture:
+    cz: '(?i)\bnábyt\w*|\bskří\w*|\bpostel\w*|\bstůl\b|\bstol(?:y|ek|ku)\b|\bkomod\w*|\bpolic\w*|\blamin\w*|\bdřevotřísk\w*|\bMDF\b|\bOSB\b|\bparket\w*|\bpodlah\w*'
+    sk: '(?i)\bnábyt\w*|\bskri\w*|\bposteľ\w*|\bstôl\b|\bstol(?:y|ík|íka)\b|\bkomod\w*|\bpolic\w*|\blamin\w*|\bdrevotries\w*|\bMDF\b|\bOSB\b|\bparket\w*|\bpodlah\w*'
+  sup:
+    cz: '(?i)\bbr[cč]k(?:o|a|em)\b|\bbrček\b|\bjednoráz\w*\s+(?:příbor\w*|talíř\w*|nádobí|vidli[cč]k\w*|lži[cč]k\w*|nož\w*)|\bmíchátk\w*|\bvatov\w*\s+tyčink\w*|\bšpejl\w*|\btyčk\w*\s+(?:k|na|pro)\s+balón\w*'
+    sk: '(?i)\bslamk\w*|\bjednoráz\w*\s+(?:príbor\w*|tanier\w*|riad\w*|vidli[cč]k\w*|lyži[cč]k\w*|nož\w*)|\bmiešadl\w*|\bmiešadiel\b|\bvatov\w*\s+tyčink\w*|\bšpajl\w*|\btyčk\w*\s+(?:k|na|pre)\s+balón\w*'
+  water:
+    cz: '(?i)\b(?:balen\w*|minerální\w*|pramenit\w*|kojeneck\w*|stoln\w*|neperliv\w*|perliv\w*)\s+vod\w*'
+    sk: '(?i)\b(?:balen\w*|minerál\w*|pramenit\w*|dojčensk\w*|stoln\w*|neperliv\w*|perliv\w*)\s+vod\w*'
+  paper:
+    cz: '(?i)\bpapír(?:y|u|ů)?\b|\bkancelářsk\w*\s+papír\w*|\bkopírovací\w*\s+papír\w*|\bsešit\w*|\bpapírov\w*\s+(?:ubrous\w*|kapesník\w*)'
+    sk: '(?i)\bpapier(?:e|a|ov)?\b|\bkancelársk\w*\s+papier\w*|\bkopírovac\w*\s+papier\w*|\bzošit\w*|\bpapierov\w*\s+(?:obrús\w*|vreckovk\w*)'
+  perfume:
+    cz: '(?i)\bparfém\w*|\bparfum\w*|\btoaletní\w*\s+vod\w*|\bparfémov\w*\s+vod\w*|\bkolínsk\w*'
+    sk: '(?i)\bparfum\w*|\bparfém\w*|\btoaletn\w*\s+vod\w*|\bparfumovan\w*\s+vod\w*|\bkolínsk\w*'
+  chocolate:
+    cz: '(?i)\bčokolád\w*'
+    sk: '(?i)\bčokolád\w*'
+claims:
+  - id: lr_detergent_laundry_phosphate
+    category: laundry
+    category_name: 'Prací prostředky pro spotřebitele'
+    feature: 'bez fosfátů (limit fosforu)'
+    outcome: verify
+    outcome_cz: verify
+    subst: 'fosf[aá]t\w*|fosfore[cč]nan\w*'
+    adj: 'fosf[aá]tov\w*'
+    en: 'phosphates?'
+    since: '30. 6. 2013'
+    basis: 'nařízení (ES) č. 648/2004, čl. 4a a příloha VIa bod 1; od 23. 9. 2029 nařízení (EU) 2026/405, čl. 6 a příloha III'
+    note: 'Zákon stanoví limit celkového fosforu (< 0,5 g na dávku), ne úplný zákaz; tvrzení je pravděpodobně zákonný požadavek vydávaný za přednost.'
+  - id: lr_detergent_dishwasher_phosphate
+    category: dishwasher
+    category_name: 'Detergenty do automatických myček nádobí pro spotřebitele'
+    feature: 'bez fosfátů (limit fosforu)'
+    outcome: verify
+    outcome_cz: verify
+    subst: 'fosf[aá]t\w*|fosfore[cč]nan\w*'
+    adj: 'fosf[aá]tov\w*'
+    en: 'phosphates?'
+    since: '1. 1. 2017'
+    basis: 'nařízení (ES) č. 648/2004, čl. 4a a příloha VIa bod 2; od 23. 9. 2029 nařízení (EU) 2026/405, příloha III'
+    note: 'Limit celkového fosforu (< 0,3 g na standardní dávku), ne úplný zákaz.'
+  - id: lr_detergent_other_phosphate
+    category: handdish
+    category_name: 'Prostředky na ruční mytí nádobí, čisticí prostředky, profesionální detergenty'
+    feature: 'bez fosfátů'
+    outcome: none
+    outcome_cz: none
+    subst: 'fosf[aá]t\w*|fosfore[cč]nan\w*'
+    adj: 'fosf[aá]tov\w*'
+    en: 'phosphates?'
+    basis: 'nařízení (ES) č. 648/2004, čl. 14 odst. 2 (limit EU pro tyto detergenty není)'
+    note: 'Unijní limit neexistuje, bod 10a se nepoužije; členské státy mohou mít vlastní pravidla.'
+  - id: lr_spray_cfc
+    category: spray
+    category_name: 'Spreje a aerosoly (deodoranty, laky, pěny, technické spreje)'
+    feature: 'bez freonů / CFC / šetrné k ozonové vrstvě'
+    outcome: text
+    outcome_cz: verify
+    subst_cz: 'freon\w*|CFC|HCFC|chlorfluoruhlovodík\w*|lát\w*\s+poškozuj\w*\s+ozon\w*'
+    subst_sk: 'fre[oó]n\w*|CFC|HCFC|chlórfluórovan\w*\s+uhľovodík\w*|lát\w*\s+poškodzuj\w*\s+oz[oó]n\w*'
+    adj_cz: 'freonov\w*'
+    adj_sk: 'fre[oó]nov\w*'
+    en: 'CFC|freon'
+    extra_cz: '\bšetrn\w*\s+k\s+ozon\w*\s+vrstv\w*|\bnepoškozuj\w*\s+ozon\w*'
+    extra_sk: '\bšetrn\w*\s+k\s+oz[oó]n\w*\s+vrstv\w*|\bnepoškodzuj\w*\s+oz[oó]n\w*'
+    since: 'zákaz výrobků s regulovanými látkami (nařízení (EU) 2024/590 nahradilo 1005/2009); F-plyny ve výrobcích osobní péče od 1. 1. 2025'
+    basis: 'nařízení (EU) 2024/590, čl. 5 odst. 1 a příloha I; nařízení (EU) 2024/573, příloha IV body 18–20'
+    note: 'Výrobky obsahující CFC, HCFC a další látky z přílohy I nesmí na trh; výjimky jen pro laboratorní a kritická použití (halony).'
+  - id: lr_fridge_cfc
+    category: fridge
+    category_name: 'Chladničky a mrazničky pro domácnost'
+    feature: 'bez freonů / CFC / HCFC'
+    outcome: text
+    outcome_cz: verify
+    subst_cz: 'freon\w*|CFC|HCFC|chlorfluoruhlovodík\w*|lát\w*\s+poškozuj\w*\s+ozon\w*'
+    subst_sk: 'fre[oó]n\w*|CFC|HCFC|chlórfluórovan\w*\s+uhľovodík\w*|lát\w*\s+poškodzuj\w*\s+oz[oó]n\w*'
+    adj_cz: 'freonov\w*'
+    adj_sk: 'fre[oó]nov\w*'
+    en: 'CFC|freon'
+    since: 'dlouhodobě; dnes nařízení (EU) 2024/590 (zakazuje i každé následné dodání)'
+    basis: 'nařízení (EU) 2024/590, čl. 5 odst. 1 a příloha I'
+    note: 'Výrobky s látkami poškozujícími ozonovou vrstvu nesmí být uváděny na trh ani dále dodávány.'
+  - id: lr_fridge_fgas
+    category: fridge
+    category_name: 'Chladničky a mrazničky pro domácnost'
+    feature: 'bez F-plynů / bez HFC'
+    outcome: verify
+    outcome_cz: verify
+    subst_cz: 'fluorovan\w*\s+(?:skleníkov\w*\s+)?plyn\w*|F-plyn\w*|HFC'
+    subst_sk: 'fluórovan\w*\s+(?:skleníkov\w*\s+)?plyn\w*|F-plyn\w*|HFC'
+    en: 'HFC|F-gas'
+    since: 'HFC s GWP ≥ 150 od 1. 1. 2015; všechny F-plyny od 1. 1. 2026 (výjimka pro bezpečnostní požadavky v místě provozu)'
+    basis: 'nařízení (EU) 2024/573, čl. 11 odst. 1 a příloha IV bod 2'
+    note: 'Nařízení zakazuje „uvádění na trh“ (první dodání); chladničky uvedené na trh před 1. 1. 2026 se smí doprodat → k ověření, po vyprodání zásob text.'
+  - id: lr_babybottle_bpa
+    category: babybottle
+    category_name: 'Kojenecké lahve a hrnečky pro kojence a malé děti'
+    feature: 'bez BPA'
+    outcome: text
+    outcome_cz: verify
+    subst: 'BPA|bisfenol\w*|bisphenol\w*'
+    en: 'BPA|bisphenol\s*A'
+    since: 'polykarbonátové kojenecké lahve od roku 2011 (prováděcí nařízení 321/2011), hrnečky od nařízení 2018/213; všechny FCM od 20. 1. 2025'
+    basis: 'nařízení (EU) 2024/3190, čl. 1 odst. 2 a čl. 3 odst. 1 (odůvodnění 2: dřívější zákaz u kojeneckých lahví)'
+    note: 'Nejčistší případ bodu 10a pro BPA.'
+  - id: lr_fcm_bpa
+    category: fcm
+    category_name: 'Materiály pro styk s potravinami z plastu, silikonu, pryže, laků a nátěrů, lepidel, tiskových barev (láhve, dózy, boxy, plechovky)'
+    feature: 'bez BPA / bez bisfenolů'
+    outcome: verify
+    outcome_cz: verify
+    subst: 'BPA|bisfenol\w*|bisphenol\w*'
+    en: 'BPA|bisphenol\s*A'
+    since: '20. 1. 2025; přechodná období do 20. 7. 2026, doprodej opakovaně použitelných do 20. 7. 2027, některé plechovky do 20. 1. 2028'
+    basis: 'nařízení (EU) 2024/3190, čl. 1 odst. 2, čl. 3, čl. 11 a 12, příloha II'
+    note: 'Během přechodných období nemusí požadavek splňovat všechny výrobky na trhu (Q&A ot. 16) → k ověření; po 20. 7. 2027 u opakovaně použitelných výrobků v zásadě text. Sklo, nerez a keramika bez povrchové úpravy do rozsahu nepatří.'
+  - id: lr_thermalpaper_bpa
+    category: thermalpaper
+    category_name: 'Termografický papír (pokladní kotoučky, termoetikety)'
+    feature: 'bez BPA'
+    outcome: text
+    outcome_cz: verify
+    subst: 'BPA|bisfenol\w*|bisphenol\w*'
+    en: 'BPA|bisphenol\s*A'
+    since: '2. 1. 2020'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 66'
+    note: 'Zakázán je BPA ≥ 0,02 %; „bez fenolů“ nebo „bez BPS“ jde nad rámec a smí zůstat (pokud pravdivé).'
+  - id: lr_toys_bpa
+    category: toys
+    category_name: 'Hračky (pro děti do 36 měsíců nebo k vkládání do úst)'
+    feature: 'bez BPA'
+    outcome: verify
+    outcome_cz: verify
+    subst: 'BPA|bisfenol\w*|bisphenol\w*'
+    en: 'BPA|bisphenol\s*A'
+    since: 'migrační limit dnes; zákaz bisfenolů od 1. 8. 2030'
+    basis: 'směrnice 2009/48/ES, příloha II dodatek C (migrační limit 0,04 mg/l); nařízení (EU) 2025/2509, příloha II část III bod 6 (od 1. 8. 2030)'
+    note: 'Dnes jen migrační limit u hraček pro děti do 3 let a hraček do úst; úplná nepřítomnost jde nad rámec → smí zůstat, pokud pravdivé.'
+  - id: lr_cosmetics_animal_testing
+    category: cosmetics
+    category_name: 'Kosmetika'
+    feature: 'netestováno na zvířatech / cruelty free'
+    outcome: verify
+    outcome_cz: verify
+    claim_cz: '(?i)\bnetestov\w*\s+na\s+zvířat\w*|\bbez\s+testování\s+na\s+zvířat\w*|\bnebyl\w*\s+testov\w*\s+na\s+zvířat\w*|\bcruelty[\s-]*free\b|\bnot\s+tested\s+on\s+animals\b'
+    claim_sk: '(?i)\bnetestovan\w*\s+na\s+zviera\w*|\bbez\s+testovania\s+na\s+zviera\w*|\bnebol\w*\s+testovan\w*\s+na\s+zviera\w*|\bcruelty[\s-]*free\b|\bnot\s+tested\s+on\s+animals\b'
+    since: 'zákaz uvádět na trh od 11. 3. 2013 (u většiny zkoušek od 11. 3. 2009)'
+    basis: 'nařízení (ES) č. 1223/2009, čl. 18 odst. 1 a 2 a čl. 20 odst. 3; nařízení (EU) č. 655/2013, příloha bod 1 odst. 3'
+    note: 'Zákaz se týká jen zkoušek „za účelem splnění požadavků tohoto nařízení“; čl. 20 odst. 3 tvrzení výslovně dovoluje za přísnějších podmínek. Pokud jen opakuje unijní zákaz jako přednost → 10a a 655/2013.'
+  - id: lr_cosmetics_parabens_generic
+    category: cosmetics
+    category_name: 'Kosmetika'
+    feature: 'bez parabenů (obecně)'
+    outcome: verify
+    outcome_cz: verify
+    subst_cz: 'paraben\w*'
+    subst_sk: 'parab[eé]n\w*'
+    en: 'parabens?'
+    basis: 'nařízení (ES) č. 1223/2009, příloha II položky 1374–1378 a příloha V položky 12 a 12a; nařízení (EU) č. 655/2013, příloha bod 5 odst. 1; Technický dokument k tvrzením (2017), příloha III'
+    note: 'Zakázáno je jen pět parabenů, methyl-, ethyl-, propyl- a butylparaben jsou povolené → nejde o bod 10a. Technický dokument ale „free from parabens“ nepřijímá jako očerňující (jiné pravidlo, nezávazné).'
+  - id: lr_cosmetics_annex2
+    category: cosmetics
+    category_name: 'Kosmetika'
+    feature: 'bez látky zakázané v příloze II (olovo, rtuť, kortikosteroidy, hydrochinon, DBP, lilial, zinkpyrithion, zakázané parabeny)'
+    outcome: text
+    outcome_cz: text
+    subst_cz: '(?:iso|izo)(?:propyl|butyl)parab[eé]n\w*|(?:fenyl|phenyl|benzyl|pentyl)parab[eé]n\w*|olov\w*|rtu[tť]\w*|kortikoid\w*|kortikosteroid\w*|glukokortikoid\w*|hydrochinon\w*|dibutyl-?ftal[aá]t\w*|DBP|lilial\w*|butylphenyl\s+methylpropional|zinkpyrithion\w*|pyrithion\w*\s+zine[cč]nat\w*|zinc\s+pyrithione'
+    subst_sk: '(?:iso|izo)(?:propyl|butyl)parab[eé]n\w*|(?:fenyl|phenyl|benzyl|pentyl)parab[eé]n\w*|olov\w*|ortu[tť]\w*|kortikoid\w*|kortikosteroid\w*|glukokortikoid\w*|hydrochin[oó]n\w*|dibutyl-?ftal[aá]t\w*|DBP|lilial\w*|butylphenyl\s+methylpropional|zinkpyriti[oó]n\w*|pyriti[oó]n\w*\s+zinočnat\w*|zinc\s+pyrithione'
+    en: 'lead|mercury|hydroquinone|lilial|DBP'
+    since: 'podle položky přílohy II'
+    basis: 'nařízení (ES) č. 1223/2009, čl. 14 odst. 1 písm. a) a příloha II položky 221, 289, 300, 675, 1339, 1374–1378, 1666, 1670; nařízení (EU) č. 655/2013, příloha bod 1 odst. 3; Technický dokument (2017), příloha III'
+    note: 'Hydrochinon je povolen jen v systémech umělých nehtů pro profesionály (příloha III položka 14); rtuť jen jako konzervant v očních přípravcích (příloha V). Technický dokument uvádí „free from corticosteroids“ a „neobsahuje hydrochinon“ jako nepřípustné.'
+  - id: lr_cosmetics_formaldehyde
+    category: cosmetics
+    category_name: 'Kosmetika'
+    feature: 'bez formaldehydu'
+    outcome: verify
+    outcome_cz: verify
+    subst: 'formaldehyd\w*'
+    en: 'formaldehyde'
+    since: 'podle položky 1577 přílohy II'
+    basis: 'nařízení (ES) č. 1223/2009, příloha II položka 1577, příloha V (látky uvolňující formaldehyd); Technický dokument (2017), příloha III'
+    note: 'Formaldehyd jako přísada je zakázán, látky uvolňující formaldehyd povolené jsou → pravdivé tvrzení je zákonný požadavek; s donorem formaldehydu je nepravdivé.'
+  - id: lr_cosmetics_leaveon_mit
+    category: leaveon
+    category_name: 'Kosmetika, která se neoplachuje (krémy, séra, tělová mléka)'
+    feature: 'bez MIT (methylisothiazolinonu)'
+    outcome: text
+    outcome_cz: text
+    subst: 'methylisothiazolinon\w*|methylchloroisothiazolinon\w*|metylizotiazol\w*|(?-i:MIT)|(?-i:MCI)'
+    en: 'MIT|methylisothiazolinone'
+    since: 'NEOVĚŘENO (datum změny přílohy V nezjištěno)'
+    basis: 'nařízení (ES) č. 1223/2009, příloha V položky 39 a 57 (jen přípravky, které se oplachují)'
+    note: 'U oplachovaných přípravků je MIT povolen do 0,0015 % → tam tvrzení smí zůstat.'
+  - id: lr_cosmetics_microbeads
+    category: rinseoff
+    category_name: 'Kosmetika a výrobky s mikroplasty jako abrazivem (peelingy, čisticí gely, zubní pasty)'
+    feature: 'bez mikrogranulí / mikroperliček'
+    outcome: text
+    outcome_cz: text
+    subst_cz: 'mikrogranul\w*|mikro-?kuli[cč]\w*|mikroperl\w*|microbeads?|abraziv\w*\s+(?:mikro)?plast\w*'
+    subst_sk: 'mikrogranul\w*|mikroguli[cč]\w*|mikroperl\w*|microbeads?|abrazív\w*\s+(?:mikro)?plast\w*'
+    en: 'microbeads?'
+    since: '17. 10. 2023'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 78 body 1, 6 písm. b) a 16'
+    note: 'Mikrokuličky k exfoliaci a čištění jsou zakázané od účinnosti omezení; ostatní mikroplasty mají přechodná období.'
+  - id: lr_cosmetics_microplastics
+    category: cosmetics
+    category_name: 'Kosmetika, detergenty, vosky a osvěžovače vzduchu'
+    feature: 'bez mikroplastů (obecně)'
+    outcome: verify
+    outcome_cz: verify
+    subst: 'mikroplast\w*|mikro-?plast\w*'
+    en: 'microplastics?'
+    since: 'oplachovaná kosmetika 17. 10. 2027; detergenty, vosky, osvěžovače 17. 10. 2028; neoplachovaná 17. 10. 2029; líčidla, rty, nehty 17. 10. 2035'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 78 bod 6'
+    note: 'Do konce přechodného období tvrzení jde nad rámec a smí zůstat (Q&A ot. 11: šampon bez mikroplastů může být relevantní přínos).'
+  - id: lr_toys_phthalates
+    category: toys
+    category_name: 'Hračky a předměty péče o děti'
+    feature: 'bez ftalátů'
+    outcome: verify
+    outcome_cz: verify
+    subst: 'ftal[aá]t\w*|DEHP|DBP|BBP|DIBP|DINP|DIDP|DNOP'
+    en: 'phthalates?'
+    since: 'DEHP, DBP, BBP, DINP, DIDP, DNOP převzato ze směrnice 76/769/EHS (datum NEOVĚŘENO); DIBP od 7. 7. 2020'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položky 51 a 52; směrnice 2009/48/ES, příloha II část III bod 3'
+    note: 'DEHP, DBP, BBP a DIBP jsou zakázané ve všech hračkách, DINP, DIDP a DNOP v hračkách do úst, ostatní ftaláty jen pokud jsou CMR. Tvrzení o čtyřech jmenovaných ftalátech = text.'
+  - id: lr_articles_4phthalates
+    category: plasticised
+    category_name: 'Předměty z měkčeného plastu (PVC, polyuretan, vinyl) obecně'
+    feature: 'bez DEHP, DBP, BBP, DIBP'
+    outcome: text
+    outcome_cz: verify
+    subst: 'DEHP|DBP|BBP|DIBP'
+    since: '7. 7. 2020'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 51 bod 3 a 4'
+    note: 'Výjimky: předměty jen pro venkovní, průmyslové nebo zemědělské použití bez styku s kůží, předměty uvedené na trh před 7. 7. 2020, FCM, zdravotnické prostředky, EEZ (mají vlastní pravidla).'
+  - id: lr_toys_heavy_metals
+    category: toys
+    category_name: 'Hračky'
+    feature: 'bez těžkých kovů / olova'
+    outcome: verify
+    outcome_cz: verify
+    subst_cz: 'těžk\w*\s+kov\w*|olov\w*|kadmi\w*|rtu[tť]\w*'
+    subst_sk: 'ťažk\w*\s+kov\w*|olov\w*|kadmi\w*|ortu[tť]\w*'
+    adj: 'olovnat\w*'
+    en: 'heavy\s+metals?|lead'
+    basis: 'směrnice 2009/48/ES, příloha II část III bod 13 (migrační limity prvků)'
+    note: 'Zákon stanoví migrační limity (např. olovo 2,0 mg/kg v suchém materiálu), ne úplnou nepřítomnost.'
+  - id: lr_ce_marking
+    category: ce
+    category_name: 'Výrobky s povinným označením CE (hračky, elektrická a elektronická zařízení, osobní ochranné prostředky aj.)'
+    feature: 's označením / certifikátem CE'
+    outcome: text
+    outcome_cz: verify
+    claim_cz: '(?i)(?:\b(?:certifik\w*|označen\w*|značk\w*|symbol\w*|certifikát\w*|s)\s+(?-i:CE)\b|(?-i:\bCE\b)\s+(?:certifik\w*|certifikát\w*|označen\w*|značk\w*|shod\w*))'
+    claim_sk: '(?i)(?:\b(?:certifik\w*|označen\w*|značk\w*|symbol\w*|certifikát\w*|s)\s+(?-i:CE)\b|(?-i:\bCE\b)\s+(?:certifik\w*|certifikát\w*|označen\w*|značk\w*|zhod\w*))'
+    since: 'podle harmonizačního předpisu'
+    basis: 'nařízení (ES) č. 765/2008, čl. 30; směrnice 2009/48/ES, čl. 16 odst. 1'
+    note: 'U výrobků, kde CE povinné není, je jeho umístění zakázané (čl. 30 odst. 2) — jiný nález. U kosmetiky CE podle Technického dokumentu nemá být.'
+  - id: lr_toys_safety_norms
+    category: toys
+    category_name: 'Hračky'
+    feature: 'splňuje normy EU / EN 71 / bezpečnostní požadavky'
+    outcome: verify
+    outcome_cz: verify
+    claim_cz: '(?i)\bEN\s*71\b|\bspl[nň]uj\w*\s+(?:[\w-]+\s+){0,3}?(?:norm\w*|požadavk\w*|předpis\w*|směrnic\w*|nařízení|legislativ\w*)|\b(?:bezpečnostn\w*|evropsk\w*)\s+norm\w*|\bv\s+souladu\s+s\s+(?:[\w-]+\s+){0,3}?(?:norm\w*|předpis\w*|nařízení|legislativ\w*)'
+    claim_sk: '(?i)\bEN\s*71\b|\bspĺňa\w*\s+(?:[\w-]+\s+){0,3}?(?:norm\w*|požiadav\w*|predpis\w*|smernic\w*|nariaden\w*|legislatív\w*)|\b(?:bezpečnostn\w*|európsk\w*)\s+norm\w*|\bv\s+súlade\s+s\s+(?:[\w-]+\s+){0,3}?(?:norm\w*|predpis\w*|nariaden\w*|legislatív\w*)'
+    basis: 'směrnice 2009/48/ES, čl. 10 a příloha II (bezpečnostní požadavky platí pro všechny hračky)'
+    note: 'Bezpečnostní požadavky jsou povinné pro všechny hračky; norma EN 71 je dobrovolná cesta k jejich prokázání → k ověření.'
+  - id: lr_cosmetics_legal_compliance
+    category: cosmetics
+    category_name: 'Kosmetika'
+    feature: 'splňuje kosmetickou legislativu EU'
+    outcome: text
+    outcome_cz: text
+    claim_cz: '(?i)\bEN\s*71\b|\bspl[nň]uj\w*\s+(?:[\w-]+\s+){0,3}?(?:norm\w*|požadavk\w*|předpis\w*|směrnic\w*|nařízení|legislativ\w*)|\b(?:bezpečnostn\w*|evropsk\w*)\s+norm\w*|\bv\s+souladu\s+s\s+(?:[\w-]+\s+){0,3}?(?:norm\w*|předpis\w*|nařízení|legislativ\w*)'
+    claim_sk: '(?i)\bEN\s*71\b|\bspĺňa\w*\s+(?:[\w-]+\s+){0,3}?(?:norm\w*|požiadav\w*|predpis\w*|smernic\w*|nariaden\w*|legislatív\w*)|\b(?:bezpečnostn\w*|európsk\w*)\s+norm\w*|\bv\s+súlade\s+s\s+(?:[\w-]+\s+){0,3}?(?:norm\w*|predpis\w*|nariaden\w*|legislatív\w*)'
+    since: '11. 7. 2013'
+    basis: 'nařízení (EU) č. 655/2013, příloha bod 1 odst. 3; Technický dokument (2017), kritérium soulad s právními předpisy'
+    note: 'Technický dokument uvádí jako nepřípustné tvrzení „výrobek splňuje ustanovení kosmetické legislativy EU“; platí i v ČR (nařízení EU).'
+  - id: lr_eee_rohs
+    category: eee
+    category_name: 'Elektrická a elektronická zařízení'
+    feature: 'splňuje RoHS / RoHS compliant'
+    outcome: text
+    outcome_cz: verify
+    claim: '(?i)\bRoHS\b'
+    since: 'podle kategorie EEZ (čl. 4 odst. 3, nejpozději 22. 7. 2019); čtyři ftaláty u zdravotnických a monitorovacích přístrojů od 22. 7. 2021'
+    basis: 'směrnice 2011/65/EU, čl. 4 odst. 1 a příloha II'
+    note: 'Soulad s RoHS je podmínkou uvedení EEZ na trh; výjimky v přílohách III a IV se týkají konkrétních použití, ne tvrzení o souladu.'
+  - id: lr_eee_lead
+    category: eee
+    category_name: 'Elektrická a elektronická zařízení'
+    feature: 'bez olova / bezolovnaté / bez kadmia, rtuti, chromu VI, PBB, PBDE'
+    outcome: verify
+    outcome_cz: verify
+    subst_cz: 'olov\w*|kadmi\w*|rtu[tť]\w*|PBB|PBDE|(?-i:\bPb\b)'
+    subst_sk: 'olov\w*|kadmi\w*|ortu[tť]\w*|PBB|PBDE|(?-i:\bPb\b)'
+    adj: 'olovnat\w*'
+    en: 'lead|cadmium|mercury'
+    since: 'podle kategorie EEZ'
+    basis: 'směrnice 2011/65/EU, čl. 4 a přílohy II, III a IV'
+    note: 'Limity 0,1 % (kadmium 0,01 %) v homogenním materiálu a výjimky v příloze III (např. olovo v oceli do 0,35 %) → tvrzení o úplné nepřítomnosti může jít nad rámec.'
+  - id: lr_battery_mercury
+    category: battery
+    category_name: 'Baterie (všechny)'
+    feature: 'bez rtuti / 0 % Hg'
+    outcome: text
+    outcome_cz: verify
+    subst_cz: 'rtu[tť]\w*|(?-i:\bHg\b)'
+    subst_sk: 'ortu[tť]\w*|(?-i:\bHg\b)'
+    adj_cz: 'rtu[tť]ov\w*'
+    adj_sk: 'ortu[tť]ov\w*'
+    en: 'mercury|Hg'
+    since: 'dřívější předpis nestažen, první datum NEOVĚŘENO'
+    basis: 'nařízení (EU) 2023/1542, čl. 6 odst. 1 a příloha I položka 1 (≤ 0,0005 % rtuti)'
+    note: 'Platí pro všechny baterie včetně zabudovaných do zařízení.'
+  - id: lr_battery_cadmium
+    category: battery
+    category_name: 'Přenosné baterie'
+    feature: 'bez kadmia / 0 % Cd'
+    outcome: text
+    outcome_cz: verify
+    subst: 'kadmi\w*|(?-i:\bCd\b)'
+    en: 'cadmium|Cd'
+    since: 'dřívější předpis nestažen, první datum NEOVĚŘENO'
+    basis: 'nařízení (EU) 2023/1542, příloha I položka 2 bod 1 (≤ 0,002 % kadmia)'
+    note: 'U baterií elektromobilů a startovacích baterií platí zvláštní pravidla.'
+  - id: lr_battery_lead
+    category: battery
+    category_name: 'Přenosné baterie (kromě zinko-vzdušných knoflíkových do 18. 8. 2028)'
+    feature: 'bez olova'
+    outcome: text
+    outcome_cz: verify
+    subst: 'olov\w*|(?-i:\bPb\b)'
+    adj: 'olovnat\w*'
+    en: 'lead|Pb'
+    since: '18. 8. 2024'
+    basis: 'nařízení (EU) 2023/1542, příloha I položka 3 bod 1 a 2 (≤ 0,01 % olova)'
+    note: 'Zinko-vzdušné knoflíkové baterie (naslouchadla) mají výjimku do 18. 8. 2028 → u nich smí zůstat. Nařízení zakazuje první dodání na trh; starší zásoby NEOVĚŘENO.'
+  - id: lr_textile_azo_banned
+    category: textile
+    category_name: 'Textil a kůže ve styku s kůží (oděvy, obuv, ložní prádlo, ručníky, hračky z textilu)'
+    feature: 'bez zakázaných azobarviv'
+    outcome: text
+    outcome_cz: verify
+    claim_cz: '(?i)\bzakázan\w*\s+azo-?\s?barv\w*|\bnebezpečn\w*\s+azo-?\s?barv\w*|\bkarcinogenn\w*\s+azo-?\s?barv\w*'
+    claim_sk: '(?i)\bzakázan\w*\s+azo-?\s?farb\w*|\bnebezpečn\w*\s+azo-?\s?farb\w*|\bkarcinogénn\w*\s+azo-?\s?farb\w*'
+    since: 'převzato ze směrnice 76/769/EHS, první datum NEOVĚŘENO'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 43'
+    note: 'Zakázaná jsou azobarviva uvolňující aminy z dodatku 8 nad 30 mg/kg.'
+  - id: lr_textile_azo_generic
+    category: textile
+    category_name: 'Textil a kůže'
+    feature: 'bez azobarviv (obecně)'
+    outcome: verify
+    outcome_cz: verify
+    subst_cz: 'azo-?\s?barviv\w*|azobarv\w*'
+    subst_sk: 'azo-?\s?farb\w*|azofarb\w*'
+    en: 'azo'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 43'
+    note: 'Zakázaná je jen část azobarviv; úplná nepřítomnost jde nad rámec a smí zůstat, pokud je pravdivá.'
+  - id: lr_leather_cr6
+    category: leather
+    category_name: 'Kožené výrobky a výrobky s koženými částmi ve styku s kůží'
+    feature: 'bez chromu VI'
+    outcome: text
+    outcome_cz: verify
+    subst_cz: 'chrom\w*\s*(?:\(VI\)|VI|6)\b|šesti(?:mocn|vazn)\w*\s+chrom\w*|(?-i:\bCr\s*\(?VI\)?)|(?-i:\bCr6\+?)'
+    subst_sk: 'chr[oó]m\w*\s*(?:\(VI\)|VI|6)\b|šesť(?:mocn|väzb)\w*\s+chr[oó]m\w*|(?-i:\bCr\s*\(?VI\)?)|(?-i:\bCr6\+?)'
+    en: 'chromium\s*VI|Cr\s*VI'
+    since: '1. 5. 2015 (použité výrobky dříve užívané v EU výjimka)'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 47 body 5 až 7'
+    note: '„Bez chromu“ nebo „činěno bez chromu“ (vegetabilní činění) jde nad rámec a smí zůstat, viz lr_leather_chrome_free.'
+  - id: lr_leather_chrome_free
+    category: leather
+    category_name: 'Kožené výrobky'
+    feature: 'činěno bez chromu / vegetabilní činění'
+    outcome: none
+    outcome_cz: none
+    claim_cz: '(?i)\bbez\s+chromu\b(?!\s*(?:\(VI\)|VI|6))|\bchrome[\s-]*free\b|\bbez\s*chromov\w*\s+činěn\w*|\b(?:vegetabiln|rostlinn|třísloviv)\w*\s+činěn\w*'
+    claim_sk: '(?i)\bbez\s+chr[oó]mu\b(?!\s*(?:\(VI\)|VI|6))|\bchrome[\s-]*free\b|\b(?:vegetabiln|rastlinn|trieslovin)\w*\s+(?:činen|vyčinen)\w*'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 47 bod 5 (omezen jen chrom VI)'
+    note: 'Chromové činění (chrom III) je legální, tvrzení jde nad rámec zákona.'
+  - id: lr_textile_npe
+    category: textile
+    category_name: 'Textilní výrobky prané ve vodě'
+    feature: 'bez nonylfenolethoxylátů (NPE)'
+    outcome: text
+    outcome_cz: verify
+    subst: 'nonylfenol\w*|nonylphenol\w*|(?-i:\bNPE\b)'
+    en: 'NPE|nonylphenol'
+    since: '3. 2. 2021'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 46a'
+    note: 'Limit 0,01 %; výjimka pro výrobky z opětovného použití a z recyklovaných textilií.'
+  - id: lr_textile_formaldehyde
+    category: textile
+    category_name: 'Oděvy, obuv a textil ve styku s kůží'
+    feature: 'bez formaldehydu'
+    outcome: verify
+    outcome_cz: verify
+    subst: 'formaldehyd\w*'
+    en: 'formaldehyde'
+    since: '1. 11. 2020 (75 mg/kg; u bund, kabátů a čalounění od 1. 11. 2023)'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 72 a dodatek 12'
+    note: 'Zákon stanoví limit 75 mg/kg, ne úplnou nepřítomnost.'
+  - id: lr_pfoa
+    category: anyproduct
+    category_name: 'Jakýkoli výrobek (typicky nepřilnavé nádobí, impregnace, textil)'
+    feature: 'bez PFOA / PFOS / PFHxS'
+    outcome: text
+    outcome_cz: verify
+    subst_cz: 'PFOA|PFOS|PFHxS|kyselin\w*\s+perfluoroktan\w*|perfluoroktan\w*'
+    subst_sk: 'PFOA|PFOS|PFHxS|kyselin\w*\s+perfluóroktán\w*|perfluóroktán\w*|perfluoroktan\w*'
+    en: 'PFOA|PFOS'
+    since: 'PFOA: výrobky používané v EU před 4. 7. 2020 se smí dál používat; PFOS dříve'
+    basis: 'nařízení (EU) 2019/1021 (POPs), čl. 3 odst. 1 a příloha I (PFOA, PFOS, PFHxS)'
+    note: 'Výjimky jen pro zvláštní průmyslová použití (polovodiče, zdravotnické prostředky, hasicí pěny), ne pro spotřební nádobí.'
+  - id: lr_pfas_generic
+    category: anyproduct
+    category_name: 'Oděvy, impregnace, nádobí, papírové nádobí, kosmetika'
+    feature: 'bez PFAS / bez PTFE'
+    outcome: none
+    outcome_cz: none
+    subst: 'PFAS|(?-i:\bPFC\b)|perfluor\w*|perfluór\w*|polyfluor\w*|polyfluór\w*|fluorokarbon\w*|fluorocarbon\w*|PTFE|teflon\w*|teflón\w*'
+    en: 'PFAS|PTFE'
+    since: 'PFHxA ve vybraných skupinách od 10. 10. 2026; hračky od 1. 8. 2030'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položky 68, 79 a 82; nařízení (EU) 2019/1021'
+    note: 'PFAS nejsou plošně zakázané (omezeny jen PFOA, PFOS, PFHxS, C9–C14 PFCA, PFHxA a PFAS v hasicích pěnách) → tvrzení jde nad rámec a smí zůstat. Výjimka: obaly pro styk s potravinami (lr_foodpack_pfas).'
+  - id: lr_foodpack_pfas
+    category: foodpack
+    category_name: 'Obaly určené pro styk s potravinami (kelímky, krabice na pizzu, sáčky, menu boxy)'
+    feature: 'bez PFAS'
+    outcome: verify
+    outcome_cz: verify
+    subst: 'PFAS|(?-i:\bPFC\b)|perfluor\w*|perfluór\w*|polyfluor\w*|polyfluór\w*|fluorokarbon\w*|fluorocarbon\w*|PTFE|teflon\w*|teflón\w*'
+    en: 'PFAS'
+    since: '12. 8. 2026'
+    basis: 'nařízení (EU) 2025/40 (PPWR), čl. 5 odst. 5'
+    note: 'Mezní hodnoty 25 ppb (jednotlivé PFAS), 250 ppb (suma) a 50 ppm (celkem); zakázáno první dodání na trh, obaly uvedené dříve smí doprodat → k ověření. Jednorázové nádobí prodávané jako výrobek obalem není.'
+  - id: lr_packaging_heavy_metals
+    category: foodpack
+    category_name: 'Obaly'
+    feature: 'bez těžkých kovů'
+    outcome: verify
+    outcome_cz: verify
+    subst_cz: 'těžk\w*\s+kov\w*|olov\w*|kadmi\w*|rtu[tť]\w*'
+    subst_sk: 'ťažk\w*\s+kov\w*|olov\w*|kadmi\w*|ortu[tť]\w*'
+    en: 'heavy\s+metals?'
+    since: 'dříve podle směrnice 94/62/ES; PPWR od 12. 8. 2026'
+    basis: 'nařízení (EU) 2025/40 (PPWR), čl. 5 odst. 4'
+    note: 'Limit součtu olova, kadmia, rtuti a chromu VI 100 mg/kg, ne úplná nepřítomnost.'
+  - id: lr_jewellery_nickel_free
+    category: jewellery
+    category_name: 'Šperky a bižuterie'
+    feature: 'bez niklu'
+    outcome: none
+    outcome_cz: none
+    subst: 'nikl\w*|nikel\b|(?-i:\bNi\b)'
+    en: 'nickel'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 27 (jen limit uvolňování niklu); Q&A Komise k EmpCo, otázka 11'
+    note: 'Zákon omezuje jen uvolňování niklu; Komise výslovně uvádí „nickel-free“ šperky jako relevantní přínos, pokud nikl opravdu neobsahují.'
+  - id: lr_jewellery_nickel_release
+    category: jewellery
+    category_name: 'Šperky a bižuterie'
+    feature: 'splňuje limit uvolňování niklu / nickel safe'
+    outcome: verify
+    outcome_cz: verify
+    claim_cz: '(?i)\bnickel[\s-]*safe\b|\bnízk\w*\s+uvolňov\w*\s+nikl\w*|\bspl[nň]uj\w*\s+(?:[\w-]+\s+){0,3}?(?:limit\w*|norm\w*|požadavk\w*)\s+(?:[\w-]+\s+){0,3}?nikl\w*'
+    claim_sk: '(?i)\bnickel[\s-]*safe\b|\bnízk\w*\s+uvoľňovan\w*\s+nikl\w*|\bspĺňa\w*\s+(?:[\w-]+\s+){0,3}?(?:limit\w*|norm\w*|požiadav\w*)\s+(?:[\w-]+\s+){0,3}?nikl\w*'
+    since: 'převzato ze směrnice 76/769/EHS, první datum NEOVĚŘENO'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 27'
+    note: 'Limit uvolňování niklu je povinný pro všechny šperky ve styku s kůží → pokud tvrzení jen opakuje limit jako přednost, jde o bod 10a.'
+  - id: lr_jewellery_cadmium_lead
+    category: jewellery
+    category_name: 'Šperky, bižuterie a vlasové doplňky (kovové části)'
+    feature: 'bez kadmia / bez olova'
+    outcome: text
+    outcome_cz: verify
+    subst: 'kadmi\w*|olov\w*|(?-i:\bCd\b)|(?-i:\bPb\b)'
+    adj: 'olovnat\w*'
+    en: 'cadmium|lead'
+    since: 'kadmium 10. 1. 2012; olovo 9. 10. 2013'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 23 body 10 a 11, položka 63 body 1 až 5'
+    note: 'Výjimky: šperky starší 50 let (kadmium, k 10. 12. 2011) nebo vyrobené před 10. 12. 1961 (olovo), křišťálové sklo, přírodní drahokamy, smalty → u vintage a křišťálu k ověření.'
+  - id: lr_meat_hormones
+    category: meat
+    category_name: 'Maso a drůbež (včetně dovozu)'
+    feature: 'bez hormonů / bez růstových hormonů'
+    outcome: text
+    outcome_cz: verify
+    subst_cz: 'hormon\w*'
+    subst_sk: 'hormón\w*|hormon\w*'
+    en: 'hormones?'
+    since: 'nejpozději od směrnice 96/22/ES (1996), dřívější předpisy nestaženy'
+    basis: 'směrnice Rady 96/22/ES, čl. 3 a 11, přílohy II a III'
+    note: 'Zakázané je podávání hormonálních látek k výkrmu a uvádění masa z takto ošetřených zvířat na trh, i z dovozu; povolené je jen léčebné a zootechnické podání za přísných podmínek (čl. 4 a 5).'
+  - id: lr_meat_growth_promoters
+    category: meat
+    category_name: 'Maso a živočišné produkty (včetně dovozu)'
+    feature: 'bez antibiotických stimulátorů růstu'
+    outcome: text
+    outcome_cz: verify
+    subst_cz: '(?:antibiotick\w*\s+)?stimulátor\w*\s+růst\w*|růstov\w*\s+stimulátor\w*|antibiotik\w*\s+(?:jako|pro|k)\s+(?:stimul|podpo|urychl)\w*\s+růst\w*'
+    subst_sk: '(?:antibiotick\w*\s+)?stimulátor\w*\s+rast\w*|rastov\w*\s+stimulátor\w*|antibiotík\w*\s+(?:ako|na|pre)\s+(?:stimul|podpor|urýchl)\w*\s+rast\w*'
+    since: 'výroba v EU: nařízení 2019/6 použitelné od 28. 1. 2022 (dříve jiný předpis, NEOVĚŘENO); dovoz: od 3. 9. 2026'
+    basis: 'nařízení (EU) 2019/6, čl. 107 odst. 2 a čl. 118; nařízení v přenesené pravomoci (EU) 2023/905, čl. 3; prováděcí nařízení (EU) 2024/2598 (použitelnost od 3. 9. 2026)'
+    note: 'U masa dovezeného před 3. 9. 2026 k ověření. „Bez antibiotik“ (nikdy léčeno) jde nad rámec, viz lr_meat_antibiotics_free.'
+  - id: lr_meat_antibiotics_free
+    category: meat
+    category_name: 'Maso a živočišné produkty'
+    feature: 'bez antibiotik (chov bez léčby antibiotiky)'
+    outcome: none
+    outcome_cz: none
+    claim_cz: '(?i)\bbez\s+(?:použití\s+|podávání\s+)?antibiotik\b|\bbez\s+antibiotik(?!\w*\s+(?:jako|pro|k)\s+(?:stimul|podpo))|\bantibiotic[\s-]*free\b|\bneléčen\w*\s+antibiotik\w*'
+    claim_sk: '(?i)\bbez\s+(?:použitia\s+|podávania\s+)?antibiotík\b|\bbez\s+antibiotík(?!\w*\s+(?:ako|na|pre)\s+(?:stimul|podpor))|\bantibiotic[\s-]*free\b|\bneliečen\w*\s+antibiotik\w*'
+    basis: 'nařízení (EU) 2019/6, čl. 107 (léčebné použití antimikrobik je povolené)'
+    note: 'Jde nad zákonné minimum; bod 10a se nepoužije, ověřit jen pravdivost.'
+  - id: lr_food_trans_fat
+    category: food
+    category_name: 'Potraviny pro konečného spotřebitele'
+    feature: 'bez trans-tuků'
+    outcome: verify
+    outcome_cz: verify
+    subst: 'trans\s*-?\s*(?:tuk\w*|mastn\w*)|transmastn\w*'
+    en: 'trans[\s-]*fats?'
+    since: '2. 4. 2021 (nevyhovující potraviny se smělo uvádět na trh do 1. 4. 2021)'
+    basis: 'nařízení (ES) č. 1925/2006, příloha III část B (nařízení (EU) 2019/649); nařízení (ES) č. 1924/2006, čl. 8 odst. 1'
+    note: 'Limit 2 g průmyslových trans-tuků na 100 g tuku, ne nula; „bez trans-tuků“ navíc není v seznamu povolených výživových tvrzení (jiné pravidlo, platí i v ČR).'
+  - id: lr_food_hydrogenated
+    category: food
+    category_name: 'Potraviny'
+    feature: 'bez ztužených tuků'
+    outcome: none
+    outcome_cz: none
+    subst_cz: 'ztužen\w*\s+tuk\w*|hydrogenovan\w*\s+tuk\w*'
+    subst_sk: 'stužen\w*\s+tuk\w*|hydrogenovan\w*\s+tuk\w*'
+    basis: 'nařízení (ES) č. 1925/2006, příloha III část B (omezeny jen trans-tuky, ne ztužené tuky)'
+    note: 'Ztužené (hydrogenované) tuky zakázané nejsou → tvrzení jde nad rámec a smí zůstat, pokud je pravdivé.'
+  - id: lr_juice_no_added_sugar
+    category: juice
+    category_exclude: '(?i)nektar|nektár'
+    category_name: '100% ovocné šťávy (ne nektary)'
+    feature: 'bez přidaného cukru / bez sladidel'
+    outcome: text
+    outcome_cz: text
+    subst: 'cukr\w*|sladid\w*|sirup\w*'
+    en: '(?:added\s+)?sugar'
+    since: 'první datum NEOVĚŘENO (novela 2012/12/EU nestažena)'
+    basis: 'směrnice 2001/112/ES, příloha I část II bod 2; nařízení (EU) č. 1169/2011, čl. 7 odst. 1 písm. c)'
+    note: 'Do šťáv se smí přidat jen vyjmenované složky, cukry ne, sladidla ne. U nektarů smí zůstat (cukr povolen). Věta „ovocné šťávy obsahují pouze přirozeně se vyskytující cukry“ je výslovně povolená (čl. 3 odst. 4).'
+  - id: lr_honey_no_additives
+    category: honey
+    category_name: 'Med'
+    feature: 'bez přídatných látek / konzervantů / přidaného cukru'
+    outcome: text
+    outcome_cz: text
+    subst_cz: 'přídatn\w*\s+lát\w*|konzervant\w*|cukr\w*|sirup\w*|přísad\w*|aditiv\w*|éček|E-?ček'
+    subst_sk: 'prídavn\w*\s+lát\w*|konzervant\w*|cukr\w*|sirup\w*|prísad\w*|aditív\w*|éčok'
+    since: 'NEOVĚŘENO (směrnice 2001/110/ES)'
+    basis: 'směrnice 2001/110/ES, příloha II; nařízení (EU) č. 1169/2011, čl. 7 odst. 1 písm. c)'
+    note: 'Do medu se nesmějí přidávat žádné potravinové složky ani přídatné látky.'
+  - id: lr_butter_no_vegetable_fat
+    category: butter
+    category_exclude: '(?i)arašíd|arašid|kakaov|bambuck|shea|kokos|mandl|mandľ|ořech|orech|bylink|rastlinn[ée] maslo|rostlinn[ée] máslo'
+    category_name: 'Máslo'
+    feature: 'bez rostlinných tuků / 100 % mléčný tuk'
+    outcome: text
+    outcome_cz: text
+    subst_cz: 'rostlinn\w*\s+tuk\w*|palmov\w*\s+(?:tuk\w*|olej\w*)'
+    subst_sk: 'rastlinn\w*\s+tuk\w*|palmov\w*\s+(?:tuk\w*|olej\w*)'
+    extra_cz: '\b100\s*%\s*mléčn\w*\s+tuk\w*'
+    extra_sk: '\b100\s*%\s*mliečn\w*\s+tuk\w*'
+    since: 'NEOVĚŘENO'
+    basis: 'nařízení (EU) č. 1308/2013, příloha VII část VII dodatek II bod A.1; nařízení (EU) č. 1169/2011, čl. 7 odst. 1 písm. c)'
+    note: 'Máslo je podle definice výrobek získaný výlučně z mléka; náhrada mléčné složky jiným tukem není dovolena.'
+  - id: lr_plain_dairy_preservatives
+    category: plainyog
+    category_exclude: '(?i)ovocn|jahod|vanil|ochucen|ochuten|příchu|príchu|čokol|kakao|smoothie|dezert'
+    category_name: 'Neochucené jogurty a kysané mléčné výrobky; neochucené pasterované a UHT mléko'
+    feature: 'bez konzervantů / bez přídatných látek'
+    outcome: text
+    outcome_cz: text
+    subst_cz: 'konzervant\w*|konzervační\w*\s+lát\w*|přídatn\w*\s+lát\w*|éček|E-?ček|aditiv\w*'
+    subst_sk: 'konzervant\w*|konzervačn\w*\s+lát\w*|prídavn\w*\s+lát\w*|éčok|aditív\w*'
+    since: 'NEOVĚŘENO'
+    basis: 'nařízení (ES) č. 1333/2008, čl. 4 odst. 1 a příloha II část E kategorie 01.1 a 01.2; nařízení (EU) č. 1169/2011, čl. 7 odst. 1 písm. c)'
+    note: 'Pro kategorii 01.2 nejsou povolené žádné přídatné látky, pro mléko 01.1 jen citrany a fosforečnany, konzervanty ne. U ochucených výrobků k ověření.'
+  - id: lr_infant_formula_gluten
+    category: infantformula
+    category_name: 'Počáteční a pokračovací kojenecká výživa'
+    feature: 'bez lepku'
+    outcome: text
+    outcome_cz: text
+    subst_cz: 'lep(?:ek|ku|kem)\b|gluten\w*'
+    subst_sk: 'lep(?:ok|ku|kom)\b|glut[eé]n\w*'
+    adj: 'lepkov\w*'
+    en: 'gluten'
+    since: '20. 7. 2016'
+    basis: 'prováděcí nařízení (EU) č. 828/2014, čl. 4 (a odůvodnění 11)'
+    note: 'Informace o nepřítomnosti lepku v kojenecké výživě je výslovně zakázaná, protože složky s lepkem se do ní nesmí použít. Platí i v ČR.'
+  - id: lr_paint_lead_cadmium
+    category: paint
+    category_name: 'Barvy a nátěrové hmoty'
+    feature: 'bez olova / bez kadmia'
+    outcome: verify
+    outcome_cz: verify
+    subst: 'olov\w*|kadmi\w*'
+    adj: 'olovnat\w*'
+    en: 'lead|cadmium'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položky 16 a 17 (uhličitany a sírany olova v barvách) a položka 23 bod 2 (kadmium v barvách)'
+    note: 'Olovo: zakázané jen uhličitany a sírany olova jako barva (výjimka pro restaurování); kadmium: limit 0,01 % (0,1 % u barev s vysokým obsahem zinku). Úplná nepřítomnost jde nad rámec.'
+  - id: lr_paint_voc_limit
+    category: paint
+    category_name: 'Barvy, laky a výrobky k opravě vozidel (příloha I směrnice 2004/42/ES)'
+    feature: 'splňuje limity VOC EU'
+    outcome: verify
+    outcome_cz: verify
+    claim_cz: '(?i)(?:\blimit\w*|\bspl[nň]uj\w*|\bv\s+souladu\s+s)\s+(?:[\w-]+\s+){0,4}?(?:VOC|těkav\w*\s+organick\w*)|\b(?:VOC|těkav\w*\s+organick\w*\s+lát\w*)\s+(?:[\w-]+\s+){0,3}?(?:pod|v\s+rámci|podle)\s+(?:[\w-]+\s+){0,2}?(?:limit\w*|směrnic\w*|EU)'
+    claim_sk: '(?i)(?:\blimit\w*|\bspĺňa\w*|\bv\s+súlade\s+s)\s+(?:[\w-]+\s+){0,4}?(?:VOC|prchav\w*\s+organick\w*)|\b(?:VOC|prchav\w*\s+organick\w*\s+lát\w*)\s+(?:[\w-]+\s+){0,3}?(?:pod|v\s+rámci|podľa)\s+(?:[\w-]+\s+){0,2}?(?:limit\w*|smernic\w*|EÚ|EU)'
+    since: 'podle přílohy II směrnice (etapy 2007 a 2010)'
+    basis: 'směrnice 2004/42/ES, čl. 3 odst. 1 a čl. 4'
+    note: 'Mezní hodnota VOC je povinná pro všechny výrobky kategorie a štítek ji musí uvádět; jen „splňuje limit“ jako přednost = bod 10a. „Bez VOC“ nebo hodnota výrazně pod limitem jde nad rámec.'
+  - id: lr_asbestos
+    category: anyproduct
+    category_name: 'Jakýkoli výrobek (brzdové destičky, těsnění, desky, tepelné spotřebiče)'
+    feature: 'bez azbestu'
+    outcome: text
+    outcome_cz: verify
+    subst: 'azbest\w*'
+    en: 'asbestos'
+    since: 'převzato ze směrnice 76/769/EHS, první datum NEOVĚŘENO'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 6'
+    note: 'Výjimka: celé předměty instalované nebo používané před 1. 1. 2005, pokud je členský stát povolí (použité zboží) → tam k ověření.'
+  - id: lr_thermometer_mercury
+    category: thermometer
+    category_name: 'Teploměry a jiná měřicí zařízení pro veřejnost (tlakoměry, barometry)'
+    feature: 'bez rtuti / bezrtuťový'
+    outcome: text
+    outcome_cz: verify
+    subst_cz: 'rtu[tť]\w*|(?-i:\bHg\b)'
+    subst_sk: 'ortu[tť]\w*|(?-i:\bHg\b)'
+    adj_cz: 'rtu[tť]ov\w*'
+    adj_sk: 'ortu[tť]ov\w*'
+    en: 'mercury'
+    since: '3. 4. 2009'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 18a'
+    note: 'Výjimka jen pro zařízení starší 50 let (k 3. 10. 2007) a zařízení používaná v EU před 3. 4. 2009 → starožitnosti k ověření.'
+  - id: lr_furniture_formaldehyde
+    category: furniture
+    category_name: 'Nábytek a výrobky na bázi dřeva (desky, podlahy)'
+    feature: 'nízké emise formaldehydu / bez formaldehydu / E1'
+    outcome: verify
+    outcome_cz: verify
+    subst: 'formaldehyd\w*'
+    en: 'formaldehyde'
+    extra: '\bemis\w*\s+(?:[\w-]+\s+){0,2}?formaldehyd\w*|\bformaldehyd\w*\s+(?:[\w-]+\s+){0,2}?emis\w*|(?-i:\bE[01]\b)|(?-i:\bE0[,.]5\b)'
+    since: '6. 8. 2026'
+    basis: 'nařízení (ES) č. 1907/2006 (REACH), příloha XVII položka 77'
+    note: 'Od 6. 8. 2026 platí pro všechny předměty emisní limit 0,062 mg/m³ (nábytek, dřevo); předměty z přírodních materiálů s přirozeným formaldehydem vyňaty. Tvrzení jen o splnění limitu = bod 10a; srovnání s třídou E1 NEOVĚŘENO (norma nestažena).'
+  - id: lr_sup_plastic_free
+    category: sup
+    category_name: 'Jednorázové příbory, talíře, brčka, míchátka, vatové tyčinky, tyčky k balónkům, nádoby z EPS'
+    feature: 'bez plastu / 100 % bez plastu'
+    outcome: text
+    outcome_cz: verify
+    subst: 'plast\w*'
+    adj: 'plastov\w*'
+    en: 'plastic'
+    since: '3. 7. 2021 (lhůta pro členské státy); národní provedení NEOVĚŘENO'
+    basis: 'směrnice (EU) 2019/904, čl. 3 bod 2, čl. 5 a příloha část B'
+    note: 'Jednorázový výrobek vyrobený i jen částečně z plastu nesmí na trh (i papírové brčko s plastovou vrstvou) → všechna jednorázová brčka a příbory na trhu musí být bez plastu.'
+  - id: ib_water_gluten
+    category: water
+    category_name: 'Balená voda'
+    feature: 'bez lepku'
+    outcome: irrelevant
+    outcome_cz: irrelevant
+    subst_cz: 'lep(?:ek|ku|kem)\b|gluten\w*'
+    subst_sk: 'lep(?:ok|ku|kom)\b|glut[eé]n\w*'
+    adj: 'lepkov\w*'
+    en: 'gluten'
+    since: '27. 9. 2026 (SK); potraviny obecně čl. 7 odst. 1 písm. c) nařízení 1169/2011'
+    basis: 'směrnice 2005/29/ES, čl. 6 odst. 2 písm. e); odůvodnění 5 směrnice (EU) 2024/825; Q&A Komise ot. 11; SK § 10 ods. 2 písm. e) zákona 108/2024; nařízení (EU) č. 1169/2011, čl. 7 odst. 1 písm. c); prováděcí nařízení (EU) č. 828/2014, odůvodnění 10'
+    note: 'Výslovný příklad Komise: voda lepek přirozeně neobsahuje, všechny balené vody tuto vlastnost sdílejí.'
+  - id: ib_paper_plastic
+    category: paper
+    category_name: 'Papír (listy papíru)'
+    feature: 'bez plastu'
+    outcome: irrelevant
+    outcome_cz: irrelevant
+    subst: 'plast\w*'
+    en: 'plastic'
+    since: '27. 9. 2026 (SK)'
+    basis: 'odůvodnění 5 směrnice (EU) 2024/825; Q&A Komise ot. 11'
+    note: 'Výslovný příklad Komise: listy papíru plast běžně neobsahují.'
+  - id: ib_perfume_preservatives
+    category: perfume
+    category_name: 'Parfémy (fine fragrance)'
+    feature: 'bez konzervantů'
+    outcome: irrelevant
+    outcome_cz: irrelevant
+    subst_cz: 'konzervant\w*|konzervační\w*\s+lát\w*'
+    subst_sk: 'konzervant\w*|konzervačn\w*\s+lát\w*'
+    en: 'preservatives?'
+    since: '1. 7. 2019 (Technický dokument, nezávazný)'
+    basis: 'nařízení (EU) č. 655/2013, příloha bod 4 odst. 2; Technický dokument k tvrzením (2017), příloha III, kritérium poctivost'
+    note: 'Parfémy obsahují tolik alkoholu, že konzervanty nepotřebují; zdůrazňovat to je podle Technického dokumentu nepoctivé.'
+  - id: lr_chocolate_vegetable_fat
+    category: chocolate
+    category_name: 'Čokoláda'
+    feature: 'bez rostlinných tuků (jen kakaové máslo)'
+    outcome: none
+    outcome_cz: none
+    subst_cz: 'rostlinn\w*\s+tuk\w*|palmov\w*\s+(?:tuk\w*|olej\w*)'
+    subst_sk: 'rastlinn\w*\s+tuk\w*|palmov\w*\s+(?:tuk\w*|olej\w*)'
+    basis: 'směrnice 2000/36/ES, čl. 2 odst. 1 a odůvodnění 10'
+    note: 'Do čokolády smí být přidáno až 5 % jiných rostlinných tuků; směrnice výslovně nevylučuje údaj, že přidány nebyly.'

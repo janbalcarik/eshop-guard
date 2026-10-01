@@ -1,0 +1,824 @@
+{
+  "claims": [
+    {
+      "id": "lr_detergent_laundry_phosphate",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:fosf[aá]t\\w*|fosfore[cč]nan\\w*)|\\bbez-?(?:fosf[aá]tov\\w*)|\\b(?:phosphates?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:phosphates?)|\\b0\\s*%\\s*(?:fosf[aá]t\\w*|fosfore[cč]nan\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:fosf[aá]t\\w*|fosfore[cč]nan\\w*)|\\bbez-?(?:fosf[aá]tov\\w*)|\\b(?:phosphates?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:phosphates?)|\\b0\\s*%\\s*(?:fosf[aá]t\\w*|fosfore[cč]nan\\w*))",
+      "positive_cz": [
+        "Prací gel bez fosfátů.",
+        "Neobsahuje žádné fosfáty.",
+        "Bezfosfátový prací prášek",
+        "phosphate-free formula",
+        "0 % fosfátů"
+      ],
+      "positive_sk": [
+        "Prací gél bez fosfátov.",
+        "Neobsahuje fosfáty ani chlór.",
+        "bezfosfátový prášok"
+      ],
+      "negative": [
+        "Obsahuje fosfáty 5–15 %.",
+        "Neobsahuje chlor, ale obsahuje fosfáty.",
+        "fosfonáty < 5 %",
+        "Bez obav, obsahuje fosfáty."
+      ]
+    },
+    {
+      "id": "lr_detergent_dishwasher_phosphate",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:fosf[aá]t\\w*|fosfore[cč]nan\\w*)|\\bbez-?(?:fosf[aá]tov\\w*)|\\b(?:phosphates?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:phosphates?)|\\b0\\s*%\\s*(?:fosf[aá]t\\w*|fosfore[cč]nan\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:fosf[aá]t\\w*|fosfore[cč]nan\\w*)|\\bbez-?(?:fosf[aá]tov\\w*)|\\b(?:phosphates?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:phosphates?)|\\b0\\s*%\\s*(?:fosf[aá]t\\w*|fosfore[cč]nan\\w*))",
+      "positive_cz": [
+        "Tablety do myčky bez fosfátů"
+      ],
+      "positive_sk": [
+        "Tablety do umývačky bez fosfátov"
+      ],
+      "negative": [
+        "Tablety do myčky s aktivním kyslíkem"
+      ]
+    },
+    {
+      "id": "lr_detergent_other_phosphate",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:fosf[aá]t\\w*|fosfore[cč]nan\\w*)|\\bbez-?(?:fosf[aá]tov\\w*)|\\b(?:phosphates?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:phosphates?)|\\b0\\s*%\\s*(?:fosf[aá]t\\w*|fosfore[cč]nan\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:fosf[aá]t\\w*|fosfore[cč]nan\\w*)|\\bbez-?(?:fosf[aá]tov\\w*)|\\b(?:phosphates?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:phosphates?)|\\b0\\s*%\\s*(?:fosf[aá]t\\w*|fosfore[cč]nan\\w*))",
+      "positive_cz": [
+        "Prostředek na nádobí bez fosfátů"
+      ],
+      "positive_sk": [
+        "Prostriedok na riad bez fosfátov"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_spray_cfc",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:freon\\w*|CFC|HCFC|chlorfluoruhlovodík\\w*|lát\\w*\\s+poškozuj\\w*\\s+ozon\\w*)|\\bbez-?(?:freonov\\w*)|\\b(?:CFC|freon)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:CFC|freon)|\\b0\\s*%\\s*(?:freon\\w*|CFC|HCFC|chlorfluoruhlovodík\\w*|lát\\w*\\s+poškozuj\\w*\\s+ozon\\w*)|\\bšetrn\\w*\\s+k\\s+ozon\\w*\\s+vrstv\\w*|\\bnepoškozuj\\w*\\s+ozon\\w*)",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:fre[oó]n\\w*|CFC|HCFC|chlórfluórovan\\w*\\s+uhľovodík\\w*|lát\\w*\\s+poškodzuj\\w*\\s+oz[oó]n\\w*)|\\bbez-?(?:fre[oó]nov\\w*)|\\b(?:CFC|freon)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:CFC|freon)|\\b0\\s*%\\s*(?:fre[oó]n\\w*|CFC|HCFC|chlórfluórovan\\w*\\s+uhľovodík\\w*|lát\\w*\\s+poškodzuj\\w*\\s+oz[oó]n\\w*)|\\bšetrn\\w*\\s+k\\s+oz[oó]n\\w*\\s+vrstv\\w*|\\bnepoškodzuj\\w*\\s+oz[oó]n\\w*)",
+      "positive_cz": [
+        "Deodorant bez freonů",
+        "Neobsahuje CFC",
+        "bezfreonový sprej",
+        "Šetrný k ozonové vrstvě"
+      ],
+      "positive_sk": [
+        "Dezodorant bez freónov",
+        "neobsahuje freóny",
+        "šetrný k ozónovej vrstve"
+      ],
+      "negative": [
+        "Sprej s rozprašovačem"
+      ]
+    },
+    {
+      "id": "lr_fridge_cfc",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:freon\\w*|CFC|HCFC|chlorfluoruhlovodík\\w*|lát\\w*\\s+poškozuj\\w*\\s+ozon\\w*)|\\bbez-?(?:freonov\\w*)|\\b(?:CFC|freon)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:CFC|freon)|\\b0\\s*%\\s*(?:freon\\w*|CFC|HCFC|chlorfluoruhlovodík\\w*|lát\\w*\\s+poškozuj\\w*\\s+ozon\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:fre[oó]n\\w*|CFC|HCFC|chlórfluórovan\\w*\\s+uhľovodík\\w*|lát\\w*\\s+poškodzuj\\w*\\s+oz[oó]n\\w*)|\\bbez-?(?:fre[oó]nov\\w*)|\\b(?:CFC|freon)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:CFC|freon)|\\b0\\s*%\\s*(?:fre[oó]n\\w*|CFC|HCFC|chlórfluórovan\\w*\\s+uhľovodík\\w*|lát\\w*\\s+poškodzuj\\w*\\s+oz[oó]n\\w*))",
+      "positive_cz": [
+        "Lednice bez freonů",
+        "neobsahuje CFC"
+      ],
+      "positive_sk": [
+        "Chladnička bez freónov"
+      ],
+      "negative": [
+        "Chladnička s ekologickým chladivem R600a"
+      ]
+    },
+    {
+      "id": "lr_fridge_fgas",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:fluorovan\\w*\\s+(?:skleníkov\\w*\\s+)?plyn\\w*|F-plyn\\w*|HFC)|\\b(?:HFC|F-gas)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:HFC|F-gas)|\\b0\\s*%\\s*(?:fluorovan\\w*\\s+(?:skleníkov\\w*\\s+)?plyn\\w*|F-plyn\\w*|HFC))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:fluórovan\\w*\\s+(?:skleníkov\\w*\\s+)?plyn\\w*|F-plyn\\w*|HFC)|\\b(?:HFC|F-gas)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:HFC|F-gas)|\\b0\\s*%\\s*(?:fluórovan\\w*\\s+(?:skleníkov\\w*\\s+)?plyn\\w*|F-plyn\\w*|HFC))",
+      "positive_cz": [
+        "Chladnička neobsahuje F-plyny",
+        "bez fluorovaných skleníkových plynů"
+      ],
+      "positive_sk": [
+        "Chladnička bez F-plynov"
+      ],
+      "negative": [
+        "Chladnička s ekologickým chladivem R600a"
+      ]
+    },
+    {
+      "id": "lr_babybottle_bpa",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:BPA|bisfenol\\w*|bisphenol\\w*)|\\b(?:BPA|bisphenol\\s*A)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:BPA|bisphenol\\s*A)|\\b0\\s*%\\s*(?:BPA|bisfenol\\w*|bisphenol\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:BPA|bisfenol\\w*|bisphenol\\w*)|\\b(?:BPA|bisphenol\\s*A)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:BPA|bisphenol\\s*A)|\\b0\\s*%\\s*(?:BPA|bisfenol\\w*|bisphenol\\w*))",
+      "positive_cz": [
+        "Kojenecká láhev bez BPA",
+        "BPA free",
+        "neobsahuje bisfenol A"
+      ],
+      "positive_sk": [
+        "Dojčenská fľaša bez BPA",
+        "BPA-free"
+      ],
+      "negative": [
+        "Lahev z polypropylenu"
+      ]
+    },
+    {
+      "id": "lr_fcm_bpa",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:BPA|bisfenol\\w*|bisphenol\\w*)|\\b(?:BPA|bisphenol\\s*A)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:BPA|bisphenol\\s*A)|\\b0\\s*%\\s*(?:BPA|bisfenol\\w*|bisphenol\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:BPA|bisfenol\\w*|bisphenol\\w*)|\\b(?:BPA|bisphenol\\s*A)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:BPA|bisphenol\\s*A)|\\b0\\s*%\\s*(?:BPA|bisfenol\\w*|bisphenol\\w*))",
+      "positive_cz": [
+        "Láhev na pití bez BPA",
+        "Svačinový box BPA free"
+      ],
+      "positive_sk": [
+        "Fľaša na vodu bez BPA"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_thermalpaper_bpa",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:BPA|bisfenol\\w*|bisphenol\\w*)|\\b(?:BPA|bisphenol\\s*A)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:BPA|bisphenol\\s*A)|\\b0\\s*%\\s*(?:BPA|bisfenol\\w*|bisphenol\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:BPA|bisfenol\\w*|bisphenol\\w*)|\\b(?:BPA|bisphenol\\s*A)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:BPA|bisphenol\\s*A)|\\b0\\s*%\\s*(?:BPA|bisfenol\\w*|bisphenol\\w*))",
+      "positive_cz": [
+        "Termokotouče bez BPA"
+      ],
+      "positive_sk": [
+        "Termokotúče bez BPA"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_toys_bpa",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:BPA|bisfenol\\w*|bisphenol\\w*)|\\b(?:BPA|bisphenol\\s*A)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:BPA|bisphenol\\s*A)|\\b0\\s*%\\s*(?:BPA|bisfenol\\w*|bisphenol\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:BPA|bisfenol\\w*|bisphenol\\w*)|\\b(?:BPA|bisphenol\\s*A)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:BPA|bisphenol\\s*A)|\\b0\\s*%\\s*(?:BPA|bisfenol\\w*|bisphenol\\w*))",
+      "positive_cz": [
+        "Kousátko bez BPA"
+      ],
+      "positive_sk": [
+        "Hryzátko bez BPA"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_cosmetics_animal_testing",
+      "composed_cz": "(?i)\\bnetestov\\w*\\s+na\\s+zvířat\\w*|\\bbez\\s+testování\\s+na\\s+zvířat\\w*|\\bnebyl\\w*\\s+testov\\w*\\s+na\\s+zvířat\\w*|\\bcruelty[\\s-]*free\\b|\\bnot\\s+tested\\s+on\\s+animals\\b",
+      "composed_sk": "(?i)\\bnetestovan\\w*\\s+na\\s+zviera\\w*|\\bbez\\s+testovania\\s+na\\s+zviera\\w*|\\bnebol\\w*\\s+testovan\\w*\\s+na\\s+zviera\\w*|\\bcruelty[\\s-]*free\\b|\\bnot\\s+tested\\s+on\\s+animals\\b",
+      "positive_cz": [
+        "Netestováno na zvířatech",
+        "Cruelty free kosmetika"
+      ],
+      "positive_sk": [
+        "Netestované na zvieratách",
+        "bez testovania na zvieratách"
+      ],
+      "negative": [
+        "Vhodné pro vegany"
+      ]
+    },
+    {
+      "id": "lr_cosmetics_parabens_generic",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:paraben\\w*)|\\b(?:parabens?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:parabens?)|\\b0\\s*%\\s*(?:paraben\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:parab[eé]n\\w*)|\\b(?:parabens?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:parabens?)|\\b0\\s*%\\s*(?:parab[eé]n\\w*))",
+      "positive_cz": [
+        "Šampon bez parabenů"
+      ],
+      "positive_sk": [
+        "Šampón bez parabénov"
+      ],
+      "negative": [
+        "Obsahuje methylparaben"
+      ]
+    },
+    {
+      "id": "lr_cosmetics_annex2",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:(?:iso|izo)(?:propyl|butyl)parab[eé]n\\w*|(?:fenyl|phenyl|benzyl|pentyl)parab[eé]n\\w*|olov\\w*|rtu[tť]\\w*|kortikoid\\w*|kortikosteroid\\w*|glukokortikoid\\w*|hydrochinon\\w*|dibutyl-?ftal[aá]t\\w*|DBP|lilial\\w*|butylphenyl\\s+methylpropional|zinkpyrithion\\w*|pyrithion\\w*\\s+zine[cč]nat\\w*|zinc\\s+pyrithione)|\\b(?:lead|mercury|hydroquinone|lilial|DBP)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:lead|mercury|hydroquinone|lilial|DBP)|\\b0\\s*%\\s*(?:(?:iso|izo)(?:propyl|butyl)parab[eé]n\\w*|(?:fenyl|phenyl|benzyl|pentyl)parab[eé]n\\w*|olov\\w*|rtu[tť]\\w*|kortikoid\\w*|kortikosteroid\\w*|glukokortikoid\\w*|hydrochinon\\w*|dibutyl-?ftal[aá]t\\w*|DBP|lilial\\w*|butylphenyl\\s+methylpropional|zinkpyrithion\\w*|pyrithion\\w*\\s+zine[cč]nat\\w*|zinc\\s+pyrithione))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:(?:iso|izo)(?:propyl|butyl)parab[eé]n\\w*|(?:fenyl|phenyl|benzyl|pentyl)parab[eé]n\\w*|olov\\w*|ortu[tť]\\w*|kortikoid\\w*|kortikosteroid\\w*|glukokortikoid\\w*|hydrochin[oó]n\\w*|dibutyl-?ftal[aá]t\\w*|DBP|lilial\\w*|butylphenyl\\s+methylpropional|zinkpyriti[oó]n\\w*|pyriti[oó]n\\w*\\s+zinočnat\\w*|zinc\\s+pyrithione)|\\b(?:lead|mercury|hydroquinone|lilial|DBP)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:lead|mercury|hydroquinone|lilial|DBP)|\\b0\\s*%\\s*(?:(?:iso|izo)(?:propyl|butyl)parab[eé]n\\w*|(?:fenyl|phenyl|benzyl|pentyl)parab[eé]n\\w*|olov\\w*|ortu[tť]\\w*|kortikoid\\w*|kortikosteroid\\w*|glukokortikoid\\w*|hydrochin[oó]n\\w*|dibutyl-?ftal[aá]t\\w*|DBP|lilial\\w*|butylphenyl\\s+methylpropional|zinkpyriti[oó]n\\w*|pyriti[oó]n\\w*\\s+zinočnat\\w*|zinc\\s+pyrithione))",
+      "positive_cz": [
+        "Krém neobsahuje hydrochinon",
+        "Bez kortikoidů",
+        "bez lilialu"
+      ],
+      "positive_sk": [
+        "Krém bez hydrochinónu",
+        "neobsahuje kortikoidy"
+      ],
+      "negative": [
+        "Obsahuje kyselinu hyaluronovou"
+      ]
+    },
+    {
+      "id": "lr_cosmetics_formaldehyde",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:formaldehyd\\w*)|\\b(?:formaldehyde)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:formaldehyde)|\\b0\\s*%\\s*(?:formaldehyd\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:formaldehyd\\w*)|\\b(?:formaldehyde)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:formaldehyde)|\\b0\\s*%\\s*(?:formaldehyd\\w*))",
+      "positive_cz": [
+        "Lak na nehty bez formaldehydu"
+      ],
+      "positive_sk": [
+        "Lak na nechty bez formaldehydu"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_cosmetics_leaveon_mit",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:methylisothiazolinon\\w*|methylchloroisothiazolinon\\w*|metylizotiazol\\w*|(?-i:MIT)|(?-i:MCI))|\\b(?:MIT|methylisothiazolinone)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:MIT|methylisothiazolinone)|\\b0\\s*%\\s*(?:methylisothiazolinon\\w*|methylchloroisothiazolinon\\w*|metylizotiazol\\w*|(?-i:MIT)|(?-i:MCI)))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:methylisothiazolinon\\w*|methylchloroisothiazolinon\\w*|metylizotiazol\\w*|(?-i:MIT)|(?-i:MCI))|\\b(?:MIT|methylisothiazolinone)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:MIT|methylisothiazolinone)|\\b0\\s*%\\s*(?:methylisothiazolinon\\w*|methylchloroisothiazolinon\\w*|metylizotiazol\\w*|(?-i:MIT)|(?-i:MCI)))",
+      "positive_cz": [
+        "Tělové mléko bez MIT"
+      ],
+      "positive_sk": [
+        "Telové mlieko bez MIT"
+      ],
+      "negative": [
+        "Tělové mléko s mandlovým olejem"
+      ]
+    },
+    {
+      "id": "lr_cosmetics_microbeads",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:mikrogranul\\w*|mikro-?kuli[cč]\\w*|mikroperl\\w*|microbeads?|abraziv\\w*\\s+(?:mikro)?plast\\w*)|\\b(?:microbeads?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:microbeads?)|\\b0\\s*%\\s*(?:mikrogranul\\w*|mikro-?kuli[cč]\\w*|mikroperl\\w*|microbeads?|abraziv\\w*\\s+(?:mikro)?plast\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:mikrogranul\\w*|mikroguli[cč]\\w*|mikroperl\\w*|microbeads?|abrazív\\w*\\s+(?:mikro)?plast\\w*)|\\b(?:microbeads?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:microbeads?)|\\b0\\s*%\\s*(?:mikrogranul\\w*|mikroguli[cč]\\w*|mikroperl\\w*|microbeads?|abrazív\\w*\\s+(?:mikro)?plast\\w*))",
+      "positive_cz": [
+        "Peeling bez mikrogranulí z plastu"
+      ],
+      "positive_sk": [
+        "Peeling bez mikroperličiek"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_cosmetics_microplastics",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:mikroplast\\w*|mikro-?plast\\w*)|\\b(?:microplastics?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:microplastics?)|\\b0\\s*%\\s*(?:mikroplast\\w*|mikro-?plast\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:mikroplast\\w*|mikro-?plast\\w*)|\\b(?:microplastics?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:microplastics?)|\\b0\\s*%\\s*(?:mikroplast\\w*|mikro-?plast\\w*))",
+      "positive_cz": [
+        "Šampon bez mikroplastů"
+      ],
+      "positive_sk": [
+        "Šampón bez mikroplastov"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_toys_phthalates",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:ftal[aá]t\\w*|DEHP|DBP|BBP|DIBP|DINP|DIDP|DNOP)|\\b(?:phthalates?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:phthalates?)|\\b0\\s*%\\s*(?:ftal[aá]t\\w*|DEHP|DBP|BBP|DIBP|DINP|DIDP|DNOP))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:ftal[aá]t\\w*|DEHP|DBP|BBP|DIBP|DINP|DIDP|DNOP)|\\b(?:phthalates?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:phthalates?)|\\b0\\s*%\\s*(?:ftal[aá]t\\w*|DEHP|DBP|BBP|DIBP|DINP|DIDP|DNOP))",
+      "positive_cz": [
+        "Hračka bez ftalátů",
+        "neobsahuje DEHP"
+      ],
+      "positive_sk": [
+        "Hračka bez ftalátov"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_articles_4phthalates",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:DEHP|DBP|BBP|DIBP)|\\b0\\s*%\\s*(?:DEHP|DBP|BBP|DIBP))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:DEHP|DBP|BBP|DIBP)|\\b0\\s*%\\s*(?:DEHP|DBP|BBP|DIBP))",
+      "positive_cz": [
+        "Pláštěnka z PVC bez DEHP"
+      ],
+      "positive_sk": [
+        "Pláštenka bez DEHP"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_toys_heavy_metals",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:těžk\\w*\\s+kov\\w*|olov\\w*|kadmi\\w*|rtu[tť]\\w*)|\\bbez-?(?:olovnat\\w*)|\\b(?:heavy\\s+metals?|lead)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:heavy\\s+metals?|lead)|\\b0\\s*%\\s*(?:těžk\\w*\\s+kov\\w*|olov\\w*|kadmi\\w*|rtu[tť]\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:ťažk\\w*\\s+kov\\w*|olov\\w*|kadmi\\w*|ortu[tť]\\w*)|\\bbez-?(?:olovnat\\w*)|\\b(?:heavy\\s+metals?|lead)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:heavy\\s+metals?|lead)|\\b0\\s*%\\s*(?:ťažk\\w*\\s+kov\\w*|olov\\w*|kadmi\\w*|ortu[tť]\\w*))",
+      "positive_cz": [
+        "Hračka bez těžkých kovů"
+      ],
+      "positive_sk": [
+        "Hračka bez ťažkých kovov"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_ce_marking",
+      "composed_cz": "(?i)(?:\\b(?:certifik\\w*|označen\\w*|značk\\w*|symbol\\w*|certifikát\\w*|s)\\s+(?-i:CE)\\b|(?-i:\\bCE\\b)\\s+(?:certifik\\w*|certifikát\\w*|označen\\w*|značk\\w*|shod\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:certifik\\w*|označen\\w*|značk\\w*|symbol\\w*|certifikát\\w*|s)\\s+(?-i:CE)\\b|(?-i:\\bCE\\b)\\s+(?:certifik\\w*|certifikát\\w*|označen\\w*|značk\\w*|zhod\\w*))",
+      "positive_cz": [
+        "Hračka má certifikát CE",
+        "S označením CE",
+        "CE certifikace"
+      ],
+      "positive_sk": [
+        "Hračka s označením CE",
+        "certifikát CE"
+      ],
+      "negative": [
+        "Česká výroba",
+        "Ceny bez DPH"
+      ]
+    },
+    {
+      "id": "lr_toys_safety_norms",
+      "composed_cz": "(?i)\\bEN\\s*71\\b|\\bspl[nň]uj\\w*\\s+(?:[\\w-]+\\s+){0,3}?(?:norm\\w*|požadavk\\w*|předpis\\w*|směrnic\\w*|nařízení|legislativ\\w*)|\\b(?:bezpečnostn\\w*|evropsk\\w*)\\s+norm\\w*|\\bv\\s+souladu\\s+s\\s+(?:[\\w-]+\\s+){0,3}?(?:norm\\w*|předpis\\w*|nařízení|legislativ\\w*)",
+      "composed_sk": "(?i)\\bEN\\s*71\\b|\\bspĺňa\\w*\\s+(?:[\\w-]+\\s+){0,3}?(?:norm\\w*|požiadav\\w*|predpis\\w*|smernic\\w*|nariaden\\w*|legislatív\\w*)|\\b(?:bezpečnostn\\w*|európsk\\w*)\\s+norm\\w*|\\bv\\s+súlade\\s+s\\s+(?:[\\w-]+\\s+){0,3}?(?:norm\\w*|predpis\\w*|nariaden\\w*|legislatív\\w*)",
+      "positive_cz": [
+        "Splňuje normu EN 71",
+        "splňuje všechny evropské normy"
+      ],
+      "positive_sk": [
+        "Spĺňa normu EN 71",
+        "v súlade s európskymi normami"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_cosmetics_legal_compliance",
+      "composed_cz": "(?i)\\bEN\\s*71\\b|\\bspl[nň]uj\\w*\\s+(?:[\\w-]+\\s+){0,3}?(?:norm\\w*|požadavk\\w*|předpis\\w*|směrnic\\w*|nařízení|legislativ\\w*)|\\b(?:bezpečnostn\\w*|evropsk\\w*)\\s+norm\\w*|\\bv\\s+souladu\\s+s\\s+(?:[\\w-]+\\s+){0,3}?(?:norm\\w*|předpis\\w*|nařízení|legislativ\\w*)",
+      "composed_sk": "(?i)\\bEN\\s*71\\b|\\bspĺňa\\w*\\s+(?:[\\w-]+\\s+){0,3}?(?:norm\\w*|požiadav\\w*|predpis\\w*|smernic\\w*|nariaden\\w*|legislatív\\w*)|\\b(?:bezpečnostn\\w*|európsk\\w*)\\s+norm\\w*|\\bv\\s+súlade\\s+s\\s+(?:[\\w-]+\\s+){0,3}?(?:norm\\w*|predpis\\w*|nariaden\\w*|legislatív\\w*)",
+      "positive_cz": [
+        "Splňuje požadavky nařízení EU o kosmetice"
+      ],
+      "positive_sk": [
+        "Spĺňa požiadavky nariadenia EÚ o kozmetike"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_eee_rohs",
+      "composed_cz": "(?i)\\bRoHS\\b",
+      "composed_sk": "(?i)\\bRoHS\\b",
+      "positive_cz": [
+        "Splňuje RoHS",
+        "RoHS compliant"
+      ],
+      "positive_sk": [
+        "V súlade s RoHS"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_eee_lead",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:olov\\w*|kadmi\\w*|rtu[tť]\\w*|PBB|PBDE|(?-i:\\bPb\\b))|\\bbez-?(?:olovnat\\w*)|\\b(?:lead|cadmium|mercury)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:lead|cadmium|mercury)|\\b0\\s*%\\s*(?:olov\\w*|kadmi\\w*|rtu[tť]\\w*|PBB|PBDE|(?-i:\\bPb\\b)))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:olov\\w*|kadmi\\w*|ortu[tť]\\w*|PBB|PBDE|(?-i:\\bPb\\b))|\\bbez-?(?:olovnat\\w*)|\\b(?:lead|cadmium|mercury)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:lead|cadmium|mercury)|\\b0\\s*%\\s*(?:olov\\w*|kadmi\\w*|ortu[tť]\\w*|PBB|PBDE|(?-i:\\bPb\\b)))",
+      "positive_cz": [
+        "Bezolovnaté pájení",
+        "lead-free"
+      ],
+      "positive_sk": [
+        "Bez olova",
+        "bezolovnaté"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_battery_mercury",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:rtu[tť]\\w*|(?-i:\\bHg\\b))|\\bbez-?(?:rtu[tť]ov\\w*)|\\b(?:mercury|Hg)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:mercury|Hg)|\\b0\\s*%\\s*(?:rtu[tť]\\w*|(?-i:\\bHg\\b)))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:ortu[tť]\\w*|(?-i:\\bHg\\b))|\\bbez-?(?:ortu[tť]ov\\w*)|\\b(?:mercury|Hg)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:mercury|Hg)|\\b0\\s*%\\s*(?:ortu[tť]\\w*|(?-i:\\bHg\\b)))",
+      "positive_cz": [
+        "Alkalické baterie bez rtuti",
+        "0 % Hg",
+        "bezrtuťové"
+      ],
+      "positive_sk": [
+        "Batérie bez ortuti",
+        "0% Hg"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_battery_cadmium",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:kadmi\\w*|(?-i:\\bCd\\b))|\\b(?:cadmium|Cd)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:cadmium|Cd)|\\b0\\s*%\\s*(?:kadmi\\w*|(?-i:\\bCd\\b)))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:kadmi\\w*|(?-i:\\bCd\\b))|\\b(?:cadmium|Cd)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:cadmium|Cd)|\\b0\\s*%\\s*(?:kadmi\\w*|(?-i:\\bCd\\b)))",
+      "positive_cz": [
+        "0 % Cd",
+        "Baterie bez kadmia"
+      ],
+      "positive_sk": [
+        "Batérie bez kadmia"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_battery_lead",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:olov\\w*|(?-i:\\bPb\\b))|\\bbez-?(?:olovnat\\w*)|\\b(?:lead|Pb)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:lead|Pb)|\\b0\\s*%\\s*(?:olov\\w*|(?-i:\\bPb\\b)))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:olov\\w*|(?-i:\\bPb\\b))|\\bbez-?(?:olovnat\\w*)|\\b(?:lead|Pb)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:lead|Pb)|\\b0\\s*%\\s*(?:olov\\w*|(?-i:\\bPb\\b)))",
+      "positive_cz": [
+        "Baterie bez olova"
+      ],
+      "positive_sk": [
+        "Batérie bez olova"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_textile_azo_banned",
+      "composed_cz": "(?i)\\bzakázan\\w*\\s+azo-?\\s?barv\\w*|\\bnebezpečn\\w*\\s+azo-?\\s?barv\\w*|\\bkarcinogenn\\w*\\s+azo-?\\s?barv\\w*",
+      "composed_sk": "(?i)\\bzakázan\\w*\\s+azo-?\\s?farb\\w*|\\bnebezpečn\\w*\\s+azo-?\\s?farb\\w*|\\bkarcinogénn\\w*\\s+azo-?\\s?farb\\w*",
+      "positive_cz": [
+        "Bez zakázaných azobarviv"
+      ],
+      "positive_sk": [
+        "Bez zakázaných azofarbív"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_textile_azo_generic",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:azo-?\\s?barviv\\w*|azobarv\\w*)|\\b(?:azo)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:azo)|\\b0\\s*%\\s*(?:azo-?\\s?barviv\\w*|azobarv\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:azo-?\\s?farb\\w*|azofarb\\w*)|\\b(?:azo)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:azo)|\\b0\\s*%\\s*(?:azo-?\\s?farb\\w*|azofarb\\w*))",
+      "positive_cz": [
+        "Barveno bez azobarviv"
+      ],
+      "positive_sk": [
+        "Farbené bez azofarbív"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_leather_cr6",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:chrom\\w*\\s*(?:\\(VI\\)|VI|6)\\b|šesti(?:mocn|vazn)\\w*\\s+chrom\\w*|(?-i:\\bCr\\s*\\(?VI\\)?)|(?-i:\\bCr6\\+?))|\\b(?:chromium\\s*VI|Cr\\s*VI)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:chromium\\s*VI|Cr\\s*VI)|\\b0\\s*%\\s*(?:chrom\\w*\\s*(?:\\(VI\\)|VI|6)\\b|šesti(?:mocn|vazn)\\w*\\s+chrom\\w*|(?-i:\\bCr\\s*\\(?VI\\)?)|(?-i:\\bCr6\\+?)))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:chr[oó]m\\w*\\s*(?:\\(VI\\)|VI|6)\\b|šesť(?:mocn|väzb)\\w*\\s+chr[oó]m\\w*|(?-i:\\bCr\\s*\\(?VI\\)?)|(?-i:\\bCr6\\+?))|\\b(?:chromium\\s*VI|Cr\\s*VI)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:chromium\\s*VI|Cr\\s*VI)|\\b0\\s*%\\s*(?:chr[oó]m\\w*\\s*(?:\\(VI\\)|VI|6)\\b|šesť(?:mocn|väzb)\\w*\\s+chr[oó]m\\w*|(?-i:\\bCr\\s*\\(?VI\\)?)|(?-i:\\bCr6\\+?)))",
+      "positive_cz": [
+        "Kožené rukavice bez chromu VI",
+        "neobsahuje šestimocný chrom"
+      ],
+      "positive_sk": [
+        "Bez chrómu VI"
+      ],
+      "negative": [
+        "Činěno bez chromu"
+      ]
+    },
+    {
+      "id": "lr_leather_chrome_free",
+      "composed_cz": "(?i)\\bbez\\s+chromu\\b(?!\\s*(?:\\(VI\\)|VI|6))|\\bchrome[\\s-]*free\\b|\\bbez\\s*chromov\\w*\\s+činěn\\w*|\\b(?:vegetabiln|rostlinn|třísloviv)\\w*\\s+činěn\\w*",
+      "composed_sk": "(?i)\\bbez\\s+chr[oó]mu\\b(?!\\s*(?:\\(VI\\)|VI|6))|\\bchrome[\\s-]*free\\b|\\b(?:vegetabiln|rastlinn|trieslovin)\\w*\\s+(?:činen|vyčinen)\\w*",
+      "positive_cz": [
+        "Činěno bez chromu",
+        "chrome-free"
+      ],
+      "positive_sk": [
+        "Rastlinne činená koža"
+      ],
+      "negative": [
+        "Bez chromu VI"
+      ]
+    },
+    {
+      "id": "lr_textile_npe",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:nonylfenol\\w*|nonylphenol\\w*|(?-i:\\bNPE\\b))|\\b(?:NPE|nonylphenol)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:NPE|nonylphenol)|\\b0\\s*%\\s*(?:nonylfenol\\w*|nonylphenol\\w*|(?-i:\\bNPE\\b)))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:nonylfenol\\w*|nonylphenol\\w*|(?-i:\\bNPE\\b))|\\b(?:NPE|nonylphenol)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:NPE|nonylphenol)|\\b0\\s*%\\s*(?:nonylfenol\\w*|nonylphenol\\w*|(?-i:\\bNPE\\b)))",
+      "positive_cz": [
+        "Bez nonylfenolů"
+      ],
+      "positive_sk": [
+        "Bez nonylfenolov"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_textile_formaldehyde",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:formaldehyd\\w*)|\\b(?:formaldehyde)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:formaldehyde)|\\b0\\s*%\\s*(?:formaldehyd\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:formaldehyd\\w*)|\\b(?:formaldehyde)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:formaldehyde)|\\b0\\s*%\\s*(?:formaldehyd\\w*))",
+      "positive_cz": [
+        "Tričko bez formaldehydu"
+      ],
+      "positive_sk": [
+        "Tričko bez formaldehydu"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_pfoa",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:PFOA|PFOS|PFHxS|kyselin\\w*\\s+perfluoroktan\\w*|perfluoroktan\\w*)|\\b(?:PFOA|PFOS)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:PFOA|PFOS)|\\b0\\s*%\\s*(?:PFOA|PFOS|PFHxS|kyselin\\w*\\s+perfluoroktan\\w*|perfluoroktan\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:PFOA|PFOS|PFHxS|kyselin\\w*\\s+perfluóroktán\\w*|perfluóroktán\\w*|perfluoroktan\\w*)|\\b(?:PFOA|PFOS)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:PFOA|PFOS)|\\b0\\s*%\\s*(?:PFOA|PFOS|PFHxS|kyselin\\w*\\s+perfluóroktán\\w*|perfluóroktán\\w*|perfluoroktan\\w*))",
+      "positive_cz": [
+        "Pánev bez PFOA",
+        "PFOA free"
+      ],
+      "positive_sk": [
+        "Panvica bez PFOA"
+      ],
+      "negative": [
+        "Pánev s titanovým povrchem"
+      ]
+    },
+    {
+      "id": "lr_pfas_generic",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:PFAS|(?-i:\\bPFC\\b)|perfluor\\w*|perfluór\\w*|polyfluor\\w*|polyfluór\\w*|fluorokarbon\\w*|fluorocarbon\\w*|PTFE|teflon\\w*|teflón\\w*)|\\b(?:PFAS|PTFE)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:PFAS|PTFE)|\\b0\\s*%\\s*(?:PFAS|(?-i:\\bPFC\\b)|perfluor\\w*|perfluór\\w*|polyfluor\\w*|polyfluór\\w*|fluorokarbon\\w*|fluorocarbon\\w*|PTFE|teflon\\w*|teflón\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:PFAS|(?-i:\\bPFC\\b)|perfluor\\w*|perfluór\\w*|polyfluor\\w*|polyfluór\\w*|fluorokarbon\\w*|fluorocarbon\\w*|PTFE|teflon\\w*|teflón\\w*)|\\b(?:PFAS|PTFE)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:PFAS|PTFE)|\\b0\\s*%\\s*(?:PFAS|(?-i:\\bPFC\\b)|perfluor\\w*|perfluór\\w*|polyfluor\\w*|polyfluór\\w*|fluorokarbon\\w*|fluorocarbon\\w*|PTFE|teflon\\w*|teflón\\w*))",
+      "positive_cz": [
+        "Impregnace bez PFAS",
+        "Pánev bez PTFE"
+      ],
+      "positive_sk": [
+        "Impregnácia bez PFAS"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_foodpack_pfas",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:PFAS|(?-i:\\bPFC\\b)|perfluor\\w*|perfluór\\w*|polyfluor\\w*|polyfluór\\w*|fluorokarbon\\w*|fluorocarbon\\w*|PTFE|teflon\\w*|teflón\\w*)|\\b(?:PFAS)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:PFAS)|\\b0\\s*%\\s*(?:PFAS|(?-i:\\bPFC\\b)|perfluor\\w*|perfluór\\w*|polyfluor\\w*|polyfluór\\w*|fluorokarbon\\w*|fluorocarbon\\w*|PTFE|teflon\\w*|teflón\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:PFAS|(?-i:\\bPFC\\b)|perfluor\\w*|perfluór\\w*|polyfluor\\w*|polyfluór\\w*|fluorokarbon\\w*|fluorocarbon\\w*|PTFE|teflon\\w*|teflón\\w*)|\\b(?:PFAS)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:PFAS)|\\b0\\s*%\\s*(?:PFAS|(?-i:\\bPFC\\b)|perfluor\\w*|perfluór\\w*|polyfluor\\w*|polyfluór\\w*|fluorokarbon\\w*|fluorocarbon\\w*|PTFE|teflon\\w*|teflón\\w*))",
+      "positive_cz": [
+        "Papírové kelímky bez PFAS"
+      ],
+      "positive_sk": [
+        "Papierové poháre bez PFAS"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_packaging_heavy_metals",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:těžk\\w*\\s+kov\\w*|olov\\w*|kadmi\\w*|rtu[tť]\\w*)|\\b(?:heavy\\s+metals?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:heavy\\s+metals?)|\\b0\\s*%\\s*(?:těžk\\w*\\s+kov\\w*|olov\\w*|kadmi\\w*|rtu[tť]\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:ťažk\\w*\\s+kov\\w*|olov\\w*|kadmi\\w*|ortu[tť]\\w*)|\\b(?:heavy\\s+metals?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:heavy\\s+metals?)|\\b0\\s*%\\s*(?:ťažk\\w*\\s+kov\\w*|olov\\w*|kadmi\\w*|ortu[tť]\\w*))",
+      "positive_cz": [
+        "Obal bez těžkých kovů"
+      ],
+      "positive_sk": [
+        "Obal bez ťažkých kovov"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_jewellery_nickel_free",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:nikl\\w*|nikel\\b|(?-i:\\bNi\\b))|\\b(?:nickel)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:nickel)|\\b0\\s*%\\s*(?:nikl\\w*|nikel\\b|(?-i:\\bNi\\b)))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:nikl\\w*|nikel\\b|(?-i:\\bNi\\b))|\\b(?:nickel)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:nickel)|\\b0\\s*%\\s*(?:nikl\\w*|nikel\\b|(?-i:\\bNi\\b)))",
+      "positive_cz": [
+        "Náušnice bez niklu",
+        "nickel free"
+      ],
+      "positive_sk": [
+        "Náušnice bez niklu"
+      ],
+      "negative": [
+        "Nickel safe"
+      ]
+    },
+    {
+      "id": "lr_jewellery_nickel_release",
+      "composed_cz": "(?i)\\bnickel[\\s-]*safe\\b|\\bnízk\\w*\\s+uvolňov\\w*\\s+nikl\\w*|\\bspl[nň]uj\\w*\\s+(?:[\\w-]+\\s+){0,3}?(?:limit\\w*|norm\\w*|požadavk\\w*)\\s+(?:[\\w-]+\\s+){0,3}?nikl\\w*",
+      "composed_sk": "(?i)\\bnickel[\\s-]*safe\\b|\\bnízk\\w*\\s+uvoľňovan\\w*\\s+nikl\\w*|\\bspĺňa\\w*\\s+(?:[\\w-]+\\s+){0,3}?(?:limit\\w*|norm\\w*|požiadav\\w*)\\s+(?:[\\w-]+\\s+){0,3}?nikl\\w*",
+      "positive_cz": [
+        "Nickel safe",
+        "splňuje limity EU pro nikl"
+      ],
+      "positive_sk": [
+        "Nickel safe"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_jewellery_cadmium_lead",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:kadmi\\w*|olov\\w*|(?-i:\\bCd\\b)|(?-i:\\bPb\\b))|\\bbez-?(?:olovnat\\w*)|\\b(?:cadmium|lead)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:cadmium|lead)|\\b0\\s*%\\s*(?:kadmi\\w*|olov\\w*|(?-i:\\bCd\\b)|(?-i:\\bPb\\b)))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:kadmi\\w*|olov\\w*|(?-i:\\bCd\\b)|(?-i:\\bPb\\b))|\\bbez-?(?:olovnat\\w*)|\\b(?:cadmium|lead)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:cadmium|lead)|\\b0\\s*%\\s*(?:kadmi\\w*|olov\\w*|(?-i:\\bCd\\b)|(?-i:\\bPb\\b)))",
+      "positive_cz": [
+        "Bižuterie bez olova a kadmia"
+      ],
+      "positive_sk": [
+        "Bižutéria bez olova a kadmia"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_meat_hormones",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:hormon\\w*)|\\b(?:hormones?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:hormones?)|\\b0\\s*%\\s*(?:hormon\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:hormón\\w*|hormon\\w*)|\\b(?:hormones?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:hormones?)|\\b0\\s*%\\s*(?:hormón\\w*|hormon\\w*))",
+      "positive_cz": [
+        "Kuřecí maso bez hormonů",
+        "bez růstových hormonů"
+      ],
+      "positive_sk": [
+        "Kuracie mäso bez hormónov"
+      ],
+      "negative": [
+        "Hormonální rovnováha"
+      ]
+    },
+    {
+      "id": "lr_meat_growth_promoters",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:(?:antibiotick\\w*\\s+)?stimulátor\\w*\\s+růst\\w*|růstov\\w*\\s+stimulátor\\w*|antibiotik\\w*\\s+(?:jako|pro|k)\\s+(?:stimul|podpo|urychl)\\w*\\s+růst\\w*)|\\b0\\s*%\\s*(?:(?:antibiotick\\w*\\s+)?stimulátor\\w*\\s+růst\\w*|růstov\\w*\\s+stimulátor\\w*|antibiotik\\w*\\s+(?:jako|pro|k)\\s+(?:stimul|podpo|urychl)\\w*\\s+růst\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:(?:antibiotick\\w*\\s+)?stimulátor\\w*\\s+rast\\w*|rastov\\w*\\s+stimulátor\\w*|antibiotík\\w*\\s+(?:ako|na|pre)\\s+(?:stimul|podpor|urýchl)\\w*\\s+rast\\w*)|\\b0\\s*%\\s*(?:(?:antibiotick\\w*\\s+)?stimulátor\\w*\\s+rast\\w*|rastov\\w*\\s+stimulátor\\w*|antibiotík\\w*\\s+(?:ako|na|pre)\\s+(?:stimul|podpor|urýchl)\\w*\\s+rast\\w*))",
+      "positive_cz": [
+        "Bez antibiotických stimulátorů růstu"
+      ],
+      "positive_sk": [
+        "Bez rastových stimulátorov"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_meat_antibiotics_free",
+      "composed_cz": "(?i)\\bbez\\s+(?:použití\\s+|podávání\\s+)?antibiotik\\b|\\bbez\\s+antibiotik(?!\\w*\\s+(?:jako|pro|k)\\s+(?:stimul|podpo))|\\bantibiotic[\\s-]*free\\b|\\bneléčen\\w*\\s+antibiotik\\w*",
+      "composed_sk": "(?i)\\bbez\\s+(?:použitia\\s+|podávania\\s+)?antibiotík\\b|\\bbez\\s+antibiotík(?!\\w*\\s+(?:ako|na|pre)\\s+(?:stimul|podpor))|\\bantibiotic[\\s-]*free\\b|\\bneliečen\\w*\\s+antibiotik\\w*",
+      "positive_cz": [
+        "Kuřata chovaná bez antibiotik"
+      ],
+      "positive_sk": [
+        "Kurčatá chované bez antibiotík"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_food_trans_fat",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:trans\\s*-?\\s*(?:tuk\\w*|mastn\\w*)|transmastn\\w*)|\\b(?:trans[\\s-]*fats?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:trans[\\s-]*fats?)|\\b0\\s*%\\s*(?:trans\\s*-?\\s*(?:tuk\\w*|mastn\\w*)|transmastn\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:trans\\s*-?\\s*(?:tuk\\w*|mastn\\w*)|transmastn\\w*)|\\b(?:trans[\\s-]*fats?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:trans[\\s-]*fats?)|\\b0\\s*%\\s*(?:trans\\s*-?\\s*(?:tuk\\w*|mastn\\w*)|transmastn\\w*))",
+      "positive_cz": [
+        "Sušenky bez trans tuků",
+        "neobsahuje transmastné kyseliny"
+      ],
+      "positive_sk": [
+        "Bez trans-tukov"
+      ],
+      "negative": [
+        "Bez ztužených tuků"
+      ]
+    },
+    {
+      "id": "lr_food_hydrogenated",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:ztužen\\w*\\s+tuk\\w*|hydrogenovan\\w*\\s+tuk\\w*)|\\b0\\s*%\\s*(?:ztužen\\w*\\s+tuk\\w*|hydrogenovan\\w*\\s+tuk\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:stužen\\w*\\s+tuk\\w*|hydrogenovan\\w*\\s+tuk\\w*)|\\b0\\s*%\\s*(?:stužen\\w*\\s+tuk\\w*|hydrogenovan\\w*\\s+tuk\\w*))",
+      "positive_cz": [
+        "Bez ztužených tuků"
+      ],
+      "positive_sk": [
+        "Bez stužených tukov"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_juice_no_added_sugar",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:cukr\\w*|sladid\\w*|sirup\\w*)|\\b(?:(?:added\\s+)?sugar)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:(?:added\\s+)?sugar)|\\b0\\s*%\\s*(?:cukr\\w*|sladid\\w*|sirup\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:cukr\\w*|sladid\\w*|sirup\\w*)|\\b(?:(?:added\\s+)?sugar)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:(?:added\\s+)?sugar)|\\b0\\s*%\\s*(?:cukr\\w*|sladid\\w*|sirup\\w*))",
+      "positive_cz": [
+        "100% jablečná šťáva bez přidaného cukru"
+      ],
+      "positive_sk": [
+        "100% jablková šťava bez pridaného cukru"
+      ],
+      "negative": [
+        "Obsahuje pouze přirozeně se vyskytující cukry"
+      ]
+    },
+    {
+      "id": "lr_honey_no_additives",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:přídatn\\w*\\s+lát\\w*|konzervant\\w*|cukr\\w*|sirup\\w*|přísad\\w*|aditiv\\w*|éček|E-?ček)|\\b0\\s*%\\s*(?:přídatn\\w*\\s+lát\\w*|konzervant\\w*|cukr\\w*|sirup\\w*|přísad\\w*|aditiv\\w*|éček|E-?ček))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:prídavn\\w*\\s+lát\\w*|konzervant\\w*|cukr\\w*|sirup\\w*|prísad\\w*|aditív\\w*|éčok)|\\b0\\s*%\\s*(?:prídavn\\w*\\s+lát\\w*|konzervant\\w*|cukr\\w*|sirup\\w*|prísad\\w*|aditív\\w*|éčok))",
+      "positive_cz": [
+        "Med bez přidaného cukru a konzervantů"
+      ],
+      "positive_sk": [
+        "Med bez prídavných látok"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_butter_no_vegetable_fat",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:rostlinn\\w*\\s+tuk\\w*|palmov\\w*\\s+(?:tuk\\w*|olej\\w*))|\\b0\\s*%\\s*(?:rostlinn\\w*\\s+tuk\\w*|palmov\\w*\\s+(?:tuk\\w*|olej\\w*))|\\b100\\s*%\\s*mléčn\\w*\\s+tuk\\w*)",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:rastlinn\\w*\\s+tuk\\w*|palmov\\w*\\s+(?:tuk\\w*|olej\\w*))|\\b0\\s*%\\s*(?:rastlinn\\w*\\s+tuk\\w*|palmov\\w*\\s+(?:tuk\\w*|olej\\w*))|\\b100\\s*%\\s*mliečn\\w*\\s+tuk\\w*)",
+      "positive_cz": [
+        "Máslo bez rostlinných tuků"
+      ],
+      "positive_sk": [
+        "Maslo bez rastlinných tukov"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_plain_dairy_preservatives",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:konzervant\\w*|konzervační\\w*\\s+lát\\w*|přídatn\\w*\\s+lát\\w*|éček|E-?ček|aditiv\\w*)|\\b0\\s*%\\s*(?:konzervant\\w*|konzervační\\w*\\s+lát\\w*|přídatn\\w*\\s+lát\\w*|éček|E-?ček|aditiv\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:konzervant\\w*|konzervačn\\w*\\s+lát\\w*|prídavn\\w*\\s+lát\\w*|éčok|aditív\\w*)|\\b0\\s*%\\s*(?:konzervant\\w*|konzervačn\\w*\\s+lát\\w*|prídavn\\w*\\s+lát\\w*|éčok|aditív\\w*))",
+      "positive_cz": [
+        "Bílý jogurt bez konzervantů",
+        "Mléko bez éček"
+      ],
+      "positive_sk": [
+        "Biely jogurt bez konzervantov"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_infant_formula_gluten",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:lep(?:ek|ku|kem)\\b|gluten\\w*)|\\bbez-?(?:lepkov\\w*)|\\b(?:gluten)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:gluten)|\\b0\\s*%\\s*(?:lep(?:ek|ku|kem)\\b|gluten\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:lep(?:ok|ku|kom)\\b|glut[eé]n\\w*)|\\bbez-?(?:lepkov\\w*)|\\b(?:gluten)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:gluten)|\\b0\\s*%\\s*(?:lep(?:ok|ku|kom)\\b|glut[eé]n\\w*))",
+      "positive_cz": [
+        "Počáteční kojenecká výživa bez lepku"
+      ],
+      "positive_sk": [
+        "Počiatočná dojčenská výživa bez lepku"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_paint_lead_cadmium",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:olov\\w*|kadmi\\w*)|\\bbez-?(?:olovnat\\w*)|\\b(?:lead|cadmium)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:lead|cadmium)|\\b0\\s*%\\s*(?:olov\\w*|kadmi\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:olov\\w*|kadmi\\w*)|\\bbez-?(?:olovnat\\w*)|\\b(?:lead|cadmium)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:lead|cadmium)|\\b0\\s*%\\s*(?:olov\\w*|kadmi\\w*))",
+      "positive_cz": [
+        "Barva na dřevo bez olova"
+      ],
+      "positive_sk": [
+        "Farba na drevo bez olova"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_paint_voc_limit",
+      "composed_cz": "(?i)(?:\\blimit\\w*|\\bspl[nň]uj\\w*|\\bv\\s+souladu\\s+s)\\s+(?:[\\w-]+\\s+){0,4}?(?:VOC|těkav\\w*\\s+organick\\w*)|\\b(?:VOC|těkav\\w*\\s+organick\\w*\\s+lát\\w*)\\s+(?:[\\w-]+\\s+){0,3}?(?:pod|v\\s+rámci|podle)\\s+(?:[\\w-]+\\s+){0,2}?(?:limit\\w*|směrnic\\w*|EU)",
+      "composed_sk": "(?i)(?:\\blimit\\w*|\\bspĺňa\\w*|\\bv\\s+súlade\\s+s)\\s+(?:[\\w-]+\\s+){0,4}?(?:VOC|prchav\\w*\\s+organick\\w*)|\\b(?:VOC|prchav\\w*\\s+organick\\w*\\s+lát\\w*)\\s+(?:[\\w-]+\\s+){0,3}?(?:pod|v\\s+rámci|podľa)\\s+(?:[\\w-]+\\s+){0,2}?(?:limit\\w*|smernic\\w*|EÚ|EU)",
+      "positive_cz": [
+        "Splňuje limity VOC podle směrnice EU"
+      ],
+      "positive_sk": [
+        "Spĺňa limity VOC"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_asbestos",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:azbest\\w*)|\\b(?:asbestos)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:asbestos)|\\b0\\s*%\\s*(?:azbest\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:azbest\\w*)|\\b(?:asbestos)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:asbestos)|\\b0\\s*%\\s*(?:azbest\\w*))",
+      "positive_cz": [
+        "Brzdové destičky bez azbestu",
+        "asbestos free"
+      ],
+      "positive_sk": [
+        "Brzdové platničky bez azbestu"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_thermometer_mercury",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:rtu[tť]\\w*|(?-i:\\bHg\\b))|\\bbez-?(?:rtu[tť]ov\\w*)|\\b(?:mercury)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:mercury)|\\b0\\s*%\\s*(?:rtu[tť]\\w*|(?-i:\\bHg\\b)))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:ortu[tť]\\w*|(?-i:\\bHg\\b))|\\bbez-?(?:ortu[tť]ov\\w*)|\\b(?:mercury)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:mercury)|\\b0\\s*%\\s*(?:ortu[tť]\\w*|(?-i:\\bHg\\b)))",
+      "positive_cz": [
+        "Bezrtuťový teploměr",
+        "Teploměr bez rtuti"
+      ],
+      "positive_sk": [
+        "Teplomer bez ortuti"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_furniture_formaldehyde",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:formaldehyd\\w*)|\\b(?:formaldehyde)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:formaldehyde)|\\b0\\s*%\\s*(?:formaldehyd\\w*)|\\bemis\\w*\\s+(?:[\\w-]+\\s+){0,2}?formaldehyd\\w*|\\bformaldehyd\\w*\\s+(?:[\\w-]+\\s+){0,2}?emis\\w*|(?-i:\\bE[01]\\b)|(?-i:\\bE0[,.]5\\b))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:formaldehyd\\w*)|\\b(?:formaldehyde)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:formaldehyde)|\\b0\\s*%\\s*(?:formaldehyd\\w*)|\\bemis\\w*\\s+(?:[\\w-]+\\s+){0,2}?formaldehyd\\w*|\\bformaldehyd\\w*\\s+(?:[\\w-]+\\s+){0,2}?emis\\w*|(?-i:\\bE[01]\\b)|(?-i:\\bE0[,.]5\\b))",
+      "positive_cz": [
+        "Nábytek s nízkými emisemi formaldehydu",
+        "Deska E1"
+      ],
+      "positive_sk": [
+        "Nábytok s nízkymi emisiami formaldehydu"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_sup_plastic_free",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:plast\\w*)|\\bbez-?(?:plastov\\w*)|\\b(?:plastic)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:plastic)|\\b0\\s*%\\s*(?:plast\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:plast\\w*)|\\bbez-?(?:plastov\\w*)|\\b(?:plastic)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:plastic)|\\b0\\s*%\\s*(?:plast\\w*))",
+      "positive_cz": [
+        "Papírová brčka bez plastu",
+        "100% plastic free"
+      ],
+      "positive_sk": [
+        "Papierové slamky bez plastu"
+      ],
+      "negative": []
+    },
+    {
+      "id": "ib_water_gluten",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:lep(?:ek|ku|kem)\\b|gluten\\w*)|\\bbez-?(?:lepkov\\w*)|\\b(?:gluten)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:gluten)|\\b0\\s*%\\s*(?:lep(?:ek|ku|kem)\\b|gluten\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:lep(?:ok|ku|kom)\\b|glut[eé]n\\w*)|\\bbez-?(?:lepkov\\w*)|\\b(?:gluten)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:gluten)|\\b0\\s*%\\s*(?:lep(?:ok|ku|kom)\\b|glut[eé]n\\w*))",
+      "positive_cz": [
+        "Minerální voda bez lepku"
+      ],
+      "positive_sk": [
+        "Minerálna voda bez lepku"
+      ],
+      "negative": []
+    },
+    {
+      "id": "ib_paper_plastic",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:plast\\w*)|\\b(?:plastic)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:plastic)|\\b0\\s*%\\s*(?:plast\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:plast\\w*)|\\b(?:plastic)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:plastic)|\\b0\\s*%\\s*(?:plast\\w*))",
+      "positive_cz": [
+        "Kancelářský papír bez plastu"
+      ],
+      "positive_sk": [
+        "Kancelársky papier bez plastu"
+      ],
+      "negative": []
+    },
+    {
+      "id": "ib_perfume_preservatives",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:konzervant\\w*|konzervační\\w*\\s+lát\\w*)|\\b(?:preservatives?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:preservatives?)|\\b0\\s*%\\s*(?:konzervant\\w*|konzervační\\w*\\s+lát\\w*))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:konzervant\\w*|konzervačn\\w*\\s+lát\\w*)|\\b(?:preservatives?)\\s*-?\\s*free\\b|\\bfree\\s+(?:from|of)\\s+(?:preservatives?)|\\b0\\s*%\\s*(?:konzervant\\w*|konzervačn\\w*\\s+lát\\w*))",
+      "positive_cz": [
+        "Parfém bez konzervantů"
+      ],
+      "positive_sk": [
+        "Parfum bez konzervantov"
+      ],
+      "negative": []
+    },
+    {
+      "id": "lr_chocolate_vegetable_fat",
+      "composed_cz": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|přídavku|přidan\\w*|použití|přísady|přítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:rostlinn\\w*\\s+tuk\\w*|palmov\\w*\\s+(?:tuk\\w*|olej\\w*))|\\b0\\s*%\\s*(?:rostlinn\\w*\\s+tuk\\w*|palmov\\w*\\s+(?:tuk\\w*|olej\\w*)))",
+      "composed_sk": "(?i)(?:\\b(?:bez(?:\\s+(?:obsahu|prídavku|pridan\\w*|použitia|prísady|prítomnosti))?|neobsahuj\\w*|nemá|zbaven\\w*|prost[ýáéí])\\s+(?:(?!(?:obsahuj\\w*|ale|avšak|však|no|jen|len|iba|pouze|s|so|se)\\b)[\\w%-]+[\\s,]+){0,3}?(?:rastlinn\\w*\\s+tuk\\w*|palmov\\w*\\s+(?:tuk\\w*|olej\\w*))|\\b0\\s*%\\s*(?:rastlinn\\w*\\s+tuk\\w*|palmov\\w*\\s+(?:tuk\\w*|olej\\w*)))",
+      "positive_cz": [
+        "Čokoláda bez rostlinných tuků"
+      ],
+      "positive_sk": [
+        "Čokoláda bez rastlinných tukov"
+      ],
+      "negative": []
+    }
+  ]
+}

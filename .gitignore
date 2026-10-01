@@ -1,0 +1,22 @@
+.env
+out/
+bin/
+obj/
+cache/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+TestResults/
+.vs/
+*.user
+
+# Podklady: do gitu jen vlastní rešerše a texty zákonů (.txt); stažené originály a cizí dokumenty mimo git
+podklady/*
+!podklady/README.md
+!podklady/reserse/
+!podklady/predpisy-sk/
+!podklady/predpisy-cz/
+!podklady/predpisy-eu/
+podklady/predpisy-*/**/*.html
+podklady/predpisy-*/**/*.xhtml
+podklady/predpisy-*/**/*.pdf

@@ -1,0 +1,723 @@
+02008R0765 — CS — 16.07.2021 — 001.001
+
+Tento dokument slouží výhradně k informačním účelům a nemá žádný právní účinek. Orgány a instituce Evropské unie nenesou za jeho obsah žádnou odpovědnost. Závazná znění příslušných právních předpisů, včetně jejich právních východisek a odůvodnění, jsou zveřejněna v Úředním věstníku Evropské unie a jsou k dispozici v databázi EUR-Lex. Tato úřední znění jsou přímo dostupná přes odkazy uvedené v tomto dokumentu
+
+►B ▼C1 ►M1 Nařízení Evropského parlamentu a Rady (ES) č. 765/2008 ze dne 9. července 2008 kterým se stanoví požadavky na akreditaci a kterým se zrušuje nařízení (EHS) č. 339/93 ◄ (Text s významem pro EHP) ▼B (Úř. věst. L 218 13.8.2008, s. 30)
+
+Ve znění:
+
+Úřední věstník
+
+Č. Strana Datum
+
+►M1 NAŘÍZENÍ EVROPSKÉHO PARLAMENTU A RADY (EU) 2019/1020 ze dne 20. června 2019 L 169 1 25.6.2019
+
+Opraveno:
+
+►C1 Oprava, Úř. věst. L 174, 3.7.2015, s. 44 (765/2008)
+
+▼B
+
+▼M1
+
+NAŘÍZENÍ EVROPSKÉHO PARLAMENTU A RADY (ES) č. 765/2008
+
+ze dne 9. července 2008
+
+kterým se stanoví požadavky na akreditaci a kterým se zrušuje nařízení (EHS) č. 339/93
+
+▼C1
+
+(Text s významem pro EHP)
+
+KAPITOLA I
+
+OBECNÁ USTANOVENÍ
+
+Článek 1
+
+Předmět a oblast působnosti
+
+1.
+
+Toto nařízení stanoví pravidla pro organizaci a provádění akreditace subjektů posuzování shody, které vykonávají činnosti posuzování shody.
+
+▼M1 —————
+
+▼C1
+
+4.
+
+Toto nařízení stanoví obecné zásady, kterými se řídí označení CE.
+
+Článek 2
+
+Definice
+
+Pro účely tohoto nařízení se rozumí:
+
+▼M1 —————
+
+▼C1
+
+3)
+
+„výrobcem“ fyzická nebo právnická osoba, která vyrábí výrobek nebo dává výrobek navrhnout nebo vyrobit a tento výrobek uvádí na trh pod svým jménem nebo ochrannou známkou;
+
+4)
+
+„zplnomocněným zástupcem“ fyzická nebo právnická osoba usazená ve Společenství, která byla písemně pověřena výrobcem, aby jednala jeho jménem při plnění konkrétních úkolů souvisejících s povinnostmi výrobce podle příslušných právních předpisů Společenství;
+
+5)
+
+„dovozcem“ fyzická nebo právnická osoba usazená ve Společenství, která uvádí na trh Společenství výrobek ze třetí země;
+
+6)
+
+„distributorem“ fyzická nebo právnická osoba v dodavatelském řetězci, jiná než výrobce nebo dovozce, která dodává výrobek na trh;
+
+7)
+
+„hospodářskými subjekty“ výrobce, zplnomocněný zástupce, dovozce a distributor;
+
+8)
+
+„technickou specifikací“ dokument, jenž předepisuje technické požadavky, které má výrobek, postup nebo služba splňovat;
+
+9)
+
+„harmonizovanou normou“ norma přijatá jedním z evropských normalizačních orgánů uvedených v příloze I směrnice Evropského parlamentu a Rady 98/34/ES ze dne 22. června 1998 o postupu při poskytování informací v oblasti norem a technických předpisů a předpisů pro služby informační společnosti ( 1 ), a to na základě žádosti Komise v souladu s článkem 6 uvedené směrnice;
+
+10)
+
+„akreditací“ potvrzení vnitrostátního akreditačního orgánu o tom, že subjekt posuzování shody splňuje požadavky stanovené harmonizovanými normami, a pokud je to relevantní, také veškeré další požadavky, včetně těch, které jsou stanoveny v příslušných odvětvových systémech, pro vykonávání konkrétní činnosti posuzování shody;
+
+11)
+
+„vnitrostátním akreditačním orgánem“ jediný orgán v daném členském státě, který na základě státem delegované pravomoci provádí akreditaci;
+
+12)
+
+„posuzováním shody“ postup k prokázání, zda byly splněny konkrétní požadavky týkající se výrobku, postupu, služby, systému, osoby nebo subjektu;
+
+13)
+
+„subjektem posuzování shody“ subjekt, který vykonává činnosti posuzování shody, včetně kalibrace, zkoušení, certifikace a inspekce;
+
+▼M1 —————
+
+▼C1
+
+16)
+
+„vzájemným hodnocením“ postup posuzování vnitrostátního akreditačního orgánu jinými vnitrostátními akreditačními orgány v souladu s požadavky tohoto nařízení a případně dalších odvětvových technických specifikací;
+
+▼M1 —————
+
+▼C1
+
+20)
+
+„označením CE“ označení, kterým výrobce vyjadřuje, že výrobek je ve shodě s příslušnými požadavky stanovenými v harmonizačních právních předpisech Společenství, které upravují jeho umisťování;
+
+21)
+
+„harmonizačními právními předpisy Společenství“ veškeré právní předpisy Společenství harmonizující podmínky uvádění výrobků na trh.
+
+KAPITOLA II
+
+AKREDITACE
+
+Článek 3
+
+Oblast působnosti
+
+Tato kapitola se vztahuje na akreditaci prováděnou na povinném nebo dobrovolném základě v souvislosti s posuzováním shody, ať už je toto posuzování povinné, či nikoliv, a bez ohledu na právní postavení orgánu, který akreditaci provádí.
+
+Článek 4
+
+Obecné zásady
+
+1.
+
+Každý členský stát stanoví jediný vnitrostátní akreditační orgán.
+
+2.
+
+Pokud se členský domnívá, že mít vnitrostátní akreditační orgán nebo poskytovat některé akreditační služby není hospodářsky smysluplné nebo udržitelné, obrátí se pokud možno o pomoc na vnitrostátní akreditační orgán jiného členského státu.
+
+3.
+
+Členský stát informuje Komisi a ostatní členské státy, pokud v souladu s odstavcem 2 požádal o pomoc vnitrostátní akreditační orgán jiného členského státu.
+
+4.
+
+Na základě informací uvedených v odstavci 3 a v článku 12 Komise vytvoří a aktualizuje seznam vnitrostátních akreditačních orgánů, který zveřejní.
+
+5.
+
+Pokud akreditaci neprovádějí přímo orgány veřejné moci, svěří členské státy provádění akreditace vnitrostátnímu akreditačnímu orgánu jako činnost orgánu veřejné moci a formálně ho uznají.
+
+6.
+
+Povinnosti a úkoly vnitrostátního akreditačního orgánu se jasně odlišují od povinností a úkolů jiných vnitrostátních orgánů.
+
+7.
+
+Vnitrostátní akreditační orgán působí na neziskovém základě.
+
+8.
+
+Vnitrostátní akreditační orgán nesmí nabízet nebo poskytovat činnosti nebo služby, které poskytují subjekty posuzování shody, ani nesmí poskytovat poradenské služby, vlastnit podíl či mít jiné finanční zájmy nebo zájmy týkající se vedení v subjektu posuzování shody.
+
+9.
+
+Každý členský stát zajistí, aby jeho vnitrostátní akreditační orgán měl náležité finanční a personální zdroje pro řádné plnění svých úkolů, včetně plnění zvláštních úkolů, jakými jsou například činnosti v rámci evropské a mezinárodní spolupráce v oblasti akreditace a činnosti nutné k podpoře veřejné politiky, které nejsou financovány z vlastních zdrojů.
+
+10.
+
+Vnitrostátní akreditační orgán je členem orgánu uznaného podle článku 14.
+
+11.
+
+Vnitrostátní akreditační orgány vytvoří a budou udržovat vhodné struktury pro zajištění účinného a vyváženého zapojení všech zainteresovaných stran jak v rámci své vlastní organizace, tak v rámci orgánu uznaného podle článku 14.
+
+Článek 5
+
+Provádění akreditace
+
+1.
+
+Vnitrostátní akreditační orgán na žádost subjektu posuzování shody hodnotí, zda je tento subjekt posuzování shody způsobilý provádět konkrétní činnost posuzování shody. Pokud je tento subjekt shledán způsobilým, vydá vnitrostátní akreditační orgán v tomto smyslu osvědčení o akreditaci.
+
+2.
+
+V případě, že se členský stát rozhodne akreditaci nepoužívat, poskytne Komisi a ostatním členským státům všechny doklady nezbytné k ověření způsobilosti subjektů posuzování shody, které vybere za účelem provádění příslušných harmonizačních právních předpisů Společenství.
+
+3.
+
+Vnitrostátní akreditační orgány kontrolují subjekty posuzovaní shody, jimž vydaly osvědčení o akreditaci.
+
+4.
+
+Pokud vnitrostátní akreditační orgán zjistí, že subjekt posuzování shody, který obdržel osvědčení o akreditaci, již není způsobilý provádět konkrétní činnost posuzování shody nebo že závažným způsobem porušil své povinnosti, přijme v přiměřené lhůtě všechna vhodná opatření s cílem omezit, pozastavit nebo odejmout jeho osvědčení o akreditaci.
+
+5.
+
+Členské státy zavedou postupy pro řešení odvolání, včetně případných opravných prostředků proti akreditačním rozhodnutím nebo proti jejich nevydání.
+
+Článek 6
+
+Zásada nekonkurování
+
+1.
+
+Vnitrostátní akreditační orgány nepředstavují konkurenci pro subjekty posuzování shody.
+
+2.
+
+Vnitrostátní akreditační orgány nepředstavují konkurenci pro ostatní vnitrostátní akreditační orgány.
+
+3.
+
+Vnitrostátní akreditační orgány jsou oprávněny k provozování přeshraniční činnosti na území jiného členského státu, a to na žádost subjektu posuzování shody za podmínek stanovených v čl. 7 odst. 1, nebo pokud jsou o to požádány vnitrostátním akreditačním orgánem podle čl. 7 odst. 3 ve spolupráci s vnitrostátním akreditačním orgánem tohoto členského státu.
+
+Článek 7
+
+Přeshraniční akreditace
+
+1.
+
+Pokud subjekt posuzování shody žádá o akreditaci, činí tak u vnitrostátního akreditačního orgánu členského státu, v němž je usazen, nebo u vnitrostátního akreditačního orgánu, který uvedený členský stát požádal o pomoc podle čl. 4 odst. 2.
+
+Subjekt posuzování shody však může požádat o akreditaci ze strany jiného vnitrostátního akreditačního orgánu, než jsou akreditační orgány uvedené v prvním pododstavci:
+
+a)
+
+pokud se členský stát, v němž je usazen, rozhodl nezřídit vnitrostátní akreditační orgán a nepožádal o pomoc vnitrostátní akreditační orgán jiného členského státu podle čl. 4 odst. 2;
+
+b)
+
+pokud vnitrostátní akreditační orgány uvedené v prvním pododstavci neprovádějí akreditaci v souvislosti s činnostmi posuzování shody, pro které se o akreditaci žádá, nebo
+
+c)
+
+pokud se vnitrostátní akreditační orgány uvedené v prvním pododstavci úspěšně nepodrobily vzájemnému hodnocení podle článku 10 v souvislosti s činnostmi posuzování shody, pro které se o akreditaci žádá.
+
+2.
+
+Pokud vnitrostátní akreditační orgán obdrží žádost podle odst. 1 písm. b) nebo c), uvědomí vnitrostátní akreditační orgán členského státu, v němž je usazen žádající subjekt posuzování shody. V takových případech se vnitrostátní akreditační orgán členského státu, v němž je žádající subjekt posuzování shody usazen, může účastnit jako pozorovatel.
+
+3.
+
+Vnitrostátní akreditační orgán může požádat jiný vnitrostátní akreditační orgán, aby provedl část činnosti posuzování. V takovém případě osvědčení o akreditaci vydává žádající akreditační orgán.
+
+Článek 8
+
+Požadavky na vnitrostátní akreditační orgány
+
+Vnitrostátní akreditační orgán musí splňovat tyto požadavky:
+
+1)
+
+musí být organizován takovým způsobem, aby byl nezávislý na subjektech posuzování shody, které posuzuje, a na obchodních tlacích a aby bylo zajištěno, že nedojde ke střetu zájmů se subjekty posuzování shody;
+
+2)
+
+musí být organizován a fungovat tak, aby zabezpečil objektivitu a nestrannost svých činností;
+
+3)
+
+musí zajistit, aby každé rozhodnutí týkající se potvrzení způsobilosti přijímaly způsobilé osoby odlišné od těch, které provedly posouzení;
+
+4)
+
+musí přijmout vhodná opatření k zajištění důvěrnosti obdržených informací;
+
+5)
+
+určí činnosti posuzování shody, pro které je způsobilý provádět akreditaci, a to případně s odkazem na příslušné právní předpisy a normy Společenství nebo členského státu;
+
+6)
+
+musí mít zavedeny postupy nezbytné pro zajištění efektivního řízení a vhodné vnitřní kontroly;
+
+7)
+
+musí mít k dispozici dostatečný počet způsobilých pracovníků, aby mohl řádně plnit své úkoly;
+
+8)
+
+musí vést dokumentaci o povinnostech, působnosti a pravomocích pracovníků, kteří by mohli mít vliv na kvalitu posuzování a potvrzování způsobilosti;
+
+9)
+
+musí zavést, provádět a udržovat postupy pro kontrolu výkonnosti a způsobilosti příslušných pracovníků;
+
+10)
+
+ověřuje, že je posuzování shody prováděno přiměřeným způsobem, a to tak, aby se zabránilo zbytečné zátěži podniků a byla zohledněna velikost a struktura podniku, odvětví, v němž působí, míra složitosti dané technologie výrobku a hromadný či sériový způsob výroby;
+
+11)
+
+zveřejňuje výroční auditované účetní výkazy připravené v souladu s všeobecně uznávanými účetními zásadami.
+
+Článek 9
+
+Splnění požadavků
+
+1.
+
+Pokud vnitrostátní akreditační orgán nesplňuje požadavky tohoto nařízení nebo neplní povinnosti stanovené tímto nařízením, dotčený členský stát přijme vhodná nápravná opatření nebo zajistí, aby se taková nápravná opatření přijala, a uvědomí o tom Komisi.
+
+2.
+
+Členské státy pravidelně kontrolují své vnitrostátní akreditační orgány s cílem zajistit, aby trvale splňovaly požadavky stanovené v článku 8.
+
+3.
+
+Členské státy při provádění kontroly uvedené v odstavci 2 tohoto článku v maximální míře zohlední výsledky vzájemného hodnocení podle článku 10.
+
+4.
+
+Vnitrostátní akreditační orgány musí mít zavedeny nezbytné postupy k vyřizování stížností na subjekty posuzování shody, které akreditovaly.
+
+Článek 10
+
+Vzájemné hodnocení
+
+1.
+
+Vnitrostátní akreditační orgány podléhají vzájemnému hodnocení organizovanému orgánem uznaným podle článku 14.
+
+2.
+
+Zúčastněné strany mají právo zapojit se do systému dohledu nad činnostmi vzájemného hodnocení, ale ne do jednotlivých postupů vzájemného hodnocení.
+
+3.
+
+Členské státy zajistí, aby se jejich vnitrostátní akreditační orgány pravidelně podrobovaly vzájemnému hodnocení, jak to vyžaduje odstavec 1.
+
+4.
+
+Vzájemné hodnocení se provádí na základě řádných a transparentních hodnotících kritérií a postupů, zejména pokud jde o požadavky na strukturu, lidské zdroje a o procedurální otázky, otázky důvěrnosti a stížností. Stanoví se vhodné postupy odvolání proti rozhodnutím přijatým v důsledku takového hodnocení.
+
+5.
+
+Vzájemným hodnocením se zjišťuje, zda vnitrostátní akreditační orgány splňují požadavky stanovené v článku 8, s přihlédnutím k příslušným harmonizovaným normám uvedeným v článku 11.
+
+6.
+
+Výsledky vzájemného hodnocení orgán uznaný podle článku 14 zveřejní a sdělí všem členským státům a Komisi.
+
+7.
+
+Komise ve spolupráci s členskými státy dohlíží na pravidla a řádné fungování systému vzájemného hodnocení.
+
+Článek 11
+
+Předpoklad shody pro vnitrostátní akreditační orgány
+
+1.
+
+O vnitrostátních akreditačních orgánech, které prokáží shodu s kritérii stanovenými v příslušné harmonizované normě, na niž byl zveřejněn odkaz v Úředním věstníku Evropské unie , tím, že se úspěšně podrobí vzájemnému hodnocení podle článku 10, se má za to, že splňují požadavky stanovené v článku 8.
+
+2.
+
+Vnitrostátní orgány uznávají rovnocennost služeb poskytovaných akreditačními orgány, které se úspěšně podrobily vzájemnému hodnocení podle článku 10, čímž akceptují na základě předpokladu uvedeného v odstavci 1 tohoto článku osvědčení o akreditaci vydaná těmito orgány i potvrzení vydaná subjekty posuzování shody, které jimi byly akreditovány.
+
+Článek 12
+
+Informační povinnost
+
+1.
+
+Každý vnitrostátní akreditační orgán informuje ostatní vnitrostátní akreditační orgány o činnostech posuzování shody, pro které provádí akreditaci, a o všech jejich změnách.
+
+2.
+
+Každý členský stát oznámí Komisi a orgánu uznanému podle článku 14 název svého vnitrostátního akreditačního orgánu a všechny činnosti posuzování shody, pro které tento orgán provádí akreditaci v zájmu harmonizačních právních předpisů Společenství, a všechny související změny.
+
+3.
+
+Každý vnitrostátní akreditační orgán pravidelně zveřejňuje informace o výsledcích, kterých dosáhl ve vzájemném hodnocení, o činnostech posuzování shody, pro které provádí akreditaci, a o všech jejich změnách.
+
+Článek 13
+
+Žádosti předkládané orgánu uznanému podle článku 14
+
+1.
+
+Komise po konzultaci výboru zřízeného podle článku 5 směrnice 98/34/ES může požádat orgán uznaný podle článku 14, aby přispěl k rozvoji, udržování a provádění akreditace ve Společenství.
+
+2.
+
+Postupem podle odstavce 1 může Komise též:
+
+a)
+
+požádat orgán uznaný podle článku 14, aby stanovil hodnotící kritéria a postupy vzájemného hodnocení a vytvořil odvětvové akreditační systémy;
+
+b)
+
+schválit jakékoliv již existující systémy, které stanoví hodnotící kritéria a postupy vzájemného hodnocení.
+
+3.
+
+Komise zajistí, aby odvětvové akreditační systémy vymezily technické specifikace nezbytné ke splnění úrovně způsobilosti požadované harmonizačními právními předpisy Společenství v oblastech se zvláštními technologickými požadavky nebo požadavky souvisejícími se zdravím, bezpečností a životním prostředím či ochranou jiných veřejných zájmů.
+
+Článek 14
+
+Evropská akreditační infrastruktura
+
+1.
+
+Komise po konzultaci s členskými státy uzná orgán, který splňuje požadavky stanovené v příloze I tohoto nařízení.
+
+2.
+
+Orgán, který má být uznán podle odstavce 1, uzavře s Komisí dohodu. Touto dohodou se podrobně vymezí mimo jiné konkrétní úkoly orgánu, ustanovení o financování a o dozoru nad tímto uznaným orgánem. Komise i orgán budou mít právo vypovědět dohodu bez udání důvodu s tím, že dohoda pozbude platnosti po uplynutí přiměřené výpovědní lhůty v ní stanovené.
+
+3.
+
+Komise i orgán dohodu zveřejní.
+
+4.
+
+Komise informuje členské státy a vnitrostátní akreditační orgány o uznání orgánu podle odstavce 1.
+
+5.
+
+Komise může k určitému okamžiku uznat pouze jeden takový orgán.
+
+6.
+
+Prvním orgánem uznaným podle tohoto nařízení je Evropská organizace pro spolupráci v oblasti akreditace za předpokladu, že uzavře dohodu, jak je uvedeno v odstavci 2.
+
+KAPITOLA III
+
+RÁMEC SPOLEČENSTVÍ PRO DOZOR NAD TRHEM A KONTROLU VÝROBKŮ, KTERÉ VSTUPUJÍ NA TRH SPOLEČENSTVÍ
+
+ODDÍL 1
+
+Obecná ustanovení
+
+▼M1 —————
+
+▼C1
+
+ODDÍL 2
+
+Rámec Společenství pro dozor nad trhem
+
+▼M1 —————
+
+▼C1
+
+ODDÍL 3
+
+Kontroly výrobků, které vstupují na trh Společenství
+
+▼M1 —————
+
+▼C1
+
+KAPITOLA IV
+
+OZNAČENÍ CE
+
+Článek 30
+
+Obecné zásady označení CE
+
+1.
+
+Označení CE smí umístit pouze výrobce nebo jeho zplnomocněný zástupce.
+
+2.
+
+Označení CE, jak je popsáno v příloze II, se smí umístit pouze na výrobky, u kterých je toto umístění stanoveno zvláštními harmonizačními právními předpisy Společenství, a nesmí být umístěno na žádný jiný výrobek.
+
+3.
+
+Umístěním označení CE nebo tím, že označení CE nechá umístit, dává výrobce na srozuměnou, že nese odpovědnost za shodu výrobku se všemi příslušnými požadavky stanovenými v harmonizačních právních předpisech Společenství, které upravují jeho umisťování.
+
+4.
+
+Označení CE je jediné označení osvědčující shodu výrobku s příslušnými požadavky harmonizačních právních předpisů Společenství, které upravují jeho umisťování.
+
+5.
+
+Je zakázáno umisťovat na výrobek označení, značky nebo nápisy, které by mohly uvádět třetí stranu v omyl, pokud jde o význam nebo tvar označení CE. Jakékoliv jiné označení může být na výrobek umístěno za předpokladu, že tím nebude snížena viditelnost, čitelnost a význam označení CE.
+
+6.
+
+Aniž je dotčen článek 41, zajistí členské státy řádné provádění režimu označování CE a přijmou vhodná opatření v případě nesprávného použití označení. Členské státy rovněž stanoví sankce za porušení právních předpisů, které mohou zahrnovat trestněprávní sankce za závažná porušení. Tyto sankce musí být přiměřené závažnosti porušení a musí účinně odrazovat od nesprávného používání.
+
+KAPITOLA V
+
+FINANCOVÁNÍ ZE STRANY SPOLEČENSTVÍ
+
+Článek 31
+
+Subjekt sledující cíl obecného evropského zájmu
+
+Orgán uznaný podle článku 14 se považuje za subjekt, který sleduje cíl obecného evropského zájmu ve smyslu článku 162 nařízení Komise (ES, Euratom) č. 2342/2002 ze dne 23. prosince 2002 o prováděcích pravidlech k nařízení Rady (ES, Euratom) č. 1605/2002 ( 2 ).
+
+Článek 32
+
+Činnosti způsobilé k financování ze strany Společenství
+
+1.
+
+V souvislosti s uplatňováním tohoto nařízení může Společenství financovat tyto činnosti:
+
+a)
+
+tvorbu a přepracování odvětvových akreditačních systémů uvedených v čl. 13 odst. 3;
+
+b)
+
+činnosti sekretariátu orgánu uznaného podle článku 14, jako jsou koordinace akreditačních činností, zpracování odborné dokumentace spojené s fungováním systému vzájemného hodnocení, poskytování informací zúčastněným stranám a účast tohoto orgánu na činnostech mezinárodních organizací v oblasti akreditace;
+
+▼M1
+
+c)
+
+vypracování a aktualizace příspěvků k pokynům v oblasti akreditace, oznamování subjektů posuzování shody Komisi a posuzování shody;
+
+▼M1 —————
+
+▼M1
+
+f)
+
+provádění přípravných či doplňkových prací pro provádění posuzování shody, metrologii a akreditačních činností související s prováděním právních předpisů Společenství, jako jsou studie, programy, hodnocení, pokyny, srovnávací analýzy, vzájemné společné návštěvy, výzkumná práce, vytváření a údržba databází, činnosti odborného vzdělávání, laboratorní práce, zkoušky odborné způsobilosti, mezilaboratorní zkoušky a práce na posuzování shody;
+
+g)
+
+činnosti prováděné v rámci programů technické pomoci, spolupráce s třetími zeměmi a k podpoře a zlepšení evropských politik a systémů pro posuzování shody a akreditačních politik a systémů mezi zúčastněnými stranami ve Společenství a na mezinárodní úrovni.
+
+▼C1
+
+2.
+
+Činnosti uvedené v odst. 1 písm. a) může Společenství financovat pouze poté, co byl výbor zřízený článkem 5 směrnice 98/34/ES konzultován ohledně žádostí, které mají být předloženy u orgánu uznaného podle článku 14 tohoto nařízení.
+
+Článek 33
+
+Subjekty způsobilé k financování Společenstvím
+
+Financování Společenstvím lze poskytovat orgánu uznanému podle článku 14 na provádění činností uvedených v článku 32.
+
+Financování Společenstvím však lze rovněž poskytovat jiným subjektům na provádění činností uvedených v článku 32 kromě činností stanovených v odst. 1 písm. a) a b) uvedeného článku.
+
+Článek 34
+
+Financování
+
+Rozpočtové prostředky přidělené na činnosti uvedené v tomto nařízení stanoví každoročně rozpočtový orgán v mezích platného finančního rámce.
+
+Článek 35
+
+Finanční opatření
+
+1.
+
+Financování ze strany Společenství se poskytuje:
+
+a)
+
+orgánu uznanému podle článku 14, a to bez výzvy k předkládání návrhů, na provádění činností uvedených v čl. 32 odst. 1 písm. a) až g), pro které lze poskytnout granty v souladu s finančním nařízením;
+
+b)
+
+jiným subjektům v podobě grantů po výzvě k předkládání návrhů nebo postupy zadávání veřejných zakázek, a to na provádění činností uvedených v čl. 32 odst. 1 písm. c) až g).
+
+2.
+
+Činnosti sekretariátu orgánu uznaného podle článku 14 uvedené v čl. 32 odst. 1 písm. b) lze financovat na základě grantů na provozní náklady. Granty na provozní náklady se v případě opětovného poskytnutí automaticky nesnižují.
+
+3.
+
+Grantové dohody mohou umožnit paušální krytí režijních nákladů příjemce do výše 10 % celkových způsobilých přímých nákladů na akce kromě případů, kdy jsou nepřímé náklady příjemce hrazeny prostřednictvím grantu na provozní náklady financovaného z rozpočtu Společenství.
+
+4.
+
+Společné cíle spolupráce a správní a finanční podmínky pro granty udělované orgánu uznanému podle článku 14 lze vymezit v rámcových dohodách o partnerství, které podepíše Komise s tímto orgánem v souladu s finančním nařízením a nařízením (ES, Euratom) č. 2342/2002. O uzavření těchto dohod jsou informovány Evropský parlament a Rada.
+
+Článek 36
+
+Řízení a průběžná kontrola
+
+1.
+
+Rozpočtové prostředky určené rozpočtovým orgánem na financování činností posuzování shody, akreditace a dozoru nad trhem mohou pokrývat rovněž správní výdaje spojené s přípravnými činnostmi, průběžnou kontrolou, inspekcemi, audity a hodnoceními, které jsou přímo nezbytné pro dosažení cílů tohoto nařízení, a to zejména se studiemi, schůzemi, informačními a publikačními činnostmi, dále výdaje spojené s informačními sítěmi pro výměnu informací a veškeré další výdaje na administrativní a technickou pomoc, které může Komise používat pro činnosti posuzování shody a akreditace.
+
+2.
+
+Komise hodnotí důležitost činností posuzování shody, akreditace a dozoru nad trhem financovaných Společenstvím s ohledem na potřeby politiky a právních předpisů Společenství a do 1. ledna 2013 a poté každých pět let o výsledcích tohoto hodnocení informuje Evropský parlament a Radu.
+
+Článek 37
+
+Ochrana finančních zájmů Společenství
+
+1.
+
+Komise zajistí, aby byly finanční zájmy Společenství při provádění činností financovaných podle tohoto rozhodnutí chráněny pomocí uplatňování preventivních opatření proti podvodům, korupci a jinému protiprávnímu jednání, dále pomocí účinných kontrol a zpětného získávání neoprávněně vyplacených částek a v případě, že byly zjištěny nesrovnalosti, také pomocí účinných, přiměřených a odrazujících sankcí v souladu s nařízením Rady (ES, Euratom) č. 2988/95 ze dne 18. prosince 1995 o ochraně finančních zájmů Evropských společenství ( 3 ), nařízením Rady (Euratom, ES) č. 2185/96 ze dne 11. listopadu 1996 o kontrolách a inspekcích na místě prováděných Komisí za účelem ochrany finančních zájmů Evropských společenství proti podvodům a jiným nesrovnalostem ( 4 ) a nařízením Evropského parlamentu a Rady (ES) č. 1073/1999 ze dne 25. května 1999 o vyšetřování prováděném Evropským úřadem pro boj proti podvodům (OLAF) ( 5 ).
+
+2.
+
+V souvislosti s činnostmi Společenství financovanými podle tohoto nařízení se pod pojmem nesrovnalost uvedeným v čl. 1 odst. 2 nařízení (ES, Euratom) č. 2988/95 rozumí každé porušení právního předpisu Společenství nebo každé porušení smluvních závazků vyplývající z jednání nebo opomenutí hospodářského subjektu, v jehož důsledku je nebo by mohl být poškozen souhrnný rozpočet Evropské unie nebo rozpočty jí spravované, a to formou neoprávněného výdaje.
+
+3.
+
+Dohody a smlouvy uzavřené na základě tohoto nařízení obsahují ustanovení o průběžné kontrole a finanční kontrole prováděné Komisí nebo jí pověřeným zástupcem a o auditech prováděných Účetním dvorem, které lze v případě potřeby provést na místě.
+
+KAPITOLA VI
+
+ZÁVĚREČNÁ USTANOVENÍ
+
+Článek 38
+
+Technické pokyny
+
+V zájmu snazšího provádění tohoto nařízení Komise vypracuje nezávazné pokyny po konzultaci se zúčastněnými stranami.
+
+Článek 39
+
+Přechodné ustanovení
+
+Osvědčení o akreditaci vydaná před 1. lednem 2010 mohou zůstat platná až do dne uplynutí doby své platnosti, avšak ne déle než do 31. prosince 2014. Toto nařízení se však použije v případě jejich prodloužení nebo obnovení.
+
+Článek 40
+
+Přezkum a zprávy
+
+Komise předloží do 2. září 2013 Evropskému parlamentu a Radě zprávu o uplatňování tohoto nařízení, směrnice 2001/95/ES a dalších příslušných nástrojů Společenství týkajících se dozoru nad trhem. Tato zpráva bude zejména obsahovat analýzu celkového souladu předpisů Společenství v oblasti dozoru nad trhem. Zpráva bude případně doplněna návrhy na změnu nebo konsolidaci příslušných nástrojů v zájmu zdokonalení právní úpravy a zjednodušení. Zpráva bude zahrnovat hodnocení rozšíření působnosti kapitoly III tohoto nařízení na všechny výrobky.
+
+Do 1. ledna 2013 a poté každých pět let Komise ve spolupráci s členskými státy vypracuje a předloží Evropskému parlamentu a Radě zprávu o provádění tohoto nařízení.
+
+Článek 41
+
+Sankce
+
+Členské státy stanoví sankce hospodářským subjektům za porušení ustanovení tohoto nařízení, které mohou zahrnovat trestněprávní sankce za závažná porušení, a přijmou veškerá opatření nezbytná pro zajištění jejich uplatňování. Stanovené sankce musí být účinné, přiměřené a odrazující a mohou být zvýšeny, pokud se příslušný hospodářský subjekt již dříve dopustil podobného porušení ustanovení tohoto nařízení. Členské státy oznámí tato ustanovení Komisi do 1. ledna 2010 a neprodleně jí oznámí i všechny jejich následné změny.
+
+Článek 42
+
+Změna směrnice 2001/95/ES
+
+V článku 8 směrnice 2001/95/ES se odstavec 3 nahrazuje tímto:
+
+„3.
+
+V případě výrobků, které představují vážné riziko, přijmou příslušné orgány okamžitě přiměřená opatření uvedená v odst. 1 písm. b) až f). Existenci vážného rizika stanoví členské státy, které vyhodnotí každý případ jednotlivě podle povahy věci a vezmou přitom v úvahu pokyny uvedené v bodu 8 přílohy II.“
+
+Článek 43
+
+Zrušení
+
+Nařízení (EHS) č. 339/93 se zrušuje s účinkem ode dne 1. ledna 2010.
+
+Odkazy na zrušené nařízení se považují za odkazy na toto nařízení.
+
+Článek 44
+
+Vstup v platnost
+
+Toto nařízení vstupuje v platnost dvacátým dnem po vyhlášení v Úředním věstníku Evropské unie.
+
+Použije se ode dne 1. ledna 2010.
+
+Toto nařízení je závazné v celém rozsahu a přímo použitelné ve všech členských státech.
+
+PŘÍLOHA I
+
+Požadavky na orgán uznaný podle článku 14
+
+1.
+
+Orgán uznaný podle článku 14 tohoto nařízení (dále jen „orgán“) musí být zřízen ve Společenství.
+
+2.
+
+Podle stanov orgánu mají vnitrostátní akreditační orgány ze Společenství právo být členy, a to za předpokladu, že dodržují pravidla a cíle orgánu a další podmínky zde stanovené a ty, které byly dohodnuty s Komisí v rámcové dohodě.
+
+3.
+
+Orgán provádí konzultace se všemi zúčastněnými stranami.
+
+4.
+
+Orgán poskytuje svým členům služby vzájemného hodnocení splňující požadavky článků 10 a 11.
+
+5.
+
+Orgán spolupracuje s Komisí v souladu s tímto nařízením.
+
+PŘÍLOHA II
+
+Označení CE
+
+1.
+
+Označení CE se skládá z iniciál „CE“ v tomto tvaru:
+
+2.
+
+Pokud je označení CE zmenšeno nebo zvětšeno, musí být zachovány proporce dané mřížkou na obrázku uvedeném v odstavci 1.
+
+3.
+
+Pokud zvláštní právní předpisy nepředepisují jiné rozměry, platí pro označení CE minimální výška 5 mm.
+
+( 1 ) Úř. věst. L 204, 21.7.1998, s. 37. Směrnice naposledy pozměněná směrnicí Rady 2006/96/ES (Úř. věst. L 363, 20.12.2006, s. 81).
+
+( 2 ) Úř. věst. L 357, 31.12.2002, s. 1. Nařízení naposledy pozměněné nařízením (ES, Euratom) č. 478/2007 (Úř. věst. L 111, 28.4.2007, s. 13).
+
+( 3 ) Úř. věst. L 312, 23.12.1995, s. 1.
+
+( 4 ) Úř. věst. L 292, 15.11.1996, s. 2.
+
+( 5 ) Úř. věst. L 136, 31.5.1999, s. 1.

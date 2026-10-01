@@ -1,0 +1,331 @@
+# Eko tvrzení podle směrnice 2005/29/ES, příloha I, ve znění směrnice (EU) 2024/825 (EmpCo).
+# Primární trh je Slovensko: zákon č. 108/2024 Z. z. ve znění zákona č. 310/2025 Z. z., príloha č. 1 body 3, 6, 7, 8,
+# účinné od 27. 9. 2026. V Česku čeká transpozice na schválení (sněmovní tisk 53); do té doby jde jen o posouzení
+# podle § 4 odst. 3 a § 5 zákona č. 634/1992 Sb. (klamavé konání), proto mají pravidla vysvětlení pro Česko zvlášť.
+# Ověřeno v podkladech 26. 9. 2026: znění bodů (SK príloha č. 1), definice v čl. 2 písm. o) až q) směrnice 2005/29/ES,
+# odůvodnění 9, 10 a 12 směrnice (EU) 2024/825, otázky a odpovědi Komise (září 2026) č. 3, 5, 6, 7, 10, 12, 14 a 15. Návrh k odladění a právní kontrole, ne hotový výklad zákona.
+# Věta jde Jevu jako objekt {sentence, context_before, context_after}; otázky se ptají na pole sentence.
+# Sada běží jen pro Slovensko: v Česku směrnice zatím neplatí a ČOI za eko tvrzení doložené pokuty nemá. Vysvětlení pro Česko
+# v explanation_by_jurisdiction zůstávají pro dobu po převzetí směrnice (pak doplnit cz do jurisdictions).
+# Skupiny nálezů (checkability): text = porušení podle textu zákona (výraz, který odůvodnění 9 a 10 směrnice (EU) 2024/825
+# uvádí jako příklad, nebo přímé tvrzení přínosu pro životní prostředí); assess = k posouzení (výraz zákon neuvádí a Komise
+# ho posuzuje případ od případu podle vnímání průměrného spotřebitele, otázky a odpovědi č. 3, 5, 14 a 15); verify = k ověření
+# (rozhoduje fakt mimo web, například certifikace jmenované značky).
+version: "eco-2026-09-30-draft14"
+module: eco
+applies_to: sentence
+jurisdictions: [sk]
+questions:
+  eco_claim:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) claim or imply that the product, its packaging, its delivery or the company has a positive, neutral or reduced impact on the environment or the climate? Answer no if the sentence itself (for example a short heading such as 'Description' or 'Suitable for:') makes no such claim and the claim appears only in context_before or context_after. Answer no also if the sentence only tells the customer what to do, for example an instruction for use that mentions another product ('wash your hair with a natural shampoo'), and does not say that this product, its packaging, its delivery or the company is good for the environment."
+    text_cs: "Tvrdí nebo naznačuje věta (pole sentence), že produkt, jeho obal, doprava nebo firma má pozitivní, neutrální nebo menší dopad na životní prostředí či klima? Pokud sama věta (například krátký nadpis jako „Popis“ nebo „Vhodné pro:“) takové tvrzení neobsahuje a tvrzení je jen v context_before nebo context_after, odpověz ne. Odpověz ne také tehdy, když věta jen říká zákazníkovi, co má udělat, například návod k použití, který zmiňuje jiný produkt („vlasy umyjte přírodním šamponem“), a netvrdí, že tento produkt, jeho obal, doprava nebo firma prospívá životnímu prostředí."
+  eco_generic:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) use a general environmental term (for example eco-friendly, ecological, green, nature-friendly, sustainable, climate-friendly, energy efficient, biodegradable) without a specific, verifiable fact that explains it in the sentence itself or right next to it in context_before or context_after? A specific fact states exactly what the benefit is, for example '100% of the energy used to make this packaging comes from renewable sources'; another general claim nearby, such as 'climate neutral', is not a specific fact. Answer no if the general term is only part of the name of a label, certificate or seal, or if the sentence itself (for example a short heading) contains no such term and the term appears only in context_before or context_after. Answer no also if the sentence is only a short badge next to the product (for example 'Eco', 'Bio' or 'Green'), because such a badge is a label rather than a claim in a sentence, or if it is only a list of ingredients, even when some ingredients are marked as organic. Answer no also if the general term only describes what a named label, certificate or seal requires or guarantees (for example 'certified by X, which guarantees strict ecological requirements'), because the claim then refers to that label."
+    text_cs: "Používá věta (pole sentence) obecný environmentální pojem (např. ekologický, zelený, šetrný k přírodě, udržitelný, šetrný ke klimatu, energeticky účinný, biologicky rozložitelný), aniž by přímo v ní nebo hned vedle ní v context_before či context_after byl konkrétní ověřitelný údaj, který ho vysvětluje? Konkrétní údaj přesně říká, v čem výhoda spočívá, například „100 % energie použité k výrobě tohoto obalu pochází z obnovitelných zdrojů“; jiné obecné tvrzení poblíž, například „klimaticky neutrální“, konkrétním údajem není. Pokud je obecný pojem jen součástí názvu značky, certifikátu nebo pečeti, nebo pokud ho sama věta (například krátký nadpis) neobsahuje a je jen v context_before nebo context_after, odpověz ne. Odpověz ne také tehdy, když je věta jen krátký odznak u produktu (například „Eco“, „Bio“ nebo „Green“), protože takový odznak je značka, ne tvrzení ve větě, nebo když je to jen seznam složení, i když jsou některé složky označené jako bio. Odpověz ne také tehdy, když obecný pojem jen popisuje, co vyžaduje nebo zaručuje jmenovaná značka, certifikát nebo pečeť (například „certifikát X zaručuje přísné ekologické požadavky“), protože tvrzení pak odkazuje na tuto značku."
+  eco_sustainable_term:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) describe the product or the company as 'sustainable', 'responsible' or 'conscious', or use another form of these words (for example 'sustainability' or 'sustainably')? Answer no if it uses only environmental words such as 'environmentally friendly', 'ecological', 'green' or 'nature-friendly', or none of these words."
+    text_cs: "Označuje věta (pole sentence) produkt nebo firmu jako „udržitelný“, „odpovědný“ nebo „uvědomělý“, případně používá jiný tvar těchto slov (například „udržitelnost“ nebo „udržitelně“)? Pokud používá jen environmentální slova jako „šetrný k životnímu prostředí“, „ekologický“, „zelený“ nebo „přátelský k přírodě“, případně žádné z těchto slov, odpověz ne."
+  eco_neutral:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) claim that the product, its delivery or the company is climate neutral, carbon neutral, CO2 neutral or climate positive, or that it has a reduced, compensated or limited impact on the climate or on greenhouse gas emissions? Answer no if no such claim about the climate is made or if the sentence only states a goal for the future, such as becoming climate neutral by a certain year."
+    text_cs: "Tvrdí věta (pole sentence), že produkt, doprava nebo firma je klimaticky, uhlíkově nebo CO2 neutrální či pozitivní, nebo že má snížený, kompenzovaný či omezený dopad na klima nebo na emise skleníkových plynů? Pokud žádné takové tvrzení o klimatu neobsahuje nebo jen uvádí cíl do budoucna, například dosáhnout klimatické neutrality do určitého roku, odpověz ne."
+  eco_offset_basis:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) or the text right next to it (context_before, context_after) say that the climate claim made in the sentence (field sentence) relies on offsetting, compensation, carbon credits or supporting projects such as tree planting? Answer no if the sentence makes no climate claim, if no such basis is stated, or if the offsetting mentioned nearby relates to a different claim."
+    text_cs: "Uvádí věta (pole sentence) nebo text hned vedle ní (context_before, context_after), že tvrzení o klimatu obsažené ve větě (pole sentence) stojí na kompenzaci emisí, offsetech, uhlíkových kreditech nebo podpoře projektů, jako je sázení stromů? Pokud věta žádné tvrzení o klimatu neobsahuje, takový základ se neuvádí nebo se kompenzace zmíněná poblíž týká jiného tvrzení, odpověz ne."
+  eco_company_level:
+    type: yes_no
+    text_en: "Is the environmental claim in the sentence (field sentence) made about the company or the brand as a whole rather than about a specific product, service or delivery? Answer no if the sentence makes no environmental claim."
+    text_cs: "Týká se environmentální tvrzení ve větě (pole sentence) firmy nebo značky jako celku, a ne konkrétního produktu, služby nebo dopravy? Pokud věta žádné environmentální tvrzení neobsahuje, odpověz ne."
+  eco_label:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) mention or consist of an eco-label, sustainability label, environmental certificate, seal or badge, including a short badge shown next to a product such as 'Eco', 'Bio' or 'Green'? Answer no if it is only a list of ingredients, even when some ingredients are marked as organic, or if it only says in general that products or brands are certified without naming a particular label or certificate. Answer no also if the sentence is only the name of this product, the name contains no word such as bio, eco, green or natural, and it is not the name of a label, certificate or seal (for example a bracelet named after a philosophy)."
+    text_cs: "Zmiňuje věta (pole sentence) ekoznačku, značku udržitelnosti, environmentální certifikát, pečeť nebo odznak, nebo je sama takovým krátkým odznakem u produktu, například „Eco“, „Bio“ nebo „Green“? Pokud je to jen seznam složení, i když jsou některé složky označené jako bio, nebo pokud věta jen obecně říká, že produkty nebo obchodní značky jsou certifikované, a žádnou konkrétní značku ani certifikát nejmenuje, odpověz ne. Odpověz ne také tehdy, když je věta jen názvem tohoto produktu, název neobsahuje slovo jako bio, eko, zelený nebo přírodní a není názvem značky, certifikátu ani pečeti (například náramek pojmenovaný po filozofii)."
+  eco_social_label:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) mention or consist of a label, seal, logo, certificate or badge about social or ethical characteristics, such as fair trade, working conditions or animal welfare (for example 'Fairtrade', a 'cruelty free' logo or a short badge such as 'Vegan' shown on its own next to a product)? Answer no if words such as 'vegan', 'vegetarian' or 'not tested on animals' only describe the product in a sentence or a phrase, for example 'vegan caramels', 'suitable for vegans' or 'products for different diets: vegan, raw', without mentioning a label, seal, logo, certificate or badge."
+    text_cs: "Zmiňuje věta (pole sentence) značku, pečeť, logo, certifikát nebo odznak o sociálních či etických vlastnostech, například férovém obchodu, pracovních podmínkách nebo dobrých životních podmínkách zvířat, nebo je sama takovým odznakem (například „Fairtrade“, logo „cruelty free“ nebo krátký odznak „Vegan“ samostatně u produktu)? Pokud slova jako „veganský“, „vegetariánský“ nebo „netestováno na zvířatech“ jen popisují produkt ve větě nebo slovním spojení, například „veganské karamelky“, „vhodné pro vegany“ nebo „produkty pro různé diety: vegan, raw“, a žádnou značku, pečeť, logo, certifikát ani odznak nezmiňují, odpověz ne."
+  # Bod 4b se skládá ze dvou znaků, proto dvě otázky; závěr skládá pravidlo eco_part_as_whole.
+  eco_whole_claim:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) present the whole product, the whole product range or the whole company as environmentally beneficial (for example 'ecological product' or 'green company'), rather than only a specific part or aspect of it?"
+    text_cs: "Prezentuje věta (pole sentence) celý produkt, celý sortiment nebo celou firmu jako environmentálně přínosnou (například „ekologický produkt“ nebo „zelená firma“), a ne jen určitou část nebo aspekt?"
+  eco_part_benefit:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) or the text right next to it (context_before, context_after) state an environmental benefit that is explicitly limited to one part or aspect of the product or company, such as the packaging, the delivery or a single ingredient? Answer no if no environmental benefit is stated at all."
+    text_cs: "Uvádí věta (pole sentence) nebo text hned vedle ní (context_before, context_after) environmentální výhodu, která se výslovně týká jen jedné části nebo aspektu produktu či firmy, například obalu, dopravy nebo jedné složky? Pokud žádná environmentální výhoda uvedena není, odpověz ne."
+  eco_future_claim:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) state a future environmental goal or commitment, such as becoming climate neutral or reaching net zero by a certain year? Answer no if no future goal is stated."
+    text_cs: "Uvádí věta (pole sentence) budoucí environmentální cíl nebo závazek, například dosáhnout klimatické neutrality nebo nulových emisí do určitého roku? Pokud žádný budoucí cíl neuvádí, odpověz ne."
+  eco_organic_food:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) use 'bio', 'eco', 'organic' or a similar term only to say that a food or agricultural product comes from certified organic farming?"
+    text_cs: "Používá věta (pole sentence) výraz „bio“, „eko“, „z ekologického zemědělství“ nebo podobný jen k označení, že potravina nebo zemědělský produkt pochází z certifikovaného ekologického zemědělství?"
+  # Odůvodnění 9 směrnice (EU) 2024/825 uvádí příklady obecných tvrzení „nebo podobná tvrzení“; slova, která environmentální
+  # význam jen naznačují („přírodní“, „bio“ mimo potraviny, ikona lístku), Komise posuzuje případ od případu (otázky 3, 5, 14).
+  eco_explicit_term:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) say directly that the product, its packaging, its delivery or the company is good for, friendly to, gentle on, safe for or less harmful to the environment, nature or the climate, or use a term of that kind that the law gives as an example of a generic environmental claim: environmentally friendly, eco-friendly, green, nature-friendly, ecological (also 'eco' or 'eko' as a word or a badge), environmentally correct, climate-friendly, gentle on the environment, carbon-friendly, energy-saving, biodegradable or bio-based? Answer no if an environmental meaning could only be read into a word such as 'natural', 'bio', 'organic', 'vegan', 'chemical-free', 'gentle' or 'safe' that does not mention the environment, nature or the climate, or into an icon."
+    text_cs: "Říká věta (pole sentence) přímo, že produkt, jeho obal, doprava nebo firma prospívá, je přátelská, šetrná, bezpečná nebo méně škodlivá pro životní prostředí, přírodu nebo klima, nebo používá výraz tohoto druhu, který zákon uvádí jako příklad obecného environmentálního tvrzení: environmentálně šetrný, ekologicky šetrný, zelený, přátelský k přírodě, ekologický (i „eko“ nebo „eco“ jako slovo či odznak), šetrný k životnímu prostředí, šetrný ke klimatu, jemný k životnímu prostředí, uhlíkově šetrný, energeticky úsporný, biologicky rozložitelný nebo na biologické bázi? Pokud by se environmentální význam dal jen vyčíst ze slova jako „přírodní“, „bio“, „organický“, „veganský“, „bez chemie“, „šetrný“ nebo „bezpečný“, které životní prostředí, přírodu ani klima nezmiňuje, nebo z ikony, odpověz ne."
+  # Jmenovaná značka se dá ověřit u jejího vlastníka (certifikační systém); obecné slovo jako odznak ne.
+  eco_named_label:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) name a particular label, certificate, seal or certification scheme by its own name (for example 'EU Ecolabel', 'Fairtrade', 'FSC', 'Ecocert', 'BDIH' or the seal of a named association), rather than only showing a general word as a badge (for example 'Eco', 'Bio', 'Green', 'Vegan', 'GMO free') or saying in general that a product is certified? Answer no if the name is only the name of this product or its product line, for example a product named after a place, a person or a philosophy, and the sentence does not present it as a label, certificate, seal or certification scheme."
+    text_cs: "Jmenuje věta (pole sentence) konkrétní značku, certifikát, pečeť nebo certifikační systém jejím vlastním názvem (například „EU Ecolabel“, „Fairtrade“, „FSC“, „Ecocert“, „BDIH“ nebo pečeť jmenovaného sdružení), a ne jen obecné slovo zobrazené jako odznak (například „Eco“, „Bio“, „Green“, „Vegan“, „GMO free“) nebo obecné tvrzení, že je produkt certifikovaný? Odpověz ne, pokud je název jen názvem tohoto produktu nebo jeho produktové řady, například produktu pojmenovaného po místě, osobě nebo filozofii, a věta ho nepředstavuje jako značku, certifikát, pečeť ani certifikační systém."
+
+  # Environmentálním tvrzením je jen tvrzení o produktu, kategorii produktu, značce nebo obchodníkovi (čl. 2 písm. o) směrnice
+  # 2005/29/ES). Slovo jako „prírodný“ nebo „BIO“ u toho, do čeho se surovina přidává, nebo u výsledku receptu takovým
+  # tvrzením není; samostatné otázky, aby se nezměnily odpovědi ostatních otázek (měřeno 30. 9. 2026).
+  eco_other_subject:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) use a word such as natural, organic, bio, eco or clean only to describe something other than this product, namely the kind of products this product can be added to or used in (for example 'suitable for natural cosmetics' or 'ideal for organic cosmetics' said about an ingredient), or something the customer makes by following a recipe or DIY guide (for example 'recipe for a natural shoe deodorant')? Answer no if such a word also describes this product itself, its packaging, its delivery or the company, or if the sentence contains no such word."
+    text_cs: "Používá věta (pole sentence) slovo jako přírodní, bio, eko nebo „clean“ jen k popisu něčeho jiného než tohoto produktu, totiž druhu výrobků, do kterých se tento produkt přidává nebo ve kterých se používá (například „vhodné do přírodní kosmetiky“ nebo „ideální do bio kosmetiky“ u suroviny), nebo něčeho, co si zákazník vyrobí podle receptu či návodu (například „recept na přírodní deodorant do bot“)? Pokud takové slovo popisuje i samotný produkt, jeho obal, dopravu nebo firmu, nebo pokud věta žádné takové slovo neobsahuje, odpověz ne."
+  eco_diy:
+    type: yes_no
+    text_en: "Is the sentence (field sentence) part of a recipe or a do-it-yourself guide, that is, does it describe something the customer makes at home from ingredients (for example 'recipe for a natural shoe deodorant' or 'for an effective natural shoe deodorant you only need a few ingredients'), rather than a product that the shop sells?"
+    text_cs: "Je věta (pole sentence) součástí receptu nebo návodu „udělej si sám“, tedy popisuje něco, co si zákazník vyrobí doma ze surovin (například „recept na přírodní deodorant do bot“ nebo „na účinný přírodní deodorant do bot vám stačí pár surovin“), a ne produkt, který obchod prodává?"
+
+  # Environmentální tvrzení je i vyjádření, které přínos jen naznačuje (§ 2 písm. n) zákona č. 108/2024 Z. z.). Slovo, které
+  # popisuje jen zákazníky nebo cílovou skupinu („pre ekologicky zmýšľajúcich zákazníkov“), výrobek přímo neoznačuje; zda
+  # přínos naznačuje, záleží na vnímání spotřebitele, proto k posouzení. Samostatná otázka (měřeno 30. 9. 2026).
+  eco_audience:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) use the environmental word only to describe the people the product is meant for, their values or their lifestyle (for example 'for eco-minded customers', 'for everyone who cares about nature', 'for lovers of a sustainable lifestyle'), and not to say directly that this product, its packaging, its delivery or the company is ecological, green, sustainable or good for the environment? Answer no if the sentence also says directly that this product, its packaging, its delivery or the company is ecological, green, sustainable or good for the environment, or if the sentence contains no environmental word."
+    text_cs: "Používá věta (pole sentence) environmentální slovo jen k popisu lidí, pro které je produkt určený, jejich hodnot nebo životního stylu (například „pro ekologicky smýšlející zákazníky“, „pro všechny, kterým záleží na přírodě“, „pro milovníky udržitelného životního stylu“), a neříká přímo, že tento produkt, jeho obal, doprava nebo firma je ekologická, zelená, udržitelná nebo prospěšná pro životní prostředí? Pokud věta zároveň přímo říká, že tento produkt, jeho obal, doprava nebo firma je ekologická, zelená, udržitelná nebo prospěšná pro životní prostředí, nebo pokud žádné environmentální slovo neobsahuje, odpověz ne."
+
+rules:
+  - id: eco_generic_claim
+    title: "Obecné environmentální tvrzení bez upřesnění"
+    scope: segment
+    logic:
+      all: [{q: eco_claim, gte: 0.5}, {q: eco_generic, gte: 0.5}, {q: eco_explicit_term, gte: 0.5}]
+      # Biopotraviny (Q&A Komise, otázka 14); „udržitelný“ a tvrzení o klimatu mají vlastní pravidla; slovo jen o zákaznících
+      # řeší eco_generic_claim_implied.
+      none: [{q: eco_organic_food, gte: 0.5}, {q: eco_sustainable_term, gte: 0.5}, {q: eco_neutral, gte: 0.5}, {q: eco_other_subject, gte: 0.5}, {q: eco_diy, gte: 0.5}, {q: eco_audience, gte: 0.5}]
+    code_checks: [{type: allowlist_absent, list: excellent_performance_labels, where: page}]
+    bands: {high: 0.85, review: 0.5}
+    severity: high
+    checkability: text
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
+    explanation: "Věta používá výraz, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (například „ekologický“, „šetrný k životnímu prostředí“, „zelený“, „přátelský k přírodě“), nebo přímo tvrdí přínos pro životní prostředí, přírodu či klima. Bez upřesnění jasně a výrazně přímo u tvrzení je zakázané, pokud obchodník neprokáže uznaný vynikající environmentální profil relevantní pro tvrzení (ekoznačka EU nebo úředně uznaná ekoznačka typu I). Certifikované biopotraviny smí „bio“ a „eko“ používat."
+    explanation_by_jurisdiction:
+      cz: "V Česku zatím výslovný zákaz obecných environmentálních tvrzení v zákoně není: směrnice (EU) 2024/825 se má převzít novelou zákona o ochraně spotřebitele (sněmovní tisk 53), která k 25. 9. 2026 nebyla schválena. Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb., pokud uvádí spotřebitele v omyl. Po převzetí směrnice bude obecné tvrzení bez uznaného vynikajícího environmentálního profilu zakázané vždy."
+    recommendation: "Tvrzení odstraňte, nebo ho nahraďte konkrétním a doložitelným údajem přímo u něj."
+
+  - id: eco_generic_claim_open
+    title: "Možné obecné environmentální tvrzení (posuzuje se případ od případu)"
+    scope: segment
+    logic:
+      all: [{q: eco_claim, gte: 0.5}, {q: eco_generic, gte: 0.5}]
+      none: [{q: eco_organic_food, gte: 0.5}, {q: eco_sustainable_term, gte: 0.5}, {q: eco_neutral, gte: 0.5}, {q: eco_explicit_term, gte: 0.5}, {q: eco_other_subject, gte: 0.5}, {q: eco_diy, gte: 0.5}]
+    code_checks: [{type: allowlist_absent, list: excellent_performance_labels, where: page}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: assess
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 2 písm. o) a p) a příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 3 a 14", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
+    explanation: "Věta používá slovo, které zákon ani odůvodnění 9 směrnice (EU) 2024/825 mezi příklady obecných environmentálních tvrzení neuvádí, například „prírodný“, „bio“ u výrobku, který není potravinou, nebo „šetrný“ bez zmínky o přírodě. Environmentálním tvrzením je, jen pokud u průměrného spotřebitele vyvolá dojem přínosu pro životní prostředí; Komise to posuzuje případ od případu (otázky a odpovědi č. 3 u názvů výrobků a značek, č. 14 u „bio“ a „eco“). Pokud takový dojem vyvolá a přímo u něj není upřesnění, jde o zakázané obecné tvrzení."
+    explanation_by_jurisdiction:
+      cz: "V Česku zatím výslovný zákaz obecných environmentálních tvrzení v zákoně není: směrnice (EU) 2024/825 se má převzít novelou zákona o ochraně spotřebitele (sněmovní tisk 53), která k 25. 9. 2026 nebyla schválena. Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb., pokud uvádí spotřebitele v omyl. Po převzetí směrnice bude obecné tvrzení bez uznaného vynikajícího environmentálního profilu zakázané vždy."
+    recommendation: "Posuďte, zda výraz v kontextu stránky působí jako slib přínosu pro přírodu. Pokud ano, doplňte přímo k němu konkrétní doložitelný údaj, nebo ho odstraňte."
+
+  - id: eco_generic_claim_implied
+    title: "Environmentální slovo o zákaznících nebo cílové skupině (naznačené tvrzení)"
+    scope: segment
+    logic:
+      all: [{q: eco_claim, gte: 0.5}, {q: eco_generic, gte: 0.5}, {q: eco_audience, gte: 0.5}]
+      any: [{q: eco_explicit_term, gte: 0.5}, {q: eco_sustainable_term, gte: 0.5}]
+      none: [{q: eco_organic_food, gte: 0.5}, {q: eco_neutral, gte: 0.5}, {q: eco_other_subject, gte: 0.5}, {q: eco_diy, gte: 0.5}]
+    code_checks: [{type: allowlist_absent, list: excellent_performance_labels, where: page}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: assess
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 2 písm. o) a p) a příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 2 písm. n) a príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
+    explanation: "Environmentální slovo tu popisuje zákazníky, pro které je výrobek určený (například „pre ekologicky zmýšľajúcich zákazníkov“, „pre milovníkov prírody“), ne výrobek nebo firmu. Environmentálním tvrzením je i vyjádření, které přínos pro životní prostředí jen naznačuje (§ 2 písm. n) zákona č. 108/2024 Z. z.). Zda to tato věta naznačuje, záleží na tom, jak ji chápe průměrný spotřebitel; z textu zákona to rozhodnout nejde. Pokud ano a přímo u věty není upřesnění, jde o zakázané obecné tvrzení."
+    explanation_by_jurisdiction:
+      cz: "V Česku zatím výslovný zákaz obecných environmentálních tvrzení v zákoně není: směrnice (EU) 2024/825 se má převzít novelou zákona o ochraně spotřebitele (sněmovní tisk 53). Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb., pokud uvádí spotřebitele v omyl."
+    recommendation: "Posuďte, zda věta slibuje přínos výrobku pro přírodu. Pokud ano, doplňte přímo k ní konkrétní doložitelný fakt (například „rukoväť kefky je z bambusu namiesto plastu“), nebo ji napište bez environmentálního slova."
+
+  - id: eco_sustainable_claim
+    title: "„Udržitelný“ nebo „odpovědný“ bez upřesnění"
+    scope: segment
+    logic:
+      all: [{q: eco_sustainable_term, gte: 0.5}, {q: eco_generic, gte: 0.5}]
+      none: [{q: eco_other_subject, gte: 0.5}, {q: eco_diy, gte: 0.5}, {q: eco_audience, gte: 0.5}]
+    # Bez výjimky pro ekoznačku: odůvodnění 10 směrnice (EU) 2024/825.
+    bands: {high: 0.85, review: 0.5}
+    severity: high
+    checkability: text
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 10", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
+    explanation: "Tvrzení „udržitelný“, „odpovědný“ nebo „uvědomělý“ se kromě životního prostředí týkají i sociálních znaků, proto je podle odůvodnění směrnice EmpCo nelze opřít jen o ekoznačku. Bez jasného upřesnění přímo u tvrzení jde o zakázané obecné tvrzení."
+    explanation_by_jurisdiction:
+      cz: "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Podle směrnice EmpCo se „udržitelný“ nebo „odpovědný“ týká i sociálních znaků a nelze ho opřít jen o ekoznačku."
+    recommendation: "Tvrzení odstraňte, nebo přímo u něj uveďte, v čem konkrétně a doložitelně je produkt udržitelný."
+
+  - id: eco_neutrality
+    title: "Klimatické tvrzení o produktu založené na kompenzacích"
+    scope: segment
+    logic:
+      all: [{q: eco_neutral, gte: 0.5}, {q: eco_offset_basis, gte: 0.5}]
+      none: [{q: eco_company_level, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: high
+    checkability: text
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4c, ve znění směrnice (EU) 2024/825; odůvodnění 12", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 8, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
+    explanation: "Tvrzení, že produkt (zboží nebo služba, například doprava) má neutrální, snížený nebo pozitivní dopad na klima, je zakázané vždy, pokud stojí na kompenzaci emisí mimo hodnotový řetězec produktu. Povolené je jen tvrzení založené na skutečném snížení emisí během životního cyklu produktu."
+    explanation_by_jurisdiction:
+      cz: "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Po převzetí směrnice EmpCo bude tvrzení o klimatu produktu založené na kompenzacích zakázané vždy."
+    recommendation: "Tvrzení odstraňte. O podpoře klimatických projektů můžete informovat, ale ne jako o vlastnosti produktu."
+
+  - id: eco_climate_claim_unsupported
+    title: "Tvrzení o klimatu bez uvedeného základu"
+    scope: segment
+    logic:
+      all: [{q: eco_neutral, gte: 0.5}]
+      none: [{q: eco_offset_basis, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: high
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I body 4a a 4c, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázka 6", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 body 6 a 8, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
+    explanation: "Obecná tvrzení jako „klimaticky neutrální“ nebo „uhlíkově neutrální“ jsou obecná environmentální tvrzení a bez uznaného vynikajícího environmentálního profilu jsou zakázaná; pokud stojí na kompenzacích emisí, jsou u produktu zakázaná vždy. Povolené je jen tvrzení opřené o skutečné snížení emisí během životního cyklu, jasně upřesněné přímo u něj."
+    explanation_by_jurisdiction:
+      cz: "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Podle směrnice EmpCo jsou obecná tvrzení o klimatické neutralitě bez uznaného vynikajícího environmentálního profilu zakázaná a tvrzení o produktu založená na kompenzacích zakázaná vždy."
+    recommendation: "Ověřte, na čem tvrzení stojí. Pokud na kompenzacích, odstraňte ho; pokud na snížení emisí během životního cyklu, uveďte přímo u něj konkrétní a doložitelný údaj."
+
+  - id: eco_company_climate_claim
+    title: "Tvrzení o klimatické neutralitě firmy založené na kompenzacích"
+    scope: segment
+    logic:
+      all: [{q: eco_neutral, gte: 0.5}, {q: eco_offset_basis, gte: 0.5}, {q: eco_company_level, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 10", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
+    explanation: "Zákaz tvrzení založených na kompenzacích (bod 4c) se týká produktů. Tvrzení, že je klimaticky neutrální celá firma, je ale obecné environmentální tvrzení a bez uznaného vynikajícího environmentálního profilu je zakázané. Investice do klimatických projektů smí firma propagovat, pokud to nepůsobí klamavě."
+    explanation_by_jurisdiction:
+      cz: "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Podle směrnice EmpCo je tvrzení o klimatické neutralitě celé firmy obecné environmentální tvrzení."
+    recommendation: "Místo neutrality uveďte, co firma skutečně dělá (například kolik emisí snížila a jak), a podporu projektů popište odděleně od vlastností produktů."
+
+  - id: eco_label_unrecognized
+    title: "Jmenovaná značka udržitelnosti mimo seznam ověřených"
+    scope: segment
+    logic:
+      any: [{q: eco_label, gte: 0.5}, {q: eco_social_label, gte: 0.5}]
+      all: [{q: eco_named_label, gte: 0.5}]
+      # Certifikace ekologického zemědělství je systém zavedený orgánem veřejné moci (nařízení (EU) 2018/848).
+      none: [{q: eco_organic_food, gte: 0.5}]
+    # Poznámky ke značkám z rešerše (config/labels.yaml, label_notes): proč značka podmínky nesplňuje nebo je neověřená.
+    code_checks: [{type: allowlist_absent, list: sustainability_labels, where: segment}, {type: label_notes}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. b) zákona č. 634/1992 Sb. (neoprávněné užívání značky jakosti); zákaz podle bodu 2a přinese novela podle sněmovního tisku 53", status: "ověřit"}
+    explanation: "Značka udržitelnosti (environmentální i sociální, například férový obchod) je zakázaná, pokud nevychází z certifikačního systému s nezávislým ověřováním nebo ji nezavedl orgán veřejné moci. Věta jmenuje značku, která není na seznamu ověřených; zda podmínky splňuje, se z webu zjistit nedá."
+    explanation_by_jurisdiction:
+      cz: "V Česku zatím platí jen obecný zákaz neoprávněného užívání značky jakosti (příloha č. 1 písm. b) zákona č. 634/1992 Sb.) a klamavého konání (§ 5); výslovný zákaz značek udržitelnosti bez certifikačního systému přinese novela podle sněmovního tisku 53."
+    recommendation: "Ověřte, zda značka vychází z certifikačního systému s nezávislým ověřováním nebo ji zavedl úřad. Pokud ne, odstraňte ji."
+
+  - id: eco_label_generic_term
+    title: "Odznak nebo značka s obecným environmentálním výrazem"
+    scope: segment
+    logic:
+      all: [{q: eco_label, gte: 0.5}, {q: eco_explicit_term, gte: 0.5}]
+      # Věta s obecným tvrzením je tvrzení ve větě, ne odznak (otázka eco_generic); hlásí ji pravidla obecných tvrzení.
+      none: [{q: eco_named_label, gte: 0.5}, {q: eco_organic_food, gte: 0.5}, {q: eco_generic, gte: 0.5}, {q: eco_other_subject, gte: 0.5}, {q: eco_diy, gte: 0.5}]
+    code_checks: [{type: allowlist_absent, list: sustainability_labels, where: segment}, {type: allowlist_absent, list: excellent_performance_labels, where: page}]
+    bands: {high: 0.85, review: 0.5}
+    severity: high
+    checkability: text
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)", status: "ověřit"}
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. b) zákona č. 634/1992 Sb. (neoprávněné užívání značky jakosti); zákaz podle bodu 2a přinese novela podle sněmovního tisku 53", status: "ověřit"}
+    explanation: "Odznak nebo značka bez vlastního názvu certifikačního systému (například „Eco“ nebo „Green“ u výrobku) je značkou udržitelnosti, která nevychází z certifikačního systému (bod 3), a zároveň výrazem, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (bod 6). Je zakázaná, pokud výrobek nemá ekoznačku EU nebo úředně uznanou ekoznačku typu I."
+    explanation_by_jurisdiction:
+      cz: "V Česku zatím platí jen obecný zákaz neoprávněného užívání značky jakosti (příloha č. 1 písm. b) zákona č. 634/1992 Sb.) a klamavého konání (§ 5); výslovný zákaz značek udržitelnosti bez certifikačního systému přinese novela podle sněmovního tisku 53."
+    recommendation: "Odznak odstraňte, nebo ho nahraďte skutečnou certifikovanou značkou, kterou výrobek má."
+
+  - id: eco_label_open
+    title: "Odznak nebo symbol, který může působit jako značka udržitelnosti"
+    scope: segment
+    logic:
+      any: [{q: eco_label, gte: 0.5}, {q: eco_social_label, gte: 0.5}]
+      none: [{q: eco_named_label, gte: 0.5}, {q: eco_explicit_term, gte: 0.5}, {q: eco_organic_food, gte: 0.5}, {q: eco_generic, gte: 0.5}, {q: eco_other_subject, gte: 0.5}, {q: eco_diy, gte: 0.5}]
+    code_checks: [{type: allowlist_absent, list: sustainability_labels, where: segment}, {type: label_notes}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: assess
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 2 písm. r) a příloha I bod 2a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 5, 14 a 15", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. b) zákona č. 634/1992 Sb. (neoprávněné užívání značky jakosti); zákaz podle bodu 2a přinese novela podle sněmovního tisku 53", status: "ověřit"}
+    explanation: "Odznak bez vlastního názvu certifikačního systému a bez environmentálního výrazu (například „Vegan“, „Vegetarian“, „GMO free“, „BIO“ u výrobku, který není potravinou, nebo zelený lístek) je značkou udržitelnosti, jen pokud jím obchodník naznačuje přínos pro životní prostředí nebo sociální přínos, například pro dobré životní podmínky zvířat. Komise to posuzuje případ od případu podle kontextu a vnímání průměrného spotřebitele (otázky a odpovědi č. 5, 14 a 15). Pokud je značkou udržitelnosti, musí vycházet z certifikačního systému."
+    explanation_by_jurisdiction:
+      cz: "V Česku zatím platí jen obecný zákaz neoprávněného užívání značky jakosti (příloha č. 1 písm. b) zákona č. 634/1992 Sb.) a klamavého konání (§ 5); výslovný zákaz značek udržitelnosti bez certifikačního systému přinese novela podle sněmovního tisku 53."
+    recommendation: "Posuďte, zda odznak v kontextu obchodu působí jako slib přínosu pro přírodu nebo zvířata. Pokud ano, používejte ho jen s certifikací; jde-li jen o údaj o složení nebo o vhodnosti pro určitou stravu, přínos nenaznačujte."
+
+  - id: eco_part_as_whole
+    title: "Tvrzení o celém produktu, ačkoli se týká jen části"
+    scope: segment
+    logic:
+      # Bod 7 předpokládá environmentální tvrzení; jen „přírodní“ a podobná slova hlásí k posouzení eco_generic_claim_open.
+      all: [{q: eco_claim, gte: 0.5}, {q: eco_whole_claim, gte: 0.5}, {q: eco_part_benefit, gte: 0.5}, {q: eco_explicit_term, gte: 0.5}]
+      # Certifikovaná biopotravina je „bio“ celá; u biopotravin má přednost nařízení (EU) 2018/848 (Q&A Komise, otázka 14).
+      none: [{q: eco_organic_food, gte: 0.5}, {q: eco_other_subject, gte: 0.5}, {q: eco_diy, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: text
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4b, ve znění směrnice (EU) 2024/825", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 7, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
+    explanation: "Environmentální tvrzení o celém produktu nebo celé firmě je zakázané, pokud se týká jen určitého aspektu, například obalu."
+    explanation_by_jurisdiction:
+      cz: "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Po převzetí směrnice EmpCo bude tvrzení o celém produktu, které se týká jen jeho části, zakázané vždy."
+    recommendation: "Upřesněte, které části se výhoda týká, například jen obalu."
+
+  - id: eco_future_claim
+    title: "Budoucí environmentální závazek k ověření"
+    scope: segment
+    logic:
+      all: [{q: eco_future_claim, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 6 odst. 2 písm. d), ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 12", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. d), ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovné pravidlo přinese novela podle sněmovního tisku 53", status: "ověřit"}
+    explanation: "Tvrzení o budoucím environmentálním výkonu (například „klimaticky neutrální do roku 2030“) je klamavé, pokud za ním nestojí jasné, veřejně dostupné a ověřitelné závazky v podrobném a realistickém prováděcím plánu s měřitelnými cíli, který pravidelně ověřuje nezávislý odborník. Posuzuje se případ od případu."
+    explanation_by_jurisdiction:
+      cz: "V Česku zatím výslovné pravidlo pro budoucí environmentální tvrzení v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb."
+    recommendation: "Ověřte, že k závazku existuje veřejný prováděcí plán s měřitelnými cíli a nezávislým ověřováním, a odkažte na něj přímo u tvrzení; jinak tvrzení odstraňte."

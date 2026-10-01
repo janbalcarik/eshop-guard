@@ -1,0 +1,435 @@
+02024R3190 — CS — 23.02.2026 — 001.001
+
+Tento dokument slouží výhradně k informačním účelům a nemá žádný právní účinek. Orgány a instituce Evropské unie nenesou za jeho obsah žádnou odpovědnost. Závazná znění příslušných právních předpisů, včetně jejich právních východisek a odůvodnění, jsou zveřejněna v Úředním věstníku Evropské unie a jsou k dispozici v databázi EUR-Lex. Tato úřední znění jsou přímo dostupná přes odkazy uvedené v tomto dokumentu
+
+►B NAŘÍZENÍ KOMISE (EU) 2024/3190 ze dne 19. prosince 2024 o používání bisfenolu A (BPA) a jiných bisfenolů a derivátů bisfenolů s harmonizovanou klasifikací ohledně specifických nebezpečných vlastností v některých materiálech a předmětech určených pro styk s potravinami, o změně nařízení (EU) č. 10/2011 a zrušení nařízení (EU) 2018/213 (Text s významem pro EHP) (Úř. věst. L 3190 31.12.2024, s. 1)
+
+Ve znění:
+
+Úřední věstník
+
+Č. Strana Datum
+
+►M1 NAŘÍZENÍ KOMISE (EU) 2026/250 ze dne 2. února 2026, L 250 1 3.2.2026
+
+▼B
+
+NAŘÍZENÍ KOMISE (EU) 2024/3190
+
+ze dne 19. prosince 2024
+
+o používání bisfenolu A (BPA) a jiných bisfenolů a derivátů bisfenolů s harmonizovanou klasifikací ohledně specifických nebezpečných vlastností v některých materiálech a předmětech určených pro styk s potravinami, o změně nařízení (EU) č. 10/2011 a zrušení nařízení (EU) 2018/213
+
+(Text s významem pro EHP)
+
+Článek 1
+
+Předmět a oblast působnosti
+
+1.
+
+Toto nařízení je zvláštním opatřením ve smyslu článku 5 nařízení (ES) č. 1935/2004.
+
+2.
+
+Toto nařízení stanoví zvláštní požadavky týkající se 4,4’-isopropylidendifenolu (dále jen „bisfenol A“ nebo „BPA“) (č. CAS 80-05-7) a jeho solí, jakož i dalších nebezpečných bisfenolů a derivátů nebezpečných bisfenolů, pokud jde o jejich použití při výrobě těchto skupin materiálů a předmětů určených pro styk s potravinami spadajících do oblasti působnosti čl. 1 odst. 2 nařízení (ES) č. 1935/2004, které se uvádějí na trh Unie:
+
+a)
+
+adhezivní látky;
+
+b)
+
+pryže;
+
+c)
+
+iontoměničové pryskyřice;
+
+d)
+
+plasty;
+
+e)
+
+tiskařské barvy;
+
+f)
+
+silikony a
+
+g)
+
+laky a nátěrové hmoty.
+
+3.
+
+Toto nařízení rovněž stanoví zvláštní požadavky na obsah BPA v materiálech a předmětech určených pro styk s potravinami, které byly vyrobeny za použití jiného bisfenolu nebo derivátu bisfenolu.
+
+Článek 2
+
+Definice
+
+1.
+
+Pro účely tohoto nařízení se použijí definice uvedené v článku 3 nařízení (EU) č. 10/2011.
+
+2.
+
+Pro účely tohoto nařízení se dále použijí tyto definice:
+
+a)
+
+„konečnými předměty určenými pro styk s potravinami“ se rozumí výrobky složené z jednoho nebo několika materiálů a předmětů určených pro styk s potravinami a spadajících do oblasti působnosti čl. 1 odst. 2 nařízení (ES) č. 1935/2004, které jsou v konečném stavu pro konečné použití, aniž by prošly jakýmkoli dalším chemickým, biologickým nebo fyzikálním zpracováním nebo úpravou, s výjimkou jejich dalšího zpracování nebo úpravy pro plnění potravinami, aby mohly být použity v obalech na jedno použití, včetně procesu uzavírání;
+
+b)
+
+„meziprodukty určenými pro styk s potravinami“ se rozumí materiály, které jsou určeny k dalšímu chemickému, biologickému nebo fyzikálnímu zpracování nebo úpravě, aby se staly úplným konečným předmětem určeným pro styk s potravinami nebo jeho částí, kromě dalšího zpracování nebo úpravy pro plnění potravinami, aby mohly být použity v obalech na jedno použití, včetně procesu uzavírání;
+
+c)
+
+„bisfenolem“ se rozumí látka sestávající ze dvou hydroxyfenylových funkčních skupin spojených jedním můstkovým atomem v souladu se strukturou A stanovenou v příloze I, která zahrnuje i solnou formu bisfenolu. K můstkovému atomu mohou být připojeny další skupiny;
+
+d)
+
+„derivátem bisfenolu“ se rozumí látka označená obecnou strukturou B stanovenou v příloze I, s výjimkou solné formy bisfenolu;
+
+e)
+
+„nebezpečným bisfenolem nebo derivátem nebezpečného bisfenolu“ se rozumí bisfenol nebo derivát bisfenolu uvedený v části 3 přílohy VI nařízení (ES) č. 1272/2008 z důvodu jejich harmonizované klasifikace jakožto látek „mutagenních“, „karcinogenních“, „toxických pro reprodukci“ kategorie 1 A nebo 1B nebo „endokrinních disruptorů pro lidské zdraví“ kategorie 1.
+
+▼M1
+
+Článek 3
+
+Zákaz používání BPA
+
+1.
+
+Používání BPA při výrobě materiálů a předmětů určených pro styk s potravinami uvedených v čl. 1 odst. 2 a uvádění materiálů a předmětů určených pro styk s potravinami vyrobených za použití BPA na trh Unie je zakázáno.
+
+2.
+
+Odchylně od odstavce 1 lze BPA použít při výrobě materiálů a předmětů určených pro styk s potravinami pro specifické použití a uvádění těchto materiálů a předmětů určených pro styk s potravinami na trh Unie je povoleno v souladu s přílohou II, s výhradou omezení stanovených v uvedené příloze.
+
+▼B
+
+Článek 4
+
+Zákaz přítomnosti BPA v materiálech a předmětech určených pro styk s potravinami, při jejichž výrobě se používají jiné bisfenoly nebo deriváty bisfenolů
+
+Materiály a předměty určené pro styk s potravinami, které byly vyrobeny za použití jiného bisfenolu nebo derivátu bisfenolu, nesmějí obsahovat žádný zbytkový BPA.
+
+Článek 5
+
+Zákaz používání nebezpečných bisfenolů jiných než BPA nebo derivátů nebezpečných bisfenolů
+
+1.
+
+Používání nebezpečných bisfenolů jiných než BPA nebo derivátů nebezpečných bisfenolů při výrobě materiálů a předmětů určených pro styk s potravinami uvedených v čl. 1 odst. 2 a uvádění materiálů a předmětů určených pro styk s potravinami vyrobených za použití nebezpečných bisfenolů jiných než BPA nebo derivátů nebezpečných bisfenolů na trh je zakázáno.
+
+2.
+
+Odchylně od odstavce 1 smí být při výrobě materiálů a předmětů určených pro styk s potravinami pro specifické použití použit nebezpečný bisfenol jiný než BPA nebo deriváty nebezpečných bisfenolů a uvedené materiály a předměty určené pro styk s potravinami smějí být uvedeny na trh, pokud bylo zmíněné použití povoleno v souladu s článkem 6 a je stanoveno v příloze II.
+
+3.
+
+Odchylně od odstavce 1 smí být nebezpečný bisfenol jiný než BPA nebo derivát nebezpečného bisfenolu, jehož použití nebylo povoleno v souladu s článkem 6 a stanoveno v příloze II, použit při výrobě materiálů a předmětů určených pro styk s potravinami pro specifické použití a uvedení těchto materiálů a předmětů určených pro styk s potravinami na trh je povoleno, pokud jsou splněny tyto podmínky:
+
+a)
+
+již byl použit při výrobě stejných materiálů a předmětů určených pro styk s potravinami pro toto specifické použití k jednomu z těchto dat:
+
+i)
+
+buď datum, kdy Evropský úřad pro bezpečnost potravin (dále jen „úřad“) zveřejní informace uvedené v čl. 6 odst. 4 pro nebezpečné bisfenoly a deriváty bisfenolů, pro které se k tomuto datu uplatní harmonizovaná klasifikace, nebo
+
+ii)
+
+jakmile úřad zveřejní informace uvedené v čl. 6 odst. 4, datum, kdy se harmonizovaná klasifikace uplatní pro nebezpečný bisfenol nebo derivát nebezpečného bisfenolu uvedený v části 3 přílohy VI nařízení (ES) č. 1272/2008, a
+
+b)
+
+žádost uvedená v čl. 6 odst. 1 je podána do devíti měsíců od jednoho z těchto dat:
+
+i)
+
+buď datum, kdy úřad zveřejní informace uvedené v čl. 6 odst. 4 pro nebezpečné bisfenoly a deriváty bisfenolů, pro které se k tomuto datu uplatní harmonizovaná klasifikace, nebo
+
+ii)
+
+jakmile úřad zveřejní informace uvedené v čl. 6 odst. 4, datum, kdy se harmonizovaná klasifikace uplatní pro nebezpečný bisfenol nebo derivát nebezpečného bisfenolu uvedený v části 3 přílohy VI nařízení (ES) č. 1272/2008, a
+
+c)
+
+materiály a předměty určené pro styk s potravinami jsou v souladu s pravidly platnými před datem vstupu tohoto nařízení v platnost a
+
+d)
+
+Komise nepřijala rozhodnutí o žádosti podle čl. 6 odst. 3.
+
+Článek 6
+
+Povolení pro použití nebezpečných bisfenolů jiných než BPA nebo derivátů nebezpečných bisfenolů při výrobě materiálů a předmětů určených pro styk s potravinami pro specifické použití
+
+1.
+
+Za účelem získání povolení pro použití nebezpečného bisfenolu jiného než BPA nebo derivátu nebezpečného bisfenolu při výrobě materiálu nebo předmětu určeného pro styk s potravinami pro specifické použití se podá žádost v souladu s článkem 9 nařízení (ES) č. 1935/2004.
+
+2.
+
+V souladu s článkem 10 nařízení (ES) č. 1935/2004 vydá úřad stanovisko k použití nebezpečného bisfenolu nebo derivátu nebezpečného bisfenolu při výrobě materiálu nebo předmětu určeného pro styk s potravinami pro specifické použití, pro které byla podána platná žádost v souladu s článkem 9 nařízení (ES) č. 1935/2004. V případě, že úřad obdrží několik žádostí týkajících se téhož nebezpečného bisfenolu nebo derivátu nebezpečného bisfenolu, může zveřejnit jediné stanovisko týkající se tohoto nebezpečného bisfenolu nebo derivátu nebezpečného bisfenolu.
+
+3.
+
+Komise poté přijme zvláštní opatření v souladu s článkem 11 nařízení (ES) č. 1935/2004, jehož prostřednictvím buď povolí, případně s výhradou omezení, nebo nepovolí použití daného nebezpečného bisfenolu nebo derivátu nebezpečného bisfenolu pro výrobu materiálu nebo předmětu určeného pro styk s potravinami pro specifické použití. Pokud je povolení uděleno, nebezpečný bisfenol nebo derivát nebezpečného bisfenolu se odpovídajícím způsobem zařadí do přílohy II tohoto nařízení.
+
+4.
+
+Pro účely odstavce 1 a přede dnem 20. ledna 2027 zveřejní úřad vědecký výstup, v němž podrobně uvede informace nezbytné pro posouzení použití nebezpečných bisfenolů nebo derivátů nebezpečných bisfenolů při výrobě materiálů a předmětů určených pro styk s potravinami pro specifické použití, přičemž v případě potřeby doplní nebo aktualizuje podrobné pokyny uvedené v čl. 9 odst. 2 nařízení (ES) č. 1935/2004. Úřad a Evropská agentura pro chemické látky za tímto účelem vzájemně spolupracují.
+
+5.
+
+Provozovatelé podniků, kteří používají bisfenoly nebo deriváty bisfenolů při výrobě materiálů a předmětů určených pro styk s potravinami, poskytnou na žádost úřadu údaje o používání bisfenolů a derivátů bisfenolů při výrobě materiálů a předmětů určených pro styk s potravinami jako podklad pro přípravu informací uvedených v odstavci 4.
+
+Článek 7
+
+Oznamovací povinnosti týkající se alternativních látek k BPA, nebezpečným bisfenolům a derivátům nebezpečných bisfenolů uvedeným v příloze II
+
+1.
+
+Provozovatelé podniků používající BPA, jiné nebezpečné bisfenoly nebo deriváty nebezpečných bisfenolů uvedené na seznamu v příloze II poskytnou Komisi informace o statusu alternativních látek.
+
+Odchylně je toto podávání zpráv dobrovolné pro mikropodniky a malé a střední podniky podle definice v doporučení Komise ze dne 6. května 2003 ( 1 ).
+
+2.
+
+Informace uvedené v odstavci 1 se Komisi zpřístupní po čtyřech letech a nejpozději do pěti let od data, od kterého je používání nebezpečného bisfenolu nebo derivátu nebezpečného bisfenolu povoleno pro použití při výrobě materiálu nebo předmětu určeného pro styk s potravinami pro specifické použití. Tyto informace se aktualizují a zpřístupní Komisi po čtyřech letech a nejpozději do pěti let od předchozího data předložení, pokud zůstává v platnosti povolení pro použití nebezpečného bisfenolu nebo derivátu v konečném předmětu určeném pro styk s potravinami pro specifické použití.
+
+Článek 8
+
+Prohlášení o shodě a dokumentace
+
+1.
+
+Provozovatelé podniků zajistí, aby materiály a předměty určené pro styk s potravinami, na něž se vztahuje toto nařízení a které ještě nejsou ve styku s potravinami, jakož i bisfenoly a deriváty bisfenolů určené k použití jako monomery nebo jiné výchozí látky při výrobě uvedených materiálů a předmětů určených pro styk s potravinami byly ve všech fázích uvádění na trh kromě fáze maloobchodního prodeje doprovázeny písemným prohlášením podle čl. 16 odst. 1 nařízení (ES) č. 1935/2004, v němž se uvádí, že jsou v souladu s předpisy, které se na ně vztahují (dále jen „prohlášení o shodě“).
+
+2.
+
+Prohlášení o shodě musí obsahovat informace stanovené v příloze III.
+
+3.
+
+Musí být k dispozici odpovídající dokumentace, která tuto shodu dokládá. Uvedená dokumentace se neprodleně zpřístupní příslušným orgánům na jejich žádost.
+
+Článek 9
+
+Ověření souladu s požadavky tohoto nařízení
+
+1.
+
+Pro ověření souladu s požadavky tohoto nařízení se zvolí vhodné zkušební metody v souladu s článkem 34 nařízení Evropského parlamentu a Rady (EU) 2017/625 ( 2 ).
+
+▼M1
+
+2.
+
+Pro výběr metod používaných k ověření toho, zda materiál nebo předmět určený pro styk s potravinami neobsahuje zbytkový BPA, jiný nebezpečný bisfenol nebo derivát nebezpečného bisfenolu nebo neuvolňuje tyto látky do potravin nad stanovenou mez detekce nebo specifický migrační limit, platí tato dodatečná pravidla:
+
+a)
+
+pokud referenční laboratoř Evropské unie pro materiály určené pro styk s potravinami vyvinula nebo doporučila nějakou metodu, použije se uvedená metoda;
+
+b)
+
+metoda musí mít mez detekce 1 μg/kg, pokud není jiná mez detekce stanovena v příloze II, nebo jako součást metody doporučené v souladu s písmenem a);
+
+c)
+
+k ověření, zda materiál nebo předmět určený pro styk s potravinami neobsahuje zbytkový BPA, jiný nebezpečný bisfenol nebo derivát nebezpečného bisfenolu, se použije extrakční metoda.
+
+▼B
+
+3.
+
+Referenční laboratoř Evropské unie pro materiály určené pro styk s potravinami konzultuje národní referenční laboratoře a příslušné zúčastněné strany s cílem určit možné metody pro účely odstavce 2. Pokud dospěje k závěru, že na úrovni Unie neexistuje vhodná metoda pro konkrétní účel ověření uvedený v odstavci 2, dokončí vypracování takové metody ve lhůtě dohodnuté s Komisí.
+
+4.
+
+Pro účely ověření se stanovenou mezí detekce nebo specifickým migračním limitem se použijí tato pravidla:
+
+a)
+
+výsledky zkoušek se vyjádří v souladu s pravidly stanovenými v článku 17 nařízení (EU) č. 10/2011;
+
+b)
+
+soulad s migračním limitem se stanoví v souladu s článkem 18, přílohou III a kapitolami 1 a 2 přílohy V nařízení (EU) č. 10/2011;
+
+c)
+
+pokud k předvídatelnému kontaktu dojde za podmínek nepřetržitého průtoku, například v potrubí nebo filtračních sestavách, musí se doba zkoušení rovnat průměrné době setrvání potraviny v daném potrubí nebo filtrační sestavě.
+
+Článek 10
+
+Změna nařízení (EU) č. 10/2011
+
+Nařízení (EU) č. 10/2011 se mění takto:
+
+1)
+
+v článku 6 se doplňuje nový odstavec, který zní:
+
+„6.
+
+Odchylně od článku 5 se může 2,2-bis(4-hydroxyfenyl)propan (‚bisfenol A‘ nebo ‚BPA‘) (č. CAS 80-05-7) a jiné nebezpečné bisfenoly nebo deriváty nebezpečných bisfenolů, definované a zahrnuté do oblasti působnosti nařízení (EU) 2024/3190, používat pouze při výrobě materiálů a předmětů z plastů v souladu s uvedeným nařízením.“
+
+;
+
+2)
+
+v tabulce 1 přílohy I se zrušují položky týkající se látky č. 151 (2,2-bis(4-hydroxyfenyl)propan) a látky č. 154 (4,4’-sulfonyldifenol/bis(4-hydroxyfenyl)sulfon).
+
+▼M1
+
+Článek 11
+
+Přechodná ustanovení týkající se konečných předmětů na jedno použití určených pro styk s potravinami
+
+1.
+
+Konečné předměty na jedno použití určené pro styk s potravinami vyrobené za použití BPA a splňující pravidla platná před datem vstupu tohoto nařízení v platnost, které nejsou v souladu s pravidly stanovenými v tomto nařízení, smějí být poprvé uvedeny na trh do dne 20. července 2026.
+
+2.
+
+Odchylně od odstavce 1 smějí být do dne 20. ledna 2028 poprvé uvedeny na trh tyto konečné předměty na jedno použití určené pro styk s potravinami splňující pravidla platná před datem vstupu tohoto nařízení v platnost, které nejsou v souladu s pravidly stanovenými v tomto nařízení:
+
+a)
+
+konečné předměty na jedno použití určené pro styk s potravinami určené ke konzervaci těchto potravin:
+
+i)
+
+ovoce nebo zelenina, s výjimkou produktů definovaných v příloze I směrnice Rady 2001/112/ES ( 3 ), nebo
+
+ii)
+
+produkty rybolovu podle definice v nařízení Evropského parlamentu a Rady (ES) č. 853/2004 ( 4 );
+
+b)
+
+konečné předměty na jedno použití určené pro styk s potravinami, u nichž byly lak nebo nátěrová hmota vyrobené za použití BPA aplikovány pouze na vnější kovový povrch.
+
+3.
+
+Konečné předměty na jedno použití určené pro styk s potravinami poprvé uvedené na trh v souladu s odstavci 1 a 2 smějí být plněny potravinami a uzavírány během 12 měsíců po uplynutí příslušného přechodného období. Výsledné balené potraviny smějí být uváděny na trh až do vyčerpání zásob.
+
+▼B
+
+Článek 12
+
+Přechodná ustanovení týkající se konečných předmětů pro opakované použití určených pro styk s potravinami
+
+1.
+
+Konečné předměty pro opakované použití určené pro styk s potravinami vyrobené za použití BPA a splňující pravidla platná před datem vstupu tohoto nařízení v platnost, které nejsou v souladu s pravidly stanovenými v tomto nařízení, smějí být poprvé uvedeny na trh do dne 20. července 2026.
+
+2.
+
+Odchylně od odstavce 1 smějí být do dne 20. ledna 2028 poprvé uvedeny na trh konečné předměty pro opakované použití určené pro styk s potravinami, které se používají jako profesionální zařízení na výrobu potravin, splňující pravidla platná před datem vstupu tohoto nařízení v platnost, které nejsou v souladu s pravidly stanovenými v tomto nařízení.
+
+▼M1
+
+3.
+
+Konečné předměty pro opakované použití určené pro styk s potravinami, které byly poprvé uvedeny na trh v souladu s odstavcem 1, smějí zůstat na trhu do dne 20. července 2027. Konečné předměty pro opakované použití určené pro styk s potravinami, které byly poprvé uvedeny na trh v souladu s odstavcem 2, smějí zůstat na trhu do dne 20. ledna 2029.
+
+▼B
+
+Článek 13
+
+Zrušení
+
+Nařízení (EU) 2018/213 se zrušuje.
+
+Článek 14
+
+Vstup v platnost
+
+Toto nařízení vstupuje v platnost dvacátým dnem po vyhlášení v Úředním věstníku Evropské unie .
+
+Toto nařízení je závazné v celém rozsahu a přímo použitelné ve všech členských státech.
+
+PŘÍLOHA I
+
+Chemická struktura látek, na které se vztahuje definice „bisfenolu“ a „derivátu bisfenolu“, je tato:
+
+A) struktura bisfenolu B) struktura derivátu bisfenolu
+
+Poznámky: X označuje jakoukoli můstkovou skupinu, která odděluje oba fenylové kruhy jediným atomem, ale atom může mít jakýkoli substituent (jakékoli substituenty).
+
+R 1 až R 10 označuje jakýkoli substituent. Alespoň jeden ze substituentů není atom vodíku (H).
+
+PŘÍLOHA II
+
+Seznam Unie obsahující BPA a jiné nebezpečné bisfenoly a deriváty nebezpečných bisfenolů povolené pro použití při výrobě materiálů a předmětů určených pro styk s potravinami pro specifická použití
+
+Sloupec 1 (Č. látky – FCM): číslo látky – materiálu určeného pro styk s potravinami
+
+Sloupec 2 (Č. CAS): registrační číslo Chemical Abstracts Service (CAS)
+
+Sloupec 3 (Název látky): chemický název podle IUPAC
+
+Sloupec 4 (Typ materiálu): skupina materiálů a předmětů, na které se mohou vztahovat zvláštní opatření
+
+Sloupec 5 (Specifické použití): specifické vymezené použití dané látky, na které se odchylka vztahuje
+
+Sloupec 6 (Jiná omezení): jiná platná omezení
+
+1) 2) 3) 4) 5) 6)
+
+Č. látky – FCM Č. CAS Název látky Typ materiálu Specifické použití Jiná omezení
+
+151 80-05-7 4,4′-isopropylidendifenol (bisfenol A) Laky a nátěrové hmoty Pro použití jako monomer nebo výchozí látka při výrobě tekutých epoxidových pryskyřic, které se mají aplikovat na samonosné materiály nebo předměty určené pro styk s potravinami o objemu větším než 1 000 litrů Migrace do potravin nesmí být zjistitelná. Konečné předměty určené pro styk s potravinami se před prvním stykem s potravinami vyčistí a propláchnou.
+
+Plasty Pro použití jako monomer nebo výchozí látka při výrobě polysulfonových filtračních membránových sad Migrace do potravin nesmí být zjistitelná. Konečné předměty určené pro styk s potravinami se před prvním stykem s potravinami vyčistí a propláchnou.
+
+PŘÍLOHA III
+
+Prohlášení o shodě uvedené v článku 8 musí obsahovat tyto informace:
+
+1)
+
+totožnost a adresa, jakož i kontaktní údaje, včetně aktuálního telefonního čísla nebo e-mailové adresy provozovatele podniku vydávajícího prohlášení o shodě;
+
+2)
+
+totožnost a adresa, jakož i kontaktní údaje, včetně aktuálního telefonního čísla nebo e-mailové adresy provozovatele podniku, který daný materiál nebo předmět určený pro styk s potravinami vyrábí nebo dováží;
+
+▼M1
+
+3)
+
+identifikace meziproduktů určených pro styk s potravinami nebo konečných předmětů určených pro styk s potravinami;
+
+▼B
+
+4)
+
+datum prohlášení;
+
+5)
+
+seznam všech bisfenolů nebo derivátů bisfenolů použitých při výrobě daného materiálu nebo předmětu určeného pro styk s potravinami;
+
+6)
+
+prohlášení, že meziprodukt – materiál nebo předmět – určený pro styk s potravinami nebo konečný předmět určený pro styk s potravinami jsou v souladu s tímto nařízením a s požadavky stanovenými v článcích 3, 15 a 17 nařízení (ES) č. 1935/2004.
+
+( 1 ) Doporučení Komise ze dne 6. května 2003 o definici mikropodniků a malých a středních podniků (Úř. věst. L 124, 20.5.2003, s. 36, ELI: http://data.europa.eu/eli/reco/2003/361/oj ).
+
+( 2 ) Nařízení Evropského parlamentu a Rady (EU) 2017/625 ze dne 15. března 2017 o úředních kontrolách a jiných úředních činnostech prováděných s cílem zajistit uplatňování potravinového a krmivového práva a pravidel týkajících se zdraví zvířat a dobrých životních podmínek zvířat, zdraví rostlin a přípravků na ochranu rostlin (Úř. věst. L 95, 7.4.2017, s. 1, ELI: http://data.europa.eu/eli/reg/2017/625/oj ).
+
+( 3 ) Směrnice Rady 2001/112/ES ze dne 20. prosince 2001 o ovocných šťávách a některých podobných produktech určených k lidské spotřebě (Úř. věst. L 10, 12.1.2002, s. 58, ELI: http://data.europa.eu/eli/dir/2001/112/oj ).
+
+( 4 ) Nařízení Evropského parlamentu a Rady (ES) č. 853/2004 ze dne 29. dubna 2004, kterým se stanoví zvláštní hygienická pravidla pro potraviny živočišného původu (Úř. věst. L 139, 30.4.2004, s. 55, ELI: http://data.europa.eu/eli/reg/2004/853/oj ).

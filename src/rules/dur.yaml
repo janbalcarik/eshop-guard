@@ -1,0 +1,101 @@
+# Životnost, opravitelnost, spotřební materiál a aktualizace softwaru: nové body černé listiny podle směrnice (EU) 2024/825.
+# Primární trh je Slovensko: zákon č. 108/2024 Z. z. ve znění zákona č. 310/2025 Z. z., príloha č. 1 body 34, 36, 37, 38 a 39,
+# účinné od 27. 9. 2026 (čl. V, čl. I bod 53). EU: směrnice 2005/29/ES, příloha I body 23e, 23g, 23h, 23i a 23j.
+# Body 33 (23d) a 35 (23f) jsou o zamlčení a o skryté vlastnosti výrobku; z textu webu je nástroj neověří.
+# Všechny zákazy závisí na pravdivosti tvrzení, kterou z textu poznat nejde, proto jsou nálezy „k ověření“.
+# Ověřeno v podkladech 26. 9. 2026 (predpisy-sk/sk-310-2025-novela-empco.txt, predpisy-eu/eu-2005-29-ucpd-konsolidace-2026-09-27-cs.txt).
+# Životnost je podle § 617 písm. d) (text zákona č. 108/2024 Z. z. v podkladech) „schopnosť zachovať si pri bežnom používaní svoju
+# funkčnosť a výkonnosť“; trvanlivost při skladování a to, na jak dlouho vystačí balení nebo náplň, životností nejsou.
+# Návrh k odladění a právní kontrole, ne hotový výklad zákona. Věta jde Jevu jako objekt {sentence, context_before, context_after}.
+version: "dur-2026-09-30-draft3"
+module: dur
+applies_to: sentence
+jurisdictions: [sk]
+questions:
+  dur_lifetime_claim:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) state how long the product keeps working, or how much use it withstands, under normal use, for example a number of years, hours of operation, cycles, washes or kilometres ('lasts 10 years', 'service life of 50,000 hours', 'withstands 1,000 washes')? Answer no if it only states the length of a warranty or guarantee, only says how long a pack, a supply or one filling is enough for (for example 'the bottle lasts about two months', 'one filling lasts several hours'), only says how long the product keeps or stays usable when stored before it goes off (for example 'keeps three months in the fridge', 'keeps its quality for up to a year if stored dry', 'use within six months'), or gives no specific lifetime."
+    text_cs: "Uvádí věta (pole sentence), jak dlouho produkt při běžném používání funguje nebo jaké používání vydrží, například počet let, provozních hodin, cyklů, praní nebo kilometrů („vydrží 10 let“, „životnost 50 000 hodin“, „vydrží 1 000 praní“)? Pokud uvádí jen délku záruky, jen na jak dlouho vystačí balení, zásoba nebo jedna náplň (například „lahev vydrží asi dva měsíce“, „jedna náplň vydrží několik hodin“), jen jak dlouho se produkt při skladování uchová, než se zkazí (například „v lednici vydrží tři měsíce“, „při suchém skladování si zachová kvalitu až rok“, „spotřebujte do šesti měsíců“), nebo žádnou konkrétní životnost neuvádí, odpověz ne."
+  dur_repairable_claim:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) present the product as repairable, for example 'easy to repair', 'repairable', 'spare parts available for years' or 'replaceable battery'? Answer no if repair is not mentioned, if the sentence only describes a repair service of the shop, or if it only describes how to use, adjust or reset the product."
+    text_cs: "Prezentuje věta (pole sentence) produkt jako opravitelný, například „snadno opravitelný“, „lze opravit“, „náhradní díly dostupné roky“ nebo „vyměnitelná baterie“? Pokud opravu nezmiňuje, jen popisuje opravárenskou službu obchodu, nebo jen popisuje, jak produkt používat, nastavit nebo vrátit do výchozí polohy, odpověz ne."
+  dur_consumable_early:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) urge the customer to replace or refill a consumable part (for example ink, toner, a filter, a cartridge, a blade or a battery) at a fixed interval or before it is used up or worn out ('replace the filter every month', 'change the cartridge regularly even if it still works')? Answer no if it only explains how to replace the part or says to replace it when it is used up or worn out."
+    text_cs: "Nabádá věta (pole sentence) zákazníka, aby spotřební část (například inkoust, toner, filtr, kartuši, čepel nebo baterii) vyměnil nebo doplnil v pevném intervalu nebo dřív, než se spotřebuje či opotřebí („filtr měňte každý měsíc“, „kartuši měňte pravidelně, i když ještě funguje“)? Pokud jen vysvětluje, jak díl vyměnit, nebo říká, že se má vyměnit po spotřebování či opotřebení, odpověz ne."
+  dur_non_original_damage:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) claim or suggest that using consumables, spare parts or accessories not supplied by the original manufacturer will damage the product or impair how it works? Answer no if it only recommends original parts without claiming damage or impaired functioning."
+    text_cs: "Tvrdí nebo naznačuje věta (pole sentence), že použití spotřebního materiálu, náhradních dílů nebo příslušenství, které nedodal původní výrobce, produkt poškodí nebo zhorší jeho fungování? Pokud jen doporučuje originální díly a poškození ani zhoršení fungování netvrdí, odpověz ne."
+  dur_update_necessary:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) present a software or firmware update as necessary or required to keep the product working, safe or compliant? Answer no if updates are only mentioned as available or as bringing new features."
+    text_cs: "Prezentuje věta (pole sentence) aktualizaci softwaru nebo firmwaru jako nezbytnou nebo povinnou pro to, aby produkt dál fungoval, byl bezpečný nebo v souladu s požadavky? Pokud aktualizace zmiňuje jen jako dostupné nebo přinášející nové funkce, odpověz ne."
+
+rules:
+  - id: dur_lifetime_claim
+    title: "Tvrzení o životnosti výrobku k ověření (nové od 27. 9. 2026)"
+    scope: segment
+    logic:
+      all: [{q: dur_lifetime_claim, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23g, ve znění směrnice (EU) 2024/825", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 36, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: "ověřit"}
+    explanation: "Nepravdivé tvrzení, že zboží má za běžných podmínek používání určitou životnost (dobu nebo intenzitu používání), je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Z textu nelze poznat, zda je tvrzení pravdivé, proto jde o nález k ověření."
+    recommendation: "Ověřte, že údaj o životnosti má oporu v dokladech výrobce (zkoušky, norma, podmínky používání); pokud ne, tvrzení odstraňte."
+  - id: dur_repairable_claim
+    title: "Tvrzení o opravitelnosti k ověření (nové od 27. 9. 2026)"
+    scope: segment
+    logic:
+      all: [{q: dur_repairable_claim, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23h, ve znění směrnice (EU) 2024/825", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 37, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: "ověřit"}
+    explanation: "Prezentovat zboží jako opravitelné, i když opravit nejde, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Pravdivost z textu poznat nelze."
+    recommendation: "Ověřte, že zboží opravit skutečně jde (dostupné náhradní díly, postup, servis); pokud ne, tvrzení odstraňte."
+  - id: dur_consumable_early
+    title: "Navádzanie na skoršiu výmenu spotrebného materiálu k ověření (nové od 27. 9. 2026)"
+    scope: segment
+    logic:
+      all: [{q: dur_consumable_early, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23i, ve znění směrnice (EU) 2024/825", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 38, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: "ověřit"}
+    explanation: "Navádět spotřebitele, aby spotřební materiál vyměnil nebo doplnil dřív, než je z technických důvodů nutné, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Zda je interval technicky odůvodněný, z textu poznat nelze."
+    recommendation: "Ověřte, že doporučený interval výměny vychází z technických důvodů (údaje výrobce); pokud ne, doporučte výměnu po spotřebování nebo opotřebení."
+  - id: dur_non_original_damage
+    title: "Tvrzení, že neoriginální díly poškodí výrobek, k ověření (nové od 27. 9. 2026)"
+    scope: segment
+    logic:
+      all: [{q: dur_non_original_damage, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23j, ve znění směrnice (EU) 2024/825", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 39, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: "ověřit"}
+    explanation: "Nepravdivé tvrzení, že neoriginální spotřební materiál, náhradní díly nebo příslušenství poškodí funkčnost zboží, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Pravdivost z textu poznat nelze."
+    recommendation: "Ověřte, že tvrzení o poškození má oporu v dokladech výrobce; pokud ne, tvrzení odstraňte."
+  - id: dur_update_necessary
+    title: "Aktualizace softwaru prezentovaná jako nezbytná, k ověření (nové od 27. 9. 2026)"
+    scope: segment
+    logic:
+      all: [{q: dur_update_necessary, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: low
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23e, ve znění směrnice (EU) 2024/825", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 34, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: "ověřit"}
+    explanation: "Prezentovat aktualizaci softwaru jako nezbytnou pro zachování souladu, i když jen vylepšuje funkce, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Co aktualizace dělá, z textu poznat nelze."
+    recommendation: "Ověřte, že aktualizace je skutečně nutná pro zachování souladu; pokud jen přidává funkce, neprezentujte ji jako nezbytnou."

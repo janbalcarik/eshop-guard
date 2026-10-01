@@ -1,0 +1,1985 @@
+02011L0065 — CS — 01.07.2026 — 023.001
+
+Tento dokument slouží výhradně k informačním účelům a nemá žádný právní účinek. Orgány a instituce Evropské unie nenesou za jeho obsah žádnou odpovědnost. Závazná znění příslušných právních předpisů, včetně jejich právních východisek a odůvodnění, jsou zveřejněna v Úředním věstníku Evropské unie a jsou k dispozici v databázi EUR-Lex. Tato úřední znění jsou přímo dostupná přes odkazy uvedené v tomto dokumentu
+
+►B SMĚRNICE EVROPSKÉHO PARLAMENTU A RADY 2011/65/EU ze dne 8. června 2011 o omezení používání některých nebezpečných látek v elektrických a elektronických zařízeních (přepracování) (Text s významem pro EHP) (Úř. věst. L 174 1.7.2011, s. 88)
+
+Ve znění:
+
+Úřední věstník
+
+Č. Strana Datum
+
+M1 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2012/50/EU ze dne 10. října 2012, L 348 16 18.12.2012
+
+►M2 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2012/51/EU ze dne 10. října 2012, L 348 18 18.12.2012
+
+►M3 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/1/EU ze dne 18. října 2013, L 4 45 9.1.2014
+
+►M4 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/2/EU ze dne 18. října 2013, L 4 47 9.1.2014
+
+►M5 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/3/EU ze dne 18. října 2013, L 4 49 9.1.2014
+
+►M6 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/4/EU ze dne 18. října 2013, L 4 51 9.1.2014
+
+M7 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/5/EU ze dne 18. října 2013, L 4 53 9.1.2014
+
+►M8 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/6/EU ze dne 18. října 2013, L 4 55 9.1.2014
+
+►M9 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/7/EU ze dne 18. října 2013, L 4 57 9.1.2014
+
+►M10 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/8/EU ze dne 18. října 2013, L 4 59 9.1.2014
+
+►M11 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/9/EU ze dne 18. října 2013, L 4 61 9.1.2014
+
+►M12 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/10/EU ze dne 18. října 2013, L 4 63 9.1.2014
+
+►M13 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/11/EU ze dne 18. října 2013, L 4 65 9.1.2014
+
+►M14 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/12/EU ze dne 18. října 2013, L 4 67 9.1.2014
+
+►M15 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/13/EU ze dne 18. října 2013, L 4 69 9.1.2014
+
+M16 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/14/EU ze dne 18. října 2013, L 4 71 9.1.2014
+
+M17 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/15/EU ze dne 18. října 2013, L 4 73 9.1.2014
+
+►M18 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/16/EU ze dne 18. října 2013, L 4 75 9.1.2014
+
+►M19 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/69/EU ze dne 13. března 2014, L 148 72 20.5.2014
+
+►M20 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/70/EU ze dne 13. března 2014, L 148 74 20.5.2014
+
+►M21 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/71/EU ze dne 13. března 2014, L 148 76 20.5.2014
+
+►M22 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/72/EU ze dne 13. března 2014, L 148 78 20.5.2014
+
+M23 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/73/EU ze dne 13. března 2014, L 148 80 20.5.2014
+
+►M24 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/74/EU ze dne 13. března 2014, L 148 82 20.5.2014
+
+►M25 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/75/EU ze dne 13. března 2014, L 148 84 20.5.2014
+
+►M26 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI 2014/76/EU ze dne 13. března 2014, L 148 86 20.5.2014
+
+M27 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2015/573 ze dne 30. ledna 2015, L 94 4 10.4.2015
+
+►M28 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2015/574 ze dne 30. ledna 2015, L 94 6 10.4.2015
+
+►M29 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2015/863 ze dne 31. března 2015, L 137 10 4.6.2015
+
+►M30 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2016/585 ze dne 12. února 2016, L 101 12 16.4.2016
+
+►M31 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2016/1028 ze dne 19. dubna 2016, L 168 13 25.6.2016
+
+►M32 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2016/1029 ze dne 19. dubna 2016, L 168 15 25.6.2016
+
+►M33 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2017/1009 ze dne 13. března 2017, L 153 21 16.6.2017
+
+►M34 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2017/1010 ze dne 13. března 2017, L 153 23 16.6.2017
+
+►M35 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2017/1011 ze dne 15. března 2017, L 153 25 16.6.2017
+
+M36 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2017/1975 ze dne 7. srpna 2017 L 281 29 31.10.2017
+
+►M37 SMĚRNICE EVROPSKÉHO PARLAMENTU A RADY (EU) 2017/2102 ze dne 15. listopadu 2017, L 305 8 21.11.2017
+
+M38 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2018/736 ze dne 27. února 2018, L 123 94 18.5.2018
+
+►M39 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2018/737 ze dne 27. února 2018, L 123 97 18.5.2018
+
+►M40 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2018/738 ze dne 27. února 2018, L 123 100 18.5.2018
+
+M41 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2018/739 ze dne 1. března 2018, L 123 103 18.5.2018
+
+M42 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2018/740 ze dne 1. března 2018, L 123 106 18.5.2018
+
+M43 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2018/741 ze dne 1. března 2018, L 123 109 18.5.2018
+
+M44 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2018/742 ze dne 1. března 2018, L 123 112 18.5.2018
+
+M45 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2019/169 ze dne 16. listopadu 2018, L 33 5 5.2.2019
+
+►M46 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2019/170 ze dne 16. listopadu 2018, L 33 8 5.2.2019
+
+►M47 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2019/171 ze dne 16. listopadu 2018, L 33 11 5.2.2019
+
+►M48 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2019/172 ze dne 16. listopadu 2018, L 33 14 5.2.2019
+
+►M49 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2019/173 ze dne 16. listopadu 2018, L 33 17 5.2.2019
+
+►M50 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2019/174 ze dne 16. listopadu 2018, L 33 20 5.2.2019
+
+►M51 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2019/175 ze dne 16. listopadu 2018, L 33 23 5.2.2019
+
+►M52 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2019/176 ze dne 16. listopadu 2018, L 33 26 5.2.2019
+
+►M53 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2019/177 ze dne 16. listopadu 2018, L 33 29 5.2.2019
+
+►M54 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2019/178 ze dne 16. listopadu 2018, L 33 32 5.2.2019
+
+►M55 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2019/1845 ze dne 8. srpna 2019, L 283 38 5.11.2019
+
+►M56 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2019/1846 ze dne 8. srpna 2019, L 283 41 5.11.2019
+
+►M57 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2020/360 ze dne 17. prosince 2019, L 67 109 5.3.2020
+
+►M58 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2020/361 ze dne 17. prosince 2019, L 67 112 5.3.2020
+
+►M59 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2020/364 ze dne 17. prosince 2019, L 67 122 5.3.2020
+
+►M60 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2020/365 ze dne 17. prosince 2019, L 67 125 5.3.2020
+
+►M61 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2020/366 ze dne 17. prosince 2019, L 67 129 5.3.2020
+
+►M62 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2021/647 ze dne 15. ledna 2021, L 133 54 20.4.2021
+
+►M63 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2021/884 ze dne 8. března 2021, L 194 37 2.6.2021
+
+►M64 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2021/1978 ze dne 11. srpna 2021, L 402 65 15.11.2021
+
+►M65 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2021/1979 ze dne 11. srpna 2021, L 402 69 15.11.2021
+
+►M66 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2021/1980 ze dne 11. srpna 2021, L 402 73 15.11.2021
+
+►M67 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2022/274 ze dne 13. prosince 2021, L 43 25 24.2.2022
+
+►M68 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2022/275 ze dne 13. prosince 2021, L 43 29 24.2.2022
+
+►M69 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2022/276 ze dne 13. prosince 2021, L 43 32 24.2.2022
+
+►M70 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2022/277 ze dne 13. prosince 2021, L 43 35 24.2.2022
+
+►M71 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2022/278 ze dne 13. prosince 2021, L 43 38 24.2.2022
+
+►M72 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2022/279 ze dne 13. prosince 2021, L 43 41 24.2.2022
+
+►M73 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2022/280 ze dne 13. prosince 2021, L 43 44 24.2.2022
+
+►M74 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2022/281 ze dne 13. prosince 2021, L 43 47 24.2.2022
+
+►M75 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2022/282 ze dne 13. prosince 2021 L 43 51 24.2.2022
+
+►M76 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2022/283 ze dne 13. prosince 2021, L 43 54 24.2.2022
+
+►M77 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2022/284 ze dne 16. prosince 2021, L 43 57 24.2.2022
+
+►M78 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2022/287 ze dne 13. prosince 2021, L 43 64 24.2.2022
+
+►M79 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2022/1631 ze dne 12. května 2022, L 245 45 22.9.2022
+
+►M80 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2022/1632 ze dne 12. května 2022, L 245 48 22.9.2022
+
+►M81 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2023/171 ze dne 28. října 2022 L 24 33 26.1.2023
+
+►M82 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2023/1437 ze dne 4. května 2023, L 176 14 11.7.2023
+
+►M83 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2023/1526 ze dne 16. května 2023, L 185 26 24.7.2023
+
+►M84 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2024/232 ze dne 25. října 2023, L 232 1 10.1.2024
+
+►M85 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2024/1416 ze dne 13. března 2024, L 1416 1 21.5.2024
+
+►M86 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2025/1802 ze dne 8. září 2025, L 1802 1 21.11.2025
+
+►M87 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2025/2363 ze dne 8. září 2025, L 2363 1 21.11.2025
+
+►M88 SMĚRNICE KOMISE V PŘENESENÉ PRAVOMOCI (EU) 2025/2364 ze dne 8. září 2025, L 2364 1 21.11.2025
+
+Opravena:
+
+►C1 Oprava, Úř. věst. L 044, 14.2.2014, s. 55 (2011/65/EU)
+
+C2 Oprava, Úř. věst. L 285, 1.11.2017, s. 32 (2017/1975)
+
+►C3 Oprava, Úř. věst. L 224, 24.6.2021, s. 42 (2021/647)
+
+C4 Oprava, Úř. věst. L 119, 21.4.2022, s. 115 (2022/278)
+
+►C5 Oprava, Úř. věst. L 135, 12.5.2022, s. 38 (2022/278)
+
+C6 Oprava, Úř. věst. L 188, 27.7.2023, s. 59 ((EU) 2023/1526)
+
+▼B
+
+SMĚRNICE EVROPSKÉHO PARLAMENTU A RADY 2011/65/EU
+
+ze dne 8. června 2011
+
+o omezení používání některých nebezpečných látek v elektrických a elektronických zařízeních
+
+(přepracování)
+
+(Text s významem pro EHP)
+
+Článek 1
+
+Předmět
+
+Tato směrnice stanoví pravidla omezení používání nebezpečných látek v elektrických a elektronických zařízeních (EEZ) s cílem přispět k ochraně lidského zdraví a životního prostředí včetně environmentálně šetrného využití a zneškodnění odpadních EEZ.
+
+Článek 2
+
+Oblast působnosti
+
+1.
+
+Tato směrnice se s výhradou odstavce 2 použije na EEZ spadající do kategorií uvedených v příloze I.
+
+▼M37 —————
+
+▼B
+
+3.
+
+Tato směrnice se použije, aniž jsou dotčeny požadavky právních předpisů Unie týkajících se ochrany zdraví a bezpečnosti, chemických látek, zejména nařízení (ES) č. 1907/2006, a požadavky zvláštních právních předpisů Unie týkajících se nakládání s odpady.
+
+4.
+
+Tato směrnice se nevztahuje na:
+
+a)
+
+zařízení nezbytná pro ochranu podstatných bezpečnostních zájmů členských států, včetně zbraní, střeliva a válečného materiálu určených výlučně k vojenským účelům;
+
+b)
+
+zařízení určená pro vyslání do vesmíru;
+
+c)
+
+zařízení, která byla specificky navržena a mají být instalována jako část jiného typu zařízení, které je vyloučeno z oblasti působnosti této směrnice nebo do ní nespadá, pokud tato zařízení mohou fungovat pouze jako část daných zařízení a mohou být nahrazena pouze stejným specificky navrženým zařízením;
+
+d)
+
+velké stacionární průmyslové nástroje;
+
+e)
+
+velké pevné instalace;
+
+f)
+
+dopravní prostředky pro přepravu osob nebo zboží, kromě elektrických dvoustopých vozidel, pro která nebylo uděleno schválení typu;
+
+g)
+
+nesilniční pojízdné stroje určené výlučně k profesionálnímu použití;
+
+h)
+
+aktivní implantabilní zdravotnické prostředky;
+
+i)
+
+fotovoltaické panely určené k použití v systému, který je navržen, sestaven a odborně instalován za účelem trvalého používání v určeném místě k výrobě energie ze slunečního světla pro veřejná, obchodní, průmyslová a obytná zařízení;
+
+j)
+
+zařízení specificky navržená výhradně pro účely výzkumu a vývoje, která jsou k dispozici pouze mezi podniky;
+
+▼M37
+
+k)
+
+píšťalové varhany.
+
+▼B
+
+Článek 3
+
+Definice
+
+Pro účely této směrnice se rozumí:
+
+1)
+
+„elektrickým a elektronickým zařízením“ nebo „EEZ“ zařízení, jehož správná funkce závisí na elektrickém proudu nebo na elektromagnetickém poli, a zařízení k výrobě, přenosu a měření tohoto proudu a pole, které je určeno pro použití s napětím nepřesahujícím 1 000 V pro střídavý proud a 1 500 V pro stejnosměrný proud;
+
+2)
+
+pro účely bodu 1 „závislostí“ skutečnost, že EEZ vyžaduje elektrický proud nebo elektromagnetické pole, pokud má plnit alespoň jednu ze zamýšlených funkcí;
+
+3)
+
+„velkými stacionárními průmyslovými nástroji“ sestava velkých rozměrů složená ze strojů, zařízení nebo součástí, které fungují společně k určitému účelu, jsou trvale instalovány a odinstalovány odbornými pracovníky na určitém místě a jejich použití a údržba jsou vyhrazeny odborným pracovníkům v zařízení pro průmyslovou výrobu nebo výzkum a vývoj;
+
+4)
+
+„velkou pevnou instalací“ propojení velkých rozměrů složené z několika typů přístrojů a případně dalších zařízení, které jsou montovány a instalovány odbornými pracovníky, jsou určeny ke stálému použití na předem určeném místě vyhrazeném k tomuto účelu a jsou odinstalovány odbornými pracovníky;
+
+5)
+
+„kabely“ veškeré připojovací nebo prodlužovací kabely se jmenovitým napětím nižším než 250 V určené pro zapojení EEZ k elektrické síti nebo k vzájemnému propojení dvou či více EEZ;
+
+6)
+
+„výrobcem“ fyzická nebo právnická osoba, která vyrábí EEZ nebo která si nechává EEZ navrhnout nebo vyrobit a uvádí je na trh pod vlastním jménem nebo ochrannou známkou;
+
+7)
+
+„zplnomocněným zástupcem“ fyzická nebo právnická osoba usazená v Unii, která byla písemně zplnomocněna výrobcem, aby jednala jeho jménem při plnění konkrétních úkolů;
+
+8)
+
+„distributorem“ fyzická nebo právnická osoba v dodavatelském řetězci jiná než výrobce či dovozce, která EEZ dodává na trh;
+
+9)
+
+„dovozcem“ fyzická nebo právnická osoba usazená v Unii, jež uvádí EEZ ze třetí země na trh Unie;
+
+10)
+
+„hospodářskými subjekty“ výrobce, zplnomocněný zástupce, dovozce a distributor;
+
+11)
+
+„dodáním na trh“ dodání EEZ k distribuci, spotřebě nebo použití na trhu Unie v rámci obchodní činnosti, ať už za úplatu nebo bezplatně;
+
+12)
+
+„uvedením na trh“ první dodání EEZ na trh Unie;
+
+13)
+
+„harmonizovanou normou“ norma přijatá některým z evropských normalizačních orgánů uvedených v příloze I směrnice Evropského parlamentu a Rady 98/34/ES ze dne 22. června 1998 o postupu při poskytování informací v oblasti norem a technických předpisů a předpisů pro služby informační společnosti ( 1 ) na základě žádosti Komise podané v souladu s článkem 6 uvedené směrnice;
+
+14)
+
+„technickou specifikací“ dokument, který předepisuje technické požadavky, které má výrobek, postup nebo služba splňovat;
+
+15)
+
+„označením CE“ označení, kterým výrobce vyjadřuje, že výrobek je v souladu s platnými požadavky stanovenými v harmonizačních právních předpisech Unie, které upravují připojování tohoto označení;
+
+16)
+
+„posouzením shody“ postup prokazující, že byly splněny požadavky této směrnice týkající se EEZ;
+
+17)
+
+„dozorem nad trhem“ činnosti a opatření orgánů veřejné správy, které mají zajistit, že EEZ jsou v souladu s požadavky stanovenými touto směrnicí a že neohrožují zdraví, bezpečnost ani jiné oblasti ochrany veřejného zájmu;
+
+18)
+
+„stažením z oběhu“ opatření, jehož cílem je navrácení výrobku, který byl již dodán konečnému uživateli;
+
+19)
+
+„stažením z trhu“ opatření, jehož cílem je zabránit, aby byl výrobek, který se nachází v dodavatelském řetězci, dodán na trh;
+
+20)
+
+„homogenním materiálem“ buď materiál jednotného složení, nebo materiál, který je tvořen kombinací materiálů a nelze jej rozložit ani rozdělit na jiné materiály mechanickými úkony, jako jsou šroubování, řezání, drcení, mletí a broušení;
+
+21)
+
+„zdravotnickým prostředkem“ zdravotnický prostředek ve smyslu čl. 1 odst. 2 písm. a) směrnice 93/42/EHS, který je rovněž EEZ;
+
+22)
+
+„diagnostickým zdravotnickým prostředkem in vitro “ diagnostický zdravotnický prostředek in vitro ve smyslu čl. 1 odst. 2 písm. b) směrnice 98/79/ES;
+
+23)
+
+„aktivním implantabilním zdravotnickým prostředkem“ aktivní implantabilní zdravotnický prostředek ve smyslu čl. 1 odst. 2 písm. c) směrnice Rady 90/385/EHS ze dne 20. června 1990 o sbližování právních předpisů členských států týkajících se aktivních implantabilních zdravotnických prostředků ( 2 );
+
+24)
+
+„průmyslovými monitorovacími a kontrolními přístroji“ monitorovací a kontrolní přístroje určené výlučně k průmyslovému nebo profesionálnímu použití;
+
+25)
+
+„dostupností náhrady“ skutečnost, že náhradu lze vyrobit a dodat v přiměřené lhůtě ve srovnání s dobou potřebnou pro výrobu a dodání látek uvedených v příloze II;
+
+26)
+
+„spolehlivostí náhrady“ pravděpodobnost, že EEZ využívající danou náhradu bude plnit požadovanou funkci bez závady za uvedených podmínek po uvedenou dobu;
+
+27)
+
+„náhradním dílem“ samostatná část EEZ, která může nahradit část EEZ. EEZ nemůže bez této části EEZ fungovat k zamýšlenému účelu. Nahrazením některé části náhradním dílem se funkčnost EEZ obnoví nebo zlepší;
+
+▼M37
+
+28)
+
+„nesilničním pojízdným strojem určeným výlučně k profesionálnímu použití“ stroj s vlastním zdrojem energie nebo stroj s trakčním pohonem napájený z externího zdroje, jehož provoz vyžaduje při práci buď mobilitu, nebo souvislý či částečně souvislý pohyb mezi sledem pevných pracovních míst a jenž je určen výlučně k profesionálnímu použití.
+
+▼B
+
+Článek 4
+
+Prevence
+
+1.
+
+Členské státy zajistí, aby EEZ uváděná na trh včetně kabelů a náhradních dílů pro jejich opravy nebo opětovné použití, modernizaci funkcí nebo zvýšení kapacity neobsahovaly látky uvedené v příloze II.
+
+2.
+
+Pro účely této směrnice se u homogenních materiálů toleruje nejvýše maximální hodnota hmotnostní koncentrace uvedená v příloze II. Komise přijme prostřednictvím aktů v přenesené pravomoci v souladu s článkem 20 a za podmínek stanovených v článcích 21 a 22 podrobná pravidla pro dodržování těchto maximálních hodnot hmotnostní koncentrace, mimo jiné s ohledem na povrchovou úpravu.
+
+▼M37
+
+3.
+
+Odstavec 1 se použije na zdravotnické prostředky a na monitorovací a kontrolní přístroje uvedené na trh od 22. července 2014, na diagnostické zdravotnické prostředky in vitro uvedené na trh od 22. července 2016, na průmyslové monitorovací a kontrolní přístroje uvedené na trh od 22. července 2017 a na všechna ostatní EEZ nespadající do oblasti působnosti směrnice 2002/95/ES a uvedená na trh od 22. července 2019.
+
+▼B
+
+4.
+
+Odstavec 1 se nepoužije na kabely nebo náhradní díly pro opravy, opětovné použití, modernizaci funkcí nebo zvýšení kapacity:
+
+a)
+
+EEZ uvedených na trh před 1. červencem 2006;
+
+b)
+
+zdravotnických prostředků uvedených na trh před 22. červencem 2014;
+
+c)
+
+diagnostických zdravotnických prostředků in vitro uvedených na trh před 22. červencem 2016;
+
+d)
+
+monitorovacích a kontrolních přístrojů uvedených na trh před 22. červencem 2014;
+
+e)
+
+průmyslových monitorovacích a kontrolních přístrojů uvedených na trh před 22. červencem 2017;
+
+▼M37
+
+ea)
+
+všech ostatních EEZ nespadajících do oblasti působnosti směrnice 2002/95/ES a uvedených na trh před 22. červencem 2019;
+
+▼B
+
+f)
+
+EEZ, která využívají výjimku a byla uvedena na trh před koncem její platnosti, pokud jde o tuto zvláštní výjimku.
+
+▼M37
+
+5.
+
+Pokud se opětovné použití uskutečňuje v rámci kontrolovatelného uzavřeného systému zpětného odběru mezi podniky a spotřebitel je o opětovném použití náhradních dílů informován, nepoužije se odstavec 1 na opětovně použité náhradní díly:
+
+a)
+
+získané z EEZ uvedených na trh před 1. červencem 2006 a použité v EEZ uvedených na trh před 1. červencem 2016;
+
+b)
+
+získané ze zdravotnických prostředků nebo monitorovacích a kontrolních přístrojů uvedených na trh před 22. červencem 2014 a použité v EEZ uvedených na trh před 22. červencem 2024;
+
+c)
+
+získané z diagnostických zdravotnických prostředků in vitro uvedených na trh před 22. červencem 2016 a použité v EEZ uvedených na trh před 22. červencem 2026;
+
+d)
+
+získané z průmyslových monitorovacích a kontrolních přístrojů uvedených na trh před 22. červencem 2017 a použité v EEZ uvedených na trh před 22. červencem 2027;
+
+e)
+
+získané z EEZ nespadajících do oblasti působnosti směrnice 2002/95/ES a uvedených na trh před 22. červencem 2019 a použité v EEZ uvedených na trh před 22. červencem 2029.
+
+▼B
+
+6.
+
+Odstavec 1 se nevztahuje na použití uvedená v přílohách III a IV.
+
+Článek 5
+
+Přizpůsobování příloh vědeckému a technickému pokroku
+
+1.
+
+Za účelem přizpůsobení příloh III a IV vědeckému a technickému pokroku a v zájmu dosažení cílů uvedených v článku 1 Komise přijme prostřednictvím zvláštních aktů v přenesené pravomoci v souladu s článkem 20 a za podmínek stanovených v článcích 21 a 22 tato opatření:
+
+a)
+
+zahrnutí materiálů a součástí EEZ ke specifickému použití do seznamů v přílohách III a IV, neoslabí-li toto zahrnutí ochranu životního prostředí a zdraví poskytovanou nařízením (ES) č. 1907/2006 a je-li splněna kterákoli z těchto podmínek:
+
+—
+
+jejich odstranění nebo náhrada pomocí změn návrhu nebo materiálů a součástí, které nevyžadují žádný z materiálů a látek uvedených v příloze II, je vědecky nebo technicky neproveditelná,
+
+—
+
+spolehlivost náhrad není zajištěna,
+
+—
+
+celkové negativní dopady na životní prostředí, zdraví a bezpečnost spotřebitelů způsobené náhradou pravděpodobně převáží nad jejími celkovými přínosy pro životní prostředí, zdraví a bezpečnost spotřebitelů.
+
+Při přijímání rozhodnutí o zahrnutí materiálů a složek EEZ do seznamů v přílohách III a IV a o trvání případných výjimek se přihlíží k dostupnosti náhrad a sociálnímu a hospodářskému dopadu náhrady. Při přijímání rozhodnutí o trvání případných výjimek se přihlíží k možným negativním dopadům na inovace. Kde je to vhodné, vychází se u celkového dopadu výjimek z přístupu založeného na celém životním cyklu;
+
+b)
+
+vynětí materiálů a součástí EEZ ze seznamů obsažených v přílohách III a IV v případech, kdy podmínky stanovené v písmenu a) již nejsou splněny.
+
+2.
+
+Doba platnosti opatření přijatých v souladu s odst. 1 písm. a) je nejdéle pět let v případě kategorií 1 až 7, 10 a 11 přílohy I a nejdéle sedm let v případě kategorií 8 a 9 přílohy I. O dobách platnosti se rozhoduje jednotlivě a mohou být prodlouženy.
+
+▼M37
+
+V případě výjimek uvedených v příloze III k 21. červenci 2011, pokud není stanovena kratší doba, je maximální doba jejich platnosti, která může být prodloužena:
+
+a)
+
+pět let od 21. července 2011 u kategorií 1 až 7 a kategorie 10 přílohy I;
+
+b)
+
+sedm let od příslušných dnů uvedených v čl. 4 odst. 3 u kategorií 8 a 9 přílohy I; a
+
+c)
+
+pět let od 22. července 2019 u kategorie 11 přílohy I.
+
+▼B
+
+V případě výjimek uvedených v příloze IV k 21. červenci 2011 je maximální doba platnosti, která může být prodloužena, sedm let od příslušných dnů uvedených v čl. 4 odst. 3, pokud není stanovena kratší doba.
+
+3.
+
+Žádost o udělení, prodloužení platnosti či zrušení výjimky se podává Komisi v souladu s přílohou V.
+
+4.
+
+Komise:
+
+a)
+
+písemně potvrdí obdržení žádosti do patnácti dnů od jejího obdržení. V potvrzení se uvede datum obdržení žádosti;
+
+b)
+
+bez odkladu o žádosti informuje členské státy a poskytne jim žádost a veškeré doplňující informace, které získala od žadatele;
+
+▼M37
+
+ba)
+
+do jednoho měsíce od obdržení žádosti předloží žadateli, členským státům a Evropskému parlamentu harmonogram přijímání svého rozhodnutí o žádosti;
+
+▼B
+
+c)
+
+zveřejní souhrnné informace o dané žádosti;
+
+d)
+
+posoudí žádost a její odůvodnění.
+
+5.
+
+Žádost o prodloužení platnosti výjimky se podává nejpozději osmnáct měsíců před ukončením její platnosti.
+
+►M37 ————— ◄ Stávající výjimka zůstává v platnosti, dokud Komise nerozhodne o žádosti o prodloužení platnosti výjimky.
+
+6.
+
+Pokud je žádost o prodloužení platnosti výjimky zamítnuta nebo pokud je výjimka zrušena, končí platnost výjimky nejdříve za dvanáct měsíců a nejpozději za osmnáct měsíců od dne přijetí rozhodnutí.
+
+7.
+
+Před provedením změn příloh Komise mimo jiné provede konzultace s hospodářskými subjekty, provozovateli recyklace, zpracovateli odpadů, organizacemi na ochranu životního prostředí a sdruženími zaměstnanců a spotřebitelů a zveřejní obdržené připomínky.
+
+8.
+
+Komise přijme harmonizovanou podobu žádosti podle odstavce 3 tohoto článku a souhrnné pokyny pro tyto žádosti, přičemž přihlédne zejména k situaci malých a středních podniků. Tyto prováděcí akty se přijímají přezkumným postupem podle čl. 19 odst. 2.
+
+Článek 6
+
+Přezkum a změny seznamu omezených látek v příloze II
+
+1.
+
+V zájmu dosažení cílů uvedených v článku 1 a s ohledem na zásadu obezřetnosti zváží Komise do 22. července 2014 přezkum založený na důkladném posouzení a změnu seznamu omezených látek v příloze II; poté tak činí pravidelně z vlastního podnětu nebo na návrh členského státu obsahující informace uvedené v odstavci 2.
+
+Přezkum a změna seznamu omezených látek v příloze II musí být v souladu s ostatními právními předpisy týkajícími se chemických látek, zejména nařízení (ES) č. 1907/2006, a musí přihlížet mimo jiné k přílohám XIV a XVII uvedeného nařízení. Při přezkumu jsou využívány veřejně dostupné poznatky získané při uplatňování uvedených předpisů.
+
+Za účelem přezkumu a změny přílohy II Komise zvláště přihlíží k tomu, zda určitá látka, včetně látek s částicemi o velmi malých rozměrech nebo látek velmi malé vnitřní nebo povrchové struktury, nebo skupina podobných látek:
+
+a)
+
+mohou mít nepříznivý vliv v průběhu zpracování odpadu z EEZ, včetně možností přípravy na opětovné použití odpadních EEZ nebo recyklace materiálů z odpadních EEZ;
+
+b)
+
+mohou v souvislosti s přípravou na opětovné použití, s recyklací nebo jiným zpracováním materiálů z odpadních EEZ za běžných provozních podmínek způsobit v závislosti na způsobu použití nekontrolované či neomezené uvolnění dotyčné látky anebo vznik nebezpečných reziduí nebo produktů přeměny a rozkladu;
+
+c)
+
+mohou vyvolat nepřijatelnou expozici pracovníků podílejících se na sběru a zpracování odpadních EEZ;
+
+d)
+
+mohou být nahrazeny náhradami nebo alternativními technologiemi, které mají méně negativní dopady.
+
+Během tohoto přezkumu Komise vede konzultace se zúčastněnými subjekty včetně hospodářských subjektů, provozovatelů recyklace, zpracovatelů odpadů, organizací na ochranu životního prostředí a sdružení zaměstnanců a spotřebitelů.
+
+2.
+
+Návrhy na přezkum a změny seznamu omezených látek nebo skupiny podobných látek v příloze II musí obsahovat alespoň tyto informace:
+
+a)
+
+přesné a srozumitelné znění navrhovaného omezení;
+
+b)
+
+reference a vědecké odůvodnění omezení;
+
+c)
+
+informace o použití látky nebo skupiny podobných látek v EEZ;
+
+d)
+
+informace o škodlivých vlivech a vystavení, zejména při zpracování odpadních EEZ;
+
+e)
+
+informace o možných náhradách a jiných alternativách, jejich dostupnosti a spolehlivosti;
+
+f)
+
+odůvodnění, proč je celounijní omezení nejvhodnějším opatřením;
+
+g)
+
+sociální a hospodářské posouzení.
+
+3.
+
+Opatření uvedená v tomto článku přijme Komise prostřednictvím aktů v přenesené pravomoci v souladu s článkem 20 a za podmínek stanovených v článcích 21 a 22.
+
+Článek 7
+
+Povinnosti výrobců
+
+Členské státy zajistí, aby výrobci:
+
+a)
+
+při uvádění EEZ na trh zajistili, aby bylo navrženo a vyrobeno v souladu s požadavky stanovenými v článku 4;
+
+b)
+
+vyhotovili požadovanou technickou dokumentaci a provedli nebo nechali provést interní kontrolu výroby v souladu s modulem A přílohy II rozhodnutí č. 768/2008/ES;
+
+c)
+
+byl-li prokázán soulad EEZ s platnými požadavky postupem uvedeným v písmenu b), vypracovali EU prohlášení o shodě a připojili na hotový produkt označení CE. Pokud jiné příslušné právní předpisy Unie vyžadují, aby byl uplatněn postup posuzování shody, který je přinejmenším stejně přísný, lze splnění požadavků stanovených v čl. 4 odst. 1 této směrnice prokázat v rámci tohoto postupu. Je možné vypracovat jednotnou technickou dokumentaci;
+
+d)
+
+uchovávali technickou dokumentaci a EU prohlášení o shodě po dobu deseti let po uvedení EEZ na trh;
+
+e)
+
+zajistili, že se používají postupy pro zachování shody sériové výroby. Musí být patřičně přihlédnuto ke změnám konstrukce nebo parametrů výrobku a změnám harmonizovaných norem nebo technických specifikací, na jejichž základě se prohlašuje shoda EEZ;
+
+f)
+
+vedli záznamy o nevyhovujících EEZ a jejich stažení z oběhu a informovali o této skutečnosti distributory;
+
+g)
+
+zajistili, aby byl na jejich EEZ uveden typ, série nebo sériové číslo nebo jakýkoli jiný prvek umožňující jeho identifikaci, nebo v případech, kdy to rozměr nebo povaha EEZ neumožňuje, zajistili, aby byla požadovaná informace uvedena na obalu nebo v dokladu přiloženém k EEZ;
+
+h)
+
+uváděli své jméno, svou zapsanou obchodní firmu nebo zapsanou ochrannou známku a adresu, na níž je lze kontaktovat, na EEZ, nebo není-li to možné, na obalu nebo v dokladu přiloženém k EEZ. Adresa musí uvádět jediné místo, na kterém lze výrobce kontaktovat. Pokud jiné příslušné právní předpisy Unie obsahují ustanovení o uvádění jména a adresy výrobce, která jsou alespoň stejně přísná, použijí se zmíněná ustanovení;
+
+i)
+
+domnívají-li se nebo mají-li důvod se domnívat, že určité EEZ, které uvedli na trh, není v souladu s touto směrnicí, okamžitě přijali nezbytná nápravná opatření k jeho uvedení do souladu nebo je případně stáhli z trhu nebo z oběhu a neprodleně informovali příslušné vnitrostátní orgány členských států, v nichž EEZ dodávali na trh, a uvedli podrobnosti zejména o nesouladu a o přijatých nápravných opatřeních;
+
+j)
+
+předložili příslušnému vnitrostátnímu orgánu na jeho odůvodněnou žádost všechny informace a dokumentaci nezbytné k prokázání souladu EEZ s touto směrnicí v jazyce, kterému tento orgán snadno rozumí, a spolupracovali s tímto orgánem na jeho žádost při činnostech, jejichž cílem je zajistit soulad EEZ, která dodali na trh, s touto směrnicí.
+
+Článek 8
+
+Povinnosti zplnomocněných zástupců
+
+Členské státy zajistí, aby:
+
+a)
+
+výrobci měli možnost písemně jmenovat svého zplnomocněného zástupce. Povinnosti stanovené v čl. 7 písm. a) a vypracování technické dokumentace nesmějí být součástí plné moci zplnomocněného zástupce;
+
+b)
+
+zplnomocněný zástupce vykonával úkoly stanovené v plné moci, kterou obdržel od výrobce. Plná moc musí zplnomocněnému zástupci umožňovat alespoň:
+
+—
+
+uchovávat EU prohlášení o shodě a technickou dokumentaci pro potřeby vnitrostátních orgánů dozoru po dobu deseti let od uvedení EEZ na trh,
+
+—
+
+podávat příslušným vnitrostátním orgánům na základě jejich odůvodněné žádosti všechny informace a dokumentaci nezbytné k prokázání souladu EEZ s touto směrnicí,
+
+—
+
+spolupracoval s příslušným vnitrostátním orgánem, pokud o to tento orgán požádá, na činnostech, jejichž cílem zajistit soulad EEZ, na která se vztahuje jeho plná moc, s touto směrnicí.
+
+Článek 9
+
+Povinnosti dovozců
+
+Členské státy zajistí, aby dovozci:
+
+a)
+
+uváděli na trh Unie pouze EEZ, které jsou v souladu s touto směrnicí;
+
+b)
+
+před uvedením EEZ na trh zajistili, aby výrobce provedl příslušný postup posouzení shody, a dále zajistili, aby výrobce vypracoval technickou dokumentaci, aby EEZ neslo požadované označení CE, aby k němu byly přiloženy požadované doklady ►C1 a aby výrobce splnil požadavky stanovené v čl. 7 písm. g) a h); ◄
+
+c)
+
+domnívají-li se nebo mají-li důvod se domnívat, že určité EEZ není v souladu s článkem 4, je neuváděli na trh, dokud není tohoto souladu dosaženo, a informovali o tom výrobce a orgány dozoru nad trhem;
+
+d)
+
+uvedli své jméno, svou zapsanou obchodní firmu nebo zapsanou ochrannou známku a adresu, na níž je lze kontaktovat, na EEZ, nebo není-li to možné, na obalu nebo v dokladu přiloženém k EEZ. Pokud jiné příslušné právní předpisy Unie obsahují ustanovení o uvádění jména a adresy dovozce, která jsou alespoň stejně přísná, použijí se zmíněná ustanovení;
+
+e)
+
+v zájmu zajištění souladu s touto směrnicí uvedli záznamy o nevyhovujících EEZ a jejich stažení z oběhu a informovali o této skutečnosti distributory;
+
+f)
+
+domnívají-li se nebo mají-li důvod se domnívat, že EEZ, které uvedli na trh, není v souladu s touto směrnicí, přijali okamžitě nezbytná nápravná opatření k jeho uvedení do souladu nebo je případně stáhli z trhu nebo z oběhu a neprodleně o tom informovali příslušné vnitrostátní orgány členských států, v nichž EEZ dodávali na trh, a uvedli podrobnosti zejména o nesouladu a o přijatých nápravných opatřeních;
+
+g)
+
+po dobu deseti let od uvedení EEZ na trh uchovávali kopii EU prohlášení o shodě pro potřeby orgánů dozoru nad trhem a zaručili, že technická dokumentace může být těmto orgánům na požádání předložena;
+
+h)
+
+předložili příslušnému vnitrostátnímu orgánu na jeho odůvodněnou žádost všechny informace a dokumentaci nezbytné k prokázání souladu EEZ s touto směrnicí v jazyce, kterému tento orgán snadno rozumí, a spolupracovali s tímto orgánem na jeho žádost při činnostech, jejichž cílem je zajistit soulad EEZ, která dodali na trh, s touto směrnicí.
+
+Článek 10
+
+Povinnosti distributorů
+
+Členské státy zajistí, aby distributoři:
+
+a)
+
+při dodávání EEZ na trh jednali s řádnou péčí, pokud jde o příslušné požadavky, aby zejména ověřili, zda EEZ nese označení CE a zda jsou k němu přiloženy požadované doklady v jazyce, kterému spotřebitelé a ostatní koneční uživatelé v členském státě, v němž je EEZ dodáván na trh, snadno rozumějí, a zda výrobce a dovozce splnili požadavky stanovené v čl. 7 písm. g) a h) a čl. 9 písm. d);
+
+b)
+
+domnívají-li se nebo mají-li důvod se domnívat, že určité EEZ není v souladu s článkem 4, je nedodávali na trh, dokud není tohoto souladu dosaženo, a informovali o tom výrobce nebo dovozce a orgány dozoru nad trhem;
+
+c)
+
+domnívají-li se nebo mají-li důvod se domnívat, že určité EEZ, které dodali na trh, není v souladu s touto směrnicí, okamžitě zajistili, aby byla přijata nezbytná nápravná opatření k uvedení EEZ do souladu nebo jeho případné stažení z trhu nebo z oběhu, a neprodleně o tom informovali příslušné vnitrostátní orgány členských států, v nichž EEZ dodávali na trh, a uvedli podrobnosti zejména o nesouladu a o přijatých nápravných opatřeních;
+
+d)
+
+předložili příslušnému vnitrostátnímu orgánu na jeho odůvodněnou žádost všechny informace a doklady nezbytné k prokázání souladu EEZ s touto směrnicí a spolupracovali s tímto orgánem na jeho žádost při činnostech, jejichž cílem je zajistit soulad EEZ, která dodali na trh, s touto směrnicí.
+
+Článek 11
+
+Případy, kdy se povinnosti výrobce vztahují na dovozce a distributory
+
+Členské státy zajistí, aby dovozce nebo distributor byl pro účely této směrnice považován za výrobce a vztahovaly se na něho povinnosti výrobce podle článku 7, pokud uvede EEZ na trh pod svým jménem nebo ochrannou známkou nebo pokud upraví EEZ, jež bylo na trh již uvedeno, způsobem, který může ovlivnit jeho plnění platných požadavků.
+
+Článek 12
+
+Identifikace hospodářských subjektů
+
+Členské státy zajistí, aby hospodářské subjekty na žádost orgánů dozoru nad trhem a po dobu deseti let od uvedení EEZ na trh identifikovaly:
+
+a)
+
+všechny hospodářské subjekty, které jim dodaly EEZ;
+
+b)
+
+všechny hospodářské subjekty, kterým dodaly EEZ.
+
+Článek 13
+
+EU prohlášení o shodě
+
+1.
+
+EU prohlášení o shodě potvrzuje, že bylo prokázáno splnění požadavků uvedených v článku 4.
+
+2.
+
+EU prohlášení o shodě se vypracovává podle vzoru a obsahuje prvky stanovené v příloze VI a musí být aktualizováno. Musí být přeloženo do jazyka nebo jazyků požadovaných členským státem, v němž je EEZ uváděno nebo dodáváno na trh.
+
+Pokud jiné příslušné právní předpisy Unie vyžadují, aby byl uplatněn postup posuzování shody, který je přinejmenším stejně přísný, lze plnění požadavků stanovených v čl. 4 odst. 1 prokázat v rámci tohoto postupu. Je možné vypracovat jednotnou technickou dokumentaci.
+
+3.
+
+Vypracováním EU prohlášení o shodě výrobce přebírá odpovědnost za soulad EEZ s touto směrnicí.
+
+Článek 14
+
+Obecné zásady označení CE
+
+Označení CE podléhá obecným zásadám stanoveným v článku 30 nařízení (ES) č. 765/2008.
+
+Článek 15
+
+Pravidla a podmínky pro připojování označení CE
+
+1.
+
+Označení CE musí být viditelně, čitelně a nesmazatelně připojeno k hotovému EEZ nebo k jeho výrobnímu štítku. Pokud to vzhledem k povaze EEZ není možné nebo to nelze zaručit, musí být připojeno k obalu a průvodním dokumentům.
+
+2.
+
+Označení CE se připojuje před uvedením EEZ na trh.
+
+3.
+
+Členské státy vycházejí ze stávajících mechanismů, aby zajistily řádné uplatňování režimu označení CE, a přijímají vhodná opatření v případě nesprávného použití označení CE. Členské státy stanoví rovněž sankce za porušení, jež mohou zahrnovat trestní sankce za závažná porušení. Tyto sankce musí být přiměřené závažnosti porušení a musí účinně odrazovat od nevhodného použití.
+
+Článek 16
+
+Předpoklad souladu
+
+1.
+
+Není-li prokázán opak, členské státy předpokládají, že EEZ opatřená označením CE jsou v souladu s touto směrnicí.
+
+2.
+
+V případě materiálů, součástí a EEZ, u nichž byly provedeny zkoušky a měření potvrzující splnění požadavků uvedených v článku 4 nebo které byly posouzeny podle harmonizovaných norem, na něž byly zveřejněny odkazy v Úředním věstníku Evropské unie , se předpokládá, že splňují požadavky této směrnice.
+
+Článek 17
+
+Formální námitka proti harmonizovaným normám
+
+1.
+
+Pokud členský stát nebo Komise usoudí, že harmonizovaná norma nesplňuje zcela požadavky, které jsou stanoveny v článku 4 a na které se tato harmonizovaná norma vztahuje, předloží Komise nebo příslušný členský stát záležitost výboru zřízenému článkem 5 směrnice 98/34/ES a uvede své argumenty. Výbor po konzultaci s příslušnými evropskými normalizačními orgány neprodleně vydá stanovisko.
+
+2.
+
+S ohledem na stanovisko výboru se Komise rozhodne zveřejnit, nezveřejnit, zveřejnit s omezením, zachovat, zachovat s omezením, či zrušit odkazy na příslušnou harmonizovanou normu v Úředním věstníku Evropské unie .
+
+3.
+
+Komise informuje dotčený evropský normalizační orgán a případně požádá o revizi dotčených harmonizovaných norem.
+
+Článek 18
+
+Dozor nad trhem a kontrola EEZ, která vstupují na trh Unie
+
+Členské státy provádějí dozor nad trhem v souladu s články 15 až 29 nařízení (ES) č. 765/2008.
+
+Článek 19
+
+Postup projednávání ve výboru
+
+1.
+
+Komisi je nápomocen výbor zřízený článkem 39 směrnice 2008/98/ES. Tento výbor je výborem ve smyslu nařízení (EU) č. 182/2011.
+
+2.
+
+Odkazuje-li se na tento odstavec, použije se článek 5 nařízení (EU) č. 182/2011.
+
+Článek 20
+
+Výkon přenesené pravomoci
+
+1.
+
+Pravomoc přijímat akty v přenesené pravomoci uvedené v čl. 4 odst. 2, čl. 5 odst. 1 a článku 6 je svěřena Komisi na dobu pěti let od 21. července 2011. Komise předloží zprávu o přenesené pravomoci nejpozději šest měsíců před koncem tohoto pětiletého období. Přenesení pravomoci se automaticky prodlužuje o stejně dlouhá období, pokud je Evropský parlament nebo Rada nezruší v souladu s článkem 21.
+
+2.
+
+Přijetí aktu v přenesené pravomoci Komise neprodleně oznámí současně Evropskému parlamentu a Radě.
+
+3.
+
+Pravomoc přijímat akty v přenesené pravomoci svěřená Komisi podléhá podmínkám stanoveným v článcích 21 a 22.
+
+Článek 21
+
+Zrušení přenesení pravomoci
+
+1.
+
+Evropský parlament nebo Rada mohou přenesení pravomoci uvedené v čl. 4 odst. 2, čl. 5 odst. 1 a článku 6 kdykoli zrušit.
+
+2.
+
+Orgán, který zahájí vnitřní postup s cílem rozhodnout, zda zrušit přenesení pravomoci, uvědomí v přiměřené lhůtě před přijetím konečného rozhodnutí druhý orgán a Komisi a uvede přenesené pravomoci, jejichž zrušení by mohlo být zrušeno, a důvody tohoto zrušení.
+
+3.
+
+Rozhodnutím o zrušení se ukončuje přenesení pravomocí v něm blíže určených. Rozhodnutí nabývá účinku okamžitě nebo k pozdějšímu dni, který je v něm upřesněn. Nedotýká se platnosti již platných aktů v přenesené pravomoci. Bude zveřejněno v Úředním věstníku Evropské unie .
+
+Článek 22
+
+Námitky proti aktům v přenesené pravomoci
+
+1.
+
+Evropský parlament nebo Rada mohou proti aktu v přenesené pravomoci vyslovit námitky ve lhůtě dvou měsíců ode dne oznámení.
+
+Z podnětu Evropského parlamentu nebo Rady se tato lhůta prodlouží o dva měsíce.
+
+2.
+
+Pokud Evropský parlament ani Rada ve lhůtě stanovené v odstavci 1 námitky proti aktu v přenesené pravomoci nevysloví, akt v přenesené pravomoci se zveřejní v Úředním věstníku Evropské unie a vstoupí v platnost dnem v něm stanoveným.
+
+Pokud Evropský parlament i Rada informují Komisi o tom, že nehodlají vyslovit žádné námitky, může být akt v přenesené pravomoci zveřejněn v Úředním věstníku Evropské unie a vstoupit v platnost ještě před uplynutím této lhůty.
+
+3.
+
+Akt v přenesené pravomoci nevstoupí v platnost, pokud proti němu Evropský parlament nebo Rada ve lhůtě uvedené v odstavci 1 vysloví námitky. Orgán, který vyslovuje námitky proti aktu v přenesené pravomoci, je odůvodní.
+
+Článek 23
+
+Sankce
+
+Členské státy stanoví sankce za porušení vnitrostátních předpisů přijatých na základě této směrnice a přijmou veškerá opatření nezbytná k jejich uplatňování. Stanovené sankce musí být účinné, přiměřené a odrazující. Členské státy oznámí takto stanovené sankce Komisi do 2. ledna 2013 a neprodleně jí oznámí všechny následné změny těchto ustanovení.
+
+Článek 24
+
+Přezkum
+
+1.
+
+Komise do 22. července 2014 posoudí potřebu změny oblasti působnosti této směrnice s ohledem na EEZ uvedená v článku 2 a předloží o tom zprávu Evropskému parlamentu a Radě, případně společně s legislativním návrhem týkajícím se dodatečných vynětí z oblasti působnosti této směrnice s ohledem na EEZ uvedená v článku 2.
+
+2.
+
+Komise do 22. července 2021 provede obecný přezkum této směrnice a předloží Evropskému parlamentu a Radě zprávu, případně společně s legislativním návrhem.
+
+Článek 25
+
+Provedení
+
+1.
+
+Členské státy do 2. ledna 2013 přijmou a zveřejní právní a správní předpisy nezbytné pro dosažení souladu s touto směrnicí. Jejich znění sdělí neprodleně Komisi.
+
+Tyto předpisy přijaté členskými státy musí obsahovat odkaz na tuto směrnici nebo musí být takový odkaz učiněn při jejich úředním vyhlášení. Způsob odkazu si určí členské státy.
+
+2.
+
+Členské státy sdělí Komisi znění hlavních ustanovení vnitrostátních právních předpisů, které přijmou v oblasti působnosti této směrnice.
+
+Článek 26
+
+Zrušení
+
+Směrnice 2002/95/ES ve znění aktů uvedených v části A přílohy VII se zrušuje s účinkem ode dne 3. ledna 2013, aniž jsou dotčeny povinnosti členských států týkající se lhůt pro její provedení ve vnitrostátním právu a použitelnosti uvedených v části B přílohy VII.
+
+Odkazy na zrušené akty se považují za odkazy na tuto směrnici v souladu se srovnávací tabulkou obsaženou v příloze VIII.
+
+Článek 27
+
+Vstup v platnost
+
+Tato směrnice vstupuje v platnost dvacátým dnem po vyhlášení v Úředním věstníku Evropské unie .
+
+Článek 28
+
+Určení
+
+Tato směrnice je určena členským státům.
+
+PŘÍLOHA I
+
+Kategorie EEZ spadajících do oblasti působnosti této směrnice
+
+1. Velké spotřebiče pro domácnost
+
+2. Malé spotřebiče pro domácnost
+
+3. Zařízení informačních technologií a telekomunikační zařízení
+
+4. Spotřební elektronika
+
+5. Osvětlovací zařízení
+
+6. Elektrické a elektronické nástroje
+
+7. Hračky, vybavení pro volný čas a sporty
+
+8. Zdravotnické prostředky
+
+9. Monitorovací a kontrolní přístroje včetně průmyslových monitorovacích a kontrolních přístrojů
+
+10. Automaty
+
+11. Jiná EEZ, která nespadají do žádné z výše uvedených kategorií.
+
+▼M29
+
+PŘÍLOHA II
+
+Omezené látky uvedené v čl. 4 odst. 1 a maximální hodnoty hmotnostní koncentrace tolerované v homogenních materiálech
+
+Olovo (0,1 %)
+
+Rtuť (0,1 %)
+
+Kadmium (0,01 %)
+
+Šestimocný chrom (0,1 %)
+
+Polybromované bifenyly (PBB) (0,1 %)
+
+Polybromované difenylethery (PBDE) (0,1 %)
+
+Bis(2-ethylhexyl)ftalát (DEHP) (0,1 %)
+
+Butylbenzylftalát (BBP) (0,1 %)
+
+Dibutylftalát (DBP) (0,1 %)
+
+Diisobutylftalát (DIBP) (0,1 %)
+
+Omezení látek DEHP, BBP, DBP a DIBP se použije na zdravotnické prostředky, včetně zdravotnických prostředků in vitro , a monitorovací a kontrolní přístroje, k nimž patří i průmyslové monitorovací a kontrolní přístroje, od 22. července 2021.
+
+Omezení látek DEHP, BBP, DBP a DIBP se nepoužije na kabely nebo náhradní díly pro opravy, opětovné použití, modernizaci funkcí nebo zvýšení kapacity elektrických a elektronických zařízení uvedených na trh přede dnem 22. července 2019 a zdravotnické prostředky, včetně zdravotnických prostředků in vitro , a monitorovací a kontrolní přístroje, k nimž patří i průmyslové monitorovací a kontrolní přístroje, uvedené na trh přede dnem 22. července 2021.
+
+Omezení látek DEHP, BBP a DBP se nepoužije na hračky, na které se již vztahuje omezení látek DEHP, BBP a DBP prostřednictvím záznamu 51 v příloze XVII nařízení (ES) č. 1907/2006.
+
+▼B
+
+PŘÍLOHA III
+
+Použití vyňatá z omezení uvedeného v čl. 4 odst. 1
+
+Výjimka Rozsah a doba platnosti
+
+▼M69
+
+1 Rtuť v jednopaticových (kompaktních) zářivkách, jejíž obsah nepřevyšuje (na jeden hořák):
+
+1 a) Pro všeobecné osvětlování < 30 W: 2,5 mg Platí do 24. února 2023
+
+1 b) Pro všeobecné osvětlování ≥ 30 W a < 50 W: 3,5 mg Platí do 24. února 2023
+
+1 c) Pro všeobecné osvětlování ≥ 50 W a < 150 W: 5 mg Platí do 24. února 2023
+
+1 d) Pro všeobecné osvětlování ≥ 150 W: 15 mg Platí do 24. února 2023
+
+1 e) Pro zářivky kruhového nebo čtvercového tvaru s průměrem trubice ≤ 17 mm pro všeobecné osvětlování: 5 mg Platí do 24. února 2023
+
+▼M74
+
+1 f)-I Pro zářivky navržené tak, aby vyzařovaly zejména světlo v ultrafialovém spektru: 5 mg Platí do 24. února 2027
+
+1 f)-II Pro zvláštní účely: 5 mg Platí do 24. února 2025
+
+▼M70
+
+1 g) pro všeobecné osvětlování < 30 W s životností 20 000 h nebo delší: 3,5 mg Platí do 24. srpna 2023
+
+▼M77
+
+2 a) Rtuť v dvoupaticových lineárních zářivkách pro všeobecné osvětlování, jejíž obsah nepřevyšuje (na jednu zářivku):
+
+2 a) 1) Pro zářivky s třípásmovým luminoforem s normální dobou životnosti a průměrem trubice < 9 mm (např. T2): 4 mg Platí do 24. února 2023
+
+2 a) 2) Pro zářivky s třípásmovým luminoforem s normální dobou životnosti a průměrem trubice ≥ 9 mm a ≤ 17 mm (např. T5): 3 mg Platí do 24. srpna 2023
+
+2 a) 3) Pro zářivky s třípásmovým luminoforem s normální dobou životnosti a průměrem trubice > 17 mm a ≤ 28 mm (např. T8): 3,5 mg Platí do 24. srpna 2023
+
+2 a) 4) Pro zářivky s třípásmovým luminoforem s normální dobou životnosti a průměrem trubice > 28 mm (např. T12): 3,5 mg Platí do 24. února 2023
+
+2 a) 5) Pro zářivky s třípásmovým luminoforem s prodlouženou životností (≥ 25 000 h): 5 mg Platí do 24. února 2023
+
+▼B
+
+2 b) Rtuť v jiných zářivkách, jejíž obsah nepřevyšuje (na jednu zářivku):
+
+2 b) 1) Pro lineární zářivky s halofosfátovými luminofory s průměrem trubice > 28 mm (např. T10 a T12): 10 mg Platí do 13. dubna 2012
+
+2 b) 2) Pro nelineární zářivky s halofosfátovými luminofory (všech průměrů): 15 mg Platí do 13. dubna 2016
+
+▼M75
+
+2 b) 3) Pro nelineární zářivky s třípásmovým luminoforem s průměrem trubice > 17 mm (např. T9): 15 mg Platí do 24. února 2023; od 25. února 2023 do 24. února 2025 může být použito 10 mg na jednu zářivku
+
+▼M78
+
+2 b) 4)-I Pro zářivky pro jiné všeobecné osvětlování a jiné zvláštní účely (např. indukční výbojky): 15 mg Platí do 24. února 2025
+
+2 b) 4)-II Zářivky vyzařující především světlo v ultrafialovém spektru: 15 mg Platí do 24. února 2027
+
+2 b) 4)-III Nouzové zářivky: 15 mg Platí do 24. února 2027
+
+▼M67
+
+3 Rtuť v zářivkách se studenou katodou (CCFL) a zářivkách s externí elektrodou (EEFL) pro zvláštní účely používaná v EEZ uvedených na trh před 24. únorem 2022, jejíž obsah nepřevyšuje (na jednu zářivku):
+
+3 a) Pro krátké (≤ 500 mm): 3,5 mg Platí do 24. února 2025
+
+3 b) Pro středně dlouhé (> 500 mm a ≤ 1 500 mm): 5 mg Platí do 24. února 2025
+
+3 c) Pro dlouhé (> 1 500 mm): 13 mg Platí do 24. února 2025
+
+▼M73
+
+4 a) Rtuť v jiných nízkotlakých výbojkách (na jednu výbojku): 15 mg Platí do dne 24. února 2023
+
+4 a)-I Rtuť v nízkotlakých výbojkách nepotažených luminoforem, jejichž použití vyžaduje, aby hlavní rozsah spektrálního výkonu výbojky byl v ultrafialovém spektru: na jednu výbojku může být použito až 15 mg rtuti Platí do 24. února 2027
+
+▼M76
+
+4 b) Rtuť ve vysokotlakých sodíkových výbojkách se zlepšeným podáním barev Ra > 80 pro všeobecné osvětlování, jejíž obsah nepřevyšuje (na jeden hořák): P ≤ 105 W: na jeden hořák lze použít 16 mg Platí do 24 února 2027
+
+4 b)-I Rtuť ve vysokotlakých sodíkových výbojkách se zlepšeným podáním barev Ra > 60 pro všeobecné osvětlování, jejíž obsah nepřevyšuje (na jeden hořák): P ≤ 155 W: na jeden hořák lze použít 30 mg Platí do 24 února 2023
+
+4 b)-II Rtuť ve vysokotlakých sodíkových výbojkách se zlepšeným podáním barev Ra > 60 pro všeobecné osvětlování, jejíž obsah nepřevyšuje (na jeden hořák): 155 W < P ≤ 405 W: na jeden hořák lze použít 40 mg Platí do 24 února 2023
+
+4 b)-III Rtuť ve vysokotlakých sodíkových výbojkách se zlepšeným podáním barev Ra > 60 pro všeobecné osvětlování, jejíž obsah nepřevyšuje (na jeden hořák): P > 405 W: na jeden hořák lze použít 40 mg Platí do 24 února 2023
+
+▼M68
+
+4 c) Rtuť v jiných vysokotlakých sodíkových výbojkách pro všeobecné osvětlování, jejíž obsah nepřevyšuje (na jeden hořák):
+
+4 c)-I P ≤ 155 W: 20 mg Platí do 24. února 2027
+
+4 c)-II 155 W < P ≤ 405 W: 25 mg Platí do 24. února 2027
+
+4 c)-III P > 405 W: 25 mg Platí do 24. února 2027
+
+▼B
+
+4 d) Rtuť ve vysokotlakých rtuťových výbojkách Platí do 13. dubna 2015
+
+▼M71
+
+4 e) Rtuť v halogenidových výbojkách ►C5 Platí do 24. února 2027 ◄
+
+▼M72
+
+4 f)-I Rtuť v jiných výbojkách pro zvláštní použití konkrétně neuvedených v této příloze Platí do 24. února 2025
+
+4 f)-II Rtuť ve vysokotlakých rtuťových výbojkách používaných v projektorech, u nichž je vyžadován výkon ≥ 2000 ANSI lumenů Platí do 24. února 2027
+
+4 f)-III Rtuť ve vysokotlakých sodíkových výbojkách používaných pro osvětlení v zahradnictví Platí do 24. února 2027
+
+4 f)-IV Rtuť ve výbojkách vyzařujících světlo v ultrafialovém spektru Platí do 24. února 2027
+
+▼M26
+
+4 g) Rtuť v řemeslně vyráběných svíticích trubicích používaných pro značení, dekorativní či architektonické a speciální osvětlení a světelná umělecká díla, přičemž obsah rtuti je omezen na: a) 20 mg na pár elektrod + 0,3 mg na cm délky trubice, avšak nejvýše 80 mg, při použitích ve venkovních prostorech a ve vnitřních prostorech vystavených teplotám pod 20 °C; b) 15 mg na pár elektrod + 0,24 mg na cm délky trubice, avšak nejvýše 80 mg, při všech ostatních použitích ve vnitřních prostorech. Platí do 31. prosince 2018
+
+▼B
+
+5 a) Olovo ve skle obrazovek s katodovou trubicí
+
+5 b) Olovo ve skle zářivek, jehož obsah nepřevyšuje 0,2 % hmotnostních
+
+▼M88
+
+6 a) Olovo jako legující prvek v oceli pro účely strojního obrábění a pozinkované oceli, obsahující až 0,35 % hmotnostních olova Platí do 11. prosince 2026.
+
+6 a)-I Olovo jako legující prvek v oceli pro účely strojního obrábění obsahující až 0,35 % hmotnostních olova ( 3 ) Vztahuje se na všechny kategorie a platí do 30. června 2027.
+
+6 a)-II Ocel jako legující prvek v součástech z oceli kusově žárově pozinkované o obsahu olova do 0,2 % hmotnostních ( 3 ) Vztahuje se na všechny kategorie a platí do 30. června 2027.
+
+6 b) Olovo jako legující prvek ve slitinách hliníku, obsahujících až 0,4 % hmotnostních olova Platí do 11. června 2027.
+
+6 b)-I Olovo jako legující prvek ve slitinách hliníku, obsahujících až 0,4 % hmotnostních olova, za předpokladu, že pochází z recyklace olovnatého hliníkového šrotu ( 3 ) Platí do 11. prosince 2026 pro kategorie 1–7 a 10. Platí do 30. června 2027 pro průmyslové monitorovací a kontrolní přístroje kategorie 9 a pro kategorii 11.
+
+6 b)-II Olovo jako legující prvek ve slitinách hliníku pro účely strojního obrábění, obsahujících až 0,4 % hmotnostních olova ( 3 ) Platí do 11. června 2027 pro kategorie 1–7 a 10. Platí do 30. června 2027 pro průmyslové monitorovací a kontrolní přístroje kategorie 9 a pro kategorii 11. ( 3 )
+
+6 b)-III Olovo jako legující prvek ve slitinách hliníku, obsahujících až 0,3 % hmotnostních olova, za předpokladu, že pochází z recyklace olovnatého hliníkového šrotu ( 3 ) Platí do 30. června 2027 pro kategorie 1–8, pro kategorii 9 s výjimkou průmyslových monitorovacích a kontrolních přístrojů a pro kategorii 10.
+
+6 c) Slitina mědi obsahující až 4 % hmotnostní olova ( 3 ) Platí do 30. června 2027.
+
+▼M86
+
+7 a) Olovo v pájkách s vysokým bodem tání (např. slitiny olova obsahující 85 % hmotnostních olova nebo více) Vztahuje se na všechny kategorie (s výjimkou použití, na něž se vztahuje bod 24 této přílohy) a platí do dne 30. června 2027.
+
+7 a)-I Olovo v pájkách s vysokým bodem tání (např. slitiny olova obsahující 85 % hmotnostních olova nebo více) pro vnitřní propojení pro připevňování čipů nebo jiných součástí spolu s čipem v polovodičové sestavě s ustálenými nebo přechodovým/impulsním proudem 0,1 A nebo více nebo blokovacími napětími nad 10 V nebo s vnějším rozměrem čipu větším než 0,3 mm × 0,3 mm Vztahuje se na všechny kategorie (s výjimkou použití, na něž se vztahuje bod 24 této přílohy) a platí do 31. prosince 2027.
+
+7 a)-II Olovo v pájkách s vysokým bodem tání (např. slitiny olova obsahující 85 % hmotnostních olova nebo více) pro integrální (tj. vnitřní a vnější) spoje pro připevňování čipů v elektrických a elektronických součástkách, pokud jsou splněny všechny následující podmínky: — tepelná vodivost vytvrzeného/spékaného materiálu pro připevňování čipů je vyšší než 35 W/(m × K), — elektrická vodivost vytvrzeného/spékaného materiálu pro připevňování čipů je vyšší než 4,7 MS/m, — teplota tání pevné látky je vyšší než 260 °C Vztahuje se na všechny kategorie (s výjimkou použití, na něž se vztahuje bod 24 této přílohy) a platí do 31. prosince 2027.
+
+7 a)-III Olovo v pájkách s vysokým bodem tání (např. slitiny olova obsahující 85 % hmotnostních olova nebo více) v pájených spojích první úrovně (vnitřní nebo integrální spoje – to znamená vnitřní a vnější) pro výrobu součástí tak, aby následná montáž elektronických součástí na dílčí sestavy (tj. moduly, desky s dílčími obvody, substráty nebo bodové pájení) pomocí sekundární pájky nezpůsobila přetavení pájky první úrovně. Tato podpoložka nezahrnuje použití pro připevňování čipů a hermetické utěsnění Vztahuje se na všechny kategorie (s výjimkou použití, na něž se vztahuje bod 24 této přílohy) a platí do 31. prosince 2027.
+
+7 a)-IV Olovo v pájkách s vysokým bodem tání (např. slitiny olova obsahující 85 % hmotnostních olova nebo více) v pájených spojích druhé úrovně pro připevňování součástí na desku s plošnými spoji nebo olověné rámečky: 1. v pájecích kuličkách pro připevnění keramického kulového mřížkového pole (BGA) 2. u vysokoteplotního zastřikování plastů (nad 220 °C) Vztahuje se na všechny kategorie (s výjimkou použití, na něž se vztahuje bod 24 této přílohy) a platí do 31. prosince 2027.
+
+7 a)-V Olovo v pájkách s vysokým bodem tání (např. slitiny olova obsahující 85 % hmotnostních olova nebo více) jako materiál pro hermetické utěsnění mezi: 1. keramickým obalem nebo zástrčkou a kovovým pouzdrem, 2. koncovými částmi součásti a vnitřní dílčí částí Vztahuje se na všechny kategorie (s výjimkou použití, na něž se vztahuje bod 24 této přílohy) a platí do 31. prosince 2027.
+
+7 a)-VI Olovo v pájkách s vysokým bodem tání (např. slitiny olova obsahující 85 % hmotnostních olova nebo více) pro vytvoření elektrických propojení mezi součástmi zdrojů světla v reflektorových žárovkách pro infračervené vytápění, výbojkách s vysokou intenzitou výboje nebo žárovkách pro trouby Vztahuje se na všechny kategorie (s výjimkou použití, na něž se vztahuje bod 24 této přílohy) a platí do 31. prosince 2027.
+
+7 a)-VII Olovo v pájkách s vysokým bodem tání (např. slitiny olova obsahující 85 % hmotnostních olova nebo více) pro zvukové měniče, u nichž maximální provozní teplota přesahuje 200 °C Vztahuje se na všechny kategorie (s výjimkou použití, na něž se vztahuje bod 24 této přílohy) a platí do 31. prosince 2027.
+
+▼B
+
+7 b) Olovo v pájkách pro servery, paměti a systémy pro ukládání dat a pro zařízení síťové infrastruktury pro přepínání, signalizaci, přenos a správu sítě pro telekomunikace
+
+▼M87
+
+7 c)-I Olovo, obsažené ve skleněných nebo keramických částech elektrických a elektronických dílů, kromě dielektrických keramických částí kondenzátorů, např. v piezoelektrických přístrojích, nebo ve skleněné nebo keramické pojivové směsi Vztahuje se na všechny kategorie a platí do 30. června 2027.
+
+7 c)-II Olovo v dielektrických keramických částech kondenzátorů pro jmenovité střídavé napětí 125 V nebo stejnosměrné napětí 250 V nebo vyšší Vztahuje se na všechny kategorie (s výjimkou použití, na něž se vztahuje bod 7 c)-I nebo bod 7 c)-IV) a platí do 31. prosince 2027.
+
+▼B
+
+7 c)-III Olovo v dielektrických keramických částech kondenzátorů pro jmenovité střídavé napětí menší než 125 V nebo stejnosměrné napětí 250 V Platí do 1. ledna 2013 a po tomto datu může být použito v dílech EEZ uvedených na trh před 1. lednem 2013
+
+▼M46
+
+7 c)-IV Olovo v dielektrických keramických materiálech na bázi PZT (tuhých roztoků oxidu olova, zirkonu a titanu) pro kondenzátory, které jsou součástí integrovaných obvodů nebo diskrétních polovodičů Platí do: — 21. července 2021 pro kategorie 1 až 7 a 10, — 21. července 2021 pro kategorie 8 a 9, s výjimkou diagnostických zdravotnických prostředků in vitro a průmyslových monitorovacích a kontrolních přístrojů, — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro kategorie 8, — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje kategorie 9 a pro kategorii 11.
+
+▼M87
+
+7 c)-V Olovo, obsažené ve skleněné nebo keramické pojivové směsi elektrických a elektronických dílů, které plní některou z následujících funkcí: 1) ochrana a elektrická izolace skleněných kuliček vysokonapěťových diod a skleněných vrstev pro destičky; 2) hermetické utěsnění mezi keramickými, kovovými a/nebo skleněnými díly; 3) spojování v intervalu procesních parametrů pro teploty nad 500 °C v kombinaci s viskozitou 1 013,3 dPas (dále jen „teplota skelného přechodu“); 4) použití jako odporový materiál, jako je inkoust, s rozsahem odporu od 1 ohmu na čtverec do 100 megaohmů na čtverec, s výjimkou ladicích potenciometrů; 5) použití v chemicky upravených skleněných površích pro mikrokanálové desky, jednokanálové elektronové násobiče a odporové skleněné výrobky. Vztahuje se na všechny kategorie a platí do 31. prosince 2027.
+
+7 c)-VI Olovo, obsažené v keramických částech elektrických a elektronických dílů, které plní některou z následujících funkcí: 1) použití v piezoelektrických keramických částech z titaničitanu olova-zirkonia; 2) výroba keramických částí s kladným teplotním koeficientem. Vztahuje se na všechny kategorie (s výjimkou použití, na něž se vztahuje bod 7 c)-II, 7 c)-III a 7 c)-IV) této přílohy a rovněž bod 14 přílohy IV) a platí do 31. prosince 2027.
+
+▼B
+
+8 a) Kadmium a jeho sloučeniny v bezpečnostních tepelných pojistkách Platí do 1. ledna 2012 a po tomto datu může být použito v dílech EEZ uvedených na trh před 1. lednem 2012
+
+▼M47
+
+8 b) Kadmium a jeho sloučeniny v elektrických kontaktech Týká se kategorií 8, 9 a 11 a platí do: — 21. července 2021 pro kategorie 8 a 9, s výjimkou diagnostických zdravotnických prostředků in vitro a průmyslových monitorovacích a kontrolních přístrojů, — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro kategorie 8, — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje kategorie 9 a pro kategorii 11.
+
+8 b)-I Kadmium a jeho sloučeniny v elektrických kontaktech používaných: — v jističích, — v řídicích zařízeních pro snímání teploty, — v tepelných chráničích motorů (kromě hermetických tepelných chráničů motorů), — ve spínačích střídavého proudu: — — pro jmenovitý střídavý proud 6 A a vyšší při jmenovitém střídavém napětí 250 V a vyšším, nebo — pro jmenovitý střídavý proud 12 A a vyšší při jmenovitém střídavém napětí 125 V a vyšším, — ve spínačích stejnosměrného proudu pro jmenovitý stejnosměrný proud 20 A a vyšší při jmenovitém stejnosměrném napětí 18 V a vyšším a — ve spínačích pro použití při frekvenci napájecího napětí ≥ 200 Hz. Týká se kategorií 1 až 7 a 10 a platí do 21. července 2021.
+
+▼M58
+
+9 Šestimocný chrom jako antikorozní činidlo v chladicích systémech z uhlíkové oceli v absorpčních ledničkách do 0,75 % hmotnostních v chladicí kapalině Týká se kategorií 8, 9 a 11 a platí do: — 21. července 2021 pro kategorie 8 a 9, s výjimkou diagnostických zdravotnických prostředků in vitro a průmyslových monitorovacích a kontrolních přístrojů, — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro kategorie 8, — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje kategorie 9 a pro kategorii 11.
+
+9 a)-I Šestimocný chrom do 0,75 % hmotnostních používaný jako antikorozní činidlo v chladicím roztoku chladicích systémů z uhlíkové oceli v absorpčních ledničkách (včetně minibarů) navržených tak, aby plně nebo částečně fungovaly s elektrickým ohřívačem s průměrným využívaným elektrickým příkonem < 75 W za konstantních provozních podmínek Týká se kategorií 1 až 7 a 10 a platí do 5. března 2021.
+
+9 a)-II Šestimocný chrom do 0,75 % hmotnostních používaný jako antikorozní činidlo v chladicím roztoku chladicích systémů z uhlíkové oceli v absorpčních ledničkách: — navržených tak, aby plně nebo částečně fungovaly s elektrickým ohřívačem s průměrným využívaným elektrickým příkonem ≥ 75 W za konstantních provozních podmínek, — navržených tak, aby plně fungovaly s neelektrickým ohřívačem. Týká se kategorií 1 až 7 a 10 a platí do 21. července 2021.
+
+▼M81
+
+9 a)-III Šestimocný chrom do 0,7 % hmotnostních používaný jako antikorozní činidlo v pracovní kapalině uzavřeného okruhu plynových absorpčních tepelných čerpadel pro vytápění a ohřev vody vyrobeného z uhlíkové oceli Platí pro kategorii 1 do 31. prosince 2026.
+
+▼M34
+
+9 b) Olovo v olověných ložiskových pánvích a pouzdrech v kompresorech obsahujících chladící látku v systémech vytápění, ventilace, klimatizace a chlazení Týká se kategorií 8, 9 a 11; platí do: — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro z kategorie 8, — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje z kategorie 9 a pro kategorii 11, — 21. července 2021 pro ostatní podkategorie kategorií 8 a 9.
+
+9 b)-I Olovo v olověných ložiskových pánvích a pouzdrech v hermetických spirálových kompresorech obsahujících chladící látku s deklarovaným elektrickým příkonem 9 kW nebo nižším v systémech vytápění, ventilace, klimatizace a chlazení (HVACR) Týká se kategorie 1; platí do 21. července 2019.
+
+▼B
+
+11 a) Olovo používané v pružných konektorových systémech se zalisovanými kolíky typu C-press Může být použito v dílech EEZ uvedených na trh před 24. zářím 2010
+
+11 b) Olovo používané v pružných konektorových systémech jiných než se zalisovanými kolíky typu C-press Platí do 1. ledna 2013 a po tomto datu může být použito v dílech EEZ uvedených na trh před 1. lednem 2013
+
+12 Olovo používané jako povrchový materiál u modulu typu C-ring pro vedení tepla Může být použito v dílech EEZ uvedených na trh před 24. zářím 2010
+
+▼M35
+
+13 a) Olovo ve skle pro optické účely Týká se všech kategorií; platí do: — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro z kategorie 8, — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje z kategorie 9 a pro kategorii 11, — 21. července 2021 pro všechny ostatní kategorie a podkategorie.
+
+▼M33
+
+13 b) Kadmium a olovo ve filtračním skle a skle používaném pro etalony odrazivosti Týká se kategorií 8, 9 a 11; platí do: — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro z kategorie 8; — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje z kategorie 9 a pro kategorii 11; — 21. července 2021 pro ostatní podkategorie kategorií 8 a 9.
+
+13 b)-I Olovo ve filtračním skle barveném ionty Týká se kategorií 1 až 7 a 10; platí do 21. července 2021 pro kategorie 1 až 7 a 10.
+
+13 b)-II Kadmium v koloidně barvených filtračních sklech; kromě použití, která spadají do bodu 39 této přílohy.
+
+13 b)-III Kadmium a olovo v glazurách používaných pro etalony odrazivosti.
+
+▼B
+
+14 Olovo v pájkách obsahující více než dva prvky pro spojení mezi kolíky a sadou mikroprocesorů o obsahu olova vyšším než 80 % a nižším než 85 % hmotnostních Platilo do 1. ledna 2011 a po tomto datu může být použito v dílech EEZ uvedených na trh před 1. lednem 2011
+
+▼M48
+
+15 Olovo v pájkách pro sestavení stabilního elektrického spojení mezi polovodičovým čipem a nosičem v pouzdrech integrovaných obvodů využívajících technologii „Flip Chip“ Týká se kategorií 8, 9 a 11 a platí do: — 21. července 2021 pro kategorie 8 a 9, s výjimkou diagnostických zdravotnických prostředků in vitro a průmyslových monitorovacích a kontrolních přístrojů, — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro kategorie 8, — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje kategorie 9 a pro kategorii 11.
+
+15 a) Olovo v pájkách pro sestavení stabilního elektrického spojení mezi polovodičovým čipem a nosičem v pouzdrech integrovaných obvodů využívajících technologii „Flip Chip“, pokud je splněno alespoň jedno z těchto kritérií: — výrobní technologie 90 nm nebo více, — jediný čip s plochou 300 mm 2 nebo větší při použití jakékoli výrobní technologie (nm), — pouzdra s vrstvenými čipy, v nichž čip má plochu 300 mm 2 nebo větší anebo křemíkové vložky mají plochu 300 mm 2 nebo větší. Týká se kategorií 1 až 7 a 10 a platí do 21. července 2021.
+
+▼B
+
+16 Olovo v lineárních žárovkách s trubicemi potaženými silikátem Platí do 1. září 2013
+
+17 Halogenidy olova jako zdroj záření ve výbojkách s vysokou intenzitou výboje (HID) používaných v profesionálních reprografických aplikacích
+
+18 a) Olovo jako aktivátor ve fluorescenčním prášku (nejvýše 1 % hmotnostních olova) výbojek, jsou-li používány jako speciální zdroje světla v diazografické reprografii, litografii, lapačích hmyzu, fotochemických a konzervovacích postupech a obsahující luminofory jako například SMS ((Sr,Ba) 2 MgSi 2 O 7 :Pb) Platilo do 1. ledna 2011
+
+▼M53
+
+18b) Olovo jakožto aktivátor ve fluorescenčním prášku (nejvýše 1 % hmotnostní olova) výbojek, jsou-li používány jako zářiče v soláriích obsahující luminofory, jako je například BSP (BaSi2O5:Pb) Platí do: — 21. července 2021 pro kategorie 1 až 7 a 10, — 21. července 2021 pro kategorie 8 a 9, s výjimkou diagnostických zdravotnických prostředků in vitro a průmyslových monitorovacích a kontrolních přístrojů, — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro kategorie 8, — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje kategorie 9 a pro kategorii 11.
+
+18b)-I Olovo jakožto aktivátor ve fluorescenčním prášku (nejvýše 1 % hmotnostní olova) výbojek, obsahujících luminofory, jako je například BSP (BaSi2O5: Pb), jsou-li používány ve zdravotnickém fototerapeutickém vybavení Platí pro kategorie 5 a 8 (s výjimkou použití, na něž se vztahuje bod 34 přílohy IV) do 21. července 2021.
+
+▼B
+
+19 Olovo obsahující PbBiSn-Hg a PbInSn-Hg v určitých směsích jako hlavní amalgám a PbSn-Hg jako vedlejší amalgám v kompaktních, energeticky velmi úsporných výbojkách Platí do 1. června 2011
+
+20 Oxid olova ve skle používaném ke spojení předních a zadních podkladů v plochých zářivkách používaných v displejích na bázi tekutých krystalů (LCD) Platí do 1. června 2011
+
+▼M49
+
+21 Olovo a kadmium v tiskových barvách pro aplikaci smaltu na sklo, jako je borosilikátové sklo nebo sodnovápenaté sklo Týká se kategorií 8, 9 a 11 a platí do: — 21. července 2021 pro kategorie 8 a 9, s výjimkou diagnostických zdravotnických prostředků in vitro a průmyslových monitorovacích a kontrolních přístrojů, — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro kategorie 8, — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje kategorie 9 a pro kategorii 11.
+
+21 a) Kadmium používané k zajištění filtračních funkcí v barevně potištěném skle, které tvoří součást systémů vizualizace v displejích a ovládacích panelech EEZ Týká se kategorií 1 až 7 a 10, s výjimkou použití spadajících do položek 21 b) nebo 39, a platí do 21. července 2021.
+
+21 b) Kadmium v tiskových barvách pro aplikaci smaltu na sklo, jako je borosilikátové sklo nebo sodnovápenaté sklo Týká se kategorií 1 až 7 a 10, s výjimkou použití spadajících do položek 21 a) nebo 39, a platí do 21. července 2021.
+
+21 c) Olovo v tiskových barvách pro aplikaci smaltu na jiné než borosilikátové sklo Týká se kategorií 1 až 7 a 10 a platí do 21. července 2021.
+
+▼B
+
+23 Olovo v ukončeních součástek s malou roztečí, jiných než konektorů s roztečí 0,65 mm nebo menší Může být použito v dílech EEZ uvedených na trh před 24. zářím 2010
+
+▼M39
+
+24 Olovo v letovacích pájkách pro pájení otvorem v diskoidních a plochých vícevrstvově uspořádaných keramických kondenzátorech Platí do: — 21. července 2021 pro kategorie 1 až 7 a 10 — 21. července 2021 pro kategorie 8 a 9, s výjimkou diagnostických zdravotnických prostředků in vitro a průmyslových monitorovacích a kontrolních přístrojů — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro kategorie 8 — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje kategorie 9 a pro kategorii 11
+
+▼B
+
+25 Oxid olova v displejích s povrchovým vedením emitorů elektronů (SED) používaných zejména ve stavebních komponentech, zejména těsnicí fritě a fritovém kroužku
+
+26 Oxid olova ve skleněné baňce UVB zářivek s černým sklem Platí do 1. června 2011
+
+27 Slitiny olova jako pájky pro měniče používané ve vysokovýkonových reproduktorech (určených pro několikahodinový provoz při hladině akustického výkonu 125 dB SPL a vyšších) Platilo do 24. září 2010
+
+▼M50
+
+29 Olovo v křišťálovém skle podle přílohy I (kategorie 1, 2, 3 a 4) směrnice Rady 69/493/EHS ( ) Platí do: — 21. července 2021 pro kategorie 1 až 7 a 10, — 21. července 2021 pro kategorie 8 a 9, s výjimkou diagnostických zdravotnických prostředků in vitro a průmyslových monitorovacích a kontrolních přístrojů, — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro kategorie 8, — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje kategorie 9 a pro kategorii 11.
+
+▼B
+
+30 Kadmiové slitiny jako elektrické/mechanické pájené spoje elektrických vodičů umístěných přímo na kmitacích cívkách měničů používaných ve vysokovýkonových reproduktorech s hladinou zvukového tlaku ve výši 100 dB (A) a vyšší
+
+31 Olovo v pájecích materiálech v plochých zářivkách bez obsahu rtuti (které se používají například v displejích na bázi tekutých krystalů, v designovém či průmyslovém osvětlení)
+
+▼M51
+
+32 Oxid olova v těsnicí fritě používané ve výrobě okenních montážních celků pro argonové a kryptonové laserové trubice Platí do: — 21. července 2021 pro kategorie 1 až 7 a 10, — 21. července 2021 pro kategorie 8 a 9, s výjimkou diagnostických zdravotnických prostředků in vitro a průmyslových monitorovacích a kontrolních přístrojů, — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro kategorie 8, — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje kategorie 9 a pro kategorii 11.
+
+▼B
+
+33 Olovo v pájkách na pájení tenkých měděných drátů o průměru rovnajícím se nebo menším než 100 μm ve výkonových transformátorech
+
+▼M40
+
+34 Olovo v prvcích ladicích potenciometrů z kovovo-keramických materiálů Týká se všech kategorií; platí do: — 21. července 2021 pro kategorie 1 až 7 a 10 — 21. července 2021 pro kategorie 8 a 9, s výjimkou diagnostických zdravotnických prostředků in vitro a průmyslových monitorovacích a kontrolních přístrojů — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro kategorie 8 — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje kategorie 9 a pro kategorii 11
+
+▼B
+
+36 Rtuť používaná jako inhibitor rozprašování katody ve stejnosměrných plazmových obrazovkách s obsahem do 30 mg na obrazovku Platilo do 1. července 2010
+
+▼M52
+
+37 Olovo v pokovené vrstvě vysokonapěťových diod s pouzdrem ze skla na bázi borátu zinečnatého Platí do: — 21. července 2021 pro kategorie 1 až 7 a 10, — 21. července 2021 pro kategorie 8 a 9, s výjimkou diagnostických zdravotnických prostředků in vitro a průmyslových monitorovacích a kontrolních přístrojů, — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro kategorie 8, — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje kategorie 9 a pro kategorii 11.
+
+▼B
+
+38 Kadmium a oxid kademnatý v pastách pro tlusté vrstvy používaných na oxid berylnatý spojený s hliníkem
+
+▼M85
+
+39 a) Selenid kademnatý v polovodičových nanokrystalových kvantových obrazových bodech na bázi kadmia pro konverzi vlnové délky („downshifting“) pro použití v systémech vizualizace (< 0,2 μg Cd na mm 2 plochy obrazovky) Platnost končí pro všechny kategorie dne 21. listopadu 2025
+
+▼M85
+
+39 b) Kadmium v polovodičových nanokrystalových kvantových obrazových bodech pro konverzi vlnové délky („downshifting“) přímo nanesených na polovodičových LED čipech pro použití v zobrazovacích a projekčních systémech (< 5 μg Cd na mm 2 povrchu LED čipu) s maximálním množstvím na zařízení 1 mg. Platnost končí pro všechny kategorie dne 31. prosince 2027
+
+▼M2
+
+40 Kadmium ve fotoresistorech pro analogové optické vazební členy používané v profesionálním zvukovém zařízení Platí do 31. prosince 2013
+
+▼M60
+
+41 Olovo v pájkách a povrchové úpravě vývodů elektrických a elektronických součástí a v povrchové úpravě desek plošných spojů používaných v modulech zapalování a jiných elektrických a elektronických řídicích systémech motorů, které z technických důvodů musí být namontovány přímo na nebo v klikové skříni nebo válci ručně držených spalovacích motorů (třídy SH:1, SH:2, SH:3 podle směrnice Evropského parlamentu a Rady 97/68/ES ( *1 ) ) Týká se všech kategorií a platí do: — 31. března 2022 pro kategorie 1 až 7, 10 a 11, — 21. července 2021 pro kategorie 8 a 9, s výjimkou diagnostických zdravotnických prostředků in vitro a průmyslových monitorovacích a kontrolních přístrojů, — 21. července 2023 pro diagnostické zdravotnické prostředky in vitro kategorie 8, — 21. července 2024 pro průmyslové monitorovací a kontrolní přístroje kategorie 9.
+
+▼M54
+
+42 Olovo v ložiscích a pouzdrech motorů s vnitřním spalováním poháněných naftou nebo plynným palivem, které jsou používány v nesilničních zařízeních určených k profesionálnímu využití: — s celkovým zdvihovým objemem motoru ≥ 15 litrů; — nebo — s celkovým zdvihovým objemem motoru < 15 litrů, přičemž motor je určen pro provoz v aplikacích, kde doba mezi signálem k zahájení a plným zatížením musí být kratší než 10 sekund; nebo se pravidelná údržba obvykle provádí v nepříznivém venkovním prostředí, jako je hornictví, stavebnictví a zemědělství. Týká se kategorie 11, s výjimkou žádostí, na něž se vztahuje bod 6c) této přílohy. Platí do 21. července 2024.
+
+▼M55
+
+43 Bis(2-ethylhexyl)-ftalát v pryžových dílech v motorech, pro použití v zařízeních, jež nejsou určena výhradně pro použití spotřebitelem, pokud žádné měkčené plastové materiály nepřicházejí do styku s lidskou sliznicí nebo do dlouhodobého styku s lidskou kůží a hodnota koncentrace bis(2-ethylhexyl)-ftalátu nepřesahuje: a) 30 % hmotnostních kaučuku v případě i) povrchové úpravy těsnicích kroužků; ii) celopryžových těsnicích kroužků; nebo iii) pryžových dílů, které jsou součástí sestav složených z alespoň tří součástí připojených k motoru a využívajících elektrický, mechanický nebo hydraulický pohon; b) 10 % hmotnostních kaučuku v případě dílů s obsahem kaučuku, které nejsou uvedeny v písmenu a). Pro účely této položky se „dlouhodobým stykem s lidskou kůží“ rozumí nepřetržitý styk o délce více než 10 minut nebo přerušovaný styk o délce více než 30 minut denně. Platí pro kategorii 11 a platí do 21. července 2024.
+
+▼M56
+
+44 Olovo v pájkách pro čidla, ovládací prvky a řídicí jednotky motoru ve spalovacích motorech v oblasti působnosti nařízení Evropského parlamentu a Rady (EU) 2016/1628 ( 2 ) , jež jsou instalovány v zařízeních provozovaných ve stabilní poloze a určených pro odborníky, ale používaných rovněž neprofesionálními uživateli. Platí pro kategorii 11 a platí do 21. července 2024.
+
+▼M62
+
+45 ►C3 Diazid olova, styfnát olova, plumbum-dipikramát, orthoolovičitan olovnatý a oxid olovičitý v elektrických a elektronických iniciátorech výbušnin pro civilní (profesionální) použití a chroman barnatý v pyrotechnických zpožďovacích složích s dlouhým intervalem zpoždění, jež jsou obsaženy v elektrických iniciátorech výbušnin pro civilní (profesionální) použití ◄ Týká se kategorie 11 a platí do 20. dubna 2026.
+
+▼M84
+
+46 Kadmium a olovo v plastových profilech obsahujících směsi vyrobené z odpadu z polyvinylchloridu (dále jen „recyklovaný pevný PVC“), používaných pro elektrická a elektronická okna a dveře, pokud koncentrace v recyklovaném pevném PVC nepřesahuje 0,1 % hmotnostních kadmia a 1,5 % hmotnostních olova. Od 28. května 2026 se pevný PVC získaný z elektrických a elektronických oken a dveří použije pouze k výrobě nových výrobků spadajících do kategorií uvedených v záznamu 63 bodě 18 písm. a) až d) tabulky v příloze XVII nařízení (ES) č. 1907/2006. Dodavatelé výrobků z PVC obsahujících recyklovaný pevný PVC s koncentrací olova rovnající se nebo vyšší než 0,1 % hmotnostních materiálu z PVC zajistí před uvedením těchto výrobků na trh, aby byly viditelně, čitelně a nesmazatelně označeny nápisem: „Obsahuje ≥ 0,1 % olova“. Pokud vzhledem k jeho povaze nelze na výrobku uvést označení, musí být toto uvedeno na obalu výrobku. Dodavatelé výrobků z PVC obsahujících recyklovaný pevný PVC předloží vnitrostátním orgánům dozoru na vyžádání písemné doklady na podporu tvrzení o recyklovaném původu PVC v uvedených výrobcích. Pro účely doložení těchto tvrzení o výrobcích z PVC vyrobených v Unii lze použít osvědčení vydaná prostřednictvím systémů k doložení sledovatelnosti a recyklovaného obsahu, jako jsou osvědčení zavedená v souladu s normou EN 15343:2007 nebo rovnocennými uznávanými normami. Tvrzení o recyklovaném původu PVC v dovážených výrobcích musí být doprovázena osvědčením vystaveným nezávislou třetí stranou, v němž je poskytnuto rovnocenné doložení sledovatelnosti a recyklovaného obsahu. Platí pro kategorii 11 do 28. května 2028.
+
+▼B
+
+►M22 ( *1 ) Směrnice Evropského parlamentu a Rady 97/68/ES ze dne 16. prosince 1997 o sbližování právních předpisů členských států týkajících se opatření proti emisím plynných znečišťujících látek a znečišťujících částic ze spalovacích motorů určených pro nesilniční pojízdné stroje (Úř. věst. L 59, 27.2.1998, s. 1). ◄ ►M50 ( 1 ) Směrnice Rady 69/493/EHS ze dne 15. prosince 1969 o sbližování právních předpisů členských států týkajících se křišťálového skla (Úř. věst. L 326, 29.12.1969, s. 36). ◄ ►M56 ( 2 ) Nařízení Evropského parlamentu a Rady (EU) 2016/1628 ze dne 14. září 2016 o požadavcích na mezní hodnoty emisí plynných a tuhých znečišťujících látek a schválení typu spalovacích motorů v nesilničních mobilních strojích, o změně nařízení (EU) č. 1024/2012 a (EU) č. 167/2013 a o změně a zrušení směrnice 97/68/ES (Úř. věst. L 252, 16.9.2016, s. 53). ◄ ( 3 ) Výjimka se nevztahuje na EEZ určená pro širokou veřejnost, pokud si mohou děti za běžných nebo důvodně předpokládaných podmínek používání vkládat EEZ nebo jejich přístupné části do úst. Výjimka se však použije, pokud lze prokázat obojí z uvedeného: — míra uvolňování olova z takového EEZ nebo přístupné části EEZ, povlakovaného či nepovlakovaného, nepřesahuje 0,05 μg/cm 2 za hodinu (což odpovídá 0,05 μg/g/h), — v případě povlakovaných předmětů, že tato povrchová úprava je dostatečná pro zabezpečení toho, aby po dobu alespoň dvou let za běžných nebo důvodně předpokládaných podmínek používání EEZ nedošlo k překročení této míry uvolňování. Pro účely této poznámky pod čarou se má za to, že dítě si dokáže vložit do úst EEZ nebo přístupnou část EEZ, je-li jeden jejich rozměr menší než 5 cm nebo obsahují-li oddělitelnou či vyčnívající část takové velikosti.
+
+PŘÍLOHA IV
+
+Použití vyňatá z omezení uvedeného v čl. 4 odst. 1 specifické pro zdravotnické prostředky a monitorovací a kontrolní přístroje
+
+Zařízení používající nebo zjišťující ionizující záření
+
+1. Olovo, kadmium a rtuť v detektorech ionizujícího záření.
+
+2. Olověná ložiska v rentgenových trubicích.
+
+3. Olovo v zařízeních zesilujících elektromagnetické záření: mikrokanálové desky a kapilární desky.
+
+4. Olovo ve skleněné fritě rentgenových trubic a optických zesilovačích a olovo v pojivu skleněné frity pro skládání plynových laserů a vakuové trubice, které přeměňují elektromagnetické záření na elektrony.
+
+5. Olovo ve stínění ionizujícího záření.
+
+6. Olovo ve zkušebních rentgenových testovacích předmětech.
+
+7. Stearát olova rentgenových difrakčních krystalů.
+
+8. Zdroj radioaktivních izotopů kadmia pro přenosné rentgenové fluorescenční spektrometry.
+
+Snímače, detektory a elektrody
+
+1a. Olovo a kadmium v iontových výběrových elektrodách včetně skla pH elektrod.
+
+1b. Olověné anody v elektrochemických kyslíkových sondách.
+
+1c. Olovo, kadmium a rtuť v detektorech infračerveného záření.
+
+1d. Rtuť v referenčních elektrodách: chlorid rtuťný s nízkým obsahem chloridu, síran rtuťnatý a oxid rtuťnatý.
+
+Ostatní
+
+9. Kadmium v helium-kadmiových laserech.
+
+10. Olovo a kadmium v atomických adsorpčních spektrálních výbojkách.
+
+11. Olovo ve slitinách jako supravodič a tepelný vodič v přístrojích magnetické rezonance.
+
+▼M11
+
+12. Olovo a kadmium v kovovém pojivu supravodivých materiálů v přístrojích magnetické rezonance (MRI), detektorech supravodivého kvantového interferenčního zařízení (SQUID), nukleární magnetické resonance (NMR) nebo hmotnostních spektrometrů s Fourierovou transformací (FTMS). Platí do 30. června 2021.
+
+▼B
+
+13. Olovo v protizávaží.
+
+14. Olovo v monokrystalových piezoelektrických materiálech pro ultrazvukové měniče.
+
+15. Olovo v pájkách pro spojování s ultrazvukovými měniči.
+
+16. Rtuť ve vysoce přesných mostících pro kapacitní a ztrátové měření, ve vysokofrekvenčních přepínačích RF a v relé v monitorovacích a kontrolních přístrojích, nepřekračující 20 mg rtuti na přepínač, popř. relé.
+
+17. Olovo v pájkách v přenosných pohotovostních defibrilátorech.
+
+18. Olovo v pájkách vysokovýkonných infračervených zobrazovacích modulů k detekci pásma 8–14 μm.
+
+19. Olovo v displejích z tekutých krystalů na křemíkové vrstvě (LCoS).
+
+20. Kadmium v rentgenových měřících filtrech.
+
+▼M4
+
+21. Kadmium v luminoforových povlacích zesilovačů obrazu pro rentgenové snímky do 31. prosince 2019 a náhradní díly pro rentgenové systémy uvedené na trh EU před 1. lednem 2020.
+
+▼M5
+
+22. Marker z octanu olovnatého používaný do stereotaktických rámů pro fixaci hlavy používaných v počítačové tomografii (CT) a magnetické rezonanci (MRI) a v lokalizačních systémech ozařovačů pro gamaterapii a vybavení pro nukleární medicínu. Platí do 30. června 2021.
+
+▼M3
+
+23. Olovo jako legující prvek v ložiskách a třecích plochách zdravotnického vybavení vystaveného ionizujícímu záření. Platí do 30. června 2021.
+
+▼M6
+
+24. Olovo umožňující vakuově těsné spoje hliníku a oceli v rentgenových zesilovačích obrazu. Platí do 31. prosince 2019.
+
+▼M8
+
+25. Olovo v povrchových povlacích systémů kolíkových konektorů vyžadujících nemagnetické konektory, které jsou za normálních a skladovacích podmínek trvale používány při teplotách nižších než – 20 °C. Platí do 30. června 2021.
+
+▼M31
+
+26. Olovo v následujících aplikacích, které se za normálních provozních a skladovacích podmínek trvale používají při teplotě nižší než – 20 °C:
+
+a)
+
+v pájkách na deskách tištěných spojů,
+
+b)
+
+v potahové vrstvě koncovek elektrických a elektronických součástí a potahů desek tištěných spojů,
+
+c)
+
+v pájkách ke spojování vodičů a kabelů,
+
+d)
+
+v pájkách ke spojování snímačů a čidel.
+
+Olovo v pájkách pro elektrické připojování teplotních čidel v zařízeních určených k pravidelnému používání při teplotách nižších než – 150 °C.
+
+Tyto výjimky platí do 30. června 2021.
+
+▼M9
+
+27. Olovo
+
+—
+
+v pájkách,
+
+—
+
+v potahové vrstvě koncovek elektrických a elektronických součástí a potahů desek tištěných spojů,
+
+—
+
+ve spojích elektrických vodičů, konektorech stínění a chráněných konektorech
+
+používaných
+
+a)
+
+v magnetickém poli v okruhu 1 m kolem isocentra magnetu, který je součástí vybavení pro snímkování pomocí magnetické resonance pro lékařské účely, včetně monitorů pacienta navržených tak, aby mohly být v tomto okruhu používány, nebo
+
+b)
+
+v magnetickém poli v okruhu 1 m od vnějšího povrchu cyklotronových magnetů a magnetů pro používaných v nukleární medicíně k přenosu a směrování svazku paprsků,
+
+▼M80
+
+c)
+
+v neintegrovaných cívkách pro MRI, pro něž bylo prohlášení o shodě daného modelu poprvé vydáno před dnem 23. září 2022, nebo
+
+d)
+
+v zařízeních pro MRI včetně integrovaných cívek používaných v magnetickém poli v okruhu 1 m kolem isocentra magnetu, který je součástí vybavení pro snímkování pomocí magnetické rezonance pro lékařské účely, pro něž bylo prohlášení o shodě poprvé vydáno před dnem 30. června 2024.
+
+Platí do 30. června 2027.
+
+▼M10
+
+28. Olovo v pájkách používaných k montáži digitálních detektorů z teluridu kadmia a z teluridu kadmia-zinku na desky tištěných spojů. Platí do 31. prosince 2017.
+
+▼M12
+
+29. Olovo jako supravodič a tepelný vodič ve slitinách používaných v mrazících hlavách kryogenního chladiče a/nebo kryogenně chlazených mrazících sondách a/nebo kryogenně chlazených systémech ekvipotenciálního pospojování, ve zdravotnických prostředcích (kategorie 8) a/nebo v průmyslových přístrojích pro monitorování a kontrolu. Platí do 30. června 2021.
+
+▼M13
+
+30. Šestimocný chrom v alkalických dávkovačích používaných k výrobě fotokatod zesilovačů obrazu pro rentgenové snímkování do 31. prosince 2019 a v náhradních dílech pro rentgenové systémy uvedené na trh EU před 1. lednem 2020.
+
+▼M30 —————
+
+▼M30
+
+31a. Olovo, kadmium, šestimocný chrom a polybromované difenylethery (PBDE) obsažené v náhradních dílech získaných ze zdravotnických prostředků, včetně diagnostických zdravotnických prostředků in vitro , nebo elektronových mikroskopů a jejich příslušenství a používaných k jejich opravě či renovaci, za podmínky, že se opětovné použití uskutečňuje v rámci kontrolovatelného uzavřeného systému zpětného odběru mezi podniky a že spotřebitel je o každém opětovném použití dílů informován.
+
+Platí do:
+
+a)
+
+21. července 2021, jde-li o použití v jiných zdravotnických prostředcích, než jsou diagnostické zdravotnické prostředky in vitro ;
+
+b)
+
+21. července 2023, jde-li o použití v diagnostických zdravotnických prostředcích in vitro ;
+
+c)
+
+21. července 2024, jde-li o použití v elektronových mikroskopech a jejich příslušenství.
+
+▼M14
+
+32. Olovo v pájkách na deskách tištěných spojů řídících jednotek a jednotek pro získávání dat pozitronové emisní tomografie (PET), které jsou začleněné do vybavení pro magnetickou rezonanci (MRI). Platí do 31. prosince 2019.
+
+▼M15
+
+33. Olovo v pájkách na osazených deskách plošných spojů používaných do jiných mobilních zdravotnických prostředků třídy IIa a IIb podle směrnice 93/42/EHS než přenosných pohotovostních defibrilátorů. Pro třídu IIa platí do 30. června 2016 a pro třídu IIb do 31. prosince 2020.
+
+▼M18
+
+34. Olovo je používáno jako aktivátor ve fluorescenčním prášku do výbojek, jsou-li používány jako zářiče v soláriích obsahující luminofory BSP (BaSi 2 O 5 :Pb). Platí do 22. července 2021.
+
+▼M25
+
+35. Rtuť v zářivkách se studenou katodou pro podsvícení displejů na bázi tekutých krystalů, v množství nepřevyšujícím 5 mg na zářivku, používaných v průmyslových monitorovacích a kontrolních přístrojích uvedených na trh před 22. červencem 2017
+
+Platí do 21. července 2024.
+
+▼M24
+
+36. Olovo používané v pružných konektorových systémech jiných než se zalisovanými kolíky typu C-press pro průmyslové monitorovací a kontrolní přístroje.
+
+Platí do 31. prosince 2020. Po tomto datu se smí používat v náhradních dílech pro průmyslové monitorovací a kontrolní přístroje uvedené na trh před 1. lednem 2021.
+
+▼M57
+
+37. Olovo v poplatinovaných platinových elektrodách používaných k měření vodivosti, pokud je splněna alespoň jedna z těchto podmínek:
+
+a)
+
+měření v širokém rozsahu hodnot, přičemž rozsah hodnot vodivosti přesahuje 1 řád (např. rozsah od 0,1 mS/m do 5 mS/m), při laboratorním použití pro neznámé koncentrace;
+
+b)
+
+měření roztoků, kdy je nutná přesnost +/– 1 % rozsahu vzorků a vysoká odolnost elektrody vůči korozi, a to v kterémkoli z těchto případů:
+
+i)
+
+roztoky s kyselostí < pH 1;
+
+ii)
+
+roztoky se zásaditostí > pH 13;
+
+iii)
+
+korozivní roztoky obsahující halogenový plyn;
+
+c)
+
+měření vodivostí vyšších než 100 mS/m, která je třeba provádět pomocí přenosných přístrojů.
+
+Platí do 31. prosince 2025.
+
+▼M21
+
+38. Olovo v pájce v jednom rozhraní velkoplošných prvků z vrstvených čipů s více než 500 propojeními na jedno rozhraní, které se používají v detektorech rentgenového záření pro počítačovou tomografii a rentgenové systémy.
+
+Platí do 31. prosince 2019. Po tomto datu se smí používat v náhradních dílech pro systémy počítačové tomografie a rentgenové systémy uvedené na trh před 1. lednem 2020.
+
+▼M20
+
+39. Olovo v mikrokanálových deskách používaných v zařízeních, která se vyznačují alespoň jednou z těchto vlastností:
+
+a)
+
+kompaktní velikost detektoru elektronů nebo iontů, přičemž prostor pro detektor je omezen na maximálně 3 mm/mikrokanálovou desku (tloušťka detektoru + prostor pro instalaci mikrokanálové desky), celkem maximálně na 6 mm, a alternativní konstrukce, která by pro detektor nabídla více prostoru, je vědecky a technicky neproveditelná;
+
+b)
+
+dvourozměrné prostorové rozlišení pro detekci elektronů nebo iontů, pokud je splněna alespoň jedna z těchto podmínek:
+
+i)
+
+časová odezva je kratší než 25 ns;
+
+ii)
+
+oblast detekce vzorků je větší než 149 mm 2 ;
+
+iii)
+
+multiplikační činitel je větší než 1,3 × 10 3 ;
+
+c)
+
+časová odezva kratší než 5 ns pro detekci elektronů nebo iontů;
+
+d)
+
+oblast detekce vzorků větší než 314 mm 2 pro detekci elektronů nebo iontů;
+
+e)
+
+multiplikační činitel větší než 4,0 × 10 7 .
+
+Výjimka platí do:
+
+a)
+
+21. července 2021 pro zdravotnické prostředky a monitorovací a kontrolní přístroje;
+
+b)
+
+21. července 2023 pro diagnostické zdravotnické prostředky in vitro ;
+
+c)
+
+21. července 2024 pro průmyslové monitorovací a kontrolní přístroje.
+
+▼M19
+
+40. Olovo v dielektrických keramických částech kondenzátorů na jmenovité napětí menší než 125 V střídavých nebo 250 V stejnosměrných pro průmyslové monitorovací a kontrolní přístroje.
+
+Platí do 31. prosince 2020. Po tomto datu se smí používat v náhradních dílech pro průmyslové monitorovací a kontrolní přístroje uvedené na trh před 1. lednem 2021.
+
+▼M61
+
+41. Olovo jako tepelný stabilizátor v polyvinylchloridu (PVC) použitém jako výchozí materiál v amperometrických, potenciometrických a konduktometrických elektrochemických čidlech, která se používají v diagnostických zdravotnických prostředcích in vitro pro rozbor krve a jiných tělních tekutin a tělních plynů.
+
+Platí do 31. března 2022.
+
+▼M83
+
+41a. Olovo jako tepelný stabilizátor v polyvinylchloridu (PVC) použitém jako výchozí materiál v amperometrických, potenciometrických a konduktometrických elektrochemických čidlech, která se používají v diagnostických zdravotnických prostředcích in vitro pro analýzu kreatininu a dusíku močoviny v krvi (BUN) v plné krvi.
+
+Platí pro kategorii 8 do 31. prosince 2023.
+
+▼M28
+
+42. Rtuť v otáčecích elektrických konektorech používaných v systémech intravaskulárního ultrazvukového obrazového snímání schopných pracovních režimů s vysokou provozní frekvencí (> 50 Mhz).
+
+▼M63
+
+Platí do 30. června 2026.
+
+▼M32
+
+43. Kadmiové anody v Herschových článcích u kyslíkových sond používaných v průmyslových monitorovacích a kontrolních přístrojích, u kterých je vyžadována citlivost na úrovni nižší než 10 miliontin.
+
+Platí do 15. července 2023.
+
+▼M59
+
+44. Kadmium ve snímačích odolných vůči záření určených pro videokamery se středovým rozlišením vyšším než 450 televizních řádků, které se používají v prostředích s ionizujícím zářením přesahujícím 100 Gy/h a celkovou dávkou vyšší než 100 kGy.
+
+Týká se kategorie 9. Platí do 31. března 2027.
+
+▼M66
+
+45. Bis(2-ethylhexyl)-ftalát (DEHP) v iontově selektivních elektrodách používaných v místě péče o pacienta při analýze přítomnosti iontů v tělních tekutinách a/nebo v dialyzátu.
+
+Platí do 21. července 2028.
+
+▼M65
+
+46. Bis(2-ethylhexyl)-ftalát (DEHP) v plastových součástech cívek pro detektory magnetické rezonance (MRI).
+
+Platí do 1. ledna 2024.
+
+▼M64
+
+47. Látky bis(2-ethylhexyl)-ftalát (DEHP), butylbenzylftalát (BBP), dibutylftalát (DBP) a diisobutylftalát (DIBP) obsažené v náhradních dílech získaných ze zdravotnických prostředků, včetně diagnostických zdravotnických prostředků in vitro a jejich příslušenství, a používaných k jejich opravě či renovaci, za podmínky, že se opětovné použití uskutečňuje v rámci kontrolovatelného uzavřeného systému zpětného odběru mezi podniky a že spotřebitel je o každém opětovném použití dílů informován.
+
+Platí do 21. července 2028.
+
+▼M79
+
+48. Olovo v supravodivých kabelech a vodičích z bismuthum-stroncium-kalcium-kuprum-oxidu (BSCCO) a olovo v elektrických spojích s těmito vodiči.
+
+Platí do 30. června 2027.
+
+▼M82
+
+49. Rtuť v převodnících tlaku taveniny určených pro kapilární reometry při teplotě vyšší než 300 °C a tlaku vyšším než 1 000 barů
+
+Platí pro kategorii 9 do 31. prosince 2025.
+
+▼B
+
+PŘÍLOHA V
+
+Podávání žádostí o udělení, prodloužení platnosti a zrušení výjimky podle článku 5
+
+Žádost o udělení, prodloužení platnosti nebo zrušení výjimek může podat výrobce, zplnomocněný zástupce výrobce nebo jakýkoli jiný hospodářský subjekt dodavatelského řetězce; žádost musí obsahovat alespoň tyto prvky:
+
+a)
+
+jméno, adresu a kontaktní údaje žadatele;
+
+b)
+
+informace o materiálu nebo součásti a o konkrétním použití látky v materiálu a součásti, pro něž se žádá výjimka nebo její zrušení, a jeho zvláštní vlastnosti;
+
+c)
+
+ověřitelné odůvodnění výjimky nebo jejího zrušení s odkazy v souladu s podmínkami stanovenými v článku 5;
+
+d)
+
+analýzu možných alternativních látek, materiálů nebo konstrukce na základě životního cyklu výrobku, případně včetně informací o nezávislém výzkumu, odborně posouzených studií a rozvojové činnosti žadatele a analýzu dostupnosti těchto alternativ;
+
+e)
+
+informace týkající se možné přípravy na opětovné použití nebo recyklaci materiálu z odpadních EEZ a ustanovení o vhodném zpracování odpadu podle přílohy II směrnice 2002/96/ES;
+
+f)
+
+ostatní příslušné údaje;
+
+g)
+
+navrhované činnosti s cílem vyvinout, nechat vyvinout nebo uplatňovat možné alternativy, včetně harmonogramu těchto činností;
+
+h)
+
+případně informace, které by měly být považovány za údaje, jež jsou předmětem průmyslového vlastnictví, spolu s ověřitelným zdůvodněním;
+
+i)
+
+při předkládání žádosti o udělení výjimky návrh přesného a jasného znění výjimky;
+
+j)
+
+shrnutí žádosti.
+
+PŘÍLOHA VI
+
+EU PROHLÁŠENÍ O SHODĚ
+
+1. Č. … (jedinečná identifikace EEZ):
+
+2. Jméno a adresa výrobce nebo jeho zplnomocněného zástupce:
+
+3. Toto prohlášení o shodě vydal na vlastní odpovědnost výrobce (nebo osoba odpovědná za instalaci):
+
+4. Předmět prohlášení (identifikace EEZ umožňující zpětně je vysledovat; může případně obsahovat fotografii):
+
+5. Výše popsaný předmět prohlášení je ve shodě se směrnicí Evropského parlamentu a Rady 2011/65/EU ze dne 8. června 2011 o omezení používání některých nebezpečných látek v elektrických a elektronických zařízeních ( *1 ):
+
+6. Případné odkazy na příslušné harmonizované normy, které byly použity, nebo na technické specifikace, na jejichž základě se shoda prohlašuje:
+
+7. Další informace:
+
+Podepsáno za a jménem: …
+
+(místo a datum vydání):
+
+(jméno, funkce) (podpis):
+
+PŘÍLOHA VII
+
+ČÁST A
+
+Zrušená směrnice a její následné změny
+
+(uvedené v článku 26)
+
+Směrnice Evropského parlamentu a Rady 2002/95/ES (Úř. věst. L 37, 13.2.2003, s. 19)
+
+Rozhodnutí Komise 2005/618/ES (Úř. věst. L 214, 19.8.2005, s. 65)
+
+Rozhodnutí Komise 2005/717/ES (Úř. věst. L 271, 15.10.2005, s. 48)
+
+Rozhodnutí Komise 2005/747/ES (Úř. věst. L 280, 25.10.2005, s. 18)
+
+Rozhodnutí Komise 2006/310/ES (Úř. věst. L 115, 28.4.2006, s. 38)
+
+Rozhodnutí Komise 2006/690/ES (Úř. věst. L 283, 14.10.2006, s. 47)
+
+Rozhodnutí Komise 2006/691/ES (Úř. věst. L 283, 14.10.2006, s. 48)
+
+Rozhodnutí Komise 2006/692/ES (Úř. věst. L 283, 14.10.2006, s. 50)
+
+Směrnice Evropského parlamentu a Rady 2008/35/ES (Úř. věst. L 81, 20.3.2008, s. 67)
+
+Rozhodnutí Komise 2008/385/ES (Úř. věst. L 136, 24.5.2008, s. 9)
+
+Rozhodnutí Komise 2009/428/ES (Úř. věst. L 139, 5.6.2009, s. 32)
+
+Rozhodnutí Komise 2009/443/ES (Úř. věst. L 148, 11.6.2009, s. 27)
+
+Rozhodnutí Komise 2010/122/EU (Úř. věst. L 49, 26.2.2010, s. 32)
+
+Rozhodnutí Komise 2010/571/EU (Úř. věst. L 251, 25.9.2010, s. 28)
+
+ČÁST B
+
+Seznam lhůt pro provedení ve vnitrostátním právu
+
+(uvedené v článku 26)
+
+Směrnice Lhůta pro provedení ve vnitrostátním právu
+
+2002/95/ES ze dne 12. srpna 2004
+
+2008/35/ES —
+
+PŘÍLOHA VIII
+
+Srovnávací tabulka
+
+Směrnice 2002/95/ES Tato směrnice
+
+Článek 1 Článek 1
+
+Čl. 2 odst. 1 Čl. 2 odst. 1 a 2, příloha I
+
+Čl. 2 odst. 2 Čl. 2 odst. 3
+
+Čl. 2 odst. 3 Čl. 2 odst. 4 návětí
+
+— Čl. 2 odst. 4
+
+Čl. 3 písm. a) Čl. 3 body 1 a 2
+
+Čl. 3 písm. b) —
+
+— Čl. 3 body 6 až 28
+
+Čl. 4 odst. 1 Čl. 4 odst. 1, příloha II
+
+— Čl. 4 odst. 3 a 4
+
+Čl. 4 odst. 2 Čl. 4 odst. 6
+
+Čl. 4 odst. 3 —
+
+Čl. 5 odst. 1 úvodní slova Čl. 5 odst. 1 návětí
+
+Čl. 5 odst. 1 písm. a) Čl. 4 odst. 2
+
+Čl. 5 odst. 1 písm. b) Čl. 5 odst. 1 písm. a) první a třetí odrážka
+
+— Čl. 5 odst. 1 písm. a) druhá odrážka Čl. 5 odst. 1 písm. a) druhý pododstavec
+
+Čl. 5 odst. 1 písm. c) Čl. 5 odst. 1 písm. b)
+
+— Čl. 5 odst. 2 Čl. 5 odst. 3 až 6
+
+Čl. 5 odst. 2 Čl. 5 odst. 7
+
+— Čl. 5 odst. 8
+
+Článek 6 Článek 6
+
+— Články 7 až 18
+
+Článek 7 Články 19 až 22
+
+Článek 8 Článek 23
+
+Článek 9 Článek 25
+
+— Článek 26
+
+Článek 10 Článek 27
+
+Článek 11 Článek 28
+
+— Přílohy I a II
+
+Příloha, body 1 až 39 Příloha III, body 1 až 39
+
+— Příloha IV, V, VI, VII a VIII
+
+( 1 ) Úř. věst. L 204, 21.7.1998, s. 37.
+
+( 2 ) Úř. věst. L 189, 20.7.1990, s. 17.
+
+( *1 ) Úř. věst. L 174, 1.7.2011, s. 88.

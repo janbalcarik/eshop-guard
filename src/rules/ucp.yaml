@@ -1,0 +1,91 @@
+# Spotřebitelské recenze z černé listiny (směrnice 2005/29/ES, příloha I body 23b a 23c). V nástroji zůstávají, protože za ně
+# úřady doloženě trestají: ČOI má samostatné kontrolní akce k recenzím (zprávy 2024 a 2025, zkreslování 7 a 1 případ, příloha č. 1
+# písm. y) a z) zákona č. 634/1992 Sb.), SOI ve výroční zprávě 2025 uvádí na webech „falošné profily, zľavy, recenzie“.
+# SK: zákon č. 108/2024 Z. z., príloha č. 1 body 31 a 32 (číslování od 27. 9. 2026). CZ: příloha č. 1 písm. y) a z) ve spojení s § 4 odst. 4.
+# Ověřeno v podkladech 26. 9. 2026: znění příloh SK a CZ, Pokyny Komise ke směrnici 2005/29/ES (2021/C 526/01, oddíl 4.2.4),
+# § 5a odst. 5 zákona č. 634/1992 Sb. a § 11 ods. 6 písm. a) zákona č. 108/2024 Z. z., zprávy ČOI o recenzích 2024 a 2025.
+# Ostatní body sady A (naléhavost, zákonná práva jako výhoda, „zdarma“, léčebná tvrzení) jsou vypnuté v ucp_parked.yaml.
+# Návrh k odladění a právní kontrole, ne hotový výklad zákona. Věta jde Jevu jako objekt {sentence, context_before, context_after}.
+version: "ucp-2026-09-26-draft4"
+module: ucp
+applies_to: sentence
+jurisdictions: [sk, cz]
+questions:
+  ucp_reviews_verified_claim:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) state or suggest that the reviews or ratings come from real or verified customers who bought or used the product (for example 'verified reviews', 'reviews from real customers', 'only buyers can rate')? Answer no if the sentence does not say who wrote the reviews."
+    text_cs: "Tvrdí nebo naznačuje věta (pole sentence), že recenze nebo hodnocení pocházejí od skutečných či ověřených zákazníků, kteří produkt koupili nebo použili (například „ověřené recenze“, „hodnocení skutečných zákazníků“, „hodnotit mohou jen kupující“)? Pokud věta neříká, kdo recenze napsal, odpověz ne."
+  ucp_review_reward:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) offer customers a reward, discount, gift, money or entry into a prize draw for writing a review or giving a rating? Answer no if no reward for a review is offered."
+    text_cs: "Nabízí věta (pole sentence) zákazníkům odměnu, slevu, dárek, peníze nebo zařazení do slosování za napsání recenze nebo za hodnocení? Pokud žádnou odměnu za recenzi nenabízí, odpověz ne."
+  ucp_review_reward_positive:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) or the text right next to it (context_before, context_after) make a reward conditional on a positive review or a top rating (for example 'for a 5-star review')? Answer no if no reward is mentioned or it is not tied to a positive review."
+    text_cs: "Podmiňuje věta (pole sentence) nebo text hned vedle ní (context_before, context_after) odměnu kladnou recenzí nebo nejvyšším hodnocením (například „za hodnocení 5 hvězdičkami“)? Pokud odměnu nezmiňuje nebo ji nepodmiňuje kladnou recenzí, odpověz ne."
+  ucp_reviews_only_positive:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) say that only positive or favourable reviews are published, or that negative reviews are removed or not published? Answer no if it only says that reviews are checked for spam, offensive language or authenticity."
+    text_cs: "Uvádí věta (pole sentence), že se zveřejňují jen kladné či příznivé recenze, nebo že se záporné recenze mažou či nezveřejňují? Pokud jen říká, že se recenze kontrolují kvůli spamu, vulgaritám nebo pravosti, odpověz ne."
+
+rules:
+  - id: ucp_review_reward_positive
+    title: "Odměna za kladnou recenzi"
+    scope: segment
+    logic:
+      all: [{q: ucp_review_reward, gte: 0.5}, {q: ucp_review_reward_positive, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: high
+    checkability: text
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23c; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (odměna za zveřejnění pozitivních recenzí)", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 32 (do 26. 9. 2026 bod 27)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. z) zákona č. 634/1992 Sb.", status: "ověřit"}
+    explanation: "Odměna za kladné hodnocení vede k falešným recenzím; zadávání falešných recenzí je zakázané za všech okolností."
+    recommendation: "Odměnu za recenzi nepodmiňujte jejím obsahem ani hodnocením."
+
+  - id: ucp_reviews_only_positive
+    title: "Zveřejňování jen kladných recenzí"
+    scope: segment
+    logic:
+      all: [{q: ucp_reviews_only_positive, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: high
+    checkability: text
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23c; odůvodnění 49 směrnice (EU) 2019/2161; Pokyny Komise 2021/C 526/01, oddíl 4.2.4", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 32 (do 26. 9. 2026 bod 27)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. z) zákona č. 634/1992 Sb.", status: "ověřit"}
+    explanation: "Zveřejňování jen kladných recenzí a mazání záporných zkresluje spotřebitelské recenze; to je zakázané za všech okolností."
+    recommendation: "Zveřejňujte kladné i záporné recenze; mazat smíte jen recenze, které porušují zveřejněná pravidla (spam, vulgarity)."
+
+  - id: ucp_review_reward_any
+    title: "Odměna za recenzi k ověření"
+    scope: segment
+    logic:
+      all: [{q: ucp_review_reward, gte: 0.5}]
+      none: [{q: ucp_review_reward_positive, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: low
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23c a čl. 7 odst. 6; Pokyny Komise 2021/C 526/01, oddíl 4.2.4", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 32 (do 26. 9. 2026 bod 27); § 11 ods. 6 písm. a)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. z) a § 5a odst. 5 zákona č. 634/1992 Sb.", status: "ověřit"}
+    explanation: "Odměna za recenzi bez ohledu na hodnocení není sama zakázaná, ale recenze pak nemusí odrážet běžnou zkušenost zákazníků; zákazník by se měl dozvědět, jak obchod recenze získává a ověřuje."
+    recommendation: "Ověřte, že odměna nezávisí na obsahu recenze a že u recenzí je informace o tom, jak se získávají a ověřují."
+
+  - id: ucp_reviews_verified_claim
+    title: "Tvrzení o ověřených recenzích k ověření"
+    scope: segment
+    logic:
+      all: [{q: ucp_reviews_verified_claim, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23b; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (opodstatněné a přiměřené kroky k ověření)", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 31 (do 26. 9. 2026 bod 26)", status: "ověřit"}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. y) zákona č. 634/1992 Sb.", status: "ověřit"}
+    explanation: "Tvrdit, že recenze píší zákazníci, kteří produkt koupili nebo použili, je zakázané, pokud obchod nepřijal přiměřená opatření k ověření (například hodnotit smí jen zákazník s dokončenou objednávkou). Opatření na webu vidět nejsou, proto jde o nález k ověření."
+    recommendation: "Ověřte, že obchod skutečně kontroluje původ recenzí (například podle čísla objednávky), a popište to přímo u recenzí."

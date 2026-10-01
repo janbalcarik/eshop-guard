@@ -1,0 +1,183 @@
+# Zákonné požadavky vydávané za přednost a bezvýznamné výhody („bez X“).
+# Slovensko: zákon č. 108/2024 Z. z. ve znění zákona č. 310/2025 Z. z., príloha č. 1 bod 15 a § 10 ods. 2 písm. e),
+# obojí účinné od 27. 9. 2026; EU: směrnice 2005/29/ES, příloha I bod 10a a čl. 6 odst. 2 písm. e), ve znění směrnice (EU) 2024/825.
+# Zdroj: podklady/reserse/zakonne-poziadavky-ako-prednost.md (26. 9. 2026), otázky z oddílu 3.2, pravidla z oddílu 3.3.
+# Jev pozná tvrzení a způsob prezentace; zda je vlastnost zákonným požadavkem pro kategorii výrobku, rozhoduje seznam
+# config/legal_requirements.yaml (kontrola claim_list_match). Kategorie se hledá v titulku, nadpisu, drobečkové navigaci
+# a kategorii e-shopu, nikdy ve větě. Položky „smí zůstat“ (outcome none) nález nedávají; tvrzení, které seznam nezná,
+# dává nález k ověření s nízkou závažností, takže nic nezmizí potichu.
+# Sada běží jen pro Slovensko: v Česku bod 10a zatím převzatý není (sněmovní tisk 53) a ČOI za tato tvrzení doložené pokuty nemá.
+# Návrh k odladění a právní kontrole, ne hotový výklad zákona.
+version: "lr-2026-09-26-draft1"
+module: lr
+applies_to: sentence
+jurisdictions: [sk]
+# Rozpracováno (29. 9. 2026): testy na testovacím e-shopu prošly, ověření na skutečném e-shopu chybí. Do té doby vypnuto,
+# aby modul nepřidával neověřené nálezy ani cenu do běžných skenů. Zapnout: enabled: true.
+enabled: false
+questions:
+  lr_free_from:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) state that the product does not contain, is free from or was made without a certain substance, ingredient or material (for example 'phosphate-free', 'BPA-free', 'without preservatives', 'no added sugar', 'free from parabens', '0% mercury', 'plastic-free')? Answer no if the sentence only lists what the product contains, only warns that it may contain traces of something, or only says for whom the product is not suitable."
+    text_cs: "Uvádí věta (pole sentence), že produkt neobsahuje určitou látku, složku nebo materiál, je bez nich nebo byl vyroben bez nich (například „bez fosfátů“, „bez BPA“, „bez konzervantů“, „bez přidaného cukru“, „bez parabenů“, „0 % rtuti“, „bez plastu“)? Pokud věta jen vyjmenovává, co produkt obsahuje, jen upozorňuje, že může obsahovat stopy něčeho, nebo jen uvádí, pro koho produkt není vhodný, odpověz ne."
+  lr_compliance:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) state that the product complies with a law, a regulation, a mandatory safety requirement, a technical standard or a mandatory marking (for example 'CE certified', 'meets EU standards', 'RoHS compliant', 'complies with the EU cosmetics regulation', 'tested to EN 71', 'meets the EU limit for VOC')? Answer no if the sentence only names a voluntary quality, eco or organic label, or only describes what the product does."
+    text_cs: "Uvádí věta (pole sentence), že produkt splňuje zákon, nařízení, povinný bezpečnostní požadavek, technickou normu nebo povinné označení (například „s certifikací CE“, „splňuje normy EU“, „v souladu s RoHS“, „splňuje nařízení EU o kosmetice“, „testováno podle EN 71“, „splňuje limit EU pro VOC“)? Pokud věta jen jmenuje dobrovolnou značku kvality, ekoznačku nebo bio značku, nebo jen popisuje, co produkt dělá, odpověz ne."
+  lr_no_animal_testing:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) state that the product or its ingredients were not tested on animals (for example 'not tested on animals', 'cruelty-free', 'without animal testing')? Answer no if the sentence only says that the product is vegan or contains no ingredients of animal origin and says nothing about testing."
+    text_cs: "Uvádí věta (pole sentence), že produkt nebo jeho složky nebyly testovány na zvířatech (například „netestováno na zvířatech“, „cruelty free“, „bez testování na zvířatech“)? Pokud věta jen uvádí, že produkt je veganský nebo neobsahuje složky živočišného původu, a o testování nic neříká, odpověz ne."
+  lr_as_feature:
+    type: yes_no
+    text_en: "Does the sentence (field sentence), read together with the text right next to it (context_before, context_after), present the stated property as an advantage, a benefit or a special feature of this product or of this shop's offer (for example in a list of advantages, as a highlighted badge or icon label, or with words like 'our', 'unlike other products', 'for your safety', 'you can be sure')? Answer no if the property appears only in an ingredient list, in a mandatory label text or warning, or in a sentence that explains a legal rule without praising the product."
+    text_cs: "Prezentuje věta (pole sentence) spolu s textem hned vedle ní (context_before, context_after) uvedenou vlastnost jako výhodu, přínos nebo zvláštnost tohoto produktu nebo nabídky tohoto obchodu (například v seznamu výhod, jako zvýrazněný štítek nebo popisek ikony, nebo se slovy „náš“, „na rozdíl od jiných“, „pro vaši bezpečnost“, „můžete si být jisti“)? Pokud se vlastnost objevuje jen ve složení, v povinném textu etikety nebo varování, nebo ve větě, která vysvětluje právní pravidlo a produkt nechválí, odpověz ne."
+  lr_says_required_for_all:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) or the text right next to it (context_before, context_after) say that the stated property is required by law or is shared by all products of this kind (for example 'as required by EU law', 'like all baby bottles sold in the EU', 'all fruit juices contain only naturally occurring sugars')? Answer no if the text presents the property only as a feature of this product, brand or shop without saying that all such products must have it."
+    text_cs: "Uvádí věta (pole sentence) nebo text hned vedle ní (context_before, context_after), že uvedenou vlastnost vyžaduje zákon nebo ji mají všechny produkty tohoto druhu (například „jak vyžaduje právo EU“, „jako všechny kojenecké lahve prodávané v EU“, „všechny ovocné šťávy obsahují pouze přirozeně se vyskytující cukry“)? Pokud text vlastnost prezentuje jen jako rys tohoto produktu, značky nebo obchodu a neuvádí, že ji musí mít všechny takové produkty, odpověz ne."
+  lr_beyond_law:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) or the text right next to it (context_before, context_after) say that the product goes further than the law requires, by comparing the property with a legal limit or requirement (for example 'half of the EU limit', 'free from all bisphenols, not only BPA', 'stricter than EU requirements')? Answer no if the text states the property without comparing it with any legal limit or requirement."
+    text_cs: "Uvádí věta (pole sentence) nebo text hned vedle ní (context_before, context_after), že produkt jde dál, než vyžaduje zákon, a srovnává vlastnost se zákonným limitem nebo požadavkem (například „polovina limitu EU“, „bez všech bisfenolů, nejen BPA“, „přísnější než požadavky EU“)? Pokud text vlastnost uvádí bez srovnání se zákonným limitem nebo požadavkem, odpověz ne."
+  lr_obvious_absence:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) claim that the product does not contain something that products of this kind do not normally contain anyway (for example bottled water that is 'gluten-free', sheets of paper that 'contain no plastic', a perfume that is 'free from preservatives')? Answer no if products of this kind commonly contain that substance, ingredient or material, or if the text does not make clear what kind of product it is."
+    text_cs: "Tvrdí věta (pole sentence), že produkt neobsahuje něco, co produkty tohoto druhu běžně neobsahují ani tak (například balená voda „bez lepku“, listy papíru „bez plastu“, parfém „bez konzervantů“)? Pokud produkty tohoto druhu danou látku, složku nebo materiál běžně obsahují, nebo pokud z textu není jasné, o jaký druh produktu jde, odpověz ne."
+  lr_specific_need:
+    type: yes_no
+    text_en: "Does the sentence (field sentence) or the text right next to it (context_before, context_after) link the absence of the substance or ingredient to the needs of a specific group of people (for example people allergic to nickel, coeliacs, vegans, people who want to avoid alcohol or a particular smell)? Answer no if no specific group of people or need is mentioned."
+    text_cs: "Spojuje věta (pole sentence) nebo text hned vedle ní (context_before, context_after) nepřítomnost látky nebo složky s potřebami určité skupiny lidí (například alergici na nikl, celiaci, vegani, lidé, kteří se chtějí vyhnout alkoholu nebo určitému zápachu)? Pokud žádnou skupinu lidí ani potřebu nezmiňuje, odpověz ne."
+
+rules:
+  - id: lr_requirement_as_feature
+    title: "Zákonný požadavek na všechny výrobky kategorie prezentovaný jako přednost"
+    scope: segment
+    logic:
+      any: [{q: lr_free_from, gte: 0.5}, {q: lr_compliance, gte: 0.5}]
+      all: [{q: lr_as_feature, gte: 0.5}]
+      # Vyřazené případy zachytí lr_requirement_stated_as_law a lr_requirement_beyond_law.
+      none: [{q: lr_says_required_for_all, gte: 0.5}, {q: lr_beyond_law, gte: 0.5}]
+    code_checks: [{type: claim_list_match, list: legal_requirement_claims, outcomes: [text]}]
+    bands: {high: 0.85, review: 0.5}
+    severity: high
+    checkability: text
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 10a, ve znění směrnice (EU) 2024/825; odůvodnění 15; otázky a odpovědi Komise (září 2026), otázka 16", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+    explanation: "Vlastnost, kterou právní předpisy vyžadují u všech výrobků této kategorie na trhu EU včetně dovozu (například zákaz látky), obchodník nesmí prezentovat jako přednost své nabídky. Který požadavek a předpis to je, uvádí poznámka u nálezu."
+    recommendation: "Tvrzení odstraňte, nebo ho uveďte jako informaci, že jde o požadavek platný pro všechny výrobky, a jako výhodu uvádějte jen to, co jde nad zákon."
+
+  - id: lr_requirement_as_feature_partial
+    title: "Tvrzení blízké zákonnému požadavku (limit, výjimka, přechodné období) k ověření"
+    scope: segment
+    logic:
+      any: [{q: lr_free_from, gte: 0.5}, {q: lr_compliance, gte: 0.5}, {q: lr_no_animal_testing, gte: 0.5}]
+      all: [{q: lr_as_feature, gte: 0.5}]
+    code_checks: [{type: claim_list_match, list: legal_requirement_claims, outcomes: [verify]}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 10a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázka 16", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+    explanation: "Zákon u této kategorie stanoví limit, má výjimky nebo běží přechodné období či doprodej; tvrzení může být zákonným požadavkem vydávaným za přednost. Podrobnosti uvádí poznámka u nálezu."
+    recommendation: "Ověřte, zda tvrzení jde nad zákonný požadavek; pokud ne, nepředstavujte ho jako přednost."
+
+  - id: lr_requirement_stated_as_law
+    title: "Zákonný požadavek uvedený jako informace o zákoně"
+    scope: segment
+    logic:
+      any: [{q: lr_free_from, gte: 0.5}, {q: lr_compliance, gte: 0.5}]
+      all: [{q: lr_says_required_for_all, gte: 0.5}]
+    code_checks: [{type: claim_list_match, list: legal_requirement_claims, outcomes: [text, verify]}]
+    bands: {high: 0.85, review: 0.5}
+    severity: low
+    checkability: assess
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 10a, ve znění směrnice (EU) 2024/825", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+    explanation: "Text uvádí, že vlastnost vyžaduje zákon nebo ji mají všechny výrobky; nejspíš nejde o prezentaci přednosti. Zkontrolujte celkový dojem (zvýraznění, umístění mezi výhodami)."
+    recommendation: "Pokud je tvrzení zvýrazněné jako výhoda, upravte ho na neutrální informaci."
+
+  - id: lr_requirement_beyond_law
+    title: "Tvrzení nad rámec zákonného požadavku k ověření"
+    scope: segment
+    logic:
+      any: [{q: lr_free_from, gte: 0.5}, {q: lr_compliance, gte: 0.5}]
+      all: [{q: lr_beyond_law, gte: 0.5}]
+    code_checks: [{type: claim_list_match, list: legal_requirement_claims, outcomes: [text, verify]}]
+    bands: {high: 0.85, review: 0.5}
+    severity: low
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 10a, ve znění směrnice (EU) 2024/825", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+    explanation: "Tvrzení jde podle textu nad zákonný požadavek; to je dovoleno, pokud je pravdivé a doložitelné."
+    recommendation: "Ověřte, že srovnání se zákonným limitem je pravdivé a doložitelné."
+
+  - id: lr_free_from_unlisted
+    title: "Tvrzení o nepřítomnosti nebo souladu, které seznam zákonných požadavků nezná"
+    scope: segment
+    logic:
+      any: [{q: lr_free_from, gte: 0.5}, {q: lr_compliance, gte: 0.5}, {q: lr_no_animal_testing, gte: 0.5}]
+      all: [{q: lr_as_feature, gte: 0.5}]
+      # Tvrzení pro informovaný výběr určité skupiny („bez živočíšnych zložiek“ pro vegánov) technický dokument
+      # k tvrzením u kosmetiky výslovně připouští; zákonné požadavky ze seznamu hlásí ostatní pravidla i tak.
+      none: [{q: lr_specific_need, gte: 0.5}]
+    code_checks: [{type: claim_list_match, list: legal_requirement_claims, absent: true}]
+    bands: {high: 0.85, review: 0.5}
+    severity: low
+    checkability: verify
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 10a, ve znění směrnice (EU) 2024/825", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+    explanation: "Tvrzení není v seznamu zákonných požadavků, nebo nástroj nepoznal kategorii výrobku. Seznam není úplný výčet právních předpisů; poznámka u nálezu uvádí, s jakou kategorií nástroj počítal."
+    recommendation: "Ověřte, zda vlastnost není požadavkem právního předpisu pro všechny výrobky této kategorie; pokud je, nepředstavujte ji jako přednost."
+
+  - id: lr_irrelevant_benefit
+    title: "Bezvýznamná výhoda („bez X“ u výrobku, který X běžně neobsahuje)"
+    scope: segment
+    logic:
+      all: [{q: lr_free_from, gte: 0.5}, {q: lr_obvious_absence, gte: 0.5}, {q: lr_as_feature, gte: 0.5}]
+      none: [{q: lr_specific_need, gte: 0.5}]
+    # Tvrzení, která seznam zná jako bezvýznamnou výhodu, hlásí lr_irrelevant_benefit_listed.
+    code_checks: [{type: claim_list_match, list: legal_requirement_claims, outcomes: [irrelevant], absent: true}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: assess
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 6 odst. 2 písm. e), ve znění směrnice (EU) 2024/825; odůvodnění 5; otázky a odpovědi Komise (září 2026), otázka 11", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. e), ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+    explanation: "Propagovat výhodu, která je pro spotřebitele bezvýznamná a nesouvisí s žádnou vlastností produktu (voda bez lepku, papír bez plastu), je klamavé, pokud to může ovlivnit rozhodnutí o koupi; posuzuje se případ od případu a obě podmínky musí platit zároveň."
+    recommendation: "Tvrzení odstraňte, nebo ho spojte s konkrétní potřebou spotřebitelů, pro které je relevantní."
+
+  - id: lr_irrelevant_benefit_listed
+    title: "Bezvýznamná výhoda podle seznamu („bez X“ u výrobku, který X běžně neobsahuje)"
+    scope: segment
+    logic:
+      # Bez výjimky pro konkrétní skupinu: seznam uvádí tvrzení, která zdroje označují za bezvýznamná vždy (voda bez lepku).
+      all: [{q: lr_free_from, gte: 0.5}, {q: lr_as_feature, gte: 0.5}]
+    code_checks: [{type: claim_list_match, list: legal_requirement_claims, outcomes: [irrelevant]}]
+    bands: {high: 0.85, review: 0.5}
+    severity: medium
+    checkability: assess
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 6 odst. 2 písm. e), ve znění směrnice (EU) 2024/825; odůvodnění 5; otázky a odpovědi Komise (září 2026), otázka 11", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. e), ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+    explanation: "Seznam uvádí toto tvrzení jako příklad bezvýznamné výhody ze zdrojů (odůvodnění 5 směrnice (EU) 2024/825, otázky a odpovědi Komise, technický dokument k tvrzením u kosmetiky); posuzuje se případ od případu."
+    recommendation: "Tvrzení odstraňte, nebo ho spojte s konkrétní potřebou spotřebitelů, pro které je relevantní."
+
+  - id: lr_irrelevant_benefit_specific_need
+    title: "„Bez X“ u výrobku, který X běžně neobsahuje, s vazbou na potřebu konkrétní skupiny"
+    scope: segment
+    logic:
+      all: [{q: lr_free_from, gte: 0.5}, {q: lr_obvious_absence, gte: 0.5}, {q: lr_as_feature, gte: 0.5}, {q: lr_specific_need, gte: 0.5}]
+    bands: {high: 0.85, review: 0.5}
+    severity: low
+    checkability: assess
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 6 odst. 2 písm. e), ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázka 11", status: "ověřit"}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. e), ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
+    explanation: "Informace pro určitou skupinu (alergici, celiaci, vegani) může být relevantní; ověřte, zda nepůsobí jako výhoda oproti výrobkům, které X také neobsahují."
+    recommendation: "Ponechte tvrzení jako informaci pro danou skupinu a nepředstavujte ho jako výhodu oproti podobným výrobkům."

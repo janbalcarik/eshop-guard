@@ -1,0 +1,22 @@
+# Síto po odstavcích: hlavní text každé stránky (kromě právních) se rozdělí na úseky po sobě jdoucích bloků do
+# max_chunk_chars znaků; každý úsek dostane jednu otázku za modul, zda v něm je téma modulu. Věty úseku jdou na podrobné
+# otázky modulu, jen když úsek dosáhne prahu. Úsek, který Jev nevyhodnotil (chyba, delší než max_request_chars), pouští
+# své věty do všech modulů; patička, hlavička, titulek, meta popis a právní stránky jdou vždy celé.
+# Změřeno 30. 9. 2026 na vegis.sk (103 stránek) a naturfyt.sk (40 stránek): při úsecích do 600 znaků a prahu 0,2 nevypadl
+# žádný nález, nejnižší pravděpodobnost síta u úseku se skutečným nálezem byla 0,64 (vegis.sk) a 0,87 (naturfyt.sk);
+# cena 45 % a 57 % běhu bez síta. Limit Jevu je asi 32 000 tokenů na požadavek (80 000 znaků slovenského textu prošlo,
+# 90 000 ne); vložená věta se v textu do 80 000 znaků našla vždy. Změna otázky síta zvyšuje version, sady pravidel ne.
+version: "sieve-2026-09-30-draft1"
+threshold: 0.2
+max_chunk_chars: 600
+max_request_chars: 20000
+questions:
+  eco:
+    text_en: "Does the text anywhere say or suggest something about the environment, nature, the climate, emissions, packaging material, recycling or composting, sustainability, fair trade, working conditions or animal welfare (for example 'vegan', 'vegetarian' or 'cruelty-free'), or describe the product or the shop as ecological, 'eco', 'bio', 'green' or natural, or mention a label, certificate, seal or badge? Answer yes even if it appears in only one sentence of a long text."
+    text_cs: "Říká nebo naznačuje text kdekoli něco o životním prostředí, přírodě, klimatu, emisích, materiálu obalu, recyklaci či kompostování, udržitelnosti, férovém obchodu, pracovních podmínkách nebo dobrých životních podmínkách zvířat (například „veganský“, „vegetariánský“ nebo „cruelty free“), popisuje produkt nebo obchod jako ekologický, „eko“, „bio“, „zelený“ nebo přírodní, nebo zmiňuje značku, certifikát, pečeť či odznak? Odpověz ano, i když je to jen v jedné větě dlouhého textu."
+  dur:
+    text_en: "Does the text anywhere say how long the product lasts or can be used, that it can be repaired or has spare parts, anything about software updates, or that consumables, cartridges or parts must be replaced or should be original? Answer yes even if it appears in only one sentence of a long text."
+    text_cs: "Říká text kdekoli, jak dlouho produkt vydrží nebo se dá používat, že se dá opravit nebo má náhradní díly, něco o aktualizacích softwaru, nebo že se spotřební materiál, náplně či díly musí měnit nebo mají být originální? Odpověz ano, i když je to jen v jedné větě dlouhého textu."
+  ucp:
+    text_en: "Does the text say anything about customer reviews or ratings, for example who writes them, whether they are verified, or a reward or discount for writing them? Answer yes even if it appears in only one sentence of a long text. Answer no if the text only contains the reviews themselves without saying anything about how they are collected."
+    text_cs: "Říká text něco o zákaznických recenzích nebo hodnoceních, například kdo je píše, zda jsou ověřené, nebo odměnu či slevu za jejich napsání? Odpověz ano, i když je to jen v jedné větě dlouhého textu. Pokud text obsahuje jen samotné recenze a nic neříká o tom, jak se sbírají, odpověz ne."

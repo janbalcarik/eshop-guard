@@ -1,0 +1,765 @@
+02019L0904 — CS — 12.08.2026 — 001.001
+
+Tento dokument slouží výhradně k informačním účelům a nemá žádný právní účinek. Orgány a instituce Evropské unie nenesou za jeho obsah žádnou odpovědnost. Závazná znění příslušných právních předpisů, včetně jejich právních východisek a odůvodnění, jsou zveřejněna v Úředním věstníku Evropské unie a jsou k dispozici v databázi EUR-Lex. Tato úřední znění jsou přímo dostupná přes odkazy uvedené v tomto dokumentu
+
+►B SMĚRNICE EVROPSKÉHO PARLAMENTU A RADY (EU) 2019/904 ze dne 5. června 2019 o omezení dopadu některých plastových výrobků na životní prostředí (Text s významem pro EHP) (Úř. věst. L 155 12.6.2019, s. 1)
+
+Ve znění:
+
+Úřední věstník
+
+Č. Strana Datum
+
+►M1 NAŘÍZENÍ EVROPSKÉHO PARLAMENTU A RADY (EU) 2025/40 ze dne 19. prosince 2024 L 40 1 22.1.2025
+
+▼B
+
+SMĚRNICE EVROPSKÉHO PARLAMENTU A RADY (EU) 2019/904
+
+ze dne 5. června 2019
+
+o omezení dopadu některých plastových výrobků na životní prostředí
+
+(Text s významem pro EHP)
+
+Článek 1
+
+Cíle
+
+Cíli této směrnice je předcházet dopadu některých plastových výrobků na životní prostředí, zejména na vodní prostředí, a na lidské zdraví a snižovat jej, jakož i podporovat přechod k oběhovému hospodářství pomocí inovativních a udržitelných obchodních modelů, výrobků a materiálů, a tím též přispívat k účinnému fungování vnitřního trhu.
+
+Článek 2
+
+Oblast působnosti
+
+1.
+
+Tato směrnice se vztahuje na plastové výrobky na jedno použití uvedené v příloze, na výrobky z oxo-rozložitelných plastů a na lovná zařízení obsahující plasty.
+
+▼M1
+
+2.
+
+V případech, kdy je tato směrnice v rozporu se směrnicí 94/62/ES nebo 2008/98/ES, použije se tato směrnice, ledaže nařízení Evropského parlamentu a Rady (EU) 2025/40 stanoví jinak ( 1 ).
+
+▼M1
+
+3.
+
+Je-li článek 4 této směrnice v rozporu s čl. 25 odst. 1 a 6 nařízení (EU) 2025/40, pokud jde o plastové obaly na jedno použití uvedené v příloze V bodě 3 uvedeného nařízení, použije se čl. 25 odst. 1 a 6 uvedeného nařízení.
+
+▼B
+
+Článek 3
+
+Definice
+
+Pro účely této směrnice se rozumí:
+
+1)
+
+„plastem“ materiál tvořený polymerem ve smyslu čl. 3 bodu 5 nařízení (ES) č. 1907/2006, k němuž mohou být přidány přísady nebo další látky, a který může být hlavní strukturní složkou konečných výrobků; výjimkou jsou chemicky neupravené přírodní polymery;
+
+2)
+
+„plastovým výrobkem na jedno použití“ výrobek, který je vyroben zcela či částečně z plastu a který není vyroben, navržen či uváděn na trh tak, aby mohl být během svého životního cyklu vícekrát využit nebo mohl projít několika cykly tím, že bude vrácen výrobci k opětovnému naplnění nebo opětovně použit ke stejnému účelu, ke kterému byl určen;
+
+3)
+
+„oxo-rozložitelným plastem“ plastové materiály, které obsahují přísady, jež prostřednictvím oxidace způsobují rozpad plastového materiálu na mikročástice nebo chemický rozklad;
+
+4)
+
+„lovným zařízením“ jakákoli část nebo součást zařízení, která se používá při rybolovu nebo v akvakultuře k cílenému lovu nebo chovu biologických mořských zdrojů nebo která pluje na mořské hladině a používá se s cílem přilákat a ulovit nebo chovat tyto biologické mořské zdroje;
+
+5)
+
+„odpadním lovným zařízením“ jakékoli lovné zařízení, na které se vztahuje definice odpadu uvedená v čl. 3 bodu 1 směrnice 2008/98/ES, včetně všech samostatných komponent, látek či materiálů, které byly součástí lovného zařízení nebo které k němu byly připevněny v okamžiku, kdy bylo odhozeno, včetně toho, kdy bylo opuštěno nebo ztraceno;
+
+6)
+
+„uvedením na trh“ první dodání výrobku na trh členského státu;
+
+7)
+
+„dodáním na trh“ každé dodání výrobku k distribuci, spotřebě nebo použití na trhu členského státu v rámci obchodní činnosti, ať už za úplatu, nebo bezplatně;
+
+8)
+
+„harmonizovanou normou“ harmonizovaná norma ve smyslu čl. 2 bodu 1 písm. c) nařízení (EU) č. 1025/2012;
+
+9)
+
+„odpadem“ odpad ve smyslu čl. 3 bodu 1 směrnice 2008/98/ES;
+
+10)
+
+„systémem rozšířené odpovědnosti výrobce“ systém rozšířené odpovědnosti výrobce ve smyslu čl. 3 bodu 21 směrnice 2008/98/ES;
+
+11)
+
+„výrobcem“:
+
+a)
+
+fyzická nebo právnická osoba usazená v členském státě, která bez ohledu na použitý způsob prodeje, včetně prostřednictvím smluv uzavřených na dálku ve smyslu čl. 2 bodu 7 směrnice Evropského parlamentu a Rady 2011/83/EU ( 2 ), profesionálně vyrábí, plní, prodává nebo dováží a uvádí na trh daného členského státu plastové výrobky na jedno použití nebo naplněné plastové výrobky na jedno použití či lovná zařízení obsahující plasty, jiná než osoby vykonávající rybolovnou činnost ve smyslu čl. 4 bodu 28 nařízení Evropského parlamentu a Rady (EU) č. 1380/2013 ( 3 ); nebo
+
+b)
+
+fyzická nebo právnická osoba usazená v členském státě nebo ve třetí zemi, která v jiném členském státě prostřednictvím smluv uzavřených na dálku ve smyslu čl. 2 bodu 7 směrnice 2011/83/EU profesionálně prodává přímo domácnostem nebo jiným uživatelům, než jsou domácnosti, plastové výrobky na jedno použití, naplněné plastové výrobky na jedno použití či lovná zařízení obsahující plasty, jiná než osoby vykonávající rybolovnou činnost ve smyslu čl. 4 bodu 28 nařízení Evropského parlamentu a Rady (EU) č. 1380/2013;
+
+12)
+
+„sběrem“ sběr ve smyslu čl. 3 bodu 10 směrnice 2008/98/ES;
+
+13)
+
+„tříděným sběrem“ tříděný sběr ve smyslu čl. 3 bodu 11 směrnice 2008/98/ES;
+
+14)
+
+„zpracováním“ zpracování ve smyslu čl. 3 bodu 14 směrnice 2008/98/ES;
+
+15)
+
+„obaly“ obaly ve smyslu čl. 3 bodu 1 směrnice 94/62/ES;
+
+16)
+
+„biologicky rozložitelným plastem“ plast, který je schopen fyzikálního a biologického rozkladu tak, že se v konečném důsledku rozloží na oxid uhličitý (CO 2 ), biomasu a vodu, a který je v souladu s evropskými normami pro obaly využitelný formou kompostování a anaerobní digesce;
+
+17)
+
+„přístavním zařízením pro příjem odpadu“ přístavní zařízení pro příjem odpadu ve smyslu čl. 2 písm. e) směrnice 2000/59/ES;
+
+18)
+
+„tabákovými výrobky“ tabákové výrobky ve smyslu čl. 2 bodu 4 směrnice 2014/40/EU.
+
+Článek 4
+
+Snížení spotřeby
+
+1.
+
+Členské státy přijmou nezbytná opatření k dosažení ambiciózního a setrvalého snížení spotřeby plastových výrobků na jedno použití uvedených v části A přílohy v souladu s celkovými cíli unijní politiky v oblasti odpadů, a to zejména předcházením vzniku odpadů, která povedou k výraznému zvrácení trendů rostoucí spotřeby. Těmito opatřeními musí být dosaženo do roku 2026 měřitelného kvantitativního snížení spotřeby plastových výrobků na jedno použití uvedených v části A přílohy na území daného členského státu ve srovnání s rokem 2022.
+
+Členské státy do 3. července 2021 vypracují popis opatření, jež přijaly podle prvního pododstavce, předají tento popis Komisi a zveřejní jej. Členské státy začlení opatření uvedená v popisu do plánů nebo programů uvedených v článku 11 při první následné aktualizaci těchto plánů nebo programů v souladu s příslušnými legislativními akty Unie upravujícími tyto plány nebo programy nebo do jakýchkoli jiných programů vypracovaných konkrétně za tímto účelem.
+
+Opatření mohou zahrnovat vnitrostátní cíle snížení spotřeby, opatření zajišťující, aby byly v místě prodeje konečnému spotřebiteli k dispozici opakovaně použitelné alternativy plastových výrobků na jedno použití uvedených v části A přílohy, ekonomické nástroje, jako jsou nástroje zajišťující, aby se tyto plastové výrobky na jedno použití neposkytovaly v místě prodeje konečnému spotřebiteli zdarma, a dohody ve smyslu čl. 17 odst. 3. Členské státy mohou stanovit omezení týkající se uvádění na trh odchylně od článku 18 směrnice 94/62/ES za účelem předcházení tomu, aby se takové výrobky staly odhozenými odpadky, k zajištění nahrazení těchto výrobků alternativami, které jsou opětovně použitelné nebo neobsahují plasty. Opatření se mohou lišit v závislosti na dopadu plastových výrobků na jedno použití na životní prostředí v průběhu jejich životního cyklu, a to i poté, co se stanou odhozenými odpadky.
+
+Opatření přijatá podle tohoto odstavce musí být přiměřená a nediskriminační. Členské státy tato opatření oznámí Komisi v souladu se směrnicí Evropského parlamentu a Rady (EU) 2015/1535 ( 4 ), pokud to uvedená směrnice vyžaduje.
+
+Pro dosažení souladu s prvním pododstavcem tohoto odstavce každý členský stát sleduje plastové výrobky na jedno použití uvedené v části A přílohy, jež byly uvedeny na trh, a opatření přijatá ke snížení jejich spotřeby a podá Komisi zprávu o dosaženém pokroku v souladu s odstavcem 2 tohoto článku a s čl. 13 odst. 1 za účelem stanovení závazných kvantitativních cílů Unie pro snížení spotřeby.
+
+2.
+
+Komise do 3. ledna 2021 přijme prováděcí akt, kterým stanoví metodiku výpočtu a ověřování ambiciózního a setrvalého snížení spotřeby plastových výrobků na jedno použití uvedených v části A přílohy. Tento prováděcí akt se přijme přezkumným postupem podle čl. 16 odst. 2.
+
+Článek 5
+
+Omezení uvádění na trh
+
+Členské státy zakážou uvádět na trh plastové výrobky na jedno použití uvedené v části B přílohy a výrobky z oxo-rozložitelných plastů.
+
+Článek 6
+
+Požadavky na výrobek
+
+1.
+
+Členské státy zajistí, aby plastové výrobky na jedno použití uvedené v části C přílohy, které mají uzávěry a víčka vyrobené z plastu, mohly být uváděny na trh pouze tehdy, pokud uzávěry a víčka zůstanou během fáze určeného použití výrobků připevněny k nádobě.
+
+2.
+
+Pro účely tohoto článku se kovové uzávěry nebo víčka s plastovým těsněním nepovažují za vyrobené z plastu.
+
+3.
+
+Do 3. října 2019 požádá Komise evropské normalizační organizace o vypracování harmonizovaných norem týkajících se požadavku uvedeného v odstavci 1. Tyto normy řeší zejména potřebu zajistit nezbytnou pevnost, spolehlivost a bezpečnost uzávěrů nádob na nápoje, včetně těch používaných pro sycené nápoje.
+
+4.
+
+Ode dne zveřejnění odkazů na harmonizované normy uvedené v odstavci 3 v Úředním věstníku Evropské unie se má za to, že plastové výrobky na jedno použití uvedené v odstavci 1, které splňují tyto normy nebo jejich části, splňují požadavek stanovený v odstavci 1.
+
+5.
+
+Pokud jde o nápojové lahve uvedené v části F přílohy, každý členský stát zajistí, aby:
+
+a)
+
+od roku 2025 nápojové lahve uvedené v části F přílohy, které se vyrábějí z polyethylentereftalátu jakožto hlavní složky (dále jen „PET lahve“), obsahovaly alespoň 25 % recyklovaných plastů, vypočítáno jako průměr pro všechny PET lahve uvedené na trh na území daného členského státu; a
+
+b)
+
+od roku 2030 nápojové lahve uvedené v části F přílohy obsahovaly alespoň 30 % recyklovaných plastů, vypočítáno jako průměr pro všechny takové nápojové lahve uvedené na trh na území daného členského státu.
+
+Do 1. ledna 2022 přijme Komise prováděcí akty, kterými stanoví pravidla pro výpočet a ověřování cílů stanovených v prvním pododstavci tohoto odstavce. Tyto prováděcí akty se přijímají přezkumným postupem podle čl. 16 odst. 2.
+
+Článek 7
+
+Požadavky na výrobek
+
+1.
+
+Členské státy zajistí, aby každý plastový výrobek na jedno použití uvedený v části D přílohy, který je uváděn na trh, byl na svém obale nebo na výrobku samotném opatřen viditelným, jasně čitelným a nesmazatelným označením, které spotřebitelům poskytne informace o těchto skutečnostech:
+
+a)
+
+vhodné postupy nakládání s odpady pro daný výrobek nebo způsoby odstraňování odpadů, jichž je v souladu s hierarchií způsobů nakládání s odpady třeba se u daného výrobku vyvarovat; a
+
+b)
+
+přítomnost plastů ve výrobku a z toho vyplývající nepříznivé dopady jeho odhazování mimo místa určená k odkládání odpadu nebo jiných nevhodných způsobů jeho odstraňování na životní prostředí.
+
+Harmonizované specifikace pro označování stanoví Komise v souladu s odstavcem 2.
+
+2.
+
+Komise do 3. července 2020 přijme prováděcí akt, kterým stanoví harmonizované specifikace pro označování podle odstavce 1, které:
+
+a)
+
+stanoví, že označení plastových výrobků na jedno použití uvedených v bodech 1, 2 a 3 části D přílohy se umístí na prodejní a skupinové obaly těchto výrobků. Pokud se v místě nákupu nashromáždí více prodejních jednotek, je každá prodejní jednotka na svém obale opatřena označením. Označení není vyžadováno u obalů s povrchem menším než 10 cm 2 ;
+
+b)
+
+stanoví, že označení plastových výrobků na jedno použití uvedených v bodě 4 části D přílohy se umístí na samotný výrobek; a
+
+c)
+
+zohlední stávající sektorové dobrovolné přístupy a věnují zvláštní pozornost nutnosti vyhnout se informacím, které by spotřebitele uvedly v omyl.
+
+Tento prováděcí akt se přijme přezkumným postupem podle čl. 16 odst. 2.
+
+3.
+
+Ustanoveními tohoto článku týkajícími se tabákových výrobků se doplňují ustanovení uvedená ve směrnici 2014/40/EU.
+
+Článek 8
+
+Rozšířená odpovědnost výrobce
+
+1.
+
+Členské státy zajistí, aby byly v souladu s články 8 a 8a směrnice 2008/98/ES zavedeny systémy rozšířené odpovědnosti výrobce pro všechny plastové výrobky na jedno použití uvedené v části E přílohy, které jsou uváděny na trh členského státu.
+
+2.
+
+Členské státy zajistí, aby výrobci plastových výrobků na jedno použití uvedených v oddíle I části E přílohy této směrnice pokrývali náklady podle ustanovení o rozšířené odpovědnosti výrobce obsažených ve směrnicích 2008/98/ES a 94/62/ES, a nejsou-li zahrnuty již v uvedených směrnicích, aby pokrývali tyto náklady:
+
+a)
+
+náklady na osvětová opatření podle článku 10 této směrnice týkající se uvedených výrobků;
+
+b)
+
+náklady na sběr odpadu z těch výrobků, které jsou vyhozeny v rámci veřejných systémů sběru odpadu, včetně infrastruktury a jejího provozování, a na následnou přepravu a zpracování tohoto odpadu; a
+
+c)
+
+náklady na úklid odpadků vznikajících z uvedených výrobků a na následnou přepravu a zpracování těchto odpadků.
+
+3.
+
+Členské státy zajistí, aby výrobci plastových výrobků na jednou použití uvedených v oddílech II a III části E přílohy pokrývali alespoň tyto náklady:
+
+a)
+
+náklady na osvětová opatření podle článku 10 týkající se uvedených výrobků;
+
+b)
+
+náklady na úklid odpadků vznikajících z uvedených výrobků a na následnou přepravu a zpracování těchto odpadků; a
+
+c)
+
+náklady na sběr údajů a podávání zpráv podle čl. 8a odst. 1 písm. c) směrnice 2008/98/ES.
+
+Pokud jde o plastové výrobky na jedno použití uvedené v oddíle III části E přílohy této směrnice, členské státy zajistí, aby výrobci kromě toho pokrývali náklady na sběr odpadu z těch výrobků, které jsou vyhozeny v rámci veřejných systémů sběru odpadu, včetně nákladů na infrastrukturu a její provozování, a na následnou přepravu a zpracování tohoto odpadu. Tyto náklady mohou zahrnovat náklady na vybudování specifické infrastruktury pro sběr odpadu z těchto výrobků, jako jsou vhodné nádoby na odpad umístěné v místech, kde obvykle dochází ke znečišťování odpadky.
+
+4.
+
+Tyto náklady, jež mají být pokryty podle odstavců 2 a 3 nepřesáhnou náklady, které jsou nezbytné k nákladově efektivnímu poskytování služeb uvedených v těchto odstavcích, a jsou transparentně stanoveny mezi dotčenými subjekty. Náklady na odklízení odpadků jsou omezeny na činnosti prováděné veřejnými orgány nebo jejich jménem. Metodika výpočtu musí být vypracována způsobem, který umožňuje, aby byly náklady na odklízení odpadků stanoveny v přiměřené výši. Za účelem minimalizace administrativních nákladů mohou členské státy stanovit finanční příspěvky na náklady na odklízení odpadků stanovením odpovídajících víceletých pevných částek.
+
+Komise po konzultaci s členskými státy zveřejní pokyny ohledně kritérií týkajících se nákladů na odklízení odpadků podle odstavců 2 a 3.
+
+5.
+
+Členské státy jasně vymezí úkoly a povinnosti všech relevantních zapojených subjektů.
+
+Úkoly a povinnosti týkající se obalů se vymezí v souladu se směrnicí 94/62/ES.
+
+6.
+
+Každý členský stát umožní výrobcům usazeným v jiném členském státě, kteří uvádějí výrobky na jeho trh, určit právnickou nebo fyzickou osobu usazenou na jeho území jako pověřeného zástupce pro účely plnění povinností výrobce týkajících se systémů rozšířené odpovědnosti výrobce na jeho území.
+
+7.
+
+Každý členský stát zajistí, aby výrobce usazený na jeho území, který prodává plastové výrobky na jedno použití uvedené v části E přílohy a lovná zařízení obsahující plasty v jiném členském státě, ve kterém není usazen, určil v tomto jiném členském státě pověřeného zástupce. Pověřený zástupce je na území tohoto jiného členského státu osobou odpovědnou za plnění povinností uvedeného výrobce podle této směrnice.
+
+8.
+
+Členské státy zajistí, aby byly v souladu s články 8 a 8a směrnice 2008/98/ES zavedeny systémy rozšířené odpovědnosti výrobce, pokud jde o lovná zařízení obsahující plasty, která jsou uváděna na trh některého členského státu.
+
+Členské státy, které mají mořské vody ve smyslu čl. 3 bodu 1 směrnice 2008/56/ES, stanoví pro účely recyklace vnitrostátní minimální roční úroveň sběru odpadních lovných zařízení obsahujících plasty.
+
+Členské státy sledují lovná zařízení obsahující plasty, která jsou uváděna na trh členského státu, jakož i sebraná odpadní lovná zařízení obsahující plasty a podávají zprávu Komisi v souladu s čl. 13 odst. 1 této směrnice za účelem stanovení závazných kvantitativních cílů Unie pro sběr.
+
+9.
+
+S ohledem na systémy rozšířené odpovědnosti výrobce zavedené podle odstavce 8 tohoto článku členské státy zajistí, aby výrobci lovných zařízení obsahujících plasty pokrývali náklady na tříděný sběr odpadních lovných zařízení obsahujících plasty předaných do příslušných přístavních zařízení pro příjem odpadu v souladu se směrnicí (EU) 2019/883 nebo do jiných rovnocenných systémů sběru odpadu, které nespadají do oblasti působnosti uvedené směrnice, a náklady na jejich následnou přepravu a zpracování. Výrobci rovněž pokrývají náklady na osvětová opatření uvedená v článku 10 týkající se lovných zařízení obsahujících plasty.
+
+Požadavky stanovené v tomto odstavci doplňují požadavky týkající se odpadu z rybářských plavidel v právu Unie o přístavních zařízeních pro příjem odpadu.
+
+Aniž jsou dotčena technická opatření stanovená v nařízení Rady (ES) č. 850/98 ( 5 ), požádá Komise evropské normalizační organizace o vypracování harmonizovaných norem týkajících se oběhového návrhu lovných zařízení s cílem podpořit přípravu k jejich opětovnému použití a usnadnit jejich recyklovatelnost na konci životního cyklu.
+
+Článek 9
+
+Tříděný sběr
+
+1.
+
+Členské státy přijmou nezbytná opatření k zajištění tříděného sběru za účelem recyklace:
+
+a)
+
+do roku 2025 množství odpadu z plastových výrobků na jedno použití uvedených v části F přílohy, které se rovná 77 % těchto plastových výrobků na jedno použití uvedených na trh v daném roce podle hmotnosti;
+
+b)
+
+do roku 2029 množství odpadu z plastových výrobků na jedno použití uvedených v části F přílohy, které se rovná 90 % těchto plastových výrobků na jedno použití uvedených na trh v daném roce podle hmotnosti.
+
+Má se za to, že množství plastových výrobků na jedno použití uvedených v části F přílohy, které jsou v členském státě uvedeny na trh, je shodný s množstvím odpadu, včetně odpadu odhozeného mimo místa určená k jeho odkládání, které vzniklo ve stejném roce v daném členském státě.
+
+K dosažení tohoto cíle mohou členské státy mimo jiné:
+
+a)
+
+zavést zálohové systémy;
+
+b)
+
+stanovit cíle pro tříděný sběr pro příslušné systémy rozšířené odpovědnosti výrobce.
+
+První pododstavec se použije, aniž je dotčen čl. 10 odst. 3 písm. a) směrnice 2008/98/ES.
+
+2.
+
+Komise usnadňuje výměnu informací a sdílení osvědčených postupů mezi členskými státy ohledně vhodných opatření ke splnění cílů stanovených v odstavci 1, mimo jiné i ohledně zálohových systémů. Výsledky této výměny informací a sdílení osvědčených postupů Komise zveřejní.
+
+3.
+
+Komise do 3. července 2020 přijme prováděcí akt, kterým stanoví metodiku pro výpočet cílů pro tříděný sběr stanovených v odstavci 1 tohoto článku a pro ověřování jeho plnění. Tento prováděcí akt se přijme přezkumným postupem podle čl. 16 odst. 2.
+
+Článek 10
+
+Osvětová opatření
+
+Členské státy přijmou opatření k informování spotřebitelů a podnícení odpovědného spotřebitelského chování za účelem snížení množství odhozených odpadků z výrobků, na něž se vztahuje tato směrnice, a přijmou opatření k tomu, aby spotřebitelům plastových výrobků na jedno použití uvedených v části G přílohy a uživatelům lovných zařízení obsahujících plasty poskytly informace o:
+
+a)
+
+dostupnosti opětovně použitelných alternativ, systémech opětovného použití uvedených plastových výrobků na jedno použití a lovných zařízení obsahujících plasty a o způsobech nakládání s odpady z uvedených plastových výrobků na jedno použití a lovných zařízení, jakož i o osvědčených postupech řádného nakládání s odpady v souladu s článkem 13 směrnice 2008/98/ES;
+
+b)
+
+dopadu odhazování odpadků mimo místa určená k odkládání odpadu a jiného nevhodného odstraňování odpadů z uvedených plastových výrobků na jedno použití a lovných zařízení obsahujících plasty na životní prostředí, zejména na mořské prostředí; a
+
+c)
+
+dopadu nevhodných způsobů odstraňování odpadu z plastových výrobků na jedno použití na kanalizační síť.
+
+Článek 11
+
+Koordinace reakce
+
+Aniž je dotčen čl. 4 odst. 1 první pododstavec této směrnice, každý členský stát zajistí, aby opatření přijatá za účelem provedení této směrnice ve vnitrostátním právu a jejího uplatňování byla nedílnou součástí programů opatření stanovených podle článku 13 směrnice 2008/56/ES pro členské státy, které mají mořské vody, programů opatření stanovených podle článku 11 směrnice 2000/60/ES, plánů pro nakládání s odpady a programů předcházení vzniku odpadů stanovených podle článků 28 a 29 směrnice 2008/98/ES a plánů pro příjem a zpracování odpadu stanovených podle směrnice (EU) 2019/883 a aby byla s uvedenými programy a plány v souladu.
+
+Opatření, která členské státy přijmou za účelem provedení článků 4 až 9 této směrnice ve vnitrostátním právu a jejich provádění, musí být v souladu s potravinovým právem Unie, aby bylo zajištěno, že není ohrožena hygiena a bezpečnost potravin. Členské státy podporují, aby se jako materiály určené pro styk s potravinami pokud možno používaly udržitelné alternativy plastů na jedno použití.
+
+Článek 12
+
+Specifikace a pokyny týkající se plastových výrobků na jedno použití
+
+Při určování toho, zda má být nádoba na potraviny považována pro účely této směrnice za plastový výrobek na jedno použití, je spolu s kritérii pro nádoby na potraviny uvedenými v příloze rozhodující skutečností, jestli se vzhledem ke svému objemu nebo velikosti, zejména u nádob na jednu porci, často stává nevhodně odhozeným odpadkem.
+
+Komise do 3. července 2020 zveřejní po konzultaci s členskými státy pokyny, včetně případných příkladů toho, co má být pro účely této směrnice považováno za plastový výrobek na jedno použití.
+
+Článek 13
+
+Informační systémy a podávání zpráv
+
+1.
+
+Každý členský stát podává Komisi za každý kalendářní rok zprávu obsahující:
+
+a)
+
+údaje o plastových výrobcích na jedno použití uvedených v části A přílohy, které byly každoročně uvedeny na trh daného členského státu, s cílem doložit snížení spotřeby v souladu s čl. 4 odst. 1;
+
+b)
+
+informace o opatřeních přijatých daným členským státem pro účely čl. 4 odst. 1;
+
+c)
+
+údaje o plastových výrobcích na jedno použití uvedených v části F přílohy, které byly každoročně v daném členském státě sebrány v rámci tříděného sběru, s cílem doložit dosažení cílů pro tříděný sběr podle čl. 9 odst. 1;
+
+d)
+
+údaje o lovných zařízeních obsahujících plasty uvedených každoročně v daném členském státě na trh, jakož i o každoročně sebraných odpadních lovných zařízeních v daném členském státě;
+
+e)
+
+informace o obsahu recyklovaných materiálů v nápojových lahvích uvedených v části F přílohy s cílem doložit dosažení cílů stanovených v čl. 6 odst. 5; a
+
+f)
+
+údaje o odpadu plastových výrobků na jedno použití uvedených v oddíle III části E přílohy, který byl sebrán v souladu s čl. 8 odst. 3, po spotřebě jejich obsahu.
+
+Členské státy předkládají údaje a informace elektronicky do 18 měsíců od konce vykazovaného roku, za který byly shromážděny. Údaje a informace jsou předkládány ve formátu, který stanoví Komise v souladu s odstavcem 4 tohoto článku.
+
+Prvním vykazovaným obdobím je kalendářní rok 2022 s výjimkou prvního pododstavce písm. e) a f), u nichž je prvním vykazovaným obdobím kalendářní rok 2023.
+
+2.
+
+K údajům a informacím, jež členské státy předkládají v souladu s tímto článkem, se připojí zpráva o kontrole kvality. Údaje a informace jsou předkládány ve formátu, který stanoví Komise v souladu s odstavcem 4.
+
+▼M1
+
+3.
+
+Komise přezkoumá údaje a informace předložené v souladu s tímto článkem a zprávu o výsledcích svého přezkumu zveřejní. Zpráva posoudí organizaci sběru údajů a informací, zdroje údajů a informací, metodiku použitou v členských státech a úplnost, spolehlivost, včasnost a konzistentnost těchto údajů a informací. Posouzení může obsahovat konkrétní doporučení ke zlepšení. Tato zpráva se vypracuje po prvním předložení údajů a informací členskými státy a poté každé čtyři roky.
+
+▼B
+
+4.
+
+Komise do 3. ledna 2021 přijme prováděcí akty, kterými stanoví formát pro předkládání údajů a informací podle odst. 1 písm. a) a b) a odst. 2 tohoto článku.
+
+Komise do 3. července 2020 přijme prováděcí akty, kterými stanoví formát pro předkládání údajů podle odst. 1 písm. c) a d) a odst. 2 tohoto článku.
+
+Komise do 1. ledna 2022 přijme prováděcí akty, kterými stanoví formát pro předkládání údajů a informací podle odst. 1 písm. e) a f) a odst. 2 tohoto článku.
+
+Tyto prováděcí akty se přijímají přezkumným postupem podle čl. 16 odst. 2. Zohlední se formát vypracovaný podle článku 12 směrnice 94/62/ES.
+
+Článek 14
+
+Sankce
+
+Členské státy stanoví sankce za porušení vnitrostátních ustanovení přijatých podle této směrnice a přijmou veškerá opatření nezbytná k zajištění jejich uplatňování. Stanovené sankce musí být účinné, přiměřené a odrazující. Členské státy tyto sankce a opatření oznámí Komisi do 3. července 2021 a neprodleně jí oznámí i všechny jejich následné změny.
+
+Článek 15
+
+Hodnocení a přezkum
+
+1.
+
+Komise provede hodnocení této směrnice do 3. července 2027. Hodnocení vychází z informací dostupných v souladu s článkem 13. Členské státy Komisi poskytnou veškeré doplňující informace nezbytné pro účely hodnocení a vypracování zprávy uvedené v odstavci 2 tohoto článku.
+
+2.
+
+Komise předloží zprávu o hlavních zjištěních hodnocení provedeného v souladu s odstavcem 1 Evropskému parlamentu, Radě a Evropskému hospodářskému a sociálnímu výboru. Ke zprávě se podle potřeby připojí legislativní návrh. V uvedeném návrhu se podle potřeby stanoví závazné kvantitativní cíle snížení spotřeby a závazné úrovně sběru odpadních lovných zařízení.
+
+3.
+
+Zpráva obsahuje:
+
+a)
+
+posouzení potřeby přezkoumat přílohu obsahující seznam plastových výrobků na jedno použití, a to i pokud jde o uzávěry a víčka vyrobené z plastů, jež se používají pro skleněné a kovové nádoby na nápoje;
+
+b)
+
+studii o tom, zda je proveditelné stanovit závazné úrovně sběru pro odpadní lovná zařízení a závazné kvantitativní cíle Unie pro snížení spotřeby zejména plastových výrobků na jedno použití uvedených v části A přílohy, přičemž se zohlední úrovně spotřeby a již dosažená snížení spotřeby v členských státech;
+
+c)
+
+posouzení změny v materiálech používaných v plastových výrobcích na jedno použití, na něž se vztahuje tato směrnice, jakož i posouzení nových vzorců spotřeby a obchodních modelů založených na opětovně použitelných alternativách; toto posouzení pokud možno zahrnuje celkovou analýzu životního cyklu s cílem posoudit dopad těchto výrobků a jejich alternativ na životní prostředí; a
+
+d)
+
+posouzení vědeckého a technického pokroku ohledně kritérií nebo normy pro biologickou rozložitelnost v mořském prostředí pro plastové výrobky na jedno použití, na které se vztahuje tato směrnice, a pro náhrady těchto výrobků na jedno použití, které zajišťují plnou rozložitelnost plastů na oxid uhličitý (CO 2 ), biomasu a vodu za dostatečně krátkou dobu na to, aby nebyly škodlivé pro život v mořích a aby nedocházelo k hromadění plastů v životním prostředí.
+
+4.
+
+V rámci hodnocení provedeného v souladu s odstavcem 1 Komise přezkoumá opatření přijatá podle této směrnice týkající se plastových výrobků na jedno použití uvedených v oddíle III části E přílohy, a předloží zprávu o hlavních zjištěních. Ve zprávě se rovněž zváží varianty závazných opatření pro snížení množství odpadu plastových výrobků na jedno použití uvedených v oddíle III části E přílohy po spotřebě jejich obsahu, včetně možnosti stanovit závazné úrovně sběru pro tento odpad po spotřebě jeho obsahu. Ke zprávě se podle potřeby připojí legislativní návrh.
+
+Článek 16
+
+Postup projednávání ve výboru
+
+1.
+
+Komisi je nápomocen výbor zřízený článkem 39 směrnice 2008/98/ES. Tento výbor je výborem ve smyslu nařízení (EU) č. 182/2011.
+
+2.
+
+Odkazuje-li se na tento odstavec, použije se článek 5 nařízení (EU) č. 182/2011.
+
+Pokud výbor nevydá žádné stanovisko, Komise navrhovaný prováděcí akt nepřijme a použije se čl. 5 odst. 4 třetí pododstavec nařízení (EU) č. 182/2011.
+
+Článek 17
+
+Provedení ve vnitrostátním právu
+
+1.
+
+Členské státy uvedou v účinnost právní a správní předpisy nezbytné pro dosažení souladu s touto směrnicí do 3. července 2021. Neprodleně o nich uvědomí Komisi.
+
+Členské státy však použijí předpisy nezbytné k zajištění souladu s:
+
+—
+
+článkem 5 od 3. července 2021,
+
+—
+
+čl. 6 odst. 1 od 3. července 2024,
+
+—
+
+čl. 7 odst. 1 od 3. července 2021,
+
+—
+
+článkem 8 do 31. prosince 2024, ale pokud jde o systémy rozšířené odpovědnosti výrobce, které byly zavedeny před 4. červencem 2018, a o plastové výrobky na jedno použití uvedené v oddíle III části E přílohy do 5. ledna 2023.
+
+Předpisy uvedené v tomto odstavci přijaté členskými státy musí obsahovat odkaz na tuto směrnici nebo musí být takový odkaz učiněn při jejich úředním vyhlášení. Způsob odkazu si stanoví členské státy.
+
+2.
+
+Členské státy sdělí Komisi znění hlavních ustanovení vnitrostátních právních předpisů, které přijmou v oblasti působnosti této směrnice.
+
+3.
+
+Za podmínky, že je cílů v oblasti nakládání s odpady stanovených v článcích 4 a 8 dosaženo, mohou členské státy provést ve vnitrostátním právu ustanovení čl. 4 odst. 1 a čl. 8 odst. 1 a 8, s výjimkou plastových výrobků na jedno použití uvedených v oddíle III části E přílohy, prostřednictvím dohod mezi příslušnými orgány a dotčenými hospodářskými odvětvími.
+
+Tyto dohody musí splňovat tyto požadavky:
+
+a)
+
+dohody jsou vymahatelné;
+
+b)
+
+dohody musí upřesnit cíle a odpovídající lhůty;
+
+c)
+
+dohody jsou zveřejněny v úředním věstníku dotčeného členského státu nebo v úředním dokumentu rovněž přístupném veřejnosti a jsou předány Komisi;
+
+d)
+
+výsledky dosažené při uplatňování dohody jsou pravidelně sledovány, sdělovány příslušným orgánům a Komisi a zpřístupňovány veřejnosti za podmínek stanovených v dohodě;
+
+e)
+
+příslušné orgány přijmou opatření k posuzování pokroku dosaženého v rámci dohody; a
+
+f)
+
+v případě neplnění dohody členské státy provedou příslušná ustanovení této směrnice přijetím právních nebo správních předpisů.
+
+Článek 18
+
+Vstup v platnost
+
+Tato směrnice vstupuje v platnost dvacátým dnem po vyhlášení v Úředním věstníku Evropské unie .
+
+Článek 19
+
+Určení
+
+Tato směrnice je určena členským státům.
+
+PŘÍLOHA
+
+ČÁST A
+
+Plastové výrobky na jedno použití, na které se vztahuje článek 4 o snížení spotřeby
+
+1) Nápojové kelímky, včetně jejich uzávěrů a víček;
+
+2) Nádoby na potraviny, tj. nádoby, jako jsou krabičky s víkem či bez něj, jež se používají k pojmutí potravin, které:
+
+a)
+
+jsou určeny k okamžité spotřebě, a to buď na místě, nebo k odnesení s sebou,
+
+b)
+
+jsou obvykle spotřebovávány z této nádoby a
+
+c)
+
+jsou připraveny ke spotřebě bez jakékoli další přípravy, jako je vaření nebo ohřívání,
+
+včetně nádob na potraviny používaných pro rychlé občerstvení nebo jiná jídla připravená k okamžité spotřebě, s výjimkou nádob na nápoje, talířů a sáčků a balení obsahujících potraviny.
+
+ČÁST B
+
+Plastové výrobky na jedno použití, na které se vztahuje článek 5 o omezení uvádění výrobků na trh
+
+1) Vatové tyčinky, s výjimkou případů spadajících do oblasti působnosti směrnice Rady 90/385/EHS ( 6 ) nebo směrnice Rady 93/42/EHS ( 7 );
+
+2) Příbory (vidličky, nože, lžíce, jídelní hůlky);
+
+3) Talíře;
+
+4) Brčka, s výjimkou případů spadajících do oblasti působnosti směrnice 90/385/EHS nebo směrnice 93/42/EHS;
+
+5) Nápojová míchátka;
+
+6) Tyčky k uchycení a podpěře balónků, kromě balónků pro průmyslové či jiné profesionální použití a upotřebení, jež nejsou distribuovány spotřebitelům, včetně mechanismů těchto tyček;
+
+7) Nádoby na potraviny vyrobené z expandovaného polystyrenu, tj. nádoby, jako jsou krabičky s víkem či bez něj, jež se používají k pojmutí potravin, které:
+
+a)
+
+jsou určeny k okamžité spotřebě, a to buď na místě, nebo k odnesení s sebou,
+
+b)
+
+jsou obvykle spotřebovávány z této nádoby a
+
+c)
+
+jsou připraveny ke spotřebě bez jakékoli další přípravy, jako je vaření nebo ohřívání,
+
+včetně nádob na potraviny používaných pro rychlé občerstvení nebo jiná jídla připravená k okamžité spotřebě, s výjimkou nádob na nápoje, talířů a sáčků a balení obsahujících potraviny;
+
+8) Nádoby na nápoje vyrobené z expandovaného polystyrenu, včetně jejich uzávěrů a víček;
+
+9) Nápojové kelímky vyrobené z expandovaného polystyrenu, včetně jejich uzávěrů a víček.
+
+ČÁST C
+
+Plastové výrobky na jedno použití, na které se vztahuje čl. 6 odst. 1 až 4 o požadavcích na výrobky
+
+Nádoby na nápoje o objemu až tři litry, tj. nádoby, jež se používají k pojmutí kapalin, např. nápojové lahve včetně jejich uzávěrů a víček a nápojové obaly z kompozitních materiálů, včetně jejich uzávěrů a víček, avšak nikoli:
+
+a)
+
+skleněné nebo kovové nádoby na nápoje, které mají uzávěry a víčka vyrobené z plastu;
+
+b)
+
+nádoby na nápoje určené a používané na potraviny pro zvláštní lékařské účely ve smyslu čl. 2 písm. g) nařízení Evropského parlamentu a Rady (EU) č. 609/2013 ( 8 ), které jsou v kapalné formě.
+
+ČÁST D
+
+Plastové výrobky na jedno použití, na které se vztahuje článek 7 o požadavcích na označování
+
+1) Hygienické vložky a tampony a aplikátory tamponů;
+
+2) Vlhčené ubrousky, tj. předvlhčené ubrousky pro osobní hygienu a péči o domácnost;
+
+3) Tabákové výrobky s filtry a filtry uváděné na trh pro použití v kombinaci s tabákovými výrobky;
+
+4) Nápojové kelímky.
+
+ČÁST E
+
+I. Plastové výrobky na jedno použití, na které se vztahuje čl. 8 odst. 2 o rozšířené odpovědnosti výrobce
+
+1) Nádoby na potraviny, tj. nádoby, jako jsou krabičky s víkem či bez něj, jež se používají k pojmutí potravin, které:
+
+a)
+
+jsou určeny k okamžité spotřebě, a to buď na místě, nebo k odnesení s sebou,
+
+b)
+
+jsou obvykle spotřebovávány z této nádoby a
+
+c)
+
+jsou připraveny ke spotřebě bez jakékoli další přípravy, jako je vaření nebo ohřívání,
+
+včetně nádob na potraviny používaných pro rychlé občerstvení nebo jiná jídla připravená k okamžité spotřebě, s výjimkou nádob na nápoje, talířů a sáčků a balení obsahujících potraviny;
+
+2) Sáčky a balení zhotovené z pružného materiálu, které obsahují potraviny určené k okamžité spotřebě z těchto sáčků nebo balení bez jakékoli další přípravy;
+
+3) Nádoby na nápoje o objemu až tři litry, tj. nádoby, jež se používají k pojmutí kapalin, např. nápojové lahve včetně jejich uzávěrů a víček a nápojové obaly z kompozitních materiálů, včetně jejich uzávěrů a víček, avšak nikoli skleněné nebo kovové nádoby na nápoje, které mají uzávěry a víčka vyrobené z plastu;
+
+4) Nápojové kelímky, včetně jejich uzávěrů a víček;
+
+5) Lehké plastové nákupní tašky ve smyslu čl. 3 bodu 1c směrnice 94/62/ES.
+
+II. Plastové výrobky na jedno použití, na které se vztahuje čl. 8 odst. 3 o rozšířené odpovědnosti výrobce
+
+1) Vlhčené ubrousky, tj. předvlhčené ubrousky pro osobní hygienu a péči o domácnost;
+
+2) Balónky, kromě balónků pro průmyslové či jiné profesionální použití a upotřebení, jež nejsou distribuovány spotřebitelům.
+
+III. Další plastové výrobky na jedno použití, na které se vztahuje čl. 8 odst. 3 o rozšířené odpovědnosti výrobce
+
+Tabákové výrobky s filtry a filtry uváděné na trh pro použití v kombinaci s tabákovými výrobky.
+
+ČÁST F
+
+Plastové výrobky na jedno použití, na které se vztahuje článek 9 o tříděném sběru a čl. 6 odst. 5 o požadavcích na výrobky
+
+Nápojové lahve o objemu až tři litry, včetně jejich uzávěrů a víček, avšak nikoli:
+
+a)
+
+skleněné nebo kovové nádoby na nápoje, které mají uzávěry a víčka vyrobené z plastu,
+
+b)
+
+nápojové lahve určené a používané na potraviny pro zvláštní lékařské účely ve smyslu čl. 2 písm. g) nařízení (EU) č. 609/2013, které jsou v kapalné formě.
+
+ČÁST G
+
+Plastové výrobky na jedno použití, na které se vztahuje článek 10 o osvětových opatřeních
+
+1) Nádoby na potraviny, tj. nádoby, jako jsou krabičky s víkem či bez něj, jež se používají k pojmutí potravin, které:
+
+a)
+
+jsou určeny k okamžité spotřebě, a to buď na místě, nebo k odnesení s sebou,
+
+b)
+
+jsou obvykle spotřebovávány z příslušné nádoby a
+
+c)
+
+jsou připraveny ke spotřebě bez jakékoli další přípravy, jako je vaření nebo ohřívání,
+
+včetně nádob na potraviny používaných pro rychlé občerstvení nebo jiná jídla připravená k okamžité spotřebě, s výjimkou nádob na nápoje, talířů a sáčků a balení obsahujících potraviny;
+
+2) Sáčky a balení zhotovené z pružného materiálu, které obsahují potraviny určené k okamžité spotřebě z těchto sáčků nebo balení bez jakékoli další přípravy;
+
+3) Nádoby na nápoje o objemu až tři litry, tj. nádoby, jež se používají k pojmutí kapalin, např. nápojové lahve včetně jejich uzávěrů a víček a nápojové obaly z kompozitních materiálů, včetně jejich uzávěrů a víček, avšak nikoli skleněné nebo kovové nádoby na nápoje, které mají uzávěry a víčka vyrobené z plastu, včetně jejich uzávěrů a víček;
+
+4) Nápojové kelímky, včetně jejich uzávěrů a víček;
+
+5) Tabákové výrobky s filtry a filtry uváděné na trh pro použití v kombinaci s tabákovými výrobky;
+
+6) Vlhčené ubrousky, tj. předvlhčené ubrousky pro osobní hygienu a péči o domácnost;
+
+7) Balónky, kromě balónků pro průmyslové či jiné profesionální použití a upotřebení, jež nejsou distribuovány spotřebitelům;
+
+8) Lehké plastové nákupní tašky ve smyslu čl. 3 bodu 1c směrnice 94/62/ES;
+
+9) Hygienické vložky a tampony a aplikátory tamponů.
+
+( 1 ) Nařízení Evropského parlamentu a Rady (EU) 2025/40 ze dne 19. prosince 2024 o obalech a obalových odpadech, o změně nařízení (EU) 2019/1020 a směrnice (EU) 2019/904 a o zrušení směrnice 94/62/ES (Úř. věst. L, 2025/40, 22.1.2025, ELI: http://data.europa.eu/eli/reg/2025/40/oj).
+
+( 2 ) Směrnice Evropského parlamentu a Rady 2011/83/EU ze dne 25. října 2011 o právech spotřebitelů, kterou se mění směrnice Rady 93/13/EHS a směrnice Evropského parlamentu a Rady 1999/44/ES a zrušuje směrnice Rady 85/577/EHS a směrnice Evropského parlamentu a Rady 97/7/ES (Úř. věst. L 304, 22.11.2011, s. 64).
+
+( 3 ) Nařízení Evropského parlamentu a Rady (EU) č. 1380/2013 ze dne 11. prosince 2013 o společné rybářské politice, o změně nařízení Rady (ES) č. 1954/2003 a (ES) č. 1224/2009 a o zrušení nařízení Rady (ES) č. 2371/2002 a (ES) č. 639/2004 a rozhodnutí Rady 2004/585/ES (Úř. věst. L 354, 28.12.2013, s. 22).
+
+( 4 ) Směrnice Evropského parlamentu a Rady (EU) 2015/1535 ze dne 9. září 2015 o postupu při poskytování informací v oblasti norem a technických předpisů a předpisů pro služby informační společnosti (Úř. věst. L 241, 17.9.2015, s. 1).
+
+( 5 ) Nařízení Rady (ES) č. 850/98 ze dne 30. března 1998 o zachování rybolovných zdrojů pomocí technických opatření na ochranu nedospělých mořských živočichů (Úř. věst. L 125, 27.4.1998, s. 1).
+
+( 6 ) Směrnice Rady 90/385/EHS ze dne 20. června 1990 o sbližování právních předpisů členských států týkajících se aktivních implantabilních zdravotnických prostředků (Úř. věst. L 189, 20.7.1990, s. 17).
+
+( 7 ) Směrnice Rady 93/42/EHS ze dne 14. června 1993 o zdravotnických prostředcích (Úř. věst. L 169, 12.7.1993, s. 1).
+
+( 8 ) Nařízení Evropského parlamentu a Rady (EU) č. 609/2013 ze dne 12. června 2013 o potravinách určených pro kojence a malé děti, potravinách pro zvláštní lékařské účely a náhradě celodenní stravy pro regulaci hmotnosti a o zrušení směrnice Rady 92/52/EHS, směrnic Komise 96/8/ES, 1999/21/ES, 2006/125/ES a 2006/141/ES, směrnice Evropského parlamentu a Rady 2009/39/ES a nařízení Komise (ES) č. 41/2009 a (ES) č. 953/2009 (Úř. věst. L 181, 29.6.2013, s. 35).

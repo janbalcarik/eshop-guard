@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EshopGuard.Core\EshopGuard.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
+    <PackageReference Include="xunit.v3" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Fixtures\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <!-- Tests use the shipped rule sets and label lists, so a broken rule file fails the build's tests. -->
+    <None Include="..\..\rules\*.yaml" Link="rules\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\config\labels.yaml" Link="config\labels.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\config\legal_requirements.yaml" Link="config\legal_requirements.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\config\sieve.yaml" Link="config\sieve.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\config\rewrite.yaml" Link="config\rewrite.yaml" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
