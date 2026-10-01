@@ -46,7 +46,7 @@ internal sealed class OpenAiRewriteClient : IRewriteClient
             ["reasoning"] = new Dictionary<string, object> { ["effort"] = _options.ReasoningEffort },
             ["max_output_tokens"] = _options.MaxOutputTokens,
             ["store"] = false,
-            ["prompt_cache_key"] = "EshopGuard-rewrite-" + request.PromptVersion,
+            ["prompt_cache_key"] = "eshopguard-rewrite-" + request.PromptVersion,
             ["text"] = new Dictionary<string, object>
             {
                 ["format"] = new Dictionary<string, object>

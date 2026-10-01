@@ -22,7 +22,7 @@ internal sealed class EshopGuardService(
     IRuleSetProvider ruleSetProvider,
     SegmentEvaluator segmentEvaluator,
     PageSieve pageSieve,
-    IOptions<EshopGuardOptions> checkerOptions,
+    IOptions<EshopGuardOptions> guardOptions,
     ILogger<EshopGuardService> logger) : IEshopGuard
 {
     public async Task<ScanResult> ScanSiteAsync(Uri siteUrl, ScanOptions options,
@@ -269,7 +269,7 @@ internal sealed class EshopGuardService(
             }
         }
 
-        var segments = SegmentAggregator.Aggregate(occurrences, texts.Count, checkerOptions.Value.Segmentation);
+        var segments = SegmentAggregator.Aggregate(occurrences, texts.Count, guardOptions.Value.Segmentation);
         var evaluation = await segmentEvaluator.EvaluateAsync(
             segments, ruleSets, options.QuestionLanguage, options.Concurrency, options.ConfirmJevCalls, progress: null, ct);
 
@@ -346,7 +346,7 @@ internal sealed class EshopGuardService(
             }
         }
 
-        return new Segmented(occurrences, sieveChunks, SegmentAggregator.Aggregate(occurrences, analyzed.Count, checkerOptions.Value.Segmentation));
+        return new Segmented(occurrences, sieveChunks, SegmentAggregator.Aggregate(occurrences, analyzed.Count, guardOptions.Value.Segmentation));
     }
 
     /// <summary>
@@ -375,7 +375,7 @@ internal sealed class EshopGuardService(
             EstimatedInputTokens = tokens,
             EstimatedCostUsd = Math.Round(segmentEvaluator.Cost(tokens), 6),
             IsMock = detail.IsMock,
-            RequiresConfirmation = !detail.IsMock && calls > checkerOptions.Value.Budget.MaxCallsWithoutConfirm,
+            RequiresConfirmation = !detail.IsMock && calls > guardOptions.Value.Budget.MaxCallsWithoutConfirm,
             UpperBound = true,
         };
         logger.LogInformation("Jev estimate with sieve: at most {Calls} calls ({Sieve} of the sieve), about {Tokens} input tokens, at most {Cost} USD",
@@ -398,7 +398,7 @@ internal sealed class EshopGuardService(
         ProfilesWillRun = profiling.WillCreate,
         ProfilesUnavailableReason = profiling.Planned.Count > 0 ? profiling.UnavailableReason : null,
         RequiresConfirmation = estimate.RequiresConfirmation
-            || (profiling.WillCreate && profiling.EstimatedUsd > checkerOptions.Value.Profiles.MaxUsdWithoutConfirm),
+            || (profiling.WillCreate && profiling.EstimatedUsd > guardOptions.Value.Profiles.MaxUsdWithoutConfirm),
     };
 
     /// <summary>

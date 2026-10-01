@@ -91,12 +91,12 @@ internal sealed class CheckTextCommand : AsyncCommand<CheckTextSettings>
 
         Directory.CreateDirectory("out");
         await using var services = CliHost.BuildServices(configuration, Path.Combine("out", "check-text.log"), settings.Mock, settings.NoCache);
-        var checker = services.GetRequiredService<IEshopGuard>();
+        var guard = services.GetRequiredService<IEshopGuard>();
 
         AnalysisResult result;
         try
         {
-            result = await checker.AnalyzeTextsAsync(
+            result = await guard.AnalyzeTextsAsync(
                 [new TextInput { Text = settings.Text, Kind = settings.Kind == "legal" ? TextKind.Legal : TextKind.Sentence, Category = settings.Category }],
                 new AnalyzeOptions
                 {

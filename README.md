@@ -159,8 +159,8 @@ services.AddEshopGuard(options =>
     options.Rules.LabelsFile = "config/labels.yaml";
 });
 
-var checker = provider.GetRequiredService<IEshopGuard>();
-var result = await checker.AnalyzeTextsAsync(
+var guard = provider.GetRequiredService<IEshopGuard>();
+var result = await guard.AnalyzeTextsAsync(
     [new TextInput { Text = "Tento šampon je ekologický a šetrný k přírodě." }],
     new AnalyzeOptions { Country = "cz" });   // výchozí je "sk"
 ```

@@ -214,8 +214,8 @@ public class ScanFixtureTests
     private static async Task<ScanResult> ScanAsync(IPageFetcher fetcher, ScanOptions? options = null)
     {
         await using var provider = TestServices.Create(fetcher);
-        var checker = provider.GetRequiredService<IEshopGuard>();
-        return await checker.ScanSiteAsync(FileSystemPageFetcher.DefaultBaseUrl, options ?? new ScanOptions { Country = "cz" }, ct: TestContext.Current.CancellationToken);
+        var guard = provider.GetRequiredService<IEshopGuard>();
+        return await guard.ScanSiteAsync(FileSystemPageFetcher.DefaultBaseUrl, options ?? new ScanOptions { Country = "cz" }, ct: TestContext.Current.CancellationToken);
     }
 
     private sealed class MissingFilesFetcher(IPageFetcher inner, params string[] missingPaths) : IPageFetcher

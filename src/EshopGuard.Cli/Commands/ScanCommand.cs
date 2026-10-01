@@ -134,7 +134,7 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
 
         await using var services = CliHost.BuildServices(configuration, logFile, settings.Mock, settings.NoCache);
         var logger = services.GetRequiredService<ILogger<ScanCommand>>();
-        var checker = services.GetRequiredService<IEshopGuard>();
+        var guard = services.GetRequiredService<IEshopGuard>();
         logger.LogInformation("Jev: {Mode}, key from {Source}, cache {Cache}",
             settings.Mock ? "mock" : "API", settings.Mock ? "-" : configuration.ApiKeySource, settings.Mock || settings.NoCache ? "off" : configuration.Settings.Cache.Path);
 
@@ -185,7 +185,7 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
         ScanResult result;
         try
         {
-            var scan = checker.ScanSiteAsync(siteUrl, options, progress, cancellationToken);
+            var scan = guard.ScanSiteAsync(siteUrl, options, progress, cancellationToken);
             await RunWithProgressAsync("Stahování stránek", t => currentTask = t, Task.WhenAny(scan, estimateArrived.Task));
             currentTask = null;
 

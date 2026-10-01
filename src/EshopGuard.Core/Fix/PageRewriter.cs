@@ -32,7 +32,7 @@ public interface ITextRewriter
 internal sealed class PageRewriter(
     IRewriteClient client,
     IRewriteCache cache,
-    IEshopGuard checker,
+    IEshopGuard guard,
     IOptions<RewriteOptions> options,
     ILogger<PageRewriter> logger) : ITextRewriter
 {
@@ -298,7 +298,7 @@ internal sealed class PageRewriter(
         if (inputs.Count > 0)
         {
             var modules = works.SelectMany(w => w.Findings).Select(f => f.Finding.Module).Distinct(StringComparer.Ordinal).ToList();
-            var analysis = await checker.AnalyzeTextsAsync(inputs, new AnalyzeOptions { Modules = modules, Country = country }, ct);
+            var analysis = await guard.AnalyzeTextsAsync(inputs, new AnalyzeOptions { Modules = modules, Country = country }, ct);
             calls = analysis.Stats.JevCalls;
             cost = analysis.Stats.EstimatedCostUsd;
             foreach (var finding in analysis.Findings.Where(f => f.Scope == "segment" && f.Text is not null))
