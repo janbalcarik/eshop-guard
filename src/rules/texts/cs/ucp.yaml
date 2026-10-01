@@ -1,0 +1,25 @@
+# Texty pravidel sady ucp (cs). Otázky pro Jev, logika a odkazy na zákon jsou v rules/ucp.yaml.
+# Klíče a zástupné symboly musí být ve všech jazycích stejné; kontrola: eshopguard rules check-texts.
+locale: cs
+rule_set: ucp
+source_version: "ucp-2026-09-26-draft4"
+review:
+  original: true
+  note: "Původní texty pravidel, přesunuté beze změny z rules/ucp.yaml (1. 10. 2026)."
+rules:
+  ucp_review_reward_positive:
+    title: "Odměna za kladnou recenzi"
+    explanation: "Odměna za kladné hodnocení vede k falešným recenzím; zadávání falešných recenzí je zakázané za všech okolností."
+    recommendation: "Odměnu za recenzi nepodmiňujte jejím obsahem ani hodnocením."
+  ucp_reviews_only_positive:
+    title: "Zveřejňování jen kladných recenzí"
+    explanation: "Zveřejňování jen kladných recenzí a mazání záporných zkresluje spotřebitelské recenze; to je zakázané za všech okolností."
+    recommendation: "Zveřejňujte kladné i záporné recenze; mazat smíte jen recenze, které porušují zveřejněná pravidla (spam, vulgarity)."
+  ucp_review_reward_any:
+    title: "Odměna za recenzi k ověření"
+    explanation: "Odměna za recenzi bez ohledu na hodnocení není sama zakázaná, ale recenze pak nemusí odrážet běžnou zkušenost zákazníků; zákazník by se měl dozvědět, jak obchod recenze získává a ověřuje."
+    recommendation: "Ověřte, že odměna nezávisí na obsahu recenze a že u recenzí je informace o tom, jak se získávají a ověřují."
+  ucp_reviews_verified_claim:
+    title: "Tvrzení o ověřených recenzích k ověření"
+    explanation: "Tvrdit, že recenze píší zákazníci, kteří produkt koupili nebo použili, je zakázané, pokud obchod nepřijal přiměřená opatření k ověření (například hodnotit smí jen zákazník s dokončenou objednávkou). Opatření na webu vidět nejsou, proto jde o nález k ověření."
+    recommendation: "Ověřte, že obchod skutečně kontroluje původ recenzí (například podle čísla objednávky), a popište to přímo u recenzí."

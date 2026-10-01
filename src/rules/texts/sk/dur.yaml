@@ -1,0 +1,29 @@
+# Kostra překladu do jazyka sk: vyplňte texty a review; zástupné symboly {…} musí zůstat stejné.
+locale: sk
+rule_set: dur
+source_version: "dur-2026-09-30-draft3"
+review:
+  translated_by: ""
+  reviewed_by: ""
+  reviewed_at: ""
+rules:
+  dur_lifetime_claim:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  dur_repairable_claim:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  dur_consumable_early:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  dur_non_original_damage:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  dur_update_necessary:
+    title: ""
+    explanation: ""
+    recommendation: ""

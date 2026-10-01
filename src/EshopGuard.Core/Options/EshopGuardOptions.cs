@@ -20,6 +20,9 @@ public sealed class EshopGuardOptions
     /// <summary>Location of rule sets and label lists.</summary>
     public RulesOptions Rules { get; set; } = new();
 
+    /// <summary>Language of the outputs written by the report writers.</summary>
+    public ReportOptions Report { get; set; } = new();
+
     /// <summary>Price used for the cost estimate.</summary>
     public CostOptions Cost { get; set; } = new();
 
@@ -226,6 +229,39 @@ public sealed class RulesOptions
 
     /// <summary>YAML file with the block sieve; when it is missing, the sieve is off.</summary>
     public string SieveFile { get; set; } = "config/sieve.yaml";
+
+    /// <summary>YAML file with the known jurisdictions and the language of their laws.</summary>
+    public string JurisdictionsFile { get; set; } = "config/jurisdictions.yaml";
+
+    /// <summary>Folder with the texts of the rules, one subfolder per language; null means <c>texts</c> in <see cref="Directory"/>.</summary>
+    public string? TextsDirectory { get; set; }
+
+    /// <summary>Languages of the texts to load; empty means every subfolder of the texts folder.</summary>
+    public List<string> Locales { get; set; } = [];
+
+    /// <summary>
+    /// Languages whose texts of the tool and of the labels must be complete, otherwise the rules do not load. Texts of a rule
+    /// set missing in such a language are shown in the language the set was written in.
+    /// </summary>
+    public List<string> RequiredLocales { get; set; } = ["cs"];
+
+    /// <summary>JSON file with the fingerprint of the questions of every rule set version; null means <c>question-set-hashes.json</c> in <see cref="Directory"/>.</summary>
+    public string? QuestionSetHashesFile { get; set; }
+
+    /// <summary>The texts folder.</summary>
+    public string ResolvedTextsDirectory => TextsDirectory ?? Path.Combine(Directory, "texts");
+
+    /// <summary>The file of question set fingerprints.</summary>
+    public string ResolvedQuestionSetHashesFile => QuestionSetHashesFile ?? Path.Combine(Directory, "question-set-hashes.json");
+}
+
+/// <summary>
+/// Language of the texts in the outputs of the host (report, CSV and JSON of findings, prompt of the rewrite fallback).
+/// </summary>
+public sealed class ReportOptions
+{
+    /// <summary>Language of the texts of rules and of the tool, e.g. <c>cs</c>.</summary>
+    public string Locale { get; set; } = "cs";
 }
 
 /// <summary>

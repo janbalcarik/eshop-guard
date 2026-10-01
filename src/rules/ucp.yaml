@@ -30,7 +30,6 @@ questions:
 
 rules:
   - id: ucp_review_reward_positive
-    title: "Odměna za kladnou recenzi"
     scope: segment
     logic:
       all: [{q: ucp_review_reward, gte: 0.5}, {q: ucp_review_reward_positive, gte: 0.5}]
@@ -38,14 +37,11 @@ rules:
     severity: high
     checkability: text
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23c; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (odměna za zveřejnění pozitivních recenzí)", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 32 (do 26. 9. 2026 bod 27)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. z) zákona č. 634/1992 Sb.", status: "ověřit"}
-    explanation: "Odměna za kladné hodnocení vede k falešným recenzím; zadávání falešných recenzí je zakázané za všech okolností."
-    recommendation: "Odměnu za recenzi nepodmiňujte jejím obsahem ani hodnocením."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23c; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (odměna za zveřejnění pozitivních recenzí)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 32 (do 26. 9. 2026 bod 27)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. z) zákona č. 634/1992 Sb.", status: to_verify}
 
   - id: ucp_reviews_only_positive
-    title: "Zveřejňování jen kladných recenzí"
     scope: segment
     logic:
       all: [{q: ucp_reviews_only_positive, gte: 0.5}]
@@ -53,14 +49,11 @@ rules:
     severity: high
     checkability: text
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23c; odůvodnění 49 směrnice (EU) 2019/2161; Pokyny Komise 2021/C 526/01, oddíl 4.2.4", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 32 (do 26. 9. 2026 bod 27)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. z) zákona č. 634/1992 Sb.", status: "ověřit"}
-    explanation: "Zveřejňování jen kladných recenzí a mazání záporných zkresluje spotřebitelské recenze; to je zakázané za všech okolností."
-    recommendation: "Zveřejňujte kladné i záporné recenze; mazat smíte jen recenze, které porušují zveřejněná pravidla (spam, vulgarity)."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23c; odůvodnění 49 směrnice (EU) 2019/2161; Pokyny Komise 2021/C 526/01, oddíl 4.2.4", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 32 (do 26. 9. 2026 bod 27)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. z) zákona č. 634/1992 Sb.", status: to_verify}
 
   - id: ucp_review_reward_any
-    title: "Odměna za recenzi k ověření"
     scope: segment
     logic:
       all: [{q: ucp_review_reward, gte: 0.5}]
@@ -69,14 +62,11 @@ rules:
     severity: low
     checkability: verify
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23c a čl. 7 odst. 6; Pokyny Komise 2021/C 526/01, oddíl 4.2.4", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 32 (do 26. 9. 2026 bod 27); § 11 ods. 6 písm. a)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. z) a § 5a odst. 5 zákona č. 634/1992 Sb.", status: "ověřit"}
-    explanation: "Odměna za recenzi bez ohledu na hodnocení není sama zakázaná, ale recenze pak nemusí odrážet běžnou zkušenost zákazníků; zákazník by se měl dozvědět, jak obchod recenze získává a ověřuje."
-    recommendation: "Ověřte, že odměna nezávisí na obsahu recenze a že u recenzí je informace o tom, jak se získávají a ověřují."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23c a čl. 7 odst. 6; Pokyny Komise 2021/C 526/01, oddíl 4.2.4", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 32 (do 26. 9. 2026 bod 27); § 11 ods. 6 písm. a)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. z) a § 5a odst. 5 zákona č. 634/1992 Sb.", status: to_verify}
 
   - id: ucp_reviews_verified_claim
-    title: "Tvrzení o ověřených recenzích k ověření"
     scope: segment
     logic:
       all: [{q: ucp_reviews_verified_claim, gte: 0.5}]
@@ -84,8 +74,6 @@ rules:
     severity: medium
     checkability: verify
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23b; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (opodstatněné a přiměřené kroky k ověření)", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 31 (do 26. 9. 2026 bod 26)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. y) zákona č. 634/1992 Sb.", status: "ověřit"}
-    explanation: "Tvrdit, že recenze píší zákazníci, kteří produkt koupili nebo použili, je zakázané, pokud obchod nepřijal přiměřená opatření k ověření (například hodnotit smí jen zákazník s dokončenou objednávkou). Opatření na webu vidět nejsou, proto jde o nález k ověření."
-    recommendation: "Ověřte, že obchod skutečně kontroluje původ recenzí (například podle čísla objednávky), a popište to přímo u recenzí."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23b; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (opodstatněné a přiměřené kroky k ověření)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 31 (do 26. 9. 2026 bod 26)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. y) zákona č. 634/1992 Sb.", status: to_verify}

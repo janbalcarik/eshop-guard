@@ -1,0 +1,76 @@
+# Kostra překladu do jazyka sk: vyplňte texty a review; zástupné symboly {…} musí zůstat stejné.
+locale: sk
+culture: "sk-SK"
+review:
+  translated_by: ""
+  reviewed_by: ""
+  reviewed_at: ""
+jurisdictions:
+  sk: ""
+  cz: ""
+codes:
+  # Poznámky k pravidlům site_presence.
+  presence_closest_paragraph: ""
+  presence_pattern_missing: ""
+  presence_found_but_pattern_missing: ""
+  presence_paragraphs_not_evaluated: ""
+  unread_pdf_documents: ""
+  legal_pages_not_loaded: ""
+  pages_not_loaded: ""
+  # Poznámky k pravidlům site_signal.
+  signal_not_found: ""
+  signal_cart_not_downloaded: ""
+  signal_found_on: ""
+  # Poznámky ze seznamu zákonných požadavků (claim_list_match) a ke značkám (label_notes).
+  claim_list_item: ""
+  claim_list_since: ""
+  claim_list_remark: ""
+  claim_list_other_category: ""
+  claim_list_no_category: ""
+  claim_list_not_in_list: ""
+  label_note: ""
+  # Části vět a verdikt před účinností.
+  effective_from: ""
+  list_more: ""
+  # Stav odkazu na předpis.
+  to_verify: ""
+  to_complete: ""
+  # Upozornění stahování.
+  robots_home_disallowed: ""
+  robots_unreachable: ""
+  sitemap_unreadable: ""
+  sitemap_invalid: ""
+  sitemap_too_many: ""
+  ssrf_blocked: ""
+  ssrf_blocked_urls: ""
+  pages_not_processed: ""
+  no_response: ""
+  # Upozornění analýzy.
+  no_legal_pages: ""
+  text_not_loaded: ""
+  mostly_script_rendered: ""
+  profile_failed_fatal: ""
+  profile_failed: ""
+  profile_no_fit: ""
+  profiles_not_created: ""
+  model_mock: ""
+  model_missing_key: ""
+  sieve_unevaluated: ""
+  evaluation_not_confirmed: ""
+  evaluation_not_confirmed_texts: ""
+  jev_errors: ""
+  module_other_jurisdiction: ""
+  module_no_rule_set: ""
+  module_disabled: ""
+  # Důvody nezkontrolovaných povinností a modulů, které neběžely.
+  evaluation_skipped: ""
+  site_signals_not_evaluated: ""
+  legal_texts_not_given: ""
+  site_not_crawled: ""
+  no_rules_for_jurisdiction: ""
+  rule_set_disabled: "sada pravidel je vypnutá"
+rules:
+  legal_pages_missing:
+    title: ""
+    explanation: ""
+    recommendation: ""

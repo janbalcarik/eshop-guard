@@ -33,6 +33,7 @@ public sealed class CliPostgresCacheTests
         settings.Rules.LabelsFile = Path.Combine(CliProcess.SourceRoot, "config", "labels.yaml");
         settings.Rules.LegalRequirementsFile = Path.Combine(CliProcess.SourceRoot, "config", "legal_requirements.yaml");
         settings.Rules.SieveFile = Path.Combine(CliProcess.SourceRoot, "config", "sieve.yaml");
+        settings.Rules.JurisdictionsFile = Path.Combine(CliProcess.SourceRoot, "config", "jurisdictions.yaml");
         settings.Rewrite.PromptFile = Path.Combine(CliProcess.SourceRoot, "config", "rewrite.yaml");
         var configuration = new CliConfiguration
         {

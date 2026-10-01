@@ -58,7 +58,7 @@ public sealed class StepContractSerializationTests
         var ct = TestContext.Current.CancellationToken;
         await using var provider = TestServices.Create(FileSystemPageFetcher.ForSlovakFixture());
         var catalog = await provider.GetRequiredService<IRuleSetProvider>().LoadAsync(ct);
-        var ruleSets = RulesStep.SelectRuleSets(catalog, [], "sk", []);
+        var ruleSets = RuleSetSelector.Select(catalog, [], ["sk"]).RuleSets;
         var sieve = catalog.Sieve!;
         var sieveModules = RulesStep.SieveModules(sieve, ruleSets);
         var records = new List<(string, object, Type)>();
@@ -99,7 +99,8 @@ public sealed class StepContractSerializationTests
         var planInput = ProfileStep.PlanInput(site, pages, [profile]);
         Add(planInput);
         Add(new ProfilePlan(site.SiteKey, false, [new PlannedProfile("http://fixture.test/produkt-1.html", 11, 0.09m) { SampleUrls = ["http://fixture.test/", "http://fixture.test/produkt-1.html"] }], "mock"));
-        Add(new ProfileCreateResult([profile], 1, 12_000, 3_100, 0.08m, ["Profil šablony stránky http://fixture.test/o-nas.html se nepodařilo vytvořit."]));
+        Add(new ProfileCreateResult([profile], 1, 12_000, 3_100, 0.08m,
+            [new ScanWarning(EngineCodes.ProfileFailed, NoteParams.Of(("url", "http://fixture.test/o-nas.html"), ("reason", "timeout"), ("pages", 3)))]));
 
         var segmentInput = new SegmentInput(pages, sieve.MaxChunkChars);
         Add(segmentInput);
@@ -120,7 +121,7 @@ public sealed class StepContractSerializationTests
         var evaluated = await provider.GetRequiredService<EvaluateStep>().EvaluateAsync(evaluateInput, ruleSets, null, ct);
         Add(evaluated);
         EvaluateStep.Apply(evaluated, segmented.Segments);
-        Add(RulesStep.ForScan("sk", segmented.Segments, pages, discovery.Frontier.Counters.UncheckedDocuments, [pages[0].Info], false));
+        Add(RulesStep.ForScan(["sk"], segmented.Segments, pages, discovery.Frontier.Counters.UncheckedDocuments, [pages[0].Info], false));
         return records;
     }
 }

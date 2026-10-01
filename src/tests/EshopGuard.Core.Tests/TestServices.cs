@@ -17,6 +17,8 @@ internal static class TestServices
 
     public static string SieveFile => Path.Combine(AppContext.BaseDirectory, "config", "sieve.yaml");
 
+    public static string JurisdictionsFile => Path.Combine(AppContext.BaseDirectory, "config", "jurisdictions.yaml");
+
     public static string RewritePromptFile => Path.Combine(AppContext.BaseDirectory, "config", "rewrite.yaml");
 
     public static ServiceProvider Create(IPageFetcher fetcher, Action<EshopGuardOptions>? configure = null, Jev.IJevClient? client = null,
@@ -40,6 +42,7 @@ internal static class TestServices
             options.Rules.LabelsFile = LabelsFile;
             options.Rules.LegalRequirementsFile = LegalRequirementsFile;
             options.Rules.SieveFile = SieveFile;
+            options.Rules.JurisdictionsFile = JurisdictionsFile;
             options.Rewrite.PromptFile = RewritePromptFile;
             options.Rewrite.UseMock = true;
             configure?.Invoke(options);

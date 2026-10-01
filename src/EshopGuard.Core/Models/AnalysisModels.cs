@@ -76,7 +76,7 @@ public sealed class JevCallEstimate
     /// <summary>True when the new profiles will be written after confirmation.</summary>
     public bool ProfilesWillRun { get; init; }
 
-    /// <summary>Why planned profiles will not be written (mock run, missing key), or null.</summary>
+    /// <summary>Code of the reason why planned profiles will not be written (<c>model_mock</c>, <c>model_missing_key</c>), or null.</summary>
     public string? ProfilesUnavailableReason { get; init; }
 }
 
@@ -103,6 +103,15 @@ public sealed class AnalysisResult
     /// <summary>Jev calls, errors, tokens and price.</summary>
     public required ScanStats Stats { get; init; }
 
-    /// <summary>Problems worth showing, e.g. a disabled rule set.</summary>
-    public IReadOnlyList<string> Warnings { get; init; } = [];
+    /// <summary>Problems worth showing, e.g. a disabled rule set, as codes.</summary>
+    public IReadOnlyList<ScanWarning> Warnings { get; init; } = [];
+
+    /// <summary>Jurisdictions the rules were evaluated for.</summary>
+    public IReadOnlyList<string> Jurisdictions { get; init; } = [];
+
+    /// <summary>Obligations for the whole site; rules that need the whole site are not checked.</summary>
+    public IReadOnlyList<SiteObligation> SiteObligations { get; init; } = [];
+
+    /// <summary>Which modules ran for which jurisdiction.</summary>
+    public IReadOnlyList<JurisdictionCoverage> JurisdictionCoverage { get; init; } = [];
 }

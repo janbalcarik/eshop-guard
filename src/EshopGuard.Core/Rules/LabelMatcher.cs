@@ -10,15 +10,15 @@ internal sealed class LabelMatcher(LabelConfiguration labels)
         pair => pair.Key,
         pair => pair.Value.Select(Normalize).Where(item => item.Trim().Length > 0).ToList());
 
-    private readonly List<(List<string> Names, string Note)> _notes = labels.Notes
-        .Select(note => (note.Names.Select(Normalize).Where(name => name.Trim().Length > 0).ToList(), note.Note))
+    private readonly List<(List<string> Names, string Id)> _notes = labels.Notes
+        .Select(note => (note.Names.Select(Normalize).Where(name => name.Trim().Length > 0).ToList(), note.Id))
         .ToList();
 
-    /// <summary>Remarks on the labels named in the text.</summary>
+    /// <summary>Ids of the remarks on the labels named in the text (their texts are in <c>_labels.yaml</c>).</summary>
     public IEnumerable<string> NotesFor(string text)
     {
         var haystack = Normalize(text);
-        return _notes.Where(n => n.Names.Any(name => haystack.Contains(name, StringComparison.Ordinal))).Select(n => n.Note);
+        return _notes.Where(n => n.Names.Any(name => haystack.Contains(name, StringComparison.Ordinal))).Select(n => n.Id);
     }
 
     public bool ContainsAny(string text, string listName)

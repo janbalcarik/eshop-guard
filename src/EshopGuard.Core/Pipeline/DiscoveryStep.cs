@@ -3,6 +3,7 @@ using EshopGuard.Core.Classify;
 using EshopGuard.Core.Crawl;
 using EshopGuard.Core.Models;
 using EshopGuard.Core.Options;
+using EshopGuard.Core.Rules;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -73,7 +74,7 @@ internal sealed class DiscoveryStep(
         if (!robots.IsAllowed(home))
         {
             state.Counters.RobotsBlocked.Add(home.AbsoluteUri);
-            run.Warnings.Add("robots.txt zakazuje stahování úvodní stránky, web se neprocházel.");
+            run.Warnings.Add(new ScanWarning(EngineCodes.RobotsHomeDisallowed, NoteParams.None));
             state.Stopped = true;
             return Result();
         }
@@ -111,13 +112,16 @@ internal sealed class DiscoveryStep(
         return end > 0 ? agent[..end] : agent;
     }
 
-    internal static string DescribeFailure(FetchResponse response) =>
-        response.Error ?? (response.StatusCode > 0 ? $"HTTP {response.StatusCode}" : "bez odpovědi");
+    /// <summary>Why a download failed: the error, the HTTP status, or the note that there was no answer.</summary>
+    internal static object DescribeFailure(FetchResponse response) =>
+        response.Error is { } error ? error
+        : response.StatusCode > 0 ? $"HTTP {response.StatusCode}"
+        : new FindingNote(EngineCodes.NoResponse, NoteParams.None);
 
     /// <summary>One discovery: the requests share the pace and the counters.</summary>
     private sealed class Run(DiscoveryStep owner, UrlFrontierState state, AdaptiveGate gate, CancellationToken ct)
     {
-        public List<string> Warnings { get; } = [];
+        public List<ScanWarning> Warnings { get; } = [];
 
         private ILogger Log => owner.Logger;
 
@@ -135,7 +139,7 @@ internal sealed class DiscoveryStep(
             {
                 state.Counters.SsrfBlocked.Add(home.AbsoluteUri);
                 Log.LogWarning("The site {Url} leads into an internal or local network, nothing is downloaded", home);
-                Warnings.Add($"Adresa {home.AbsoluteUri} vede do vnitřní nebo místní sítě (ochrana proti SSRF); web se neprocházel.");
+                Warnings.Add(new ScanWarning(EngineCodes.SsrfBlocked, NoteParams.Of(("url", home.AbsoluteUri))));
                 return (new RobotsSnapshot(RobotsSnapshot.DisallowAll, null, token), true);
             }
 
@@ -146,7 +150,7 @@ internal sealed class DiscoveryStep(
             }
 
             Log.LogWarning("robots.txt unreachable ({Status}, {Error}), nothing is allowed", response.StatusCode, response.Error);
-            Warnings.Add($"robots.txt je nedostupný ({DescribeFailure(response)}); podle RFC 9309 se web neprocházel.");
+            Warnings.Add(new ScanWarning(EngineCodes.RobotsUnreachable, NoteParams.Of(("reason", DescribeFailure(response)))));
             return (new RobotsSnapshot(RobotsSnapshot.DisallowAll, null, token), false);
         }
 
@@ -170,7 +174,7 @@ internal sealed class DiscoveryStep(
                     Log.LogInformation("Sitemap {Url} not available ({Status}, {Error})", url, response.StatusCode, response.Error);
                     if (explicitSitemaps || depth > 0)
                     {
-                        Warnings.Add($"Sitemap {url} se nepodařilo načíst ({DescribeFailure(response)}).");
+                        Warnings.Add(new ScanWarning(EngineCodes.SitemapUnreadable, NoteParams.Of(("url", url.ToString()), ("reason", DescribeFailure(response)))));
                     }
 
                     continue;
@@ -184,7 +188,7 @@ internal sealed class DiscoveryStep(
                 catch (Exception ex) when (ex is XmlException or InvalidDataException)
                 {
                     Log.LogWarning("Sitemap {Url} is not valid: {Message}", url, ex.Message);
-                    Warnings.Add($"Sitemap {url} není platné XML.");
+                    Warnings.Add(new ScanWarning(EngineCodes.SitemapInvalid, NoteParams.Of(("url", url.ToString()))));
                     continue;
                 }
 
@@ -208,7 +212,7 @@ internal sealed class DiscoveryStep(
                         found.Add(new SitemapEntry(target, location.LastModified, hint));
                         if (found.Count >= max)
                         {
-                            Warnings.Add($"Sitemap má víc než {max} URL, další se nečetly.");
+                            Warnings.Add(new ScanWarning(EngineCodes.SitemapTooMany, NoteParams.Of(("max", max))));
                             break;
                         }
                     }

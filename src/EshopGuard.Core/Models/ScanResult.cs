@@ -19,8 +19,14 @@ public sealed class ScanResult
     /// <summary>Rule modules requested for the scan.</summary>
     public IReadOnlyList<string> Modules { get; init; } = [];
 
-    /// <summary>Jurisdiction of legal rules and language of the report.</summary>
+    /// <summary>The first chosen jurisdiction (the only one in a run for one country).</summary>
     public string Country { get; init; } = "sk";
+
+    /// <summary>Jurisdictions the rules were evaluated for.</summary>
+    public IReadOnlyList<string> Jurisdictions { get; init; } = [];
+
+    /// <summary>Date of the evaluation: rules with a later <c>effective_from</c> give upcoming verdicts.</summary>
+    public DateOnly AsOf { get; init; }
 
     /// <summary>Language of the questions sent to Jev.</summary>
     public string QuestionLanguage { get; init; } = "en";
@@ -64,8 +70,14 @@ public sealed class ScanResult
     /// <summary>Profiles of page templates used in the scan, with the pages that used them and what they left out.</summary>
     public IReadOnlyList<ProfileUse> Profiles { get; init; } = [];
 
-    /// <summary>Problems worth showing in the report, e.g. unreadable sitemap or robots.txt.</summary>
-    public IReadOnlyList<string> Warnings { get; init; } = [];
+    /// <summary>Problems worth showing in the report, e.g. unreadable sitemap or robots.txt, as codes.</summary>
+    public IReadOnlyList<ScanWarning> Warnings { get; init; } = [];
+
+    /// <summary>Obligations for the whole site in every chosen jurisdiction.</summary>
+    public IReadOnlyList<SiteObligation> SiteObligations { get; init; } = [];
+
+    /// <summary>Which modules ran for which jurisdiction.</summary>
+    public IReadOnlyList<JurisdictionCoverage> JurisdictionCoverage { get; init; } = [];
 
     /// <summary>Statistics of the run.</summary>
     public required ScanStats Stats { get; init; }

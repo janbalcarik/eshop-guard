@@ -27,7 +27,7 @@ public sealed class ExtractTimeoutTests
         Assert.Equal("extract_timeout", page.Reason);
         Assert.DoesNotContain(result.Pages, p => p.Url == page.Url);
         Assert.DoesNotContain(result.Segments, s => s.Urls.Contains(page.Url));
-        Assert.Contains(result.Warnings, w => w.Contains("časovém limitu", StringComparison.Ordinal));
+        Assert.Contains(TestTexts.Warnings(result.Warnings), w => w.Contains("časovém limitu", StringComparison.Ordinal));
         Assert.Contains("  - http://fixture.test/produkt-3.html", outputs["report.md"], StringComparison.Ordinal);
         Assert.NotEmpty(result.Pages);
     }

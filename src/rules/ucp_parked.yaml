@@ -58,9 +58,9 @@ rules:
     severity: medium
     checkability: verify
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 7; Pokyny Komise 2021/C 526/01, oddíl 4.2.7 (falešné časovače a tvrzení o omezených zásobách)", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 11 (do 26. 9. 2026 bod 7)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. f) zákona č. 634/1992 Sb.", status: "ověřit"}
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 7; Pokyny Komise 2021/C 526/01, oddíl 4.2.7 (falešné časovače a tvrzení o omezených zásobách)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 11 (do 26. 9. 2026 bod 7)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. f) zákona č. 634/1992 Sb.", status: to_verify}
     explanation: "Nepravdivé tvrzení, že nabídka platí jen velmi omezenou dobu, je zakázané za všech okolností. Podle Pokynů Komise sem patří i falešné odpočty času a nepravdivá tvrzení o omezených zásobách. Z textu nelze poznat, zda je tvrzení pravdivé, proto jde o nález k ověření."
     recommendation: "Ověřte, že akce opravdu končí v uvedený čas a že údaj o zásobách odpovídá skladu. Pokud stejná cena platí i potom nebo „poslední kusy“ svítí dlouhodobě, tvrzení odstraňte."
 
@@ -74,9 +74,9 @@ rules:
     severity: high
     checkability: text
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 10", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 14 (do 26. 9. 2026 bod 10); zákonná práva: § 19, § 20 ods. 1 a § 22 ods. 1 zákona č. 108/2024 Z. z., § 619 ods. 1 a § 623 Občianskeho zákonníka", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. i) zákona č. 634/1992 Sb.; zákonná práva: § 1829 odst. 1, § 1832 odst. 1, § 2165 odst. 1 a § 2169 občanského zákoníku", status: "ověřit"}
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 10", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 14 (do 26. 9. 2026 bod 10); zákonná práva: § 19, § 20 ods. 1 a § 22 ods. 1 zákona č. 108/2024 Z. z., § 619 ods. 1 a § 623 Občianskeho zákonníka", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. i) zákona č. 634/1992 Sb.; zákonná práva: § 1829 odst. 1, § 1832 odst. 1, § 2165 odst. 1 a § 2169 občanského zákoníku", status: to_verify}
     explanation: "Práva, která má spotřebitel ze zákona u každého prodejce (14 dní na odstoupení od nákupu na dálku, vrácení peněz do 14 dní, dva roky na uplatnění vady, bezplatná oprava nebo výměna), nesmí obchodník prezentovat jako přednost své nabídky."
     recommendation: "Přesuňte tato práva z výhod obchodu do informací o nákupu, nebo jako výhodu uveďte jen to, co jde nad zákon (například 30 dní na vrácení)."
 
@@ -89,9 +89,9 @@ rules:
     severity: high
     checkability: text
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 20; Pokyny Komise 2021/C 526/01, oddíl 3.4", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 26 (do 26. 9. 2026 bod 21)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. t) zákona č. 634/1992 Sb.", status: "ověřit"}
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 20; Pokyny Komise 2021/C 526/01, oddíl 3.4", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 26 (do 26. 9. 2026 bod 21)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. t) zákona č. 634/1992 Sb.", status: to_verify}
     explanation: "Co je „zdarma“, nesmí zákazníka stát nic kromě nevyhnutelných nákladů na reakci na nabídku a na převzetí nebo doručení. Manipulační, balicí nebo správní poplatek u věci zdarma je zakázaný za všech okolností."
     recommendation: "Poplatek zrušte, nebo věc nepopisujte jako „zdarma“."
 
@@ -105,9 +105,9 @@ rules:
     severity: low
     checkability: verify
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 20; Pokyny Komise 2021/C 526/01, oddíl 3.4 (vázané nabídky)", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 26 (do 26. 9. 2026 bod 21)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. t) zákona č. 634/1992 Sb.", status: "ověřit"}
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 20; Pokyny Komise 2021/C 526/01, oddíl 3.4 (vázané nabídky)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 26 (do 26. 9. 2026 bod 21)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. t) zákona č. 634/1992 Sb.", status: to_verify}
     explanation: "Dárek zdarma k nákupu je povolený, pokud je skutečně navíc a cena placeného zboží se kvůli němu nezvýšila ani se nezhoršila jeho jakost. To z textu poznat nejde, proto jde o nález k ověření."
     recommendation: "Ověřte, že se placené zboží prodává za stejnou cenu i bez dárku."
 
@@ -121,9 +121,9 @@ rules:
     severity: high
     checkability: verify
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 17; Pokyny Komise 2021/C 526/01, oddíl 3.3", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 23 (do 26. 9. 2026 bod 18)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. q) zákona č. 634/1992 Sb.", status: "ověřit"}
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 17; Pokyny Komise 2021/C 526/01, oddíl 3.3", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 23 (do 26. 9. 2026 bod 18)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. q) zákona č. 634/1992 Sb.", status: to_verify}
     explanation: "Nepravdivé tvrzení, že produkt může léčit nebo vyléčit nemoc, zdravotní poruchu nebo postižení, je zakázané za všech okolností. U potravin, doplňků stravy a kosmetiky zakazují připisovat léčebné účinky i odvětvové předpisy."
     recommendation: "Léčebné tvrzení odstraňte; u potravin a doplňků stravy používejte jen schválená zdravotní tvrzení."
 
@@ -136,8 +136,8 @@ rules:
     severity: low
     checkability: verify
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 17", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 23 (do 26. 9. 2026 bod 18)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. q) zákona č. 634/1992 Sb.", status: "ověřit"}
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 17", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 23 (do 26. 9. 2026 bod 18)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. q) zákona č. 634/1992 Sb.", status: to_verify}
     explanation: "U registrovaného léku nebo zdravotnického prostředku může být léčebné tvrzení oprávněné, pokud odpovídá schválenému použití. Z textu nelze poznat, zda odpovídá."
     recommendation: "Ověřte, že tvrzení odpovídá schválenému použití přípravku nebo prostředku."

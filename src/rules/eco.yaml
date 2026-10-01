@@ -99,7 +99,6 @@ questions:
 
 rules:
   - id: eco_generic_claim
-    title: "Obecné environmentální tvrzení bez upřesnění"
     scope: segment
     logic:
       all: [{q: eco_claim, gte: 0.5}, {q: eco_generic, gte: 0.5}, {q: eco_explicit_term, gte: 0.5}]
@@ -110,17 +109,13 @@ rules:
     bands: {high: 0.85, review: 0.5}
     severity: high
     checkability: text
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
-    explanation: "Věta používá výraz, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (například „ekologický“, „šetrný k životnímu prostředí“, „zelený“, „přátelský k přírodě“), nebo přímo tvrdí přínos pro životní prostředí, přírodu či klima. Bez upřesnění jasně a výrazně přímo u tvrzení je zakázané, pokud obchodník neprokáže uznaný vynikající environmentální profil relevantní pro tvrzení (ekoznačka EU nebo úředně uznaná ekoznačka typu I). Certifikované biopotraviny smí „bio“ a „eko“ používat."
-    explanation_by_jurisdiction:
-      cz: "V Česku zatím výslovný zákaz obecných environmentálních tvrzení v zákoně není: směrnice (EU) 2024/825 se má převzít novelou zákona o ochraně spotřebitele (sněmovní tisk 53), která k 25. 9. 2026 nebyla schválena. Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb., pokud uvádí spotřebitele v omyl. Po převzetí směrnice bude obecné tvrzení bez uznaného vynikajícího environmentálního profilu zakázané vždy."
-    recommendation: "Tvrzení odstraňte, nebo ho nahraďte konkrétním a doložitelným údajem přímo u něj."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_generic_claim_open
-    title: "Možné obecné environmentální tvrzení (posuzuje se případ od případu)"
     scope: segment
     logic:
       all: [{q: eco_claim, gte: 0.5}, {q: eco_generic, gte: 0.5}]
@@ -129,17 +124,13 @@ rules:
     bands: {high: 0.85, review: 0.5}
     severity: medium
     checkability: assess
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 2 písm. o) a p) a příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 3 a 14", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
-    explanation: "Věta používá slovo, které zákon ani odůvodnění 9 směrnice (EU) 2024/825 mezi příklady obecných environmentálních tvrzení neuvádí, například „prírodný“, „bio“ u výrobku, který není potravinou, nebo „šetrný“ bez zmínky o přírodě. Environmentálním tvrzením je, jen pokud u průměrného spotřebitele vyvolá dojem přínosu pro životní prostředí; Komise to posuzuje případ od případu (otázky a odpovědi č. 3 u názvů výrobků a značek, č. 14 u „bio“ a „eco“). Pokud takový dojem vyvolá a přímo u něj není upřesnění, jde o zakázané obecné tvrzení."
-    explanation_by_jurisdiction:
-      cz: "V Česku zatím výslovný zákaz obecných environmentálních tvrzení v zákoně není: směrnice (EU) 2024/825 se má převzít novelou zákona o ochraně spotřebitele (sněmovní tisk 53), která k 25. 9. 2026 nebyla schválena. Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb., pokud uvádí spotřebitele v omyl. Po převzetí směrnice bude obecné tvrzení bez uznaného vynikajícího environmentálního profilu zakázané vždy."
-    recommendation: "Posuďte, zda výraz v kontextu stránky působí jako slib přínosu pro přírodu. Pokud ano, doplňte přímo k němu konkrétní doložitelný údaj, nebo ho odstraňte."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 2 písm. o) a p) a příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 3 a 14", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_generic_claim_implied
-    title: "Environmentální slovo o zákaznících nebo cílové skupině (naznačené tvrzení)"
     scope: segment
     logic:
       all: [{q: eco_claim, gte: 0.5}, {q: eco_generic, gte: 0.5}, {q: eco_audience, gte: 0.5}]
@@ -149,17 +140,13 @@ rules:
     bands: {high: 0.85, review: 0.5}
     severity: medium
     checkability: assess
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 2 písm. o) a p) a příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 2 písm. n) a príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
-    explanation: "Environmentální slovo tu popisuje zákazníky, pro které je výrobek určený (například „pre ekologicky zmýšľajúcich zákazníkov“, „pre milovníkov prírody“), ne výrobek nebo firmu. Environmentálním tvrzením je i vyjádření, které přínos pro životní prostředí jen naznačuje (§ 2 písm. n) zákona č. 108/2024 Z. z.). Zda to tato věta naznačuje, záleží na tom, jak ji chápe průměrný spotřebitel; z textu zákona to rozhodnout nejde. Pokud ano a přímo u věty není upřesnění, jde o zakázané obecné tvrzení."
-    explanation_by_jurisdiction:
-      cz: "V Česku zatím výslovný zákaz obecných environmentálních tvrzení v zákoně není: směrnice (EU) 2024/825 se má převzít novelou zákona o ochraně spotřebitele (sněmovní tisk 53). Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb., pokud uvádí spotřebitele v omyl."
-    recommendation: "Posuďte, zda věta slibuje přínos výrobku pro přírodu. Pokud ano, doplňte přímo k ní konkrétní doložitelný fakt (například „rukoväť kefky je z bambusu namiesto plastu“), nebo ji napište bez environmentálního slova."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 2 písm. o) a p) a příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 2 písm. n) a príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_sustainable_claim
-    title: "„Udržitelný“ nebo „odpovědný“ bez upřesnění"
     scope: segment
     logic:
       all: [{q: eco_sustainable_term, gte: 0.5}, {q: eco_generic, gte: 0.5}]
@@ -168,17 +155,13 @@ rules:
     bands: {high: 0.85, review: 0.5}
     severity: high
     checkability: text
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 10", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
-    explanation: "Tvrzení „udržitelný“, „odpovědný“ nebo „uvědomělý“ se kromě životního prostředí týkají i sociálních znaků, proto je podle odůvodnění směrnice EmpCo nelze opřít jen o ekoznačku. Bez jasného upřesnění přímo u tvrzení jde o zakázané obecné tvrzení."
-    explanation_by_jurisdiction:
-      cz: "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Podle směrnice EmpCo se „udržitelný“ nebo „odpovědný“ týká i sociálních znaků a nelze ho opřít jen o ekoznačku."
-    recommendation: "Tvrzení odstraňte, nebo přímo u něj uveďte, v čem konkrétně a doložitelně je produkt udržitelný."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 10", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_neutrality
-    title: "Klimatické tvrzení o produktu založené na kompenzacích"
     scope: segment
     logic:
       all: [{q: eco_neutral, gte: 0.5}, {q: eco_offset_basis, gte: 0.5}]
@@ -186,17 +169,13 @@ rules:
     bands: {high: 0.85, review: 0.5}
     severity: high
     checkability: text
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4c, ve znění směrnice (EU) 2024/825; odůvodnění 12", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 8, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
-    explanation: "Tvrzení, že produkt (zboží nebo služba, například doprava) má neutrální, snížený nebo pozitivní dopad na klima, je zakázané vždy, pokud stojí na kompenzaci emisí mimo hodnotový řetězec produktu. Povolené je jen tvrzení založené na skutečném snížení emisí během životního cyklu produktu."
-    explanation_by_jurisdiction:
-      cz: "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Po převzetí směrnice EmpCo bude tvrzení o klimatu produktu založené na kompenzacích zakázané vždy."
-    recommendation: "Tvrzení odstraňte. O podpoře klimatických projektů můžete informovat, ale ne jako o vlastnosti produktu."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4c, ve znění směrnice (EU) 2024/825; odůvodnění 12", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 8, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_climate_claim_unsupported
-    title: "Tvrzení o klimatu bez uvedeného základu"
     scope: segment
     logic:
       all: [{q: eco_neutral, gte: 0.5}]
@@ -204,34 +183,26 @@ rules:
     bands: {high: 0.85, review: 0.5}
     severity: high
     checkability: verify
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I body 4a a 4c, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázka 6", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 body 6 a 8, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
-    explanation: "Obecná tvrzení jako „klimaticky neutrální“ nebo „uhlíkově neutrální“ jsou obecná environmentální tvrzení a bez uznaného vynikajícího environmentálního profilu jsou zakázaná; pokud stojí na kompenzacích emisí, jsou u produktu zakázaná vždy. Povolené je jen tvrzení opřené o skutečné snížení emisí během životního cyklu, jasně upřesněné přímo u něj."
-    explanation_by_jurisdiction:
-      cz: "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Podle směrnice EmpCo jsou obecná tvrzení o klimatické neutralitě bez uznaného vynikajícího environmentálního profilu zakázaná a tvrzení o produktu založená na kompenzacích zakázaná vždy."
-    recommendation: "Ověřte, na čem tvrzení stojí. Pokud na kompenzacích, odstraňte ho; pokud na snížení emisí během životního cyklu, uveďte přímo u něj konkrétní a doložitelný údaj."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I body 4a a 4c, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázka 6", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 body 6 a 8, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_company_climate_claim
-    title: "Tvrzení o klimatické neutralitě firmy založené na kompenzacích"
     scope: segment
     logic:
       all: [{q: eco_neutral, gte: 0.5}, {q: eco_offset_basis, gte: 0.5}, {q: eco_company_level, gte: 0.5}]
     bands: {high: 0.85, review: 0.5}
     severity: medium
     checkability: verify
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 10", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
-    explanation: "Zákaz tvrzení založených na kompenzacích (bod 4c) se týká produktů. Tvrzení, že je klimaticky neutrální celá firma, je ale obecné environmentální tvrzení a bez uznaného vynikajícího environmentálního profilu je zakázané. Investice do klimatických projektů smí firma propagovat, pokud to nepůsobí klamavě."
-    explanation_by_jurisdiction:
-      cz: "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Podle směrnice EmpCo je tvrzení o klimatické neutralitě celé firmy obecné environmentální tvrzení."
-    recommendation: "Místo neutrality uveďte, co firma skutečně dělá (například kolik emisí snížila a jak), a podporu projektů popište odděleně od vlastností produktů."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 10", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_label_unrecognized
-    title: "Jmenovaná značka udržitelnosti mimo seznam ověřených"
     scope: segment
     logic:
       any: [{q: eco_label, gte: 0.5}, {q: eco_social_label, gte: 0.5}]
@@ -243,17 +214,13 @@ rules:
     bands: {high: 0.85, review: 0.5}
     severity: medium
     checkability: verify
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. b) zákona č. 634/1992 Sb. (neoprávněné užívání značky jakosti); zákaz podle bodu 2a přinese novela podle sněmovního tisku 53", status: "ověřit"}
-    explanation: "Značka udržitelnosti (environmentální i sociální, například férový obchod) je zakázaná, pokud nevychází z certifikačního systému s nezávislým ověřováním nebo ji nezavedl orgán veřejné moci. Věta jmenuje značku, která není na seznamu ověřených; zda podmínky splňuje, se z webu zjistit nedá."
-    explanation_by_jurisdiction:
-      cz: "V Česku zatím platí jen obecný zákaz neoprávněného užívání značky jakosti (příloha č. 1 písm. b) zákona č. 634/1992 Sb.) a klamavého konání (§ 5); výslovný zákaz značek udržitelnosti bez certifikačního systému přinese novela podle sněmovního tisku 53."
-    recommendation: "Ověřte, zda značka vychází z certifikačního systému s nezávislým ověřováním nebo ji zavedl úřad. Pokud ne, odstraňte ji."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. b) zákona č. 634/1992 Sb. (neoprávněné užívání značky jakosti); zákaz podle bodu 2a přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_label_generic_term
-    title: "Odznak nebo značka s obecným environmentálním výrazem"
     scope: segment
     logic:
       all: [{q: eco_label, gte: 0.5}, {q: eco_explicit_term, gte: 0.5}]
@@ -263,19 +230,15 @@ rules:
     bands: {high: 0.85, review: 0.5}
     severity: high
     checkability: text
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)", status: "ověřit"}
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. b) zákona č. 634/1992 Sb. (neoprávněné užívání značky jakosti); zákaz podle bodu 2a přinese novela podle sněmovního tisku 53", status: "ověřit"}
-    explanation: "Odznak nebo značka bez vlastního názvu certifikačního systému (například „Eco“ nebo „Green“ u výrobku) je značkou udržitelnosti, která nevychází z certifikačního systému (bod 3), a zároveň výrazem, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (bod 6). Je zakázaná, pokud výrobek nemá ekoznačku EU nebo úředně uznanou ekoznačku typu I."
-    explanation_by_jurisdiction:
-      cz: "V Česku zatím platí jen obecný zákaz neoprávněného užívání značky jakosti (příloha č. 1 písm. b) zákona č. 634/1992 Sb.) a klamavého konání (§ 5); výslovný zákaz značek udržitelnosti bez certifikačního systému přinese novela podle sněmovního tisku 53."
-    recommendation: "Odznak odstraňte, nebo ho nahraďte skutečnou certifikovanou značkou, kterou výrobek má."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)", status: to_verify}
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. b) zákona č. 634/1992 Sb. (neoprávněné užívání značky jakosti); zákaz podle bodu 2a přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_label_open
-    title: "Odznak nebo symbol, který může působit jako značka udržitelnosti"
     scope: segment
     logic:
       any: [{q: eco_label, gte: 0.5}, {q: eco_social_label, gte: 0.5}]
@@ -284,17 +247,13 @@ rules:
     bands: {high: 0.85, review: 0.5}
     severity: medium
     checkability: assess
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 2 písm. r) a příloha I bod 2a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 5, 14 a 15", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. b) zákona č. 634/1992 Sb. (neoprávněné užívání značky jakosti); zákaz podle bodu 2a přinese novela podle sněmovního tisku 53", status: "ověřit"}
-    explanation: "Odznak bez vlastního názvu certifikačního systému a bez environmentálního výrazu (například „Vegan“, „Vegetarian“, „GMO free“, „BIO“ u výrobku, který není potravinou, nebo zelený lístek) je značkou udržitelnosti, jen pokud jím obchodník naznačuje přínos pro životní prostředí nebo sociální přínos, například pro dobré životní podmínky zvířat. Komise to posuzuje případ od případu podle kontextu a vnímání průměrného spotřebitele (otázky a odpovědi č. 5, 14 a 15). Pokud je značkou udržitelnosti, musí vycházet z certifikačního systému."
-    explanation_by_jurisdiction:
-      cz: "V Česku zatím platí jen obecný zákaz neoprávněného užívání značky jakosti (příloha č. 1 písm. b) zákona č. 634/1992 Sb.) a klamavého konání (§ 5); výslovný zákaz značek udržitelnosti bez certifikačního systému přinese novela podle sněmovního tisku 53."
-    recommendation: "Posuďte, zda odznak v kontextu obchodu působí jako slib přínosu pro přírodu nebo zvířata. Pokud ano, používejte ho jen s certifikací; jde-li jen o údaj o složení nebo o vhodnosti pro určitou stravu, přínos nenaznačujte."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 2 písm. r) a příloha I bod 2a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 5, 14 a 15", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. b) zákona č. 634/1992 Sb. (neoprávněné užívání značky jakosti); zákaz podle bodu 2a přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_part_as_whole
-    title: "Tvrzení o celém produktu, ačkoli se týká jen části"
     scope: segment
     logic:
       # Bod 7 předpokládá environmentální tvrzení; jen „přírodní“ a podobná slova hlásí k posouzení eco_generic_claim_open.
@@ -304,28 +263,21 @@ rules:
     bands: {high: 0.85, review: 0.5}
     severity: medium
     checkability: text
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4b, ve znění směrnice (EU) 2024/825", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 7, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: "ověřit"}
-    explanation: "Environmentální tvrzení o celém produktu nebo celé firmě je zakázané, pokud se týká jen určitého aspektu, například obalu."
-    explanation_by_jurisdiction:
-      cz: "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Po převzetí směrnice EmpCo bude tvrzení o celém produktu, které se týká jen jeho části, zakázané vždy."
-    recommendation: "Upřesněte, které části se výhoda týká, například jen obalu."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4b, ve znění směrnice (EU) 2024/825", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 7, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_future_claim
-    title: "Budoucí environmentální závazek k ověření"
     scope: segment
     logic:
       all: [{q: eco_future_claim, gte: 0.5}]
     bands: {high: 0.85, review: 0.5}
     severity: medium
     checkability: verify
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 6 odst. 2 písm. d), ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 12", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. d), ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovné pravidlo přinese novela podle sněmovního tisku 53", status: "ověřit"}
-    explanation: "Tvrzení o budoucím environmentálním výkonu (například „klimaticky neutrální do roku 2030“) je klamavé, pokud za ním nestojí jasné, veřejně dostupné a ověřitelné závazky v podrobném a realistickém prováděcím plánu s měřitelnými cíli, který pravidelně ověřuje nezávislý odborník. Posuzuje se případ od případu."
-    explanation_by_jurisdiction:
-      cz: "V Česku zatím výslovné pravidlo pro budoucí environmentální tvrzení v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb."
-    recommendation: "Ověřte, že k závazku existuje veřejný prováděcí plán s měřitelnými cíli a nezávislým ověřováním, a odkažte na něj přímo u tvrzení; jinak tvrzení odstraňte."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 6 odst. 2 písm. d), ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 12", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. d), ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovné pravidlo přinese novela podle sněmovního tisku 53", status: to_verify}

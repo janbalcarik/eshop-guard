@@ -31,6 +31,15 @@ app.Configure(config =>
     config.AddCommand<RewriteCommand>("rewrite")
         .WithDescription("Navrhne přepis problematických pasáží hotového skenu modelem OpenAI a znovu je zkontroluje.")
         .WithExample("rewrite", "out/shop.sk-20260930-0919", "--limit", "5");
+    config.AddBranch("rules", rules =>
+    {
+        rules.SetDescription("Údržba pravidel a jejich textů v rules/ a rules/texts/.");
+        rules.AddCommand<RulesCheckTextsCommand>("check-texts")
+            .WithDescription("Zkontroluje texty pravidel po jazycích (úplnost, kontrola člověkem) a otisky otázek.");
+        rules.AddCommand<RulesExtractTextsCommand>("extract-texts")
+            .WithDescription("Přesune texty zapnutých sad z rules/*.yaml do rules/texts/<jazyk>/, nebo s --skeleton vytvoří kostru překladu.")
+            .WithExample("rules", "extract-texts", "--skeleton", "de");
+    });
     config.AddBranch("cache", cache =>
     {
         cache.SetDescription("Cache odpovědí Jevu, přepisů a profilů šablon v PostgreSQL.");

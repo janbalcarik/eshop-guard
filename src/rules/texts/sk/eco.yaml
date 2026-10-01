@@ -1,0 +1,81 @@
+# Kostra překladu do jazyka sk: vyplňte texty a review; zástupné symboly {…} musí zůstat stejné.
+locale: sk
+rule_set: eco
+source_version: "eco-2026-09-30-draft14"
+review:
+  translated_by: ""
+  reviewed_by: ""
+  reviewed_at: ""
+rules:
+  eco_generic_claim:
+    title: ""
+    explanation: ""
+    explanation_by_jurisdiction:
+      cz: ""
+    recommendation: ""
+  eco_generic_claim_open:
+    title: ""
+    explanation: ""
+    explanation_by_jurisdiction:
+      cz: ""
+    recommendation: ""
+  eco_generic_claim_implied:
+    title: ""
+    explanation: ""
+    explanation_by_jurisdiction:
+      cz: ""
+    recommendation: ""
+  eco_sustainable_claim:
+    title: ""
+    explanation: ""
+    explanation_by_jurisdiction:
+      cz: ""
+    recommendation: ""
+  eco_neutrality:
+    title: ""
+    explanation: ""
+    explanation_by_jurisdiction:
+      cz: ""
+    recommendation: ""
+  eco_climate_claim_unsupported:
+    title: ""
+    explanation: ""
+    explanation_by_jurisdiction:
+      cz: ""
+    recommendation: ""
+  eco_company_climate_claim:
+    title: ""
+    explanation: ""
+    explanation_by_jurisdiction:
+      cz: ""
+    recommendation: ""
+  eco_label_unrecognized:
+    title: ""
+    explanation: ""
+    explanation_by_jurisdiction:
+      cz: ""
+    recommendation: ""
+  eco_label_generic_term:
+    title: ""
+    explanation: ""
+    explanation_by_jurisdiction:
+      cz: ""
+    recommendation: ""
+  eco_label_open:
+    title: ""
+    explanation: ""
+    explanation_by_jurisdiction:
+      cz: ""
+    recommendation: ""
+  eco_part_as_whole:
+    title: ""
+    explanation: ""
+    explanation_by_jurisdiction:
+      cz: ""
+    recommendation: ""
+  eco_future_claim:
+    title: ""
+    explanation: ""
+    explanation_by_jurisdiction:
+      cz: ""
+    recommendation: ""

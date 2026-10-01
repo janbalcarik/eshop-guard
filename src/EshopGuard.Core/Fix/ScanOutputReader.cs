@@ -10,9 +10,12 @@ namespace EshopGuard.Core.Fix;
 /// </summary>
 public static class ScanOutputReader
 {
-    /// <summary>Reads the findings and pages of a scan.</summary>
+    /// <summary>
+    /// Reads the findings and pages of a scan. Findings keep their verdicts; a <c>findings.json</c> written before change 6
+    /// (without verdicts) gets one verdict for <paramref name="country"/>.
+    /// </summary>
     /// <exception cref="InvalidOperationException">A file is missing or not valid.</exception>
-    public static RewriteInput Read(string outputDirectory, string country = "sk", int? maxPages = null)
+    public static RewriteInput Read(string outputDirectory, string country = "sk", int? maxPages = null, IReadOnlyList<string>? jurisdictions = null)
     {
         var findingsFile = Path.Combine(outputDirectory, "findings.json");
         var pagesFile = Path.Combine(outputDirectory, "pages.jsonl");
@@ -27,7 +30,8 @@ public static class ScanOutputReader
         List<Finding> findings;
         try
         {
-            findings = JsonSerializer.Deserialize<List<Finding>>(File.ReadAllText(findingsFile), ReportFormat.Json) ?? [];
+            var documents = JsonSerializer.Deserialize<List<FindingDocument>>(File.ReadAllText(findingsFile), ReportFormat.Json) ?? [];
+            findings = documents.Select(d => d.ToFinding(country)).ToList();
         }
         catch (JsonException ex)
         {
@@ -72,6 +76,6 @@ public static class ScanOutputReader
             });
         }
 
-        return new RewriteInput { Findings = findings, Pages = pages, Country = country, MaxPages = maxPages };
+        return new RewriteInput { Findings = findings, Pages = pages, Country = country, Jurisdictions = jurisdictions ?? [], MaxPages = maxPages };
     }
 }

@@ -143,7 +143,7 @@ internal sealed record DiscoveryResult(
     IReadOnlyList<SitemapEntry> SitemapEntries,
     UrlFrontierState Frontier,
     PaceState Pace,
-    IReadOnlyList<string> Warnings,
+    IReadOnlyList<ScanWarning> Warnings,
     bool HomeBlocked = false) : IPipelineRecord
 {
     public int SchemaVersion { get; init; } = PipelineSchema.Version;

@@ -35,67 +35,57 @@ questions:
 
 rules:
   - id: dur_lifetime_claim
-    title: "Tvrzení o životnosti výrobku k ověření (nové od 27. 9. 2026)"
     scope: segment
     logic:
       all: [{q: dur_lifetime_claim, gte: 0.5}]
     bands: {high: 0.85, review: 0.5}
     severity: medium
     checkability: verify
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23g, ve znění směrnice (EU) 2024/825", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 36, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: "ověřit"}
-    explanation: "Nepravdivé tvrzení, že zboží má za běžných podmínek používání určitou životnost (dobu nebo intenzitu používání), je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Z textu nelze poznat, zda je tvrzení pravdivé, proto jde o nález k ověření."
-    recommendation: "Ověřte, že údaj o životnosti má oporu v dokladech výrobce (zkoušky, norma, podmínky používání); pokud ne, tvrzení odstraňte."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23g, ve znění směrnice (EU) 2024/825", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 36, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
   - id: dur_repairable_claim
-    title: "Tvrzení o opravitelnosti k ověření (nové od 27. 9. 2026)"
     scope: segment
     logic:
       all: [{q: dur_repairable_claim, gte: 0.5}]
     bands: {high: 0.85, review: 0.5}
     severity: medium
     checkability: verify
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23h, ve znění směrnice (EU) 2024/825", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 37, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: "ověřit"}
-    explanation: "Prezentovat zboží jako opravitelné, i když opravit nejde, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Pravdivost z textu poznat nelze."
-    recommendation: "Ověřte, že zboží opravit skutečně jde (dostupné náhradní díly, postup, servis); pokud ne, tvrzení odstraňte."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23h, ve znění směrnice (EU) 2024/825", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 37, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
   - id: dur_consumable_early
-    title: "Navádzanie na skoršiu výmenu spotrebného materiálu k ověření (nové od 27. 9. 2026)"
     scope: segment
     logic:
       all: [{q: dur_consumable_early, gte: 0.5}]
     bands: {high: 0.85, review: 0.5}
     severity: medium
     checkability: verify
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23i, ve znění směrnice (EU) 2024/825", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 38, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: "ověřit"}
-    explanation: "Navádět spotřebitele, aby spotřební materiál vyměnil nebo doplnil dřív, než je z technických důvodů nutné, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Zda je interval technicky odůvodněný, z textu poznat nelze."
-    recommendation: "Ověřte, že doporučený interval výměny vychází z technických důvodů (údaje výrobce); pokud ne, doporučte výměnu po spotřebování nebo opotřebení."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23i, ve znění směrnice (EU) 2024/825", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 38, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
   - id: dur_non_original_damage
-    title: "Tvrzení, že neoriginální díly poškodí výrobek, k ověření (nové od 27. 9. 2026)"
     scope: segment
     logic:
       all: [{q: dur_non_original_damage, gte: 0.5}]
     bands: {high: 0.85, review: 0.5}
     severity: medium
     checkability: verify
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23j, ve znění směrnice (EU) 2024/825", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 39, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: "ověřit"}
-    explanation: "Nepravdivé tvrzení, že neoriginální spotřební materiál, náhradní díly nebo příslušenství poškodí funkčnost zboží, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Pravdivost z textu poznat nelze."
-    recommendation: "Ověřte, že tvrzení o poškození má oporu v dokladech výrobce; pokud ne, tvrzení odstraňte."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23j, ve znění směrnice (EU) 2024/825", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 39, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
   - id: dur_update_necessary
-    title: "Aktualizace softwaru prezentovaná jako nezbytná, k ověření (nové od 27. 9. 2026)"
     scope: segment
     logic:
       all: [{q: dur_update_necessary, gte: 0.5}]
     bands: {high: 0.85, review: 0.5}
     severity: low
     checkability: verify
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23e, ve znění směrnice (EU) 2024/825", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 34, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: "ověřit"}
-    explanation: "Prezentovat aktualizaci softwaru jako nezbytnou pro zachování souladu, i když jen vylepšuje funkce, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Co aktualizace dělá, z textu poznat nelze."
-    recommendation: "Ověřte, že aktualizace je skutečně nutná pro zachování souladu; pokud jen přidává funkce, neprezentujte ji jako nezbytnou."
+      - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23e, ve znění směrnice (EU) 2024/825", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 34, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}

@@ -1,0 +1,19 @@
+{
+  "dur": {
+    "dur-2026-09-30-draft3": "sha256:e7f317ef3f22b522d0620c28d2329fc802ecb956995da0e1f86f6c3544eb20f1"
+  },
+  "eco": {
+    "eco-2026-09-30-draft14": "sha256:2b638631b5e36af1af237adfca87ae2393a3893869907fdc8288da3b3750ff31"
+  },
+  "legal": {
+    "legal-cz-2026-09-29-draft3": "sha256:5d9ce39dde90af35a8c7363be6bfa5ff2f7a075a4622ac6557c707c451d052a8",
+    "legal-sk-2026-09-26-draft4": "sha256:0475e2c4181402a5fcb9eb7376212b3368ae1260c61f736e6a5bf7521b4e72af"
+  },
+  "lr": {
+    "lr-2026-09-26-draft1": "sha256:b97c68c1bd40b966690fac3ce6e2dd789f66b87a44ed7ec260f3ec179cdc6f7b"
+  },
+  "ucp": {
+    "ucp-2026-09-26-draft4": "sha256:2e496eb7a3c15681cf14bf9c6cda902f787ee7c45820736708f988628b551ef2",
+    "ucp-parked-2026-09-26-draft1": "sha256:6e874726299a6e22c4cd1b14fca003c824debdf756c4bf08ea7e5bebace41918"
+  }
+}

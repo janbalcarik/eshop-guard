@@ -76,7 +76,7 @@ public sealed class Segment
     /// <summary>True when the text is on so many pages that it is page frame or menu.</summary>
     public bool Boilerplate { get; init; }
 
-    /// <summary>Probabilities of "yes" by question id, filled by the evaluation.</summary>
+    /// <summary>Probabilities of "yes" by <see cref="Rules.QuestionKey"/> (<c>{rule set}:{question id}</c>), filled by the evaluation.</summary>
     public Dictionary<string, double> Probabilities { get; init; } = [];
 
     /// <summary>Sieve chunks of the main text the segment occurs in.</summary>

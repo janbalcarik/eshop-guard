@@ -56,7 +56,7 @@ public class ScanSlovakFixtureTests
         Assert.Equal(expected.FetchedPages.Count, odr.Urls.Count);
         var notice = Assert.Single(result.Findings, f => f.RuleId == "legal_harmonized_notice_missing");
         Assert.Equal(FindingBand.Review, notice.Band);
-        Assert.Contains(notice.Notes, n => n.Contains("pokladnu", StringComparison.Ordinal));
+        Assert.Contains(TestTexts.Notes(notice), n => n.Contains("pokladnu", StringComparison.Ordinal));
     }
 
     [Fact]

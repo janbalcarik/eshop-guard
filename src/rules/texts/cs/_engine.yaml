@@ -1,0 +1,78 @@
+# Texty nástroje v češtině: poznámky k nálezům, upozornění běhu, důvody, stavy odkazů a vestavěný nález.
+# Knihovna vrací jen kódy a parametry (EngineCodes); věty se skládají tady. Zástupné symboly {název} nebo
+# {název:formát} musí být ve všech jazycích stejné; formát čísel a dat se řídí culture. Texty jsou převzaté
+# doslova z vět, které knihovna vracela před změnou 6.
+locale: cs
+culture: cs-CZ
+review:
+  original: true
+  note: "Původní věty knihovny (RuleEngine, EshopGuardService, Crawler, PageProfiler), přesunuté beze změny 1. 10. 2026."
+jurisdictions:
+  sk: "Slovensko"
+  cz: "Česko"
+codes:
+  # Poznámky k pravidlům site_presence.
+  presence_closest_paragraph: "Nejbližší nalezený odstavec má pravděpodobnost {probability:0.00}, práh přítomnosti je {threshold:0.00}."
+  presence_pattern_missing: "Na právních stránkách chybí i text odpovídající vzoru {pattern}."
+  presence_found_but_pattern_missing: "Jev informaci našel (pravděpodobnost {probability:0.00}), ale na právních stránkách chybí text odpovídající vzoru {pattern}."
+  presence_paragraphs_not_evaluated: "{count} odstavců právních stránek se nepodařilo vyhodnotit, informace může být v nich."
+  unread_pdf_documents: "Informace může být v PDF, které nástroj nečte: {urls}{more}."
+  legal_pages_not_loaded: "Text těchto právních stránek se nenačetl (web ho nejspíš vykresluje JavaScriptem), informace může být na nich: {urls}{more}."
+  pages_not_loaded: "Text těchto stránek se nenačetl (web ho nejspíš vykresluje JavaScriptem), může to být na nich: {urls}{more}."
+  # Poznámky k pravidlům site_signal.
+  signal_not_found: "Na žádné z {count} stažených stránek se nenašel obrázek, odkaz ani text, který by to ukazoval."
+  signal_cart_not_downloaded: "Košík, pokladnu a zákaznický účet nástroj nestahuje; tam to ověřte ručně."
+  signal_found_on: "Nalezeno na {count} z {total} stažených stránek."
+  # Poznámky ze seznamu zákonných požadavků (claim_list_match) a ke značkám (label_notes).
+  claim_list_item: "Seznam zákonných požadavků: {category}, „{feature}“. Základ: {basis}.{since}{remark}"
+  claim_list_since: " Platí od: {since}."
+  claim_list_remark: " {remark}"
+  claim_list_other_category: "Stejné tvrzení je v seznamu zákonných požadavků u kategorie {categories}; kategorie výrobku podle stránky: „{category}“. Ověřte, zda do ní výrobek patří."
+  claim_list_no_category: "Kategorii výrobku se ze stránky nepodařilo zjistit a tvrzení není v seznamu zákonných požadavků."
+  claim_list_not_in_list: "Tvrzení není v seznamu zákonných požadavků pro kategorii výrobku podle stránky: „{category}“."
+  label_note: "{label_text}"
+  # Části vět a verdikt před účinností.
+  effective_from: "Povinnost platí od {date:d. M. yyyy}; do té doby jde o upozornění dopředu."
+  list_more: " a dalších {count}"
+  # Stav odkazu na předpis.
+  to_verify: "ověřit"
+  to_complete: "doplnit"
+  # Upozornění stahování.
+  robots_home_disallowed: "robots.txt zakazuje stahování úvodní stránky, web se neprocházel."
+  robots_unreachable: "robots.txt je nedostupný ({reason}); podle RFC 9309 se web neprocházel."
+  sitemap_unreadable: "Sitemap {url} se nepodařilo načíst ({reason})."
+  sitemap_invalid: "Sitemap {url} není platné XML."
+  sitemap_too_many: "Sitemap má víc než {max} URL, další se nečetly."
+  ssrf_blocked: "Adresa {url} vede do vnitřní nebo místní sítě (ochrana proti SSRF); web se neprocházel."
+  ssrf_blocked_urls: "{count} adres se nestáhlo, protože vedou do vnitřní nebo místní sítě (ochrana proti SSRF); seznam je v části „Co nebylo zkontrolováno“."
+  pages_not_processed: "{count} stažených stránek se nepodařilo přečíst v časovém limitu; nejsou zkontrolované (seznam je v části „Co nebylo zkontrolováno“)."
+  no_response: "bez odpovědi"
+  # Upozornění analýzy.
+  no_legal_pages: "Nenalezeny právní stránky (obchodní podmínky, reklamační řád, odstoupení)."
+  text_not_loaded: "{count} z {pages} stažených stránek nemělo v HTML skoro žádný čitelný text; web je nejspíš vykresluje až JavaScriptem, který nástroj nespouští. Na těchto stránkách je zkontrolovaný jen titulek, meta popis a popis z dat pro vyhledávače (JSON-LD); to, že u nich nejsou nálezy, neznamená, že jsou v pořádku. Seznam je v části „Co nebylo zkontrolováno“."
+  mostly_script_rendered: "Web je z velké části vykreslovaný JavaScriptem, kontrola je proto neúplná. Spolehlivý výsledek dá připojení e-shopu přes konektor nebo produktový feed."
+  profile_failed_fatal: "Profily šablon se nevytvořily: {reason} Stránky bez profilu se kontrolovaly celé."
+  profile_failed: "Profil šablony stránky {url} se nepodařilo vytvořit ({reason}); jejích {pages} stránek se kontrolovalo celých."
+  profile_no_fit: "Profil šablony stránky {url} nesedí ani na vzorové stránky, nepoužije se; jejích {pages} stránek se kontrolovalo celých."
+  profiles_not_created: "Profily {count} šablon se nevytvořily ({reason}); jejich stránky se kontrolovaly celé."
+  model_mock: "falešný klient (--mock), profily se nevytvářejí"
+  model_missing_key: "chybí klíč OpenAI (OPENAI_API_KEY)"
+  sieve_unevaluated: "Síto nevyhodnotilo {count} úseků (chyba nebo příliš dlouhý text); jejich věty prošly celou podrobnou kontrolou."
+  evaluation_not_confirmed: "Vyhodnocení Jevem nebylo potvrzeno, zpráva obsahuje jen stažené stránky a segmenty."
+  evaluation_not_confirmed_texts: "Vyhodnocení Jevem nebylo potvrzeno."
+  jev_errors: "{errors} z {calls} volání Jevu selhalo; tyto segmenty nejsou vyhodnocené (podrobnosti v run.log)."
+  module_other_jurisdiction: "Modul {module} má pravidla jen pro {jurisdictions}, pro zemi {country} se nespustil."
+  module_no_rule_set: "Pro modul {module} neexistuje žádná sada pravidel, modul se nespustil."
+  module_disabled: "Sada pravidel modulu {module} pro zemi {country} je vypnutá ({files}), modul se nespustil."
+  # Důvody nezkontrolovaných povinností a modulů, které neběžely.
+  evaluation_skipped: "vyhodnocení neproběhlo"
+  site_signals_not_evaluated: "kontrola textu bez celého webu, znaky na stránkách se nehledaly"
+  legal_texts_not_given: "nebyl zadán text právní stránky"
+  site_not_crawled: "web se neprocházel nebo se z něj nestáhla žádná stránka"
+  no_rules_for_jurisdiction: "modul nemá pravidla pro tuto zemi"
+  rule_set_disabled: "sada pravidel je vypnutá"
+rules:
+  legal_pages_missing:
+    title: "Nenalezeny právní stránky"
+    explanation: "Na webu se nenašla žádná stránka s obchodními podmínkami, reklamačním řádem, informacemi o odstoupení, dopravě ani kontakty, takže povinné informace nešlo ověřit."
+    recommendation: "Zveřejněte obchodní podmínky a reklamační řád jako stránky webu a odkažte na ně z patičky."

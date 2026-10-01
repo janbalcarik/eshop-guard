@@ -1,0 +1,8 @@
+# Jurisdikce, které nástroj zná (změna 6, design oddíl 9). Další trh je nový řádek tady, sady pravidel
+# rules/<modul>_<země>.yaml (nebo jurisdikce navíc u sady, která platí beze změny) a texty v rules/texts/<jazyk>/.
+# Kód nikde seznam zemí nemá. law_language je jazyk předpisů té země: odkazy na předpisy EU se u jejích verdiktů
+# zobrazí v něm, pokud mají překlad (ref_by_language), jinak v původním znění.
+sk:
+  law_language: sk
+cz:
+  law_language: cs

@@ -23,7 +23,7 @@ public sealed class ScanSsrfTests
 
         Assert.Equal(["http://fixture.test/interni"], result.BlockedUrls);
         Assert.DoesNotContain(result.Pages, p => p.Url.Contains("produkt-2", StringComparison.Ordinal) || p.Url.Contains("interni", StringComparison.Ordinal));
-        Assert.Contains(result.Warnings, w => w.Contains("SSRF", StringComparison.Ordinal));
+        Assert.Contains(TestTexts.Warnings(result.Warnings), w => w.Contains("SSRF", StringComparison.Ordinal));
         Assert.Contains("- Adresy, které vedou do vnitřní nebo místní sítě, se nestáhly (ochrana proti SSRF) (1):\n  - http://fixture.test/interni", report["report.md"], StringComparison.Ordinal);
         Assert.Equal(0, result.Stats.PagesFailed);
     }

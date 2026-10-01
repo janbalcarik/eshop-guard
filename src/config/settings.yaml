@@ -72,6 +72,11 @@ rules:
   labels_file: config/labels.yaml
   legal_requirements_file: config/legal_requirements.yaml
   sieve_file: config/sieve.yaml
+  # Známé jurisdikce a jazyk jejich předpisů; jiné jurisdikce sady pravidel uvést nesmí.
+  jurisdictions_file: config/jurisdictions.yaml
+  # Texty pravidel jsou v rules/texts/<jazyk>/ (texts_directory). Jazyky, jejichž texty nástroje musí být úplné;
+  # texty sady, která v jazyce chybí, se ukážou v jazyce, ve kterém byla sada napsaná.
+  required_locales: [cs]
 
 rewrite:
   # Přepis problematických pasáží (eshopguard rewrite). Klíč je v OPENAI_API_KEY, ne tady.

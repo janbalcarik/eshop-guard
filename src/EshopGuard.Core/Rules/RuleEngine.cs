@@ -1,5 +1,4 @@
 using System.Collections.Concurrent;
-using System.Globalization;
 using System.Text.RegularExpressions;
 using EshopGuard.Core.Models;
 
@@ -10,12 +9,12 @@ namespace EshopGuard.Core.Rules;
 /// </summary>
 internal sealed class RuleEngineInput
 {
-    /// <summary>Rule sets selected for the run (enabled, requested module, scanned country).</summary>
+    /// <summary>Rule sets selected for the run (enabled, requested module, at least one chosen jurisdiction).</summary>
     public required IReadOnlyList<RuleSet> RuleSets { get; init; }
 
     public required LabelConfiguration Labels { get; init; }
 
-    /// <summary>Segments with probabilities filled by the evaluation.</summary>
+    /// <summary>Segments with probabilities filled by the evaluation, keyed by <see cref="QuestionKey"/>.</summary>
     public required IReadOnlyList<Segment> Segments { get; init; }
 
     /// <summary>Full text of every page (including image alt texts and file names) for page-level allowlists.</summary>
@@ -33,8 +32,11 @@ internal sealed class RuleEngineInput
     /// <summary>Product category text of every page (title, h1, breadcrumb, shop category) for <c>claim_list_match</c>.</summary>
     public IReadOnlyDictionary<string, string> PageCategories { get; init; } = new Dictionary<string, string>();
 
-    /// <summary>Country of the run; legal references are shown for the EU and this country.</summary>
-    public required string Country { get; init; }
+    /// <summary>Jurisdictions of the run; every rule set is evaluated for those of them it has.</summary>
+    public required IReadOnlyList<string> Jurisdictions { get; init; }
+
+    /// <summary>Date of the evaluation; a rule whose <c>effective_from</c> is later gives an upcoming verdict. Null: every rule applies.</summary>
+    public DateOnly? AsOf { get; init; }
 
     /// <summary>False when no legal texts were supplied (check-text of a sentence); site rules are skipped.</summary>
     public bool EvaluateSitePresence { get; init; } = true;
@@ -48,7 +50,7 @@ internal sealed class RuleEngineInput
     /// </summary>
     public IReadOnlyList<PageInfo> TextNotLoadedPages { get; init; } = [];
 
-    /// <summary>Adds the built-in finding "Nenalezeny právní stránky".</summary>
+    /// <summary>Adds the built-in finding "legal pages missing".</summary>
     public bool AddMissingLegalPagesFinding { get; init; }
 }
 
@@ -71,78 +73,118 @@ internal sealed class RuleEngineOutput
     public List<Finding> Findings { get; } = [];
 
     public List<RuleResult> RuleResults { get; } = [];
+
+    public List<SiteObligation> SiteObligations { get; } = [];
 }
 
 /// <summary>
-/// Combines question probabilities into findings according to the rule sets. No legal logic is hard-coded here,
-/// except the built-in finding for a site without legal pages required by the specification.
+/// Combines question probabilities into findings according to the rule sets, for every chosen jurisdiction of every set. A
+/// rule that finds the same text (or, for the whole site, the same missing information) in several jurisdictions gives one
+/// finding with a verdict per jurisdiction. No legal logic is hard-coded here, except the built-in finding for a site without
+/// legal pages required by the specification. Notes are codes with parameters; the sentences are composed by the host.
 /// </summary>
 internal static class RuleEngine
 {
     public const string MissingLegalPagesRuleId = "legal_pages_missing";
 
-    private static readonly CultureInfo Czech = CultureInfo.GetCultureInfo("cs-CZ");
+    /// <summary>Most URLs listed in a note.</summary>
+    private const int MaxUrlsInNote = 5;
 
     public static RuleEngineOutput Evaluate(RuleEngineInput input)
     {
         var output = new RuleEngineOutput();
+        var partials = new List<Finding>();
         var matcher = new LabelMatcher(input.Labels);
         foreach (var set in input.RuleSets)
         {
+            var jurisdictions = JurisdictionsOf(set, input);
             var kind = set.AppliesTo == RuleValidator.Sentence ? SegmentKind.Sentence : SegmentKind.LegalParagraph;
             var segments = input.Segments.Where(s => s.Kind == kind).ToList();
             foreach (var rule in set.Rules)
             {
-                if (rule.Scope == RuleValidator.SegmentScope)
+                foreach (var jurisdiction in jurisdictions)
                 {
-                    EvaluateSegmentRule(set, rule, segments, input, matcher, output);
-                }
-                else if (rule.Scope == RuleValidator.SiteSignalScope)
-                {
-                    if (input.EvaluateSiteSignals)
+                    var context = new RuleContext(set, rule, jurisdiction, input);
+                    if (rule.Scope == RuleValidator.SegmentScope)
                     {
-                        EvaluateSiteSignal(set, rule, input, output);
+                        EvaluateSegmentRule(context, segments, matcher, output, partials);
                     }
-                }
-                else if (input.EvaluateSitePresence)
-                {
-                    EvaluateSitePresence(set, rule, segments, input, output);
+                    else if (rule.Scope == RuleValidator.SiteSignalScope)
+                    {
+                        if (input.EvaluateSiteSignals)
+                        {
+                            EvaluateSiteSignal(context, output, partials);
+                        }
+                        else
+                        {
+                            output.SiteObligations.Add(context.Obligation(ObligationStatus.NotChecked, reason: EngineCodes.SiteSignalsNotEvaluated));
+                        }
+                    }
+                    else if (input.EvaluateSitePresence)
+                    {
+                        EvaluateSitePresence(context, segments, output, partials);
+                    }
+                    else
+                    {
+                        output.SiteObligations.Add(context.Obligation(ObligationStatus.NotChecked, reason: EngineCodes.LegalTextsNotGiven));
+                    }
                 }
             }
         }
 
+        output.Findings.AddRange(MergeJurisdictions(partials));
         MergeRepeatedTexts(output);
         MergeSameTexts(output);
 
         if (input.AddMissingLegalPagesFinding)
         {
-            output.Findings.Add(MissingLegalPages(input));
-            output.RuleResults.Add(new RuleResult { RuleId = MissingLegalPagesRuleId, Outcome = RuleOutcome.Finding, Score = 1 });
+            var finding = MissingLegalPages(input);
+            output.Findings.Add(finding);
+            foreach (var verdict in finding.Verdicts)
+            {
+                output.RuleResults.Add(new RuleResult
+                {
+                    RuleId = MissingLegalPagesRuleId, Outcome = RuleOutcome.Finding, Score = 1, Jurisdiction = verdict.Jurisdiction, RuleSet = verdict.RuleSet,
+                });
+            }
         }
 
         return output;
     }
 
+    /// <summary>Obligations of the whole site that were not checked at all, e.g. when the host did not confirm the evaluation.</summary>
+    public static List<SiteObligation> NotChecked(IReadOnlyList<RuleSet> ruleSets, IReadOnlyList<string> jurisdictions, string reason) =>
+        (from set in ruleSets
+         from rule in set.Rules
+         where rule.Scope != RuleValidator.SegmentScope
+         from jurisdiction in set.Jurisdictions.Where(jurisdictions.Contains).Order(StringComparer.Ordinal)
+         select new RuleContext(set, rule, jurisdiction, null).Obligation(ObligationStatus.NotChecked, reason: reason))
+        .ToList();
+
+    private static List<string> JurisdictionsOf(RuleSet set, RuleEngineInput input) =>
+        set.Jurisdictions.Where(input.Jurisdictions.Contains).Order(StringComparer.Ordinal).ToList();
+
     private static void EvaluateSegmentRule(
-        RuleSet set, RuleDefinition rule, List<Segment> segments, RuleEngineInput input, LabelMatcher matcher, RuleEngineOutput output)
+        RuleContext context, List<Segment> segments, LabelMatcher matcher, RuleEngineOutput output, List<Finding> partials)
     {
+        var (set, rule, jurisdiction, input) = (context.Set, context.Rule, context.Jurisdiction, context.Input!);
         var logic = rule.Logic!;
         var questions = logic.All.Concat(logic.Any).Concat(logic.None).Select(c => c.Q).Distinct().ToList();
         foreach (var segment in segments)
         {
             if (segment.SkippedModules.Contains(set.Module))
             {
-                output.RuleResults.Add(Result(rule, segment, RuleOutcome.SkippedBySieve));
+                output.RuleResults.Add(context.Result(segment, RuleOutcome.SkippedBySieve));
                 continue;
             }
 
-            if (!questions.All(segment.Probabilities.ContainsKey))
+            if (!questions.All(q => segment.Probabilities.ContainsKey(QuestionKey.Of(set, q))))
             {
-                output.RuleResults.Add(Result(rule, segment, RuleOutcome.NotEvaluated));
+                output.RuleResults.Add(context.Result(segment, RuleOutcome.NotEvaluated));
                 continue;
             }
 
-            double P(RuleCondition condition) => segment.Probabilities[condition.Q];
+            double P(RuleCondition condition) => segment.Probabilities[QuestionKey.Of(set, condition.Q)];
 
             var parts = new List<double>();
             if (logic.All.Count > 0)
@@ -163,14 +205,14 @@ internal static class RuleEngine
                 && logic.None.All(c => P(c) < c.Gte);
             if (!conditionsHold)
             {
-                output.RuleResults.Add(Result(rule, segment, RuleOutcome.ConditionsNotMet, score));
+                output.RuleResults.Add(context.Result(segment, RuleOutcome.ConditionsNotMet, score));
                 continue;
             }
 
-            var band = SegmentBand(score, rule.Bands);
+            var band = SegmentBand(score, rule.BandsFor(jurisdiction));
             if (band is null)
             {
-                output.RuleResults.Add(Result(rule, segment, RuleOutcome.BelowThreshold, score));
+                output.RuleResults.Add(context.Result(segment, RuleOutcome.BelowThreshold, score));
                 continue;
             }
 
@@ -189,50 +231,43 @@ internal static class RuleEngine
 
             if (urls.Count == 0)
             {
-                output.RuleResults.Add(Result(rule, segment, RuleOutcome.ExcludedByAllowlist, score));
+                output.RuleResults.Add(context.Result(segment, RuleOutcome.ExcludedByAllowlist, score));
                 continue;
             }
 
-            var notes = new List<string>();
+            var notes = new List<FindingNote>();
             foreach (var check in rule.CodeChecks.Where(c => c.Type == RuleValidator.ClaimListMatch))
             {
-                urls = urls.Where(url => ClaimListHolds(check, segment.Text, input.PageCategories.GetValueOrDefault(url, ""), input, notes)).ToList();
+                urls = urls.Where(url => ClaimListHolds(check, segment.Text, input.PageCategories.GetValueOrDefault(url, ""), jurisdiction, input, notes)).ToList();
             }
 
             if (urls.Count == 0)
             {
-                output.RuleResults.Add(Result(rule, segment, RuleOutcome.NotInList, score));
+                output.RuleResults.Add(context.Result(segment, RuleOutcome.NotInList, score));
                 continue;
             }
 
             if (rule.CodeChecks.Any(c => c.Type == RuleValidator.LabelNotes))
             {
-                notes.AddRange(matcher.NotesFor(segment.Text));
+                notes.AddRange(matcher.NotesFor(segment.Text).Select(id => new FindingNote(EngineCodes.LabelNote, NoteParams.Of(("label_id", id)))));
             }
 
-            output.RuleResults.Add(Result(rule, segment, RuleOutcome.Finding, score, band));
-            output.Findings.Add(new Finding
+            var verdict = context.Verdict(band.Value, score, notes.Distinct().ToList(), questions.ToDictionary(q => q, q => segment.Probabilities[QuestionKey.Of(set, q)]));
+            output.RuleResults.Add(context.Result(segment, RuleOutcome.Finding, score, verdict.Band));
+            partials.Add(new Finding
             {
                 RuleId = rule.Id,
                 Module = set.Module,
-                Title = rule.Title,
-                Severity = rule.Severity,
-                Checkability = rule.Checkability,
                 Scope = "segment",
-                Band = band.Value,
-                Score = Math.Round(score, 3),
                 Text = segment.Text,
                 ContextBefore = segment.ContextBefore,
                 ContextAfter = segment.ContextAfter,
                 Sources = segment.Sources,
                 Urls = urls,
                 Boilerplate = segment.Boilerplate,
-                QuestionProbs = questions.ToDictionary(q => q, q => segment.Probabilities[q]),
-                LegalRefs = RefsFor(rule, input.Country),
-                Explanation = rule.ExplanationFor(input.Country),
-                Recommendation = rule.Recommendation,
-                Notes = notes.Distinct().ToList(),
                 SegmentHash = segment.Hash,
+                TextFingerprint = segment.Fingerprint,
+                Verdicts = [verdict],
             });
         }
     }
@@ -242,9 +277,9 @@ internal static class RuleEngine
     /// <c>outcomes</c> filters the items, <c>absent</c> turns the check around. Notes name the items, so the finding says
     /// which requirement and legal basis it rests on, or why the list did not decide.
     /// </summary>
-    private static bool ClaimListHolds(CodeCheck check, string text, string category, RuleEngineInput input, List<string> notes)
+    private static bool ClaimListHolds(CodeCheck check, string text, string category, string jurisdiction, RuleEngineInput input, List<FindingNote> notes)
     {
-        var claimed = input.LegalRequirements.For(input.Country).Where(r => r.MatchesClaim(text)).ToList();
+        var claimed = input.LegalRequirements.For(jurisdiction).Where(r => r.MatchesClaim(text)).ToList();
         var inCategory = claimed.Where(r => r.MatchesCategory(category)).ToList();
         var wanted = check.Outcomes is { Count: > 0 } outcomes ? inCategory.Where(r => outcomes.Contains(r.Outcome)).ToList() : inCategory;
         if (!check.Absent)
@@ -261,28 +296,30 @@ internal static class RuleEngine
         var shown = category.Length > 150 ? category[..150] + "…" : category;
         var others = claimed.Except(inCategory).Select(r => r.CategoryName).Distinct().ToList();
         notes.Add(others.Count > 0
-            ? $"Stejné tvrzení je v seznamu zákonných požadavků u kategorie {string.Join("; ", others)}; kategorie výrobku podle stránky: „{shown}“. Ověřte, zda do ní výrobek patří."
+            ? new FindingNote(EngineCodes.ClaimListOtherCategory, NoteParams.Of(("categories", string.Join("; ", others)), ("category", shown)))
             : category.Length == 0
-                ? "Kategorii výrobku se ze stránky nepodařilo zjistit a tvrzení není v seznamu zákonných požadavků."
-                : $"Tvrzení není v seznamu zákonných požadavků pro kategorii výrobku podle stránky: „{shown}“.");
+                ? new FindingNote(EngineCodes.ClaimListNoCategory, NoteParams.None)
+                : new FindingNote(EngineCodes.ClaimListNotInList, NoteParams.Of(("category", shown))));
         return true;
     }
 
-    private static string Describe(LegalRequirement requirement)
-    {
-        var since = requirement.Since is { Length: > 0 } s ? $" Platí od: {s}." : "";
-        var note = requirement.Note is { Length: > 0 } n ? $" {n}" : "";
-        return $"Seznam zákonných požadavků: {requirement.CategoryName}, „{requirement.Feature}“. Základ: {requirement.Basis}.{since}{note}";
-    }
+    private static FindingNote Describe(LegalRequirement requirement) =>
+        new(EngineCodes.ClaimListItem, NoteParams.Of(
+            ("category", requirement.CategoryName),
+            ("feature", requirement.Feature),
+            ("basis", requirement.Basis),
+            ("since", requirement.Since is { Length: > 0 } since ? new FindingNote(EngineCodes.ClaimListSince, NoteParams.Of(("since", since))) : null),
+            ("remark", requirement.Note is { Length: > 0 } remark ? new FindingNote(EngineCodes.ClaimListRemark, NoteParams.Of(("remark", remark))) : null)));
 
-    private static void EvaluateSitePresence(
-        RuleSet set, RuleDefinition rule, List<Segment> paragraphs, RuleEngineInput input, RuleEngineOutput output)
+    private static void EvaluateSitePresence(RuleContext context, List<Segment> paragraphs, RuleEngineOutput output, List<Finding> partials)
     {
-        var question = rule.Question!;
+        var (set, rule, input) = (context.Set, context.Rule, context.Input!);
+        var question = QuestionKey.Of(set, rule.Question!);
         var evaluated = paragraphs.Where(p => p.Probabilities.ContainsKey(question)).ToList();
         var best = evaluated.MaxBy(p => p.Probabilities[question]);
         var max = best?.Probabilities[question] ?? 0;
         var present = max >= set.PresenceThreshold;
+        var bands = rule.BandsFor(context.Jurisdiction);
 
         var legalText = string.Join("\n", paragraphs.Select(p => p.Text));
         var missingPatterns = rule.CodeChecks
@@ -290,31 +327,31 @@ internal static class RuleEngine
             .Select(c => c.Pattern!)
             .ToList();
 
-        var notes = new List<string>();
+        var notes = new List<FindingNote>();
         double score;
         FindingBand band;
         if (!present)
         {
             // A missing piece of information is never ignored: below the high band it is still "to review".
             score = 1 - max;
-            band = score >= rule.Bands.High ? FindingBand.High : FindingBand.Review;
+            band = score >= bands.High ? FindingBand.High : FindingBand.Review;
             if (best is not null)
             {
-                notes.Add(string.Create(Czech, $"Nejbližší nalezený odstavec má pravděpodobnost {max:0.00}, práh přítomnosti je {set.PresenceThreshold:0.00}."));
+                notes.Add(new FindingNote(EngineCodes.PresenceClosestParagraph, NoteParams.Of(("probability", max), ("threshold", set.PresenceThreshold))));
             }
 
-            notes.AddRange(missingPatterns.Select(p => $"Na právních stránkách chybí i text odpovídající vzoru {p}."));
+            notes.AddRange(missingPatterns.Select(p => new FindingNote(EngineCodes.PresencePatternMissing, NoteParams.Of(("pattern", p)))));
         }
         else if (missingPatterns.Count > 0)
         {
-            score = rule.Bands.Review;
+            score = bands.Review;
             band = FindingBand.Review;
-            notes.AddRange(missingPatterns.Select(p => string.Create(Czech,
-                $"Jev informaci našel (pravděpodobnost {max:0.00}), ale na právních stránkách chybí text odpovídající vzoru {p}.")));
+            notes.AddRange(missingPatterns.Select(p => new FindingNote(EngineCodes.PresenceFoundButPatternMissing, NoteParams.Of(("probability", max), ("pattern", p)))));
         }
         else
         {
-            output.RuleResults.Add(new RuleResult { RuleId = rule.Id, SegmentHash = best?.Hash, Outcome = RuleOutcome.Present, Score = max });
+            output.RuleResults.Add(context.SiteResult(best?.Hash, RuleOutcome.Present, max));
+            output.SiteObligations.Add(context.Obligation(ObligationStatus.Met, best?.Urls ?? []));
             return;
         }
 
@@ -322,7 +359,7 @@ internal static class RuleEngine
         if (notEvaluated > 0)
         {
             band = FindingBand.Review;
-            notes.Add($"{notEvaluated} odstavců právních stránek se nepodařilo vyhodnotit, informace může být v nich.");
+            notes.Add(new FindingNote(EngineCodes.PresenceParagraphsNotEvaluated, NoteParams.Of(("count", notEvaluated))));
         }
 
         if (input.UncheckedDocuments.Count > 0)
@@ -335,29 +372,23 @@ internal static class RuleEngine
         if (notLoadedLegal.Count > 0)
         {
             band = FindingBand.Review;
-            notes.Add(NotLoadedNote(notLoadedLegal, "Text těchto právních stránek se nenačetl (web ho nejspíš vykresluje JavaScriptem), informace může být na nich"));
+            notes.Add(UrlsNote(EngineCodes.LegalPagesNotLoaded, notLoadedLegal.Select(p => p.Url).ToList()));
         }
 
-        output.RuleResults.Add(new RuleResult { RuleId = rule.Id, SegmentHash = best?.Hash, Outcome = RuleOutcome.Finding, Score = score, Band = band });
-        output.Findings.Add(new Finding
+        var verdict = context.Verdict(band, score, notes, new Dictionary<string, double> { [rule.Question!] = max });
+        output.RuleResults.Add(context.SiteResult(best?.Hash, RuleOutcome.Finding, score, verdict.Band));
+        output.SiteObligations.Add(context.Obligation(verdict.Status == VerdictStatus.Upcoming ? ObligationStatus.Upcoming : ObligationStatus.Missing, best?.Urls ?? []));
+        partials.Add(new Finding
         {
             RuleId = rule.Id,
             Module = set.Module,
-            Title = rule.Title,
-            Severity = rule.Severity,
-            Checkability = rule.Checkability,
             Scope = "site",
-            Band = band,
-            Score = Math.Round(score, 3),
             Text = best?.Text,
             Sources = best?.Sources ?? [],
             Urls = best?.Urls ?? [],
-            QuestionProbs = new Dictionary<string, double> { [question] = max },
-            LegalRefs = RefsFor(rule, input.Country),
-            Explanation = rule.ExplanationFor(input.Country),
-            Recommendation = rule.Recommendation,
-            Notes = notes,
             SegmentHash = best?.Hash,
+            TextFingerprint = best?.Fingerprint,
+            Verdicts = [verdict],
         });
     }
 
@@ -365,8 +396,9 @@ internal static class RuleEngine
     /// A sign on the whole site: required (a finding when no page has it) or forbidden (a finding listing the pages with it).
     /// Pages the crawler never downloads (cart, checkout, customer account) are not seen, so a finding is always to review.
     /// </summary>
-    private static void EvaluateSiteSignal(RuleSet set, RuleDefinition rule, RuleEngineInput input, RuleEngineOutput output)
+    private static void EvaluateSiteSignal(RuleContext context, RuleEngineOutput output, List<Finding> partials)
     {
+        var (set, rule, input) = (context.Set, context.Rule, context.Input!);
         var required = rule.CodeChecks[0].Type == RuleValidator.SitePatternRequired;
         var matches = input.PageSignals
             .Where(page => rule.CodeChecks.Any(c => IsMatch(page.Value.For(c.Where), c.Pattern!)))
@@ -376,42 +408,71 @@ internal static class RuleEngine
 
         if (required ? matches.Count > 0 : matches.Count == 0)
         {
-            output.RuleResults.Add(new RuleResult { RuleId = rule.Id, Outcome = RuleOutcome.Present, Score = 1 });
+            output.RuleResults.Add(context.SiteResult(null, RuleOutcome.Present, 1));
+            output.SiteObligations.Add(context.Obligation(ObligationStatus.Met, matches));
             return;
         }
 
-        var notes = new List<string>();
+        var notes = new List<FindingNote>();
         if (required)
         {
-            notes.Add($"Na žádné z {input.PageSignals.Count} stažených stránek se nenašel obrázek, odkaz ani text, který by to ukazoval.");
-            notes.Add("Košík, pokladnu a zákaznický účet nástroj nestahuje; tam to ověřte ručně.");
+            notes.Add(new FindingNote(EngineCodes.SignalNotFound, NoteParams.Of(("count", input.PageSignals.Count))));
+            notes.Add(new FindingNote(EngineCodes.SignalCartNotDownloaded, NoteParams.None));
             if (input.TextNotLoadedPages.Count > 0)
             {
-                notes.Add(NotLoadedNote(input.TextNotLoadedPages, "Text těchto stránek se nenačetl (web ho nejspíš vykresluje JavaScriptem), může to být na nich"));
+                notes.Add(UrlsNote(EngineCodes.PagesNotLoaded, input.TextNotLoadedPages.Select(p => p.Url).ToList()));
             }
         }
         else
         {
-            notes.Add($"Nalezeno na {matches.Count} z {input.PageSignals.Count} stažených stránek.");
+            notes.Add(new FindingNote(EngineCodes.SignalFoundOn, NoteParams.Of(("count", matches.Count), ("total", input.PageSignals.Count))));
         }
 
-        output.RuleResults.Add(new RuleResult { RuleId = rule.Id, Outcome = RuleOutcome.Finding, Score = 1, Band = FindingBand.Review });
-        output.Findings.Add(new Finding
+        var verdict = context.Verdict(FindingBand.Review, 1, notes, new Dictionary<string, double>());
+        output.RuleResults.Add(context.SiteResult(null, RuleOutcome.Finding, 1, verdict.Band));
+        output.SiteObligations.Add(context.Obligation(verdict.Status == VerdictStatus.Upcoming ? ObligationStatus.Upcoming : ObligationStatus.Missing, matches));
+        partials.Add(new Finding
         {
             RuleId = rule.Id,
             Module = set.Module,
-            Title = rule.Title,
-            Severity = rule.Severity,
-            Checkability = rule.Checkability,
             Scope = "site",
-            Band = FindingBand.Review,
-            Score = 1,
             Urls = matches,
-            LegalRefs = RefsFor(rule, input.Country),
-            Explanation = rule.ExplanationFor(input.Country),
-            Recommendation = rule.Recommendation,
-            Notes = notes,
+            Verdicts = [verdict],
         });
+    }
+
+    /// <summary>
+    /// Findings of the same rule for the same segment (or, for the whole site, of the same rule) from several jurisdictions are
+    /// one finding with their verdicts; the text, pages and paragraph come from the strictest verdict. With one jurisdiction
+    /// nothing changes.
+    /// </summary>
+    private static List<Finding> MergeJurisdictions(List<Finding> partials)
+    {
+        var groups = new List<List<Finding>>();
+        var index = new Dictionary<(string RuleId, string? SegmentHash), List<Finding>>();
+        foreach (var partial in partials)
+        {
+            var key = (partial.RuleId, partial.Scope == "site" ? null : partial.SegmentHash);
+            if (!index.TryGetValue(key, out var group))
+            {
+                group = [];
+                index[key] = group;
+                groups.Add(group);
+            }
+
+            group.Add(partial);
+        }
+
+        return groups.Select(group =>
+        {
+            if (group.Count == 1)
+            {
+                return group[0];
+            }
+
+            var strictest = group.OrderBy(f => f.Verdicts[0], Comparer<JurisdictionVerdict>.Create(VerdictOrder.Compare)).First();
+            return With(strictest, VerdictOrder.Sort(group.SelectMany(f => f.Verdicts)), group.SelectMany(f => f.Urls).Distinct().ToList(), strictest.Sources);
+        }).ToList();
     }
 
     private static readonly ConcurrentDictionary<string, Regex> Patterns = new(StringComparer.Ordinal);
@@ -447,7 +508,8 @@ internal static class RuleEngine
 
     /// <summary>
     /// A title or meta description usually repeats the product name or the first sentence of the page. When it adds at most
-    /// a short tail (such as the shop name), it is the same claim, so only the finding from the page text is kept.
+    /// a short tail (such as the shop name), it is the same claim, so only the finding from the page text is kept; it must
+    /// have a verdict in every jurisdiction of the repeated one.
     /// </summary>
     private static void MergeRepeatedTexts(RuleEngineOutput output)
     {
@@ -464,6 +526,7 @@ internal static class RuleEngine
                     && !duplicates.Contains(other)
                     && other.Sources.Any(s => !SecondarySources.Contains(s))
                     && other.Urls.Intersect(candidate.Urls).Any()
+                    && candidate.Verdicts.All(v => other.Verdicts.Any(o => o.Jurisdiction == v.Jurisdiction))
                     && TextTools.NormalizeForHash(other.Text!) is { Length: > 0 } shorter
                     && text.Contains(shorter, StringComparison.Ordinal)
                     && text.Length - shorter.Length <= maxExtraChars);
@@ -477,18 +540,14 @@ internal static class RuleEngine
         foreach (var duplicate in duplicates)
         {
             output.Findings.Remove(duplicate);
-            var index = output.RuleResults.FindIndex(r => r.RuleId == duplicate.RuleId && r.SegmentHash == duplicate.SegmentHash && r.Outcome == RuleOutcome.Finding);
-            if (index >= 0)
-            {
-                var old = output.RuleResults[index];
-                output.RuleResults[index] = new RuleResult { RuleId = old.RuleId, SegmentHash = old.SegmentHash, Outcome = RuleOutcome.Duplicate, Score = old.Score };
-            }
+            MarkDuplicate(output, duplicate);
         }
     }
 
     /// <summary>
     /// The same text (for example a badge "Vegan" next to many products) found by the same rule in different contexts is
-    /// one finding listing all its pages; the one with the highest score keeps its context and probabilities.
+    /// one finding listing all its pages; the one with the highest score keeps its context and probabilities. In every
+    /// jurisdiction the verdict with the highest score is kept, with the notes of all.
     /// </summary>
     private static void MergeSameTexts(RuleEngineOutput output)
     {
@@ -501,81 +560,173 @@ internal static class RuleEngine
         {
             var findings = group.OrderByDescending(f => f.Score).ToList();
             var kept = findings[0];
-            var index = output.Findings.IndexOf(kept);
-            output.Findings[index] = new Finding
+            var jurisdictions = findings.SelectMany(f => f.Verdicts.Select(v => v.Jurisdiction)).Distinct().ToList();
+            var verdicts = jurisdictions.Select(jurisdiction =>
             {
-                RuleId = kept.RuleId,
-                Module = kept.Module,
-                Title = kept.Title,
-                Severity = kept.Severity,
-                Checkability = kept.Checkability,
-                Scope = kept.Scope,
-                Band = kept.Band,
-                Score = kept.Score,
-                Text = kept.Text,
-                ContextBefore = kept.ContextBefore,
-                ContextAfter = kept.ContextAfter,
-                Sources = findings.SelectMany(f => f.Sources).Distinct().ToList(),
-                Urls = findings.SelectMany(f => f.Urls).Distinct().ToList(),
-                Boilerplate = kept.Boilerplate,
-                QuestionProbs = kept.QuestionProbs,
-                LegalRefs = kept.LegalRefs,
-                Explanation = kept.Explanation,
-                Recommendation = kept.Recommendation,
-                Notes = findings.SelectMany(f => f.Notes).Distinct().ToList(),
-                SegmentHash = kept.SegmentHash,
-            };
+                var own = findings.Select(f => f.Verdicts.FirstOrDefault(v => v.Jurisdiction == jurisdiction)).OfType<JurisdictionVerdict>().ToList();
+                var best = own.OrderByDescending(v => v.Score).First();
+                return WithNotes(best, own.SelectMany(v => v.Notes).Distinct().ToList());
+            });
+            var index = output.Findings.IndexOf(kept);
+            output.Findings[index] = With(kept, VerdictOrder.Sort(verdicts), findings.SelectMany(f => f.Urls).Distinct().ToList(),
+                findings.SelectMany(f => f.Sources).Distinct().ToList());
             foreach (var other in findings.Skip(1))
             {
                 output.Findings.Remove(other);
-                var resultIndex = output.RuleResults.FindIndex(r => r.RuleId == other.RuleId && r.SegmentHash == other.SegmentHash && r.Outcome == RuleOutcome.Finding);
-                if (resultIndex >= 0)
-                {
-                    var old = output.RuleResults[resultIndex];
-                    output.RuleResults[resultIndex] = new RuleResult { RuleId = old.RuleId, SegmentHash = old.SegmentHash, Outcome = RuleOutcome.Duplicate, Score = old.Score };
-                }
+                MarkDuplicate(output, other);
             }
         }
     }
 
+    private static void MarkDuplicate(RuleEngineOutput output, Finding duplicate)
+    {
+        for (var i = 0; i < output.RuleResults.Count; i++)
+        {
+            var old = output.RuleResults[i];
+            if (old.RuleId == duplicate.RuleId && old.SegmentHash == duplicate.SegmentHash && old.Outcome == RuleOutcome.Finding)
+            {
+                output.RuleResults[i] = new RuleResult
+                {
+                    RuleId = old.RuleId, SegmentHash = old.SegmentHash, Outcome = RuleOutcome.Duplicate, Score = old.Score, Jurisdiction = old.Jurisdiction, RuleSet = old.RuleSet,
+                };
+            }
+        }
+    }
+
+    private static Finding With(Finding finding, IReadOnlyList<JurisdictionVerdict> verdicts, IReadOnlyList<string> urls, IReadOnlyList<SegmentSource> sources) => new()
+    {
+        RuleId = finding.RuleId,
+        Module = finding.Module,
+        Scope = finding.Scope,
+        Text = finding.Text,
+        ContextBefore = finding.ContextBefore,
+        ContextAfter = finding.ContextAfter,
+        Sources = sources,
+        Urls = urls,
+        Boilerplate = finding.Boilerplate,
+        SegmentHash = finding.SegmentHash,
+        TextFingerprint = finding.TextFingerprint,
+        Verdicts = verdicts,
+        Params = finding.Params,
+    };
+
+    private static JurisdictionVerdict WithNotes(JurisdictionVerdict verdict, IReadOnlyList<FindingNote> notes) => new()
+    {
+        Jurisdiction = verdict.Jurisdiction,
+        Status = verdict.Status,
+        Band = verdict.Band,
+        Score = verdict.Score,
+        Severity = verdict.Severity,
+        Checkability = verdict.Checkability,
+        LegalRefs = verdict.LegalRefs,
+        RuleSet = verdict.RuleSet,
+        RuleSetVersion = verdict.RuleSetVersion,
+        ExplanationVariant = verdict.ExplanationVariant,
+        EffectiveFrom = verdict.EffectiveFrom,
+        Notes = notes,
+        QuestionProbs = verdict.QuestionProbs,
+    };
+
     private static Finding MissingLegalPages(RuleEngineInput input)
     {
-        var notes = new List<string>();
+        var notes = new List<FindingNote>();
         if (input.UncheckedDocuments.Count > 0)
         {
             notes.Add(PdfNote(input.UncheckedDocuments));
+        }
+
+        var jurisdictions = input.RuleSets.Where(s => s.Module == "legal").SelectMany(s => s.Jurisdictions)
+            .Where(input.Jurisdictions.Contains).Distinct().Order(StringComparer.Ordinal).ToList();
+        if (jurisdictions.Count == 0)
+        {
+            jurisdictions = input.Jurisdictions.ToList();
         }
 
         return new Finding
         {
             RuleId = MissingLegalPagesRuleId,
             Module = "legal",
-            Title = "Nenalezeny právní stránky",
-            Severity = "high",
-            Checkability = "text",
             Scope = "site",
-            Band = input.UncheckedDocuments.Count > 0 ? FindingBand.Review : FindingBand.High,
-            Score = 1,
-            Explanation = "Na webu se nenašla žádná stránka s obchodními podmínkami, reklamačním řádem, informacemi o odstoupení, dopravě ani kontakty, takže povinné informace nešlo ověřit.",
-            Recommendation = "Zveřejněte obchodní podmínky a reklamační řád jako stránky webu a odkažte na ně z patičky.",
-            Notes = notes,
+            Verdicts = jurisdictions.Select(jurisdiction => new JurisdictionVerdict
+            {
+                Jurisdiction = jurisdiction,
+                Band = input.UncheckedDocuments.Count > 0 ? FindingBand.Review : FindingBand.High,
+                Score = 1,
+                Severity = "high",
+                Checkability = "text",
+                RuleSet = Texts.RuleTextRenderer.BuiltInRuleSet,
+                RuleSetVersion = "builtin",
+                Notes = notes,
+            }).ToList(),
         };
     }
 
-    private static string PdfNote(IReadOnlyList<UncheckedDocument> documents) =>
-        "Informace může být v PDF, které nástroj nečte: " + string.Join(", ", documents.Take(5).Select(d => d.Url))
-        + (documents.Count > 5 ? $" a dalších {documents.Count - 5}" : "") + ".";
+    private static FindingNote PdfNote(IReadOnlyList<UncheckedDocument> documents) =>
+        UrlsNote(EngineCodes.UnreadPdfDocuments, documents.Select(d => d.Url).ToList());
 
-    private static string NotLoadedNote(IReadOnlyList<PageInfo> pages, string intro) =>
-        $"{intro}: " + string.Join(", ", pages.Take(5).Select(p => p.Url))
-        + (pages.Count > 5 ? $" a dalších {pages.Count - 5}" : "") + ".";
+    /// <summary>A note listing at most five URLs and how many more there are.</summary>
+    private static FindingNote UrlsNote(string code, IReadOnlyList<string> urls) =>
+        new(code, NoteParams.Of(
+            ("urls", urls.Take(MaxUrlsInNote).ToList()),
+            ("more", urls.Count > MaxUrlsInNote ? new FindingNote(EngineCodes.ListMore, NoteParams.Of(("count", urls.Count - MaxUrlsInNote))) : null)));
 
     private static FindingBand? SegmentBand(double score, Bands bands) =>
         score >= bands.High ? FindingBand.High : score >= bands.Review ? FindingBand.Review : null;
 
-    private static List<LegalReference> RefsFor(RuleDefinition rule, string country) =>
-        rule.LegalRefs.Where(r => r.Jurisdiction == "eu" || r.Jurisdiction == country).ToList();
+    /// <summary>One rule of one set evaluated for one jurisdiction.</summary>
+    private sealed record RuleContext(RuleSet Set, RuleDefinition Rule, string Jurisdiction, RuleEngineInput? Input)
+    {
+        private DateOnly? EffectiveFrom => Rule.EffectiveFromFor(Jurisdiction);
 
-    private static RuleResult Result(RuleDefinition rule, Segment segment, RuleOutcome outcome, double? score = null, FindingBand? band = null) =>
-        new() { RuleId = rule.Id, SegmentHash = segment.Hash, Outcome = outcome, Score = score is null ? null : Math.Round(score.Value, 3), Band = band };
+        private bool Upcoming => EffectiveFrom is { } from && Input?.AsOf is { } asOf && asOf < from;
+
+        /// <summary>
+        /// The verdict of the rule in the jurisdiction: before the rule takes effect it is upcoming, in the review band and with
+        /// a note of the date.
+        /// </summary>
+        public JurisdictionVerdict Verdict(FindingBand band, double score, IReadOnlyList<FindingNote> notes, IReadOnlyDictionary<string, double> probabilities)
+        {
+            var upcoming = Upcoming;
+            return new JurisdictionVerdict
+            {
+                Jurisdiction = Jurisdiction,
+                Status = upcoming ? VerdictStatus.Upcoming : VerdictStatus.Finding,
+                Band = upcoming ? FindingBand.Review : band,
+                Score = Math.Round(score, 3),
+                Severity = Rule.SeverityFor(Jurisdiction),
+                Checkability = Rule.CheckabilityFor(Jurisdiction),
+                LegalRefs = Rule.LegalRefs.Where(r => r.Jurisdiction == "eu" || r.Jurisdiction == Jurisdiction).ToList(),
+                RuleSet = Set.Name,
+                RuleSetVersion = Set.Version,
+                ExplanationVariant = Set.ExplanationVariants.TryGetValue(Rule.Id, out var variants) && variants.Contains(Jurisdiction)
+                    ? Jurisdiction
+                    : JurisdictionVerdict.DefaultVariant,
+                EffectiveFrom = EffectiveFrom,
+                Notes = upcoming ? [.. notes, new FindingNote(EngineCodes.EffectiveFrom, NoteParams.Of(("date", EffectiveFrom!.Value)))] : notes,
+                QuestionProbs = probabilities,
+            };
+        }
+
+        public RuleResult Result(Segment segment, RuleOutcome outcome, double? score = null, FindingBand? band = null) =>
+            new()
+            {
+                RuleId = Rule.Id, SegmentHash = segment.Hash, Outcome = outcome, Score = score is null ? null : Math.Round(score.Value, 3), Band = band,
+                Jurisdiction = Jurisdiction, RuleSet = Set.Name,
+            };
+
+        public RuleResult SiteResult(string? segmentHash, RuleOutcome outcome, double score, FindingBand? band = null) =>
+            new() { RuleId = Rule.Id, SegmentHash = segmentHash, Outcome = outcome, Score = score, Band = band, Jurisdiction = Jurisdiction, RuleSet = Set.Name };
+
+        public SiteObligation Obligation(ObligationStatus status, IReadOnlyList<string>? urls = null, string? reason = null) => new()
+        {
+            Jurisdiction = Jurisdiction,
+            RuleId = Rule.Id,
+            Module = Set.Module,
+            RuleSet = Set.Name,
+            Status = status,
+            Reason = reason,
+            EffectiveFrom = EffectiveFrom,
+            Urls = urls ?? [],
+        };
+    }
 }

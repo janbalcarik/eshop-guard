@@ -1,0 +1,31 @@
+# Poznámky ke značkám (cs), podle id z label_notes v labels.yaml.
+locale: cs
+review:
+  original: true
+  note: "Původní poznámky, přesunuté beze změny z labels.yaml (1. 10. 2026)."
+notes:
+  ecocert: "Ecocert: logo vyhovuje jen se signaturou „COSMOS ORGANIC“ nebo „COSMOS NATURAL“ (pak jde o certifikační systém COSMOS). Vlastní standardy Ecocertu (Ecodetergents, Natural/Organic Cosmetic) podmínky nesplňují, protože vlastník systému je zároveň certifikátorem; oddělení, které Ecocert v roce 2026 chystá, není ověřené."
+  bdih: "BDIH: logo se signaturou COSMOS vyhovuje jako COSMOS. Starý standard BDIH („Kontrollierte Natur-Kosmetik“) a značka Vegan BDIH jsou neověřené: kontrolor IONC patří výhradně BDIH a veřejné dokumenty nedokládají všechny podmínky certifikačního systému."
+  icea: "ICEA: se signaturou COSMOS vyhovuje jako COSMOS. Vlastní standardy ICEA (Eco Bio Cosmesi, Natural Cosmetic, Eco Bio Detergenza, Vegetarian/Vegan) nevyhovují, vlastník je totožný s certifikátorem."
+  cosmebio: "Cosmébio: se signaturou COSMOS vyhovuje jako COSMOS; staré logo podle charty asociace je neověřené."
+  soil_association: "Soil Association: logo se signaturou COSMOS vyhovuje jako COSMOS; „Soil Association organic“ mimo kosmetiku certifikuje dceřiná společnost vlastníka bez doložené akreditace, je neověřené."
+  ecogarantie: "Ecogarantie: neověřená. Kontroluje jiná osoba než vlastník (Certisys, TÜV NORD), ale akreditace pro rozsah Ecogarantie doložená není a o odvolání s konečnou platností rozhoduje orgán vlastníka."
+  cpk: "CPK a CPK bio: nevyhovují, standard, ochranné známky i certifikát jsou v rukou jedné organizace (KEZ o.p.s.)."
+  natural_cosmetics_standard: "NCS a NCP: neověřené; jediný viditelný certifikační orgán má akreditaci jen pro NATRUE a je spoluautorem standardu. NCP navíc dovoluje označení „ecological“, které je obecným environmentálním tvrzením."
+  the_vegan_society: "The Vegan Society (Vegan Trademark): produkty kontroluje sám vlastník, podmínku nezávislé kontroly nesplňuje. Značkou udržitelnosti je, jen pokud ji obchod v kontextu spojuje s přínosem pro zvířata nebo přírodu (otázky a odpovědi Komise č. 15); vlastník sám uvádí, že nejde o environmentální certifikaci."
+  v_label: "V-Label: neověřená; jde o licenci a externí audity nemají doloženou akreditaci. Na kosmetice od kritérií 02.03 (9/2026) neznamená „netestováno na zvířatech“."
+  beauty_without_bunnies: "PETA: vlastník sám uvádí, že jeho loga mají být používána jen v USA, Kanadě a Indii, ne v EU, a směrnici (EU) 2024/825 nesplňují."
+  leaping_bunny: "Leaping Bunny / Cruelty Free International: neověřená s vysokým rizikem; úplná kritéria jsou jen na vyžádání a kdo provádí audity a s jakou akreditací, není zveřejněno."
+  eve_vegan: "EVE VEGAN: nevyhovuje, kontrolu dokumentů, audit i certifikát zajišťuje sám vlastník."
+  oeko_tex: "OEKO-TEX (STANDARD 100, MADE IN GREEN, ORGANIC COTTON, LEATHER STANDARD): neověřená, dva certifikační instituty jsou akcionáři vlastníka systému; STANDARD 100 je hlavně zdravotní značka. OEKO-TEX STeP se na výrobku použít nesmí."
+  bluesign: "bluesign: bluesign PRODUCT, bluesign APPROVED a bluepass Article nevyhovují; bluepass Consumer Product je neověřený."
+  cradle_to_cradle_certified: "Cradle to Cradle Certified: nevyhovuje podmínkám certifikačního systému."
+  fair_wear: "Fair Wear: není certifikační systém výrobků, jako značka na výrobku nevyhovuje."
+  fair_for_life: "Fair for Life: nevyhovuje (k 26. 9. 2026), vlastník standardu je totožný s certifikátorem."
+  ok_compost: "OK compost a OK biobased (TÜV AUSTRIA): nevyhovují, podmínka kontroly nezávislou třetí stranou není splněná."
+  bci_cotton: "Better Cotton: BCI Cotton Label je neověřený; staré logo Better Cotton a členské logo na výrobku nevyhovují."
+  climatepartner: "ClimatePartner: „ClimatePartner certified“ je neověřený, „ClimatePartner verified“ v EU nevyhovuje. Tvrzení o klimatické neutralitě založená na kompenzacích jsou zakázaná vždy (bod 8)."
+  b_corp: "Certified B Corporation: neověřená; „Pending B Corp“ je jen sebehodnocení a nevyhovuje."
+  1_for_the_planet: "1 % for the Planet: „CERTIFIED“ je neověřené, členské logo „MEMBER“ nevyhovuje."
+  uebt_member: "„UEBT member“ je členské logo, ne certifikace; vyhovuje jen „UEBT certified“."
+  demeter: "Soukromé a zahraniční bio značky (Demeter, Naturland, Bioland, Bio Austria, USDA Organic) jsou podle rešerše neověřené: veřejné dokumenty nedokládají všechny podmínky certifikačního systému. U biopotravin rozhoduje certifikace podle nařízení (EU) 2018/848 (logo EU pro ekologickou produkci)."

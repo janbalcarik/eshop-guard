@@ -90,7 +90,7 @@ public sealed class EvaluateBatchIdempotenceTests
     private static async Task<(EvaluateBatchInput Input, IReadOnlyList<RuleSet> RuleSets)> BatchAsync(IServiceProvider provider, int count)
     {
         var catalog = await provider.GetRequiredService<IRuleSetProvider>().LoadAsync(TestContext.Current.CancellationToken);
-        var ruleSets = RulesStep.SelectRuleSets(catalog, ["eco"], "sk", []);
+        var ruleSets = RuleSetSelector.Select(catalog, ["eco"], ["sk"]).RuleSets;
         var states = Enumerable.Range(1, count)
             .Select(i => new SegmentState($"sha256:{i:D4}", SegmentKind.Sentence, $"Výrobok číslo {i} je šetrný k prírode.", "", "", ["eco"]))
             .ToList();

@@ -1,5 +1,6 @@
 using EshopGuard.Core.Models;
 using EshopGuard.Core.Options;
+using EshopGuard.Core.Rules;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EshopGuard.Core.Tests;
@@ -16,7 +17,7 @@ public class AnalyzeTextsTests
 
         var claim = Assert.Single(result.Segments, s => s.Text == "Tento šampón je ekologický a šetrný k prírode.");
         Assert.Equal("Bylinný šampón.", claim.ContextBefore);
-        Assert.Contains("eco_generic", claim.Probabilities.Keys);
+        Assert.Contains(QuestionKey.Of("eco", "eco_generic"), claim.Probabilities.Keys);
         Assert.Contains(result.Findings, f => f.RuleId == "eco_generic_claim");
 
         // Every rule of the sentence modules (eco, dur, ucp) reports an outcome; legal rules are skipped without legal text.
@@ -78,8 +79,8 @@ public class AnalyzeTextsTests
         Assert.Contains(result.RuleSets, r => r.Version.StartsWith("legal-sk-", StringComparison.Ordinal));
         Assert.Contains(result.RuleResults, r => r.RuleId == "legal_withdrawal_missing" && r.Outcome == RuleOutcome.Present);
         var finding = Assert.Single(result.Findings, f => f.RuleId == "eco_generic_claim");
-        Assert.Contains(finding.LegalRefs, r => r.Jurisdiction == "sk");
-        Assert.DoesNotContain(finding.LegalRefs, r => r.Jurisdiction == "cz");
+        Assert.Contains(finding.Strictest.LegalRefs, r => r.Jurisdiction == "sk");
+        Assert.DoesNotContain(finding.Strictest.LegalRefs, r => r.Jurisdiction == "cz");
     }
 
     private static async Task<AnalysisResult> AnalyzeAsync(TextInput input, string country = "cz")

@@ -44,7 +44,15 @@ internal sealed class ScanParts
 
     public IReadOnlyList<Finding> Findings { get; init; } = [];
 
-    public required IReadOnlyList<string> Warnings { get; init; }
+    public required IReadOnlyList<ScanWarning> Warnings { get; init; }
+
+    public required IReadOnlyList<string> Jurisdictions { get; init; }
+
+    public DateOnly AsOf { get; init; }
+
+    public IReadOnlyList<SiteObligation> SiteObligations { get; init; } = [];
+
+    public IReadOnlyList<JurisdictionCoverage> Coverage { get; init; } = [];
 }
 
 /// <summary>The crawl of a scan: the counters of all batches, the pace at the end and how long it took.</summary>
@@ -133,14 +141,16 @@ internal static class ScanResultAssembler
             StartedAt = parts.StartedAt,
             FinishedAt = DateTimeOffset.UtcNow,
             Modules = parts.Options.Modules,
-            Country = parts.Options.Country,
+            Country = parts.Jurisdictions[0],
+            Jurisdictions = parts.Jurisdictions,
+            AsOf = parts.AsOf,
             QuestionLanguage = parts.Options.QuestionLanguage,
             Pages = pages.Select(p => p.Info).ToList(),
             Segments = segments,
             SieveChunks = sieved?.Chunks ?? [],
             Findings = parts.Findings,
             ImagesForReview = ImagesForReview(analyzed.Select(p => p.Info), parts.Catalog.Labels),
-            RuleSets = parts.RuleSets.Select(RulesStep.Describe).ToList(),
+            RuleSets = parts.RuleSets.Select(s => RulesStep.Describe(s, parts.Jurisdictions)).ToList(),
             JevModel = evaluation.Model,
             EvaluationSkipped = evaluation.Skipped,
             UncheckedDocuments = counters.UncheckedDocuments,
@@ -149,6 +159,8 @@ internal static class ScanResultAssembler
             NotProcessedPages = crawl.NotProcessed,
             Profiles = parts.ProfileUses.Values.OrderBy(u => u.Profile.CreatedAt).ToList(),
             Warnings = parts.Warnings,
+            SiteObligations = parts.SiteObligations,
+            JurisdictionCoverage = parts.Coverage,
             Stats = stats,
         };
     }

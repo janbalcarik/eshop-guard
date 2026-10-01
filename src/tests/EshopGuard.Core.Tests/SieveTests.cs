@@ -48,7 +48,7 @@ public class SieveTests
 
         Assert.True(result.Stats.SieveErrors > 0);
         Assert.Equal(0, result.Stats.SieveSkippedPairs);
-        Assert.Contains(result.Warnings, w => w.Contains("Síto nevyhodnotilo", StringComparison.Ordinal));
+        Assert.Contains(TestTexts.Warnings(result.Warnings), w => w.Contains("Síto nevyhodnotilo", StringComparison.Ordinal));
         Assert.All(result.SieveChunks, c => Assert.Equal("error", c.Status));
     }
 

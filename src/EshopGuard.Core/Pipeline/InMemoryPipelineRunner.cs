@@ -47,8 +47,10 @@ internal sealed class InMemoryPipelineRunner(
 
         // Rules are loaded first, so an invalid YAML file stops the run before anything is downloaded.
         var catalog = await ruleSetProvider.LoadAsync(ct);
-        var warnings = new List<string>();
-        var ruleSets = RulesStep.SelectRuleSets(catalog, options.Modules, options.Country, warnings);
+        var jurisdictions = options.ResolvedJurisdictions;
+        var selection = RuleSetSelector.Select(catalog, options.Modules, jurisdictions);
+        var warnings = selection.Warnings.ToList();
+        var ruleSets = selection.RuleSets;
 
         // The sieve asks the topic of the sentence modules that have a sieve question; legal paragraphs always go in full.
         var sieve = options.UseSieve ? catalog.Sieve : null;
@@ -64,12 +66,12 @@ internal sealed class InMemoryPipelineRunner(
         warnings.InsertRange(0, crawlWarnings);
         if (crawl.NotProcessed.Count > 0)
         {
-            warnings.Insert(crawlWarnings.Count, $"{crawl.NotProcessed.Count} stažených stránek se nepodařilo přečíst v časovém limitu; nejsou zkontrolované (seznam je v části „Co nebylo zkontrolováno“).");
+            warnings.Insert(crawlWarnings.Count, new ScanWarning(EngineCodes.PagesNotProcessed, NoteParams.Of(("count", crawl.NotProcessed.Count))));
         }
 
         if (crawl.Counters.SsrfBlocked.Count > 0)
         {
-            warnings.Insert(crawlWarnings.Count, $"{crawl.Counters.SsrfBlocked.Count} adres se nestáhlo, protože vedou do vnitřní nebo místní sítě (ochrana proti SSRF); seznam je v části „Co nebylo zkontrolováno“.");
+            warnings.Insert(crawlWarnings.Count, new ScanWarning(EngineCodes.SsrfBlockedUrls, NoteParams.Of(("count", crawl.Counters.SsrfBlocked.Count))));
         }
 
         // Stored profiles were applied during the extraction; new ones are only planned and priced until the host confirms.
@@ -81,7 +83,7 @@ internal sealed class InMemoryPipelineRunner(
         var hasLegalPages = pages.Any(p => p.Info.Type == PageType.Legal);
         if (pages.Count > 0 && !hasLegalPages)
         {
-            warnings.Add("Nenalezeny právní stránky (obchodní podmínky, reklamační řád, odstoupení).");
+            warnings.Add(new ScanWarning(EngineCodes.NoLegalPages, NoteParams.None));
         }
 
         var notLoaded = pages.Where(p => p.Info.TextNotLoaded).Select(p => p.Info).ToList();
@@ -124,29 +126,38 @@ internal sealed class InMemoryPipelineRunner(
         warnings.AddRange(created.Warnings);
         if (plan.Planned.Count > 0 && plan.UnavailableReason is { } unavailable && !estimate.IsMock)
         {
-            warnings.Add($"Profily {plan.Planned.Count} šablon se nevytvořily ({unavailable}); jejich stránky se kontrolovaly celé.");
+            warnings.Add(new ScanWarning(EngineCodes.ProfilesNotCreated, NoteParams.Of(("count", plan.Planned.Count), ("reason", new FindingNote(unavailable, NoteParams.None)))));
         }
 
         if (sieved is { Errors: > 0 } || sieved is { TooLong: > 0 })
         {
-            warnings.Add($"Síto nevyhodnotilo {sieved.Errors + sieved.TooLong} úseků (chyba nebo příliš dlouhý text); jejich věty prošly celou podrobnou kontrolou.");
+            warnings.Add(new ScanWarning(EngineCodes.SieveUnevaluated, NoteParams.Of(("count", sieved.Errors + sieved.TooLong))));
         }
 
         IReadOnlyList<Finding> findings = [];
+        IReadOnlyList<SiteObligation> obligations = [];
+        var asOf = options.AsOf ?? rulesStep.Today;
         if (evaluation.Skipped)
         {
-            warnings.Add("Vyhodnocení Jevem nebylo potvrzeno, zpráva obsahuje jen stažené stránky a segmenty.");
+            warnings.Add(new ScanWarning(EngineCodes.EvaluationNotConfirmed, NoteParams.None));
+            obligations = RuleEngine.NotChecked(ruleSets, jurisdictions, EngineCodes.EvaluationSkipped);
         }
         else if (pages.Count > 0)
         {
-            var input = RulesStep.ForScan(options.Country, segmented.Segments, pages, crawl.Counters.UncheckedDocuments, notLoaded,
-                !hasLegalPages && ruleSets.Any(s => s.Module == "legal"));
-            findings = rulesStep.Evaluate(input, catalog, ruleSets).Findings;
+            var input = RulesStep.ForScan(jurisdictions, segmented.Segments, pages, crawl.Counters.UncheckedDocuments, notLoaded,
+                !hasLegalPages && ruleSets.Any(s => s.Module == "legal")) with { AsOf = asOf };
+            var engine = rulesStep.Evaluate(input, catalog, ruleSets);
+            findings = engine.Findings;
+            obligations = engine.SiteObligations;
+        }
+        else
+        {
+            obligations = RuleEngine.NotChecked(ruleSets, jurisdictions, EngineCodes.SiteNotCrawled);
         }
 
         if (evaluation.Errors > 0)
         {
-            warnings.Add($"{evaluation.Errors} z {evaluation.Calls} volání Jevu selhalo; tyto segmenty nejsou vyhodnocené (podrobnosti v run.log).");
+            warnings.Add(new ScanWarning(EngineCodes.JevErrors, NoteParams.Of(("errors", evaluation.Errors), ("calls", evaluation.Calls))));
         }
 
         var result = ScanResultAssembler.Assemble(new ScanParts
@@ -170,6 +181,10 @@ internal sealed class InMemoryPipelineRunner(
             Sieved = sieved,
             Findings = findings,
             Warnings = warnings,
+            Jurisdictions = jurisdictions,
+            AsOf = asOf,
+            SiteObligations = obligations,
+            Coverage = selection.Coverage,
         }, segmentEvaluator.Cost);
 
         logger.LogInformation(
@@ -186,8 +201,10 @@ internal sealed class InMemoryPipelineRunner(
 
         var stopwatch = Stopwatch.StartNew();
         var catalog = await ruleSetProvider.LoadAsync(ct);
-        var warnings = new List<string>();
-        var ruleSets = RulesStep.SelectRuleSets(catalog, options.Modules, options.Country, warnings);
+        var jurisdictions = options.ResolvedJurisdictions;
+        var selection = RuleSetSelector.Select(catalog, options.Modules, jurisdictions);
+        var warnings = selection.Warnings.ToList();
+        var ruleSets = selection.RuleSets;
 
         // Every text is a page of its own: lines are blocks of the main text, a legal text is also split into paragraphs.
         var pages = new List<ExtractedPageRecord>();
@@ -239,17 +256,20 @@ internal sealed class InMemoryPipelineRunner(
         var engine = evaluation.Skipped
             ? new RuleEngineOutput()
             : rulesStep.Evaluate(
-                new RulesInput(options.Country, segments, pageTexts, new Dictionary<string, PageSignals>(), pageCategories, [], [], false)
+                new RulesInput(jurisdictions, segments, pageTexts, new Dictionary<string, PageSignals>(), pageCategories, [], [], false)
                 {
                     EvaluateSiteSignals = false,
                     EvaluateSitePresence = texts.Any(t => t.Kind == TextKind.Legal),
+                    AsOf = options.AsOf,
                 },
                 catalog,
                 ruleSets);
 
+        IReadOnlyList<SiteObligation> obligations = engine.SiteObligations;
         if (evaluation.Skipped)
         {
-            warnings.Add("Vyhodnocení Jevem nebylo potvrzeno.");
+            warnings.Add(new ScanWarning(EngineCodes.EvaluationNotConfirmedTexts, NoteParams.None));
+            obligations = RuleEngine.NotChecked(ruleSets, jurisdictions, EngineCodes.EvaluationSkipped);
         }
 
         return new AnalysisResult
@@ -257,9 +277,12 @@ internal sealed class InMemoryPipelineRunner(
             Segments = segments,
             Findings = engine.Findings,
             RuleResults = engine.RuleResults,
-            RuleSets = ruleSets.Select(RulesStep.Describe).ToList(),
+            RuleSets = ruleSets.Select(s => RulesStep.Describe(s, jurisdictions)).ToList(),
             JevModel = evaluation.Model,
             Warnings = warnings,
+            Jurisdictions = jurisdictions,
+            SiteObligations = obligations,
+            JurisdictionCoverage = selection.Coverage,
             Stats = new ScanStats
             {
                 SegmentOccurrences = segmented.OccurrenceCount,
@@ -280,7 +303,7 @@ internal sealed class InMemoryPipelineRunner(
     /// Discovery and the batches of downloads, each extracted right away as the CLI always did; the frontier carries the
     /// state from batch to batch.
     /// </summary>
-    private async Task<(CrawlSummary Crawl, List<string> Warnings, List<ExtractedPageRecord> Pages)> CrawlAsync(
+    private async Task<(CrawlSummary Crawl, List<ScanWarning> Warnings, List<ExtractedPageRecord> Pages)> CrawlAsync(
         SiteScope site, ScanOptions options, IReadOnlyList<PageProfile> stored, IProgress<ScanProgress>? progress, CancellationToken ct)
     {
         var crawl = guardOptions.Value.Crawl;

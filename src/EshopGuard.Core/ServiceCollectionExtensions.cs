@@ -10,6 +10,7 @@ using EshopGuard.Core.Pipeline;
 using EshopGuard.Core.Profiles;
 using EshopGuard.Core.Report;
 using EshopGuard.Core.Rules;
+using EshopGuard.Core.Rules.Texts;
 using EshopGuard.Core.Segmentation;
 using EshopGuard.Core.Storage;
 using Microsoft.Extensions.DependencyInjection;
@@ -121,7 +122,9 @@ public static class ServiceCollectionExtensions
             Microsoft.Extensions.Options.Options.Create(provider.GetRequiredService<IOptions<EshopGuardOptions>>().Value.Jev));
 
         services.TryAddSingleton<IPageFetcher, HttpPageFetcher>();
+        services.TryAddSingleton<IRuleTextProvider, YamlRuleTextProvider>();
         services.TryAddSingleton<IRuleSetProvider, YamlRuleSetProvider>();
+        services.TryAddSingleton(TimeProvider.System);
         services.TryAddSingleton<ITextRewriter, PageRewriter>();
         services.TryAddSingleton<ContentExtractor>();
         services.TryAddSingleton<IPageExtractor>(provider => provider.GetRequiredService<ContentExtractor>());
@@ -152,6 +155,7 @@ public static class ServiceCollectionExtensions
         services.TryAddSingleton<RulesStep>();
         services.TryAddSingleton<RewriteStep>();
         services.TryAddSingleton<IEshopGuard, InMemoryPipelineRunner>();
+        services.TryAddSingleton<ReportTexts>();
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IReportWriter, MarkdownReportWriter>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IReportWriter, FindingsJsonWriter>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IReportWriter, FindingsCsvWriter>());

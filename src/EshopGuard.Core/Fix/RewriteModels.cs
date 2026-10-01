@@ -13,8 +13,20 @@ public sealed class RewriteInput
     /// <summary>Findings of the scan; only segment findings of the groups porušení and k posouzení are rewritten.</summary>
     public required IReadOnlyList<Finding> Findings { get; init; }
 
-    /// <summary>Jurisdiction of the rules used to check the rewritten passages (<c>sk</c> or <c>cz</c>).</summary>
+    /// <summary>The jurisdiction when the shop sells in one country; the rewritten passages are checked by its rules.</summary>
     public string Country { get; init; } = "sk";
+
+    /// <summary>Jurisdictions whose rules check the rewritten passages; empty means only <see cref="Country"/>.</summary>
+    public IReadOnlyList<string> Jurisdictions { get; init; } = [];
+
+    /// <summary>
+    /// Language of the content of the shop: the texts of the findings in the prompt are in it. Null means the language of the
+    /// laws of the first jurisdiction (a Slovak shop gets Slovak texts when they exist).
+    /// </summary>
+    public string? ContentLanguage { get; init; }
+
+    /// <summary>The jurisdictions of the check: <see cref="Jurisdictions"/>, or <see cref="Country"/> alone.</summary>
+    public IReadOnlyList<string> ResolvedJurisdictions => Jurisdictions.Count > 0 ? Jurisdictions.Distinct().ToList() : [Country];
 
     /// <summary>Rewrite at most this many pages (in URL order); null means all.</summary>
     public int? MaxPages { get; init; }
@@ -187,6 +199,9 @@ public sealed class RewriteFinding
     /// <summary>The finding of the scan.</summary>
     public required Finding Finding { get; init; }
 
+    /// <summary>Texts of every verdict of the finding in the language of the content, the strictest first.</summary>
+    public IReadOnlyList<RewriteFindingTexts> Texts { get; init; } = [];
+
     /// <summary>Blocks of the page the finding is in (B1, ..., TITLE, META, JSONLD, CHROME).</summary>
     public IReadOnlyList<string> Blocks { get; init; } = [];
 
@@ -228,6 +243,30 @@ public sealed class RewriteChange
 
     /// <summary>Findings to verify the new text raises, e.g. a named certification to check.</summary>
     public List<Finding> VerifyFindings { get; } = [];
+
+    /// <summary>Findings of rules that apply only later; they do not change the status, the report mentions them.</summary>
+    public List<Finding> UpcomingFindings { get; } = [];
+}
+
+/// <summary>
+/// Texts of one verdict of a finding for the prompt and the report of a rewrite.
+/// </summary>
+public sealed class RewriteFindingTexts
+{
+    /// <summary>Jurisdiction of the verdict.</summary>
+    public required string Jurisdiction { get; init; }
+
+    /// <summary>Group of the verdict.</summary>
+    public required string Checkability { get; init; }
+
+    /// <summary>Title.</summary>
+    public required string Title { get; init; }
+
+    /// <summary>Explanation for the jurisdiction.</summary>
+    public required string Explanation { get; init; }
+
+    /// <summary>Recommendation.</summary>
+    public required string Recommendation { get; init; }
 }
 
 /// <summary>

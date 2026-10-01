@@ -2,6 +2,8 @@ using System.Diagnostics;
 using System.Text.Json;
 using EshopGuard.Core.Models;
 using EshopGuard.Core.Options;
+using EshopGuard.Core.Rules;
+using EshopGuard.Core.Rules.Texts;
 using EshopGuard.Core.Storage;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -34,6 +36,7 @@ internal sealed class PageRewriter(
     IRewriteClient client,
     IRewriteCache cache,
     IEshopGuard guard,
+    IRuleSetProvider rules,
     IOptions<RewriteOptions> options,
     ILogger<PageRewriter> logger) : ITextRewriter
 {
@@ -44,7 +47,7 @@ internal sealed class PageRewriter(
         var settings = options.Value;
         var prompt = RewritePrompt.Load(settings.PromptFile);
         var shared = RewritePrompt.SharedPart(prompt);
-        var works = BuildWork(input, out _);
+        var works = BuildWork(input, await TextsAsync(input, ct), out _);
         var toSend = new List<string>();
         var cached = 0;
         foreach (var work in works)
@@ -89,7 +92,7 @@ internal sealed class PageRewriter(
         var settings = options.Value;
         var prompt = RewritePrompt.Load(settings.PromptFile);
         var shared = RewritePrompt.SharedPart(prompt);
-        var works = BuildWork(input, out var warnings);
+        var works = BuildWork(input, await TextsAsync(input, ct), out var warnings);
         var pages = new RewritePage[works.Count];
         var usage = new Usage();
         var done = 0;
@@ -110,7 +113,7 @@ internal sealed class PageRewriter(
                 async (index, token) => await RunAsync(index, token));
         }
 
-        var check = await CheckAsync(works, pages, input.Country, ct);
+        var check = await CheckAsync(works, pages, input.ResolvedJurisdictions, ct);
         var model = usage.Model ?? (client is MockRewriteClient ? "mock" : settings.Model);
         logger.LogInformation("Rewrite finished: {Pages} pages, {Cached} from cache, {Errors} errors, {Input} input tokens ({CachedTokens} cached), {Output} output tokens, model {Model}",
             pages.Length, pages.Count(p => p.FromCache), pages.Count(p => p.Error is not null), usage.Input, usage.Cached, usage.Output, model);
@@ -260,7 +263,7 @@ internal sealed class PageRewriter(
     /// Checks every changed block with the rules of the tool: the new block between its neighbouring blocks (the page
     /// after all its changes), in one evaluation for all pages. Sets the status of each change and finding.
     /// </summary>
-    private async Task<(int Calls, decimal CostUsd)> CheckAsync(IReadOnlyList<RewriteWork> works, RewritePage[] pages, string country, CancellationToken ct)
+    private async Task<(int Calls, decimal CostUsd)> CheckAsync(IReadOnlyList<RewriteWork> works, RewritePage[] pages, IReadOnlyList<string> jurisdictions, CancellationToken ct)
     {
         var inputs = new List<TextInput>();
         var changesByUrl = new Dictionary<string, RewriteChange>();
@@ -299,7 +302,7 @@ internal sealed class PageRewriter(
         if (inputs.Count > 0)
         {
             var modules = works.SelectMany(w => w.Findings).Select(f => f.Finding.Module).Distinct(StringComparer.Ordinal).ToList();
-            var analysis = await guard.AnalyzeTextsAsync(inputs, new AnalyzeOptions { Modules = modules, Country = country }, ct);
+            var analysis = await guard.AnalyzeTextsAsync(inputs, new AnalyzeOptions { Modules = modules, Jurisdictions = jurisdictions }, ct);
             calls = analysis.Stats.JevCalls;
             cost = analysis.Stats.EstimatedCostUsd;
             foreach (var finding in analysis.Findings.Where(f => f.Scope == "segment" && f.Text is not null))
@@ -311,7 +314,12 @@ internal sealed class PageRewriter(
                         continue;
                     }
 
-                    (finding.Checkability is "text" or "assess" ? change.RemainingFindings : change.VerifyFindings).Add(finding);
+                    // A verdict that applies and is decided by the text keeps the change open; one that waits for facts goes to
+                    // the list to verify; a rule that applies only later is mentioned and changes nothing.
+                    var current = finding.Verdicts.Where(v => v.Status == VerdictStatus.Finding).ToList();
+                    (current.Any(v => v.Checkability is "text" or "assess") ? change.RemainingFindings
+                        : current.Count > 0 ? change.VerifyFindings
+                        : change.UpcomingFindings).Add(finding);
                 }
             }
         }
@@ -348,7 +356,15 @@ internal sealed class PageRewriter(
     /// <summary>A finding of a sentence or paragraph in the groups porušení and k posouzení: its text is rewritten.</summary>
     internal static bool IsRewritable(Finding f) => f.Scope == "segment" && (f.Checkability is "text" or "assess") && !string.IsNullOrWhiteSpace(f.Text);
 
-    private static List<RewriteWork> BuildWork(RewriteInput input, out List<string> warnings)
+    /// <summary>The texts of the findings in the language of the content of the shop.</summary>
+    private async Task<(RuleTextRenderer Renderer, string Locale)> TextsAsync(RewriteInput input, CancellationToken ct)
+    {
+        var catalog = await rules.LoadAsync(ct);
+        var locale = input.ContentLanguage ?? catalog.Jurisdictions.LawLanguage(input.ResolvedJurisdictions[0]) ?? "cs";
+        return (new RuleTextRenderer(catalog), locale);
+    }
+
+    private static List<RewriteWork> BuildWork(RewriteInput input, (RuleTextRenderer Renderer, string Locale) texts, out List<string> warnings)
     {
         warnings = [];
         var pages = input.Pages.GroupBy(p => p.Url, StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.First(), StringComparer.Ordinal);
@@ -379,13 +395,13 @@ internal sealed class PageRewriter(
         var works = new List<RewriteWork>();
         foreach (var url in byPage.Keys.Order(StringComparer.Ordinal).Take(input.MaxPages ?? int.MaxValue))
         {
-            works.Add(Work(pages[url], byPage[url]));
+            works.Add(Work(pages[url], byPage[url], texts));
         }
 
         return works;
     }
 
-    private static RewriteWork Work(RewritePageInput page, List<Finding> findings)
+    private static RewriteWork Work(RewritePageInput page, List<Finding> findings, (RuleTextRenderer Renderer, string Locale) texts)
     {
         var blocks = page.MainText
             .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -411,6 +427,15 @@ internal sealed class PageRewriter(
             {
                 Id = $"F{i + 1}",
                 Finding = l.Finding,
+                Texts = VerdictOrder.Sort(l.Finding.Verdicts).Select(v =>
+                {
+                    var rendered = texts.Renderer.Render(l.Finding, v, texts.Locale);
+                    return new RewriteFindingTexts
+                    {
+                        Jurisdiction = v.Jurisdiction, Checkability = v.Checkability, Title = rendered.Title,
+                        Explanation = rendered.Explanation, Recommendation = rendered.Recommendation,
+                    };
+                }).ToList(),
                 Blocks = l.Blocks,
                 AlsoOn = l.Finding.Urls.Where(u => u != page.Url).ToList(),
             })

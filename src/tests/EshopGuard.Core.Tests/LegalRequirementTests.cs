@@ -53,7 +53,7 @@ public class LegalRequirementTests
 
         var finding = Assert.Single(output.Findings);
         Assert.Equal("lr_requirement_as_feature", finding.RuleId);
-        Assert.Contains(finding.Notes, n => n.Contains("„bez BPA“", StringComparison.Ordinal) && n.Contains("2024/3190", StringComparison.Ordinal));
+        Assert.Contains(TestTexts.Notes(finding), n => n.Contains("„bez BPA“", StringComparison.Ordinal) && n.Contains("2024/3190", StringComparison.Ordinal));
     }
 
     [Fact]
@@ -74,7 +74,7 @@ public class LegalRequirementTests
 
         var finding = Assert.Single(output.Findings);
         Assert.Equal("lr_free_from_unlisted", finding.RuleId);
-        Assert.Contains(finding.Notes, n => n.Contains("Kojenecké lahve", StringComparison.Ordinal) && n.Contains("Avent Natural 240 ml", StringComparison.Ordinal));
+        Assert.Contains(TestTexts.Notes(finding), n => n.Contains("Kojenecké lahve", StringComparison.Ordinal) && n.Contains("Avent Natural 240 ml", StringComparison.Ordinal));
     }
 
     [Fact]
@@ -93,7 +93,7 @@ public class LegalRequirementTests
 
         var finding = Assert.Single(output.Findings);
         Assert.Equal("lr_requirement_as_feature_partial", finding.RuleId);
-        Assert.Contains(finding.Notes, n => n.Contains("648/2004", StringComparison.Ordinal));
+        Assert.Contains(TestTexts.Notes(finding), n => n.Contains("648/2004", StringComparison.Ordinal));
     }
 
     [Fact]
@@ -127,12 +127,7 @@ public class LegalRequirementTests
 
     private static async Task<RuleCatalog> LoadCatalogAsync()
     {
-        var options = new EshopGuardOptions();
-        options.Rules.Directory = TestServices.RulesDirectory;
-        options.Rules.LabelsFile = TestServices.LabelsFile;
-        options.Rules.LegalRequirementsFile = TestServices.LegalRequirementsFile;
-        var provider = new YamlRuleSetProvider(Microsoft.Extensions.Options.Options.Create(options), NullLogger<YamlRuleSetProvider>.Instance);
-        return await provider.LoadAsync(TestContext.Current.CancellationToken);
+        return await TestTexts.Provider().LoadAsync(TestContext.Current.CancellationToken);
     }
 
     /// <summary>An absence claim presented as a feature; the other questions answer no unless overridden.</summary>
@@ -154,7 +149,8 @@ public class LegalRequirementTests
             probabilities[question] = probability;
         }
 
-        return probabilities;
+        // Answers are keyed by rule set and question (QuestionKey).
+        return probabilities.ToDictionary(p => QuestionKey.Of("lr", p.Key), p => p.Value);
     }
 
     private static RuleEngineOutput Evaluate(RuleCatalog catalog, string text, string category, Dictionary<string, double> probabilities) =>
@@ -166,7 +162,7 @@ public class LegalRequirementTests
             [
                 new Segment { Hash = TextTools.Sha256(text), Kind = SegmentKind.Sentence, Text = text, Urls = [Url], Probabilities = probabilities },
             ],
-            Country = "sk",
+            Jurisdictions = ["sk"],
             LegalRequirements = catalog.LegalRequirements,
             PageCategories = new Dictionary<string, string> { [Url] = category },
         });

@@ -57,6 +57,36 @@ internal static partial class OutputNormalizer
     [GeneratedRegex(@"^(- Stahování: \d+ požadavků).*$")]
     private static partial Regex CrawlRequests();
 
+    /// <summary>
+    /// <c>findings.json</c> of change 6 carries the fields it always had plus codes and verdicts. For the comparison with an
+    /// older reference, every object of the new file is cut down to the fields the reference has (recursively), so the texts,
+    /// scores and pages must still be the same. Other files are compared as they are.
+    /// </summary>
+    public static SortedDictionary<string, string> ProjectOnto(IReadOnlyDictionary<string, string> expected, IReadOnlyDictionary<string, string> actual)
+    {
+        var result = new SortedDictionary<string, string>(actual.ToDictionary(p => p.Key, p => p.Value), StringComparer.Ordinal);
+        if (expected.TryGetValue("findings.json", out var reference) && actual.TryGetValue("findings.json", out var current))
+        {
+            var expectedNode = System.Text.Json.Nodes.JsonNode.Parse(reference);
+            var projected = Project(expectedNode, System.Text.Json.Nodes.JsonNode.Parse(current));
+            if (System.Text.Json.Nodes.JsonNode.DeepEquals(expectedNode, projected))
+            {
+                result["findings.json"] = reference;
+            }
+        }
+
+        return result;
+    }
+
+    private static System.Text.Json.Nodes.JsonNode? Project(System.Text.Json.Nodes.JsonNode? shape, System.Text.Json.Nodes.JsonNode? value) => (shape, value) switch
+    {
+        (System.Text.Json.Nodes.JsonObject s, System.Text.Json.Nodes.JsonObject v) => new System.Text.Json.Nodes.JsonObject(
+            s.Select(p => KeyValuePair.Create(p.Key, v.TryGetPropertyValue(p.Key, out var inner) ? Project(p.Value, inner) : null))),
+        (System.Text.Json.Nodes.JsonArray s, System.Text.Json.Nodes.JsonArray v) => new System.Text.Json.Nodes.JsonArray(
+            v.Select((item, i) => Project(i < s.Count ? s[i] : item, item)).ToArray()),
+        _ => value?.DeepClone(),
+    };
+
     /// <summary>Lists the files that differ, with the first differing line of each.</summary>
     public static string Differences(IReadOnlyDictionary<string, string> expected, IReadOnlyDictionary<string, string> actual)
     {

@@ -48,7 +48,7 @@ public class RulesTests
             var error = await Assert.ThrowsAsync<RuleValidationException>(
                 () => CreateProvider(TestServices.RulesDirectory, labelsFile).LoadAsync(TestContext.Current.CancellationToken));
 
-            Assert.Contains(error.Errors, e => e.Contains("label_notes potřebuje jen pole names", StringComparison.Ordinal));
+            Assert.Contains(error.Errors, e => e.Contains("label_notes potřebuje jen pole id", StringComparison.Ordinal));
         }
         finally
         {
@@ -214,9 +214,9 @@ public class RulesTests
         {
             RuleSets = [eco],
             Labels = catalog.Labels,
-            Segments = [Sentence(text, ("eco_claim", 0.70), ("eco_generic", 0.75), ("eco_organic_food", 0.03), ("eco_sustainable_term", 0.15),
-                ("eco_neutral", 0.02), ("eco_explicit_term", 0.10), ("eco_other_subject", otherSubject), ("eco_diy", diy))],
-            Country = "sk",
+            Segments = [Create(SegmentKind.Sentence, text, [("eco_claim", 0.70), ("eco_generic", 0.75), ("eco_organic_food", 0.03), ("eco_sustainable_term", 0.15),
+                ("eco_neutral", 0.02), ("eco_explicit_term", 0.10), ("eco_other_subject", otherSubject), ("eco_diy", diy)], set: "eco")],
+            Jurisdictions = ["sk"],
             PageTexts = new Dictionary<string, string>(),
         });
 
@@ -227,10 +227,10 @@ public class RulesTests
     public void LabelNotes_AddTheRemarkOnTheLabelNamedInTheSentence()
     {
         var rule = SegmentRule(new RuleLogic { All = [Condition("q1")] }, new CodeCheck { Type = "label_notes" });
-        var set = new RuleSet { Version = "test", Module = "eco", AppliesTo = "sentence", Jurisdictions = ["sk"], Rules = [rule] };
+        var set = new RuleSet { Version = "test", SourceFile = "test.yaml", Module = "eco", AppliesTo = "sentence", Jurisdictions = ["sk"], Rules = [rule] };
         var labels = new LabelConfiguration
         {
-            Notes = [new LabelNote { Names = ["Ecogarantie", "Eco Garantie"], Note = "Ecogarantie: neověřená." }],
+            Notes = [new LabelNote { Id = "ecogarantie", Names = ["Ecogarantie", "Eco Garantie"] }],
         };
 
         var output = RuleEngine.Evaluate(new RuleEngineInput
@@ -242,11 +242,13 @@ public class RulesTests
                 Sentence("Certifikát ÉCOGARANTIE zaručuje prísne požiadavky.", ("q1", 0.95)),
                 Sentence("Ocenené certifikátom GreenStar Planet.", ("q1", 0.95)),
             ],
-            Country = "sk",
+            Jurisdictions = ["sk"],
         });
 
-        Assert.Equal(["Ecogarantie: neověřená."], Assert.Single(output.Findings, f => f.Text!.StartsWith("Certifikát", StringComparison.Ordinal)).Notes);
-        Assert.Empty(Assert.Single(output.Findings, f => f.Text!.StartsWith("Ocenené", StringComparison.Ordinal)).Notes);
+        var note = Assert.Single(Assert.Single(output.Findings, f => f.Text!.StartsWith("Certifikát", StringComparison.Ordinal)).Strictest.Notes);
+        Assert.Equal(new FindingNote(EngineCodes.LabelNote, NoteParams.Of(("label_id", "ecogarantie"))), note);
+        Assert.StartsWith("Ecogarantie: neověřená.", TestTexts.Renderer.Note(note, "cs"), StringComparison.Ordinal);
+        Assert.Empty(Assert.Single(output.Findings, f => f.Text!.StartsWith("Ocenené", StringComparison.Ordinal)).Strictest.Notes);
     }
 
     [Fact]
@@ -309,14 +311,14 @@ public class RulesTests
             RuleSets = input.RuleSets,
             Labels = input.Labels,
             Segments = input.Segments,
-            Country = "cz",
+            Jurisdictions = ["cz"],
             UncheckedDocuments = [new UncheckedDocument { Url = "https://shop.example/vop.pdf", FoundOn = "https://shop.example/" }],
         };
 
         var finding = Assert.Single(RuleEngine.Evaluate(input).Findings);
 
         Assert.Equal(FindingBand.Review, finding.Band);
-        Assert.Contains(finding.Notes, n => n.Contains("https://shop.example/vop.pdf", StringComparison.Ordinal));
+        Assert.Contains(TestTexts.Notes(finding), n => n.Contains("https://shop.example/vop.pdf", StringComparison.Ordinal));
     }
 
     [Fact]
@@ -329,7 +331,7 @@ public class RulesTests
             RuleSets = input.RuleSets,
             Labels = input.Labels,
             Segments = input.Segments,
-            Country = "cz",
+            Jurisdictions = ["cz"],
             TextNotLoadedPages =
             [
                 new PageInfo { Url = "https://shop.example/obchodni-podminky", Type = PageType.Legal, TextNotLoaded = true },
@@ -340,7 +342,7 @@ public class RulesTests
         var finding = Assert.Single(RuleEngine.Evaluate(input).Findings);
 
         Assert.Equal(FindingBand.Review, finding.Band);
-        var note = Assert.Single(finding.Notes, n => n.Contains("nenačetl", StringComparison.Ordinal));
+        var note = Assert.Single(TestTexts.Notes(finding), n => n.Contains("nenačetl", StringComparison.Ordinal));
         Assert.Contains("https://shop.example/obchodni-podminky", note);
         Assert.DoesNotContain("https://shop.example/svicka", note);
     }
@@ -348,13 +350,13 @@ public class RulesTests
     [Fact]
     public void SiteSignal_MissingSignMentionsPagesWithoutLoadedText()
     {
-        var set = new RuleSet { Version = "test", Module = "legal", AppliesTo = "legal_paragraph", Jurisdictions = ["sk"], Rules = [SignalRule("site_pattern_required", "odstúpiť", null)] };
+        var set = new RuleSet { Version = "test", SourceFile = "test.yaml", Module = "legal", AppliesTo = "legal_paragraph", Jurisdictions = ["sk"], Rules = [SignalRule("site_pattern_required", "odstúpiť", null)] };
         var output = RuleEngine.Evaluate(new RuleEngineInput
         {
             RuleSets = [set],
             Labels = Labels(),
             Segments = [],
-            Country = "sk",
+            Jurisdictions = ["sk"],
             PageSignals = new Dictionary<string, PageSignals> { ["https://shop.example/"] = new("Úvod", "", "") },
             EvaluateSiteSignals = true,
             EvaluateSitePresence = false,
@@ -362,7 +364,7 @@ public class RulesTests
         });
 
         var finding = Assert.Single(output.Findings);
-        Assert.Contains(finding.Notes, n => n.Contains("nenačetl", StringComparison.Ordinal) && n.Contains("https://shop.example/kontakt", StringComparison.Ordinal));
+        Assert.Contains(TestTexts.Notes(finding), n => n.Contains("nenačetl", StringComparison.Ordinal) && n.Contains("https://shop.example/kontakt", StringComparison.Ordinal));
     }
 
     [Theory]
@@ -388,7 +390,7 @@ public class RulesTests
         if (expectFinding)
         {
             Assert.Equal(FindingBand.Review, output.Findings.Single().Band);
-            Assert.Contains(output.Findings.Single().Notes, n => n.Contains("vzoru", StringComparison.Ordinal));
+            Assert.Contains(TestTexts.Notes(output.Findings.Single()), n => n.Contains("vzoru", StringComparison.Ordinal));
         }
     }
 
@@ -400,7 +402,7 @@ public class RulesTests
             RuleSets = [],
             Labels = Labels(),
             Segments = [],
-            Country = "cz",
+            Jurisdictions = ["cz"],
             AddMissingLegalPagesFinding = true,
         };
 
@@ -423,7 +425,7 @@ public class RulesTests
 
         var output = Evaluate(rule, [Sentence("Zelená volba pro planetu.", ("q1", 0.9))], country: "sk");
 
-        Assert.Equal(["eu", "sk"], output.Findings.Single().LegalRefs.Select(r => r.Jurisdiction));
+        Assert.Equal(["eu", "sk"], output.Findings.Single().Strictest.LegalRefs.Select(r => r.Jurisdiction));
     }
 
     [Fact]
@@ -438,7 +440,7 @@ public class RulesTests
         var finding = Assert.Single(output.Findings);
         Assert.Equal("site", finding.Scope);
         Assert.Equal(FindingBand.Review, finding.Band);
-        Assert.NotEmpty(finding.Notes);
+        Assert.NotEmpty(finding.Strictest.Notes);
     }
 
     [Fact]
@@ -468,8 +470,8 @@ public class RulesTests
     [Fact]
     public void SiteSignal_IsSkippedWithoutTheWholeSite()
     {
-        var set = new RuleSet { Version = "test", Module = "legal", AppliesTo = "legal_paragraph", Jurisdictions = ["sk"], Rules = [SignalRule("site_pattern_required", "x", null)] };
-        var output = RuleEngine.Evaluate(new RuleEngineInput { RuleSets = [set], Labels = Labels(), Segments = [], Country = "sk" });
+        var set = new RuleSet { Version = "test", SourceFile = "test.yaml", Module = "legal", AppliesTo = "legal_paragraph", Jurisdictions = ["sk"], Rules = [SignalRule("site_pattern_required", "x", null)] };
+        var output = RuleEngine.Evaluate(new RuleEngineInput { RuleSets = [set], Labels = Labels(), Segments = [], Jurisdictions = ["sk"] });
 
         Assert.Empty(output.Findings);
         Assert.Empty(output.RuleResults);
@@ -486,7 +488,7 @@ public class RulesTests
             Text = text,
             Sources = [source],
             Urls = ["https://shop.example/sampon"],
-            Probabilities = new Dictionary<string, double> { ["q1"] = 0.9 },
+            Probabilities = new Dictionary<string, double> { [QuestionKey.Of("test", "q1")] = 0.9 },
         };
 
         var output = Evaluate(rule,
@@ -515,7 +517,7 @@ public class RulesTests
             ContextBefore = before,
             Sources = [SegmentSource.Main],
             Urls = [page],
-            Probabilities = new Dictionary<string, double> { ["q1"] = 0.8 },
+            Probabilities = new Dictionary<string, double> { [QuestionKey.Of("test", "q1")] = 0.8 },
         };
 
         var output = Evaluate(rule, [Badge("https://shop.example/a", "Šampón"), Badge("https://shop.example/b", "Mydlo")]);
@@ -553,6 +555,7 @@ public class RulesTests
         options.Rules.LabelsFile = labelsFile;
         options.Rules.LegalRequirementsFile = TestServices.LegalRequirementsFile;
         options.Rules.SieveFile = TestServices.SieveFile;
+        options.Rules.JurisdictionsFile = TestServices.JurisdictionsFile;
         return new YamlRuleSetProvider(Microsoft.Extensions.Options.Options.Create(options), NullLogger<YamlRuleSetProvider>.Instance);
     }
 
@@ -584,13 +587,13 @@ public class RulesTests
 
     private static RuleEngineOutput EvaluateSignals(RuleDefinition rule, Dictionary<string, PageSignals> pages)
     {
-        var set = new RuleSet { Version = "test", Module = "legal", AppliesTo = "legal_paragraph", Jurisdictions = ["sk"], Rules = [rule] };
+        var set = new RuleSet { Version = "test", SourceFile = "test.yaml", Module = "legal", AppliesTo = "legal_paragraph", Jurisdictions = ["sk"], Rules = [rule] };
         return RuleEngine.Evaluate(new RuleEngineInput
         {
             RuleSets = [set],
             Labels = Labels(),
             Segments = [],
-            Country = "sk",
+            Jurisdictions = ["sk"],
             PageSignals = pages,
             EvaluateSiteSignals = true,
             EvaluateSitePresence = false,
@@ -600,6 +603,7 @@ public class RulesTests
     private static RuleSet LegalSet(RuleDefinition rule) => new()
     {
         Version = "test",
+        SourceFile = "test.yaml",
         Module = "legal",
         AppliesTo = "legal_paragraph",
         Jurisdictions = ["cz"],
@@ -609,14 +613,14 @@ public class RulesTests
 
     private static RuleEngineOutput Evaluate(RuleDefinition rule, List<Segment> segments, string country = "cz", Dictionary<string, string>? pageTexts = null)
     {
-        var set = new RuleSet { Version = "test", Module = "eco", AppliesTo = "sentence", Jurisdictions = [country], Rules = [rule] };
+        var set = new RuleSet { Version = "test", SourceFile = "test.yaml", Module = "eco", AppliesTo = "sentence", Jurisdictions = [country], Rules = [rule] };
         var input = Input([set], segments, country);
         return RuleEngine.Evaluate(new RuleEngineInput
         {
             RuleSets = input.RuleSets,
             Labels = input.Labels,
             Segments = input.Segments,
-            Country = country,
+            Jurisdictions = [country],
             PageTexts = pageTexts ?? new Dictionary<string, string>(),
         });
     }
@@ -626,7 +630,7 @@ public class RulesTests
         RuleSets = sets,
         Labels = Labels(),
         Segments = segments,
-        Country = country,
+        Jurisdictions = [country],
     };
 
     private static LabelConfiguration Labels() => new()
@@ -640,12 +644,13 @@ public class RulesTests
     private static Segment Paragraph(string text, params (string Question, double Probability)[] probabilities) =>
         Create(SegmentKind.LegalParagraph, text, probabilities);
 
-    private static Segment Create(SegmentKind kind, string text, (string Question, double Probability)[] probabilities) => new()
+    /// <summary>A segment with answers of rule set <paramref name="set"/> (the test sets are <c>test.yaml</c>).</summary>
+    private static Segment Create(SegmentKind kind, string text, (string Question, double Probability)[] probabilities, string set = "test") => new()
     {
         Hash = TextTools.Sha256(text),
         Kind = kind,
         Text = text,
         Urls = ["https://shop.example/page"],
-        Probabilities = probabilities.ToDictionary(p => p.Question, p => p.Probability),
+        Probabilities = probabilities.ToDictionary(p => QuestionKey.Of(set, p.Question), p => p.Probability),
     };
 }

@@ -1,17 +1,24 @@
+using System.Globalization;
 using EshopGuard.Core.Options;
+using EshopGuard.Core.Rules.Texts;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.Converters;
 using YamlDotNet.Serialization.NamingConventions;
 
 namespace EshopGuard.Core.Rules;
 
 /// <summary>
-/// Reads every <c>*.yaml</c> file in the rules directory, the labels file and the list of legal requirements, then validates them.
-/// Unknown fields are errors, so a typo in YAML never silently disables a check.
+/// Reads every <c>*.yaml</c> file in the rules directory (not its subfolders, so <c>rules/texts</c> is never a rule set), the
+/// known jurisdictions, the labels file, the list of legal requirements and the texts, then validates them. Unknown fields are
+/// errors, so a typo in YAML never silently disables a check.
 /// </summary>
-internal sealed class YamlRuleSetProvider(IOptions<EshopGuardOptions> options, ILogger<YamlRuleSetProvider> logger) : IRuleSetProvider
+internal sealed class YamlRuleSetProvider(
+    IOptions<EshopGuardOptions> options,
+    ILogger<YamlRuleSetProvider> logger,
+    IRuleTextProvider? textProvider = null) : IRuleSetProvider
 {
     private const string ImageKeywordsKey = "eco_image_keywords";
 
@@ -19,13 +26,17 @@ internal sealed class YamlRuleSetProvider(IOptions<EshopGuardOptions> options, I
 
     private static readonly IDeserializer Deserializer = new DeserializerBuilder()
         .WithNamingConvention(UnderscoredNamingConvention.Instance)
+        .WithTypeConverter(new DateOnlyConverter(CultureInfo.InvariantCulture, false, "yyyy-MM-dd"))
         .Build();
+
+    private IRuleTextProvider Texts => textProvider ?? new YamlRuleTextProvider(options);
 
     public async Task<RuleCatalog> LoadAsync(CancellationToken ct = default)
     {
         var settings = options.Value.Rules;
         var errors = new List<string>();
 
+        var jurisdictions = await LoadJurisdictionsAsync(settings.JurisdictionsFile, errors, ct);
         var labels = await LoadLabelsAsync(settings.LabelsFile, errors, ct);
         var legalRequirements = await LoadLegalRequirementsAsync(settings.LegalRequirementsFile, errors, ct);
         var sieve = await LoadSieveAsync(settings.SieveFile, errors, ct);
@@ -51,11 +62,14 @@ internal sealed class YamlRuleSetProvider(IOptions<EshopGuardOptions> options, I
             }
         }
 
-        errors.AddRange(RuleValidator.Validate(ruleSets, labels, legalRequirements));
+        errors.AddRange(RuleValidator.Validate(ruleSets, labels, legalRequirements, jurisdictions));
         if (sieve is not null)
         {
             errors.AddRange(RuleValidator.ValidateSieve(sieve, ruleSets, Path.GetFileName(settings.SieveFile)));
         }
+
+        errors.AddRange(await QuestionSetHashes.CheckAsync(ruleSets, settings.ResolvedQuestionSetHashesFile, ct));
+        var texts = RuleTextValidator.Validate(await Texts.LoadAsync(errors, ct), ruleSets, labels, jurisdictions, settings.RequiredLocales, errors);
         if (errors.Count > 0)
         {
             throw new RuleValidationException(errors);
@@ -67,7 +81,50 @@ internal sealed class YamlRuleSetProvider(IOptions<EshopGuardOptions> options, I
                 set.Module, set.Version, set.SourceFile, set.Questions.Count, set.Rules.Count, set.Enabled);
         }
 
-        return new RuleCatalog { RuleSets = ruleSets, Labels = labels, LegalRequirements = legalRequirements, Sieve = sieve };
+        foreach (var (locale, problems) in texts.Problems.Where(p => p.Value.Count > 0))
+        {
+            logger.LogInformation("Texts in {Locale}: {Count} problems, translations with problems are not used (eshopguard rules check-texts)", locale, problems.Count);
+        }
+
+        return new RuleCatalog
+        {
+            RuleSets = ruleSets, Labels = labels, LegalRequirements = legalRequirements, Sieve = sieve, Jurisdictions = jurisdictions, Texts = texts,
+        };
+    }
+
+    /// <summary>The known jurisdictions; without the file no rule set can name a jurisdiction.</summary>
+    private static async Task<JurisdictionRegistry> LoadJurisdictionsAsync(string file, List<string> errors, CancellationToken ct)
+    {
+        if (!File.Exists(file))
+        {
+            errors.Add($"Soubor se seznamem jurisdikcí „{Path.GetFullPath(file)}“ neexistuje.");
+            return JurisdictionRegistry.Empty;
+        }
+
+        var name = Path.GetFileName(file);
+        try
+        {
+            var raw = Deserializer.Deserialize<Dictionary<string, JurisdictionInfo>?>(await File.ReadAllTextAsync(file, ct)) ?? [];
+            foreach (var (code, info) in raw)
+            {
+                if (code.Length == 0 || code != code.ToLowerInvariant() || code == "eu")
+                {
+                    errors.Add($"{name}: kód jurisdikce „{code}“ musí být malými písmeny a nesmí být eu.");
+                }
+
+                if (info is null || string.IsNullOrWhiteSpace(info.LawLanguage))
+                {
+                    errors.Add($"{name}: jurisdikce „{code}“ potřebuje law_language.");
+                }
+            }
+
+            return new JurisdictionRegistry(raw.Where(p => p.Value is not null).ToDictionary(p => p.Key, p => p.Value, StringComparer.Ordinal));
+        }
+        catch (YamlException ex)
+        {
+            errors.Add($"{name}, řádek {ex.Start.Line}: {Describe(ex)}");
+            return JurisdictionRegistry.Empty;
+        }
     }
 
     /// <summary>A missing file turns the sieve off.</summary>
@@ -110,7 +167,7 @@ internal sealed class YamlRuleSetProvider(IOptions<EshopGuardOptions> options, I
         }
     }
 
-    private static async Task<RuleSet?> LoadRuleSetAsync(string file, List<string> errors, CancellationToken ct)
+    internal static async Task<RuleSet?> LoadRuleSetAsync(string file, List<string> errors, CancellationToken ct)
     {
         var name = Path.GetFileName(file);
         try
@@ -176,29 +233,34 @@ internal sealed class YamlRuleSetProvider(IOptions<EshopGuardOptions> options, I
         }
     }
 
-    /// <summary>Each remark is a mapping with <c>names</c> (list of texts) and <c>note</c> (text).</summary>
+    /// <summary>Each remark is a mapping with <c>id</c> (text id in <c>_labels.yaml</c>) and <c>names</c> (list of texts).</summary>
     private static List<LabelNote> ReadLabelNotes(object? value, string fileName, List<string> errors)
     {
         var notes = new List<LabelNote>();
         if (value is not List<object> items)
         {
-            errors.Add($"{fileName}: {LabelNotesKey} musí být seznam poznámek s poli names a note.");
+            errors.Add($"{fileName}: {LabelNotesKey} musí být seznam poznámek s poli id a names.");
             return notes;
         }
 
         foreach (var item in items)
         {
             if (item is Dictionary<object, object> map
-                && map.Keys.All(k => k is "names" or "note")
-                && map.TryGetValue("names", out var names) && Strings(names) is { Count: > 0 } nameList
-                && map.TryGetValue("note", out var note) && note is string { Length: > 0 } text)
+                && map.Keys.All(k => k is "id" or "names")
+                && map.TryGetValue("id", out var id) && id is string { Length: > 0 } noteId
+                && map.TryGetValue("names", out var names) && Strings(names) is { Count: > 0 } nameList)
             {
-                notes.Add(new LabelNote { Names = nameList, Note = text });
+                notes.Add(new LabelNote { Id = noteId, Names = nameList });
             }
             else
             {
-                errors.Add($"{fileName}: každá položka {LabelNotesKey} potřebuje jen pole names (seznam názvů) a note (text).");
+                errors.Add($"{fileName}: každá položka {LabelNotesKey} potřebuje jen pole id (text poznámky v rules/texts/<jazyk>/_labels.yaml) a names (seznam názvů).");
             }
+        }
+
+        foreach (var duplicate in notes.GroupBy(n => n.Id).Where(g => g.Count() > 1))
+        {
+            errors.Add($"{fileName}: id poznámky „{duplicate.Key}“ je v {LabelNotesKey} víckrát.");
         }
 
         return notes;

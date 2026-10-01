@@ -5,6 +5,7 @@ using EshopGuard.Core.Fix;
 using EshopGuard.Core.Models;
 using EshopGuard.Core.Options;
 using EshopGuard.Core.Profiles;
+using EshopGuard.Core.Rules;
 using EshopGuard.Core.Storage;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -97,7 +98,7 @@ internal sealed class ProfileStep(
         }
 
         var created = new List<PageProfile>();
-        var warnings = new List<string>();
+        var warnings = new List<ScanWarning>();
         var failedLeaders = new HashSet<string>(StringComparer.Ordinal);
         var calls = 0;
         long inputTokens = 0;
@@ -132,14 +133,14 @@ internal sealed class ProfileStep(
             }
             catch (RewriteApiException ex) when (ex.IsFatal)
             {
-                warnings.Add($"Profily šablon se nevytvořily: {ex.Message} Stránky bez profilu se kontrolovaly celé.");
+                warnings.Add(new ScanWarning(EngineCodes.ProfileFailedFatal, NoteParams.Of(("reason", ex.Message))));
                 logger.LogWarning("Profile model failed fatally: {Message}", ex.Message);
                 break;
             }
             catch (Exception ex) when (ex is RewriteApiException or JsonException)
             {
                 failedLeaders.Add(leader);
-                warnings.Add($"Profil šablony stránky {leader} se nepodařilo vytvořit ({ex.Message}); jejích {cluster.Count} stránek se kontrolovalo celých.");
+                warnings.Add(new ScanWarning(EngineCodes.ProfileFailed, NoteParams.Of(("url", leader), ("reason", ex.Message), ("pages", cluster.Count))));
                 logger.LogWarning(ex, "Profile for the template of {Url} failed", leader);
                 continue;
             }
@@ -165,7 +166,7 @@ internal sealed class ProfileStep(
             if (fitting == 0)
             {
                 failedLeaders.Add(leader);
-                warnings.Add($"Profil šablony stránky {leader} nesedí ani na vzorové stránky, nepoužije se; jejích {cluster.Count} stránek se kontrolovalo celých.");
+                warnings.Add(new ScanWarning(EngineCodes.ProfileNoFit, NoteParams.Of(("url", leader), ("pages", cluster.Count))));
                 logger.LogWarning("Profile for the template of {Url} fits none of its samples", leader);
                 continue;
             }

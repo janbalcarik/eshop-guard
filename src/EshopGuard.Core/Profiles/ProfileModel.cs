@@ -1,3 +1,4 @@
+using EshopGuard.Core.Rules;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using EshopGuard.Core.Fix;
@@ -14,7 +15,7 @@ public interface IProfileModel
     /// <summary>False when no model can be called (mock run, missing key); stored profiles are still used.</summary>
     bool IsAvailable { get; }
 
-    /// <summary>Why the model is not available, for the report; null when it is.</summary>
+    /// <summary>Code of the reason why the model is not available (<c>model_mock</c>, <c>model_missing_key</c>); null when it is.</summary>
     string? UnavailableReason { get; }
 
     /// <summary>Price of one profile from the outlines it would get, in USD.</summary>
@@ -58,8 +59,8 @@ internal sealed class OpenAiProfileModel(IRewriteClient client, IOptions<EshopGu
     public bool IsAvailable => UnavailableReason is null;
 
     public string? UnavailableReason =>
-        Rewrite.UseMock ? "falešný klient (--mock), profily se nevytvářejí"
-        : string.IsNullOrWhiteSpace(Rewrite.ApiKey) ? "chybí klíč OpenAI (OPENAI_API_KEY)"
+        Rewrite.UseMock ? EngineCodes.ModelMock
+        : string.IsNullOrWhiteSpace(Rewrite.ApiKey) ? EngineCodes.ModelMissingKey
         : null;
 
     public decimal EstimateUsd(IReadOnlyList<string> outlines)

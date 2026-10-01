@@ -111,6 +111,9 @@ internal sealed class CliConfiguration
     /// <summary>Set only by <c>--allow-private-network</c>, never by settings.yaml (protection against SSRF).</summary>
     public bool AllowPrivateNetwork { get; set; }
 
+    /// <summary>Language of the texts of rules and of the tool in the outputs (<c>--lang</c>).</summary>
+    public string ReportLocale { get; set; } = "cs";
+
     public string? Model { get; init; }
 
     public List<string> Notes { get; } = [];
@@ -191,6 +194,7 @@ internal sealed class CliConfiguration
         options.Cost = Settings.Cost;
         options.Budget = Settings.Budget;
         options.Rules = Settings.Rules;
+        options.Report.Locale = ReportLocale;
         options.Rewrite = Settings.Rewrite;
         options.Profiles = Settings.Profiles;
         options.Rewrite.ApiKey = OpenAiApiKey;

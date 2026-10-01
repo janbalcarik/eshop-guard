@@ -187,12 +187,28 @@ internal static class RewritePrompt
         foreach (var finding in work.Findings)
         {
             var f = finding.Finding;
+            var main = finding.Texts[0];
             text.Append("- ").Append(finding.Id).Append(" | skupina: ").Append(Group(f.Checkability))
                 .Append(" | bloky: ").Append(string.Join(", ", finding.Blocks)).Append('\n')
                 .Append("  veta: „").Append(f.Text).Append("“\n")
-                .Append("  pravidlo: ").Append(f.Title).Append('\n')
-                .Append("  vysvetlenie: ").Append(f.Explanation).Append('\n')
-                .Append("  odporúčanie: ").Append(f.Recommendation).Append('\n');
+                .Append("  pravidlo: ").Append(main.Title).Append('\n')
+                .Append("  vysvetlenie: ").Append(main.Explanation).Append('\n')
+                .Append("  odporúčanie: ").Append(main.Recommendation).Append('\n');
+
+            // A finding in several jurisdictions: the rewrite must satisfy the rules of all of them.
+            foreach (var other in finding.Texts.Skip(1))
+            {
+                text.Append("  ").Append(other.Jurisdiction.ToUpperInvariant()).Append(" | skupina: ").Append(Group(other.Checkability)).Append('\n');
+                if (other.Explanation != main.Explanation)
+                {
+                    text.Append("    vysvetlenie: ").Append(other.Explanation).Append('\n');
+                }
+
+                if (other.Recommendation != main.Recommendation)
+                {
+                    text.Append("    odporúčanie: ").Append(other.Recommendation).Append('\n');
+                }
+            }
             if (finding.AlsoOn.Count > 0)
             {
                 text.Append("  rovnaký text je aj na ").Append(finding.AlsoOn.Count).Append(" ďalších stránkach\n");
@@ -206,6 +222,7 @@ internal static class RewritePrompt
     {
         "text" => "porušení (rozhoduje text zákona)",
         "assess" => "k posouzení (posuzuje se případ od případu)",
+        "verify" => "k ověření (záleží na faktech mimo web)",
         _ => checkability,
     };
 

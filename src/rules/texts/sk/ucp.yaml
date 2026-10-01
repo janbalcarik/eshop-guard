@@ -1,0 +1,25 @@
+# Kostra překladu do jazyka sk: vyplňte texty a review; zástupné symboly {…} musí zůstat stejné.
+locale: sk
+rule_set: ucp
+source_version: "ucp-2026-09-26-draft4"
+review:
+  translated_by: ""
+  reviewed_by: ""
+  reviewed_at: ""
+rules:
+  ucp_review_reward_positive:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  ucp_reviews_only_positive:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  ucp_review_reward_any:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  ucp_reviews_verified_claim:
+    title: ""
+    explanation: ""
+    recommendation: ""

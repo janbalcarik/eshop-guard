@@ -1,16 +1,15 @@
-using System.Text.Encodings.Web;
-using System.Text.Json;
 using System.Text.Json.Nodes;
-using EshopGuard.Core.Options;
+using EshopGuard.Core.Models;
 using EshopGuard.Core.Rules;
-using Microsoft.Extensions.Logging.Abstractions;
+using EshopGuard.Core.Rules.Texts;
 
 namespace EshopGuard.Core.Tests;
 
 /// <summary>
-/// Texts of the rules as they were in the rule files before change 6 (<c>Baselines/rule-texts-cs.json</c>): title,
-/// explanation for every jurisdiction, recommendation, label remarks and the built-in finding. Written once by
-/// <see cref="DumpRuleTexts"/>; the texts moved into <c>rules/texts/</c> must render exactly the same.
+/// The texts moved to <c>rules/texts/</c> render exactly as they were in the rule files before change 6
+/// (<c>Baselines/rule-texts-cs.json</c>, written from the rule files by a one-off dump at commit 7980c24): title, explanation
+/// for every jurisdiction, recommendation, remarks on labels and the built-in finding. The report asks for Czech; a set written
+/// in Slovak (<c>legal_sk</c>) is shown in Slovak until its Czech translation is reviewed, exactly as before.
 /// </summary>
 public sealed class RuleTextBaselineTests
 {
@@ -25,84 +24,72 @@ public sealed class RuleTextBaselineTests
         Assert.True(File.Exists(Path.Combine(BaselineScenarios.OutputBaselines, "site-sk", "report.md")));
     }
 
-    /// <summary>
-    /// Writes the reference texts (task 1.1 of change 6). Explicit: runs only on request
-    /// (<c>dotnet run --project src/tests/EshopGuard.Core.Tests -- -explicit only -trait "Category=Baseline"</c>).
-    /// </summary>
-    [Fact(Explicit = true)]
-    [Trait("Category", "Baseline")]
-    public async Task DumpRuleTexts()
+    [Fact]
+    public void RenderedTexts_AreTheTextsOfTheRulesBeforeChange6()
     {
-        var options = new EshopGuardOptions();
-        options.Rules.Directory = TestServices.RulesDirectory;
-        options.Rules.LabelsFile = TestServices.LabelsFile;
-        options.Rules.LegalRequirementsFile = TestServices.LegalRequirementsFile;
-        options.Rules.SieveFile = TestServices.SieveFile;
-        var catalog = await new YamlRuleSetProvider(Microsoft.Extensions.Options.Options.Create(options), NullLogger<YamlRuleSetProvider>.Instance)
-            .LoadAsync(TestContext.Current.CancellationToken);
-
-        var sets = new JsonObject();
-        foreach (var set in catalog.RuleSets.Where(s => s.Enabled).OrderBy(s => s.SourceFile, StringComparer.Ordinal))
+        var baseline = JsonNode.Parse(File.ReadAllText(Path.Combine(BaselineScenarios.OutputBaselines, FileName)))!;
+        var catalog = TestTexts.Catalog;
+        var renderer = TestTexts.Renderer;
+        var differences = new List<string>();
+        void Compare(string what, string expected, string actual)
         {
-            var rules = new JsonObject();
-            foreach (var rule in set.Rules)
+            if (expected != actual)
             {
-                // Explanations for the jurisdictions of the set and for every jurisdiction with its own text.
-                var jurisdictions = set.Jurisdictions
-                    .Concat(rule.ExplanationByJurisdiction?.Keys ?? Enumerable.Empty<string>())
-                    .Distinct()
-                    .Order(StringComparer.Ordinal);
-                var explanations = new JsonObject();
-                foreach (var jurisdiction in jurisdictions)
-                {
-                    explanations[jurisdiction] = rule.ExplanationFor(jurisdiction);
-                }
-
-                rules[rule.Id] = new JsonObject
-                {
-                    ["title"] = rule.Title,
-                    ["explanation"] = rule.Explanation,
-                    ["explanation_for"] = explanations,
-                    ["recommendation"] = rule.Recommendation,
-                };
+                differences.Add($"{what}:\n  čekáno: {expected}\n  je:     {actual}");
             }
-
-            sets[Path.GetFileNameWithoutExtension(set.SourceFile)] = new JsonObject
-            {
-                ["module"] = set.Module,
-                ["version"] = set.Version,
-                ["jurisdictions"] = new JsonArray([.. set.Jurisdictions.Select(j => (JsonNode)j)]),
-                ["rules"] = rules,
-            };
         }
 
-        var missing = RuleEngine.Evaluate(new RuleEngineInput
+        foreach (var (name, setNode) in baseline["rule_sets"]!.AsObject())
         {
-            RuleSets = [],
-            Labels = catalog.Labels,
-            Segments = [],
-            Country = "cz",
-            AddMissingLegalPagesFinding = true,
+            var set = catalog.RuleSets.Single(s => s.Name == name);
+            Assert.Equal(set.Version, setNode!["version"]!.GetValue<string>());
+            foreach (var (ruleId, ruleNode) in setNode["rules"]!.AsObject())
+            {
+                foreach (var (jurisdiction, explanation) in ruleNode!["explanation_for"]!.AsObject())
+                {
+                    var variant = set.ExplanationVariants.TryGetValue(ruleId, out var variants) && variants.Contains(jurisdiction)
+                        ? jurisdiction
+                        : JurisdictionVerdict.DefaultVariant;
+                    var finding = new Finding
+                    {
+                        RuleId = ruleId,
+                        Module = set.Module,
+                        Scope = "segment",
+                        Verdicts =
+                        [
+                            new JurisdictionVerdict
+                            {
+                                Jurisdiction = jurisdiction, Severity = "high", Checkability = "text", RuleSet = name, RuleSetVersion = set.Version,
+                                ExplanationVariant = variant,
+                            },
+                        ],
+                    };
+                    var rendered = renderer.Render(finding, "cs");
+                    Compare($"{name}/{ruleId} title", ruleNode["title"]!.GetValue<string>(), rendered.Title);
+                    Compare($"{name}/{ruleId} explanation {jurisdiction}", explanation!.GetValue<string>(), rendered.Explanation);
+                    Compare($"{name}/{ruleId} recommendation", ruleNode["recommendation"]!.GetValue<string>(), rendered.Recommendation);
+                }
+            }
+        }
+
+        foreach (var noteNode in baseline["label_notes"]!.AsArray())
+        {
+            var names = noteNode!["names"]!.AsArray().Select(n => n!.GetValue<string>()).ToList();
+            var label = catalog.Labels.Notes.Single(n => n.Names.SequenceEqual(names));
+            Compare($"label_notes {label.Id}", noteNode["note"]!.GetValue<string>(),
+                renderer.Note(new FindingNote(EngineCodes.LabelNote, NoteParams.Of(("label_id", label.Id))), "cs"));
+        }
+
+        var missing = baseline["legal_pages_missing"]!;
+        var builtIn = RuleEngine.Evaluate(new RuleEngineInput
+        {
+            RuleSets = [], Labels = catalog.Labels, Segments = [], Jurisdictions = ["cz"], AddMissingLegalPagesFinding = true,
         }).Findings.Single();
+        var texts = renderer.Render(builtIn, "cs");
+        Compare("legal_pages_missing title", missing["title"]!.GetValue<string>(), texts.Title);
+        Compare("legal_pages_missing explanation", missing["explanation"]!.GetValue<string>(), texts.Explanation);
+        Compare("legal_pages_missing recommendation", missing["recommendation"]!.GetValue<string>(), texts.Recommendation);
 
-        var document = new JsonObject
-        {
-            ["rule_sets"] = sets,
-            ["label_notes"] = new JsonArray([.. catalog.Labels.Notes.Select(n => (JsonNode)new JsonObject
-            {
-                ["names"] = new JsonArray([.. n.Names.Select(name => (JsonNode)name)]),
-                ["note"] = n.Note,
-            })]),
-            ["legal_pages_missing"] = new JsonObject
-            {
-                ["title"] = missing.Title,
-                ["explanation"] = missing.Explanation,
-                ["recommendation"] = missing.Recommendation,
-            },
-        };
-
-        var json = document.ToJsonString(new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
-        await File.WriteAllTextAsync(Path.Combine(BaselineScenarios.SourceBaselines, FileName), json + "\n",
-            new System.Text.UTF8Encoding(false), TestContext.Current.CancellationToken);
+        Assert.True(differences.Count == 0, string.Join('\n', differences));
     }
 }

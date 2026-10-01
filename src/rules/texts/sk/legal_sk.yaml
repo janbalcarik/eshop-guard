@@ -1,0 +1,41 @@
+# Texty pravidel sady legal_sk (sk). Otázky pro Jev, logika a odkazy na zákon jsou v rules/legal_sk.yaml.
+# Klíče a zástupné symboly musí být ve všech jazycích stejné; kontrola: eshopguard rules check-texts.
+locale: sk
+rule_set: legal_sk
+source_version: "legal-sk-2026-09-26-draft4"
+review:
+  original: true
+  note: "Původní texty pravidel, přesunuté beze změny z rules/legal_sk.yaml (1. 10. 2026)."
+rules:
+  legal_adr_missing:
+    title: "Chýba odkaz na informácie o subjekte alternatívneho riešenia sporov"
+    explanation: "Predávajúci musí spotrebiteľa poučiť o práve podať žiadosť o nápravu s uvedením odkazu na webové sídlo, na ktorom sú zverejnené informácie o príslušnom subjekte alternatívneho riešenia sporov. Uvedenie SOI len ako orgánu dozoru alebo odkaz na zrušenú platformu ODR túto povinnosť nesplní."
+    recommendation: "Doplňte do obchodných podmienok odkaz na webové sídlo s informáciami o príslušnom subjekte alternatívneho riešenia sporov (pri bežnom tovare SOI)."
+  legal_redress_request_missing:
+    title: "Chýba poučenie o práve podať žiadosť o nápravu"
+    explanation: "Súčasťou povinných informácií je poučenie, že spotrebiteľ môže obchodníkovi podať žiadosť o nápravu, ak nie je spokojný s vybavením reklamácie alebo sa domnieva, že obchodník porušil jeho práva."
+    recommendation: "Doplňte do obchodných podmienok poučenie o práve podať žiadosť o nápravu a kam ju poslať."
+  legal_complaints_missing:
+    title: "Chýba informácia o reklamáciách"
+    explanation: "Predávajúci musí informovať o zodpovednosti za vady a o spôsobe a mieste uplatnenia reklamácie."
+    recommendation: "Doplňte reklamačný poriadok vrátane miesta a spôsobu uplatnenia reklamácie."
+  legal_withdrawal_missing:
+    title: "Chýba informácia o odstúpení od zmluvy"
+    explanation: "Pred uzavretím zmluvy na diaľku musí spotrebiteľ dostať podmienky, lehotu a postup na odstúpenie."
+    recommendation: "Doplňte podmienky, 14-dňovú lehotu a postup na odstúpenie."
+  legal_withdrawal_form_missing:
+    title: "Chýba vzorový formulár na odstúpenie"
+    explanation: "Spolu s poučením o odstúpení musí spotrebiteľ dostať vzorový formulár."
+    recommendation: "Pridajte vzorový formulár na odstúpenie od zmluvy."
+  legal_harmonized_notice_missing:
+    title: "Chýba harmonizované oznámenie o zákonnej zodpovednosti za vady (nové od 27. 9. 2026)"
+    explanation: "Od 27. 9. 2026 musí e-shop pred objednávkou zreteľne informovať o zákonnej zodpovednosti za vady vrátane jej dĺžky, a to aspoň v podobe a rozsahu harmonizovaného oznámenia EÚ: farebného obrázka s QR kódom na portál Vaša Európa, ktorý sa nesmie upravovať. Text v obchodných podmienkach (napríklad „Zákonná záruka je 24 mesiacov“) túto podobu nenahrádza."
+    recommendation: "Zobrazte farebné harmonizované oznámenie podľa prílohy I nariadenia (EÚ) 2025/1960 bez úprav na stránke produktu alebo v pokladni pred odoslaním objednávky; ak ho už máte, doplňte k obrázku popis (alt), aby bolo dohľadateľné."
+  legal_withdrawal_function_missing:
+    title: "Chýba funkcia „odstúpiť od zmluvy tu“ (povinná od 19. 6. 2026)"
+    explanation: "E-shop musí spotrebiteľovi umožniť odstúpiť od zmluvy aj funkciou na odstúpenie, označenou „odstúpiť od zmluvy tu“ alebo obdobnou jednoznačnou formuláciou, zreteľne zobrazenou a nepretržite dostupnou počas celej lehoty na odstúpenie. Na prehľadaných stránkach sa nenašiel odkaz ani tlačidlo s takýmto označením."
+    recommendation: "Doplňte zreteľne viditeľný odkaz alebo tlačidlo „odstúpiť od zmluvy tu“ (napríklad v pätičke a v zákazníckom účte) s online formulárom podľa § 20a ods. 3."
+  legal_odr_link_outdated:
+    title: "Odkaz na zrušenú platformu ODR"
+    explanation: "Platforma EÚ na riešenie sporov online (ODR) bola 20. 7. 2025 zrušená. Odkaz na ňu už spotrebiteľa k informáciám o subjekte alternatívneho riešenia sporov nedovedie; ak je jediným odkazom, povinnosť podľa § 5 ods. 1 písm. q) nemusí byť splnená."
+    recommendation: "Odkaz na platformu ODR odstráňte a nahraďte ho odkazom na informácie o príslušnom subjekte alternatívneho riešenia sporov (pri bežnom tovare SOI)."

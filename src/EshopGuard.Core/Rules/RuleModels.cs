@@ -1,3 +1,5 @@
+using YamlDotNet.Serialization;
+
 namespace EshopGuard.Core.Rules;
 
 /// <summary>
@@ -16,6 +18,18 @@ public sealed class RuleCatalog
 
     /// <summary>The block sieve; null when its file is missing.</summary>
     public SieveDefinition? Sieve { get; init; }
+
+    /// <summary>Known jurisdictions from <c>config/jurisdictions.yaml</c>.</summary>
+    public JurisdictionRegistry Jurisdictions { get; init; } = JurisdictionRegistry.Empty;
+
+    /// <summary>Texts of the rules, the tool and the labels in every language of <c>rules/texts/</c>.</summary>
+    public Texts.RuleTexts Texts { get; init; } = Rules.Texts.RuleTexts.Empty;
+
+    /// <summary>
+    /// Languages in which every enabled rule set, the tool and the labels have complete texts written or reviewed by a person;
+    /// only these can be offered to users.
+    /// </summary>
+    public IReadOnlyList<string> CompleteLocales => Texts.CompleteLocales;
 }
 
 /// <summary>
@@ -49,6 +63,17 @@ public sealed class RuleSet
 
     /// <summary>File the set was loaded from.</summary>
     public string SourceFile { get; set; } = "";
+
+    /// <summary>Name of the set: file name without extension (e.g. <c>legal_sk</c>); texts and answers are keyed by it.</summary>
+    [YamlIgnore]
+    public string Name => Path.GetFileNameWithoutExtension(SourceFile);
+
+    /// <summary>
+    /// Rule ids with an explanation of their own for some jurisdictions, from the original texts of the set; a verdict for such a
+    /// jurisdiction gets that explanation variant.
+    /// </summary>
+    [YamlIgnore]
+    public IReadOnlyDictionary<string, IReadOnlySet<string>> ExplanationVariants { get; set; } = new Dictionary<string, IReadOnlySet<string>>();
 }
 
 /// <summary>
@@ -73,17 +98,15 @@ public sealed class QuestionDefinition
 }
 
 /// <summary>
-/// A rule: how answers combine into a finding and what the finding says.
+/// A rule: how answers combine into a finding. Its texts (title, explanation, recommendation, questions for the user) are in
+/// <c>rules/texts/&lt;locale&gt;/&lt;set&gt;.yaml</c>; only disabled sets may still keep them inline until they are enabled.
 /// </summary>
 public sealed class RuleDefinition
 {
     /// <summary>Rule id.</summary>
     public string Id { get; set; } = "";
 
-    /// <summary>Title shown in the report.</summary>
-    public string Title { get; set; } = "";
-
-    /// <summary><c>segment</c> or <c>site_presence</c>.</summary>
+    /// <summary><c>segment</c>, <c>site_presence</c> or <c>site_signal</c>.</summary>
     public string Scope { get; set; } = "segment";
 
     /// <summary><c>segment</c>: conditions on question probabilities.</summary>
@@ -107,26 +130,64 @@ public sealed class RuleDefinition
     /// </summary>
     public string Checkability { get; set; } = "text";
 
-    /// <summary>Legal references with their verification status.</summary>
+    /// <summary>Legal references with their verification status, in the language of the law.</summary>
     public List<LegalReference> LegalRefs { get; set; } = [];
 
-    /// <summary>Why this is a problem.</summary>
-    public string Explanation { get; set; } = "";
+    /// <summary>Date from which the rule applies, by jurisdiction; a jurisdiction without a date applies already.</summary>
+    public Dictionary<string, DateOnly> EffectiveFrom { get; set; } = [];
 
-    /// <summary>
-    /// Explanation for a country whose law differs, e.g. for Czechia until the EmpCo directive is transposed.
-    /// Keys are <c>cz</c> or <c>sk</c>; other countries get <see cref="Explanation"/>.
-    /// </summary>
+    /// <summary>Severity, group or bands that differ in a jurisdiction of the set.</summary>
+    public Dictionary<string, RuleOverride> JurisdictionOverrides { get; set; } = [];
+
+    /// <summary>Codes of the questions for the user (texts in the text files), e.g. <c>evidence_available</c>.</summary>
+    public List<string> UserQuestions { get; set; } = [];
+
+    /// <summary>Inline title; allowed only in disabled sets (until their texts are moved to <c>rules/texts</c>).</summary>
+    public string? Title { get; set; }
+
+    /// <summary>Inline explanation; allowed only in disabled sets.</summary>
+    public string? Explanation { get; set; }
+
+    /// <summary>Inline explanations by jurisdiction; allowed only in disabled sets.</summary>
     public Dictionary<string, string>? ExplanationByJurisdiction { get; set; }
 
-    /// <summary>What to do.</summary>
-    public string Recommendation { get; set; } = "";
+    /// <summary>Inline recommendation; allowed only in disabled sets.</summary>
+    public string? Recommendation { get; set; }
 
-    /// <summary>Explanation for the given country.</summary>
-    public string ExplanationFor(string country) =>
-        ExplanationByJurisdiction is not null && ExplanationByJurisdiction.TryGetValue(country, out var specific) && !string.IsNullOrWhiteSpace(specific)
-            ? specific
-            : Explanation;
+    /// <summary>True when the rule still has inline texts.</summary>
+    [YamlIgnore]
+    public bool HasInlineTexts => Title is not null || Explanation is not null || ExplanationByJurisdiction is not null || Recommendation is not null;
+
+    /// <summary>Severity in the jurisdiction.</summary>
+    public string SeverityFor(string jurisdiction) =>
+        JurisdictionOverrides.TryGetValue(jurisdiction, out var o) && o.Severity is { } severity ? severity : Severity;
+
+    /// <summary>Group of the finding in the jurisdiction.</summary>
+    public string CheckabilityFor(string jurisdiction) =>
+        JurisdictionOverrides.TryGetValue(jurisdiction, out var o) && o.Checkability is { } checkability ? checkability : Checkability;
+
+    /// <summary>Bands in the jurisdiction.</summary>
+    public Bands BandsFor(string jurisdiction) =>
+        JurisdictionOverrides.TryGetValue(jurisdiction, out var o) && o.Bands is { } bands ? bands : Bands;
+
+    /// <summary>Date from which the rule applies in the jurisdiction, or null.</summary>
+    public DateOnly? EffectiveFromFor(string jurisdiction) =>
+        EffectiveFrom.TryGetValue(jurisdiction, out var date) ? date : null;
+}
+
+/// <summary>
+/// What differs for one jurisdiction of a rule set (<c>jurisdiction_overrides</c>); empty fields keep the value of the rule.
+/// </summary>
+public sealed class RuleOverride
+{
+    /// <summary><c>high</c>, <c>medium</c> or <c>low</c>.</summary>
+    public string? Severity { get; set; }
+
+    /// <summary><c>text</c>, <c>assess</c>, <c>verify</c> or <c>not_checkable</c>.</summary>
+    public string? Checkability { get; set; }
+
+    /// <summary>Score thresholds of the bands.</summary>
+    public Bands? Bands { get; set; }
 }
 
 /// <summary>
@@ -200,18 +261,27 @@ public sealed class Bands
 }
 
 /// <summary>
-/// A legal reference with its verification status (e.g. "ověřit", "doplnit").
+/// A legal reference in the language of the law with its verification status as a code (<c>to_verify</c>, <c>to_complete</c>).
 /// </summary>
 public sealed class LegalReference
 {
-    /// <summary><c>eu</c>, <c>cz</c> or <c>sk</c>.</summary>
+    /// <summary><c>eu</c> or a jurisdiction code.</summary>
     public string Jurisdiction { get; set; } = "";
 
-    /// <summary>The reference.</summary>
+    /// <summary>The reference in the language of the law (EU references in Czech).</summary>
     public string Ref { get; set; } = "";
 
-    /// <summary>Verification status.</summary>
+    /// <summary>EU references only: the reference in other languages, by locale; shown in the language of the law of the verdict.</summary>
+    public Dictionary<string, string>? RefByLanguage { get; set; }
+
+    /// <summary>Verification status code.</summary>
     public string Status { get; set; } = "";
+
+    /// <summary>The reference for a verdict whose law is in <paramref name="lawLanguage"/>.</summary>
+    public string RefFor(string? lawLanguage) =>
+        lawLanguage is not null && RefByLanguage is not null && RefByLanguage.TryGetValue(lawLanguage, out var text) && !string.IsNullOrWhiteSpace(text)
+            ? text
+            : Ref;
 }
 
 /// <summary>
@@ -230,14 +300,14 @@ public sealed class LabelConfiguration
 }
 
 /// <summary>
-/// A remark on a label from <c>label_notes</c> in the labels file: the names it goes by and why it may not meet
-/// the conditions of a sustainability label (for example that the owner of the scheme also certifies).
+/// A remark on a label from <c>label_notes</c> in the labels file: the names it goes by; the remark itself (why it may not
+/// meet the conditions of a sustainability label) is text <see cref="Id"/> in <c>rules/texts/&lt;locale&gt;/_labels.yaml</c>.
 /// </summary>
 public sealed class LabelNote
 {
+    /// <summary>Id of the remark.</summary>
+    public string Id { get; init; } = "";
+
     /// <summary>Names found in the text as whole words, ignoring case, diacritics and punctuation.</summary>
     public IReadOnlyList<string> Names { get; init; } = [];
-
-    /// <summary>The remark shown with the finding.</summary>
-    public string Note { get; init; } = "";
 }

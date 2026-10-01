@@ -15,38 +15,22 @@ public enum FindingBand
 }
 
 /// <summary>
-/// A potential problem found by a rule, either in one segment or for the whole site.
+/// A potential problem found by a rule, either in one segment or for the whole site, with a verdict for every jurisdiction
+/// where the rule found it. The finding carries codes and parameters only; titles, explanations and recommendations are
+/// composed in the language of the reader by <see cref="Rules.Texts.RuleTextRenderer"/>.
 /// </summary>
 public sealed class Finding
 {
-    /// <summary>Rule id.</summary>
+    /// <summary>Rule id (the logical rule; rule sets of different jurisdictions may implement it with their own questions).</summary>
     public required string RuleId { get; init; }
 
     /// <summary>Rule module.</summary>
     public required string Module { get; init; }
 
-    /// <summary>Rule title.</summary>
-    public required string Title { get; init; }
-
-    /// <summary><c>high</c>, <c>medium</c> or <c>low</c>.</summary>
-    public required string Severity { get; init; }
-
-    /// <summary>
-    /// Group of the finding: <c>text</c> (violation by the text of the law), <c>assess</c> (depends on how the average
-    /// consumer understands the text, case by case), <c>verify</c> (depends on facts outside the website) or <c>not_checkable</c>.
-    /// </summary>
-    public required string Checkability { get; init; }
-
     /// <summary><c>segment</c> for a finding in one text, <c>site</c> for information missing on the whole site.</summary>
     public required string Scope { get; init; }
 
-    /// <summary>Confidence band.</summary>
-    public FindingBand Band { get; init; }
-
-    /// <summary>Score from 0 to 1 computed from the question probabilities.</summary>
-    public double Score { get; init; }
-
-    /// <summary>The sentence or paragraph; for a site finding the closest paragraph found, if any.</summary>
+    /// <summary>The sentence or paragraph as it is on the web; for a site finding the closest paragraph found, if any.</summary>
     public string? Text { get; init; }
 
     /// <summary>Preceding sentences.</summary>
@@ -67,23 +51,39 @@ public sealed class Finding
     /// <summary>True when the text is page frame or menu.</summary>
     public bool Boilerplate { get; init; }
 
-    /// <summary>Probabilities of the questions the rule used.</summary>
-    public IReadOnlyDictionary<string, double> QuestionProbs { get; init; } = new Dictionary<string, double>();
-
-    /// <summary>Legal references for the EU and the scanned country.</summary>
-    public IReadOnlyList<LegalReference> LegalRefs { get; init; } = [];
-
-    /// <summary>Why this is a problem.</summary>
-    public string Explanation { get; init; } = "";
-
-    /// <summary>What to do.</summary>
-    public string Recommendation { get; init; } = "";
-
-    /// <summary>Notes of the tool, e.g. that the information may be in an unread PDF.</summary>
-    public IReadOnlyList<string> Notes { get; init; } = [];
-
     /// <summary>Hash of the segment the finding is based on.</summary>
     public string? SegmentHash { get; init; }
+
+    /// <summary>Fingerprint of the sentence (<see cref="Segmentation.SentenceFingerprint"/>), for finding it again after small edits.</summary>
+    public long? TextFingerprint { get; init; }
+
+    /// <summary>Verdicts of the jurisdictions where the rule found the problem, ordered by <see cref="VerdictOrder"/>.</summary>
+    public IReadOnlyList<JurisdictionVerdict> Verdicts { get; init; } = [];
+
+    /// <summary>Parameters for the texts of the rule (none of today's rules uses any).</summary>
+    public IReadOnlyDictionary<string, object?> Params { get; init; } = new Dictionary<string, object?>();
+
+    /// <summary>The strictest verdict (<see cref="VerdictOrder"/>); the summary properties below come from it.</summary>
+    [System.Text.Json.Serialization.JsonIgnore]
+    public JurisdictionVerdict Strictest => VerdictOrder.Strictest(Verdicts);
+
+    /// <summary><c>high</c>, <c>medium</c> or <c>low</c> of the strictest verdict.</summary>
+    public string Severity => Strictest.Severity;
+
+    /// <summary>
+    /// Group of the strictest verdict: <c>text</c> (violation by the text of the law), <c>assess</c> (depends on how the average
+    /// consumer understands the text, case by case), <c>verify</c> (depends on facts outside the website) or <c>not_checkable</c>.
+    /// </summary>
+    public string Checkability => Strictest.Checkability;
+
+    /// <summary>Confidence band of the strictest verdict.</summary>
+    public FindingBand Band => Strictest.Band;
+
+    /// <summary>Score of the strictest verdict.</summary>
+    public double Score => Strictest.Score;
+
+    /// <summary>Probabilities of the questions of the strictest verdict, by question id of its rule set.</summary>
+    public IReadOnlyDictionary<string, double> QuestionProbs => Strictest.QuestionProbs;
 }
 
 /// <summary>
@@ -121,6 +121,12 @@ public sealed class RuleSetInfo
     /// <summary>Source file.</summary>
     public required string File { get; init; }
 
+    /// <summary>Name of the set (file name without extension); probabilities are keyed by <see cref="QuestionKey"/> with it.</summary>
+    public string Name { get; init; } = "";
+
+    /// <summary>Jurisdictions the set ran for in this run.</summary>
+    public IReadOnlyList<string> Jurisdictions { get; init; } = [];
+
     /// <summary>Question ids in the order of the file.</summary>
     public IReadOnlyList<string> QuestionIds { get; init; } = [];
 }
@@ -135,6 +141,12 @@ public sealed class RuleResult
 
     /// <summary>Segment the result is about; null for site rules.</summary>
     public string? SegmentHash { get; init; }
+
+    /// <summary>Jurisdiction the rule was evaluated for.</summary>
+    public string Jurisdiction { get; init; } = "";
+
+    /// <summary>Name of the rule set.</summary>
+    public string RuleSet { get; init; } = "";
 
     /// <summary>What happened.</summary>
     public RuleOutcome Outcome { get; init; }

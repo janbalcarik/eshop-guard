@@ -45,8 +45,10 @@ internal sealed class EvaluationSummary
 /// <summary>
 /// Sends every segment to Jev in one request with the questions of all applicable rule sets (TypeSafe recommends
 /// batching questions: the answers do not change and the request is sent once instead of once per module) and
-/// stores the probabilities of "yes" in <see cref="Segment.Probabilities"/>. The cache keeps the answers per rule set,
-/// so a new version of one set asks again only its own questions.
+/// stores the probabilities of "yes" in <see cref="Segment.Probabilities"/> under <see cref="QuestionKey"/>. Rule sets of
+/// different jurisdictions that ask a question with the same id and a different wording get a request of their own, so the
+/// answers never mix; with one jurisdiction nothing changes. The cache keeps the answers per rule set, so a new version of
+/// one set asks again only its own questions.
 /// </summary>
 internal sealed class SegmentEvaluator(
     IOptions<EshopGuardOptions> options,
@@ -104,13 +106,13 @@ internal sealed class SegmentEvaluator(
         }
 
         var hits = await cache.GetManyAsync(work.Select(w => w.CacheKey).ToList(), ct);
-        var cached = new List<(Segment Segment, JevResult Result)>();
+        var cached = new List<(Segment Segment, string RuleSet, JevResult Result)>();
         var uncached = new List<WorkItem>();
         foreach (var item in work)
         {
             if (hits.TryGetValue(item.CacheKey, out var hit))
             {
-                cached.Add((item.Segment, hit));
+                cached.Add((item.Segment, item.RuleSet, hit));
             }
             else
             {
@@ -128,7 +130,7 @@ internal sealed class SegmentEvaluator(
             return new EvaluationSummary { Estimate = estimate, Skipped = true };
         }
 
-        var results = new ConcurrentBag<(Segment Segment, JevResult Result)>();
+        var results = new ConcurrentBag<(Segment Segment, string RuleSet, JevResult Result)>();
         var failed = new ConcurrentBag<string>();
         var completed = 0;
         var errors = 0;
@@ -146,7 +148,6 @@ internal sealed class SegmentEvaluator(
                 {
                     var result = await client.EvaluateAsync(request.State, request.Questions, stop.Token);
                     Interlocked.Add(ref tokens, result.Usage.InputTokens);
-                    results.Add((request.Segment, result));
                     foreach (var item in request.Items)
                     {
                         var own = new JevResult
@@ -155,6 +156,7 @@ internal sealed class SegmentEvaluator(
                             Answers = result.Answers.Where(a => item.Questions.ContainsKey(a.Key)).ToDictionary(a => a.Key, a => a.Value),
                             Usage = result.Usage,
                         };
+                        results.Add((request.Segment, item.RuleSet, own));
                         await cache.SetAsync(item.CacheKey, own, ct);
                     }
                 }
@@ -193,13 +195,13 @@ internal sealed class SegmentEvaluator(
         }
 
         // Probabilities are merged after all requests finish, so no two requests write into one dictionary.
-        foreach (var (segment, result) in cached.Concat(results))
+        foreach (var (segment, ruleSet, result) in cached.Concat(results))
         {
             foreach (var (question, answer) in result.Answers)
             {
                 if (answer.Noul is { } probability)
                 {
-                    segment.Probabilities[question] = probability;
+                    segment.Probabilities[QuestionKey.Of(ruleSet, question)] = probability;
                 }
             }
         }
@@ -230,13 +232,43 @@ internal sealed class SegmentEvaluator(
                 where segment.Kind == (set.AppliesTo == RuleValidator.Sentence ? SegmentKind.Sentence : SegmentKind.LegalParagraph)
                 where include is null || include(segment, set)
                 let state = BuildState(segment)
-                select new WorkItem(segment, questions[set], state, JevCacheKeys.Create(JevCacheKind.Detail, model, set.Version, questionLanguage, questions[set], state), set.Module))
+                select new WorkItem(segment, questions[set], state, JevCacheKeys.Create(JevCacheKind.Detail, model, set.Version, questionLanguage, questions[set], state), set.Module, set.Name))
             .ToList();
     }
 
-    // Question ids are unique across the rule sets of one country (RuleValidator), so they can share a request.
-    private static List<Request> Group(List<WorkItem> items) =>
-        items.GroupBy(item => item.Segment).Select(g => new Request(g.Key, g.First().State, g.ToList())).ToList();
+    /// <summary>
+    /// One request per segment with the questions of all its rule sets. Question ids are unique across the sets of one
+    /// jurisdiction (RuleValidator); a set of another jurisdiction that asks a question with the same id and a different
+    /// definition goes into a further request, a question with the same definition is asked once.
+    /// </summary>
+    internal static List<Request> Group(List<WorkItem> items)
+    {
+        var requests = new List<Request>();
+        foreach (var segmentItems in items.GroupBy(item => item.Segment))
+        {
+            var open = new List<(List<WorkItem> Items, Dictionary<string, string> Definitions)>();
+            foreach (var item in segmentItems)
+            {
+                var definitions = item.Questions.ToDictionary(q => q.Key, q => JevCacheKeys.Canonical(q.Value), StringComparer.Ordinal);
+                var target = open.FirstOrDefault(r => definitions.All(d => !r.Definitions.TryGetValue(d.Key, out var other) || other == d.Value));
+                if (target.Items is null)
+                {
+                    target = ([], new Dictionary<string, string>(StringComparer.Ordinal));
+                    open.Add(target);
+                }
+
+                target.Items.Add(item);
+                foreach (var (id, definition) in definitions)
+                {
+                    target.Definitions[id] = definition;
+                }
+            }
+
+            requests.AddRange(open.Select(r => new Request(segmentItems.Key, r.Items[0].State, r.Items)));
+        }
+
+        return requests;
+    }
 
     private JevCallEstimate Estimate(List<Request> pending, int cachedCalls)
     {
@@ -283,11 +315,13 @@ internal sealed class SegmentEvaluator(
                 },
             });
 
-    private sealed record WorkItem(Segment Segment, Dictionary<string, JevQuestion> Questions, object State, JevCacheKey CacheKey, string Module);
+    internal sealed record WorkItem(Segment Segment, Dictionary<string, JevQuestion> Questions, object State, JevCacheKey CacheKey, string Module, string RuleSet);
 
-    /// <summary>One request to Jev: a segment with the questions of all its rule sets that are not in the cache.</summary>
-    private sealed record Request(Segment Segment, object State, List<WorkItem> Items)
+    /// <summary>One request to Jev: a segment with the questions of its rule sets that are not in the cache.</summary>
+    internal sealed record Request(Segment Segment, object State, List<WorkItem> Items)
     {
-        public Dictionary<string, JevQuestion> Questions { get; } = Items.SelectMany(i => i.Questions).ToDictionary(q => q.Key, q => q.Value);
+        public Dictionary<string, JevQuestion> Questions { get; } = Items.SelectMany(i => i.Questions)
+            .GroupBy(q => q.Key)
+            .ToDictionary(g => g.Key, g => g.First().Value);
     }
 }

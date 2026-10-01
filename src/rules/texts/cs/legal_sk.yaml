@@ -1,0 +1,41 @@
+# Kostra překladu do jazyka cs: vyplňte texty a review; zástupné symboly {…} musí zůstat stejné.
+locale: cs
+rule_set: legal_sk
+source_version: "legal-sk-2026-09-26-draft4"
+review:
+  translated_by: ""
+  reviewed_by: ""
+  reviewed_at: ""
+rules:
+  legal_adr_missing:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  legal_redress_request_missing:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  legal_complaints_missing:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  legal_withdrawal_missing:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  legal_withdrawal_form_missing:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  legal_harmonized_notice_missing:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  legal_withdrawal_function_missing:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  legal_odr_link_outdated:
+    title: ""
+    explanation: ""
+    recommendation: ""

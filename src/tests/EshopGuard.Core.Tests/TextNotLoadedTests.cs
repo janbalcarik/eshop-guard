@@ -68,11 +68,11 @@ public class TextNotLoadedTests
             Assert.EndsWith("/sviecka.html", shell.Url, StringComparison.Ordinal);
             Assert.Equal("Next.js", shell.ScriptApp);
             Assert.Equal(1, result.Stats.PagesTextNotLoaded);
-            var warning = Assert.Single(result.Warnings, w => w.Contains("skoro žádný čitelný text", StringComparison.Ordinal));
+            var warning = Assert.Single(TestTexts.Warnings(result.Warnings), w => w.Contains("skoro žádný čitelný text", StringComparison.Ordinal));
             Assert.StartsWith("1 z 3 stažených stránek", warning, StringComparison.Ordinal);
-            Assert.DoesNotContain(result.Warnings, w => w.Contains("z velké části", StringComparison.Ordinal));
+            Assert.DoesNotContain(TestTexts.Warnings(result.Warnings), w => w.Contains("z velké části", StringComparison.Ordinal));
 
-            var report = MarkdownReportWriter.Render(result);
+            var report = MarkdownReportWriter.Render(result, TestTexts.Renderer, "cs");
             Assert.Contains("**Pozor: text 1 z 3 stránek se nenačetl**", report);
             Assert.Contains($"  - {shell.Url} (", report);
             Assert.Contains("aplikace Next.js", report);
@@ -110,7 +110,7 @@ public class TextNotLoadedTests
                 .ScanSiteAsync(FileSystemPageFetcher.DefaultBaseUrl, new ScanOptions { Country = "sk" }, ct: TestContext.Current.CancellationToken);
 
             Assert.Equal(2, result.Stats.PagesTextNotLoaded);
-            Assert.Contains(result.Warnings, w => w.StartsWith("Web je z velké části vykreslovaný JavaScriptem", StringComparison.Ordinal));
+            Assert.Contains(TestTexts.Warnings(result.Warnings), w => w.StartsWith("Web je z velké části vykreslovaný JavaScriptem", StringComparison.Ordinal));
         }
         finally
         {

@@ -1,0 +1,29 @@
+# Texty pravidel sady dur (cs). Otázky pro Jev, logika a odkazy na zákon jsou v rules/dur.yaml.
+# Klíče a zástupné symboly musí být ve všech jazycích stejné; kontrola: eshopguard rules check-texts.
+locale: cs
+rule_set: dur
+source_version: "dur-2026-09-30-draft3"
+review:
+  original: true
+  note: "Původní texty pravidel, přesunuté beze změny z rules/dur.yaml (1. 10. 2026)."
+rules:
+  dur_lifetime_claim:
+    title: "Tvrzení o životnosti výrobku k ověření (nové od 27. 9. 2026)"
+    explanation: "Nepravdivé tvrzení, že zboží má za běžných podmínek používání určitou životnost (dobu nebo intenzitu používání), je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Z textu nelze poznat, zda je tvrzení pravdivé, proto jde o nález k ověření."
+    recommendation: "Ověřte, že údaj o životnosti má oporu v dokladech výrobce (zkoušky, norma, podmínky používání); pokud ne, tvrzení odstraňte."
+  dur_repairable_claim:
+    title: "Tvrzení o opravitelnosti k ověření (nové od 27. 9. 2026)"
+    explanation: "Prezentovat zboží jako opravitelné, i když opravit nejde, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Pravdivost z textu poznat nelze."
+    recommendation: "Ověřte, že zboží opravit skutečně jde (dostupné náhradní díly, postup, servis); pokud ne, tvrzení odstraňte."
+  dur_consumable_early:
+    title: "Navádzanie na skoršiu výmenu spotrebného materiálu k ověření (nové od 27. 9. 2026)"
+    explanation: "Navádět spotřebitele, aby spotřební materiál vyměnil nebo doplnil dřív, než je z technických důvodů nutné, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Zda je interval technicky odůvodněný, z textu poznat nelze."
+    recommendation: "Ověřte, že doporučený interval výměny vychází z technických důvodů (údaje výrobce); pokud ne, doporučte výměnu po spotřebování nebo opotřebení."
+  dur_non_original_damage:
+    title: "Tvrzení, že neoriginální díly poškodí výrobek, k ověření (nové od 27. 9. 2026)"
+    explanation: "Nepravdivé tvrzení, že neoriginální spotřební materiál, náhradní díly nebo příslušenství poškodí funkčnost zboží, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Pravdivost z textu poznat nelze."
+    recommendation: "Ověřte, že tvrzení o poškození má oporu v dokladech výrobce; pokud ne, tvrzení odstraňte."
+  dur_update_necessary:
+    title: "Aktualizace softwaru prezentovaná jako nezbytná, k ověření (nové od 27. 9. 2026)"
+    explanation: "Prezentovat aktualizaci softwaru jako nezbytnou pro zachování souladu, i když jen vylepšuje funkce, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Co aktualizace dělá, z textu poznat nelze."
+    recommendation: "Ověřte, že aktualizace je skutečně nutná pro zachování souladu; pokud jen přidává funkce, neprezentujte ji jako nezbytnou."

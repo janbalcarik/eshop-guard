@@ -7,7 +7,7 @@ namespace EshopGuard.Core.Pipeline;
 /// Input of <see cref="RulesStep"/>: the evaluated segments and what the site-level rules read from the pages. The rule
 /// sets, labels and legal requirements come from the rule catalog of the run.
 /// </summary>
-/// <param name="Country">Jurisdiction of the rules.</param>
+/// <param name="Jurisdictions">Jurisdictions the rules are evaluated for.</param>
 /// <param name="Segments">Unique segments with their probabilities.</param>
 /// <param name="PageTexts">Everything a customer sees on each analyzed page, for page-level allowlists.</param>
 /// <param name="PageSignals">Text, links and images of every page, for <c>site_signal</c> rules.</param>
@@ -16,7 +16,7 @@ namespace EshopGuard.Core.Pipeline;
 /// <param name="TextNotLoadedPages">Pages whose text was not in the HTML.</param>
 /// <param name="AddMissingLegalPagesFinding">No legal page was found and the legal module runs.</param>
 internal sealed record RulesInput(
-    string Country,
+    IReadOnlyList<string> Jurisdictions,
     IReadOnlyList<Segment> Segments,
     IReadOnlyDictionary<string, string> PageTexts,
     IReadOnlyDictionary<string, PageSignals> PageSignals,
@@ -32,4 +32,7 @@ internal sealed record RulesInput(
 
     /// <summary>Rules that look for information anywhere on the site run (a scan, or texts with a legal one).</summary>
     public bool EvaluateSitePresence { get; init; } = true;
+
+    /// <summary>Date of the evaluation for <c>effective_from</c>; null means today by the clock of the step.</summary>
+    public DateOnly? AsOf { get; init; }
 }

@@ -5,14 +5,12 @@ using EshopGuard.Core.Rules;
 namespace EshopGuard.Core.Pipeline;
 
 /// <summary>
-/// Applies the rule sets to the evaluated segments and the pages of the site: findings of sentences and paragraphs, of
-/// information missing on the site, of pages whose text was not loaded and of documents that were not read.
+/// Applies the rule sets to the evaluated segments and the pages of the site for every chosen jurisdiction: findings of
+/// sentences and paragraphs, of information missing on the site, of pages whose text was not loaded and of documents that
+/// were not read, and the obligations of the whole site. Effective dates are compared with the date of the run.
 /// </summary>
-internal sealed class RulesStep
+internal sealed class RulesStep(TimeProvider clock)
 {
-    /// <summary>Order of modules in reports; modules not listed here follow alphabetically.</summary>
-    private static readonly string[] ModuleOrder = ["eco", "dur", "lr", "ucp", "legal"];
-
     public RuleEngineOutput Evaluate(RulesInput input, RuleCatalog catalog, IReadOnlyList<RuleSet> ruleSets)
     {
         ArgumentNullException.ThrowIfNull(input);
@@ -28,21 +26,25 @@ internal sealed class RulesStep
             EvaluateSitePresence = input.EvaluateSitePresence,
             LegalRequirements = catalog.LegalRequirements,
             PageCategories = input.PageCategories,
-            Country = input.Country,
+            Jurisdictions = input.Jurisdictions,
+            AsOf = input.AsOf ?? Today,
             UncheckedDocuments = input.UncheckedDocuments,
             TextNotLoadedPages = input.TextNotLoadedPages,
             AddMissingLegalPagesFinding = input.AddMissingLegalPagesFinding,
         });
     }
 
+    /// <summary>Today by the clock of the step (UTC).</summary>
+    public DateOnly Today => DateOnly.FromDateTime(clock.GetUtcNow().UtcDateTime);
+
     /// <summary>The input of a scan: texts of the analyzed pages, signals of all pages.</summary>
     public static RulesInput ForScan(
-        string country, IReadOnlyList<Segment> segments, IReadOnlyList<ExtractedPageRecord> pages, IReadOnlyList<UncheckedDocument> uncheckedDocuments,
+        IReadOnlyList<string> jurisdictions, IReadOnlyList<Segment> segments, IReadOnlyList<ExtractedPageRecord> pages, IReadOnlyList<UncheckedDocument> uncheckedDocuments,
         IReadOnlyList<PageInfo> textNotLoaded, bool addMissingLegalPagesFinding)
     {
         var analyzed = pages.Where(p => p.Info.IncludedInAnalysis).ToList();
         return new RulesInput(
-            country,
+            jurisdictions,
             segments,
             analyzed.ToDictionary(p => p.Info.Url, p => PageText(p.Info, p.Content)),
             pages.ToDictionary(p => p.Info.Url, p => Signals(p.Info, p.Content)),
@@ -52,54 +54,19 @@ internal sealed class RulesStep
             addMissingLegalPagesFinding);
     }
 
-    /// <summary>The rule sets of the chosen modules for the country; a module without enabled rules is reported.</summary>
-    public static List<RuleSet> SelectRuleSets(RuleCatalog catalog, IReadOnlyList<string> modules, string country, List<string> warnings)
-    {
-        if (modules.Count == 0)
-        {
-            // No explicit choice: every module with enabled rules for the country, without warnings for the others.
-            modules = catalog.RuleSets
-                .Where(s => s.Enabled && s.Jurisdictions.Contains(country))
-                .Select(s => s.Module)
-                .Distinct()
-                .OrderBy(m => Array.IndexOf(ModuleOrder, m) is var i && i >= 0 ? i : ModuleOrder.Length)
-                .ThenBy(m => m, StringComparer.Ordinal)
-                .ToList();
-        }
-
-        var selected = new List<RuleSet>();
-        foreach (var module in modules)
-        {
-            var sets = catalog.RuleSets.Where(s => s.Module == module && s.Jurisdictions.Contains(country)).ToList();
-            if (sets.Count == 0)
-            {
-                var elsewhere = catalog.RuleSets.Where(s => s.Module == module).SelectMany(s => s.Jurisdictions).Distinct().Order().ToList();
-                warnings.Add(elsewhere.Count > 0
-                    ? $"Modul {module} má pravidla jen pro {string.Join(", ", elsewhere)}, pro zemi {country} se nespustil."
-                    : $"Pro modul {module} neexistuje žádná sada pravidel, modul se nespustil.");
-            }
-            else if (!sets.Any(s => s.Enabled))
-            {
-                warnings.Add($"Sada pravidel modulu {module} pro zemi {country} je vypnutá ({string.Join(", ", sets.Select(s => s.SourceFile))}), modul se nespustil.");
-            }
-
-            selected.AddRange(sets.Where(s => s.Enabled));
-        }
-
-        return selected;
-    }
-
     /// <summary>Modules whose sentences the sieve asks first: sentence modules with a sieve question.</summary>
     public static List<string> SieveModules(SieveDefinition? sieve, IReadOnlyList<RuleSet> ruleSets) =>
         sieve is null
             ? []
             : ruleSets.Where(s => s.AppliesTo == RuleValidator.Sentence && sieve.Questions.ContainsKey(s.Module)).Select(s => s.Module).Distinct().ToList();
 
-    public static RuleSetInfo Describe(RuleSet set) => new()
+    public static RuleSetInfo Describe(RuleSet set, IReadOnlyList<string> jurisdictions) => new()
     {
         Module = set.Module,
         Version = set.Version,
         File = set.SourceFile,
+        Name = set.Name,
+        Jurisdictions = set.Jurisdictions.Where(jurisdictions.Contains).Order(StringComparer.Ordinal).ToList(),
         QuestionIds = set.Questions.Keys.ToList(),
     };
 
@@ -107,23 +74,17 @@ internal sealed class RulesStep
     /// A page whose text was not in the HTML must never pass for a page without findings: the report says so,
     /// and when most of the site is like that, it says the whole result is incomplete.
     /// </summary>
-    internal static IEnumerable<string> NotLoadedWarnings(int notLoaded, int pages)
+    internal static IEnumerable<ScanWarning> NotLoadedWarnings(int notLoaded, int pages)
     {
         if (notLoaded == 0)
         {
             return [];
         }
 
-        var warnings = new List<string>
-        {
-            $"{notLoaded} z {pages} stažených stránek nemělo v HTML skoro žádný čitelný text; web je nejspíš vykresluje až JavaScriptem, "
-            + "který nástroj nespouští. Na těchto stránkách je zkontrolovaný jen titulek, meta popis a popis z dat pro vyhledávače (JSON-LD); "
-            + "to, že u nich nejsou nálezy, neznamená, že jsou v pořádku. Seznam je v části „Co nebylo zkontrolováno“.",
-        };
+        var warnings = new List<ScanWarning> { new(EngineCodes.TextNotLoaded, NoteParams.Of(("count", notLoaded), ("pages", pages))) };
         if (notLoaded * 2 >= pages)
         {
-            warnings.Add("Web je z velké části vykreslovaný JavaScriptem, kontrola je proto neúplná. "
-                + "Spolehlivý výsledek dá připojení e-shopu přes konektor nebo produktový feed.");
+            warnings.Add(new ScanWarning(EngineCodes.MostlyScriptRendered, NoteParams.None));
         }
 
         return warnings;

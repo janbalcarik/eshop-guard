@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using EshopGuard.Core.Fix;
 using EshopGuard.Core.Jev;
+using EshopGuard.Core.Rules.Texts;
 using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console;
 using Spectre.Console.Cli;
@@ -14,9 +15,18 @@ internal sealed class RewriteSettings : CommandSettings
     public string RunDirectory { get; init; } = "";
 
     [CommandOption("--country <CODE>")]
-    [Description("Sada pravidel pro kontrolu přepsaných pasáží: cz nebo sk.")]
+    [Description("Země, jejíž pravidla zkontrolují přepsané pasáže (kód z config/jurisdictions.yaml, dnes sk nebo cz).")]
     [DefaultValue("sk")]
     public string Country { get; init; } = "sk";
+
+    [CommandOption("--jurisdictions <LIST>")]
+    [Description("Víc zemí najednou (např. sk,cz): oprava musí projít pravidly všech. Nahrazuje --country.")]
+    public string? Jurisdictions { get; init; }
+
+    [CommandOption("--lang <CODE>")]
+    [Description("Jazyk názvů pravidel ve zprávě o přepisu (výchozí cs); zadání pro model je v jazyce obsahu e-shopu.")]
+    [DefaultValue("cs")]
+    public string Lang { get; init; } = "cs";
 
     [CommandOption("--limit <N>")]
     [Description("Přepíše nejvýš N stránek (podle URL), na zkoušku.")]
@@ -37,7 +47,7 @@ internal sealed class RewriteSettings : CommandSettings
     public override ValidationResult Validate() =>
         string.IsNullOrWhiteSpace(RunDirectory) ? ValidationResult.Error("Zadejte složku s výsledky skenu.")
         : Limit is <= 0 ? ValidationResult.Error("--limit musí být kladné číslo.")
-        : SettingsValidation.Validate("", Country, "en");
+        : SettingsValidation.Validate("", Country, "en", Jurisdictions, Lang);
 }
 
 /// <summary>
@@ -70,7 +80,8 @@ internal sealed class RewriteCommand : AsyncCommand<RewriteSettings>
         RewriteInput input;
         try
         {
-            input = ScanOutputReader.Read(settings.RunDirectory, settings.Country, settings.Limit);
+            var jurisdictions = SettingsValidation.ParseJurisdictions(settings.Country, settings.Jurisdictions);
+            input = ScanOutputReader.Read(settings.RunDirectory, jurisdictions[0], settings.Limit, jurisdictions);
         }
         catch (InvalidOperationException ex)
         {
@@ -85,6 +96,11 @@ internal sealed class RewriteCommand : AsyncCommand<RewriteSettings>
             AnsiConsole.MarkupLine($"[red]{Markup.Escape(databaseError)}[/]");
             return 1;
         }
+        if (await SettingsValidation.LoadRulesAsync(services, input.ResolvedJurisdictions, [], settings.Lang, cancellationToken) is not { } catalog)
+        {
+            return 1;
+        }
+
         var rewriter = services.GetRequiredService<ITextRewriter>();
         try
         {
@@ -108,7 +124,7 @@ internal sealed class RewriteCommand : AsyncCommand<RewriteSettings>
 
             var result = await AnsiConsole.Status().StartAsync("Přepisuji…", async status =>
                 await rewriter.RewriteAsync(input, new Progress<RewriteProgress>(p => status.Status($"Přepisuji… {p.Done}/{p.Total}")), cancellationToken));
-            await RewriteReportWriter.WriteAsync(result, settings.RunDirectory, cancellationToken);
+            await RewriteReportWriter.WriteAsync(result, settings.RunDirectory, new RuleTextRenderer(catalog), settings.Lang, cancellationToken);
 
             var findings = result.Pages.SelectMany(p => p.Findings).ToList();
             var table = new Table().Border(TableBorder.Rounded).AddColumn("Ukazatel").AddColumn(new TableColumn("Hodnota").RightAligned());

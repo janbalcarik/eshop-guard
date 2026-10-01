@@ -22,38 +22,58 @@ internal static class RuleValidator
     public static readonly IReadOnlySet<string> SignalSources = new HashSet<string>(StringComparer.Ordinal) { "all", "text", "links", "images" };
 
     private static readonly HashSet<string> QuestionTypes = ["yes_no", "choice", "score"];
-    private static readonly HashSet<string> Countries = ["cz", "sk"];
     private static readonly HashSet<string> Severities = ["high", "medium", "low"];
     private static readonly HashSet<string> Checkabilities = ["text", "assess", "verify", "not_checkable"];
-    private static readonly HashSet<string> RefJurisdictions = ["eu", "cz", "sk"];
+    private static readonly HashSet<string> RefStatuses = [EngineCodes.ToVerify, EngineCodes.ToComplete];
 
-    public static List<string> Validate(IReadOnlyList<RuleSet> ruleSets, LabelConfiguration labels, LegalRequirementList? legalRequirements = null)
+    /// <summary>Jurisdiction of references to EU law.</summary>
+    public const string Eu = "eu";
+
+    public static List<string> Validate(
+        IReadOnlyList<RuleSet> ruleSets, LabelConfiguration labels, LegalRequirementList? legalRequirements = null, JurisdictionRegistry? jurisdictions = null)
     {
         var errors = new List<string>();
+        jurisdictions ??= JurisdictionRegistry.Empty;
         foreach (var set in ruleSets)
         {
-            ValidateSet(set, labels, legalRequirements ?? LegalRequirementList.Empty, errors);
+            ValidateSet(set, labels, legalRequirements ?? LegalRequirementList.Empty, jurisdictions, errors);
         }
 
-        // Sets that can run for the same country must not share rule or question ids.
+        foreach (var duplicate in ruleSets.GroupBy(s => s.Name).Where(g => g.Count() > 1))
+        {
+            errors.Add($"Sada pravidel „{duplicate.Key}“ je načtená víckrát ({string.Join(", ", duplicate.Select(s => s.SourceFile))}).");
+        }
+
+        // Sets that can run for the same jurisdiction must not share rule or question ids. Sets of different jurisdictions may
+        // implement the same logical rule (one finding with a verdict per jurisdiction) and ask questions with the same id,
+        // but only within one module and kind of text, so their answers and findings stay comparable.
         for (var i = 0; i < ruleSets.Count; i++)
         {
             for (var j = i + 1; j < ruleSets.Count; j++)
             {
                 var (a, b) = (ruleSets[i], ruleSets[j]);
-                if (!a.Jurisdictions.Intersect(b.Jurisdictions).Any())
+                var sharedRules = a.Rules.Select(r => r.Id).Intersect(b.Rules.Select(r => r.Id)).ToList();
+                var sharedQuestions = a.Questions.Keys.Intersect(b.Questions.Keys).ToList();
+                if (a.Jurisdictions.Intersect(b.Jurisdictions).Any())
                 {
+                    errors.AddRange(sharedRules.Select(id => $"{a.SourceFile} a {b.SourceFile}: pravidlo „{id}“ je definované dvakrát pro stejnou zemi."));
+                    errors.AddRange(sharedQuestions.Select(id => $"{a.SourceFile} a {b.SourceFile}: otázka „{id}“ je definovaná dvakrát pro stejnou zemi."));
                     continue;
                 }
 
-                foreach (var id in a.Rules.Select(r => r.Id).Intersect(b.Rules.Select(r => r.Id)))
+                if ((sharedRules.Count > 0 || sharedQuestions.Count > 0) && (a.Module != b.Module || a.AppliesTo != b.AppliesTo))
                 {
-                    errors.Add($"{a.SourceFile} a {b.SourceFile}: pravidlo „{id}“ je definované dvakrát pro stejnou zemi.");
+                    errors.Add($"{a.SourceFile} a {b.SourceFile}: stejná id pravidel nebo otázek ({string.Join(", ", sharedRules.Concat(sharedQuestions).Distinct())}) "
+                        + "smí mít jen sady stejného modulu a stejného applies_to.");
                 }
 
-                foreach (var id in a.Questions.Keys.Intersect(b.Questions.Keys))
+                foreach (var id in sharedRules)
                 {
-                    errors.Add($"{a.SourceFile} a {b.SourceFile}: otázka „{id}“ je definovaná dvakrát pro stejnou zemi.");
+                    var (ra, rb) = (a.Rules.First(r => r.Id == id), b.Rules.First(r => r.Id == id));
+                    if (ra.Scope != rb.Scope)
+                    {
+                        errors.Add($"{a.SourceFile} a {b.SourceFile}: pravidlo „{id}“ má v sadách různý scope ({ra.Scope}, {rb.Scope}).");
+                    }
                 }
             }
         }
@@ -98,7 +118,7 @@ internal static class RuleValidator
         return errors;
     }
 
-    private static void ValidateSet(RuleSet set, LabelConfiguration labels, LegalRequirementList legalRequirements, List<string> errors)
+    private static void ValidateSet(RuleSet set, LabelConfiguration labels, LegalRequirementList legalRequirements, JurisdictionRegistry jurisdictions, List<string> errors)
     {
         var file = set.SourceFile;
         void Error(string message) => errors.Add($"{file}: {message}");
@@ -118,9 +138,16 @@ internal static class RuleValidator
             Error($"applies_to musí být {Sentence} nebo {LegalParagraph}, je „{set.AppliesTo}“.");
         }
 
-        if (set.Jurisdictions.Count == 0 || set.Jurisdictions.Any(j => !Countries.Contains(j)))
+        // Without the list of jurisdictions (its own error stops the load) every reference would be reported again.
+        var known = jurisdictions.Items.Count > 0;
+        if (set.Jurisdictions.Count == 0 || (known && set.Jurisdictions.Any(j => !jurisdictions.Contains(j))))
         {
-            Error($"jurisdictions musí obsahovat cz nebo sk, je [{string.Join(", ", set.Jurisdictions)}].");
+            Error($"jurisdictions musí obsahovat jen jurisdikce z config/jurisdictions.yaml ({string.Join(", ", jurisdictions.Codes)}), je [{string.Join(", ", set.Jurisdictions)}].");
+        }
+
+        if (set.Jurisdictions.Distinct().Count() != set.Jurisdictions.Count)
+        {
+            Error($"jurisdictions obsahuje jurisdikci víckrát: [{string.Join(", ", set.Jurisdictions)}].");
         }
 
         if (set.PresenceThreshold is <= 0 or > 1)
@@ -150,7 +177,7 @@ internal static class RuleValidator
 
         foreach (var rule in set.Rules)
         {
-            ValidateRule(set, rule, labels, legalRequirements, message => Error($"pravidlo „{rule.Id}“: {message}"));
+            ValidateRule(set, rule, labels, legalRequirements, jurisdictions, message => Error($"pravidlo „{rule.Id}“: {message}"));
         }
     }
 
@@ -177,29 +204,64 @@ internal static class RuleValidator
         }
     }
 
-    private static void ValidateRule(RuleSet set, RuleDefinition rule, LabelConfiguration labels, LegalRequirementList legalRequirements, Action<string> error)
+    private static void ValidateRule(
+        RuleSet set, RuleDefinition rule, LabelConfiguration labels, LegalRequirementList legalRequirements, JurisdictionRegistry jurisdictions, Action<string> error)
     {
         if (string.IsNullOrWhiteSpace(rule.Id))
         {
             error("chybí id.");
         }
 
-        if (string.IsNullOrWhiteSpace(rule.Title))
-        {
-            error("chybí title.");
-        }
-
-        if (string.IsNullOrWhiteSpace(rule.Explanation) || string.IsNullOrWhiteSpace(rule.Recommendation))
-        {
-            error("musí mít explanation i recommendation.");
-        }
-
         foreach (var (country, text) in rule.ExplanationByJurisdiction ?? [])
         {
-            if (!Countries.Contains(country) || string.IsNullOrWhiteSpace(text))
+            if ((jurisdictions.Items.Count > 0 && !jurisdictions.Contains(country)) || string.IsNullOrWhiteSpace(text))
             {
-                error($"explanation_by_jurisdiction smí mít jen neprázdné texty pro cz nebo sk, je „{country}“.");
+                error($"explanation_by_jurisdiction smí mít jen neprázdné texty pro jurisdikce z config/jurisdictions.yaml, je „{country}“.");
             }
+        }
+
+        foreach (var jurisdiction in rule.EffectiveFrom.Keys.Where(j => !set.Jurisdictions.Contains(j)))
+        {
+            error($"effective_from pro jurisdikci „{jurisdiction}“, která není v jurisdictions sady [{string.Join(", ", set.Jurisdictions)}].");
+        }
+
+        foreach (var (jurisdiction, change) in rule.JurisdictionOverrides)
+        {
+            if (!set.Jurisdictions.Contains(jurisdiction))
+            {
+                error($"jurisdiction_overrides pro jurisdikci „{jurisdiction}“, která není v jurisdictions sady [{string.Join(", ", set.Jurisdictions)}].");
+            }
+
+            if (change is null || (change.Severity is null && change.Checkability is null && change.Bands is null))
+            {
+                error($"jurisdiction_overrides.{jurisdiction} nic nemění; uveďte severity, checkability nebo bands.");
+                continue;
+            }
+
+            if (change.Severity is { } severity && !Severities.Contains(severity))
+            {
+                error($"jurisdiction_overrides.{jurisdiction}.severity musí být high, medium nebo low, je „{severity}“.");
+            }
+
+            if (change.Checkability is { } checkability && !Checkabilities.Contains(checkability))
+            {
+                error($"jurisdiction_overrides.{jurisdiction}.checkability musí být text, assess, verify nebo not_checkable, je „{checkability}“.");
+            }
+
+            if (change.Bands is { } bands && (bands.Review <= 0 || bands.Review > bands.High || bands.High > 1))
+            {
+                error($"jurisdiction_overrides.{jurisdiction}.bands musí splňovat 0 < review ≤ high ≤ 1.");
+            }
+        }
+
+        foreach (var question in rule.UserQuestions.Where(q => string.IsNullOrWhiteSpace(q) || q != q.ToLowerInvariant() || q.Contains(' ', StringComparison.Ordinal)))
+        {
+            error($"kód otázky pro uživatele „{question}“ musí být malými písmeny bez mezer.");
+        }
+
+        foreach (var duplicate in rule.UserQuestions.GroupBy(q => q).Where(g => g.Count() > 1))
+        {
+            error($"otázka pro uživatele „{duplicate.Key}“ je v user_questions víckrát.");
         }
 
         if (!Severities.Contains(rule.Severity))
@@ -219,9 +281,19 @@ internal static class RuleValidator
 
         foreach (var reference in rule.LegalRefs)
         {
-            if (!RefJurisdictions.Contains(reference.Jurisdiction) || string.IsNullOrWhiteSpace(reference.Ref) || string.IsNullOrWhiteSpace(reference.Status))
+            if ((reference.Jurisdiction != Eu && jurisdictions.Items.Count > 0 && !jurisdictions.Contains(reference.Jurisdiction)) || string.IsNullOrWhiteSpace(reference.Ref))
             {
-                error("každý odkaz v legal_refs musí mít jurisdiction (eu, cz, sk), ref a status.");
+                error($"každý odkaz v legal_refs musí mít jurisdiction (eu nebo jurisdikce z config/jurisdictions.yaml) a ref, je „{reference.Jurisdiction}“.");
+            }
+
+            if (!RefStatuses.Contains(reference.Status))
+            {
+                error($"status odkazu „{reference.Ref}“ musí být {EngineCodes.ToVerify} nebo {EngineCodes.ToComplete}, je „{reference.Status}“.");
+            }
+
+            if (reference.RefByLanguage is not null && reference.Jurisdiction != Eu)
+            {
+                error($"ref_by_language patří jen k odkazům eu; národní odkaz „{reference.Ref}“ je v jazyce zákona.");
             }
         }
 
@@ -243,7 +315,7 @@ internal static class RuleValidator
 
         foreach (var check in rule.CodeChecks)
         {
-            ValidateCodeCheck(rule, check, labels, legalRequirements, error);
+            ValidateCodeCheck(set, rule, check, labels, legalRequirements, error);
         }
     }
 
@@ -319,7 +391,7 @@ internal static class RuleValidator
         }
     }
 
-    private static void ValidateCodeCheck(RuleDefinition rule, CodeCheck check, LabelConfiguration labels, LegalRequirementList legalRequirements, Action<string> error)
+    private static void ValidateCodeCheck(RuleSet set, RuleDefinition rule, CodeCheck check, LabelConfiguration labels, LegalRequirementList legalRequirements, Action<string> error)
     {
         switch (check.Type)
         {
@@ -343,6 +415,10 @@ internal static class RuleValidator
                 else if (legalRequirements.IsEmpty)
                 {
                     error("claim_list_match: seznam zákonných požadavků je prázdný nebo chybí jeho soubor (rules.legal_requirements_file).");
+                }
+                else if (set.Jurisdictions.FirstOrDefault(j => legalRequirements.For(j).Count == 0) is { } without)
+                {
+                    error($"claim_list_match: seznam zákonných požadavků nemá položky pro jurisdikci „{without}“ sady.");
                 }
 
                 if (check.Outcomes is { Count: > 0 } outcomes && outcomes.FirstOrDefault(o => !LegalRequirementList.Outcomes.Contains(o)) is { } unknown)

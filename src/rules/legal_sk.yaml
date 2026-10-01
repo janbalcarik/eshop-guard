@@ -1,4 +1,4 @@
-# Povinné informácie e-shopu na Slovensku (primárny trh). Zapnuté 26. 9. 2026; ustanovenia ešte skontroluje právnik (status „ověřit“).
+# Povinné informácie e-shopu na Slovensku (primárny trh). Zapnuté 26. 9. 2026; ustanovenia ešte skontroluje právnik (status to_verify).
 # Pole text_cs obsahuje otázku v jazyku krajiny, tu po slovensky.
 # Ustanovenia sú overené v konsolidovanom znení zákona č. 108/2024 Z. z. od 27. 9. 2026, v zákone č. 310/2025 Z. z. (čl. V účinnosť),
 # v zákone č. 391/2015 Z. z. (§ 11), vo vykonávacom nariadení (EÚ) 2025/1960 a v smernici (EÚ) 2023/2673 (podklady/predpisy-sk, predpisy-eu).
@@ -34,37 +34,27 @@ questions:
 
 rules:
   - id: legal_adr_missing
-    title: "Chýba odkaz na informácie o subjekte alternatívneho riešenia sporov"
     scope: site_presence
     question: legal_adr
     severity: high
     checkability: text
     legal_refs:
-      - {jurisdiction: sk, ref: "§ 5 ods. 1 písm. q) a ods. 3 zákona č. 108/2024 Z. z. v znení od 27. 9. 2026 (do 26. 9. 2026 písm. l)", status: "ověřit"}
-    explanation: "Predávajúci musí spotrebiteľa poučiť o práve podať žiadosť o nápravu s uvedením odkazu na webové sídlo, na ktorom sú zverejnené informácie o príslušnom subjekte alternatívneho riešenia sporov. Uvedenie SOI len ako orgánu dozoru alebo odkaz na zrušenú platformu ODR túto povinnosť nesplní."
-    recommendation: "Doplňte do obchodných podmienok odkaz na webové sídlo s informáciami o príslušnom subjekte alternatívneho riešenia sporov (pri bežnom tovare SOI)."
+      - {jurisdiction: sk, ref: "§ 5 ods. 1 písm. q) a ods. 3 zákona č. 108/2024 Z. z. v znení od 27. 9. 2026 (do 26. 9. 2026 písm. l)", status: to_verify}
   - id: legal_redress_request_missing
-    title: "Chýba poučenie o práve podať žiadosť o nápravu"
     scope: site_presence
     question: legal_redress_request
     severity: high
     checkability: text
     legal_refs:
-      - {jurisdiction: sk, ref: "§ 5 ods. 1 písm. q) zákona č. 108/2024 Z. z. v znení od 27. 9. 2026; § 11 zákona č. 391/2015 Z. z.", status: "ověřit"}
-    explanation: "Súčasťou povinných informácií je poučenie, že spotrebiteľ môže obchodníkovi podať žiadosť o nápravu, ak nie je spokojný s vybavením reklamácie alebo sa domnieva, že obchodník porušil jeho práva."
-    recommendation: "Doplňte do obchodných podmienok poučenie o práve podať žiadosť o nápravu a kam ju poslať."
+      - {jurisdiction: sk, ref: "§ 5 ods. 1 písm. q) zákona č. 108/2024 Z. z. v znení od 27. 9. 2026; § 11 zákona č. 391/2015 Z. z.", status: to_verify}
   - id: legal_complaints_missing
-    title: "Chýba informácia o reklamáciách"
     scope: site_presence
     question: legal_complaints
     severity: high
     checkability: text
     legal_refs:
-      - {jurisdiction: sk, ref: "§ 5 ods. 1 písm. f) zákona č. 108/2024 Z. z.; § 622 a nasl. Občianskeho zákonníka", status: "ověřit"}
-    explanation: "Predávajúci musí informovať o zodpovednosti za vady a o spôsobe a mieste uplatnenia reklamácie."
-    recommendation: "Doplňte reklamačný poriadok vrátane miesta a spôsobu uplatnenia reklamácie."
+      - {jurisdiction: sk, ref: "§ 5 ods. 1 písm. f) zákona č. 108/2024 Z. z.; § 622 a nasl. Občianskeho zákonníka", status: to_verify}
   - id: legal_withdrawal_missing
-    title: "Chýba informácia o odstúpení od zmluvy"
     scope: site_presence
     question: legal_withdrawal
     code_checks:
@@ -72,54 +62,42 @@ rules:
     severity: high
     checkability: text
     legal_refs:
-      - {jurisdiction: sk, ref: "§ 15 ods. 1 písm. f) až i) a § 19 zákona č. 108/2024 Z. z.", status: "ověřit"}
-    explanation: "Pred uzavretím zmluvy na diaľku musí spotrebiteľ dostať podmienky, lehotu a postup na odstúpenie."
-    recommendation: "Doplňte podmienky, 14-dňovú lehotu a postup na odstúpenie."
+      - {jurisdiction: sk, ref: "§ 15 ods. 1 písm. f) až i) a § 19 zákona č. 108/2024 Z. z.", status: to_verify}
   - id: legal_withdrawal_form_missing
-    title: "Chýba vzorový formulár na odstúpenie"
     scope: site_presence
     question: legal_withdrawal_form
     severity: medium
     checkability: text
     legal_refs:
-      - {jurisdiction: sk, ref: "Príloha č. 2 zákona č. 108/2024 Z. z.", status: "ověřit"}
-    explanation: "Spolu s poučením o odstúpení musí spotrebiteľ dostať vzorový formulár."
-    recommendation: "Pridajte vzorový formulár na odstúpenie od zmluvy."
+      - {jurisdiction: sk, ref: "Príloha č. 2 zákona č. 108/2024 Z. z.", status: to_verify}
 
   # Nové povinnosti, ktoré sa dajú overiť len na celom webe (obrázok, odkaz, text).
   - id: legal_harmonized_notice_missing
-    title: "Chýba harmonizované oznámenie o zákonnej zodpovednosti za vady (nové od 27. 9. 2026)"
     scope: site_signal
     code_checks:
       - {type: site_pattern_required, pattern: '(?i)harmonizovan\w*[\s_-]+ozn[aá]men|harmoni[sz]ed[\s_-]+notice|legal[\s_-]*guarantee|z[aá]konn\w*[\s_-]+z[aá]ruk\w*[\s_-]+s[uú]ladu|youreurope[^\s]*guarantee|minim[aá]ln\w*\s+dvojro[cč]n'}
     severity: high
     checkability: verify
+    effective_from: {sk: 2026-09-27}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2011/83/EU, čl. 5 odst. 1 písm. e), čl. 6 odst. 1 písm. l) a čl. 22a odst. 1 a 3, ve znění směrnice (EU) 2024/825; prováděcí nařízení Komise (EU) 2025/1960, čl. 1 a příloha I", status: "ověřit"}
-      - {jurisdiction: sk, ref: "§ 5 ods. 1 písm. f) zákona č. 108/2024 Z. z. v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: "ověřit"}
-    explanation: "Od 27. 9. 2026 musí e-shop pred objednávkou zreteľne informovať o zákonnej zodpovednosti za vady vrátane jej dĺžky, a to aspoň v podobe a rozsahu harmonizovaného oznámenia EÚ: farebného obrázka s QR kódom na portál Vaša Európa, ktorý sa nesmie upravovať. Text v obchodných podmienkach (napríklad „Zákonná záruka je 24 mesiacov“) túto podobu nenahrádza."
-    recommendation: "Zobrazte farebné harmonizované oznámenie podľa prílohy I nariadenia (EÚ) 2025/1960 bez úprav na stránke produktu alebo v pokladni pred odoslaním objednávky; ak ho už máte, doplňte k obrázku popis (alt), aby bolo dohľadateľné."
+      - {jurisdiction: eu, ref: "Směrnice 2011/83/EU, čl. 5 odst. 1 písm. e), čl. 6 odst. 1 písm. l) a čl. 22a odst. 1 a 3, ve znění směrnice (EU) 2024/825; prováděcí nařízení Komise (EU) 2025/1960, čl. 1 a příloha I", status: to_verify}
+      - {jurisdiction: sk, ref: "§ 5 ods. 1 písm. f) zákona č. 108/2024 Z. z. v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
   - id: legal_withdrawal_function_missing
-    title: "Chýba funkcia „odstúpiť od zmluvy tu“ (povinná od 19. 6. 2026)"
     scope: site_signal
     code_checks:
       - {type: site_pattern_required, where: links, pattern: '(?i)\bodst[uú]pi[tť]\s+od\s+zmluvy\b|\bodst[uú]penie\s+od\s+zmluvy\s+online\b'}
     severity: high
     checkability: verify
+    effective_from: {sk: 2026-06-19}
     legal_refs:
-      - {jurisdiction: eu, ref: "Směrnice 2011/83/EU, čl. 11a, vložený směrnicí (EU) 2023/2673 (použije se od 19. 6. 2026)", status: "ověřit"}
-      - {jurisdiction: sk, ref: "§ 20a zákona č. 108/2024 Z. z. v znení zákona č. 311/2025 Z. z. (účinnosť od 19. 6. 2026)", status: "ověřit"}
-    explanation: "E-shop musí spotrebiteľovi umožniť odstúpiť od zmluvy aj funkciou na odstúpenie, označenou „odstúpiť od zmluvy tu“ alebo obdobnou jednoznačnou formuláciou, zreteľne zobrazenou a nepretržite dostupnou počas celej lehoty na odstúpenie. Na prehľadaných stránkach sa nenašiel odkaz ani tlačidlo s takýmto označením."
-    recommendation: "Doplňte zreteľne viditeľný odkaz alebo tlačidlo „odstúpiť od zmluvy tu“ (napríklad v pätičke a v zákazníckom účte) s online formulárom podľa § 20a ods. 3."
+      - {jurisdiction: eu, ref: "Směrnice 2011/83/EU, čl. 11a, vložený směrnicí (EU) 2023/2673 (použije se od 19. 6. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "§ 20a zákona č. 108/2024 Z. z. v znení zákona č. 311/2025 Z. z. (účinnosť od 19. 6. 2026)", status: to_verify}
   - id: legal_odr_link_outdated
-    title: "Odkaz na zrušenú platformu ODR"
     scope: site_signal
     code_checks:
       - {type: site_pattern_forbidden, where: all, pattern: '(?i)ec\.europa\.eu/consumers/odr'}
     severity: low
     checkability: text
     legal_refs:
-      - {jurisdiction: eu, ref: "Nařízení (EU) 2024/3228, kterým se zrušuje nařízení (EU) č. 524/2013 s účinkem od 20. 7. 2025", status: "ověřit"}
-      - {jurisdiction: sk, ref: "Zákon č. 310/2025 Z. z., čl. I body 1 a 46 (vypustenie odkazov na nariadenie (EÚ) č. 524/2013); § 5 ods. 1 písm. q) zákona č. 108/2024 Z. z.", status: "ověřit"}
-    explanation: "Platforma EÚ na riešenie sporov online (ODR) bola 20. 7. 2025 zrušená. Odkaz na ňu už spotrebiteľa k informáciám o subjekte alternatívneho riešenia sporov nedovedie; ak je jediným odkazom, povinnosť podľa § 5 ods. 1 písm. q) nemusí byť splnená."
-    recommendation: "Odkaz na platformu ODR odstráňte a nahraďte ho odkazom na informácie o príslušnom subjekte alternatívneho riešenia sporov (pri bežnom tovare SOI)."
+      - {jurisdiction: eu, ref: "Nařízení (EU) 2024/3228, kterým se zrušuje nařízení (EU) č. 524/2013 s účinkem od 20. 7. 2025", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 310/2025 Z. z., čl. I body 1 a 46 (vypustenie odkazov na nariadenie (EÚ) č. 524/2013); § 5 ods. 1 písm. q) zákona č. 108/2024 Z. z.", status: to_verify}

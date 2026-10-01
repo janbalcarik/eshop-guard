@@ -4,6 +4,7 @@ using EshopGuard.Core.Models;
 using EshopGuard.Core.Options;
 using EshopGuard.Core.Report;
 using EshopGuard.Core.Rules;
+using EshopGuard.Core.Rules.Texts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Spectre.Console;
@@ -26,14 +27,27 @@ internal sealed class ScanSettings : CommandSettings
     public int? SampleProducts { get; init; }
 
     [CommandOption("--modules <LIST>")]
-    [Description("Moduly pravidel oddělené čárkou (eco, dur, lr, ucp, legal). Bez volby běží všechny, které mají pravidla pro zvolenou zemi.")]
+    [Description("Moduly pravidel oddělené čárkou (dnes eco, dur, lr, ucp, legal). Bez volby běží všechny, které mají pravidla pro zvolené země.")]
     [DefaultValue("")]
     public string Modules { get; init; } = "";
 
     [CommandOption("--country <CODE>")]
-    [Description("Sada právních pravidel a jazyk zprávy: cz nebo sk.")]
+    [Description("Země, jejíž pravidla se použijí (kód z config/jurisdictions.yaml, dnes sk nebo cz).")]
     [DefaultValue("sk")]
     public string Country { get; init; } = "sk";
+
+    [CommandOption("--jurisdictions <LIST>")]
+    [Description("Víc zemí najednou, oddělené čárkou (např. sk,cz); nález dostane verdikt pro každou zemi. Nahrazuje --country.")]
+    public string? Jurisdictions { get; init; }
+
+    [CommandOption("--lang <CODE>")]
+    [Description("Jazyk textů pravidel a poznámek ve zprávě (jazyky s úplnými texty nástroje v rules/texts, výchozí cs).")]
+    [DefaultValue("cs")]
+    public string Lang { get; init; } = "cs";
+
+    [CommandOption("--as-of <DATE>")]
+    [Description("Datum vyhodnocení (rrrr-mm-dd) pro účinnost pravidel; výchozí dnešek.")]
+    public string? AsOf { get; init; }
 
     [CommandOption("--question-lang <LANG>")]
     [Description("Jazyk otázek pro Jev: en nebo cs.")]
@@ -111,7 +125,7 @@ internal sealed class ScanSettings : CommandSettings
             return ValidationResult.Error($"Ve složce {Replay} není nahrávka ({Core.Crawl.PageRecording.IndexFile}).");
         }
 
-        return SettingsValidation.Validate(Modules, Country, QuestionLanguage);
+        return SettingsValidation.Validate(Modules, Country, QuestionLanguage, Jurisdictions, Lang, AsOf);
     }
 }
 
@@ -151,6 +165,7 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
         }
 
         configuration.AllowPrivateNetwork = settings.AllowPrivateNetwork;
+        configuration.ReportLocale = settings.Lang;
         var outputDirectory = UniqueDirectory(Path.Combine(settings.Out, $"{SiteFolderName(siteUrl)}-{DateTime.Now:yyyyMMdd-HHmm}"));
         Directory.CreateDirectory(outputDirectory);
         var logFile = Path.Combine(outputDirectory, "run.log");
@@ -172,6 +187,14 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
             AnsiConsole.MarkupLine($"[red]{Markup.Escape(databaseError)}[/]");
             return 1;
         }
+        var jurisdictions = SettingsValidation.ParseJurisdictions(settings.Country, settings.Jurisdictions);
+        var modules = SettingsValidation.ParseModules(settings.Modules);
+        if (await SettingsValidation.LoadRulesAsync(services, jurisdictions, modules, settings.Lang, cancellationToken) is not { } catalog)
+        {
+            return 1;
+        }
+
+        var texts = new RuleTextRenderer(catalog);
         var logger = services.GetRequiredService<ILogger<ScanCommand>>();
         var guard = services.GetRequiredService<IEshopGuard>();
         logger.LogInformation("Jev: {Mode}, key from {Source}, cache {Cache}",
@@ -206,8 +229,10 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
         {
             MaxPages = settings.MaxPages,
             SampleProducts = settings.SampleProducts,
-            Modules = SettingsValidation.ParseModules(settings.Modules),
-            Country = settings.Country,
+            Modules = modules,
+            Country = jurisdictions[0],
+            Jurisdictions = jurisdictions,
+            AsOf = SettingsValidation.ParseAsOf(settings.AsOf),
             QuestionLanguage = settings.QuestionLanguage,
             RequestsPerSecond = settings.Rate,
             Concurrency = settings.Concurrency,
@@ -230,7 +255,7 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
 
             if (estimateArrived.Task.IsCompleted)
             {
-                var proceed = Confirm(estimateArrived.Task.Result, settings.Yes);
+                var proceed = Confirm(estimateArrived.Task.Result, settings.Yes, texts, settings.Lang);
                 answer.SetResult(proceed);
                 if (proceed)
                 {
@@ -268,7 +293,7 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
             return 1;
         }
 
-        PrintSummary(result, outputDirectory);
+        PrintSummary(result, outputDirectory, texts, settings.Lang);
         return 0;
     }
 
@@ -291,7 +316,7 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
             });
     }
 
-    private static bool Confirm(JevCallEstimate estimate, bool yes)
+    private static bool Confirm(JevCallEstimate estimate, bool yes, RuleTextRenderer texts, string locale)
     {
         var price = estimate.IsMock ? "falešný klient, nic se neplatí" : $"odhad {estimate.EstimatedCostUsd:0.000000} USD";
         var cached = estimate.CachedCalls > 0 ? $" a {estimate.CachedCalls} odpovědí z cache zdarma" : "";
@@ -301,7 +326,7 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
         {
             var profiles = estimate.ProfilesWillRun
                 ? $"odhad {estimate.ProfileCostUsd:0.0000} USD za OpenAI; nový profil jen ubírá text, Jev bude nejvýš podle odhadu výše"
-                : $"nevytvoří se: {estimate.ProfilesUnavailableReason}; při ostrém běhu asi {estimate.ProfileCostUsd:0.0000} USD";
+                : $"nevytvoří se: {(estimate.ProfilesUnavailableReason is { } reason ? texts.Code(reason, null, locale) : "")}; při ostrém běhu asi {estimate.ProfileCostUsd:0.0000} USD";
             AnsiConsole.MarkupLine($"Profily šablon stránek: nejvýš [bold]{estimate.ProfileTemplates}[/] nových ({Markup.Escape(profiles)}).");
         }
 
@@ -313,7 +338,7 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
         return AnsiConsole.Confirm($"Odhad překračuje limit (max_calls_without_confirm nebo profiles.max_usd_without_confirm). Pokračovat?", defaultValue: false);
     }
 
-    private static void PrintSummary(ScanResult result, string outputDirectory)
+    private static void PrintSummary(ScanResult result, string outputDirectory, RuleTextRenderer texts, string locale)
     {
         var stats = result.Stats;
         var table = new Table().Border(TableBorder.Rounded).AddColumn("Ukazatel").AddColumn(new TableColumn("Hodnota").RightAligned());
@@ -370,7 +395,7 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
             foreach (var rule in result.Findings.GroupBy(f => f.RuleId).OrderBy(g => SeverityRank(g.First().Severity)))
             {
                 findings.AddRow(
-                    Markup.Escape(rule.First().Title),
+                    Markup.Escape(texts.Render(rule.First(), locale).Title),
                     rule.First().Severity,
                     rule.Count(f => f.Band == FindingBand.High).ToString(),
                     rule.Count(f => f.Band == FindingBand.Review).ToString());
@@ -390,7 +415,7 @@ internal sealed class ScanCommand : AsyncCommand<ScanSettings>
 
         foreach (var warning in result.Warnings)
         {
-            AnsiConsole.MarkupLine($"[yellow]Upozornění:[/] {Markup.Escape(warning)}");
+            AnsiConsole.MarkupLine($"[yellow]Upozornění:[/] {Markup.Escape(texts.Warning(warning, locale))}");
         }
 
         AnsiConsole.MarkupLine($"Výstupy: [bold]{Markup.Escape(Path.GetFullPath(outputDirectory))}[/]");

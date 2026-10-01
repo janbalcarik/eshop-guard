@@ -1,7 +1,9 @@
 using System.Globalization;
 using System.Text;
 using System.Text.Json;
+using EshopGuard.Core.Models;
 using EshopGuard.Core.Report;
+using EshopGuard.Core.Rules.Texts;
 
 namespace EshopGuard.Core.Fix;
 
@@ -17,10 +19,10 @@ public static class RewriteReportWriter
     /// <summary>File name of the JSON output.</summary>
     public const string JsonFile = "rewrite.json";
 
-    /// <summary>Writes both files.</summary>
-    public static async Task WriteAsync(RewriteResult result, string outputDirectory, CancellationToken ct = default)
+    /// <summary>Writes both files; titles of the findings of the check are in <paramref name="locale"/>.</summary>
+    public static async Task WriteAsync(RewriteResult result, string outputDirectory, RuleTextRenderer texts, string locale, CancellationToken ct = default)
     {
-        await File.WriteAllTextAsync(Path.Combine(outputDirectory, MarkdownFile), Markdown(result), new UTF8Encoding(false), ct);
+        await File.WriteAllTextAsync(Path.Combine(outputDirectory, MarkdownFile), Markdown(result, texts, locale), new UTF8Encoding(false), ct);
         await using var stream = File.Create(Path.Combine(outputDirectory, JsonFile));
         await JsonSerializer.SerializeAsync(stream, result, ReportFormat.Json, ct);
     }
@@ -36,8 +38,11 @@ public static class RewriteReportWriter
     };
 
     /// <summary>The Markdown report.</summary>
-    public static string Markdown(RewriteResult result)
+    public static string Markdown(RewriteResult result, RuleTextRenderer texts, string locale)
     {
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(texts);
+        string Title(Finding finding) => texts.Render(finding, locale).Title;
         var cz = ReportFormat.Czech;
         var findings = result.Pages.SelectMany(p => p.Findings).ToList();
         int Count(RewriteStatus status) => findings.Count(f => f.Status == status);
@@ -66,7 +71,7 @@ public static class RewriteReportWriter
             {
                 var f = finding.Finding;
                 text.Append("- **").Append(finding.Id).Append("** (").Append(f.Checkability == "text" ? "porušení" : "k posouzení")
-                    .Append(", ").Append(f.Title).Append("): „").Append(f.Text).Append("“ → **").Append(Status(finding.Status)).Append("**");
+                    .Append(", ").Append(finding.Texts.Count > 0 ? finding.Texts[0].Title : Title(f)).Append("): „").Append(f.Text).Append("“ → **").Append(Status(finding.Status)).Append("**");
                 if (finding.AlsoOn.Count > 0)
                 {
                     text.Append(cz, $" (stejný text i na dalších {finding.AlsoOn.Count} stránkách)");
@@ -100,12 +105,18 @@ public static class RewriteReportWriter
                     if (change.RemainingFindings.Count > 0)
                     {
                         text.Append("   - Kontrola: ").Append(change.Status == RewriteStatus.WaitingForFacts ? "do doplnění stále " : "stále ")
-                            .Append(string.Join("; ", change.RemainingFindings.Select(r => $"{r.Title} („{r.Text}“)"))).Append('\n');
+                            .Append(string.Join("; ", change.RemainingFindings.Select(r => $"{Title(r)} („{r.Text}“)"))).Append('\n');
                     }
 
                     if (change.VerifyFindings.Count > 0)
                     {
-                        text.Append("   - K ověření: ").Append(string.Join("; ", change.VerifyFindings.Select(r => $"{r.Title} („{r.Text}“)"))).Append('\n');
+                        text.Append("   - K ověření: ").Append(string.Join("; ", change.VerifyFindings.Select(r => $"{Title(r)} („{r.Text}“)"))).Append('\n');
+                    }
+
+                    if (change.UpcomingFindings.Count > 0)
+                    {
+                        text.Append("   - Platí později: ").Append(string.Join("; ", change.UpcomingFindings.Select(r =>
+                            $"{Title(r)} („{r.Text}“, od {r.Strictest.EffectiveFrom?.ToString("d. M. yyyy", cz)})"))).Append('\n');
                     }
                 }
 

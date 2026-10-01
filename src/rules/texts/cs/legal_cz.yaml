@@ -1,0 +1,25 @@
+# Texty pravidel sady legal_cz (cs). Otázky pro Jev, logika a odkazy na zákon jsou v rules/legal_cz.yaml.
+# Klíče a zástupné symboly musí být ve všech jazycích stejné; kontrola: eshopguard rules check-texts.
+locale: cs
+rule_set: legal_cz
+source_version: "legal-cz-2026-09-29-draft3"
+review:
+  original: true
+  note: "Původní texty pravidel, přesunuté beze změny z rules/legal_cz.yaml (1. 10. 2026)."
+rules:
+  legal_adr_missing:
+    title: "Chybí informace o mimosoudním řešení sporů"
+    explanation: "Prodávající musí spotřebitele informovat o subjektu mimosoudního řešení spotřebitelských sporů."
+    recommendation: "Doplňte do obchodních podmínek příslušný subjekt (typicky ČOI) a odkaz na jeho web."
+  legal_complaints_missing:
+    title: "Chybí informace o reklamacích"
+    explanation: "Prodávající musí informovat o rozsahu, podmínkách a způsobu reklamace a o tom, kde ji lze uplatnit."
+    recommendation: "Doplňte reklamační podmínky včetně místa a způsobu uplatnění."
+  legal_withdrawal_missing:
+    title: "Chybí informace o odstoupení od smlouvy"
+    explanation: "Před uzavřením smlouvy na dálku musí spotřebitel dostat podmínky, lhůtu a postup pro odstoupení."
+    recommendation: "Doplňte podmínky, 14denní lhůtu a postup pro odstoupení."
+  legal_withdrawal_form_missing:
+    title: "Chybí vzorový formulář pro odstoupení"
+    explanation: "Spolu s informací o odstoupení musí spotřebitel dostat vzorový formulář."
+    recommendation: "Přidejte vzorový formulář pro odstoupení od smlouvy."

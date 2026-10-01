@@ -24,28 +24,21 @@ questions:
 
 rules:
   - id: legal_adr_missing
-    title: "Chybí informace o mimosoudním řešení sporů"
     scope: site_presence
     question: legal_adr
     severity: high
     checkability: text
     legal_refs:
-      - {jurisdiction: cz, ref: "§ 14 odst. 1 zákona č. 634/1992 Sb., o ochraně spotřebitele", status: "ověřit"}
-      - {jurisdiction: cz, ref: "§ 1820 odst. 1 písm. s) zákona č. 89/2012 Sb., občanský zákoník", status: "ověřit"}
-    explanation: "Prodávající musí spotřebitele informovat o subjektu mimosoudního řešení spotřebitelských sporů."
-    recommendation: "Doplňte do obchodních podmínek příslušný subjekt (typicky ČOI) a odkaz na jeho web."
+      - {jurisdiction: cz, ref: "§ 14 odst. 1 zákona č. 634/1992 Sb., o ochraně spotřebitele", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 1820 odst. 1 písm. s) zákona č. 89/2012 Sb., občanský zákoník", status: to_verify}
   - id: legal_complaints_missing
-    title: "Chybí informace o reklamacích"
     scope: site_presence
     question: legal_complaints
     severity: high
     checkability: text
     legal_refs:
-      - {jurisdiction: cz, ref: "§ 13 zákona č. 634/1992 Sb., o ochraně spotřebitele", status: "ověřit"}
-    explanation: "Prodávající musí informovat o rozsahu, podmínkách a způsobu reklamace a o tom, kde ji lze uplatnit."
-    recommendation: "Doplňte reklamační podmínky včetně místa a způsobu uplatnění."
+      - {jurisdiction: cz, ref: "§ 13 zákona č. 634/1992 Sb., o ochraně spotřebitele", status: to_verify}
   - id: legal_withdrawal_missing
-    title: "Chybí informace o odstoupení od smlouvy"
     scope: site_presence
     question: legal_withdrawal
     code_checks:
@@ -53,16 +46,11 @@ rules:
     severity: high
     checkability: text
     legal_refs:
-      - {jurisdiction: cz, ref: "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník", status: "ověřit"}
-    explanation: "Před uzavřením smlouvy na dálku musí spotřebitel dostat podmínky, lhůtu a postup pro odstoupení."
-    recommendation: "Doplňte podmínky, 14denní lhůtu a postup pro odstoupení."
+      - {jurisdiction: cz, ref: "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník", status: to_verify}
   - id: legal_withdrawal_form_missing
-    title: "Chybí vzorový formulář pro odstoupení"
     scope: site_presence
     question: legal_withdrawal_form
     severity: medium
     checkability: text
     legal_refs:
-      - {jurisdiction: cz, ref: "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník", status: "ověřit"}
-    explanation: "Spolu s informací o odstoupení musí spotřebitel dostat vzorový formulář."
-    recommendation: "Přidejte vzorový formulář pro odstoupení od smlouvy."
+      - {jurisdiction: cz, ref: "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník", status: to_verify}

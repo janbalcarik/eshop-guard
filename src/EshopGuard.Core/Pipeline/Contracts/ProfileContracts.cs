@@ -43,7 +43,7 @@ internal sealed record ProfileCreateResult(
     long InputTokens,
     long OutputTokens,
     decimal CostUsd,
-    IReadOnlyList<string> Warnings) : IPipelineRecord
+    IReadOnlyList<ScanWarning> Warnings) : IPipelineRecord
 {
     public int SchemaVersion { get; init; } = PipelineSchema.Version;
 

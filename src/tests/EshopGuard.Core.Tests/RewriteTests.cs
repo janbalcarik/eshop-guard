@@ -117,7 +117,7 @@ public class RewriteTests
             var input = ScanOutputReader.Read(directory);
             await using var provider = TestServices.Create(FileSystemPageFetcher.ForSlovakFixture());
             var result = await provider.GetRequiredService<ITextRewriter>().RewriteAsync(input, ct: TestContext.Current.CancellationToken);
-            await RewriteReportWriter.WriteAsync(result, directory, TestContext.Current.CancellationToken);
+            await RewriteReportWriter.WriteAsync(result, directory, TestTexts.Renderer, "cs", TestContext.Current.CancellationToken);
 
             Assert.Equal(0, result.Stats.Errors);
             var shampoo = result.Pages.Single(p => p.Url.EndsWith("/produkt-1.html", StringComparison.Ordinal));
@@ -181,6 +181,7 @@ public class RewriteTests
             options.Rules.LabelsFile = TestServices.LabelsFile;
             options.Rules.LegalRequirementsFile = TestServices.LegalRequirementsFile;
             options.Rules.SieveFile = TestServices.SieveFile;
+            options.Rules.JurisdictionsFile = TestServices.JurisdictionsFile;
             options.Rewrite.PromptFile = TestServices.RewritePromptFile;
         });
         return services.BuildServiceProvider();
@@ -192,13 +193,11 @@ public class RewriteTests
     {
         RuleId = "eco_generic_claim",
         Module = "eco",
-        Title = "Obecné environmentální tvrzení bez upřesnění",
-        Severity = "high",
-        Checkability = "text",
         Scope = "segment",
         Text = text,
         Urls = [url],
         Sources = [SegmentSource.Main],
+        Verdicts = [new JurisdictionVerdict { Jurisdiction = "sk", Severity = "high", Checkability = "text", RuleSet = "eco", RuleSetVersion = "eco-test" }],
     };
 
     private sealed class RecordingClient(Func<RewriteRequest, string> answer) : IRewriteClient
