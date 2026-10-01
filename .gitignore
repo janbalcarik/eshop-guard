@@ -2,7 +2,9 @@
 out/
 bin/
 obj/
-cache/
+# Cache za běhu jen v kořeni a v src/. Neukotvené „cache/“ by na Windows (core.ignorecase) skrylo i zdrojovou složku src/EshopGuard.Core/Cache/.
+/cache/
+/src/cache/
 *.sqlite
 *.sqlite-shm
 *.sqlite-wal
