@@ -49,9 +49,10 @@ Návrh UI: https://claude.ai/artifact/34wYLsJzieFtmWdueAwYay
 | 3 | `add-multitenant-data-model` | F1 | 2 | `tenancy` |
 | 4 | `add-job-queue-and-worker` | F2 | 3 | `job-queue` |
 | 5 | `refactor-library-into-pipeline-steps` | F3 | 1 (souběžně s 3–4) | `site-analysis` |
+| 5b | `replace-local-cache-with-postgres` | F3 | 3, 5 | `analysis-cache` |
 | 6 | `add-multi-jurisdiction-rules-and-rule-texts` | F3 | 5 | `rules-and-verdicts`, `localization` |
 | 7 | `add-places-of-sale-and-language-versions` | F3 | 5, 6 | `markets-and-languages` |
-| 8 | `add-analysis-runs-in-worker` | F4 | 4, 5–7 | `analysis-runs` |
+| 8 | `add-analysis-runs-in-worker` | F4 | 4, 5–7, 5b | `analysis-runs` |
 | 9 | `add-identity-and-tenants-api` | F5 | 3 | `identity` |
 | 10 | `add-shops-and-onboarding-api` | F5 | 7, 8, 9 | `shops-onboarding` |
 | 11 | `add-findings-and-fixes-api` | F5 | 8, 9 | `findings-and-fixes` |
@@ -85,6 +86,6 @@ Souběh:
   - D: ověřit v dokumentaci.
 - Hranice mezi změnami dohodnuté při psaní:
   - nabídka ceny: 10 rozsah a `quote`, 12 částky a objednávka, 8 jen základ;
-  - PostgreSQL úložiště knihovny: změna 8;
+  - cache v PostgreSQL pro CLI i aplikaci (bez SQLite): změna 5b; ostatní úložiště: změna 8;
   - koncový bod publikace: změna 15;
   - upozornění: změna 11.

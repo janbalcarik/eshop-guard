@@ -10,7 +10,7 @@ Cesty jsou po přejmenování ze změny 1 (kořen `eshop-guard/`).
 |---|---|---|
 | Kroky (čisté služby) | `EshopGuard.Core.Pipeline` (změna 5), `EshopGuard.Core` rozbor míst prodeje a verzí (změna 7), `VerdictOrder` (změna 6) | `DiscoveryStep`, `FetchStep`, `ExtractStep`, `ProfileStep` (`PlanAsync`, `CreateAsync`, `RefitAsync`), `SegmentStep`, `EstimateStep`, `SieveStep`, `EvaluateStep`, `RulesStep`, `RewriteStep`; bez databáze |
 | Orchestrace běhu | `EshopGuard.Jobs/Runs` (nové) | stavový automat, `IRunService`, plán kroků, obsluhy úloh, bariéry, interní odhad, základ rozsahu, souhrn ukázky, výčet nezkontrolovaného, zrušení, pozice ve frontě |
-| Úložiště | `EshopGuard.Data` (nové třídy), `EshopGuard.Storage` | PostgreSQL implementace rozhraní změny 5 (`PgJevCache`, `PgRewriteCache`, `PgPageProfileStore`, `PgPageStore`, `PgUrlFrontierStore`, `S3PageContentStore`) a zápis `findings`, `finding_occurrences`, `fix_proposals`, `run_events`, `usage_records` |
+| Úložiště | `EshopGuard.Data` (nové třídy), `EshopGuard.Storage` | PostgreSQL implementace rozhraní změny 5 (`PgPageStore`, `PgUrlFrontierStore`, `S3PageContentStore`; `PgJevCache`, `PgRewriteCache`, `PgPageProfileStore` dodává změna 5b) a zápis `findings`, `finding_occurrences`, `fix_proposals`, `run_events`, `usage_records` |
 | Hostitel | `EshopGuard.Worker` | registrace obsluh podle `kind`, sloty po `resource_class`, kontroly při startu, vývojový příkaz `dev seed-run` |
 
 CLI skládá stejné kroky v paměti přes `InMemoryPipelineRunner` (změna 5). Worker skládá tytéž kroky přes frontu. Shodu obou cest hlídá `CliParityTests` (Done when).

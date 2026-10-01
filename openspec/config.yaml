@@ -6,7 +6,7 @@ context: |
   Texty vyhodnocuje TypeSafe Jev (klasifikátor, otázka -> skóre), přepisy textů OpenAI gpt-6.1-sol.
 
   Dnešní stav: knihovna EshopGuard.Core + tenké CLI (.NET 10), 192 offline testů, profily šablon stránek,
-  síto po odstavcích, cache Jevu a přepisů v SQLite. Žádná databáze, žádné API, žádný web.
+  síto po odstavcích, cache Jevu a přepisů zatím v SQLite (přechodně, změna 5b ji přesune do PostgreSQL). Žádná databáze, žádné API, žádný web.
 
   Cílová architektura (podklady v ../../*.md, hlavně architektura-multitenant-worker-2026-10-01.md
   a databaze-a-plan-implementace-2026-10-01.md):
@@ -20,6 +20,7 @@ context: |
 
   Závazné zásady:
   - logika v knihovně, CLI/API/worker jsou tenké vrstvy;
+  - cache (odpovědi Jevu, přepisy, profily) jen v PostgreSQL, stejně pro CLI i aplikaci; žádné lokální soubory cache (SQLite se odstraní ve změně 5b);
   - aplikace i lokálně jako role eshopguard_app / eshopguard_worker (superuživatel obchází RLS), databáze eshopguard;
   - klíče (TYPESAFE_API_KEY, OPENAI_API_KEY, Stripe, SuperFaktúra) nikdy do logu, výstupu ani repozitáře;
   - před každým placeným voláním Jevu nebo LLM odhad ceny a souhlas; žádné slovníky klíčových slov pro klasifikaci;

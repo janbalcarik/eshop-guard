@@ -36,7 +36,10 @@ Každá změna má v `proposal.md` oddíl „K rozhodnutí“, celkem asi 320 bo
 - **Hranice mezi změnami:**
   - nabídka ceny: změna 10 počítá rozsah a koncový bod `quote`, změna 12 částky, slevy, DPH a uložení nabídky, změna 8 jen základ (počty produktů po verzích);
   - objednávka odmítne zastaralou nabídku (`409 quote.stale`).
-- **Úložiště:** PostgreSQL implementace úložišť knihovny (`PgJevCache`, `PgRewriteCache`, `PgPageProfileStore`, `PgPageStore`, `PgUrlFrontierStore`, `S3PageContentStore`) dělá změna 8, změna 5 dodá rozhraní a společné testy chování.
+- **Úložiště:**
+  - cache (`PgJevCache`, `PgRewriteCache`, `PgPageProfileStore`) dělá změna 5b, stejně pro CLI i aplikaci, bez SQLite (požadavek uživatele 1. 10. 2026);
+  - ostatní úložiště (`PgPageStore`, `PgUrlFrontierStore`, `S3PageContentStore`) dělá změna 8;
+  - změna 5 dodá rozhraní a společné testy chování.
 - **Projekt `EshopGuard.Application`** pro služby, API zůstane tenké. Rozhraní pro rozsah a vlastnictví jsou v `EshopGuard.Jobs`, aby nevznikl cyklus změn 8 a 10. Do rozhodnutí A13 platí `DenyAllOwnershipPolicy`.
 - **Přihlášení:** token v odkazu za `#` (nedostane se do logů serveru); e-maily s tokenem jdou přímo, ne přes `ops.outbox`; cizí tenant vrací 404.
 - **Databáze:**
