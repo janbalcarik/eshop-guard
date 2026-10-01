@@ -1,7 +1,7 @@
 # Kostra překladu do jazyka sk: vyplňte texty a review; zástupné symboly {…} musí zůstat stejné.
 locale: sk
 rule_set: legal_cz
-source_version: "legal-cz-2026-09-29-draft3"
+source_version: "legal-cz-2026-10-01-draft4"
 review:
   translated_by: ""
   reviewed_by: ""
@@ -20,6 +20,18 @@ rules:
     explanation: ""
     recommendation: ""
   legal_withdrawal_form_missing:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  legal_withdrawal_function_missing:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  legal_withdrawal_button_info_missing:
+    title: ""
+    explanation: ""
+    recommendation: ""
+  legal_withdrawal_button_location_missing:
     title: ""
     explanation: ""
     recommendation: ""

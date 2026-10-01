@@ -8,7 +8,11 @@ namespace EshopGuard.Core.Tests;
 
 /// <summary>
 /// Scans of the fixture e-shops whose outputs the code before change 5 wrote into <c>Baselines/</c>
-/// (<see cref="BaselineDumpTests"/>); the pipeline must give the same outputs (<c>PipelineEquivalenceTests</c>).
+/// (<see cref="BaselineDumpTests"/>); the pipeline must give the same outputs (<c>PipelineEquivalenceTests</c>). Change 6
+/// kept every output for one jurisdiction and Czech (commit f09ebbc); its new Czech rules (legal_cz draft4) then rewrote the
+/// references of the Czech scenarios <c>site</c> and <c>site-limits</c>, the reviewed difference being only the new rules,
+/// the version, the columns of the new questions and the cache keys of Czech legal paragraphs. <c>findings.json</c> carries
+/// verdicts and codes since change 6.
 /// </summary>
 internal static class BaselineScenarios
 {

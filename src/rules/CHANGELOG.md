@@ -4,7 +4,7 @@ Každá změna znění otázky nebo pravidla zvyšuje verzi sady (`version`), pr
 
 ## Česko: tlačítko „Odstoupit od smlouvy“, legal_cz draft4 (připraveno 1. 10. 2026, změna 6)
 
-Nová verze sady `legal_cz` (`legal-cz-2026-10-01-draft4`) přidá dvě pravidla s účinností od 1. 1. 2027. Znění je ověřené proti textu zákona v `podklady/predpisy-cz/cz-159-2026-novela-financni-sluzby-na-dalku-tlacitko-odstoupeni.txt` a proti rešerši `podklady/reserse/cz-informacni-povinnosti.md` (oddíl `cz_withdrawal_button`). Všechny odkazy mají stav „ověřit“ a ustanovení posoudí právník.
+Nová verze sady `legal_cz` (`legal-cz-2026-10-01-draft4`) přidá tři pravidla s účinností od 1. 1. 2027. Znění je ověřené proti textu zákona v `podklady/predpisy-cz/cz-159-2026-novela-financni-sluzby-na-dalku-tlacitko-odstoupeni.txt` a proti rešerši `podklady/reserse/cz-informacni-povinnosti.md` (oddíl `cz_withdrawal_button`). Všechny odkazy mají stav `to_verify` a ustanovení posoudí právník.
 
 Doslovné citace ze zákona č. 159/2026 Sb. (čl. V, změna občanského zákoníku):
 - **§ 1830a odst. 1 OZ:** „Má-li spotřebitel právo odstoupit od smlouvy uzavřené distančním způsobem prostřednictvím on-line rozhraní, umožní podnikatel spotřebiteli odstoupit od smlouvy také prohlášením učiněným v on-line rozhraní použitím tlačítka nebo obdobného ovládacího prvku pro odstoupení od smlouvy.“
@@ -13,13 +13,29 @@ Doslovné citace ze zákona č. 159/2026 Sb. (čl. V, změna občanského zákon
 - **Účinnost (čl. XII):** „Tento zákon nabývá účinnosti dnem 1. ledna 2027.“
 
 Pravidla:
-- `legal_withdrawal_function_missing`: stejné logické id jako slovenské pravidlo (návrh změny 6, K rozhodnutí 1).
-  - Rozsah `site_signal`: odkaz nebo tlačítko s nápisem „Odstoupit od smlouvy“ na stažených stránkách.
+- `legal_withdrawal_function_missing`: stejné logické id jako slovenské pravidlo, takže vznikne jeden nález s verdikty SK a CZ (návrh změny 6, K rozhodnutí 1).
+  - Rozsah `site_signal`: odkaz nebo tlačítko, jehož text začíná nápisem „Odstoupit od smlouvy“ (vzor `(?im)^\s*odstoupit\s+od\s+smlouvy\b` v textech odkazů). Odkaz „Odstoupení od smlouvy“ na stránku s poučením vzor nesplní.
   - Hodnocení `verify`, protože tlačítko může být jen v účtu zákazníka, kam nástroj nevidí. Závažnost `high`, účinnost `cz: 2027-01-01`.
-  - Vzor je předepsaný nápis ze zákona, ne slovník pro klasifikaci. Jinou „odpovídající jednoznačnou formulaci“ vzor nepozná, proto zůstává `verify`.
-- `legal_withdrawal_button_info_missing`: rozsah `site_presence`, účinnost `cz: 2027-01-01`.
-  - Otázky `legal_withdrawal_online_option` a `legal_withdrawal_button_location` v doslovném znění z rešerše.
-  - Nové otázky změní sadu, proto nová verze. České právní odstavce se v Jevu vyhodnotí znovu.
+  - Vzor je nápis předepsaný zákonem, ne slovník pro klasifikaci. Jinou „odpovídající jednoznačnou formulaci“ vzor nepozná, proto zůstává `verify`.
+  - Odkaz EU (čl. 11a směrnice 2011/83/EU) je stejný jako u slovenského pravidla.
+- `legal_withdrawal_button_info_missing` (otázka `legal_withdrawal_online_option`) a `legal_withdrawal_button_location_missing` (otázka `legal_withdrawal_button_location`):
+  - rozsah `site_presence`, `checkability: text`, závažnost `high`, účinnost `cz: 2027-01-01`;
+  - otázky v doslovném znění z rešerše.
+  - Design změny 6 počítal s jedním pravidlem se dvěma otázkami. Pravidlo `site_presence` ale hodnotí jednu otázku, proto jsou pravidla dvě: e-shop může uvést možnost odstoupit online, a přitom neříct, kde tlačítko je.
+- Nové otázky mění sadu, proto nová verze a nový otisk v `rules/question-set-hashes.json`. České právní odstavce se v Jevu vyhodnotí znovu (placené, jen se souhlasem).
+- Texty nových pravidel jsou v `rules/texts/cs/legal_cz.yaml` a čekají na kontrolu uživatelem. Slovenský překlad je v kostře `rules/texts/sk/legal_cz.yaml`.
+
+## Účinnost a texty pravidel mimo sady (1. 10. 2026, změna 6)
+
+- Texty (`title`, `explanation`, `explanation_by_jurisdiction`, `recommendation`) se přesunuly beze změny do `rules/texts/<jazyk>/<sada>.yaml` příkazem `eshopguard rules extract-texts`. Sady `eco`, `dur`, `ucp` a `legal_cz` jsou česky, `legal_sk` slovensky.
+- Stav odkazů je kód: „ověřit“ → `to_verify` (110 odkazů), texty stavů jsou v `rules/texts/<jazyk>/_engine.yaml`.
+- `effective_from` podle dat, která už byla v odkazech na zákon:
+  - všech 12 pravidel `eco` a 5 pravidel `dur`: `sk: 2026-09-27`;
+  - `legal_harmonized_notice_missing`: `sk: 2026-09-27`;
+  - `legal_withdrawal_function_missing` (SK): `sk: 2026-06-19`.
+  - Ostatní pravidla platí bez data.
+- Otázky se nemění, proto verze sad zůstávají kromě `legal_cz`. Data účinnosti jsou k 1. 10. 2026 už v minulosti, takže se výsledky nemění.
+- `rules/question-set-hashes.json` drží otisk otázek každé verze. Změna otázek bez nové verze je chyba načtení.
 
 ## Profily šablon stránek (1. 10. 2026)
 

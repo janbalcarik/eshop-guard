@@ -1,5 +1,5 @@
 # Povinné informace e-shopu v Česku. Návrh k odladění a právní kontrole.
-version: "legal-cz-2026-09-29-draft3"
+version: "legal-cz-2026-10-01-draft4"
 module: legal
 applies_to: legal_paragraph
 jurisdictions: [cz]
@@ -21,6 +21,15 @@ questions:
     type: yes_no
     text_en: "Does this text contain a model withdrawal form or a link to one?"
     text_cs: "Obsahuje tento text vzorový formulář pro odstoupení od smlouvy nebo odkaz na něj?"
+  # Zákon č. 159/2026 Sb., účinnost 1. 1. 2027 (rules/CHANGELOG.md); znění otázek z podklady/reserse/cz-informacni-povinnosti.md, cz_withdrawal_button.
+  legal_withdrawal_online_option:
+    type: yes_no
+    text_en: "Does this text say that the consumer can withdraw from the contract online, using a button, link or form on the website?"
+    text_cs: "Uvádí tento text, že spotřebitel může od smlouvy odstoupit online pomocí tlačítka, odkazu nebo formuláře na webu?"
+  legal_withdrawal_button_location:
+    type: yes_no
+    text_en: "Does this text say where on the website the withdrawal button or form can be found, for example a web address, a page name or a menu item? Answer no if no such button or form is mentioned."
+    text_cs: "Uvádí tento text, kde na webu lze tlačítko nebo formulář pro odstoupení najít, například webovou adresu, název stránky nebo položku menu? Pokud text takové tlačítko ani formulář nezmiňuje, odpověz ne."
 
 rules:
   - id: legal_adr_missing
@@ -54,3 +63,32 @@ rules:
     checkability: text
     legal_refs:
       - {jurisdiction: cz, ref: "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník", status: to_verify}
+  # Tlačítko „Odstoupit od smlouvy“ (§ 1830a OZ ve znění zákona č. 159/2026 Sb., od 1. 1. 2027). Stejné logické pravidlo jako
+  # slovenské legal_withdrawal_function_missing (jeden nález s verdikty SK a CZ). Vzor je nápis předepsaný zákonem, ne slovník
+  # pro klasifikaci; jinou „odpovídající jednoznačnou formulaci“ nepozná a tlačítko může být jen v účtu zákazníka, proto verify.
+  - id: legal_withdrawal_function_missing
+    scope: site_signal
+    code_checks:
+      - {type: site_pattern_required, where: links, pattern: '(?im)^\s*odstoupit\s+od\s+smlouvy\b'}
+    severity: high
+    checkability: verify
+    effective_from: {cz: 2027-01-01}
+    legal_refs:
+      - {jurisdiction: eu, ref: "Směrnice 2011/83/EU, čl. 11a, vložený směrnicí (EU) 2023/2673 (použije se od 19. 6. 2026)", status: to_verify}
+      - {jurisdiction: cz, ref: "§ 1830a odst. 1 a 2 zákona č. 89/2012 Sb., občanský zákoník, ve znění zákona č. 159/2026 Sb. (účinnost od 1. 1. 2027)", status: to_verify}
+  - id: legal_withdrawal_button_info_missing
+    scope: site_presence
+    question: legal_withdrawal_online_option
+    severity: high
+    checkability: text
+    effective_from: {cz: 2027-01-01}
+    legal_refs:
+      - {jurisdiction: cz, ref: "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník, ve znění zákona č. 159/2026 Sb. (účinnost od 1. 1. 2027)", status: to_verify}
+  - id: legal_withdrawal_button_location_missing
+    scope: site_presence
+    question: legal_withdrawal_button_location
+    severity: high
+    checkability: text
+    effective_from: {cz: 2027-01-01}
+    legal_refs:
+      - {jurisdiction: cz, ref: "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník, ve znění zákona č. 159/2026 Sb. (účinnost od 1. 1. 2027)", status: to_verify}

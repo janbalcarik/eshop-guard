@@ -170,7 +170,7 @@ public class ScanFixtureTests
             var segmentsHeader = File.ReadLines(Path.Combine(directory, "segments.csv")).First();
             Assert.Contains(",ucp_reviews_verified_claim,", segmentsHeader);
             Assert.DoesNotContain(",eco_claim,", segmentsHeader);
-            Assert.EndsWith(",legal_adr,legal_complaints,legal_withdrawal,legal_withdrawal_form", segmentsHeader);
+            Assert.EndsWith(",legal_adr,legal_complaints,legal_withdrawal,legal_withdrawal_form,legal_withdrawal_online_option,legal_withdrawal_button_location", segmentsHeader);
 
             var findingsHeader = File.ReadLines(Path.Combine(directory, "findings.csv")).First();
             Assert.EndsWith(",human_label,note", findingsHeader);

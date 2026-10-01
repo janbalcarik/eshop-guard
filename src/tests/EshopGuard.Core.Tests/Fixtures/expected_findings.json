@@ -14,7 +14,10 @@
   ],
   "site_findings": [
     "legal_adr_missing",
-    "legal_withdrawal_form_missing"
+    "legal_withdrawal_form_missing",
+    "legal_withdrawal_function_missing",
+    "legal_withdrawal_button_info_missing",
+    "legal_withdrawal_button_location_missing"
   ],
   "pages_without_findings": [
     "/",

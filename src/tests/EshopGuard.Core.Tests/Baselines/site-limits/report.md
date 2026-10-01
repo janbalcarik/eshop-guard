@@ -10,7 +10,7 @@
 | Datum | - |
 | Moduly |  |
 | Země | CZ |
-| Sady otázek | ucp-2026-09-26-draft4 (ucp.yaml), legal-cz-2026-09-29-draft3 (legal_cz.yaml) |
+| Sady otázek | ucp-2026-09-26-draft4 (ucp.yaml), legal-cz-2026-10-01-draft4 (legal_cz.yaml) |
 | Model | mock |
 | Jazyk otázek | angličtina |
 
@@ -22,19 +22,22 @@
 - Segmenty: 76 výskytů, 64 unikátních (56 vět, 8 právních odstavců, 3 šablonových)
 - Volání Jevu: 64, odpovědi z cache: 0, chyby: 0
 - Síto po odstavcích (úseky do 600 znaků, práh 0,2): 3 úseků, volání 3, z cache 0, nevyhodnoceno 0; z podrobné kontroly vynechalo 0 z 56 dvojic věta × modul (0 %)
-- Vstupní tokeny: 19 396 (odhad falešného klienta)
-- Odhad ceny: 0,000815 USD (nic se neplatilo)
+- Vstupní tokeny: 20 012 (odhad falešného klienta)
+- Odhad ceny: 0,000841 USD (nic se neplatilo)
 - Doba běhu: -
 
 ## Souhrn
 
-Porušení podle textu zákona: 3.
+Porušení podle textu zákona: 3, Platí později: 3.
 
 | Skupina | Pravidlo | Závažnost | Vysoká jistota | Nižší jistota |
 | --- | --- | --- | ---: | ---: |
 | Porušení podle textu zákona | Chybí informace o mimosoudním řešení sporů | vysoká | 1 | 0 |
 | Porušení podle textu zákona | Odměna za kladnou recenzi | vysoká | 1 | 0 |
 | Porušení podle textu zákona | Chybí vzorový formulář pro odstoupení | střední | 1 | 0 |
+| Platí později | Chybí tlačítko „Odstoupit od smlouvy“ (povinné od 1. 1. 2027) | vysoká | 0 | 1 |
+| Platí později | Chybí informace, kde je tlačítko pro odstoupení (povinná od 1. 1. 2027) | vysoká | 0 | 1 |
+| Platí později | Chybí informace o možnosti odstoupit tlačítkem (povinná od 1. 1. 2027) | vysoká | 0 | 1 |
 
 Jistota říká, jak si je Jev jistý, že text odpovídá popisu pravidla; zda jde o porušení, určuje skupina.
 
@@ -94,6 +97,64 @@ Spolu s informací o odstoupení musí spotřebitel dostat vzorový formulář.
    - Nejbližší odstavec: „Vyřízení reklamace – O vyřízení reklamace vás budeme informovat e-mailem a vydáme vám potvrzení o datu a způsobu vyřízení reklamace.“
    - Stránky (1): http://fixture.test/reklamacni-rad.html
    - Poznámka: Nejbližší nalezený odstavec má pravděpodobnost 0,09, práh přítomnosti je 0,70.
+
+## Platí později (3)
+
+Povinnost zatím neplatí: pravidlo má datum účinnosti v budoucnu, nález je upozornění dopředu. Skupinu, do které po účinnosti patří, uvádí řádek pravidla.
+
+### Chybí tlačítko „Odstoupit od smlouvy“ (povinné od 1. 1. 2027)
+
+Pravidlo `legal_withdrawal_function_missing`, závažnost vysoká, k ověření, záleží na faktech mimo web.
+
+Od 1. 1. 2027 musí e-shop umožnit spotřebiteli odstoupit od smlouvy také prohlášením v on-line rozhraní pomocí tlačítka nebo obdobného ovládacího prvku. Ten musí být zobrazený výrazným způsobem, snadno přístupný, dostupný nepřetržitě po celou lhůtu pro odstoupení a označený snadno čitelným nápisem „Odstoupit od smlouvy“ nebo jinou odpovídající jednoznačnou formulací. Na prohledaných stránkách se odkaz ani tlačítko s takovým nápisem nenašly.
+
+**Doporučení:** Doplňte výrazně viditelné tlačítko nebo odkaz „Odstoupit od smlouvy“ (například v patičce a v zákaznickém účtu), které vede k vyplnění a potvrzení prohlášení o odstoupení.
+
+**Předpisy:**
+
+- EU: Směrnice 2011/83/EU, čl. 11a, vložený směrnicí (EU) 2023/2673 (použije se od 19. 6. 2026) (status: ověřit)
+- CZ: § 1830a odst. 1 a 2 zákona č. 89/2012 Sb., občanský zákoník, ve znění zákona č. 159/2026 Sb. (účinnost od 1. 1. 2027) (status: ověřit)
+
+1. **Informace na webu nenalezena** – skóre 1,00, nižší jistota
+   - Poznámka: Na žádné z 5 stažených stránek se nenašel obrázek, odkaz ani text, který by to ukazoval.
+   - Poznámka: Košík, pokladnu a zákaznický účet nástroj nestahuje; tam to ověřte ručně.
+   - Poznámka: Povinnost platí od 1. 1. 2027; do té doby jde o upozornění dopředu.
+
+### Chybí informace, kde je tlačítko pro odstoupení (povinná od 1. 1. 2027)
+
+Pravidlo `legal_withdrawal_button_location_missing`, závažnost vysoká, porušení podle textu zákona.
+
+Od 1. 1. 2027 musí informace před uzavřením smlouvy uzavírané prostřednictvím on-line rozhraní obsahovat i údaj o umístění tlačítka nebo obdobného ovládacího prvku pro odstoupení od smlouvy.
+
+**Doporučení:** Doplňte do obchodních podmínek nebo poučení o odstoupení, kde na webu tlačítko „Odstoupit od smlouvy“ najdete (například stránku, položku menu nebo zákaznický účet).
+
+**Předpisy:**
+
+- CZ: § 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník, ve znění zákona č. 159/2026 Sb. (účinnost od 1. 1. 2027) (status: ověřit)
+
+1. **Informace na webu nenalezena** – skóre 0,95, nižší jistota
+   - Nejbližší odstavec: „2. Objednávka a uzavření smlouvy – Kupní smlouva vzniká odesláním potvrzení objednávky na e-mail kupujícího.“
+   - Stránky (1): http://fixture.test/obchodni-podminky.html
+   - Poznámka: Nejbližší nalezený odstavec má pravděpodobnost 0,05, práh přítomnosti je 0,70.
+   - Poznámka: Povinnost platí od 1. 1. 2027; do té doby jde o upozornění dopředu.
+
+### Chybí informace o možnosti odstoupit tlačítkem (povinná od 1. 1. 2027)
+
+Pravidlo `legal_withdrawal_button_info_missing`, závažnost vysoká, porušení podle textu zákona.
+
+Od 1. 1. 2027 musí informace před uzavřením smlouvy uzavírané prostřednictvím on-line rozhraní obsahovat i údaj o možnosti odstoupit od smlouvy také použitím tlačítka nebo obdobného ovládacího prvku pro odstoupení.
+
+**Doporučení:** Doplňte do obchodních podmínek nebo poučení o odstoupení, že od smlouvy lze odstoupit také tlačítkem „Odstoupit od smlouvy“ na webu.
+
+**Předpisy:**
+
+- CZ: § 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník, ve znění zákona č. 159/2026 Sb. (účinnost od 1. 1. 2027) (status: ověřit)
+
+1. **Informace na webu nenalezena** – skóre 0,90, nižší jistota
+   - Nejbližší odstavec: „2. Objednávka a uzavření smlouvy – Kupní smlouva vzniká odesláním potvrzení objednávky na e-mail kupujícího.“
+   - Stránky (1): http://fixture.test/obchodni-podminky.html
+   - Poznámka: Nejbližší nalezený odstavec má pravděpodobnost 0,10, práh přítomnosti je 0,70.
+   - Poznámka: Povinnost platí od 1. 1. 2027; do té doby jde o upozornění dopředu.
 
 ## Obrázky k ruční kontrole
 

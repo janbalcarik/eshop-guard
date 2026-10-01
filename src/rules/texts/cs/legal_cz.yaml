@@ -2,7 +2,7 @@
 # Klíče a zástupné symboly musí být ve všech jazycích stejné; kontrola: eshopguard rules check-texts.
 locale: cs
 rule_set: legal_cz
-source_version: "legal-cz-2026-09-29-draft3"
+source_version: "legal-cz-2026-10-01-draft4"
 review:
   original: true
   note: "Původní texty pravidel, přesunuté beze změny z rules/legal_cz.yaml (1. 10. 2026)."
@@ -23,3 +23,16 @@ rules:
     title: "Chybí vzorový formulář pro odstoupení"
     explanation: "Spolu s informací o odstoupení musí spotřebitel dostat vzorový formulář."
     recommendation: "Přidejte vzorový formulář pro odstoupení od smlouvy."
+  # Nová pravidla podle zákona č. 159/2026 Sb. (1. 10. 2026, změna 6); znění textů zkontroluje uživatel.
+  legal_withdrawal_function_missing:
+    title: "Chybí tlačítko „Odstoupit od smlouvy“ (povinné od 1. 1. 2027)"
+    explanation: "Od 1. 1. 2027 musí e-shop umožnit spotřebiteli odstoupit od smlouvy také prohlášením v on-line rozhraní pomocí tlačítka nebo obdobného ovládacího prvku. Ten musí být zobrazený výrazným způsobem, snadno přístupný, dostupný nepřetržitě po celou lhůtu pro odstoupení a označený snadno čitelným nápisem „Odstoupit od smlouvy“ nebo jinou odpovídající jednoznačnou formulací. Na prohledaných stránkách se odkaz ani tlačítko s takovým nápisem nenašly."
+    recommendation: "Doplňte výrazně viditelné tlačítko nebo odkaz „Odstoupit od smlouvy“ (například v patičce a v zákaznickém účtu), které vede k vyplnění a potvrzení prohlášení o odstoupení."
+  legal_withdrawal_button_info_missing:
+    title: "Chybí informace o možnosti odstoupit tlačítkem (povinná od 1. 1. 2027)"
+    explanation: "Od 1. 1. 2027 musí informace před uzavřením smlouvy uzavírané prostřednictvím on-line rozhraní obsahovat i údaj o možnosti odstoupit od smlouvy také použitím tlačítka nebo obdobného ovládacího prvku pro odstoupení."
+    recommendation: "Doplňte do obchodních podmínek nebo poučení o odstoupení, že od smlouvy lze odstoupit také tlačítkem „Odstoupit od smlouvy“ na webu."
+  legal_withdrawal_button_location_missing:
+    title: "Chybí informace, kde je tlačítko pro odstoupení (povinná od 1. 1. 2027)"
+    explanation: "Od 1. 1. 2027 musí informace před uzavřením smlouvy uzavírané prostřednictvím on-line rozhraní obsahovat i údaj o umístění tlačítka nebo obdobného ovládacího prvku pro odstoupení od smlouvy."
+    recommendation: "Doplňte do obchodních podmínek nebo poučení o odstoupení, kde na webu tlačítko „Odstoupit od smlouvy“ najdete (například stránku, položku menu nebo zákaznický účet)."

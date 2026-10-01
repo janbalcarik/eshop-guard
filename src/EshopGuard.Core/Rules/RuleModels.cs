@@ -30,6 +30,10 @@ public sealed class RuleCatalog
     /// only these can be offered to users.
     /// </summary>
     public IReadOnlyList<string> CompleteLocales => Texts.CompleteLocales;
+
+    /// <summary>What is stored about every rule set version (<see cref="RuleSetDescriptor"/>) for a model and question language.</summary>
+    public IReadOnlyList<RuleSetDescriptor> Describe(string model, string questionLanguage = "en") =>
+        RuleSetDescriptor.Describe(this, model, questionLanguage);
 }
 
 /// <summary>

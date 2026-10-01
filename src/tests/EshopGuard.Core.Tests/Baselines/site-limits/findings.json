@@ -27,18 +27,56 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 23c; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (odměna za zveřejnění pozitivních recenzí)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "cz",
         "ref": "§ 4 odst. 4 a příloha č. 1 písm. z) zákona č. 634/1992 Sb.",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Odměna za kladné hodnocení vede k falešným recenzím; zadávání falešných recenzí je zakázané za všech okolností.",
     "recommendation": "Odměnu za recenzi nepodmiňujte jejím obsahem ani hodnocením.",
     "notes": [],
-    "segment_hash": "sha256:e95b00fedd02436390fe8c407df1f57d956e4c8d345d240bad536a0ba5c0d9b6"
+    "segment_hash": "sha256:e95b00fedd02436390fe8c407df1f57d956e4c8d345d240bad536a0ba5c0d9b6",
+    "text_fingerprint": 6350318220714059517,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "cz",
+        "status": "finding",
+        "band": "high",
+        "score": 0.885,
+        "severity": "high",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 23c; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (odměna za zveřejnění pozitivních recenzí)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "cz",
+            "ref": "§ 4 odst. 4 a příloha č. 1 písm. z) zákona č. 634/1992 Sb.",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "ucp",
+        "rule_set_version": "ucp-2026-09-26-draft4",
+        "explanation_variant": "default",
+        "effective_from": null,
+        "notes": [],
+        "question_probs": {
+          "ucp_review_reward": 0.885,
+          "ucp_review_reward_positive": 0.934
+        }
+      }
+    ]
   },
   {
     "rule_id": "legal_adr_missing",
@@ -67,12 +105,14 @@
       {
         "jurisdiction": "cz",
         "ref": "§ 14 odst. 1 zákona č. 634/1992 Sb., o ochraně spotřebitele",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "cz",
         "ref": "§ 1820 odst. 1 písm. s) zákona č. 89/2012 Sb., občanský zákoník",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Prodávající musí spotřebitele informovat o subjektu mimosoudního řešení spotřebitelských sporů.",
@@ -80,7 +120,50 @@
     "notes": [
       "Nejbližší nalezený odstavec má pravděpodobnost 0,08, práh přítomnosti je 0,70."
     ],
-    "segment_hash": "sha256:e0934612764a5e3053ac7c79ddc9070ebeb4fb4622a6292c17dadc455a8a8639"
+    "segment_hash": "sha256:e0934612764a5e3053ac7c79ddc9070ebeb4fb4622a6292c17dadc455a8a8639",
+    "text_fingerprint": -1067330378303479315,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "cz",
+        "status": "finding",
+        "band": "high",
+        "score": 0.925,
+        "severity": "high",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "cz",
+            "ref": "§ 14 odst. 1 zákona č. 634/1992 Sb., o ochraně spotřebitele",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "cz",
+            "ref": "§ 1820 odst. 1 písm. s) zákona č. 89/2012 Sb., občanský zákoník",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "legal_cz",
+        "rule_set_version": "legal-cz-2026-10-01-draft4",
+        "explanation_variant": "default",
+        "effective_from": null,
+        "notes": [
+          {
+            "code": "presence_closest_paragraph",
+            "params": {
+              "probability": 0.075,
+              "threshold": 0.7
+            }
+          }
+        ],
+        "question_probs": {
+          "legal_adr": 0.075
+        }
+      }
+    ]
   },
   {
     "rule_id": "legal_withdrawal_form_missing",
@@ -109,7 +192,8 @@
       {
         "jurisdiction": "cz",
         "ref": "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Spolu s informací o odstoupení musí spotřebitel dostat vzorový formulář.",
@@ -117,6 +201,297 @@
     "notes": [
       "Nejbližší nalezený odstavec má pravděpodobnost 0,09, práh přítomnosti je 0,70."
     ],
-    "segment_hash": "sha256:eb5c56a09aa2a93e9a4bc3b05a53e1d8c828ddde559a39eedf114ba8c60f8429"
+    "segment_hash": "sha256:eb5c56a09aa2a93e9a4bc3b05a53e1d8c828ddde559a39eedf114ba8c60f8429",
+    "text_fingerprint": 8616272962236018527,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "cz",
+        "status": "finding",
+        "band": "high",
+        "score": 0.911,
+        "severity": "medium",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "cz",
+            "ref": "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "legal_cz",
+        "rule_set_version": "legal-cz-2026-10-01-draft4",
+        "explanation_variant": "default",
+        "effective_from": null,
+        "notes": [
+          {
+            "code": "presence_closest_paragraph",
+            "params": {
+              "probability": 0.089,
+              "threshold": 0.7
+            }
+          }
+        ],
+        "question_probs": {
+          "legal_withdrawal_form": 0.089
+        }
+      }
+    ]
+  },
+  {
+    "rule_id": "legal_withdrawal_function_missing",
+    "module": "legal",
+    "title": "Chybí tlačítko „Odstoupit od smlouvy“ (povinné od 1. 1. 2027)",
+    "severity": "high",
+    "checkability": "verify",
+    "scope": "site",
+    "band": "review",
+    "score": 1,
+    "text": null,
+    "context_before": "",
+    "context_after": "",
+    "sources": [],
+    "urls": [],
+    "occurrences": 0,
+    "boilerplate": false,
+    "question_probs": {},
+    "legal_refs": [
+      {
+        "jurisdiction": "eu",
+        "ref": "Směrnice 2011/83/EU, čl. 11a, vložený směrnicí (EU) 2023/2673 (použije se od 19. 6. 2026)",
+        "status": "ověřit",
+        "status_code": "to_verify"
+      },
+      {
+        "jurisdiction": "cz",
+        "ref": "§ 1830a odst. 1 a 2 zákona č. 89/2012 Sb., občanský zákoník, ve znění zákona č. 159/2026 Sb. (účinnost od 1. 1. 2027)",
+        "status": "ověřit",
+        "status_code": "to_verify"
+      }
+    ],
+    "explanation": "Od 1. 1. 2027 musí e-shop umožnit spotřebiteli odstoupit od smlouvy také prohlášením v on-line rozhraní pomocí tlačítka nebo obdobného ovládacího prvku. Ten musí být zobrazený výrazným způsobem, snadno přístupný, dostupný nepřetržitě po celou lhůtu pro odstoupení a označený snadno čitelným nápisem „Odstoupit od smlouvy“ nebo jinou odpovídající jednoznačnou formulací. Na prohledaných stránkách se odkaz ani tlačítko s takovým nápisem nenašly.",
+    "recommendation": "Doplňte výrazně viditelné tlačítko nebo odkaz „Odstoupit od smlouvy“ (například v patičce a v zákaznickém účtu), které vede k vyplnění a potvrzení prohlášení o odstoupení.",
+    "notes": [
+      "Na žádné z 5 stažených stránek se nenašel obrázek, odkaz ani text, který by to ukazoval.",
+      "Košík, pokladnu a zákaznický účet nástroj nestahuje; tam to ověřte ručně.",
+      "Povinnost platí od 1. 1. 2027; do té doby jde o upozornění dopředu."
+    ],
+    "segment_hash": null,
+    "text_fingerprint": null,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "cz",
+        "status": "upcoming",
+        "band": "review",
+        "score": 1,
+        "severity": "high",
+        "checkability": "verify",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2011/83/EU, čl. 11a, vložený směrnicí (EU) 2023/2673 (použije se od 19. 6. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "cz",
+            "ref": "§ 1830a odst. 1 a 2 zákona č. 89/2012 Sb., občanský zákoník, ve znění zákona č. 159/2026 Sb. (účinnost od 1. 1. 2027)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "legal_cz",
+        "rule_set_version": "legal-cz-2026-10-01-draft4",
+        "explanation_variant": "default",
+        "effective_from": "2027-01-01",
+        "notes": [
+          {
+            "code": "signal_not_found",
+            "params": {
+              "count": 5
+            }
+          },
+          {
+            "code": "signal_cart_not_downloaded",
+            "params": {}
+          },
+          {
+            "code": "effective_from",
+            "params": {
+              "date": "2027-01-01"
+            }
+          }
+        ],
+        "question_probs": {}
+      }
+    ]
+  },
+  {
+    "rule_id": "legal_withdrawal_button_info_missing",
+    "module": "legal",
+    "title": "Chybí informace o možnosti odstoupit tlačítkem (povinná od 1. 1. 2027)",
+    "severity": "high",
+    "checkability": "text",
+    "scope": "site",
+    "band": "review",
+    "score": 0.902,
+    "text": "2. Objednávka a uzavření smlouvy\nKupní smlouva vzniká odesláním potvrzení objednávky na e-mail kupujícího.",
+    "context_before": "",
+    "context_after": "",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/obchodni-podminky.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "legal_withdrawal_online_option": 0.098
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "cz",
+        "ref": "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník, ve znění zákona č. 159/2026 Sb. (účinnost od 1. 1. 2027)",
+        "status": "ověřit",
+        "status_code": "to_verify"
+      }
+    ],
+    "explanation": "Od 1. 1. 2027 musí informace před uzavřením smlouvy uzavírané prostřednictvím on-line rozhraní obsahovat i údaj o možnosti odstoupit od smlouvy také použitím tlačítka nebo obdobného ovládacího prvku pro odstoupení.",
+    "recommendation": "Doplňte do obchodních podmínek nebo poučení o odstoupení, že od smlouvy lze odstoupit také tlačítkem „Odstoupit od smlouvy“ na webu.",
+    "notes": [
+      "Nejbližší nalezený odstavec má pravděpodobnost 0,10, práh přítomnosti je 0,70.",
+      "Povinnost platí od 1. 1. 2027; do té doby jde o upozornění dopředu."
+    ],
+    "segment_hash": "sha256:a5d1b4abbd356249cf6866a9973e63d492d5327028a0d7e4e7681c1fce537f6a",
+    "text_fingerprint": 5073710115540061887,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "cz",
+        "status": "upcoming",
+        "band": "review",
+        "score": 0.902,
+        "severity": "high",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "cz",
+            "ref": "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník, ve znění zákona č. 159/2026 Sb. (účinnost od 1. 1. 2027)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "legal_cz",
+        "rule_set_version": "legal-cz-2026-10-01-draft4",
+        "explanation_variant": "default",
+        "effective_from": "2027-01-01",
+        "notes": [
+          {
+            "code": "presence_closest_paragraph",
+            "params": {
+              "probability": 0.098,
+              "threshold": 0.7
+            }
+          },
+          {
+            "code": "effective_from",
+            "params": {
+              "date": "2027-01-01"
+            }
+          }
+        ],
+        "question_probs": {
+          "legal_withdrawal_online_option": 0.098
+        }
+      }
+    ]
+  },
+  {
+    "rule_id": "legal_withdrawal_button_location_missing",
+    "module": "legal",
+    "title": "Chybí informace, kde je tlačítko pro odstoupení (povinná od 1. 1. 2027)",
+    "severity": "high",
+    "checkability": "text",
+    "scope": "site",
+    "band": "review",
+    "score": 0.949,
+    "text": "2. Objednávka a uzavření smlouvy\nKupní smlouva vzniká odesláním potvrzení objednávky na e-mail kupujícího.",
+    "context_before": "",
+    "context_after": "",
+    "sources": [
+      "main"
+    ],
+    "urls": [
+      "http://fixture.test/obchodni-podminky.html"
+    ],
+    "occurrences": 1,
+    "boilerplate": false,
+    "question_probs": {
+      "legal_withdrawal_button_location": 0.051
+    },
+    "legal_refs": [
+      {
+        "jurisdiction": "cz",
+        "ref": "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník, ve znění zákona č. 159/2026 Sb. (účinnost od 1. 1. 2027)",
+        "status": "ověřit",
+        "status_code": "to_verify"
+      }
+    ],
+    "explanation": "Od 1. 1. 2027 musí informace před uzavřením smlouvy uzavírané prostřednictvím on-line rozhraní obsahovat i údaj o umístění tlačítka nebo obdobného ovládacího prvku pro odstoupení od smlouvy.",
+    "recommendation": "Doplňte do obchodních podmínek nebo poučení o odstoupení, kde na webu tlačítko „Odstoupit od smlouvy“ najdete (například stránku, položku menu nebo zákaznický účet).",
+    "notes": [
+      "Nejbližší nalezený odstavec má pravděpodobnost 0,05, práh přítomnosti je 0,70.",
+      "Povinnost platí od 1. 1. 2027; do té doby jde o upozornění dopředu."
+    ],
+    "segment_hash": "sha256:a5d1b4abbd356249cf6866a9973e63d492d5327028a0d7e4e7681c1fce537f6a",
+    "text_fingerprint": 5073710115540061887,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "cz",
+        "status": "upcoming",
+        "band": "review",
+        "score": 0.949,
+        "severity": "high",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "cz",
+            "ref": "§ 1820 odst. 1 písm. i) zákona č. 89/2012 Sb., občanský zákoník, ve znění zákona č. 159/2026 Sb. (účinnost od 1. 1. 2027)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "legal_cz",
+        "rule_set_version": "legal-cz-2026-10-01-draft4",
+        "explanation_variant": "default",
+        "effective_from": "2027-01-01",
+        "notes": [
+          {
+            "code": "presence_closest_paragraph",
+            "params": {
+              "probability": 0.051,
+              "threshold": 0.7
+            }
+          },
+          {
+            "code": "effective_from",
+            "params": {
+              "date": "2027-01-01"
+            }
+          }
+        ],
+        "question_probs": {
+          "legal_withdrawal_button_location": 0.051
+        }
+      }
+    ]
   }
 ]

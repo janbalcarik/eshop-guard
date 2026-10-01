@@ -29,7 +29,17 @@ internal sealed class MarkdownReportWriter(ReportTexts texts) : IReportWriter
         ("verify", "K ověření",
             "Tvrzení nebo chybějící informace je na webu vidět, ale zda jde o porušení, záleží na faktech mimo web (certifikace značky, pravdivost údaje, košík a pokladna, které nástroj nestahuje)."),
         ("not_checkable", "Z textu nelze posoudit", "Pravidla, která z textu webu rozhodnout nejde."),
+        (UpcomingGroup, "Platí později",
+            "Povinnost zatím neplatí: pravidlo má datum účinnosti v budoucnu, nález je upozornění dopředu. Skupinu, do které po účinnosti patří, uvádí řádek pravidla."),
     ];
+
+    /// <summary>Group of findings whose every verdict applies only later.</summary>
+    private const string UpcomingGroup = "upcoming";
+
+    /// <summary>Group of a finding in the report: its group of checkability, or the upcoming one before the rule applies.</summary>
+    private static string Group(Finding finding) => finding.Strictest.Status == VerdictStatus.Upcoming ? UpcomingGroup : finding.Checkability;
+
+    private static int GroupRank(string group) => group == UpcomingGroup ? 4 : ReportFormat.CheckabilityRank(group);
 
     public string FileName => "report.md";
 
@@ -186,7 +196,7 @@ internal sealed class MarkdownReportWriter(ReportTexts texts) : IReportWriter
             }
 
             md.AppendLine(string.Join(", ", Groups
-                .Select(g => (g.Heading, Count: result.Findings.Count(f => f.Checkability == g.Checkability)))
+                .Select(g => (g.Heading, Count: result.Findings.Count(f => Group(f) == g.Checkability)))
                 .Where(g => g.Count > 0)
                 .Select(g => $"{g.Heading}: {g.Count}")) + ".");
             md.AppendLine();
@@ -195,7 +205,7 @@ internal sealed class MarkdownReportWriter(ReportTexts texts) : IReportWriter
             foreach (var rule in OrderedRules(result.Findings))
             {
                 var first = rule.First();
-                md.AppendLine($"| {GroupHeading(first.Checkability)} | {renderer.Render(first, locale).Title} | {ReportFormat.Severity(first.Severity)} | {rule.Count(f => f.Band == FindingBand.High)} | {rule.Count(f => f.Band == FindingBand.Review)} |");
+                md.AppendLine($"| {GroupHeading(Group(first))} | {renderer.Render(first, locale).Title} | {ReportFormat.Severity(first.Severity)} | {rule.Count(f => f.Band == FindingBand.High)} | {rule.Count(f => f.Band == FindingBand.Review)} |");
             }
 
             md.AppendLine();
@@ -213,7 +223,7 @@ internal sealed class MarkdownReportWriter(ReportTexts texts) : IReportWriter
                 return;
             }
 
-            foreach (var group in OrderedRules(result.Findings).GroupBy(r => r[0].Checkability))
+            foreach (var group in OrderedRules(result.Findings).GroupBy(r => Group(r[0])))
             {
                 var heading = Groups.FirstOrDefault(g => g.Checkability == group.Key);
                 md.AppendLine($"## {heading.Heading ?? group.Key} ({group.Sum(r => r.Count)})");
@@ -500,9 +510,9 @@ internal sealed class MarkdownReportWriter(ReportTexts texts) : IReportWriter
         }
 
         private static IEnumerable<List<Finding>> OrderedRules(IEnumerable<Finding> findings) =>
-            findings.GroupBy(f => f.RuleId)
+            findings.GroupBy(f => (f.RuleId, Upcoming: Group(f) == UpcomingGroup))
                 .Select(g => g.ToList())
-                .OrderBy(g => ReportFormat.CheckabilityRank(g[0].Checkability))
+                .OrderBy(g => GroupRank(Group(g[0])))
                 .ThenBy(g => ReportFormat.SeverityRank(g[0].Severity))
                 .ThenByDescending(g => g.Max(f => f.Score));
 

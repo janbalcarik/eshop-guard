@@ -34,18 +34,63 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Věta používá výraz, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (například „ekologický“, „šetrný k životnímu prostředí“, „zelený“, „přátelský k přírodě“), nebo přímo tvrdí přínos pro životní prostředí, přírodu či klima. Bez upřesnění jasně a výrazně přímo u tvrzení je zakázané, pokud obchodník neprokáže uznaný vynikající environmentální profil relevantní pro tvrzení (ekoznačka EU nebo úředně uznaná ekoznačka typu I). Certifikované biopotraviny smí „bio“ a „eko“ používat.",
     "recommendation": "Tvrzení odstraňte, nebo ho nahraďte konkrétním a doložitelným údajem přímo u něj.",
     "notes": [],
-    "segment_hash": "sha256:b5716d2d22878e1f8e4f9d2473f513176fa962e8f2a44d4633f1fa4388e19a91"
+    "segment_hash": "sha256:b5716d2d22878e1f8e4f9d2473f513176fa962e8f2a44d4633f1fa4388e19a91",
+    "text_fingerprint": -7913573408957946331,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.864,
+        "severity": "high",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "eco",
+        "rule_set_version": "eco-2026-09-30-draft14",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "eco_claim": 0.901,
+          "eco_generic": 0.864,
+          "eco_explicit_term": 0.883,
+          "eco_organic_food": 0.025,
+          "eco_sustainable_term": 0.043,
+          "eco_neutral": 0.034,
+          "eco_other_subject": 0.05,
+          "eco_diy": 0.031,
+          "eco_audience": 0.035
+        }
+      }
+    ]
   },
   {
     "rule_id": "eco_generic_claim",
@@ -82,18 +127,63 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Věta používá výraz, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (například „ekologický“, „šetrný k životnímu prostředí“, „zelený“, „přátelský k přírodě“), nebo přímo tvrdí přínos pro životní prostředí, přírodu či klima. Bez upřesnění jasně a výrazně přímo u tvrzení je zakázané, pokud obchodník neprokáže uznaný vynikající environmentální profil relevantní pro tvrzení (ekoznačka EU nebo úředně uznaná ekoznačka typu I). Certifikované biopotraviny smí „bio“ a „eko“ používat.",
     "recommendation": "Tvrzení odstraňte, nebo ho nahraďte konkrétním a doložitelným údajem přímo u něj.",
     "notes": [],
-    "segment_hash": "sha256:e7dd61490815150643c5b5d6d9165a6188ae9b810603a86d52246e24f7d4dac6"
+    "segment_hash": "sha256:e7dd61490815150643c5b5d6d9165a6188ae9b810603a86d52246e24f7d4dac6",
+    "text_fingerprint": 3914387528919553820,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.872,
+        "severity": "high",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "eco",
+        "rule_set_version": "eco-2026-09-30-draft14",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "eco_claim": 0.872,
+          "eco_generic": 0.873,
+          "eco_explicit_term": 0.917,
+          "eco_organic_food": 0.027,
+          "eco_sustainable_term": 0.061,
+          "eco_neutral": 0.084,
+          "eco_other_subject": 0.023,
+          "eco_diy": 0.083,
+          "eco_audience": 0.031
+        }
+      }
+    ]
   },
   {
     "rule_id": "eco_generic_claim",
@@ -130,18 +220,63 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Věta používá výraz, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (například „ekologický“, „šetrný k životnímu prostředí“, „zelený“, „přátelský k přírodě“), nebo přímo tvrdí přínos pro životní prostředí, přírodu či klima. Bez upřesnění jasně a výrazně přímo u tvrzení je zakázané, pokud obchodník neprokáže uznaný vynikající environmentální profil relevantní pro tvrzení (ekoznačka EU nebo úředně uznaná ekoznačka typu I). Certifikované biopotraviny smí „bio“ a „eko“ používat.",
     "recommendation": "Tvrzení odstraňte, nebo ho nahraďte konkrétním a doložitelným údajem přímo u něj.",
     "notes": [],
-    "segment_hash": "sha256:1430df3661d48c26dbe5d3a41be90d2d53eb0638707b7208c337da7019efa00f"
+    "segment_hash": "sha256:1430df3661d48c26dbe5d3a41be90d2d53eb0638707b7208c337da7019efa00f",
+    "text_fingerprint": 1793668994003256497,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.869,
+        "severity": "high",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "eco",
+        "rule_set_version": "eco-2026-09-30-draft14",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "eco_claim": 0.869,
+          "eco_generic": 0.903,
+          "eco_explicit_term": 0.892,
+          "eco_organic_food": 0.032,
+          "eco_sustainable_term": 0.043,
+          "eco_neutral": 0.043,
+          "eco_other_subject": 0.055,
+          "eco_diy": 0.07,
+          "eco_audience": 0.051
+        }
+      }
+    ]
   },
   {
     "rule_id": "eco_generic_claim_open",
@@ -177,18 +312,62 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, čl. 2 písm. o) a p) a příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 3 a 14",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Věta používá slovo, které zákon ani odůvodnění 9 směrnice (EU) 2024/825 mezi příklady obecných environmentálních tvrzení neuvádí, například „prírodný“, „bio“ u výrobku, který není potravinou, nebo „šetrný“ bez zmínky o přírodě. Environmentálním tvrzením je, jen pokud u průměrného spotřebitele vyvolá dojem přínosu pro životní prostředí; Komise to posuzuje případ od případu (otázky a odpovědi č. 3 u názvů výrobků a značek, č. 14 u „bio“ a „eco“). Pokud takový dojem vyvolá a přímo u něj není upřesnění, jde o zakázané obecné tvrzení.",
     "recommendation": "Posuďte, zda výraz v kontextu stránky působí jako slib přínosu pro přírodu. Pokud ano, doplňte přímo k němu konkrétní doložitelný údaj, nebo ho odstraňte.",
     "notes": [],
-    "segment_hash": "sha256:a31f8c7ff37fbd137b493fd827ae2e866e776af7a55ca91de79bda7babec2d4c"
+    "segment_hash": "sha256:a31f8c7ff37fbd137b493fd827ae2e866e776af7a55ca91de79bda7babec2d4c",
+    "text_fingerprint": 6976328991782874008,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.862,
+        "severity": "medium",
+        "checkability": "assess",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, čl. 2 písm. o) a p) a příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 3 a 14",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "eco",
+        "rule_set_version": "eco-2026-09-30-draft14",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "eco_claim": 0.914,
+          "eco_generic": 0.862,
+          "eco_organic_food": 0.061,
+          "eco_sustainable_term": 0.028,
+          "eco_neutral": 0.051,
+          "eco_explicit_term": 0.064,
+          "eco_other_subject": 0.076,
+          "eco_diy": 0.073
+        }
+      }
+    ]
   },
   {
     "rule_id": "eco_sustainable_claim",
@@ -221,18 +400,59 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 10",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Tvrzení „udržitelný“, „odpovědný“ nebo „uvědomělý“ se kromě životního prostředí týkají i sociálních znaků, proto je podle odůvodnění směrnice EmpCo nelze opřít jen o ekoznačku. Bez jasného upřesnění přímo u tvrzení jde o zakázané obecné tvrzení.",
     "recommendation": "Tvrzení odstraňte, nebo přímo u něj uveďte, v čem konkrétně a doložitelně je produkt udržitelný.",
     "notes": [],
-    "segment_hash": "sha256:b1dd77f6ba9e2b41c14c17b96bebc19904461c32caf26b8037fcf8b2cb81844d"
+    "segment_hash": "sha256:b1dd77f6ba9e2b41c14c17b96bebc19904461c32caf26b8037fcf8b2cb81844d",
+    "text_fingerprint": 3547481284411744280,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.867,
+        "severity": "high",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 10",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "eco",
+        "rule_set_version": "eco-2026-09-30-draft14",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "eco_sustainable_term": 0.867,
+          "eco_generic": 0.919,
+          "eco_other_subject": 0.083,
+          "eco_diy": 0.093,
+          "eco_audience": 0.082
+        }
+      }
+    ]
   },
   {
     "rule_id": "eco_neutrality",
@@ -263,18 +483,57 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 4c, ve znění směrnice (EU) 2024/825; odůvodnění 12",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 8, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Tvrzení, že produkt (zboží nebo služba, například doprava) má neutrální, snížený nebo pozitivní dopad na klima, je zakázané vždy, pokud stojí na kompenzaci emisí mimo hodnotový řetězec produktu. Povolené je jen tvrzení založené na skutečném snížení emisí během životního cyklu produktu.",
     "recommendation": "Tvrzení odstraňte. O podpoře klimatických projektů můžete informovat, ale ne jako o vlastnosti produktu.",
     "notes": [],
-    "segment_hash": "sha256:c35445844c5e45bd13cf80ff3320a95deaf59b6e301c32a7a5dcb80678312a92"
+    "segment_hash": "sha256:c35445844c5e45bd13cf80ff3320a95deaf59b6e301c32a7a5dcb80678312a92",
+    "text_fingerprint": 2082301226519349881,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.87,
+        "severity": "high",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 4c, ve znění směrnice (EU) 2024/825; odůvodnění 12",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 8, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "eco",
+        "rule_set_version": "eco-2026-09-30-draft14",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "eco_neutral": 0.884,
+          "eco_offset_basis": 0.87,
+          "eco_company_level": 0.032
+        }
+      }
+    ]
   },
   {
     "rule_id": "eco_company_climate_claim",
@@ -305,18 +564,57 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 10",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Zákaz tvrzení založených na kompenzacích (bod 4c) se týká produktů. Tvrzení, že je klimaticky neutrální celá firma, je ale obecné environmentální tvrzení a bez uznaného vynikajícího environmentálního profilu je zakázané. Investice do klimatických projektů smí firma propagovat, pokud to nepůsobí klamavě.",
     "recommendation": "Místo neutrality uveďte, co firma skutečně dělá (například kolik emisí snížila a jak), a podporu projektů popište odděleně od vlastností produktů.",
     "notes": [],
-    "segment_hash": "sha256:f23a8b2e9ff76ae5622c48fc03c7e1b355010fda865f3ae9d75f191858e728c2"
+    "segment_hash": "sha256:f23a8b2e9ff76ae5622c48fc03c7e1b355010fda865f3ae9d75f191858e728c2",
+    "text_fingerprint": -362153833621241757,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.903,
+        "severity": "medium",
+        "checkability": "verify",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 10",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "eco",
+        "rule_set_version": "eco-2026-09-30-draft14",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "eco_neutral": 0.938,
+          "eco_offset_basis": 0.918,
+          "eco_company_level": 0.903
+        }
+      }
+    ]
   },
   {
     "rule_id": "eco_label_unrecognized",
@@ -348,18 +646,58 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Značka udržitelnosti (environmentální i sociální, například férový obchod) je zakázaná, pokud nevychází z certifikačního systému s nezávislým ověřováním nebo ji nezavedl orgán veřejné moci. Věta jmenuje značku, která není na seznamu ověřených; zda podmínky splňuje, se z webu zjistit nedá.",
     "recommendation": "Ověřte, zda značka vychází z certifikačního systému s nezávislým ověřováním nebo ji zavedl úřad. Pokud ne, odstraňte ji.",
     "notes": [],
-    "segment_hash": "sha256:a31f8c7ff37fbd137b493fd827ae2e866e776af7a55ca91de79bda7babec2d4c"
+    "segment_hash": "sha256:a31f8c7ff37fbd137b493fd827ae2e866e776af7a55ca91de79bda7babec2d4c",
+    "text_fingerprint": 6976328991782874008,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.864,
+        "severity": "medium",
+        "checkability": "verify",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "eco",
+        "rule_set_version": "eco-2026-09-30-draft14",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "eco_named_label": 0.864,
+          "eco_label": 0.919,
+          "eco_social_label": 0.075,
+          "eco_organic_food": 0.061
+        }
+      }
+    ]
   },
   {
     "rule_id": "eco_label_unrecognized",
@@ -391,18 +729,58 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Značka udržitelnosti (environmentální i sociální, například férový obchod) je zakázaná, pokud nevychází z certifikačního systému s nezávislým ověřováním nebo ji nezavedl orgán veřejné moci. Věta jmenuje značku, která není na seznamu ověřených; zda podmínky splňuje, se z webu zjistit nedá.",
     "recommendation": "Ověřte, zda značka vychází z certifikačního systému s nezávislým ověřováním nebo ji zavedl úřad. Pokud ne, odstraňte ji.",
     "notes": [],
-    "segment_hash": "sha256:13a2807af8984f65496c5a41d1946a7bb8d669bd2698b11a2c120dcbcb335d26"
+    "segment_hash": "sha256:13a2807af8984f65496c5a41d1946a7bb8d669bd2698b11a2c120dcbcb335d26",
+    "text_fingerprint": 5495899954879880723,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.871,
+        "severity": "medium",
+        "checkability": "verify",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "eco",
+        "rule_set_version": "eco-2026-09-30-draft14",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "eco_named_label": 0.871,
+          "eco_label": 0.938,
+          "eco_social_label": 0.895,
+          "eco_organic_food": 0.081
+        }
+      }
+    ]
   },
   {
     "rule_id": "eco_label_generic_term",
@@ -437,28 +815,85 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Odznak nebo značka bez vlastního názvu certifikačního systému (například „Eco“ nebo „Green“ u výrobku) je značkou udržitelnosti, která nevychází z certifikačního systému (bod 3), a zároveň výrazem, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (bod 6). Je zakázaná, pokud výrobek nemá ekoznačku EU nebo úředně uznanou ekoznačku typu I.",
     "recommendation": "Odznak odstraňte, nebo ho nahraďte skutečnou certifikovanou značkou, kterou výrobek má.",
     "notes": [],
-    "segment_hash": "sha256:af8e20810d6eb8a046ef830f4d199d7ecc9e2751e6b5a5b875ecb06aba391e5a"
+    "segment_hash": "sha256:af8e20810d6eb8a046ef830f4d199d7ecc9e2751e6b5a5b875ecb06aba391e5a",
+    "text_fingerprint": -8694517421456281754,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.864,
+        "severity": "high",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "eco",
+        "rule_set_version": "eco-2026-09-30-draft14",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "eco_label": 0.937,
+          "eco_explicit_term": 0.864,
+          "eco_named_label": 0.058,
+          "eco_organic_food": 0.094,
+          "eco_generic": 0.046,
+          "eco_other_subject": 0.048,
+          "eco_diy": 0.056
+        }
+      }
+    ]
   },
   {
     "rule_id": "eco_label_open",
@@ -495,18 +930,62 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, čl. 2 písm. r) a příloha I bod 2a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 5, 14 a 15",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Odznak bez vlastního názvu certifikačního systému a bez environmentálního výrazu (například „Vegan“, „Vegetarian“, „GMO free“, „BIO“ u výrobku, který není potravinou, nebo zelený lístek) je značkou udržitelnosti, jen pokud jím obchodník naznačuje přínos pro životní prostředí nebo sociální přínos, například pro dobré životní podmínky zvířat. Komise to posuzuje případ od případu podle kontextu a vnímání průměrného spotřebitele (otázky a odpovědi č. 5, 14 a 15). Pokud je značkou udržitelnosti, musí vycházet z certifikačního systému.",
     "recommendation": "Posuďte, zda odznak v kontextu obchodu působí jako slib přínosu pro přírodu nebo zvířata. Pokud ano, používejte ho jen s certifikací; jde-li jen o údaj o složení nebo o vhodnosti pro určitou stravu, přínos nenaznačujte.",
     "notes": [],
-    "segment_hash": "sha256:82ab827b45e34833a8510ee8f3c74bcf86b46ba766b86b72060a2cc1b8ebe205"
+    "segment_hash": "sha256:82ab827b45e34833a8510ee8f3c74bcf86b46ba766b86b72060a2cc1b8ebe205",
+    "text_fingerprint": 2238413371963593676,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.889,
+        "severity": "medium",
+        "checkability": "assess",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, čl. 2 písm. r) a příloha I bod 2a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 5, 14 a 15",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "eco",
+        "rule_set_version": "eco-2026-09-30-draft14",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "eco_label": 0.049,
+          "eco_social_label": 0.889,
+          "eco_named_label": 0.085,
+          "eco_explicit_term": 0.088,
+          "eco_organic_food": 0.036,
+          "eco_generic": 0.028,
+          "eco_other_subject": 0.078,
+          "eco_diy": 0.049
+        }
+      }
+    ]
   },
   {
     "rule_id": "eco_part_as_whole",
@@ -541,18 +1020,61 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 4b, ve znění směrnice (EU) 2024/825",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 7, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Environmentální tvrzení o celém produktu nebo celé firmě je zakázané, pokud se týká jen určitého aspektu, například obalu.",
     "recommendation": "Upřesněte, které části se výhoda týká, například jen obalu.",
     "notes": [],
-    "segment_hash": "sha256:1430df3661d48c26dbe5d3a41be90d2d53eb0638707b7208c337da7019efa00f"
+    "segment_hash": "sha256:1430df3661d48c26dbe5d3a41be90d2d53eb0638707b7208c337da7019efa00f",
+    "text_fingerprint": 1793668994003256497,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.869,
+        "severity": "medium",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 4b, ve znění směrnice (EU) 2024/825",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 7, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "eco",
+        "rule_set_version": "eco-2026-09-30-draft14",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "eco_claim": 0.869,
+          "eco_whole_claim": 0.891,
+          "eco_part_benefit": 0.898,
+          "eco_explicit_term": 0.892,
+          "eco_organic_food": 0.032,
+          "eco_other_subject": 0.055,
+          "eco_diy": 0.07
+        }
+      }
+    ]
   },
   {
     "rule_id": "eco_future_claim",
@@ -581,18 +1103,55 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, čl. 6 odst. 2 písm. d), ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 12",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. d), ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Tvrzení o budoucím environmentálním výkonu (například „klimaticky neutrální do roku 2030“) je klamavé, pokud za ním nestojí jasné, veřejně dostupné a ověřitelné závazky v podrobném a realistickém prováděcím plánu s měřitelnými cíli, který pravidelně ověřuje nezávislý odborník. Posuzuje se případ od případu.",
     "recommendation": "Ověřte, že k závazku existuje veřejný prováděcí plán s měřitelnými cíli a nezávislým ověřováním, a odkažte na něj přímo u tvrzení; jinak tvrzení odstraňte.",
     "notes": [],
-    "segment_hash": "sha256:86d5f7f5a16c150b76cdd96a8d576774db1e94474ae6d8bd2aa5b4c6a533bc7e"
+    "segment_hash": "sha256:86d5f7f5a16c150b76cdd96a8d576774db1e94474ae6d8bd2aa5b4c6a533bc7e",
+    "text_fingerprint": -1149742834053588337,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.907,
+        "severity": "medium",
+        "checkability": "verify",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, čl. 6 odst. 2 písm. d), ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 12",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. d), ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "eco",
+        "rule_set_version": "eco-2026-09-30-draft14",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "eco_future_claim": 0.907
+        }
+      }
+    ]
   },
   {
     "rule_id": "dur_lifetime_claim",
@@ -621,18 +1180,55 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 23g, ve znění směrnice (EU) 2024/825",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 36, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Nepravdivé tvrzení, že zboží má za běžných podmínek používání určitou životnost (dobu nebo intenzitu používání), je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Z textu nelze poznat, zda je tvrzení pravdivé, proto jde o nález k ověření.",
     "recommendation": "Ověřte, že údaj o životnosti má oporu v dokladech výrobce (zkoušky, norma, podmínky používání); pokud ne, tvrzení odstraňte.",
     "notes": [],
-    "segment_hash": "sha256:7d319a533c1922c0fdde2f5dd6b2187d380b80a6328913e34bb10037a3d645ec"
+    "segment_hash": "sha256:7d319a533c1922c0fdde2f5dd6b2187d380b80a6328913e34bb10037a3d645ec",
+    "text_fingerprint": -6922044473535952729,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.866,
+        "severity": "medium",
+        "checkability": "verify",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 23g, ve znění směrnice (EU) 2024/825",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 36, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "dur",
+        "rule_set_version": "dur-2026-09-30-draft3",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "dur_lifetime_claim": 0.866
+        }
+      }
+    ]
   },
   {
     "rule_id": "dur_consumable_early",
@@ -661,18 +1257,55 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 23i, ve znění směrnice (EU) 2024/825",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 38, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Navádět spotřebitele, aby spotřební materiál vyměnil nebo doplnil dřív, než je z technických důvodů nutné, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Zda je interval technicky odůvodněný, z textu poznat nelze.",
     "recommendation": "Ověřte, že doporučený interval výměny vychází z technických důvodů (údaje výrobce); pokud ne, doporučte výměnu po spotřebování nebo opotřebení.",
     "notes": [],
-    "segment_hash": "sha256:83da7de95b3a8cd4046290536c247c0f8a6f3c905e6c3ffc7856e647e35e58a2"
+    "segment_hash": "sha256:83da7de95b3a8cd4046290536c247c0f8a6f3c905e6c3ffc7856e647e35e58a2",
+    "text_fingerprint": 240974069867320284,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.903,
+        "severity": "medium",
+        "checkability": "verify",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 23i, ve znění směrnice (EU) 2024/825",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 38, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "dur",
+        "rule_set_version": "dur-2026-09-30-draft3",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "dur_consumable_early": 0.903
+        }
+      }
+    ]
   },
   {
     "rule_id": "dur_non_original_damage",
@@ -701,18 +1334,55 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 23j, ve znění směrnice (EU) 2024/825",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 39, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Nepravdivé tvrzení, že neoriginální spotřební materiál, náhradní díly nebo příslušenství poškodí funkčnost zboží, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Pravdivost z textu poznat nelze.",
     "recommendation": "Ověřte, že tvrzení o poškození má oporu v dokladech výrobce; pokud ne, tvrzení odstraňte.",
     "notes": [],
-    "segment_hash": "sha256:ef5300070c01aba21b328bc0a986ab1c2303cd69cb15ffd5934974f26a8852f6"
+    "segment_hash": "sha256:ef5300070c01aba21b328bc0a986ab1c2303cd69cb15ffd5934974f26a8852f6",
+    "text_fingerprint": 937325626681243811,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.903,
+        "severity": "medium",
+        "checkability": "verify",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 23j, ve znění směrnice (EU) 2024/825",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 39, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "dur",
+        "rule_set_version": "dur-2026-09-30-draft3",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [],
+        "question_probs": {
+          "dur_non_original_damage": 0.903
+        }
+      }
+    ]
   },
   {
     "rule_id": "ucp_review_reward_positive",
@@ -742,18 +1412,56 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 23c; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (odměna za zveřejnění pozitivních recenzí)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 32 (do 26. 9. 2026 bod 27)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Odměna za kladné hodnocení vede k falešným recenzím; zadávání falešných recenzí je zakázané za všech okolností.",
     "recommendation": "Odměnu za recenzi nepodmiňujte jejím obsahem ani hodnocením.",
     "notes": [],
-    "segment_hash": "sha256:7109f5da82db723985359dece9b78133864ab0477ad606c903fb9dc08cadeb71"
+    "segment_hash": "sha256:7109f5da82db723985359dece9b78133864ab0477ad606c903fb9dc08cadeb71",
+    "text_fingerprint": -4232108844523173385,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.865,
+        "severity": "high",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 23c; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (odměna za zveřejnění pozitivních recenzí)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 32 (do 26. 9. 2026 bod 27)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "ucp",
+        "rule_set_version": "ucp-2026-09-26-draft4",
+        "explanation_variant": "default",
+        "effective_from": null,
+        "notes": [],
+        "question_probs": {
+          "ucp_review_reward": 0.865,
+          "ucp_review_reward_positive": 0.874
+        }
+      }
+    ]
   },
   {
     "rule_id": "ucp_reviews_verified_claim",
@@ -782,18 +1490,55 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2005/29/ES, příloha I bod 23b; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (opodstatněné a přiměřené kroky k ověření)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 31 (do 26. 9. 2026 bod 26)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Tvrdit, že recenze píší zákazníci, kteří produkt koupili nebo použili, je zakázané, pokud obchod nepřijal přiměřená opatření k ověření (například hodnotit smí jen zákazník s dokončenou objednávkou). Opatření na webu vidět nejsou, proto jde o nález k ověření.",
     "recommendation": "Ověřte, že obchod skutečně kontroluje původ recenzí (například podle čísla objednávky), a popište to přímo u recenzí.",
     "notes": [],
-    "segment_hash": "sha256:643f8e0f55772dc03a256958de1944508e466c073455565a0735b07059452f60"
+    "segment_hash": "sha256:643f8e0f55772dc03a256958de1944508e466c073455565a0735b07059452f60",
+    "text_fingerprint": -5523839748110601849,
+    "locale": "cs",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.869,
+        "severity": "medium",
+        "checkability": "verify",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2005/29/ES, příloha I bod 23b; Pokyny Komise 2021/C 526/01, oddíl 4.2.4 (opodstatněné a přiměřené kroky k ověření)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 108/2024 Z. z., príloha č. 1 bod 31 (do 26. 9. 2026 bod 26)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "ucp",
+        "rule_set_version": "ucp-2026-09-26-draft4",
+        "explanation_variant": "default",
+        "effective_from": null,
+        "notes": [],
+        "question_probs": {
+          "ucp_reviews_verified_claim": 0.869
+        }
+      }
+    ]
   },
   {
     "rule_id": "legal_adr_missing",
@@ -822,7 +1567,8 @@
       {
         "jurisdiction": "sk",
         "ref": "§ 5 ods. 1 písm. q) a ods. 3 zákona č. 108/2024 Z. z. v znení od 27. 9. 2026 (do 26. 9. 2026 písm. l)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Predávajúci musí spotrebiteľa poučiť o práve podať žiadosť o nápravu s uvedením odkazu na webové sídlo, na ktorom sú zverejnené informácie o príslušnom subjekte alternatívneho riešenia sporov. Uvedenie SOI len ako orgánu dozoru alebo odkaz na zrušenú platformu ODR túto povinnosť nesplní.",
@@ -830,7 +1576,44 @@
     "notes": [
       "Nejbližší nalezený odstavec má pravděpodobnost 0,10, práh přítomnosti je 0,70."
     ],
-    "segment_hash": "sha256:2e78ea93221b013208a50cc92ca3ddb36cc85d2edc9bb2f3c482ca6bb3be61dd"
+    "segment_hash": "sha256:2e78ea93221b013208a50cc92ca3ddb36cc85d2edc9bb2f3c482ca6bb3be61dd",
+    "text_fingerprint": 4674676138883267965,
+    "locale": "sk",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.901,
+        "severity": "high",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "sk",
+            "ref": "§ 5 ods. 1 písm. q) a ods. 3 zákona č. 108/2024 Z. z. v znení od 27. 9. 2026 (do 26. 9. 2026 písm. l)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "legal_sk",
+        "rule_set_version": "legal-sk-2026-09-26-draft4",
+        "explanation_variant": "default",
+        "effective_from": null,
+        "notes": [
+          {
+            "code": "presence_closest_paragraph",
+            "params": {
+              "probability": 0.099,
+              "threshold": 0.7
+            }
+          }
+        ],
+        "question_probs": {
+          "legal_adr": 0.099
+        }
+      }
+    ]
   },
   {
     "rule_id": "legal_redress_request_missing",
@@ -859,7 +1642,8 @@
       {
         "jurisdiction": "sk",
         "ref": "§ 5 ods. 1 písm. q) zákona č. 108/2024 Z. z. v znení od 27. 9. 2026; § 11 zákona č. 391/2015 Z. z.",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Súčasťou povinných informácií je poučenie, že spotrebiteľ môže obchodníkovi podať žiadosť o nápravu, ak nie je spokojný s vybavením reklamácie alebo sa domnieva, že obchodník porušil jeho práva.",
@@ -867,7 +1651,44 @@
     "notes": [
       "Nejbližší nalezený odstavec má pravděpodobnost 0,09, práh přítomnosti je 0,70."
     ],
-    "segment_hash": "sha256:b3969943311736dea5fd6ed702a93de0e3a12be7762e39f4a0d03fc7dc33fbf4"
+    "segment_hash": "sha256:b3969943311736dea5fd6ed702a93de0e3a12be7762e39f4a0d03fc7dc33fbf4",
+    "text_fingerprint": -5316505625130112779,
+    "locale": "sk",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "high",
+        "score": 0.906,
+        "severity": "high",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "sk",
+            "ref": "§ 5 ods. 1 písm. q) zákona č. 108/2024 Z. z. v znení od 27. 9. 2026; § 11 zákona č. 391/2015 Z. z.",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "legal_sk",
+        "rule_set_version": "legal-sk-2026-09-26-draft4",
+        "explanation_variant": "default",
+        "effective_from": null,
+        "notes": [
+          {
+            "code": "presence_closest_paragraph",
+            "params": {
+              "probability": 0.094,
+              "threshold": 0.7
+            }
+          }
+        ],
+        "question_probs": {
+          "legal_redress_request": 0.094
+        }
+      }
+    ]
   },
   {
     "rule_id": "legal_harmonized_notice_missing",
@@ -890,12 +1711,14 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2011/83/EU, čl. 5 odst. 1 písm. e), čl. 6 odst. 1 písm. l) a čl. 22a odst. 1 a 3, ve znění směrnice (EU) 2024/825; prováděcí nařízení Komise (EU) 2025/1960, čl. 1 a příloha I",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "§ 5 ods. 1 písm. f) zákona č. 108/2024 Z. z. v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Od 27. 9. 2026 musí e-shop pred objednávkou zreteľne informovať o zákonnej zodpovednosti za vady vrátane jej dĺžky, a to aspoň v podobe a rozsahu harmonizovaného oznámenia EÚ: farebného obrázka s QR kódom na portál Vaša Európa, ktorý sa nesmie upravovať. Text v obchodných podmienkach (napríklad „Zákonná záruka je 24 mesiacov“) túto podobu nenahrádza.",
@@ -904,7 +1727,51 @@
       "Na žádné z 15 stažených stránek se nenašel obrázek, odkaz ani text, který by to ukazoval.",
       "Košík, pokladnu a zákaznický účet nástroj nestahuje; tam to ověřte ručně."
     ],
-    "segment_hash": null
+    "segment_hash": null,
+    "text_fingerprint": null,
+    "locale": "sk",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "review",
+        "score": 1,
+        "severity": "high",
+        "checkability": "verify",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2011/83/EU, čl. 5 odst. 1 písm. e), čl. 6 odst. 1 písm. l) a čl. 22a odst. 1 a 3, ve znění směrnice (EU) 2024/825; prováděcí nařízení Komise (EU) 2025/1960, čl. 1 a příloha I",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "§ 5 ods. 1 písm. f) zákona č. 108/2024 Z. z. v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "legal_sk",
+        "rule_set_version": "legal-sk-2026-09-26-draft4",
+        "explanation_variant": "default",
+        "effective_from": "2026-09-27",
+        "notes": [
+          {
+            "code": "signal_not_found",
+            "params": {
+              "count": 15
+            }
+          },
+          {
+            "code": "signal_cart_not_downloaded",
+            "params": {}
+          }
+        ],
+        "question_probs": {}
+      }
+    ]
   },
   {
     "rule_id": "legal_withdrawal_function_missing",
@@ -927,12 +1794,14 @@
       {
         "jurisdiction": "eu",
         "ref": "Směrnice 2011/83/EU, čl. 11a, vložený směrnicí (EU) 2023/2673 (použije se od 19. 6. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "§ 20a zákona č. 108/2024 Z. z. v znení zákona č. 311/2025 Z. z. (účinnosť od 19. 6. 2026)",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "E-shop musí spotrebiteľovi umožniť odstúpiť od zmluvy aj funkciou na odstúpenie, označenou „odstúpiť od zmluvy tu“ alebo obdobnou jednoznačnou formuláciou, zreteľne zobrazenou a nepretržite dostupnou počas celej lehoty na odstúpenie. Na prehľadaných stránkach sa nenašiel odkaz ani tlačidlo s takýmto označením.",
@@ -941,7 +1810,51 @@
       "Na žádné z 15 stažených stránek se nenašel obrázek, odkaz ani text, který by to ukazoval.",
       "Košík, pokladnu a zákaznický účet nástroj nestahuje; tam to ověřte ručně."
     ],
-    "segment_hash": null
+    "segment_hash": null,
+    "text_fingerprint": null,
+    "locale": "sk",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "review",
+        "score": 1,
+        "severity": "high",
+        "checkability": "verify",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Směrnice 2011/83/EU, čl. 11a, vložený směrnicí (EU) 2023/2673 (použije se od 19. 6. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "§ 20a zákona č. 108/2024 Z. z. v znení zákona č. 311/2025 Z. z. (účinnosť od 19. 6. 2026)",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "legal_sk",
+        "rule_set_version": "legal-sk-2026-09-26-draft4",
+        "explanation_variant": "default",
+        "effective_from": "2026-06-19",
+        "notes": [
+          {
+            "code": "signal_not_found",
+            "params": {
+              "count": 15
+            }
+          },
+          {
+            "code": "signal_cart_not_downloaded",
+            "params": {}
+          }
+        ],
+        "question_probs": {}
+      }
+    ]
   },
   {
     "rule_id": "legal_odr_link_outdated",
@@ -980,12 +1893,14 @@
       {
         "jurisdiction": "eu",
         "ref": "Nařízení (EU) 2024/3228, kterým se zrušuje nařízení (EU) č. 524/2013 s účinkem od 20. 7. 2025",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       },
       {
         "jurisdiction": "sk",
         "ref": "Zákon č. 310/2025 Z. z., čl. I body 1 a 46 (vypustenie odkazov na nariadenie (EÚ) č. 524/2013); § 5 ods. 1 písm. q) zákona č. 108/2024 Z. z.",
-        "status": "ověřit"
+        "status": "ověřit",
+        "status_code": "to_verify"
       }
     ],
     "explanation": "Platforma EÚ na riešenie sporov online (ODR) bola 20. 7. 2025 zrušená. Odkaz na ňu už spotrebiteľa k informáciám o subjekte alternatívneho riešenia sporov nedovedie; ak je jediným odkazom, povinnosť podľa § 5 ods. 1 písm. q) nemusí byť splnená.",
@@ -993,6 +1908,47 @@
     "notes": [
       "Nalezeno na 15 z 15 stažených stránek."
     ],
-    "segment_hash": null
+    "segment_hash": null,
+    "text_fingerprint": null,
+    "locale": "sk",
+    "params": {},
+    "verdicts": [
+      {
+        "jurisdiction": "sk",
+        "status": "finding",
+        "band": "review",
+        "score": 1,
+        "severity": "low",
+        "checkability": "text",
+        "legal_refs": [
+          {
+            "jurisdiction": "eu",
+            "ref": "Nařízení (EU) 2024/3228, kterým se zrušuje nařízení (EU) č. 524/2013 s účinkem od 20. 7. 2025",
+            "ref_by_language": null,
+            "status": "to_verify"
+          },
+          {
+            "jurisdiction": "sk",
+            "ref": "Zákon č. 310/2025 Z. z., čl. I body 1 a 46 (vypustenie odkazov na nariadenie (EÚ) č. 524/2013); § 5 ods. 1 písm. q) zákona č. 108/2024 Z. z.",
+            "ref_by_language": null,
+            "status": "to_verify"
+          }
+        ],
+        "rule_set": "legal_sk",
+        "rule_set_version": "legal-sk-2026-09-26-draft4",
+        "explanation_variant": "default",
+        "effective_from": null,
+        "notes": [
+          {
+            "code": "signal_found_on",
+            "params": {
+              "count": 15,
+              "total": 15
+            }
+          }
+        ],
+        "question_probs": {}
+      }
+    ]
   }
 ]

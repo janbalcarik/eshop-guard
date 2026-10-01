@@ -314,12 +314,12 @@ internal sealed class PageRewriter(
                         continue;
                     }
 
-                    // A verdict that applies and is decided by the text keeps the change open; one that waits for facts goes to
-                    // the list to verify; a rule that applies only later is mentioned and changes nothing.
-                    var current = finding.Verdicts.Where(v => v.Status == VerdictStatus.Finding).ToList();
-                    (current.Any(v => v.Checkability is "text" or "assess") ? change.RemainingFindings
-                        : current.Count > 0 ? change.VerifyFindings
-                        : change.UpcomingFindings).Add(finding);
+                    (CheckGroup(finding) switch
+                    {
+                        RewriteCheckGroup.Remaining => change.RemainingFindings,
+                        RewriteCheckGroup.Verify => change.VerifyFindings,
+                        _ => change.UpcomingFindings,
+                    }).Add(finding);
                 }
             }
         }
@@ -350,9 +350,18 @@ internal sealed class PageRewriter(
     }
 
     /// <summary>
-    /// Pages with findings of the groups porušení and k posouzení. A finding with the same text on several pages is
-    /// rewritten once, on the first page of the scan that is in the input; the others are listed.
+    /// Where a finding of the check of a new text belongs: a verdict that applies and is decided by the text (in any
+    /// jurisdiction) keeps the change open; one that waits for facts goes to the list to verify; a rule that applies only
+    /// later is mentioned and changes nothing.
     /// </summary>
+    internal static RewriteCheckGroup CheckGroup(Finding finding)
+    {
+        var current = finding.Verdicts.Where(v => v.Status == VerdictStatus.Finding).ToList();
+        return current.Any(v => v.Checkability is "text" or "assess") ? RewriteCheckGroup.Remaining
+            : current.Count > 0 ? RewriteCheckGroup.Verify
+            : RewriteCheckGroup.Upcoming;
+    }
+
     /// <summary>A finding of a sentence or paragraph in the groups porušení and k posouzení: its text is rewritten.</summary>
     internal static bool IsRewritable(Finding f) => f.Scope == "segment" && (f.Checkability is "text" or "assess") && !string.IsNullOrWhiteSpace(f.Text);
 
@@ -364,6 +373,10 @@ internal sealed class PageRewriter(
         return (new RuleTextRenderer(catalog), locale);
     }
 
+    /// <summary>
+    /// Pages with findings of the groups porušení and k posouzení. A finding with the same text on several pages is
+    /// rewritten once, on the first page of the scan that is in the input; the others are listed.
+    /// </summary>
     private static List<RewriteWork> BuildWork(RewriteInput input, (RuleTextRenderer Renderer, string Locale) texts, out List<string> warnings)
     {
         warnings = [];
@@ -542,4 +555,17 @@ internal sealed class PageRewriter(
 
         public string ReasonCs { get; set; } = "";
     }
+}
+
+/// <summary>Where a finding of the check of a rewritten passage belongs.</summary>
+internal enum RewriteCheckGroup
+{
+    /// <summary>A violation or a passage to assess remains in some jurisdiction.</summary>
+    Remaining,
+
+    /// <summary>Only facts outside the web decide (a named label, a claim to prove).</summary>
+    Verify,
+
+    /// <summary>The rule applies only later.</summary>
+    Upcoming,
 }

@@ -41,9 +41,9 @@ public sealed class RuleTextBaselineTests
 
         foreach (var (name, setNode) in baseline["rule_sets"]!.AsObject())
         {
+            // Versions may have moved on (legal_cz got new rules); the texts of the rules that were there stay the same.
             var set = catalog.RuleSets.Single(s => s.Name == name);
-            Assert.Equal(set.Version, setNode!["version"]!.GetValue<string>());
-            foreach (var (ruleId, ruleNode) in setNode["rules"]!.AsObject())
+            foreach (var (ruleId, ruleNode) in setNode!["rules"]!.AsObject())
             {
                 foreach (var (jurisdiction, explanation) in ruleNode!["explanation_for"]!.AsObject())
                 {

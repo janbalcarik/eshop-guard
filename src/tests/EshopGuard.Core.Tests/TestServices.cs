@@ -9,6 +9,9 @@ namespace EshopGuard.Core.Tests;
 /// </summary>
 internal static class TestServices
 {
+    /// <summary>Date of every test run: the day change 6 was written.</summary>
+    public static DateOnly Today { get; } = new(2026, 10, 1);
+
     public static string RulesDirectory => Path.Combine(AppContext.BaseDirectory, "rules");
 
     public static string LabelsFile => Path.Combine(AppContext.BaseDirectory, "config", "labels.yaml");
@@ -31,7 +34,9 @@ internal static class TestServices
             services.AddSingleton(client);
         }
 
-        // Registered before the library, so they replace its defaults.
+        // Registered before the library, so they replace its defaults. The date is fixed, so effective dates of rules
+        // (e.g. the Czech withdrawal button from 1. 1. 2027) do not change the results of the tests over time.
+        services.AddSingleton<TimeProvider>(new FixedTimeProvider(Today));
         register?.Invoke(services);
 
         services.AddEshopGuard(options =>
@@ -50,4 +55,10 @@ internal static class TestServices
         services.AddSingleton(fetcher);
         return services.BuildServiceProvider();
     }
+}
+
+/// <summary>A clock that always shows noon of one day.</summary>
+internal sealed class FixedTimeProvider(DateOnly day) : TimeProvider
+{
+    public override DateTimeOffset GetUtcNow() => new(day.ToDateTime(new TimeOnly(12, 0)), TimeSpan.Zero);
 }

@@ -295,7 +295,7 @@ internal sealed class SegmentEvaluator(
             ? new SentenceState(segment.Text, segment.ContextBefore, segment.ContextAfter)
             : segment.Text;
 
-    private static Dictionary<string, JevQuestion> BuildQuestions(RuleSet set, string language) =>
+    internal static Dictionary<string, JevQuestion> BuildQuestions(RuleSet set, string language) =>
         set.Questions.ToDictionary(
             q => q.Key,
             q => new JevQuestion
