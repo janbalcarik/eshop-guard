@@ -2,6 +2,25 @@
 
 Každá změna znění otázky nebo pravidla zvyšuje verzi sady (`version`), protože verze je součástí klíče cache i hlavičky zprávy.
 
+## Česko: tlačítko „Odstoupit od smlouvy“, legal_cz draft4 (připraveno 1. 10. 2026, změna 6)
+
+Nová verze sady `legal_cz` (`legal-cz-2026-10-01-draft4`) přidá dvě pravidla s účinností od 1. 1. 2027. Znění je ověřené proti textu zákona v `podklady/predpisy-cz/cz-159-2026-novela-financni-sluzby-na-dalku-tlacitko-odstoupeni.txt` a proti rešerši `podklady/reserse/cz-informacni-povinnosti.md` (oddíl `cz_withdrawal_button`). Všechny odkazy mají stav „ověřit“ a ustanovení posoudí právník.
+
+Doslovné citace ze zákona č. 159/2026 Sb. (čl. V, změna občanského zákoníku):
+- **§ 1830a odst. 1 OZ:** „Má-li spotřebitel právo odstoupit od smlouvy uzavřené distančním způsobem prostřednictvím on-line rozhraní, umožní podnikatel spotřebiteli odstoupit od smlouvy také prohlášením učiněným v on-line rozhraní použitím tlačítka nebo obdobného ovládacího prvku pro odstoupení od smlouvy.“
+- **§ 1830a odst. 2 OZ:** „Tlačítko nebo obdobný ovládací prvek pro odstoupení od smlouvy musí být v on-line rozhraní zobrazeny výrazným způsobem, snadno přístupné, dostupné nepřetržitě po celou lhůtu pro odstoupení od smlouvy a musí být označeny snadno čitelným nápisem „Odstoupit od smlouvy“ nebo jinou odpovídající jednoznačnou formulací.“
+- **§ 1820 odst. 1 písm. i) OZ (nové znění):** „i) má-li spotřebitel právo odstoupit od smlouvy, podmínky, lhůtu a postup pro uplatnění tohoto práva, jakož i vzorový formulář pro odstoupení od smlouvy, a v případě smlouvy uzavírané distančním způsobem prostřednictvím on-line rozhraní i údaje o možnosti odstoupit od smlouvy také použitím tlačítka nebo obdobného ovládacího prvku pro odstoupení od smlouvy a o jejich umístění; náležitosti vzorového formuláře stanoví prováděcí právní předpis,“
+- **Účinnost (čl. XII):** „Tento zákon nabývá účinnosti dnem 1. ledna 2027.“
+
+Pravidla:
+- `legal_withdrawal_function_missing`: stejné logické id jako slovenské pravidlo (návrh změny 6, K rozhodnutí 1).
+  - Rozsah `site_signal`: odkaz nebo tlačítko s nápisem „Odstoupit od smlouvy“ na stažených stránkách.
+  - Hodnocení `verify`, protože tlačítko může být jen v účtu zákazníka, kam nástroj nevidí. Závažnost `high`, účinnost `cz: 2027-01-01`.
+  - Vzor je předepsaný nápis ze zákona, ne slovník pro klasifikaci. Jinou „odpovídající jednoznačnou formulaci“ vzor nepozná, proto zůstává `verify`.
+- `legal_withdrawal_button_info_missing`: rozsah `site_presence`, účinnost `cz: 2027-01-01`.
+  - Otázky `legal_withdrawal_online_option` a `legal_withdrawal_button_location` v doslovném znění z rešerše.
+  - Nové otázky změní sadu, proto nová verze. České právní odstavce se v Jevu vyhodnotí znovu.
+
 ## Profily šablon stránek (1. 10. 2026)
 
 Nápad uživatele: strukturu stránky má určit jazykový model z několika stránek místo ručních pravidel. Ověřeno nejdřív sondou (scratchpad/structure_probe). Profil z kostry 3 stránek (úvodní, produkt, kategorie) od gpt-6.1-sol za 0,18 USD:

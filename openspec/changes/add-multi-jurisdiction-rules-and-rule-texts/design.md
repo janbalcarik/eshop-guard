@@ -170,6 +170,36 @@ Podle `podklady/reserse/cz-informacni-povinnosti.md` (oddíl `cz_withdrawal_butt
 
 Pojistka verze: `rules/question-set-hashes.json` drží pro každou dvojici (`module`, `version`) otisk `QuestionSetHash`. `RuleValidator` odmítne sadu, jejíž otázky se změnily bez nové `version` (jinak by `checks.rule_sets` dostala dvě definice se stejnou verzí). Nová verze se do souboru zapíše příkazem `eshopguard rules check-texts --update-hashes`.
 
+### 9. Další trhy bez změny kódu (Německo, Polsko, Maďarsko …)
+
+Uživatel 1. 10. 2026: nástroj bude později i pro Německo, Polsko, Maďarsko a další země. Tato změna obsahově řeší jen SK a CZ, ale nic v kódu nesmí znát seznam zemí ani jazyků. Další trh má znamenat jen nové soubory dat.
+
+- **Jurisdikce jsou data.** Kód jurisdikce je text ze souboru pravidel (`jurisdictions: [de]`), ne výčet v kódu. Seznam známých jurisdikcí je v `config/jurisdictions.yaml`:
+
+  ```yaml
+  sk: {law_language: sk}
+  cz: {law_language: cs}
+  # de: {law_language: de}
+  ```
+
+  `law_language` je jazyk předpisů té země. Odkazy EU se u verdiktu té země zobrazí v tomto jazyce (`ref_by_language`), pokud překlad existuje; jinak výchozí `ref`.
+  - `RuleValidator` odmítne sadu s jurisdikcí, která v souboru chybí (překlep `cs` místo `cz` se nikdy tiše nevyhodnotí jako jiná země).
+  - Totéž platí pro klíče `effective_from`, `jurisdiction_overrides` a `explanation_by_jurisdiction`.
+- **Volby CLI se ověřují proti katalogu.** `--country` a `--jurisdictions` přijmou každou jurisdikci z `config/jurisdictions.yaml`, která má aspoň jednu zapnutou sadu. Dnešní pevné `cz`/`sk` v `SettingsValidation` zmizí. Chyba vypíše seznam známých jurisdikcí.
+- **Jazyky textů jsou složky.** `YamlRuleTextProvider` načte každou složku `rules/texts/<jazyk>/`. `RulesOptions.Locales` je nepovinné omezení, prázdné znamená všechny složky. Povinné jazyky jsou v `RulesOptions.RequiredLocales` (`settings.yaml`, `rules.required_locales`, výchozí `[cs]`). `--lang` přijme jen jazyk z `CompleteLocales`.
+- **Formát čísel a dat podle jazyka bez seznamu v kódu.** `_engine.yaml` jazyka má v hlavičce `culture` (např. `de-DE`), výchozí je kód jazyka. `RuleTextRenderer` použije `CultureInfo.GetCultureInfo(culture)`.
+- **Názvy zemí a stavů jsou texty.** Název jurisdikce ve zprávě (`jurisdiction.sk`: „Slovensko“) je kód v `_engine.yaml` každého jazyka. Test úplnosti chce název každé jurisdikce z `config/jurisdictions.yaml` v každém jazyce.
+- **Otázky pro Jev.** Výchozí jazyk otázek je angličtina (`text_en`), takže nový trh nepotřebuje překlad otázek. `text_cs` je varianta v jazyce země (u slovenských sad slovensky); přejmenování na obecný název by změnilo definici otázek a cache, proto se nedělá.
+- **Seznam zákonných požadavků** (`config/legal_requirements.yaml`) je už dnes po jurisdikcích (`LegalRequirementList.For(country)`). Nová země s prázdným seznamem znamená, že pravidla `claim_list_match` pro ni nic nenajdou; `RuleValidator` proto dovolí taková pravidla jen v sadách, pro jejichž jurisdikce seznam existuje.
+- **Vzory `site_signal`** jsou nápisy předepsané zákonem dané země (K rozhodnutí 10). Pro novou zemi patří do její sady. Výběr vzoru podle jazyka verze webu řeší změna 7.
+- **Co přidání trhu obnáší** (bez kódu):
+  1. řádek v `config/jurisdictions.yaml`;
+  2. sady `rules/<modul>_<země>.yaml`, nebo jurisdikce navíc u sady, která platí beze změny (např. `ucp` podle směrnice);
+  3. složka `rules/texts/<jazyk>/` se všemi soubory, se zkontrolovaným překladem (`review`);
+  4. otisk nových verzí v `rules/question-set-hashes.json` (`rules check-texts --update-hashes`);
+  5. podklady a rešerše v `podklady/`.
+- **Test** `Rules/NewMarketTests.cs` to dokládá: v dočasné složce vznikne vymyšlená jurisdikce `xx` s jazykem `xx` (sada, texty, řádek v `jurisdictions.yaml`). Kontrola textu pro ni dá nález a vykreslí ho v `xx`, a to bez jakékoli změny kódu.
+
 ## Architecture Decisions
 
 1. **Texty mimo pravidla, otázky pro Jev v pravidlech.** Otázky určují odpovědi a cenu (klíč cache), texty jen vysvětlují. Oddělení znamená, že oprava překlepu v textu nikdy neznehodnotí cache ani verzi sady.

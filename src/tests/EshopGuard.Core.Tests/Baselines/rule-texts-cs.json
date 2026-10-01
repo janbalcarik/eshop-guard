@@ -1,0 +1,517 @@
+{
+  "rule_sets": {
+    "dur": {
+      "module": "dur",
+      "version": "dur-2026-09-30-draft3",
+      "jurisdictions": [
+        "sk"
+      ],
+      "rules": {
+        "dur_lifetime_claim": {
+          "title": "Tvrzení o životnosti výrobku k ověření (nové od 27. 9. 2026)",
+          "explanation": "Nepravdivé tvrzení, že zboží má za běžných podmínek používání určitou životnost (dobu nebo intenzitu používání), je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Z textu nelze poznat, zda je tvrzení pravdivé, proto jde o nález k ověření.",
+          "explanation_for": {
+            "sk": "Nepravdivé tvrzení, že zboží má za běžných podmínek používání určitou životnost (dobu nebo intenzitu používání), je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Z textu nelze poznat, zda je tvrzení pravdivé, proto jde o nález k ověření."
+          },
+          "recommendation": "Ověřte, že údaj o životnosti má oporu v dokladech výrobce (zkoušky, norma, podmínky používání); pokud ne, tvrzení odstraňte."
+        },
+        "dur_repairable_claim": {
+          "title": "Tvrzení o opravitelnosti k ověření (nové od 27. 9. 2026)",
+          "explanation": "Prezentovat zboží jako opravitelné, i když opravit nejde, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Pravdivost z textu poznat nelze.",
+          "explanation_for": {
+            "sk": "Prezentovat zboží jako opravitelné, i když opravit nejde, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Pravdivost z textu poznat nelze."
+          },
+          "recommendation": "Ověřte, že zboží opravit skutečně jde (dostupné náhradní díly, postup, servis); pokud ne, tvrzení odstraňte."
+        },
+        "dur_consumable_early": {
+          "title": "Navádzanie na skoršiu výmenu spotrebného materiálu k ověření (nové od 27. 9. 2026)",
+          "explanation": "Navádět spotřebitele, aby spotřební materiál vyměnil nebo doplnil dřív, než je z technických důvodů nutné, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Zda je interval technicky odůvodněný, z textu poznat nelze.",
+          "explanation_for": {
+            "sk": "Navádět spotřebitele, aby spotřební materiál vyměnil nebo doplnil dřív, než je z technických důvodů nutné, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Zda je interval technicky odůvodněný, z textu poznat nelze."
+          },
+          "recommendation": "Ověřte, že doporučený interval výměny vychází z technických důvodů (údaje výrobce); pokud ne, doporučte výměnu po spotřebování nebo opotřebení."
+        },
+        "dur_non_original_damage": {
+          "title": "Tvrzení, že neoriginální díly poškodí výrobek, k ověření (nové od 27. 9. 2026)",
+          "explanation": "Nepravdivé tvrzení, že neoriginální spotřební materiál, náhradní díly nebo příslušenství poškodí funkčnost zboží, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Pravdivost z textu poznat nelze.",
+          "explanation_for": {
+            "sk": "Nepravdivé tvrzení, že neoriginální spotřební materiál, náhradní díly nebo příslušenství poškodí funkčnost zboží, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Pravdivost z textu poznat nelze."
+          },
+          "recommendation": "Ověřte, že tvrzení o poškození má oporu v dokladech výrobce; pokud ne, tvrzení odstraňte."
+        },
+        "dur_update_necessary": {
+          "title": "Aktualizace softwaru prezentovaná jako nezbytná, k ověření (nové od 27. 9. 2026)",
+          "explanation": "Prezentovat aktualizaci softwaru jako nezbytnou pro zachování souladu, i když jen vylepšuje funkce, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Co aktualizace dělá, z textu poznat nelze.",
+          "explanation_for": {
+            "sk": "Prezentovat aktualizaci softwaru jako nezbytnou pro zachování souladu, i když jen vylepšuje funkce, je na Slovensku od 27. 9. 2026 zakázané za všech okolností. Co aktualizace dělá, z textu poznat nelze."
+          },
+          "recommendation": "Ověřte, že aktualizace je skutečně nutná pro zachování souladu; pokud jen přidává funkce, neprezentujte ji jako nezbytnou."
+        }
+      }
+    },
+    "eco": {
+      "module": "eco",
+      "version": "eco-2026-09-30-draft14",
+      "jurisdictions": [
+        "sk"
+      ],
+      "rules": {
+        "eco_generic_claim": {
+          "title": "Obecné environmentální tvrzení bez upřesnění",
+          "explanation": "Věta používá výraz, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (například „ekologický“, „šetrný k životnímu prostředí“, „zelený“, „přátelský k přírodě“), nebo přímo tvrdí přínos pro životní prostředí, přírodu či klima. Bez upřesnění jasně a výrazně přímo u tvrzení je zakázané, pokud obchodník neprokáže uznaný vynikající environmentální profil relevantní pro tvrzení (ekoznačka EU nebo úředně uznaná ekoznačka typu I). Certifikované biopotraviny smí „bio“ a „eko“ používat.",
+          "explanation_for": {
+            "cz": "V Česku zatím výslovný zákaz obecných environmentálních tvrzení v zákoně není: směrnice (EU) 2024/825 se má převzít novelou zákona o ochraně spotřebitele (sněmovní tisk 53), která k 25. 9. 2026 nebyla schválena. Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb., pokud uvádí spotřebitele v omyl. Po převzetí směrnice bude obecné tvrzení bez uznaného vynikajícího environmentálního profilu zakázané vždy.",
+            "sk": "Věta používá výraz, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (například „ekologický“, „šetrný k životnímu prostředí“, „zelený“, „přátelský k přírodě“), nebo přímo tvrdí přínos pro životní prostředí, přírodu či klima. Bez upřesnění jasně a výrazně přímo u tvrzení je zakázané, pokud obchodník neprokáže uznaný vynikající environmentální profil relevantní pro tvrzení (ekoznačka EU nebo úředně uznaná ekoznačka typu I). Certifikované biopotraviny smí „bio“ a „eko“ používat."
+          },
+          "recommendation": "Tvrzení odstraňte, nebo ho nahraďte konkrétním a doložitelným údajem přímo u něj."
+        },
+        "eco_generic_claim_open": {
+          "title": "Možné obecné environmentální tvrzení (posuzuje se případ od případu)",
+          "explanation": "Věta používá slovo, které zákon ani odůvodnění 9 směrnice (EU) 2024/825 mezi příklady obecných environmentálních tvrzení neuvádí, například „prírodný“, „bio“ u výrobku, který není potravinou, nebo „šetrný“ bez zmínky o přírodě. Environmentálním tvrzením je, jen pokud u průměrného spotřebitele vyvolá dojem přínosu pro životní prostředí; Komise to posuzuje případ od případu (otázky a odpovědi č. 3 u názvů výrobků a značek, č. 14 u „bio“ a „eco“). Pokud takový dojem vyvolá a přímo u něj není upřesnění, jde o zakázané obecné tvrzení.",
+          "explanation_for": {
+            "cz": "V Česku zatím výslovný zákaz obecných environmentálních tvrzení v zákoně není: směrnice (EU) 2024/825 se má převzít novelou zákona o ochraně spotřebitele (sněmovní tisk 53), která k 25. 9. 2026 nebyla schválena. Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb., pokud uvádí spotřebitele v omyl. Po převzetí směrnice bude obecné tvrzení bez uznaného vynikajícího environmentálního profilu zakázané vždy.",
+            "sk": "Věta používá slovo, které zákon ani odůvodnění 9 směrnice (EU) 2024/825 mezi příklady obecných environmentálních tvrzení neuvádí, například „prírodný“, „bio“ u výrobku, který není potravinou, nebo „šetrný“ bez zmínky o přírodě. Environmentálním tvrzením je, jen pokud u průměrného spotřebitele vyvolá dojem přínosu pro životní prostředí; Komise to posuzuje případ od případu (otázky a odpovědi č. 3 u názvů výrobků a značek, č. 14 u „bio“ a „eco“). Pokud takový dojem vyvolá a přímo u něj není upřesnění, jde o zakázané obecné tvrzení."
+          },
+          "recommendation": "Posuďte, zda výraz v kontextu stránky působí jako slib přínosu pro přírodu. Pokud ano, doplňte přímo k němu konkrétní doložitelný údaj, nebo ho odstraňte."
+        },
+        "eco_generic_claim_implied": {
+          "title": "Environmentální slovo o zákaznících nebo cílové skupině (naznačené tvrzení)",
+          "explanation": "Environmentální slovo tu popisuje zákazníky, pro které je výrobek určený (například „pre ekologicky zmýšľajúcich zákazníkov“, „pre milovníkov prírody“), ne výrobek nebo firmu. Environmentálním tvrzením je i vyjádření, které přínos pro životní prostředí jen naznačuje (§ 2 písm. n) zákona č. 108/2024 Z. z.). Zda to tato věta naznačuje, záleží na tom, jak ji chápe průměrný spotřebitel; z textu zákona to rozhodnout nejde. Pokud ano a přímo u věty není upřesnění, jde o zakázané obecné tvrzení.",
+          "explanation_for": {
+            "cz": "V Česku zatím výslovný zákaz obecných environmentálních tvrzení v zákoně není: směrnice (EU) 2024/825 se má převzít novelou zákona o ochraně spotřebitele (sněmovní tisk 53). Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb., pokud uvádí spotřebitele v omyl.",
+            "sk": "Environmentální slovo tu popisuje zákazníky, pro které je výrobek určený (například „pre ekologicky zmýšľajúcich zákazníkov“, „pre milovníkov prírody“), ne výrobek nebo firmu. Environmentálním tvrzením je i vyjádření, které přínos pro životní prostředí jen naznačuje (§ 2 písm. n) zákona č. 108/2024 Z. z.). Zda to tato věta naznačuje, záleží na tom, jak ji chápe průměrný spotřebitel; z textu zákona to rozhodnout nejde. Pokud ano a přímo u věty není upřesnění, jde o zakázané obecné tvrzení."
+          },
+          "recommendation": "Posuďte, zda věta slibuje přínos výrobku pro přírodu. Pokud ano, doplňte přímo k ní konkrétní doložitelný fakt (například „rukoväť kefky je z bambusu namiesto plastu“), nebo ji napište bez environmentálního slova."
+        },
+        "eco_sustainable_claim": {
+          "title": "„Udržitelný“ nebo „odpovědný“ bez upřesnění",
+          "explanation": "Tvrzení „udržitelný“, „odpovědný“ nebo „uvědomělý“ se kromě životního prostředí týkají i sociálních znaků, proto je podle odůvodnění směrnice EmpCo nelze opřít jen o ekoznačku. Bez jasného upřesnění přímo u tvrzení jde o zakázané obecné tvrzení.",
+          "explanation_for": {
+            "cz": "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Podle směrnice EmpCo se „udržitelný“ nebo „odpovědný“ týká i sociálních znaků a nelze ho opřít jen o ekoznačku.",
+            "sk": "Tvrzení „udržitelný“, „odpovědný“ nebo „uvědomělý“ se kromě životního prostředí týkají i sociálních znaků, proto je podle odůvodnění směrnice EmpCo nelze opřít jen o ekoznačku. Bez jasného upřesnění přímo u tvrzení jde o zakázané obecné tvrzení."
+          },
+          "recommendation": "Tvrzení odstraňte, nebo přímo u něj uveďte, v čem konkrétně a doložitelně je produkt udržitelný."
+        },
+        "eco_neutrality": {
+          "title": "Klimatické tvrzení o produktu založené na kompenzacích",
+          "explanation": "Tvrzení, že produkt (zboží nebo služba, například doprava) má neutrální, snížený nebo pozitivní dopad na klima, je zakázané vždy, pokud stojí na kompenzaci emisí mimo hodnotový řetězec produktu. Povolené je jen tvrzení založené na skutečném snížení emisí během životního cyklu produktu.",
+          "explanation_for": {
+            "cz": "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Po převzetí směrnice EmpCo bude tvrzení o klimatu produktu založené na kompenzacích zakázané vždy.",
+            "sk": "Tvrzení, že produkt (zboží nebo služba, například doprava) má neutrální, snížený nebo pozitivní dopad na klima, je zakázané vždy, pokud stojí na kompenzaci emisí mimo hodnotový řetězec produktu. Povolené je jen tvrzení založené na skutečném snížení emisí během životního cyklu produktu."
+          },
+          "recommendation": "Tvrzení odstraňte. O podpoře klimatických projektů můžete informovat, ale ne jako o vlastnosti produktu."
+        },
+        "eco_climate_claim_unsupported": {
+          "title": "Tvrzení o klimatu bez uvedeného základu",
+          "explanation": "Obecná tvrzení jako „klimaticky neutrální“ nebo „uhlíkově neutrální“ jsou obecná environmentální tvrzení a bez uznaného vynikajícího environmentálního profilu jsou zakázaná; pokud stojí na kompenzacích emisí, jsou u produktu zakázaná vždy. Povolené je jen tvrzení opřené o skutečné snížení emisí během životního cyklu, jasně upřesněné přímo u něj.",
+          "explanation_for": {
+            "cz": "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Podle směrnice EmpCo jsou obecná tvrzení o klimatické neutralitě bez uznaného vynikajícího environmentálního profilu zakázaná a tvrzení o produktu založená na kompenzacích zakázaná vždy.",
+            "sk": "Obecná tvrzení jako „klimaticky neutrální“ nebo „uhlíkově neutrální“ jsou obecná environmentální tvrzení a bez uznaného vynikajícího environmentálního profilu jsou zakázaná; pokud stojí na kompenzacích emisí, jsou u produktu zakázaná vždy. Povolené je jen tvrzení opřené o skutečné snížení emisí během životního cyklu, jasně upřesněné přímo u něj."
+          },
+          "recommendation": "Ověřte, na čem tvrzení stojí. Pokud na kompenzacích, odstraňte ho; pokud na snížení emisí během životního cyklu, uveďte přímo u něj konkrétní a doložitelný údaj."
+        },
+        "eco_company_climate_claim": {
+          "title": "Tvrzení o klimatické neutralitě firmy založené na kompenzacích",
+          "explanation": "Zákaz tvrzení založených na kompenzacích (bod 4c) se týká produktů. Tvrzení, že je klimaticky neutrální celá firma, je ale obecné environmentální tvrzení a bez uznaného vynikajícího environmentálního profilu je zakázané. Investice do klimatických projektů smí firma propagovat, pokud to nepůsobí klamavě.",
+          "explanation_for": {
+            "cz": "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Podle směrnice EmpCo je tvrzení o klimatické neutralitě celé firmy obecné environmentální tvrzení.",
+            "sk": "Zákaz tvrzení založených na kompenzacích (bod 4c) se týká produktů. Tvrzení, že je klimaticky neutrální celá firma, je ale obecné environmentální tvrzení a bez uznaného vynikajícího environmentálního profilu je zakázané. Investice do klimatických projektů smí firma propagovat, pokud to nepůsobí klamavě."
+          },
+          "recommendation": "Místo neutrality uveďte, co firma skutečně dělá (například kolik emisí snížila a jak), a podporu projektů popište odděleně od vlastností produktů."
+        },
+        "eco_label_unrecognized": {
+          "title": "Jmenovaná značka udržitelnosti mimo seznam ověřených",
+          "explanation": "Značka udržitelnosti (environmentální i sociální, například férový obchod) je zakázaná, pokud nevychází z certifikačního systému s nezávislým ověřováním nebo ji nezavedl orgán veřejné moci. Věta jmenuje značku, která není na seznamu ověřených; zda podmínky splňuje, se z webu zjistit nedá.",
+          "explanation_for": {
+            "cz": "V Česku zatím platí jen obecný zákaz neoprávněného užívání značky jakosti (příloha č. 1 písm. b) zákona č. 634/1992 Sb.) a klamavého konání (§ 5); výslovný zákaz značek udržitelnosti bez certifikačního systému přinese novela podle sněmovního tisku 53.",
+            "sk": "Značka udržitelnosti (environmentální i sociální, například férový obchod) je zakázaná, pokud nevychází z certifikačního systému s nezávislým ověřováním nebo ji nezavedl orgán veřejné moci. Věta jmenuje značku, která není na seznamu ověřených; zda podmínky splňuje, se z webu zjistit nedá."
+          },
+          "recommendation": "Ověřte, zda značka vychází z certifikačního systému s nezávislým ověřováním nebo ji zavedl úřad. Pokud ne, odstraňte ji."
+        },
+        "eco_label_generic_term": {
+          "title": "Odznak nebo značka s obecným environmentálním výrazem",
+          "explanation": "Odznak nebo značka bez vlastního názvu certifikačního systému (například „Eco“ nebo „Green“ u výrobku) je značkou udržitelnosti, která nevychází z certifikačního systému (bod 3), a zároveň výrazem, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (bod 6). Je zakázaná, pokud výrobek nemá ekoznačku EU nebo úředně uznanou ekoznačku typu I.",
+          "explanation_for": {
+            "cz": "V Česku zatím platí jen obecný zákaz neoprávněného užívání značky jakosti (příloha č. 1 písm. b) zákona č. 634/1992 Sb.) a klamavého konání (§ 5); výslovný zákaz značek udržitelnosti bez certifikačního systému přinese novela podle sněmovního tisku 53.",
+            "sk": "Odznak nebo značka bez vlastního názvu certifikačního systému (například „Eco“ nebo „Green“ u výrobku) je značkou udržitelnosti, která nevychází z certifikačního systému (bod 3), a zároveň výrazem, který odůvodnění 9 směrnice (EU) 2024/825 uvádí jako příklad obecného environmentálního tvrzení (bod 6). Je zakázaná, pokud výrobek nemá ekoznačku EU nebo úředně uznanou ekoznačku typu I."
+          },
+          "recommendation": "Odznak odstraňte, nebo ho nahraďte skutečnou certifikovanou značkou, kterou výrobek má."
+        },
+        "eco_label_open": {
+          "title": "Odznak nebo symbol, který může působit jako značka udržitelnosti",
+          "explanation": "Odznak bez vlastního názvu certifikačního systému a bez environmentálního výrazu (například „Vegan“, „Vegetarian“, „GMO free“, „BIO“ u výrobku, který není potravinou, nebo zelený lístek) je značkou udržitelnosti, jen pokud jím obchodník naznačuje přínos pro životní prostředí nebo sociální přínos, například pro dobré životní podmínky zvířat. Komise to posuzuje případ od případu podle kontextu a vnímání průměrného spotřebitele (otázky a odpovědi č. 5, 14 a 15). Pokud je značkou udržitelnosti, musí vycházet z certifikačního systému.",
+          "explanation_for": {
+            "cz": "V Česku zatím platí jen obecný zákaz neoprávněného užívání značky jakosti (příloha č. 1 písm. b) zákona č. 634/1992 Sb.) a klamavého konání (§ 5); výslovný zákaz značek udržitelnosti bez certifikačního systému přinese novela podle sněmovního tisku 53.",
+            "sk": "Odznak bez vlastního názvu certifikačního systému a bez environmentálního výrazu (například „Vegan“, „Vegetarian“, „GMO free“, „BIO“ u výrobku, který není potravinou, nebo zelený lístek) je značkou udržitelnosti, jen pokud jím obchodník naznačuje přínos pro životní prostředí nebo sociální přínos, například pro dobré životní podmínky zvířat. Komise to posuzuje případ od případu podle kontextu a vnímání průměrného spotřebitele (otázky a odpovědi č. 5, 14 a 15). Pokud je značkou udržitelnosti, musí vycházet z certifikačního systému."
+          },
+          "recommendation": "Posuďte, zda odznak v kontextu obchodu působí jako slib přínosu pro přírodu nebo zvířata. Pokud ano, používejte ho jen s certifikací; jde-li jen o údaj o složení nebo o vhodnosti pro určitou stravu, přínos nenaznačujte."
+        },
+        "eco_part_as_whole": {
+          "title": "Tvrzení o celém produktu, ačkoli se týká jen části",
+          "explanation": "Environmentální tvrzení o celém produktu nebo celé firmě je zakázané, pokud se týká jen určitého aspektu, například obalu.",
+          "explanation_for": {
+            "cz": "V Česku zatím výslovný zákaz v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb. Po převzetí směrnice EmpCo bude tvrzení o celém produktu, které se týká jen jeho části, zakázané vždy.",
+            "sk": "Environmentální tvrzení o celém produktu nebo celé firmě je zakázané, pokud se týká jen určitého aspektu, například obalu."
+          },
+          "recommendation": "Upřesněte, které části se výhoda týká, například jen obalu."
+        },
+        "eco_future_claim": {
+          "title": "Budoucí environmentální závazek k ověření",
+          "explanation": "Tvrzení o budoucím environmentálním výkonu (například „klimaticky neutrální do roku 2030“) je klamavé, pokud za ním nestojí jasné, veřejně dostupné a ověřitelné závazky v podrobném a realistickém prováděcím plánu s měřitelnými cíli, který pravidelně ověřuje nezávislý odborník. Posuzuje se případ od případu.",
+          "explanation_for": {
+            "cz": "V Česku zatím výslovné pravidlo pro budoucí environmentální tvrzení v zákoně není (novela podle sněmovního tisku 53 nebyla k 25. 9. 2026 schválena); Česká obchodní inspekce může tvrzení posoudit jako klamavé konání podle § 5 zákona č. 634/1992 Sb.",
+            "sk": "Tvrzení o budoucím environmentálním výkonu (například „klimaticky neutrální do roku 2030“) je klamavé, pokud za ním nestojí jasné, veřejně dostupné a ověřitelné závazky v podrobném a realistickém prováděcím plánu s měřitelnými cíli, který pravidelně ověřuje nezávislý odborník. Posuzuje se případ od případu."
+          },
+          "recommendation": "Ověřte, že k závazku existuje veřejný prováděcí plán s měřitelnými cíli a nezávislým ověřováním, a odkažte na něj přímo u tvrzení; jinak tvrzení odstraňte."
+        }
+      }
+    },
+    "legal_cz": {
+      "module": "legal",
+      "version": "legal-cz-2026-09-29-draft3",
+      "jurisdictions": [
+        "cz"
+      ],
+      "rules": {
+        "legal_adr_missing": {
+          "title": "Chybí informace o mimosoudním řešení sporů",
+          "explanation": "Prodávající musí spotřebitele informovat o subjektu mimosoudního řešení spotřebitelských sporů.",
+          "explanation_for": {
+            "cz": "Prodávající musí spotřebitele informovat o subjektu mimosoudního řešení spotřebitelských sporů."
+          },
+          "recommendation": "Doplňte do obchodních podmínek příslušný subjekt (typicky ČOI) a odkaz na jeho web."
+        },
+        "legal_complaints_missing": {
+          "title": "Chybí informace o reklamacích",
+          "explanation": "Prodávající musí informovat o rozsahu, podmínkách a způsobu reklamace a o tom, kde ji lze uplatnit.",
+          "explanation_for": {
+            "cz": "Prodávající musí informovat o rozsahu, podmínkách a způsobu reklamace a o tom, kde ji lze uplatnit."
+          },
+          "recommendation": "Doplňte reklamační podmínky včetně místa a způsobu uplatnění."
+        },
+        "legal_withdrawal_missing": {
+          "title": "Chybí informace o odstoupení od smlouvy",
+          "explanation": "Před uzavřením smlouvy na dálku musí spotřebitel dostat podmínky, lhůtu a postup pro odstoupení.",
+          "explanation_for": {
+            "cz": "Před uzavřením smlouvy na dálku musí spotřebitel dostat podmínky, lhůtu a postup pro odstoupení."
+          },
+          "recommendation": "Doplňte podmínky, 14denní lhůtu a postup pro odstoupení."
+        },
+        "legal_withdrawal_form_missing": {
+          "title": "Chybí vzorový formulář pro odstoupení",
+          "explanation": "Spolu s informací o odstoupení musí spotřebitel dostat vzorový formulář.",
+          "explanation_for": {
+            "cz": "Spolu s informací o odstoupení musí spotřebitel dostat vzorový formulář."
+          },
+          "recommendation": "Přidejte vzorový formulář pro odstoupení od smlouvy."
+        }
+      }
+    },
+    "legal_sk": {
+      "module": "legal",
+      "version": "legal-sk-2026-09-26-draft4",
+      "jurisdictions": [
+        "sk"
+      ],
+      "rules": {
+        "legal_adr_missing": {
+          "title": "Chýba odkaz na informácie o subjekte alternatívneho riešenia sporov",
+          "explanation": "Predávajúci musí spotrebiteľa poučiť o práve podať žiadosť o nápravu s uvedením odkazu na webové sídlo, na ktorom sú zverejnené informácie o príslušnom subjekte alternatívneho riešenia sporov. Uvedenie SOI len ako orgánu dozoru alebo odkaz na zrušenú platformu ODR túto povinnosť nesplní.",
+          "explanation_for": {
+            "sk": "Predávajúci musí spotrebiteľa poučiť o práve podať žiadosť o nápravu s uvedením odkazu na webové sídlo, na ktorom sú zverejnené informácie o príslušnom subjekte alternatívneho riešenia sporov. Uvedenie SOI len ako orgánu dozoru alebo odkaz na zrušenú platformu ODR túto povinnosť nesplní."
+          },
+          "recommendation": "Doplňte do obchodných podmienok odkaz na webové sídlo s informáciami o príslušnom subjekte alternatívneho riešenia sporov (pri bežnom tovare SOI)."
+        },
+        "legal_redress_request_missing": {
+          "title": "Chýba poučenie o práve podať žiadosť o nápravu",
+          "explanation": "Súčasťou povinných informácií je poučenie, že spotrebiteľ môže obchodníkovi podať žiadosť o nápravu, ak nie je spokojný s vybavením reklamácie alebo sa domnieva, že obchodník porušil jeho práva.",
+          "explanation_for": {
+            "sk": "Súčasťou povinných informácií je poučenie, že spotrebiteľ môže obchodníkovi podať žiadosť o nápravu, ak nie je spokojný s vybavením reklamácie alebo sa domnieva, že obchodník porušil jeho práva."
+          },
+          "recommendation": "Doplňte do obchodných podmienok poučenie o práve podať žiadosť o nápravu a kam ju poslať."
+        },
+        "legal_complaints_missing": {
+          "title": "Chýba informácia o reklamáciách",
+          "explanation": "Predávajúci musí informovať o zodpovednosti za vady a o spôsobe a mieste uplatnenia reklamácie.",
+          "explanation_for": {
+            "sk": "Predávajúci musí informovať o zodpovednosti za vady a o spôsobe a mieste uplatnenia reklamácie."
+          },
+          "recommendation": "Doplňte reklamačný poriadok vrátane miesta a spôsobu uplatnenia reklamácie."
+        },
+        "legal_withdrawal_missing": {
+          "title": "Chýba informácia o odstúpení od zmluvy",
+          "explanation": "Pred uzavretím zmluvy na diaľku musí spotrebiteľ dostať podmienky, lehotu a postup na odstúpenie.",
+          "explanation_for": {
+            "sk": "Pred uzavretím zmluvy na diaľku musí spotrebiteľ dostať podmienky, lehotu a postup na odstúpenie."
+          },
+          "recommendation": "Doplňte podmienky, 14-dňovú lehotu a postup na odstúpenie."
+        },
+        "legal_withdrawal_form_missing": {
+          "title": "Chýba vzorový formulár na odstúpenie",
+          "explanation": "Spolu s poučením o odstúpení musí spotrebiteľ dostať vzorový formulár.",
+          "explanation_for": {
+            "sk": "Spolu s poučením o odstúpení musí spotrebiteľ dostať vzorový formulár."
+          },
+          "recommendation": "Pridajte vzorový formulár na odstúpenie od zmluvy."
+        },
+        "legal_harmonized_notice_missing": {
+          "title": "Chýba harmonizované oznámenie o zákonnej zodpovednosti za vady (nové od 27. 9. 2026)",
+          "explanation": "Od 27. 9. 2026 musí e-shop pred objednávkou zreteľne informovať o zákonnej zodpovednosti za vady vrátane jej dĺžky, a to aspoň v podobe a rozsahu harmonizovaného oznámenia EÚ: farebného obrázka s QR kódom na portál Vaša Európa, ktorý sa nesmie upravovať. Text v obchodných podmienkach (napríklad „Zákonná záruka je 24 mesiacov“) túto podobu nenahrádza.",
+          "explanation_for": {
+            "sk": "Od 27. 9. 2026 musí e-shop pred objednávkou zreteľne informovať o zákonnej zodpovednosti za vady vrátane jej dĺžky, a to aspoň v podobe a rozsahu harmonizovaného oznámenia EÚ: farebného obrázka s QR kódom na portál Vaša Európa, ktorý sa nesmie upravovať. Text v obchodných podmienkach (napríklad „Zákonná záruka je 24 mesiacov“) túto podobu nenahrádza."
+          },
+          "recommendation": "Zobrazte farebné harmonizované oznámenie podľa prílohy I nariadenia (EÚ) 2025/1960 bez úprav na stránke produktu alebo v pokladni pred odoslaním objednávky; ak ho už máte, doplňte k obrázku popis (alt), aby bolo dohľadateľné."
+        },
+        "legal_withdrawal_function_missing": {
+          "title": "Chýba funkcia „odstúpiť od zmluvy tu“ (povinná od 19. 6. 2026)",
+          "explanation": "E-shop musí spotrebiteľovi umožniť odstúpiť od zmluvy aj funkciou na odstúpenie, označenou „odstúpiť od zmluvy tu“ alebo obdobnou jednoznačnou formuláciou, zreteľne zobrazenou a nepretržite dostupnou počas celej lehoty na odstúpenie. Na prehľadaných stránkach sa nenašiel odkaz ani tlačidlo s takýmto označením.",
+          "explanation_for": {
+            "sk": "E-shop musí spotrebiteľovi umožniť odstúpiť od zmluvy aj funkciou na odstúpenie, označenou „odstúpiť od zmluvy tu“ alebo obdobnou jednoznačnou formuláciou, zreteľne zobrazenou a nepretržite dostupnou počas celej lehoty na odstúpenie. Na prehľadaných stránkach sa nenašiel odkaz ani tlačidlo s takýmto označením."
+          },
+          "recommendation": "Doplňte zreteľne viditeľný odkaz alebo tlačidlo „odstúpiť od zmluvy tu“ (napríklad v pätičke a v zákazníckom účte) s online formulárom podľa § 20a ods. 3."
+        },
+        "legal_odr_link_outdated": {
+          "title": "Odkaz na zrušenú platformu ODR",
+          "explanation": "Platforma EÚ na riešenie sporov online (ODR) bola 20. 7. 2025 zrušená. Odkaz na ňu už spotrebiteľa k informáciám o subjekte alternatívneho riešenia sporov nedovedie; ak je jediným odkazom, povinnosť podľa § 5 ods. 1 písm. q) nemusí byť splnená.",
+          "explanation_for": {
+            "sk": "Platforma EÚ na riešenie sporov online (ODR) bola 20. 7. 2025 zrušená. Odkaz na ňu už spotrebiteľa k informáciám o subjekte alternatívneho riešenia sporov nedovedie; ak je jediným odkazom, povinnosť podľa § 5 ods. 1 písm. q) nemusí byť splnená."
+          },
+          "recommendation": "Odkaz na platformu ODR odstráňte a nahraďte ho odkazom na informácie o príslušnom subjekte alternatívneho riešenia sporov (pri bežnom tovare SOI)."
+        }
+      }
+    },
+    "ucp": {
+      "module": "ucp",
+      "version": "ucp-2026-09-26-draft4",
+      "jurisdictions": [
+        "sk",
+        "cz"
+      ],
+      "rules": {
+        "ucp_review_reward_positive": {
+          "title": "Odměna za kladnou recenzi",
+          "explanation": "Odměna za kladné hodnocení vede k falešným recenzím; zadávání falešných recenzí je zakázané za všech okolností.",
+          "explanation_for": {
+            "cz": "Odměna za kladné hodnocení vede k falešným recenzím; zadávání falešných recenzí je zakázané za všech okolností.",
+            "sk": "Odměna za kladné hodnocení vede k falešným recenzím; zadávání falešných recenzí je zakázané za všech okolností."
+          },
+          "recommendation": "Odměnu za recenzi nepodmiňujte jejím obsahem ani hodnocením."
+        },
+        "ucp_reviews_only_positive": {
+          "title": "Zveřejňování jen kladných recenzí",
+          "explanation": "Zveřejňování jen kladných recenzí a mazání záporných zkresluje spotřebitelské recenze; to je zakázané za všech okolností.",
+          "explanation_for": {
+            "cz": "Zveřejňování jen kladných recenzí a mazání záporných zkresluje spotřebitelské recenze; to je zakázané za všech okolností.",
+            "sk": "Zveřejňování jen kladných recenzí a mazání záporných zkresluje spotřebitelské recenze; to je zakázané za všech okolností."
+          },
+          "recommendation": "Zveřejňujte kladné i záporné recenze; mazat smíte jen recenze, které porušují zveřejněná pravidla (spam, vulgarity)."
+        },
+        "ucp_review_reward_any": {
+          "title": "Odměna za recenzi k ověření",
+          "explanation": "Odměna za recenzi bez ohledu na hodnocení není sama zakázaná, ale recenze pak nemusí odrážet běžnou zkušenost zákazníků; zákazník by se měl dozvědět, jak obchod recenze získává a ověřuje.",
+          "explanation_for": {
+            "cz": "Odměna za recenzi bez ohledu na hodnocení není sama zakázaná, ale recenze pak nemusí odrážet běžnou zkušenost zákazníků; zákazník by se měl dozvědět, jak obchod recenze získává a ověřuje.",
+            "sk": "Odměna za recenzi bez ohledu na hodnocení není sama zakázaná, ale recenze pak nemusí odrážet běžnou zkušenost zákazníků; zákazník by se měl dozvědět, jak obchod recenze získává a ověřuje."
+          },
+          "recommendation": "Ověřte, že odměna nezávisí na obsahu recenze a že u recenzí je informace o tom, jak se získávají a ověřují."
+        },
+        "ucp_reviews_verified_claim": {
+          "title": "Tvrzení o ověřených recenzích k ověření",
+          "explanation": "Tvrdit, že recenze píší zákazníci, kteří produkt koupili nebo použili, je zakázané, pokud obchod nepřijal přiměřená opatření k ověření (například hodnotit smí jen zákazník s dokončenou objednávkou). Opatření na webu vidět nejsou, proto jde o nález k ověření.",
+          "explanation_for": {
+            "cz": "Tvrdit, že recenze píší zákazníci, kteří produkt koupili nebo použili, je zakázané, pokud obchod nepřijal přiměřená opatření k ověření (například hodnotit smí jen zákazník s dokončenou objednávkou). Opatření na webu vidět nejsou, proto jde o nález k ověření.",
+            "sk": "Tvrdit, že recenze píší zákazníci, kteří produkt koupili nebo použili, je zakázané, pokud obchod nepřijal přiměřená opatření k ověření (například hodnotit smí jen zákazník s dokončenou objednávkou). Opatření na webu vidět nejsou, proto jde o nález k ověření."
+          },
+          "recommendation": "Ověřte, že obchod skutečně kontroluje původ recenzí (například podle čísla objednávky), a popište to přímo u recenzí."
+        }
+      }
+    }
+  },
+  "label_notes": [
+    {
+      "names": [
+        "Ecocert",
+        "Ecodetergent",
+        "Ecodetergents"
+      ],
+      "note": "Ecocert: logo vyhovuje jen se signaturou „COSMOS ORGANIC“ nebo „COSMOS NATURAL“ (pak jde o certifikační systém COSMOS). Vlastní standardy Ecocertu (Ecodetergents, Natural/Organic Cosmetic) podmínky nesplňují, protože vlastník systému je zároveň certifikátorem; oddělení, které Ecocert v roce 2026 chystá, není ověřené."
+    },
+    {
+      "names": [
+        "BDIH",
+        "Kontrollierte Natur-Kosmetik",
+        "Kontrollierte Naturkosmetik"
+      ],
+      "note": "BDIH: logo se signaturou COSMOS vyhovuje jako COSMOS. Starý standard BDIH („Kontrollierte Natur-Kosmetik“) a značka Vegan BDIH jsou neověřené: kontrolor IONC patří výhradně BDIH a veřejné dokumenty nedokládají všechny podmínky certifikačního systému."
+    },
+    {
+      "names": [
+        "ICEA",
+        "Eco Bio Cosmetics",
+        "Ecobiocosmesi",
+        "Eco Bio Detergenza"
+      ],
+      "note": "ICEA: se signaturou COSMOS vyhovuje jako COSMOS. Vlastní standardy ICEA (Eco Bio Cosmesi, Natural Cosmetic, Eco Bio Detergenza, Vegetarian/Vegan) nevyhovují, vlastník je totožný s certifikátorem."
+    },
+    {
+      "names": [
+        "Cosmebio"
+      ],
+      "note": "Cosmébio: se signaturou COSMOS vyhovuje jako COSMOS; staré logo podle charty asociace je neověřené."
+    },
+    {
+      "names": [
+        "Soil Association"
+      ],
+      "note": "Soil Association: logo se signaturou COSMOS vyhovuje jako COSMOS; „Soil Association organic“ mimo kosmetiku certifikuje dceřiná společnost vlastníka bez doložené akreditace, je neověřené."
+    },
+    {
+      "names": [
+        "Ecogarantie",
+        "Eco Garantie"
+      ],
+      "note": "Ecogarantie: neověřená. Kontroluje jiná osoba než vlastník (Certisys, TÜV NORD), ale akreditace pro rozsah Ecogarantie doložená není a o odvolání s konečnou platností rozhoduje orgán vlastníka."
+    },
+    {
+      "names": [
+        "CPK",
+        "CPK bio",
+        "Certifikovaná přírodní kosmetika"
+      ],
+      "note": "CPK a CPK bio: nevyhovují, standard, ochranné známky i certifikát jsou v rukou jedné organizace (KEZ o.p.s.)."
+    },
+    {
+      "names": [
+        "Natural Cosmetics Standard",
+        "Nature Care Product"
+      ],
+      "note": "NCS a NCP: neověřené; jediný viditelný certifikační orgán má akreditaci jen pro NATRUE a je spoluautorem standardu. NCP navíc dovoluje označení „ecological“, které je obecným environmentálním tvrzením."
+    },
+    {
+      "names": [
+        "The Vegan Society",
+        "Vegan Trademark",
+        "Veganblume",
+        "Vegan-Blume"
+      ],
+      "note": "The Vegan Society (Vegan Trademark): produkty kontroluje sám vlastník, podmínku nezávislé kontroly nesplňuje. Značkou udržitelnosti je, jen pokud ji obchod v kontextu spojuje s přínosem pro zvířata nebo přírodu (otázky a odpovědi Komise č. 15); vlastník sám uvádí, že nejde o environmentální certifikaci."
+    },
+    {
+      "names": [
+        "V-Label",
+        "VLabel"
+      ],
+      "note": "V-Label: neověřená; jde o licenci a externí audity nemají doloženou akreditaci. Na kosmetice od kritérií 02.03 (9/2026) neznamená „netestováno na zvířatech“."
+    },
+    {
+      "names": [
+        "Beauty Without Bunnies",
+        "PETA Approved",
+        "PETA-Approved Vegan"
+      ],
+      "note": "PETA: vlastník sám uvádí, že jeho loga mají být používána jen v USA, Kanadě a Indii, ne v EU, a směrnici (EU) 2024/825 nesplňují."
+    },
+    {
+      "names": [
+        "Leaping Bunny",
+        "Cruelty Free International"
+      ],
+      "note": "Leaping Bunny / Cruelty Free International: neověřená s vysokým rizikem; úplná kritéria jsou jen na vyžádání a kdo provádí audity a s jakou akreditací, není zveřejněno."
+    },
+    {
+      "names": [
+        "EVE VEGAN",
+        "Expertise Vegane Europe"
+      ],
+      "note": "EVE VEGAN: nevyhovuje, kontrolu dokumentů, audit i certifikát zajišťuje sám vlastník."
+    },
+    {
+      "names": [
+        "OEKO-TEX",
+        "OEKOTEX"
+      ],
+      "note": "OEKO-TEX (STANDARD 100, MADE IN GREEN, ORGANIC COTTON, LEATHER STANDARD): neověřená, dva certifikační instituty jsou akcionáři vlastníka systému; STANDARD 100 je hlavně zdravotní značka. OEKO-TEX STeP se na výrobku použít nesmí."
+    },
+    {
+      "names": [
+        "bluesign",
+        "bluepass"
+      ],
+      "note": "bluesign: bluesign PRODUCT, bluesign APPROVED a bluepass Article nevyhovují; bluepass Consumer Product je neověřený."
+    },
+    {
+      "names": [
+        "Cradle to Cradle Certified",
+        "C2C Certified"
+      ],
+      "note": "Cradle to Cradle Certified: nevyhovuje podmínkám certifikačního systému."
+    },
+    {
+      "names": [
+        "Fair Wear"
+      ],
+      "note": "Fair Wear: není certifikační systém výrobků, jako značka na výrobku nevyhovuje."
+    },
+    {
+      "names": [
+        "Fair for Life"
+      ],
+      "note": "Fair for Life: nevyhovuje (k 26. 9. 2026), vlastník standardu je totožný s certifikátorem."
+    },
+    {
+      "names": [
+        "OK compost",
+        "OK biobased"
+      ],
+      "note": "OK compost a OK biobased (TÜV AUSTRIA): nevyhovují, podmínka kontroly nezávislou třetí stranou není splněná."
+    },
+    {
+      "names": [
+        "BCI Cotton",
+        "Better Cotton"
+      ],
+      "note": "Better Cotton: BCI Cotton Label je neověřený; staré logo Better Cotton a členské logo na výrobku nevyhovují."
+    },
+    {
+      "names": [
+        "ClimatePartner",
+        "Climate Partner"
+      ],
+      "note": "ClimatePartner: „ClimatePartner certified“ je neověřený, „ClimatePartner verified“ v EU nevyhovuje. Tvrzení o klimatické neutralitě založená na kompenzacích jsou zakázaná vždy (bod 8)."
+    },
+    {
+      "names": [
+        "B Corp",
+        "B Corporation"
+      ],
+      "note": "Certified B Corporation: neověřená; „Pending B Corp“ je jen sebehodnocení a nevyhovuje."
+    },
+    {
+      "names": [
+        "1% for the Planet"
+      ],
+      "note": "1 % for the Planet: „CERTIFIED“ je neověřené, členské logo „MEMBER“ nevyhovuje."
+    },
+    {
+      "names": [
+        "UEBT member"
+      ],
+      "note": "„UEBT member“ je členské logo, ne certifikace; vyhovuje jen „UEBT certified“."
+    },
+    {
+      "names": [
+        "Demeter",
+        "Naturland",
+        "Bioland",
+        "Bio Austria",
+        "USDA Organic"
+      ],
+      "note": "Soukromé a zahraniční bio značky (Demeter, Naturland, Bioland, Bio Austria, USDA Organic) jsou podle rešerše neověřené: veřejné dokumenty nedokládají všechny podmínky certifikačního systému. U biopotravin rozhoduje certifikace podle nařízení (EU) 2018/848 (logo EU pro ekologickou produkci)."
+    }
+  ],
+  "legal_pages_missing": {
+    "title": "Nenalezeny právní stránky",
+    "explanation": "Na webu se nenašla žádná stránka s obchodními podmínkami, reklamačním řádem, informacemi o odstoupení, dopravě ani kontakty, takže povinné informace nešlo ověřit.",
+    "recommendation": "Zveřejněte obchodní podmínky a reklamační řád jako stránky webu a odkažte na ně z patičky."
+  }
+}
