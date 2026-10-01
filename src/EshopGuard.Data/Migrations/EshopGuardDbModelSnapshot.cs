@@ -3381,6 +3381,10 @@ namespace EshopGuard.Data.Migrations
                     b.HasKey("Domain")
                         .HasName("pk_domains");
 
+                    b.HasIndex("LeaseJobId")
+                        .HasDatabaseName("ix_domains_lease_job_id")
+                        .HasFilter("lease_job_id IS NOT NULL");
+
                     b.ToTable("domains", "ops");
                 });
 
@@ -3501,12 +3505,37 @@ namespace EshopGuard.Data.Migrations
                     b.HasIndex("RunId")
                         .HasDatabaseName("ix_jobs_run_id");
 
-                    b.HasIndex("ResourceClass", "Priority", "NotBefore", "Id")
-                        .HasDatabaseName("ix_jobs_resource_class_priority_not_before_id")
-                        .HasFilter("state = 'queued'");
+                    b.HasIndex(new[] { "FinishedAt" }, "ix_jobs_finished")
+                        .HasDatabaseName("ix_jobs_finished")
+                        .HasFilter("state IN ('succeeded', 'canceled', 'failed')");
+
+                    b.HasIndex(new[] { "ConcurrencyKey", "Priority", "Id" }, "ix_jobs_queued_key_head")
+                        .HasDatabaseName("ix_jobs_queued_key_head")
+                        .HasFilter("state = 'queued' AND concurrency_key IS NOT NULL");
+
+                    b.HasIndex(new[] { "ResourceClass", "Priority", "Id" }, "ix_jobs_queued_keyed")
+                        .HasDatabaseName("ix_jobs_queued_keyed")
+                        .HasFilter("state = 'queued' AND concurrency_key IS NOT NULL");
+
+                    b.HasIndex(new[] { "ResourceClass", "Priority", "Id" }, "ix_jobs_queued_unkeyed")
+                        .HasDatabaseName("ix_jobs_queued_unkeyed")
+                        .HasFilter("state = 'queued' AND concurrency_key IS NULL");
+
+                    b.HasIndex(new[] { "TenantId", "ResourceClass" }, "ix_jobs_running_tenant")
+                        .HasDatabaseName("ix_jobs_running_tenant")
+                        .HasFilter("state = 'running'");
+
+                    b.HasIndex(new[] { "ConcurrencyKey" }, "ux_jobs_concurrency_running")
+                        .IsUnique()
+                        .HasDatabaseName("ux_jobs_concurrency_running")
+                        .HasFilter("state = 'running' AND concurrency_key IS NOT NULL");
 
                     b.ToTable("jobs", "ops", t =>
                         {
+                            t.HasCheckConstraint("ck_jobs_attempts", "attempts >= 0 AND max_attempts >= 1");
+
+                            t.HasCheckConstraint("ck_jobs_lease", "(state = 'running') = (lease_owner IS NOT NULL AND lease_until IS NOT NULL)");
+
                             t.HasCheckConstraint("ck_jobs_priority", "priority BETWEEN 0 AND 4");
 
                             t.HasCheckConstraint("ck_jobs_resource_class", "resource_class IN ('fetch', 'cpu', 'jev', 'llm', 'io', 'system')");

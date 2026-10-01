@@ -1,14 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- Job queue and handlers: filled by change 4 (add-job-queue-and-worker). -->
+  <!-- Job queue in PostgreSQL, processing in the worker, scheduler and maintenance handlers (change 4). -->
   <PropertyGroup>
     <RootNamespace>EshopGuard.Jobs</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="EshopGuard.Jobs.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EshopGuard.Core\EshopGuard.Core.csproj" />
     <ProjectReference Include="..\EshopGuard.Data\EshopGuard.Data.csproj" />
     <ProjectReference Include="..\EshopGuard.Storage\EshopGuard.Storage.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
   </ItemGroup>
 
 </Project>

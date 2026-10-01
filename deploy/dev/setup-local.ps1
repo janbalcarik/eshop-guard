@@ -1,11 +1,12 @@
 #Requires -Version 7.4
 <#
 .SYNOPSIS
-  Lokální databáze EshopGuard: role, databáze eshopguard a eshopguard_test a user-secrets s připojením.
+  Lokální databáze EshopGuard: role, databáze eshopguard, eshopguard_test a eshopguard_test_jobs a user-secrets s připojením.
 
 .DESCRIPTION
   1. Vygeneruje pět hesel databázových rolí (RandomNumberGenerator).
-  2. Spustí deploy/sql/00_roles.sql jako postgres pro databáze eshopguard a eshopguard_test.
+  2. Spustí deploy/sql/00_roles.sql jako postgres pro databáze eshopguard, eshopguard_test a eshopguard_test_jobs
+     (testy fronty úloh mají vlastní databázi, protože mažou ops.jobs).
      Hesla dostane psql jen v proměnných prostředí svého procesu, ne v parametrech.
   3. Zapíše připojení do dotnet user-secrets (eshopguard-data, eshopguard-api, eshopguard-worker, eshopguard-tests)
      přes standardní vstup, ne jako argument.
@@ -67,7 +68,7 @@ foreach ($role in $roles) { $passwords[$role] = New-Secret }
 # 2. Role a databáze
 try {
     foreach ($role in $roles) { Set-Item -Path "Env:ESHOPGUARD_${role}_PASSWORD" -Value $passwords[$role] }
-    foreach ($database in 'eshopguard', 'eshopguard_test') {
+    foreach ($database in 'eshopguard', 'eshopguard_test', 'eshopguard_test_jobs') {
         Write-Host "== 00_roles.sql pro $database"
         & $psql -h $PgHost -p $PgPort -U $PgSuperuser -d postgres -X -q -v ON_ERROR_STOP=1 -v "db_name=$database" -f $rolesSql
         if ($LASTEXITCODE -ne 0) { throw "00_roles.sql pro $database skončil kódem $LASTEXITCODE." }
@@ -102,4 +103,4 @@ Write-Host ''
 Write-Host 'Hotovo. Další kroky:'
 Write-Host '  dotnet tool restore'
 Write-Host '  dotnet ef database update --project src/EshopGuard.Data'
-Write-Host '  (testovací databázi eshopguard_test migrují testy samy)'
+Write-Host '  (testovací databáze eshopguard_test a eshopguard_test_jobs migrují testy samy)'

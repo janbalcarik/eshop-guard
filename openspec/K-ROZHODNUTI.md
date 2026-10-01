@@ -11,6 +11,15 @@ Každá změna má v `proposal.md` oddíl „K rozhodnutí“, celkem asi 320 bo
 - **Měna českého trhu (A2, 1. 10. 2026, uživatel):** Kč. `ref.markets` má od změny 3 řádky `sk` (EUR) a `cz` (CZK).
 - **Index GIN nad `content.page_versions.segment_hashes` zrušen (1. 10. 2026, uživatel, změna 3):** pod RLS ho PostgreSQL nepoužije (`@>` není `LEAKPROOF`), hledání věty v e-shopu s 20 000 stránkami i bez něj 9–10 ms; ušetří zápisy. Dopad: změna 8 (`PgPageStore.FindByFingerprintAsync` hledá v části e-shopu bez GIN) a změna 16 (příznak rámce webu se počítá stejně, bez GIN); při jejich implementaci upravit design.
 - **Změna 3, body K rozhodnutí (1. 10. 2026, uživatel):** přijaty návrhy; `iam.tenants` a `iam.users` zatím bez RLS (politika podle uživatele ve změně 9), audit a interní náklady přežijí smazání tenanta (bez cizího klíče na tenanta).
+- **Změna 4, body K rozhodnutí (1. 10. 2026, uživatel):** přijaty návrhy:
+  - sloty a stropy tenantů podle designu;
+  - úklid hotových a zrušených úloh po 7 dnech, neúspěšných po 30;
+  - pozastavený druh úloh se obnovuje jen ručně (`ResumeResourceClassAsync`);
+  - doména jako `concurrency_key`;
+  - testy fronty v samostatné databázi `eshopguard_test_jobs`;
+  - zrušit jde jen čekající úlohu (běžící doběhne nebo skončí přes zrušení běhu).
+
+  Limity OpenAI podle gpt-6.1-sol, Tier 4 (10 000 požadavků a 4 000 000 tokenů za minutu, ověřeno na stránce modelu) jsou od migrace F2 v bucketech `openai` a `openai:tokens`, takže chybějící bucket OpenAI ve změně 5 nenastane. Odchylky od designu s měřením jsou v `changes/add-job-queue-and-worker/design.md`, oddíl „Odchylky při implementaci“. Dopad na změnu 17: zátěžový test ověří převzetí, když jsou na začátku fronty úlohy tenantů nad stropem (dnes asi 30 ms na 20 000 přeskočených úloh).
 - **Úložiště souborů (1. 10. 2026, uživatel, změna 2):** soubory (snímky HTML, extrakce, PDF, doklady) se zatím ukládají do lokálního souborového systému za rozhraním `IBlobStore` (`FileSystemBlobStore`; na serveru připojený svazek Dockeru, složka `Storage:FileSystem:Root` povinná). Úložiště v cloudu (Azure, AWS…) se přidá později jako další implementace `IBlobStore` vybraná v `Storage:Provider`. MinIO se nepoužívá (obrazy `minio/minio` a `minio/mc` na Docker Hubu nejsou). Provoz poběží na dedikovaném serveru s Dockerem. Dopad na další změny:
   - změna 8: `S3PageContentStore` stojí nad `IBlobStore`, jen ho při implementaci pojmenovat podle úložiště (např. `BlobPageContentStore`); testy proti souborovému systému, ne MinIO;
   - změna 14: média CMS (`@payloadcms/storage-s3`, veřejné čtení ze S3) řešit při implementaci (lokální úložiště Payloadu, nebo cloud přes nový poskytovatel);

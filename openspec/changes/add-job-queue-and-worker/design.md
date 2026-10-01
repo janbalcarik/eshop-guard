@@ -2,7 +2,7 @@
 
 ## Technical Approach
 
-Cesty jsou relativní ke kořeni `D:\_github\Overko\eshop-guard`. Tabulky `ops.*` a jejich sloupce jsou ze změny 3; časy se v SQL fronty berou z `clock_timestamp()`, ne z `now()` (ta vrací začátek transakce a v delší transakci by lease prodloužila málo).
+Cesty jsou relativní ke kořeni repozitáře. Tabulky `ops.*` a jejich sloupce jsou ze změny 3; časy se v SQL fronty berou z `clock_timestamp()`, ne z `now()` (ta vrací začátek transakce a v delší transakci by lease prodloužila málo).
 
 ### Rozhraní (`src/EshopGuard.Jobs/`)
 
@@ -243,7 +243,7 @@ public abstract record JobResult
   "Scheduler": { "Enabled": true, "TickSeconds": 15 }
 }
 ```
-`cpu: 0` = `Environment.ProcessorCount`; `TenantCaps` 0 = bez stropu. Hodnoty jsou návrh (proposal, K rozhodnutí 1). Kontrola při startu: `HeartbeatSeconds` < `LeaseSeconds / 3`, `ShutdownSeconds` < `LeaseSeconds`, sloty ≥ 0; jinak `config.worker_invalid`.
+`cpu: 0` = `Environment.ProcessorCount` (při implementaci změněno: chybějící `cpu` = počet procesorů, 0 = druh vypnutý, viz Odchylky 5); `TenantCaps` 0 = bez stropu. Hodnoty jsou návrh (proposal, K rozhodnutí 1). Kontrola při startu: `HeartbeatSeconds` < `LeaseSeconds / 3`, `ShutdownSeconds` < `LeaseSeconds`, sloty ≥ 0; jinak `config.worker_invalid`.
 
 ### Migrace `F2JobQueue` (`src/EshopGuard.Data/Migrations/`)
 
@@ -271,6 +271,45 @@ V transakčním režimu PgBouncer funguje: `set_config(…, true)` (= `SET LOCAL
 8. **Probouzení přes `LISTEN/NOTIFY` jen jako zrychlení:** P0 do vteřin bez agresivního dotazování všech workerů; při výpadku spojení platí dotazování.
 9. **Samostatná testovací databáze** `eshopguard_test_jobs` (proposal, K rozhodnutí 7) a testy fronty v jedné kolekci bez paralelizace.
 10. **Pád workeru se v testech simuluje v procesu:** `JobProcessingService` dostane testovací háček, který zastaví smyčky a heartbeaty bez uvolnění leasů. Z pohledu databáze je to stejné jako zabitý proces (leasy vyprší, nikdo je neuvolní). Skutečné zabití procesu ověří ruční zkouška v úkolu 10.5.
+
+## Odchylky při implementaci (1. 10. 2026)
+
+Měřeno v cloudovém prostředí (PostgreSQL 18, databáze `eshopguard_test_jobs`).
+
+1. **Úloha s klíčem souběhu se bere, jen když je pro svůj klíč první čekající** (`KeyHead` v `JobQueueSql`, index `ix_jobs_queued_key_head (concurrency_key, priority, id) WHERE state = 'queued'`).
+   - Proč: dva workery mohly současně převzít dvě úlohy stejného klíče. Vyhrála ta, která dřív zapsala do `ux_jobs_concurrency_running`, i když byla novější, takže pořadí `priority, id` neplatilo.
+   - Měření: testy střídání domén a deseti úloh jednoho klíče selhaly 3× z 8 běhů, po úpravě 10× z 10.
+2. **Pořadí platí i mezi úlohami bez klíče a s klíčem.** Převzetí má tři kroky:
+   - úlohy s klíčem, před kterými ve frontě není žádná úloha bez klíče;
+   - úlohy bez klíče jedním příkazem;
+   - zbylé úlohy s klíčem.
+
+   V designu šly úlohy s klíčem až po úlohách bez klíče, takže při stálé zásobě úloh bez klíče by na řadu nepřišly. První čekající úloha bez klíče se počítá jednou v CTE `unkeyed_head`; kontrola po řádcích vedla na sekvenční průchod tabulky (16 ms → 1 ms).
+3. **Strop tenanta platí i uvnitř jednoho příkazu převzetí.** Kontrola po řádcích vidí jen úlohy, které běžely před příkazem, takže jeden příkaz vzal 8 úloh tenanta při stropu 2. Zamčení kandidáti se proto seřadí po tenantech (`row_number()`) a vezme se jen tolik, kolik strop dovolí; ostatní zůstanou ve frontě.
+4. **Index fronty:** index `ix_jobs_resource_class_priority_not_before_id` ze změny 3 nahradil `ix_jobs_queued_unkeyed (resource_class, priority, id) WHERE state = 'queued' AND concurrency_key IS NULL` a `not_before` se kontroluje filtrem. Starý index řadí podle `not_before` před `id`, takže převzetí četlo a třídilo celou skupinu priority.
+   - Nad 100 000 čekajícími úlohami trval příkaz převzetí 10 úloh 75 ms, nově 0,75 ms; celé `ClaimAsync` asi 4 ms.
+   - Úloha s klíčem z 20 000 se převezme asi za 2 ms.
+   - Kontroluje `ClaimPlanTests`: plán používá indexy fronty, žádný sekvenční průchod.
+5. **Sloty:** když `cpu` chybí, worker má tolik slotů jako procesorů; hodnota 0 druh vypíná (v designu znamenala `cpu: 0` počet procesorů). Worker tak může druh nebrat, což potřebují vyhrazené workery i testy na sdílené databázi.
+6. **Mezipaměť pozastavených druhů je 2 s** (v designu 5 s) a čekání v pozastaveném druhu nejvýš 1 s. Obnovení tak platí do 3 s, specifikace žádá do 5 s.
+7. **Heartbeat úlohy prodlužuje zámek domény** stejným příkazem (`ops.domains.lease_job_id = id úlohy`, nový index `ix_domains_lease_job_id`) a zámek nikdy nezkracuje.
+8. **Oznámení** se posílá i po dokončení, selhání a zrušení úlohy s klíčem (klíč se uvolní) a po odložení, ne jen při zařazení. Další úloha domény tak nečeká na interval dotazování.
+9. **Rozhraní:**
+   - nové metody `IJobQueue.MarkCanceledAsync`, `IsRunCancelRequestedAsync` a `CompleteAsync(job, db, …)`, kde `db` je kontext rozsahu obsluhy;
+   - `FailAsync(…, retryAfter)` kvůli `JobResult.Retry(After)`;
+   - `IWorkerStore.HeartbeatAsync` vrací `bool`, protože worker se smazaným řádkem se znovu zaregistruje;
+   - rozšíření EF `db.EnqueueJobAsync(queue, request)` a `db.CancelRunJobsAsync(queue, runId)` dostávají frontu parametrem, protože kontext EF nezná služby aplikace;
+   - nastavení `Worker:RegistryHeartbeatSeconds` (30 s) a `Jobs:PausedClassesCacheSeconds`; lease, heartbeat a interval dotazování jsou desetinná čísla.
+10. **Pokračování zrušeného běhu:** `JobTransaction.EnqueueAsync` čte `cancel_requested` s `FOR SHARE`, takže souběžné zrušení počká na COMMIT a pak zruší i to, co vzniklo. Běh, který není vidět, se bere jako zrušený (fail-closed). Proto API musí nastavit `cancel_requested` před voláním `CancelRunJobsAsync`.
+11. **Buckety OpenAI v migraci F2** podle limitů gpt-6.1-sol, Tier 4 (ověřeno na stránce modelu 1. 10. 2026):
+    - `openai`: 10 000 požadavků za minutu (166,67/s);
+    - `openai:tokens`: 4 000 000 tokenů za minutu (66 666,67/s);
+    - u obou zásoba na 10 s, protože OpenAI vynucuje limity i v kratších oknech, a podíl P0–P1 20 %.
+
+    Chybějící bucket OpenAI proto ve změně 5 nenastane.
+12. **Testovací háčky:** `SimulateCrashAsync` (pád) a `SuspendJobHeartbeats` (zaseknutý worker), obojí `internal`.
+
+**Zjištění pro změnu 17:** když jsou na začátku fronty úlohy tenantů, kteří už dosáhli stropu, převzetí je musí přeskočit. 20 000 přeskočených úloh stojí asi 30 ms na převzetí. Zátěžový test rozhodne, zda je potřeba spravedlivější výběr po tenantech.
 
 ## Data Flow
 

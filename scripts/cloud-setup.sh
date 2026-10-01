@@ -64,7 +64,7 @@ dotnet restore src/EshopGuard.sln
 dotnet build src/EshopGuard.sln --no-restore -v minimal
 dotnet tool restore
 
-echo "== Role, databáze eshopguard a eshopguard_test, user-secrets (deploy/dev/setup-local.ps1)"
+echo "== Role, databáze eshopguard, eshopguard_test a eshopguard_test_jobs, user-secrets (deploy/dev/setup-local.ps1)"
 export PATH="$HOME/.dotnet/tools:$PATH"
 if ! command -v pwsh >/dev/null 2>&1; then
   dotnet tool install --global PowerShell >/dev/null

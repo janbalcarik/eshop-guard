@@ -50,12 +50,12 @@ dotnet build src/EshopGuard.sln
 dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"
 ```
 
-`dotnet test` běží v režimu Microsoft.Testing.Platform (nastavení `test.runner` v `global.json`) a spustí všech pět testovacích projektů. Kategorie testů:
+`dotnet test` běží v režimu Microsoft.Testing.Platform (nastavení `test.runner` v `global.json`) a spustí všech šest testovacích projektů. Kategorie testů:
 
 | Kategorie | Potřebuje | Bez prostředí |
 |---|---|---|
 | (bez kategorie) | nic, ani síť | – |
-| `Db` | PostgreSQL s databází `eshopguard_test` a user-secrets `eshopguard-tests` | selže se jménem chybějícího klíče |
+| `Db` | PostgreSQL s databázemi `eshopguard_test` a `eshopguard_test_jobs` (testy fronty) a user-secrets `eshopguard-tests` | selže se jménem chybějícího klíče |
 | `Jev` | klíč `JEV_API_KEY` nebo `TYPESAFE_API_KEY`, placené volání | přeskočí se |
 
 Testy `Db` se bez prostředí záměrně nepřeskočí, aby nic neprošlo naprázdno. Vynechat je jde jen filtrem, např. na počítači bez databáze:
@@ -82,7 +82,7 @@ dotnet test --solution src/EshopGuard.sln --filter-trait "Category=Jev"
 
 Webová aplikace (`src/EshopGuard.Api`, `src/EshopGuard.Worker`) se připojuje k databázi `eshopguard` výhradně jako `eshopguard_app` / `eshopguard_worker`. Superuživatel obchází Row-Level Security, proto ho aplikace při startu odmítne (`db.role_bypasses_rls`). Účet `postgres` se používá jen jednou, pro založení rolí skriptem `deploy/sql/00_roles.sql`.
 
-1. Role, databáze `eshopguard` a `eshopguard_test`, user-secrets (PowerShell 7, heslo `postgres` jen v této relaci):
+1. Role, databáze `eshopguard`, `eshopguard_test` a `eshopguard_test_jobs`, user-secrets (PowerShell 7, heslo `postgres` jen v této relaci):
 
    ```powershell
    $env:PGPASSWORD = 'postgres'
@@ -99,7 +99,7 @@ Webová aplikace (`src/EshopGuard.Api`, `src/EshopGuard.Worker`) se připojuje k
    dotnet ef database update --project src/EshopGuard.Data
    ```
 
-   Testovací databázi `eshopguard_test` migrují testy samy.
+   Testovací databáze `eshopguard_test` a `eshopguard_test_jobs` migrují testy samy. Testy fronty mají vlastní databázi, protože před každým testem vyprázdní `ops.jobs`.
 
 3. Spuštění: `dotnet run --project src/EshopGuard.Api` (http://localhost:5080, stav na `/health`) a `dotnet run --project src/EshopGuard.Worker`. Ve vývoji se soubory ukládají do `.data/blobs` ve složce projektu (např. `src/EshopGuard.Api/.data/blobs`, mimo git).
 
@@ -122,6 +122,63 @@ Jak přidat tabulku tenanta:
 3. zápis do `TableNames.TenantTables` a řádek v `TenantDataSeeder` (testy).
 
 Bez toho selže katalogový test (`RlsCatalogTests`, `SeederCoverageTests`, `ModelCatalogConsistencyTests`).
+
+## Fronta úloh a worker
+
+Fronta je tabulka `ops.jobs` (knihovna `src/EshopGuard.Jobs`). API úlohy jen zakládá a ruší (`AddEshopGuardJobQueue`), worker je zpracovává (`AddEshopGuardJobProcessing`). Zpracování je „aspoň jednou“: úloha může proběhnout víckrát, výsledek se ale zapíše jen jednou.
+
+- **Zakládání v transakci:** `db.EnqueueJobAsync(queue, request)` v otevřené transakci (bez ní `job.enqueue_requires_transaction`), nebo `IJobQueue.EnqueueAsync(request, transaction)` nad čistým SQL. Běh tak nevznikne bez své úlohy. Workery dostanou oznámení `eshopguard_jobs` až po COMMIT, po ROLLBACK vůbec.
+- **Druhy zdrojů a sloty** (`Worker:Slots`, kolik úloh druhu worker běží najednou; 0 = druh nebere):
+
+  | Druh | Na co | Sloty | Strop tenanta (`Worker:TenantCaps`) |
+  |---|---|---|---|
+  | `fetch` | stahování | 100 | 20 |
+  | `cpu` | výpočty | počet procesorů, když `cpu` chybí | 4 |
+  | `jev` | volání Jevu | 8 | 4 |
+  | `llm` | volání OpenAI | 4 | 2 |
+  | `io` | úložiště, konektory | 4 | 4 |
+  | `system` | údržba | 2 | 0 = bez stropu |
+
+  Strop tenanta je měkký: dva workery ve stejné chvíli ho můžou překročit o úlohy, které právě berou.
+- **Priority** P0 (uživatel čeká) až P4 (údržba). Bere se v pořadí `priority, id`; úloha s `not_before` v budoucnu se nebere.
+- **Klíče:**
+  - `dedupe_key`: druhá úloha se stejným klíčem nevznikne, volající dostane existující (`Created = false`);
+  - `concurrency_key`: nejvýš jedna běžící úloha s klíčem a vždy se bere nejstarší čekající. `JobKeys.Domain("www.Shop.sk")` = `domain:shop.sk` (stahování jedné domény napříč tenanty, běhy se po dávkách střídají), `JobKeys.Run(runId, krok)`.
+- **Lease a fencing:** převzatá úloha má lease `Worker:LeaseSeconds` (120 s), worker ho prodlužuje heartbeatem po `Worker:HeartbeatSeconds` (30 s). Dokončení, selhání i odložení platí jen s vlastním leasem a číslem pokusu. Úlohu spadlého workeru vrátí plánovač po vypršení leasu (`job.lease_expired`). Zaseknutý worker, jehož úlohu mezitím převzal jiný, dostane `LeaseLostException` a nic nezapíše.
+- **Pravidla pro obsluhy (`IJobHandler`):**
+  - výsledky jen v `context.CompleteAsync(tx => …)`, ve stejné transakci jako stav úlohy; pokračování přes `tx.EnqueueAsync` (u zrušeného běhu nevznikne);
+  - vnější účinky mimo databázi (soubory v úložišti) jen s deterministickými klíči, protože úloha může proběhnout znovu;
+  - do `payload` jen identifikátory a parametry (nejvýš 64 kB), žádné texty stránek; do `last_error`, výjimek a logů jen kódy, nikdy texty stránek ani klíče;
+  - výsledek `Succeeded`, `Retry(kód)` (odstup `Jobs:Retry:BaseSeconds` × 2^(pokus − 1), nejvýš `MaxSeconds`, ±20 %), `Fail(kód)`, `Defer` (bez započtení pokusu), `PauseClass(kód)` nebo `Canceled`. Neošetřená výjimka = `job.unhandled` a opakování, neznámý druh úlohy = hned `failed` s `job.unknown_kind`.
+- **Pozastavení druhu:** obsluha při došlém kreditu nebo odmítnutém klíči vrátí `PauseClass("jev.credit_exhausted")`. Druh se zapíše do `ops.system_settings` (`jobs.paused_classes`), do logu jako chyba, a žádný worker ho nebere. Obnovení je jen ruční, workery ho uvidí do 3 s:
+  - v kódu `IJobQueue.ResumeResourceClassAsync(JobResourceClass.Jev)`;
+  - v SQL jako `eshopguard_worker` nebo `eshopguard_admin`: `UPDATE ops.system_settings SET value = value - 'jev' WHERE key = 'jobs.paused_classes'`.
+- **Zrušení:** čekající úloha `IJobQueue.CancelAsync(id)` (běžící úlohu nezruší). Běh: v jedné transakci nastavit `checks.runs.cancel_requested = true` a potom `db.CancelRunJobsAsync(queue, runId)`. Běžící úloha zrušení uvidí při heartbeatu nebo přes `context.IsRunCancellationRequestedAsync()` a vrátí `Canceled`.
+- **Globální limity volání:** `IWorkerStore.TryReserveAsync(bucket, tokeny, priorita)` nad `ops.rate_limit_buckets`:
+  - `jev`: 1 200 dotazů za minutu;
+  - `openai`: 10 000 požadavků za minutu (gpt-6.1-sol, Tier 4);
+  - `openai:tokens`: 4 000 000 tokenů za minutu.
+
+  Úlohy P2–P4 nechají 20 % kapacity pro P0–P1. Chybějící bucket je chyba (`ratelimit.bucket_missing`), nikdy volání bez limitu.
+- **Zámky domén:** `IWorkerStore.TryAcquireDomainAsync` a `ReleaseDomainAsync` v `ops.domains` se stavem zdvořilosti (robots.txt, Crawl-delay, tempo, chyby); heartbeat úlohy zámek prodlužuje.
+- **Plánovač** běží v každém workeru (`Scheduler:Enabled`, takt `Scheduler:TickSeconds` 15 s). Takt provede jen instance se zámkem `pg_try_advisory_xact_lock`:
+  - vrací propadlé leasy;
+  - denně zakládá `system.ensure_partitions` a `system.cleanup_jobs` (hotové a zrušené úlohy maže po 7 dnech, neúspěšné po 30);
+  - maže záznamy workerů bez heartbeatu 10 min.
+- **Ukončení workeru** (SIGTERM, Ctrl+C):
+  - přestane brát úlohy a v `ops.workers` se označí `draining`;
+  - rozdělané úlohy dokončí do `Worker:ShutdownSeconds` (90 s) minus nejvýš 5 s;
+  - zbylé vrátí do fronty bez započtení pokusu (`worker.shutdown`) a smaže svůj řádek.
+
+  `ShutdownSeconds` musí být pod leasem, `stop_grace_period` v Compose nad ním.
+- **Konfigurace** workeru je v `src/EshopGuard.Worker/appsettings.json` (`Worker:*`, `Jobs:*`, `Scheduler:*`). Neplatné hodnoty zastaví start (`config.worker_invalid`, např. heartbeat není pod třetinou leasu).
+- **Výkon** (1. 10. 2026, `ClaimPlanTests`): převzetí 10 úloh z fronty se 100 000 čekajícími úlohami trvá asi 4 ms, jedné úlohy s klíčem z 20 000 asi 2 ms. Zátěžový test celé fronty dělá změna 17.
+
+**PgBouncer** (až od desítek workerů, nasazení ve změně 17):
+- V transakčním režimu funguje `set_config(…, true)`, `pg_try_advisory_xact_lock`, `SELECT … FOR UPDATE SKIP LOCKED` i `pg_notify`.
+- `LISTEN` nefunguje: posluchač workeru potřebuje přímé spojení `ConnectionStrings:WorkerListen` (bez něj použije `ConnectionStrings:Worker`).
+- Zámky na úrovni relace ani `SET` aplikace nepoužívá.
+- Připravené příkazy Npgsql (automatická příprava je vypnutá) vyžadují PgBouncer ≥ 1.21 s `max_prepared_statements`.
 
 ## Nastavení
 

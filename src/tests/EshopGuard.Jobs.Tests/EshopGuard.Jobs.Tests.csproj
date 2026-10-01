@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EshopGuard.Jobs\EshopGuard.Jobs.csproj" />
+    <ProjectReference Include="..\..\EshopGuard.Data\EshopGuard.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Npgsql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Shared\InMemoryLoggerProvider.cs" Link="Shared\InMemoryLoggerProvider.cs" />
+  </ItemGroup>
+
+</Project>

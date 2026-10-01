@@ -1,4 +1,5 @@
 using EshopGuard.Data.Connections;
+using EshopGuard.Jobs.Processing;
 using EshopGuard.Worker;
 using Microsoft.Extensions.Options;
 

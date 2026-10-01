@@ -7,7 +7,11 @@ using Microsoft.Extensions.Logging;
 
 namespace EshopGuard.Worker.Tests;
 
-/// <summary>Worker host in environment <c>Testing</c> (no user-secrets <c>eshopguard-worker</c>) with captured logs.</summary>
+/// <summary>
+/// Worker host in environment <c>Testing</c> (no user-secrets <c>eshopguard-worker</c>) with captured logs. All slots are 0 and
+/// the scheduler is off unless a test sets them: the database <c>eshopguard_test</c> is shared with other test projects, whose
+/// jobs this worker must not take.
+/// </summary>
 internal static class WorkerTestHost
 {
     public static IHost Build(InMemoryLoggerProvider logs, IDictionary<string, string?> settings, bool withStartupGuard = true)
@@ -18,6 +22,13 @@ internal static class WorkerTestHost
         {
             ["Storage:Provider"] = "FileSystem",
             ["Storage:FileSystem:Root"] = root,
+            ["Worker:Slots:Fetch"] = "0",
+            ["Worker:Slots:Cpu"] = "0",
+            ["Worker:Slots:Jev"] = "0",
+            ["Worker:Slots:Llm"] = "0",
+            ["Worker:Slots:Io"] = "0",
+            ["Worker:Slots:System"] = "0",
+            ["Scheduler:Enabled"] = "false",
         });
         builder.Configuration.AddInMemoryCollection(settings);
         builder.Logging.ClearProviders();

@@ -1,6 +1,7 @@
 using EshopGuard.Api.Health;
 using EshopGuard.Data;
 using EshopGuard.Data.Connections;
+using EshopGuard.Jobs;
 using EshopGuard.Storage;
 using EshopGuard.Storage.Health;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -13,6 +14,9 @@ builder.Logging.AddJsonConsole();
 // The API always connects as eshopguard_app; the role is fixed here, not in configuration.
 builder.Services.AddEshopGuardData(DatabaseRole.App);
 builder.Services.AddEshopGuardStorage();
+
+// The API only enqueues and cancels jobs; the worker processes them.
+builder.Services.AddEshopGuardJobQueue();
 builder.Services.AddProblemDetails(options => options.CustomizeProblemDetails = context =>
     context.ProblemDetails.Extensions.TryAdd("code", context.ProblemDetails.Status >= 500 ? "error.unexpected" : "error.request"));
 builder.Services.AddHealthChecks()
