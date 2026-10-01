@@ -99,7 +99,7 @@ public sealed record ScanWarning(string Code, IReadOnlyDictionary<string, object
 ```
 
 - `Title`, `Explanation`, `Recommendation` a textové `Notes` z `Finding` zmizí. `ScanResult.Warnings` bude `IReadOnlyList<ScanWarning>`.
-- `VerdictOrder.Compare` (K rozhodnutí 3): `checkability` (`text` < `assess` < `verify` < `not_checkable`), závažnost (`high` < `medium` < `low`), pásmo (`High` < `Review`), `Status` (`Finding` < `Upcoming`), pak jurisdikce abecedně. Seznam nálezů ve výsledku je seřazený podle `Strictest`.
+- `VerdictOrder.Compare` (K rozhodnutí 3): `Status` (`Finding` < `Upcoming`, budoucí povinnost nikdy nezvýší přísnost), `checkability` (`text` < `assess` < `verify` < `not_checkable`), závažnost (`high` < `medium` < `low`), pásmo (`High` < `Review`), pak jurisdikce abecedně. Podle `Strictest` řadí nálezy zpráva (a později API); seznam ve výsledku zůstává v pořadí vyhodnocení (viz Odchylky).
 
 ### 3. Vyhodnocení pro víc jurisdikcí
 
@@ -273,3 +273,36 @@ RuleCatalog.Describe() ─► RuleSetDescriptor ─► (změna 8) checks.rule_se
 - `Rules/NoSentencesInResultTests.cs`.
 - `RewriteMultiJurisdictionTests.cs`.
 - Úpravy `RulesTests.cs`, `AnalyzeTextsTests.cs`, `ScanFixtureTests.cs`, `ScanSlovakFixtureTests.cs`, `LegalRequirementTests.cs`, `RewriteTests.cs` na kódy a verdikty; `Fixtures/expected_findings*.json` beze změny očekávaných nálezů.
+
+## Odchylky při implementaci (1. 10. 2026)
+
+1. **Pořadí verdiktů.** Stav (`Finding` před `Upcoming`) je první kritérium, ne čtvrté. Vyžaduje to scénář specifikace „Budoucí povinnost nezvyšuje přísnost“ a K rozhodnutí 3 („upcoming vždy za platnými“).
+2. **Pořadí nálezů ve výsledku.**
+   - `ScanResult.Findings` zůstává v pořadí vyhodnocení: sady, pravidla v pořadí souboru, segmenty.
+   - Podle nejpřísnějšího verdiktu řadí zpráva (skupina, závažnost, skóre). Totéž udělá API.
+   - Důvod: `findings.csv` a `findings.json` pro jednu zemi zůstaly shodné s referenčními výstupy změny 5.
+3. **Pravděpodobnosti nálezu.** `Segment.Probabilities` je klíčované `{sada}:{id}`. Verdikt nese `QuestionProbs` klíčované id otázek své sady (sada je ve verdiktu, klíč je tedy jednoznačný). `Finding.QuestionProbs` patří nejpřísnějšímu verdiktu, takže zpráva vypisuje id otázek jako dřív.
+4. **Původní texty a záložní jazyk.**
+   - Každá zapnutá sada má právě jeden soubor textů s `review.original: true`: texty napsané autory pravidel a přesunuté beze změny. Ten je použitelný bez další kontroly.
+   - Překlad je použitelný, jen když je úplný, zkontrolovaný (`reviewed_by`, `reviewed_at`, ne `machine_draft`) a ke stejné `source_version`.
+   - Chybí-li překlad sady, ukážou se texty v původním jazyce sady. Proto je `legal_sk` v české zprávě dál slovensky, stejně jako před změnou. `RenderedFinding.Locale` říká, v jakém jazyce text je.
+   - `RuleCatalog.CompleteLocales` jsou jazyky bez jediné takové náhrady. Ty smí nabídnout aplikace.
+   - `RuleTexts.ToolLocales` jsou jazyky s úplnými texty nástroje (`_engine.yaml`, `_labels.yaml`). V nich jde napsat zprávu CLI (`--lang`).
+   - `RulesOptions.RequiredLocales` (`[cs]`) vyžaduje úplné texty nástroje. Bez nich se pravidla nenačtou.
+   - Bez tohoto rozlišení by čeština nebyla „úplná“ až do lidského překladu `legal_sk` (úkol 4.5) a výchozí běh by nešel spustit.
+5. **Varianta vysvětlení** se určuje z původních textů sady (`RuleSet.ExplanationVariants`). Engine texty nečte, verdikt nese jen kód varianty.
+6. **České tlačítko: tři pravidla místo dvou.** Pravidlo `site_presence` hodnotí jednu otázku. Proto jsou `legal_withdrawal_button_info_missing` (otázka `legal_withdrawal_online_option`) a `legal_withdrawal_button_location_missing` (otázka `legal_withdrawal_button_location`) zvlášť. Vzor tlačítka `(?im)^\s*odstoupit\s+od\s+smlouvy\b` musí být na začátku textu odkazu, takže odkaz „Jak odstoupit od smlouvy“ na stránku s poučením ho nesplní.
+7. **Zpráva:** nález, jehož všechny verdikty platí až později, je ve skupině „Platí později“, ne mezi porušeními. `findings.csv` má sloupec `verdicts` jen při víc zemích, takže běh pro jednu zemi má stejné sloupce jako dřív.
+8. **Zadání přepisu.**
+   - Texty jsou v jazyce obsahu e-shopu: `RewriteInput.ContentLanguage`, výchozí jazyk předpisů první jurisdikce. Chybějící překlad se nahradí původním textem.
+   - Nález s víc verdikty přidá řádky dalších zemí.
+   - Pro jednu zemi je zadání beze změny, proto `config/rewrite.yaml` nedostal novou verzi a uložené přepisy platí. Nová verze přijde se slovenskými překlady.
+9. **Otázky pro uživatele** (K rozhodnutí 13) zatím nejsou povinné. Mechanismus je hotový: `user_questions` v pravidle, texty v souboru textů, kontrola úplnosti. Znění čeká na schválení (`otazky-pro-uzivatele-navrh.md`). `rules check-texts` vypisuje pravidla `verify` bez otázky.
+10. **Kódy navíc proti tabulce v oddílu 4:**
+    - `ssrf_blocked_urls`, `pages_not_processed`, `no_response`, `evaluation_not_confirmed_texts`;
+    - části vět `list_more`, `claim_list_since`, `claim_list_remark` (parametrem poznámky může být další poznámka nebo null, takže knihovna neskládá ani kousky vět);
+    - důvody `legal_texts_not_given` a `site_not_crawled`.
+11. **`RuleSetDescriptor`** nese `QuestionSetHash` pro zadaný model a jazyk otázek (stejný výpočet jako klíč cache) a navíc `QuestionsHash` (otisk samotných otázek z `rules/question-set-hashes.json`). `SourceHash` se počítá z kanonického JSON definice a textů, takže komentáře v YAML ho nemění.
+12. **Testy mají pevné datum** 1. 10. 2026 (`TestServices`). Bez něj by se české scénáře 1. 1. 2027 samy změnily. Referenční výstupy českých scénářů (`site`, `site-limits`) se po přidání `legal_cz` draft4 přegenerovaly. Rozdíl byl zkontrolován: nová pravidla, verze sady, sloupce nových otázek a klíče cache českých odstavců. Slovenské `report.md` a CSV jsou beze změny.
+13. **Odkazy EU v jazyce verdiktu** (K rozhodnutí 11): pole `ref_by_language` a jazyk předpisů země (`law_language`) jsou hotové. Překlady odkazů EU zatím nejsou (překladatelská práce, skupina 4), takže se ukazuje původní české znění.
+14. **Vzory `site_signal` podle jazyka verze webu** (K rozhodnutí 10) zůstávají na změnu 7.

@@ -48,7 +48,7 @@ Systém MUST ke každému nálezu připojit verdikt pro každou jurisdikci, ve k
 - THEN vznikne jeden nález `legal_adr_missing` s verdiktem `sk` (sada `legal_sk`) a `cz` (sada `legal_cz`)
 
 ### Requirement: Řazení nálezů podle nejpřísnějšího verdiktu
-Systém MUST určit u každého nálezu nejpřísnější verdikt podle pořadí: `checkability` (`text`, `assess`, `verify`, `not_checkable`), závažnost (`high`, `medium`, `low`), pásmo (`high`, `review`), stav (`finding` před `upcoming`), jurisdikce abecedně. Seznam nálezů MUST být seřazený podle nejpřísnějšího verdiktu a souhrnné vlastnosti nálezu (`Severity`, `Checkability`, `Band`, `Score`) MUST odpovídat nejpřísnějšímu verdiktu.
+Systém MUST určit u každého nálezu nejpřísnější verdikt podle pořadí: stav (`finding` před `upcoming`), `checkability` (`text`, `assess`, `verify`, `not_checkable`), závažnost (`high`, `medium`, `low`), pásmo (`high`, `review`), jurisdikce abecedně. Zpráva MUST řadit nálezy podle nejpřísnějšího verdiktu a souhrnné vlastnosti nálezu (`Severity`, `Checkability`, `Band`, `Score`) MUST odpovídat nejpřísnějšímu verdiktu. Nález, jehož všechny verdikty jsou `upcoming`, MUST NOT být ve zprávě mezi porušeními.
 
 #### Scenario: Porušení v jedné zemi, posouzení v druhé
 - GIVEN nález s verdiktem `sk` (`text`, `high`) a `cz` (`assess`, `high`)
@@ -148,6 +148,11 @@ Systém MUST v sadě `legal_cz` kontrolovat od 1. 1. 2027 tlačítko nebo obdobn
 - GIVEN český e-shop s odkazem „Odstoupit od smlouvy“ v patičce a `AsOf` = 2. 1. 2027
 - WHEN se vyhodnotí jurisdikce `cz`
 - THEN povinnost má v `SiteObligations` stav `met` a URL stránek s odkazem
+
+#### Scenario: Odkaz na poučení není tlačítko
+- GIVEN český e-shop s odkazem „Jak odstoupit od smlouvy“ na stránku s poučením a `AsOf` = 2. 1. 2027
+- WHEN se vyhodnotí jurisdikce `cz`
+- THEN nález `legal_withdrawal_function_missing` zůstane, protože nápis nezačíná „Odstoupit od smlouvy“
 
 #### Scenario: Tlačítko chybí
 - GIVEN český e-shop bez takového odkazu a `AsOf` = 2. 1. 2027

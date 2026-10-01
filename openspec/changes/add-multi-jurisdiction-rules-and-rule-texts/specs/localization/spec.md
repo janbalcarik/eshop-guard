@@ -82,7 +82,7 @@ Systém MUST zobrazit odkazy na národní předpisy v jazyce předpisu bez ohled
 - THEN se zobrazí odkazy `eu` a `sk`, odkaz `cz` ne
 
 ### Requirement: Texty pravidel: překlad jen po lidské kontrole
-Systém MUST považovat jazyk za úplný jen tehdy, když každý jeho soubor textů má v `review` vyplněné `reviewed_by` a `reviewed_at`. Soubor s `review.machine_draft: true` bez `reviewed_by` MUST NOT jazyk zpřístupnit.
+Systém MUST považovat jazyk za úplný jen tehdy, když každý jeho soubor textů je původní (`review.original: true`, texty napsané autory pravidel) nebo má v `review` vyplněné `reviewed_by` a `reviewed_at`. Soubor s `review.machine_draft: true` MUST NOT jazyk zpřístupnit. Texty sady, jejíž překlad v jazyce chybí nebo není zkontrolovaný, MUST se zobrazit v původním jazyce sady a výsledek MUST uvést, v jakém jazyce text je; zpráva CLI MUST jít napsat jen v jazyce s úplnými a zkontrolovanými texty nástroje (`_engine.yaml`, `_labels.yaml`).
 
 #### Scenario: Neověřený návrh překladu
 - GIVEN `rules/texts/sk/eco.yaml` s `review.machine_draft: true` a bez `reviewed_by`
@@ -93,6 +93,12 @@ Systém MUST považovat jazyk za úplný jen tehdy, když každý jeho soubor te
 - GIVEN všechny soubory `rules/texts/sk/` s `reviewed_by` a `reviewed_at`
 - WHEN se načte katalog
 - THEN `sk` je v `CompleteLocales`
+
+#### Scenario: Sada bez překladu v české zprávě
+- GIVEN sada `legal_sk` s původními texty ve slovenštině a bez zkontrolovaného českého překladu
+- WHEN se složí česká zpráva
+- THEN texty `legal_sk` jsou slovensky jako před změnou a `RenderedFinding.Locale` je `sk`
+- AND `cs` není v `CompleteLocales`
 
 ### Requirement: Texty pravidel: otázky pro uživatele
 Systém MUST mít ke každému pravidlu s `checkability: verify` aspoň jednu otázku pro uživatele (`user_questions`) s textem v každém jazyce a MUST vracet u nálezu kódy otázek, ne jejich znění.

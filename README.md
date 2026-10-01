@@ -22,7 +22,7 @@ Rozsah podle země: **Slovensko** = nové povinnosti (od 27. 9. 2026 a od 19. 6.
 | `dur` | `rules/dur.yaml` | Nové od 27. 9. 2026: tvrzení o životnosti, opravitelnosti, spotřebním materiálu, neoriginálních dílech a aktualizacích softwaru (vše k ověření). | SK | věty |
 | `ucp` | `rules/ucp.yaml` | Spotřebitelské recenze z černé listiny (body 23b a 23c), za které ČOI i SOI trestají. Ostatní body černé listiny jsou vypnuté v `rules/ucp_parked.yaml`. | SK, CZ | věty |
 | `lr` | `rules/lr.yaml`, `config/legal_requirements.yaml` | Rozpracováno, vypnuto (`enabled: false`): zákonné požadavky na všechny výrobky kategorie vydávané za přednost („dojčenská fľaša bez BPA“) a bezvýznamné výhody, nové od 27. 9. 2026. Kategorie výrobku se čte z titulku, nadpisu, drobečkové navigace a kategorie e-shopu. | SK | věty |
-| `legal` | `rules/legal_sk.yaml`, `rules/legal_cz.yaml` | Povinné informace na právních stránkách: mimosoudní řešení sporů, reklamace, odstoupení, vzorový formulář. Na Slovensku navíc za celý web (`site_signal`): harmonizované oznámení o zákonné záruce (od 27. 9. 2026), tlačítko „odstúpiť od zmluvy tu“ (od 19. 6. 2026) a odkaz na zrušenou platformu ODR. | SK, CZ | odstavce právních stránek, celý web |
+| `legal` | `rules/legal_sk.yaml`, `rules/legal_cz.yaml` | Povinné informace na právních stránkách: mimosoudní řešení sporů, reklamace, odstoupení, vzorový formulář. Na Slovensku navíc za celý web (`site_signal`): harmonizované oznámení o zákonné záruce (od 27. 9. 2026), tlačítko „odstúpiť od zmluvy tu“ (od 19. 6. 2026) a odkaz na zrušenou platformu ODR. V Česku od 1. 1. 2027 tlačítko „Odstoupit od smlouvy“ a údaj o něm v obchodních podmínkách (zákon č. 159/2026 Sb.); do té doby jako upozornění dopředu. | SK, CZ | odstavce právních stránek, celý web |
 
 **Síto po odstavcích.** Než věty dostanou podrobné otázky, rozdělí se hlavní text každé stránky (kromě právních) na úseky po sobě jdoucích bloků do 600 znaků a Jev u každého úseku jednou otázkou na modul řekne, zda v něm je téma modulu (příroda a značky, životnost a opravy, recenze). Věty úseku jdou na podrobné otázky modulu jen při pravděpodobnosti aspoň 0,2. Patička, hlavička, titulek, meta popis a právní stránky jdou vždy celé; úsek, který Jev nevyhodnotí (chyba, text delší než 20 000 znaků), pustí své věty do všech modulů, takže chyba síta nikdy nález neschová. Na vegis.sk (103 stránek) a naturfyt.sk (40 stránek) síto nevynechalo žádný nález a snížilo cenu na 45 % a 57 %; vypíná se volbou `--no-sieve`. Jev přijme asi 32 000 tokenů na požadavek (80 000 znaků slovenského textu prošlo, 90 000 ne), úseky jsou tedy hluboko pod limitem.
 
@@ -34,7 +34,7 @@ Rozsah podle země: **Slovensko** = nové povinnosti (od 27. 9. 2026 a od 19. 6.
 
 Jistota (vysoká, nižší) říká jen, jak si je Jev jistý, že text odpovídá popisu pravidla; zda jde o porušení, určuje skupina.
 
-Každá věta jde do větných modulů (na Slovensku `eco`, `dur` a `ucp`, v Česku `ucp`) jedním voláním Jevu se všemi otázkami všech modulů naráz; cache ukládá odpovědi zvlášť po modulech, takže nová verze jedné sady se ptá znovu jen na své otázky. Na vegis.sk (108 stránek) to snížilo počet volání z 21 182 na 7 084, cenu z 0,98 na 0,75 USD a dobu vyhodnocení zhruba třikrát; odpovědi se od volání po modulech liší stejně málo jako dva běhy téhož způsobu (72 % odpovědí úplně stejných, průměrný rozdíl 0,003). Menu, drobečková navigace, seznamy odkazů a popisky filtrů se nevyhodnocují; odznaky u produktu („Eco“, „Vegan“) se čtou každý zvlášť. Stejný text v titulku nebo meta popisu jako v obsahu stránky dává jeden nález a stejný text se stejným pravidlem na více stránkách také jeden nález se seznamem stránek. Právní odkazy jsou u pravidel zvlášť pro EU, Slovensko a Česko; zpráva vypíše ty pro zemi z `--country`. Pravidla, u kterých se Česko liší (EmpCo zatím nepřevzalo, sněmovní tisk 53), mají v `explanation_by_jurisdiction` vlastní vysvětlení: v Česku jde zatím jen o posouzení klamavého konání případ od případu. Zprávy a české znění otázek jsou česky, Jev dostává otázky anglicky (`--question-lang`).
+Každá věta jde do větných modulů (na Slovensku `eco`, `dur` a `ucp`, v Česku `ucp`) jedním voláním Jevu se všemi otázkami všech modulů naráz; cache ukládá odpovědi zvlášť po modulech, takže nová verze jedné sady se ptá znovu jen na své otázky. Na vegis.sk (108 stránek) to snížilo počet volání z 21 182 na 7 084, cenu z 0,98 na 0,75 USD a dobu vyhodnocení zhruba třikrát; odpovědi se od volání po modulech liší stejně málo jako dva běhy téhož způsobu (72 % odpovědí úplně stejných, průměrný rozdíl 0,003). Menu, drobečková navigace, seznamy odkazů a popisky filtrů se nevyhodnocují; odznaky u produktu („Eco“, „Vegan“) se čtou každý zvlášť. Stejný text v titulku nebo meta popisu jako v obsahu stránky dává jeden nález a stejný text se stejným pravidlem na více stránkách také jeden nález se seznamem stránek. Právní odkazy jsou u pravidel zvlášť pro EU, Slovensko a Česko; každý verdikt nese odkazy EU a své země. Pravidla, u kterých se Česko liší (EmpCo zatím nepřevzalo, sněmovní tisk 53), mají v `explanation_by_jurisdiction` vlastní vysvětlení: v Česku jde zatím jen o posouzení klamavého konání případ od případu. Zprávy a české znění otázek jsou česky, Jev dostává otázky anglicky (`--question-lang`).
 
 ## Požadavky
 
@@ -186,7 +186,9 @@ Fronta je tabulka `ops.jobs` (knihovna `src/EshopGuard.Jobs`). API úlohy jen za
 - `config/labels.yaml`: seznamy značek podle rešerše `podklady/reserse/znacky-udrzatelnosti.md` (nález ruší jen značky, které podmínky splňují), poznámky ke značkám, které je nesplňují nebo jsou neověřené (`label_notes`), a slova pro kontrolu obrázků.
 - `config/legal_requirements.yaml`: seznam zákonných požadavků pro modul `lr` (61 položek z rešerše `podklady/reserse/zakonne-poziadavky-ako-prednost.md`).
 - `config/sieve.yaml`: síto po odstavcích (otázka na téma každého větného modulu, práh, velikost úseků); vlastní `version`, takže změna síta nezneplatní uložené podrobné odpovědi.
-- `rules/*.yaml`: otázky pro Jev a pravidla. Každou změnu znění zapište do `rules/CHANGELOG.md` a zvyšte `version`.
+- `rules/*.yaml`: otázky pro Jev, logika pravidel, odkazy na zákon a účinnost (`effective_from`). Každou změnu otázek zapište do `rules/CHANGELOG.md` a zvyšte `version`; otisk otázek nové verze zapíše `eshopguard rules check-texts --update-hashes` do `rules/question-set-hashes.json` (změna otázek bez nové verze se nenačte).
+- `rules/texts/<jazyk>/`: texty pravidel (název, vysvětlení, vysvětlení pro zemi, doporučení) po sadách, `_engine.yaml` (poznámky, upozornění a stavy odkazů nástroje) a `_labels.yaml` (poznámky ke značkám). Knihovna vrací kódy a parametry, věty skládá až zpráva v jazyce `--lang`. Viz oddíl Země a jazyky.
+- `config/jurisdictions.yaml`: země, které nástroj zná, a jazyk jejich předpisů.
 - `.env` (zkopírujte z `.env.example`): klíč a adresa API Jevu. Když `JEV_API_KEY` chybí, použije se proměnná prostředí `TYPESAFE_API_KEY` (i z uživatelského prostředí Windows). Klíč se nikam nezapisuje ani neloguje.
 - Tempo stahování se přizpůsobuje serveru: začíná na `crawl.requests_per_second` (1 za sekundu); dokud server odpovídá do 0,5 s bez chyb, zrychluje po 0,25 až na `max_requests_per_second` (3), při odpovědi pomalejší než 1,5 s nebo chybě zpomalí na 70 %, při 429 nebo 503 na polovinu a počká podle Retry-After (nejvýš 60 s) a stránku zkusí znovu (nejvýš dvakrát). Crawl-delay z robots.txt strop sníží. Stahuje se jedním spojením. `--rate` nastaví pevné tempo. Na vegis.sk (107 stránek, server odpovídá za 0,1 s) 111 požadavků za 42 s místo 3,6 min při pevných 0,5 za sekundu.
 - Souběžnost: `jev.requests_per_minute: 1200` a `concurrency: 8`, podle dokumentovaného limitu jev-1.13.0 (1 200 požadavků za minutu a 250 000 tokenů za sekundu, https://docs.typesafe.ai/models; limity se mohou měnit, vyšší nabízí firemní tarif). Při odezvě kolem 0,33 s stačí 8 souběžných požadavků na 20 za sekundu. Při odpovědi 429 nebo 529 klient počká a zkusí to znovu. Krátký test 300 požadavků s 32 souběžnými spojeními (77 za sekundu) chybu nevrátil jen proto, že se vešel pod minutový limit.
@@ -264,13 +266,37 @@ Vezme výsledky hotového skenu (`findings.json`, `pages.jsonl`) a stránky s n�
 
 | Příkaz | Popis |
 | --- | --- |
-| `scan <url>` | Projde web podle robots.txt a sitemap, vyhodnotí texty a vytvoří výstupy. Volby: `--max-pages`, `--sample-products`, `--modules` (výchozí: všechny moduly s pravidly pro zemi), `--country` (`sk` nebo `cz`, výchozí `sk`), `--question-lang`, `--rate` (pevné tempo stahování), `--concurrency`, `--include`, `--exclude`, `--out`, `--mock`, `--no-cache`, `--no-sieve`, `--yes`, `--record <složka>` (uloží všechny odpovědi webu), `--replay <složka>` (odpovídá z nahrávky bez sítě), `--allow-private-network` (jen místní testovací e-shop). |
-| `check-text "<text>"` | Vyhodnotí jeden text. Volby: `--kind`, `--modules`, `--country`, `--category` (kategorie výrobku pro modul `lr`), `--question-lang`, `--mock`. |
-| `rewrite <složka skenu>` | Navrhne přepis problematických pasáží modelem OpenAI a znovu je zkontroluje. Volby: `--country`, `--limit`, `--mock`, `--no-cache`, `--yes`. |
+| `scan <url>` | Projde web podle robots.txt a sitemap, vyhodnotí texty a vytvoří výstupy. Volby: `--max-pages`, `--sample-products`, `--modules` (výchozí: všechny moduly s pravidly pro zvolené země), `--country` (výchozí `sk`), `--jurisdictions` (víc zemí, např. `sk,cz`), `--lang` (jazyk textů ve zprávě, výchozí `cs`), `--as-of` (datum pro účinnost pravidel), `--question-lang`, `--rate` (pevné tempo stahování), `--concurrency`, `--include`, `--exclude`, `--out`, `--mock`, `--no-cache`, `--no-sieve`, `--yes`, `--record <složka>` (uloží všechny odpovědi webu), `--replay <složka>` (odpovídá z nahrávky bez sítě), `--allow-private-network` (jen místní testovací e-shop). |
+| `check-text "<text>"` | Vyhodnotí jeden text. Volby: `--kind`, `--modules`, `--country`, `--jurisdictions`, `--lang`, `--as-of`, `--category` (kategorie výrobku pro modul `lr`), `--question-lang`, `--mock`. |
+| `rewrite <složka skenu>` | Navrhne přepis problematických pasáží modelem OpenAI a znovu je zkontroluje pravidly všech zvolených zemí. Volby: `--country`, `--jurisdictions`, `--lang`, `--limit`, `--mock`, `--no-cache`, `--yes`. |
+| `rules check-texts` | Vypíše po jazycích, zda jsou texty pravidel úplné a zkontrolované, a co chybí; `--update-hashes` zapíše otisky otázek nových verzí sad. |
+| `rules extract-texts` | Jednorázový přesun textů z `rules/*.yaml` do `rules/texts/` (hotovo 1. 10. 2026); `--skeleton <jazyk>` vytvoří kostru překladu do nového jazyka. |
 | `serve-fixture` | Lokální testovací e-shop (`--port`, `--root`). |
 | `cache init` | Jednou založí v databázi cache tenanta `cli` a vypíše, kolik odpovědí, přepisů a profilů cache obsahuje. |
 | `bench-extract --replay <složka>` | Změří čas procesoru na stránku pro čtení HTML, extrakci, typ stránky a profily šablon nad nahrávkou (`--runs`, sestavení Release). |
 | `evaluate` | Měření přesnosti na označeném vzorku (M4). |
+
+## Země a jazyky
+
+- **Víc zemí v jednom běhu.** `--jurisdictions sk,cz` vyhodnotí pravidla obou zemí nad společnými odpověďmi Jevu.
+  - Věta se ptá jednou.
+  - Právní odstavec dostane dva dotazy jen tam, kde se slovenské a české otázky se stejným id liší znění. Na testovacím slovenském e-shopu je to 9 → 18 dotazů na odstavce, věty a síto beze změny.
+  - Nález téhož pravidla a téhož textu je jeden a nese verdikt pro každou zemi (stav, skupina, závažnost, jistota, odkazy, účinnost). Řadí se podle nejpřísnějšího verdiktu.
+  - Zpráva při víc zemích přidá oddíly „Povinnosti za celý web“ (splněno, chybí, platí později, nezkontrolováno s důvodem) a „Pokrytí zemí“ (které moduly v které zemi neběžely).
+- **Účinnost.** Pravidlo s `effective_from` se před datem vyhodnotí také, ale verdikt je „platí později“ a ve zprávě je ve skupině „Platí později“, ne mezi porušeními. Datum vyhodnocení je dnešek, nebo `--as-of`.
+- **Texty pravidel a jazyky.**
+  - Jazyk textů ve zprávě určuje `--lang` (výchozí `cs`). Zpráva jde napsat v jazyce, jehož texty nástroje (`_engine.yaml`, `_labels.yaml`) jsou úplné a zkontrolované.
+  - Texty sady, jejíž překlad chybí nebo ho nezkontroloval člověk, se ukážou v jazyce, ve kterém byla sada napsaná. Proto je `legal_sk` i v české zprávě slovensky, jako dosud.
+  - Překlad se používá, jen když má v `review` vyplněné `reviewed_by` a `reviewed_at`. Návrh modelem (`machine_draft: true`) se nepoužije, dokud ho nezkontroluje člověk.
+  - Stav ukáže `eshopguard rules check-texts`. Kostry slovenských textů a českého překladu `legal_sk` jsou připravené a čekají na překladatele.
+- **Další trh (Německo, Polsko, Maďarsko…) bez změny kódu:**
+  1. řádek v `config/jurisdictions.yaml`;
+  2. sady `rules/<modul>_<země>.yaml`, nebo země navíc u sady, která platí beze změny;
+  3. texty ve složce `rules/texts/<jazyk>/`, kostru vytvoří `eshopguard rules extract-texts --skeleton <jazyk>`;
+  4. název země v `_engine.yaml` každého jazyka;
+  5. `eshopguard rules check-texts --update-hashes`.
+
+  CLI ověří země, moduly i jazyk proti načteným pravidlům (`NewMarketTests`).
 
 ## Ochrana proti SSRF
 
@@ -301,7 +327,11 @@ services.AddEshopGuard(options =>
 var guard = provider.GetRequiredService<IEshopGuard>();
 var result = await guard.AnalyzeTextsAsync(
     [new TextInput { Text = "Tento šampon je ekologický a šetrný k přírodě." }],
-    new AnalyzeOptions { Country = "cz" });   // výchozí je "sk"
+    new AnalyzeOptions { Jurisdictions = ["sk", "cz"] });   // nebo Country = "cz"; výchozí je "sk"
+
+// Knihovna vrací kódy a parametry (verdikty po zemích, FindingNote, ScanWarning); věty skládá RuleTextRenderer.
+var catalog = await provider.GetRequiredService<IRuleSetProvider>().LoadAsync();
+var texts = new RuleTextRenderer(catalog).Render(result.Findings[0], "cs");   // Title, Explanation, Recommendation, Notes, LegalRefs
 ```
 
 Knihovna je rozdělená na kroky (`EshopGuard.Core.Pipeline`): zjištění rozsahu (robots.txt, sitemap), stahování po dávkách, extrakce, profily šablon, segmenty, odhad ceny, síto, Jev, pravidla a přepis. Vstupy a výstupy kroků jsou záznamy serializovatelné do JSON (se `schema_version`), takže je worker může ukládat mezi úlohami a jiný stroj pokračuje po pádu. `IEshopGuard` je spouští v paměti za sebou (`InMemoryPipelineRunner`), stejně jako dřív jedna služba. Úložiště jsou za rozhraními `EshopGuard.Core.Storage` (`IJevCache`, `IRewriteCache`, `IPageProfileStore`, `IPageContentStore`, `IPageStore`, `IUrlFrontierStore`, `IRateLimiter`); host je zaregistruje před `AddEshopGuard`, jinak platí výchozí (bez cache, úložiště v paměti). Cache v PostgreSQL registruje `services.AddEshopGuardPostgresStores(...)` z `EshopGuard.Data` (CLI s tenantem `cli`, worker s tenantem úlohy). Knihovna nezávisí na databázi (`CoreDependencyTests`).

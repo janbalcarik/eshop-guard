@@ -168,7 +168,7 @@ public class RewriteTests
         Assert.Empty(merged.Warnings);
     }
 
-    private static ServiceProvider Create(IRewriteClient client, IRewriteCache? cache = null)
+    internal static ServiceProvider Create(IRewriteClient client, IRewriteCache? cache = null, Action<EshopGuardOptions>? configure = null)
     {
         var services = new ServiceCollection();
         services.AddLogging();
@@ -183,11 +183,12 @@ public class RewriteTests
             options.Rules.SieveFile = TestServices.SieveFile;
             options.Rules.JurisdictionsFile = TestServices.JurisdictionsFile;
             options.Rewrite.PromptFile = TestServices.RewritePromptFile;
+            configure?.Invoke(options);
         });
         return services.BuildServiceProvider();
     }
 
-    private static RewritePageInput Page(string url, string mainText) => new() { Url = url, Type = "product", Title = "Produkt", MainText = mainText };
+    internal static RewritePageInput Page(string url, string mainText) => new() { Url = url, Type = "product", Title = "Produkt", MainText = mainText };
 
     private static Finding Finding(string text, string url) => new()
     {
@@ -200,7 +201,7 @@ public class RewriteTests
         Verdicts = [new JurisdictionVerdict { Jurisdiction = "sk", Severity = "high", Checkability = "text", RuleSet = "eco", RuleSetVersion = "eco-test" }],
     };
 
-    private sealed class RecordingClient(Func<RewriteRequest, string> answer) : IRewriteClient
+    internal sealed class RecordingClient(Func<RewriteRequest, string> answer) : IRewriteClient
     {
         public List<RewriteRequest> Requests { get; } = [];
 
