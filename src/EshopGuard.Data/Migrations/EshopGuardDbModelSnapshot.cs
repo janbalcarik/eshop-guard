@@ -1919,12 +1919,6 @@ namespace EshopGuard.Data.Migrations
                     b.HasAlternateKey("TenantId", "ShopId", "Id")
                         .HasName("ak_page_versions_tenant_id_shop_id_id");
 
-                    b.HasIndex("SegmentHashes")
-                        .HasDatabaseName("ix_page_versions_segment_hashes")
-                        .HasFilter("is_current");
-
-                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("SegmentHashes"), "gin");
-
                     b.HasIndex("ShopId", "PageId")
                         .IsUnique()
                         .HasDatabaseName("ix_page_versions_shop_id_page_id")

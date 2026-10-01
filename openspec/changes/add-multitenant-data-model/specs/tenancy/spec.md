@@ -214,7 +214,7 @@ Výčtové sloupce MUST být `text` s omezením `CHECK`, jehož seznam hodnot MU
 #### Scenario: Hledání stránek podle otisku věty
 - GIVEN aktuální verze stránek s `segment_hashes`
 - WHEN se spustí `SELECT page_id FROM content.page_versions WHERE shop_id = @s AND is_current AND segment_hashes @> ARRAY[@h]`
-- THEN plán dotazu použije index GIN nad `segment_hashes` a prochází jen část odpovídající `shop_id`
+- THEN plán dotazu prochází jen část odpovídající `shop_id` (index GIN se nepoužívá: pod RLS ho PostgreSQL nesmí použít, rozhodnuto 1. 10. 2026)
 
 ### Requirement: Zakládání měsíčních částí dopředu
 Funkce `ops.ensure_monthly_partitions(p_months_ahead)` MUST založit chybějící měsíční části čtyř měsíčních tabulek pro aktuální měsíc a `p_months_ahead` dalších a MUST vrátit názvy založených částí. Funkce MUST být idempotentní, bezpečná při souběhu a spustitelná jen rolemi `eshopguard_worker` a `eshopguard_admin`. Služba `PartitionMaintainer` ji MUST volat z knihovny `EshopGuard.Data`.

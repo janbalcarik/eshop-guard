@@ -2459,13 +2459,6 @@ namespace EshopGuard.Data.Migrations
                 table: "page_profiles",
                 columns: new[] { "tenant_id", "shop_id" });
 
-            migrationBuilder.CreateIndex(
-                name: "ix_page_versions_segment_hashes",
-                schema: "content",
-                table: "page_versions",
-                column: "segment_hashes",
-                filter: "is_current")
-                .Annotation("Npgsql:IndexMethod", "gin");
 
             migrationBuilder.CreateIndex(
                 name: "ix_page_versions_shop_id_page_id",

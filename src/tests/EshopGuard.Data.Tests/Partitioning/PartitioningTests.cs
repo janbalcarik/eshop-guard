@@ -47,8 +47,8 @@ public sealed class PartitioningTests(PostgresTestDatabase database, TwoTenantsF
     public async Task SentenceLookup_ScansOnlyThePartitionOfTheShop()
     {
         // A realistic e-shop (3 000 current page versions) inside a rolled-back transaction of the table owner.
-        // Under RLS the GIN index on segment_hashes cannot serve the query: arraycontains (@>) is not LEAKPROOF, so it may
-        // not run before the policy (measured 1. 10. 2026: ~10 ms for 20 000 pages through the tenant index; see tasks 9.2).
+        // There is no GIN index on segment_hashes: under RLS PostgreSQL could not use it (arraycontains is not LEAKPROOF),
+        // so it was dropped on 1. 10. 2026 (measured ~10 ms for 20 000 pages through the tenant index).
         var ct = TestContext.Current.CancellationToken;
         await using var conn = await database.For("Owner").OpenConnectionAsync(ct);
         await using var tx = await EshopGuard.Data.Tenancy.TenantSql.BeginAsync(conn, tenants.A.Tenant.TenantId, ct: ct);

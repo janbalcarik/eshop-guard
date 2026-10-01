@@ -85,7 +85,7 @@ Zkratky: AK = alternativní klíč (`tenant_id`, `id`) pro složené cizí klí�
 | `shop.shop_facts` | `id` | AK | FKt(`shop`) nepovinný, FK `created_by` |
 | `shop.free_sample_claims` | `domain` | – | FK `tenant_id`; FKt(`shop`) |
 | `content.pages` | (`shop_id`, `id`) | U (`tenant_id`, `shop_id`, `id`); U (`shop_id`, `url_hash`); I (`shop_id`, `next_check_at`); `CHECK rotation_bucket BETWEEN 0 AND 6` | FKt(`shop`), FKt(`profile` → `page_profiles`), FKp(`current_version` → `page_versions`) přidaný až po `page_versions` |
-| `content.page_versions` | (`shop_id`, `id`) | U (`tenant_id`, `shop_id`, `id`); U (`shop_id`, `page_id`) WHERE `is_current`; I (`shop_id`, `page_id`, `fetched_at`); GIN (`segment_hashes`) WHERE `is_current` | FKp(`page`), FKt(`run`) |
+| `content.page_versions` | (`shop_id`, `id`) | U (`tenant_id`, `shop_id`, `id`); U (`shop_id`, `page_id`) WHERE `is_current`; I (`shop_id`, `page_id`, `fetched_at`); bez indexu GIN (rozhodnutí 11) | FKp(`page`), FKt(`run`) |
 | `checks.rule_sets` | `id` | U (`module`, `version`) | – |
 | `checks.runs` | `id` | AK; I (`tenant_id`, `shop_id`, `created_at` DESC) | FKt(`shop`), FKt(`order` → `billing.orders`), FK `requested_by` |
 | `checks.run_events` | (`id`, `at`) | I (`run_id`, `id`) | FKt(`run`) |
@@ -256,7 +256,7 @@ Testy nic nemažou: každý běh založí nové tenanty (nová `uuid`), takže n
 8. **Žádné navigační kolekce** v entitách ve F1 (jen cizí klíče jako vlastnosti), aby se náhodou nenačítaly celé grafy; navigace přidají změny, které je potřebují.
 9. **Kolize jmen s knihovnou:** entity `Finding` a `PageProfile` mají stejné jméno jako typy v `EshopGuard.Core`; jmenné prostory `EshopGuard.Data.Entities.Checks` a `EshopGuard.Data.Entities.Shops` je oddělují, mapovací kód používá aliasy (`using CoreFinding = EshopGuard.Core.Models.Finding;`). Jmenné prostory jsou v množném čísle (`Shops`), aby se nekryly s třídou `Shop`.
 10. **Historie migrací beze změny názvů sloupců:** konvence `snake_case` (`EFCore.NamingConventions`) by přejmenovala `MigrationId` a `ProductVersion`; `EshopGuardHistoryRepository` je drží, aby šly číst databáze po migraci `Initial`.
-11. **Index GIN pod RLS (zjištění 1. 10. 2026):** operátor `@>` nad poli není `LEAKPROOF`, takže pod RLS ho PostgreSQL nesmí použít jako podmínku indexu; pro `eshopguard_app` a `eshopguard_worker` se index GIN nad `segment_hashes` nepoužije. Hledání věty v e-shopu s 20 000 stránkami trvá i tak 9–10 ms (měřeno). O ponechání indexu rozhodne uživatel (tasks 9.2).
+11. **Index GIN pod RLS (zjištění 1. 10. 2026):** operátor `@>` nad poli není `LEAKPROOF`, takže pod RLS ho PostgreSQL nesmí použít jako podmínku indexu; pro `eshopguard_app` a `eshopguard_worker` se index GIN nad `segment_hashes` nepoužije. Hledání věty v e-shopu s 20 000 stránkami trvá i tak 9–10 ms (měřeno). Rozhodnuto 1. 10. 2026 (uživatel): index zrušen, šetří zápisy verzí stránek.
 
 ## Data Flow
 

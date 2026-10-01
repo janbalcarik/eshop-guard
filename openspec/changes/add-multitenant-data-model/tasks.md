@@ -2,7 +2,7 @@
 
 Cesty jsou relativní ke kořeni `D:\_github\Overko\eshop-guard`.
 
-> **Stav 1. 10. 2026:** kód je pod `src/` (`src/EshopGuard.Data`, `src/tests/EshopGuard.Data.Tests`). Ověřeno v cloudu proti PostgreSQL 18.6. Otevřený zůstává úkol 9.2 (index GIN pod RLS, čeká na rozhodnutí). Testy kategorie `Db` běží proti `eshopguard_test` (změna 2). Žádný úkol nevolá Jev ani OpenAI.
+> **Stav 1. 10. 2026:** kód je pod `src/` (`src/EshopGuard.Data`, `src/tests/EshopGuard.Data.Tests`). Ověřeno v cloudu proti PostgreSQL 18.6. Index GIN nad `segment_hashes` je podle rozhodnutí z 1. 10. 2026 zrušený (úkol 9.2). Testy kategorie `Db` běží proti `eshopguard_test` (změna 2). Žádný úkol nevolá Jev ani OpenAI.
 
 ## 1. Základní typy a konvence
 
@@ -92,8 +92,8 @@ Cesty jsou relativní ke kořeni `D:\_github\Overko\eshop-guard`.
 ## 9. Testy dělení
 
 - [x] 9.1 `Partitioning/PartitioningTests.cs`: strategie a počty částí z `pg_partitioned_table` a `pg_inherits` podle designu; RANGE tabulky mají část pro aktuální měsíc a 3 další; vložení do `checks.run_events` s `at` v roce 2035 → 23514.
-- [ ] 9.2 V `PartitioningTests` ověřit `EXPLAIN` dotazu `page_versions … WHERE shop_id = @s AND is_current AND segment_hashes @> ARRAY[@h]`: prochází jednu část a používá index GIN (při malém objemu dat vypnout `enable_seqscan` jen v testu).
-  - Poznámka: Zjištění 1. 10. 2026: pod RLS PostgreSQL index GIN nad `segment_hashes` nepoužije, protože operátor `@>` (`arraycontains`) není `LEAKPROOF` a nesmí běžet před politikou. Změřeno (jeden běh): e-shop s 20 000 aktuálními verzemi, hledání věty jako `eshopguard_app` 9–10 ms (index tenanta + filtr), jako `eshopguard_admin` 7,6 ms (sekvenčně, GIN ani tam nevyhrál). Test ověřuje jen průchod jediné části. Čeká na rozhodnutí uživatele: index GIN ponechat, nebo zrušit (šetří zápisy).
+- [x] 9.2 V `PartitioningTests` ověřit `EXPLAIN` dotazu `page_versions … WHERE shop_id = @s AND is_current AND segment_hashes @> ARRAY[@h]`: prochází jednu část a používá index GIN (při malém objemu dat vypnout `enable_seqscan` jen v testu).
+  - Poznámka: Zjištění 1. 10. 2026: pod RLS PostgreSQL index GIN nad `segment_hashes` nepoužije, protože operátor `@>` (`arraycontains`) není `LEAKPROOF` a nesmí běžet před politikou. Změřeno (jeden běh): e-shop s 20 000 aktuálními verzemi, hledání věty jako `eshopguard_app` 9–10 ms (index tenanta + filtr), jako `eshopguard_admin` 7,6 ms (sekvenčně, GIN ani tam nevyhrál). Test ověřuje průchod jediné části. **Rozhodnuto 1. 10. 2026 (uživatel): index GIN zrušen** (odebrán z konfigurace i z migrace `F1DataModel`, která ještě nebyla v `main`).
 - [x] 9.3 `Partitioning/PartitionMaintenanceTests.cs`: `EnsureMonthlyPartitionsAsync(6)` vrátí 12 částí, druhé volání 0; dvě souběžná volání bez chyby; `eshopguard_app` → 42501; `p_months_ahead = 100` → chyba; `GetMonthlyHorizonAsync` vrátí měsíc posledního volání.
   - Poznámka: Test před během smaže měsíční části za 3. měsícem (prázdné v `eshopguard_test`), aby počet nově založených nezávisel na předchozích bězích.
 

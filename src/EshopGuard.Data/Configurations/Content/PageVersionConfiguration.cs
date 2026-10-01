@@ -15,7 +15,6 @@ internal sealed class PageVersionConfiguration : IEntityTypeConfiguration<PageVe
         builder.HasAlternateKey(x => new { x.TenantId, x.ShopId, x.Id });
         builder.HasIndex(x => new { x.ShopId, x.PageId }).IsUnique().HasFilter("is_current");
         builder.HasIndex(x => new { x.ShopId, x.PageId, x.FetchedAt });
-        builder.HasIndex(x => x.SegmentHashes).HasFilter("is_current").HasMethod("gin");
         builder.HasPartitionedTenantForeignKey<Page>(nameof(PageVersion.PageId));
         builder.HasTenantForeignKey<Run>(nameof(PageVersion.RunId));
     }
