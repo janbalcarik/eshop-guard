@@ -13,9 +13,19 @@ dotnet build src/EshopGuard.sln
 dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"
 ```
 
-Očekávání: 947 testů, 0 selhání, 8 explicitních přeskočeno. V cloudu prošly 3 celé běhy po sobě (2. 10. 2026). Testy běhů ve workeru (`src/tests/EshopGuard.Jobs.Tests/Runs`) potřebují PostgreSQL a databázi `eshopguard_test_jobs`. Když testy `Db` selžou se jménem klíče, chybí user-secrets `eshopguard-tests`: spusťte znovu `setup-local.ps1`.
+Očekávání: 1019 testů, 0 selhání, 8 explicitních přeskočeno (cloud, 2. 10. 2026). Testy běhů ve workeru (`src/tests/EshopGuard.Jobs.Tests/Runs`) potřebují PostgreSQL a databázi `eshopguard_test_jobs`. Když testy `Db` selžou se jménem klíče, chybí user-secrets `eshopguard-tests`: spusťte znovu `setup-local.ps1`.
 
 Pokud CLI ještě nemá tenanta `cli`, jednou: `dotnet run --project src/EshopGuard.Cli -- cache init`.
+
+## Test na skutečném e-shopu: doporučené pořadí
+
+Worker zkontroluje skutečný e-shop stejně jako aplikace (tenant `cli`, takže sdílí cache Jevu s CLI a Jev se platí jen jednou).
+
+1. **Krok 2.2** (0 USD): ukázka zdarma s falešným Jevem a OpenAI na skutečném webu. Ověří stahování, robots.txt, jazykové verze, plán 100 stránek, stavy a události, `estimate.basis` s `other_pages` po verzích a kódy chyb adres (`run_urls.http_status`, `error_code`).
+2. **Krok 3.6** (≤ 1,00 USD, strop ukázky je souhlas s cenou): stejná ukázka se skutečným Jevem a OpenAI na jiné doméně, nebo po smazání nároku na doménu.
+3. **Krok 3.7** (~2,75 USD na 500 stránek, neměřeno): úvodní analýza. Worker se zastaví na `awaiting_payment` a ukáže interní odhad; pokračuje se až po vašem souhlasu (`dev approve-run`).
+
+Po každém kroku mi pošlete výstup dotazů z kroku 2.2 (stavy, události, `stats`, `estimate`, počty `run_urls`). Výsledky porovnám s CLI a s Jevem.
 
 ## 1. Zdarma, bez sítě
 
@@ -59,9 +69,11 @@ SELECT id, status, error, stats -> 'sample', stats -> 'unchecked', estimate -> '
 FROM checks.runs ORDER BY created_at DESC LIMIT 1;
 SELECT code, data FROM checks.run_events WHERE run_id = '<id běhu>' ORDER BY id;
 SELECT queue, state, count(*) FROM checks.run_urls WHERE run_id = '<id běhu>' GROUP BY 1, 2;
+SELECT state, error_code, http_status, count(*) FROM checks.run_urls WHERE run_id = '<id běhu>' AND state NOT IN ('extracted', 'fetched') GROUP BY 1, 2, 3;
+SELECT kind, max(attempts), count(*) FROM ops.jobs WHERE run_id = '<id běhu>' GROUP BY 1 ORDER BY 1;
 ```
 
-Očekávání: stavy `discovering → crawling → … → finished | partial` (bez `awaiting_payment`), nejvýš 100 plánovaných stránek ve frontách `sample_*` (když má sitemap produkty), souhrn ukázky a `estimate.basis`, v událostech žádný text stránky ani částka. Soubory běhu jsou v `.data/blobs/tenants/…/runs/<id>/`.
+Očekávání: stavy `discovering → crawling → … → finished | partial` (bez `awaiting_payment`), nejvýš 100 plánovaných stránek ve frontách `sample_*` (když má sitemap produkty), souhrn ukázky a `estimate.basis` (u zkontrolovaných verzí `product_count` a `other_pages`), v událostech žádný text stránky ani částka. Adresy s chybou mají kód (`http_404` → `gone`, `http_429`, `timeout`); `attempts` nad 1 znamená zopakovanou dávku (výpadek služby nebo pád workeru). Soubory běhu jsou v `.data/blobs/tenants/…/runs/<id>/`.
 
 ## 3. Placené kroky (každý jen po odhadu a souhlasu)
 
