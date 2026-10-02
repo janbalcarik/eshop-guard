@@ -27,6 +27,8 @@ internal static class MarketPrompts
         You determine where an e-shop sells, for a consumer-law checker. Every statement must be proven by a verbatim quote
         from the pages below or by one of the technical signals listed.
         Input: technical signals of the site as "name=value" lines, then pages as "=== PAGE <URL> ===" followed by their text.
+        Signal "currency" is a currency of the prices on the home page; "offered_currency" is a currency the shop's own currency
+        switch offers (all prices of the shop can be shown in it); "switcher" is a link to another language version.
 
         Return:
         - home_country: ISO 3166-1 alpha-2 code (upper case) of the country where the operator of the shop is established

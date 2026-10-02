@@ -44,10 +44,13 @@ public static class LanguageVersionFinder
                 "path" => SwitchMethods.Path,
                 "query" => SwitchMethods.Query,
                 "subdomain" => SwitchMethods.Subdomain,
+                "cookie" => SwitchMethods.Cookie,
                 _ => SwitchMethods.Domain,
             };
             var language = switcher.Language ?? (method == SwitchMethods.Domain ? catalog.ByHost(new Uri(switcher.Url).Host)?.Language : null);
-            Add(found, language, switcher.Url, method, VersionSources.Switcher, $"switcher={switcher.Url}");
+
+            // A switch of a platform (Shoptet) sets a cookie and keeps the address: the version lives on the home page.
+            Add(found, language, method == SwitchMethods.Cookie ? home.AbsoluteUri : switcher.Url, method, VersionSources.Switcher, $"switcher={switcher.Url}");
         }
 
         foreach (var language in connector ?? [])

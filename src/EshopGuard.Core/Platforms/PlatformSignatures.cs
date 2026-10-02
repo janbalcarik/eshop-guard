@@ -26,6 +26,25 @@ public static class SignatureKinds
     public static readonly IReadOnlyList<string> All = [Meta, Host, Path, Header, Cookie];
 }
 
+/// <summary>
+/// Kinds of the links a platform switches the currency or the language with (change 7, Shoptet: <c>/action/Currency/changeCurrency/</c>).
+/// They never recognize a platform; they are read only on a page whose platform is certain (<see cref="PlatformLinkReader"/>).
+/// </summary>
+public static class PlatformLinkKinds
+{
+    /// <summary>A link that switches the currency of the prices; <c>parameter</c> holds the ISO 4217 code.</summary>
+    public const string CurrencySwitch = "currency_switch";
+
+    /// <summary>A link that switches the language of the shop (a cookie or a session, same address); <c>parameter</c> holds the language.</summary>
+    public const string LanguageSwitch = "language_switch";
+
+    /// <summary>Every kind of a switch.</summary>
+    public static readonly IReadOnlyList<string> All = [CurrencySwitch, LanguageSwitch];
+}
+
+/// <summary>A link of a platform from <c>config/platforms.yaml</c>: its kind, the path of the link and the parameter with the value.</summary>
+public sealed record PlatformLink(string Code, string Kind, string Path, string Parameter);
+
 /// <summary>One technical signature of a platform from <c>config/platforms.yaml</c>.</summary>
 /// <param name="Code">Code of the signal in the answer (<c>shoptet.cdn_host</c>).</param>
 /// <param name="Kind">One of <see cref="SignatureKinds"/>.</param>
@@ -43,13 +62,17 @@ public sealed class PlatformSignatures
         .WithNamingConvention(UnderscoredNamingConvention.Instance)
         .Build();
 
-    private PlatformSignatures(IReadOnlyDictionary<string, IReadOnlyList<PlatformSignature>> byPlatform)
+    private PlatformSignatures(IReadOnlyDictionary<string, IReadOnlyList<PlatformSignature>> byPlatform, IReadOnlyDictionary<string, IReadOnlyList<PlatformLink>> links)
     {
         ByPlatform = byPlatform;
+        LinksByPlatform = links;
     }
 
     /// <summary>Signatures by code of the platform (<c>shoptet</c>, <c>woocommerce</c> …), in the order of the file.</summary>
     public IReadOnlyDictionary<string, IReadOnlyList<PlatformSignature>> ByPlatform { get; }
+
+    /// <summary>The links of the platforms that switch the currency or the language (<see cref="PlatformLinkKinds"/>).</summary>
+    public IReadOnlyDictionary<string, IReadOnlyList<PlatformLink>> LinksByPlatform { get; }
 
     /// <summary>Reads the file; throws <see cref="InvalidDataException"/> with every error found.</summary>
     public static async Task<PlatformSignatures> LoadAsync(string file, CancellationToken ct = default)
@@ -78,6 +101,7 @@ public sealed class PlatformSignatures
         var errors = new List<string>();
         var codes = new HashSet<string>(StringComparer.Ordinal);
         var result = new Dictionary<string, IReadOnlyList<PlatformSignature>>(StringComparer.Ordinal);
+        var links = new Dictionary<string, IReadOnlyList<PlatformLink>>(StringComparer.Ordinal);
         foreach (var (platform, items) in raw ?? [])
         {
             if (platform.Length == 0 || platform != platform.ToLowerInvariant() || platform is "other" or "unknown")
@@ -86,6 +110,7 @@ public sealed class PlatformSignatures
             }
 
             var list = new List<PlatformSignature>();
+            var platformLinks = new List<PlatformLink>();
             foreach (var item in items ?? [])
             {
                 var code = $"{platform}.{item.Code}";
@@ -94,9 +119,27 @@ public sealed class PlatformSignatures
                     errors.Add($"{name}: {platform} má podpis bez kódu nebo se stejným kódem „{item.Code}“.");
                 }
 
+                if (PlatformLinkKinds.All.Contains(item.Kind))
+                {
+                    var path = item.Value?.Trim();
+                    if (string.IsNullOrEmpty(path) || !path.StartsWith('/') || string.IsNullOrWhiteSpace(item.Parameter))
+                    {
+                        errors.Add($"{name}: {code} druhu {item.Kind} potřebuje value (cestu od /) a parameter.");
+                        continue;
+                    }
+
+                    platformLinks.Add(new PlatformLink(code, item.Kind, path, item.Parameter.Trim()));
+                    continue;
+                }
+
+                if (item.Parameter is not null)
+                {
+                    errors.Add($"{name}: {code} druhu {item.Kind} nemá mít parameter.");
+                }
+
                 if (!SignatureKinds.All.Contains(item.Kind))
                 {
-                    errors.Add($"{name}: {code} má neznámý druh „{item.Kind}“ (povolené: {string.Join(", ", SignatureKinds.All)}).");
+                    errors.Add($"{name}: {code} má neznámý druh „{item.Kind}“ (povolené: {string.Join(", ", SignatureKinds.All.Concat(PlatformLinkKinds.All))}).");
                 }
 
                 var value = (item.Kind is SignatureKinds.Meta or SignatureKinds.Header ? item.Name : item.Value)?.Trim();
@@ -121,6 +164,7 @@ public sealed class PlatformSignatures
             }
 
             result[platform] = list;
+            links[platform] = platformLinks;
         }
 
         if (result.Count == 0)
@@ -128,7 +172,7 @@ public sealed class PlatformSignatures
             errors.Add($"{name}: žádná platforma.");
         }
 
-        return errors.Count > 0 ? throw new InvalidDataException(string.Join(Environment.NewLine, errors)) : new PlatformSignatures(result);
+        return errors.Count > 0 ? throw new InvalidDataException(string.Join(Environment.NewLine, errors)) : new PlatformSignatures(result, links);
     }
 
     private sealed class SignatureYaml
@@ -142,6 +186,9 @@ public sealed class PlatformSignatures
         public string? Value { get; set; }
 
         public string? Contains { get; set; }
+
+        /// <summary>Of a link of the platform: the query parameter with the currency or the language.</summary>
+        public string? Parameter { get; set; }
 
         /// <summary>Where the signature was seen (documentation of the data, not used).</summary>
         public string? Source { get; set; }

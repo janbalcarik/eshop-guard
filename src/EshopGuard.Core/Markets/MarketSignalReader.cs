@@ -15,7 +15,7 @@ internal static partial class MarketSignalReader
 
     public static MarketSignals Read(
         ExtractedPage home, IReadOnlyList<SitemapEntry> sitemap, Uri site, IReadOnlyList<string> translationSignatures, int maxHomeLinks,
-        bool homeTextNotLoaded = false)
+        bool homeTextNotLoaded = false, Platforms.PlatformSignatures? platforms = null)
     {
         ArgumentNullException.ThrowIfNull(home);
         ArgumentNullException.ThrowIfNull(site);
@@ -33,15 +33,30 @@ internal static partial class MarketSignalReader
         var host = site.Host;
         var dot = host.TrimEnd('.').LastIndexOf('.');
         var links = home.Links.Concat(home.FooterLinks).ToList();
+
+        // A certain platform (Shoptet) switches currency and language by its own links at the same address; read only from data.
+        var platform = Platforms.PlatformLinkReader.Read(platforms, links.Select(l => l.Url), home.ScriptSources, site);
+        var switchers = SwitcherCandidates(links.Select(l => l.Url), site);
+        foreach (var (language, url) in platform.Languages)
+        {
+            // A version with its own address (hreflang, /sk/) is the same version: the cookie switch adds nothing then.
+            if (!hreflang.Any(h => LanguageTags.SamePrimary(h.Language, language)) && !switchers.Any(s => s.Url == url || LanguageTags.SamePrimary(s.Language, language)))
+            {
+                switchers.Add(new SwitcherCandidate(url, "cookie", language));
+            }
+        }
+
         return new MarketSignals
         {
             Site = site.AbsoluteUri,
             HtmlLang = home.HtmlLang,
             Hreflang = hreflang,
             Currencies = home.Currencies,
+            OfferedCurrencies = platform.Currencies,
+            Platform = platform.Platform,
             PhonePrefixes = home.PhoneNumbers.Select(PhonePrefixes.CallingCode).OfType<string>().Distinct().ToList(),
             Tld = dot >= 0 ? host[(dot + 1)..].ToLowerInvariant() : "",
-            SwitcherCandidates = SwitcherCandidates(links.Select(l => l.Url), site),
+            SwitcherCandidates = switchers,
             ScriptOnlySwitchElements = home.ScriptSwitchElements
                 .Select(e => new ScriptSwitchSignal(e.Tag, e.Language.Length > 0 ? e.Language : null))
                 .Distinct()

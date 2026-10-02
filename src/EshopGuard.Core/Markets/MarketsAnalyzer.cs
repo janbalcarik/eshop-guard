@@ -87,6 +87,12 @@ internal sealed class MarketsAnalyzer(
     IShopPagesSource? pagesSource = null,
     IShopLanguageSource? languageSource = null) : IMarketsAnalyzer
 {
+    private Platforms.PlatformSignatures? _platforms;
+
+    /// <summary>The signatures and switches of the platforms (<c>config/platforms.yaml</c>); without the file none are read.</summary>
+    private async Task<Platforms.PlatformSignatures?> PlatformsAsync(string file, CancellationToken ct) =>
+        _platforms ??= File.Exists(file) ? await Platforms.PlatformSignatures.LoadAsync(file, ct) : null;
+
     public async Task<MarketsAnalysisResult> AnalyzeAsync(
         MarketsAnalysisRequest request, MarketEstimateConfirmation? confirm, IProgress<string>? progress, CancellationToken ct)
     {
@@ -111,7 +117,8 @@ internal sealed class MarketsAnalyzer(
         }
 
         run.Pages[homePage.Info.Url] = homePage;
-        var signals = MarketSignalReader.Read(homePage.Content, discovery.SitemapEntries, home, markets.BrowserTranslationScripts, markets.MaxHomeLinks, homePage.Info.TextNotLoaded);
+        var signals = MarketSignalReader.Read(homePage.Content, discovery.SitemapEntries, home, markets.BrowserTranslationScripts, markets.MaxHomeLinks, homePage.Info.TextNotLoaded,
+            await PlatformsAsync(settings.Rules.PlatformsFile, ct));
         var connectorLanguages = languageSource is null ? [] : await languageSource.GetLanguagesAsync(home, ct);
 
         // The model: a missing key or an estimate not confirmed leave only what the structure shows.

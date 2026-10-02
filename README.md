@@ -332,7 +332,8 @@ Zjistí, do kterých zemí e-shop prodává a jaké má jazykové verze (změna 
    - `html lang`, `hreflang` (i `xhtml:link` v sitemap);
    - měny ve strukturovaných datech, mezinárodní předvolby (podle stavby čísla E.164), doména nejvyššího řádu;
    - odkazy úvodní stránky a patičky;
-   - kandidáti přepínače jazyka podle stavby adresy (`/sk/`, `?lang=sk`, `sk.shop.cz`, `shop.cz` → `shop.sk`), nikdy podle textu odkazu.
+   - kandidáti přepínače jazyka podle stavby adresy (`/sk/`, `?lang=sk`, `sk.shop.cz`, `shop.cz` → `shop.sk`), nikdy podle textu odkazu;
+   - přepínače známé platformy z `config/platforms.yaml` (druhy `currency_switch` a `language_switch`), jen když je platforma na stránce jistá (její hostitel mezi skripty a zároveň její odkaz na doméně e-shopu). Shoptet: `/action/Currency/changeCurrency/?currencyCode=EUR` dá signál `offered_currency=EUR` (nabízená měna), `/action/Language/changeLanguage/?language=sk` jazykovou verzi přepínanou cookie, pokud ji už nenašel `hreflang` nebo adresa. Měřeno 2. 10. 2026 na úvodních stránkách: na-chalupu.cz, svarecikukla.cz a tibibiri.cz dřív 0 měn, teď CZK a EUR (tibibiri i USD); naturfyt.sk (Shoptet bez přepínače) beze změny jen SK.
 2. **Výběr stránek o prodeji.** Model (`rewrite.model`) vybere ze seznamu odkazů nejvýš 4 stránky. Použije se jen adresa ze seznamu. Chybějící doplní stránky z konektoru a právní stránky.
 3. **Rozbor míst prodeje.** Model určí domovskou zemi a země prodeje. U každé uvede sílu důkazu:
    - `strong`: vlastní verze nebo doména, měna, sídlo;

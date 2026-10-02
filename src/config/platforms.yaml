@@ -7,6 +7,10 @@
 # - header: hlavička odpovědi (jméno, volitelně contains v hodnotě);
 # - cookie: začátek jména cookie, kterou odpověď nastavuje.
 # Dva podpisy různých druhů jedné platformy = jistě (certain), jeden = pravděpodobně (likely), podpisy dvou platforem = neznámá (unknown).
+# Přepínače platformy (platformu nerozpoznávají, jen čtou trhy, změna 7):
+# - currency_switch: odkaz na cestu value, který přepíná měnu; parameter nese kód ISO 4217 (nabízená měna, signál offered_currency);
+# - language_switch: odkaz na cestu value, který přepíná jazyk cookie na stejné adrese; parameter nese jazyk (jazyková verze).
+# Čtou se jen na stránce, kde je platforma jistá: některý její podpis host mezi skripty stránky a zároveň její odkaz na doméně e-shopu.
 # source: kde byl podpis viděn. „uložená stránka“ = ověřeno na uložené úvodní stránce skutečného e-shopu; „k ověření“ =
 # veřejně známý znak platformy, který je potřeba ověřit na skutečné stránce před ostrým provozem (změna 10, odchylky).
 shoptet:
@@ -19,6 +23,16 @@ shoptet:
     name: web_author
     contains: shoptet
     source: uložená stránka (src/snapshots, 1. 10. 2026)
+  - code: currency_switch
+    kind: currency_switch
+    value: /action/Currency/changeCurrency/
+    parameter: currencyCode
+    source: úvodní stránky na-chalupu.cz, svarecikukla.cz, tibibiri.cz (2. 10. 2026)
+  - code: language_switch
+    kind: language_switch
+    value: /action/Language/changeLanguage/
+    parameter: language
+    source: úvodní stránka svarecikukla.cz (2. 10. 2026)
 upgates:
   - code: files_host
     kind: host

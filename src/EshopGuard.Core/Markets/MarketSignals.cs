@@ -35,6 +35,15 @@ public sealed class MarketSignals
     /// <summary>Currencies of prices in the structured data of the home page (ISO 4217).</summary>
     public IReadOnlyList<string> Currencies { get; init; } = [];
 
+    /// <summary>
+    /// Currencies the currency switch of a certain platform offers (ISO 4217; Shoptet <c>/action/Currency/changeCurrency/</c>):
+    /// the shop sells in them, though the home page shows its prices in one.
+    /// </summary>
+    public IReadOnlyList<string> OfferedCurrencies { get; init; } = [];
+
+    /// <summary>The platform whose switches were read (<c>shoptet</c>), or null.</summary>
+    public string? Platform { get; init; }
+
     /// <summary>Country calling codes of the international phone numbers of the home page (<c>421</c>).</summary>
     public IReadOnlyList<string> PhonePrefixes { get; init; } = [];
 
@@ -61,7 +70,7 @@ public sealed class MarketSignals
 
     /// <summary>
     /// Every sign as a name and a value, as the model may quote them (<c>signal:hreflang=sk</c>): <c>html_lang</c>,
-    /// <c>hreflang</c>, <c>currency</c>, <c>phone_prefix</c>, <c>tld</c>, <c>switcher</c> (the host of a domain switch or the
+    /// <c>hreflang</c>, <c>currency</c>, <c>offered_currency</c>, <c>phone_prefix</c>, <c>tld</c>, <c>switcher</c> (the host of a domain switch or the
     /// language of another one), <c>script_switch</c>, <c>browser_translation</c>.
     /// </summary>
     public IEnumerable<(string Name, string Value)> Values()
@@ -81,6 +90,11 @@ public sealed class MarketSignals
         foreach (var currency in Currencies)
         {
             yield return ("currency", currency);
+        }
+
+        foreach (var currency in OfferedCurrencies)
+        {
+            yield return ("offered_currency", currency);
         }
 
         foreach (var prefix in PhonePrefixes)
