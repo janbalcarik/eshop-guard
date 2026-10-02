@@ -1,0 +1,1 @@
+Opravu na {{shopName}} se nepodařilo zveřejnit

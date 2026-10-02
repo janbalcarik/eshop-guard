@@ -6,6 +6,7 @@ using EshopGuard.Data.Connections;
 using EshopGuard.Data.Entities.Checks;
 using EshopGuard.Data.Entities.Ops;
 using EshopGuard.Data.Tenancy;
+using EshopGuard.Jobs.Notifications;
 using EshopGuard.Jobs.Processing;
 using EshopGuard.Jobs.Queue;
 using EshopGuard.Storage;
@@ -24,7 +25,8 @@ public sealed class RunHandlerContext(
     IOptions<RunsOptions> runs,
     IOptions<EshopGuardOptions> guard,
     TimeProvider time,
-    ILoggerFactory loggers)
+    ILoggerFactory loggers,
+    NotificationDispatcher notifications)
 {
     public EshopGuardDataSource DataSource { get; } = dataSource;
 
@@ -41,6 +43,8 @@ public sealed class RunHandlerContext(
     public TimeProvider Time { get; } = time;
 
     public ILoggerFactory Loggers { get; } = loggers;
+
+    public NotificationDispatcher Notifications { get; } = notifications;
 }
 
 /// <summary>One job of a run being handled.</summary>

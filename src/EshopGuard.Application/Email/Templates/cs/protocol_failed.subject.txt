@@ -1,0 +1,1 @@
+Protokol pro {{shopName}} se nepodařilo vytvořit

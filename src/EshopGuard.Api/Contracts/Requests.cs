@@ -87,3 +87,9 @@ public sealed record ProposalPlaceholdersRequest(Dictionary<string, string?>? Va
 
 /// <summary><c>POST S/questions/{questionId}/answer</c>: <c>yes</c> („Áno“) or <c>no</c> („Nie“).</summary>
 public sealed record AnswerQuestionRequest(string? Answer);
+
+/// <summary><c>POST T/notifications/read-all</c>: all, or only those of one e-shop.</summary>
+public sealed record ReadAllNotificationsRequest(Guid? ShopId);
+
+/// <summary><c>PUT T/notification-settings</c>: the account (<c>shopId</c> null) or one e-shop.</summary>
+public sealed record NotificationSettingsRequest(Guid? ShopId, bool? EmailNewViolation, bool? EmailWeeklySummary, bool? EmailRunFinished);

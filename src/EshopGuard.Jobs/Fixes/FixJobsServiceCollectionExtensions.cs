@@ -1,3 +1,4 @@
+using EshopGuard.Jobs.Notifications;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -12,6 +13,7 @@ public static class FixJobsServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(services);
         services.TryAddSingleton(TimeProvider.System);
         services.TryAddScoped<ExtractContextReader>();
+        services.AddNotifications();
         services.AddJobHandler<FixRecheckHandler>();
         services.AddJobHandler<FixGenerateForAnswerHandler>();
         return services;

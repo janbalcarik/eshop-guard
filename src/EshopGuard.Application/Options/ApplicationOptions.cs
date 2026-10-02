@@ -65,6 +65,35 @@ public sealed class FrontendOptions
 
     /// <summary>The members of a tenant: <c>{tenantId}</c> is replaced.</summary>
     public string MembersPath { get; set; } = "/app/{tenantId}/nastavenia/clenovia";
+
+    /// <summary>
+    /// Targets of notifications (<c>route.key</c>, change 11): <c>{tenantId}</c> and the parameters of the route
+    /// (<c>{shopId}</c>, <c>{evidenceId}</c>, …) are replaced.
+    /// </summary>
+    public Dictionary<string, string> RoutePaths { get; set; } = new(StringComparer.Ordinal)
+    {
+        ["runs.item"] = "/app/{tenantId}/behy/{runId}",
+        ["shops.overview"] = "/app/{tenantId}/obchody/{shopId}",
+        ["fixes.page"] = "/app/{tenantId}/obchody/{shopId}/opravy/{pageId}",
+        ["evidence.item"] = "/app/{tenantId}/doklady/{evidenceId}",
+        ["protocols.item"] = "/app/{tenantId}/obchody/{shopId}/protokoly/{protocolId}",
+        ["publications.item"] = "/app/{tenantId}/obchody/{shopId}/publikacie/{publicationId}",
+        ["settings.members"] = "/app/{tenantId}/nastavenia/clenovia",
+    };
+
+    /// <summary>The link of a target of a notification; an unknown key leads to the overview of the tenant.</summary>
+    public string Route(Guid tenantId, string? key, IReadOnlyDictionary<string, string?> parameters)
+    {
+        ArgumentNullException.ThrowIfNull(parameters);
+        var path = key is not null && RoutePaths.TryGetValue(key, out var p) ? p : "/app/{tenantId}";
+        path = path.Replace("{tenantId}", tenantId.ToString("D"), StringComparison.Ordinal);
+        foreach (var (name, value) in parameters)
+        {
+            path = path.Replace("{" + name + "}", Uri.EscapeDataString(value ?? ""), StringComparison.Ordinal);
+        }
+
+        return BaseUrl + path;
+    }
 }
 
 /// <summary>Settings under <c>Email</c>; the SMTP password only from user-secrets or the environment.</summary>

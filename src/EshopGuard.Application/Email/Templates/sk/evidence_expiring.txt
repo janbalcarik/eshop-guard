@@ -1,0 +1,9 @@
+Platnosť dokladu čoskoro skončí
+
+Dobrý deň, platnosť jedného z vašich dokladov sa blíži ku koncu.
+
+Zostáva dní: {{days}}. Nahrajte nový doklad, aby tvrdenia, ktoré naň odkazujú, zostali podložené.
+
+Otvoriť doklad: {{link}}
+
+Toto pripomenutie posielame len raz.

@@ -5,6 +5,7 @@ using EshopGuard.Core.Options;
 using EshopGuard.Core.Profiles;
 using EshopGuard.Core.Storage;
 using EshopGuard.Data.Stores;
+using EshopGuard.Jobs.Notifications;
 using EshopGuard.Jobs.Runs.Handlers;
 using EshopGuard.Jobs.Runs.Storage;
 using Microsoft.Extensions.DependencyInjection;
@@ -70,6 +71,7 @@ public static class RunsServiceCollectionExtensions
         Decorate<IJevClient>(services, (provider, inner) => new UsageRecordingJevClient(inner, provider.GetRequiredService<UsageRecorder>()));
 
         services.TryAddSingleton<UsageRecorder>();
+        services.AddNotifications();
         services.TryAddSingleton<RunHandlerContext>();
         services.AddJobHandler<DiscoverHandler>();
         services.AddJobHandler<MarketsHandler>();

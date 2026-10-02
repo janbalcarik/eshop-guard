@@ -1,0 +1,9 @@
+Opravu sa nepodarilo zverejniť
+
+Dobrý deň, schválenú opravu na e-shope {{shopName}} sa nepodarilo zverejniť.
+
+Text na e-shope zostal bez zmeny.
+
+Zobraziť podrobnosti: {{link}}
+
+Dôvod a ďalší postup nájdete v aplikácii.

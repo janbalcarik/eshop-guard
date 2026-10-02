@@ -139,6 +139,25 @@ public sealed partial class EmailSendHandler(
             values["roleName"] = role is { } r ? composer.Label(locale, "role." + r.Code()) : null;
             values["link"] = links.BaseUrl + links.MembersPath.Replace("{tenantId}", tenantId.ToString("D"), StringComparison.Ordinal);
         }
+        else if (EmailTemplateKind.Notifications.Contains(kind))
+        {
+            // A notification (change 11): codes and counts of its parameters, the name of the e-shop, the link of its target.
+            if (Guid.TryParse((string?)parameters["shop_id"], out var shopId))
+            {
+                var shop = await db.Shops.IgnoreQueryFilters([EshopGuardDb.SoftDeleteFilter]).AsNoTracking().Where(s => s.Id == shopId)
+                    .Select(s => new { s.Domain, s.Name }).FirstOrDefaultAsync(ct).ConfigureAwait(false);
+                values["shopName"] = shop is null ? null : string.IsNullOrWhiteSpace(shop.Name) ? shop.Domain : shop.Name;
+            }
+
+            foreach (var name in kind.Parameters.Where(p => p is not ("email" or "link" or "shopName")))
+            {
+                values[name] = parameters[name] is JsonValue value ? value.GetValue<object>() : null;
+            }
+
+            var route = parameters["route"] as JsonObject;
+            var routeParams = (route?["params"] as JsonObject ?? []).ToDictionary(p => p.Key, p => (string?)p.Value?.ToString(), StringComparer.Ordinal);
+            values["link"] = links.Route(tenantId, (string?)route?["key"], routeParams);
+        }
         else
         {
             var runId = Guid.Parse((string)parameters["run_id"]!);

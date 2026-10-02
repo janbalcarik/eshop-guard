@@ -1,0 +1,9 @@
+Text sa medzitým zmenil
+
+Dobrý deň, opravu na e-shope {{shopName}} sme nezverejnili, pretože text na e-shope sa od kontroly zmenil.
+
+Nič sme neprepísali.
+
+Zobraziť podrobnosti: {{link}}
+
+Nový text skontrolujte v aplikácii.

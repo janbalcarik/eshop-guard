@@ -1,0 +1,9 @@
+Protokol sa nepodarilo vytvoriť
+
+Dobrý deň, protokol pre e-shop {{shopName}} sa nepodarilo vytvoriť.
+
+Môžete ho v aplikácii vyžiadať znova.
+
+Otvoriť protokoly: {{link}}
+
+Dôvod nájdete v aplikácii.

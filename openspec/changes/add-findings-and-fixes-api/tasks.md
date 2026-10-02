@@ -208,11 +208,11 @@
 
 ## 10. Upozornění
 
-- [ ] 10.1 `Application/Notifications/NotificationKind.cs` (druhy z AD 12 s vazbou na nastavení) a `NotificationPreferences.cs` (e-shop > účet > `Notifications:Defaults`).
-- [ ] 10.2 `Application/Notifications/NotificationDispatcher.cs`: řádek pro každého příjemce, e-mail do `ops.outbox` podle nastavení, kontrola, že `params` neobsahují texty.
-- [ ] 10.3 Šablony e-mailů `Application/Email/Templates/{sk,cs}/{evidence_expiring,evidence_expired,protocol_ready,protocol_failed,publication_failed,publication_conflict,new_violation}.*`. Rozšířit `EmailTemplateCompletenessTests` (změna 9).
-- [ ] 10.4 `Application/Notifications/NotificationService.cs` a koncové body `GET T/notifications`, `POST T/notifications/{id}/read`, `POST T/notifications/read-all`, `GET T/notification-settings`, `PUT T/notification-settings`.
-- [ ] 10.5 Test `NotificationTests`:
+- [x] 10.1 `Application/Notifications/NotificationKind.cs` (druhy z AD 12 s vazbou na nastavení) a `NotificationPreferences.cs` (e-shop > účet > `Notifications:Defaults`).
+- [x] 10.2 `Application/Notifications/NotificationDispatcher.cs`: řádek pro každého příjemce, e-mail do `ops.outbox` podle nastavení, kontrola, že `params` neobsahují texty.
+- [x] 10.3 Šablony e-mailů `Application/Email/Templates/{sk,cs}/{evidence_expiring,evidence_expired,protocol_ready,protocol_failed,publication_failed,publication_conflict,new_violation}.*`. Rozšířit `EmailTemplateCompletenessTests` (změna 9).
+- [x] 10.4 `Application/Notifications/NotificationService.cs` a koncové body `GET T/notifications`, `POST T/notifications/{id}/read`, `POST T/notifications/read-all`, `GET T/notification-settings`, `PUT T/notification-settings`.
+- [x] 10.5 Test `NotificationTests`:
   - přečtení Janou nezmění Peterovi;
   - vypnutý e-mail e-shopu přebije účet;
   - výchozí hodnoty bez řádku;

@@ -95,3 +95,21 @@ public sealed record ProposalDto(
 /// „Áno“ and whether a proposal is being generated after „Nie“.
 /// </summary>
 public sealed record AnswerResultDto(int AffectedQuestions, int AffectedFindings, int AffectedPages, Guid? EvidenceId, bool GenerationPending);
+
+/// <summary>A notification of the user: kind, e-shop, parameters (codes, counts, ids) and the language-neutral target.</summary>
+public sealed record NotificationDto(Guid Id, string Kind, Guid? ShopId, JsonElement? Params, NotificationRouteDto? Route, DateTimeOffset CreatedAt, DateTimeOffset? ReadAt);
+
+/// <summary>The target of a notification: a key of the frontend (<c>fixes.page</c>, <c>evidence.item</c>, …) and its parameters.</summary>
+public sealed record NotificationRouteDto(string Key, JsonElement? Params);
+
+/// <summary><c>GET T/notifications</c>: a page of the user's notifications and how many are unread.</summary>
+public sealed record NotificationListDto(IReadOnlyList<NotificationDto> Items, int UnreadCount, string? NextCursor);
+
+/// <summary>The e-mails a user wants.</summary>
+public sealed record NotificationPrefsDto(bool EmailNewViolation, bool EmailWeeklySummary, bool EmailRunFinished);
+
+/// <summary>The settings of the e-mails of an e-shop (they win over the account).</summary>
+public sealed record ShopNotificationPrefsDto(Guid ShopId, NotificationPrefsDto Prefs);
+
+/// <summary><c>GET T/notification-settings</c>: the account (its row or the defaults) and the e-shops with their own row.</summary>
+public sealed record NotificationSettingsDto(NotificationPrefsDto Account, IReadOnlyList<ShopNotificationPrefsDto> Shops);

@@ -75,6 +75,11 @@ public sealed class RoleMatrixTests : ApiTestBase
         ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/proposals/{proposalId:guid}/unaccept"] = TenantRole.Editor,
         ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/questions"] = TenantRole.Viewer,
         ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/questions/{questionId:guid}/answer"] = TenantRole.Editor,
+        ["GET /api/t/{tenantId:guid}/notifications"] = TenantRole.Viewer,
+        ["POST /api/t/{tenantId:guid}/notifications/{notificationId:guid}/read"] = TenantRole.Viewer,
+        ["POST /api/t/{tenantId:guid}/notifications/read-all"] = TenantRole.Viewer,
+        ["GET /api/t/{tenantId:guid}/notification-settings"] = TenantRole.Viewer,
+        ["PUT /api/t/{tenantId:guid}/notification-settings"] = TenantRole.Viewer,
     };
 
     [Fact]

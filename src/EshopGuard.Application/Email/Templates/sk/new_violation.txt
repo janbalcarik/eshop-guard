@@ -1,0 +1,9 @@
+Nové porušenia
+
+Dobrý deň, pri kontrole e-shopu {{shopName}} sme našli nové porušenia.
+
+Nové porušenia: {{findings}}.
+
+Zobraziť nálezy: {{link}}
+
+Texty stránok sú len v aplikácii, e-mail ich neobsahuje.

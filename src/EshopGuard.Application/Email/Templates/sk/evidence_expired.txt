@@ -1,0 +1,9 @@
+Platnosť dokladu skončila
+
+Dobrý deň, platnosť jedného z vašich dokladov skončila.
+
+Nálezy, ktoré ste ním podložili, sme znova otvorili.
+
+Otvoriť doklad: {{link}}
+
+Po nahraní platného dokladu ich môžete znova ponechať.

@@ -1,3 +1,4 @@
+using EshopGuard.Jobs.Notifications;
 using EshopGuard.Jobs.Fixes;
 using EshopGuard.Application.Findings;
 using EshopGuard.Application.Fixes;
@@ -16,6 +17,7 @@ public static class FindingsServiceCollectionExtensions
     public static IServiceCollection AddEshopGuardFindings(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
+        services.AddNotifications();
         services.AddOptions<FindingsOptions>().BindConfiguration(FindingsOptions.SectionName);
         services.TryAddScoped<ShopWorkLoader>();
         services.TryAddScoped<RuleTextCatalog>();
@@ -36,6 +38,7 @@ public static class FindingsServiceCollectionExtensions
         services.TryAddScoped<FixProposalService>();
         services.TryAddScoped<GenerationBudget>();
         services.TryAddScoped<QuestionService>();
+        services.TryAddScoped<Notifications.NotificationService>();
         return services;
     }
 }

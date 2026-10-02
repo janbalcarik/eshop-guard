@@ -1,0 +1,7 @@
+Protokol je pripravený
+
+Dobrý deň, protokol {{number}} pre e-shop {{shopName}} je pripravený.
+
+Otvoriť protokol: {{link}}
+
+Protokol si stiahnete v aplikácii.
