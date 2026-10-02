@@ -47,7 +47,7 @@ internal sealed class OpenAiRewriteClient : IRewriteClient
         var body = JsonSerializer.Serialize(new Dictionary<string, object>
         {
             ["model"] = _options.Model,
-            ["reasoning"] = new Dictionary<string, object> { ["effort"] = _options.ReasoningEffort },
+            ["reasoning"] = new Dictionary<string, object> { ["effort"] = string.IsNullOrWhiteSpace(request.ReasoningEffort) ? _options.ReasoningEffort : request.ReasoningEffort },
             ["max_output_tokens"] = _options.MaxOutputTokens,
             ["store"] = false,
             ["prompt_cache_key"] = "eshopguard-rewrite-" + request.PromptVersion,

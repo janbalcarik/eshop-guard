@@ -255,7 +255,8 @@ internal sealed class DiscoveryStep(
 
         private bool IsProductSitemap(Uri url)
         {
-            var path = url.AbsolutePath.ToLowerInvariant();
+            // The word "sitemap" itself contains the hint "item"; only the rest of the path counts.
+            var path = url.AbsolutePath.ToLowerInvariant().Replace("sitemap", "/", StringComparison.Ordinal);
             return owner.Crawl.ProductSitemapHints.Any(h => path.Contains(h, StringComparison.OrdinalIgnoreCase));
         }
     }

@@ -158,6 +158,19 @@ public static class ServiceCollectionExtensions
         services.TryAddSingleton<RulesStep>();
         services.TryAddSingleton<RewriteStep>();
         services.TryAddSingleton<IEshopGuard, InMemoryPipelineRunner>();
+
+        // Places of sale and language versions (change 7); the mock model needs no key and no network.
+        if (probe.Rewrite.UseMock)
+        {
+            services.TryAddSingleton<Markets.IMarketModel>(new Markets.MockMarketModel());
+        }
+        else
+        {
+            services.TryAddSingleton<Markets.IMarketModel, Markets.OpenAiMarketModel>();
+        }
+
+        services.TryAddTransient<Languages.VersionAccessProbe>();
+        services.TryAddSingleton<Languages.VersionCrawler>();
         services.TryAddSingleton<ReportTexts>();
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IReportWriter, MarkdownReportWriter>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IReportWriter, FindingsJsonWriter>());

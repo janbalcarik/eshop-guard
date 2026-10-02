@@ -103,7 +103,7 @@ internal sealed class ExtractStep(
             CheckedTextChars = content.MainBlocks.Concat(content.ChromeRegions.SelectMany(r => r)).Concat(content.RestBlocks).Sum(b => b.Text.Length),
             ScriptApp = content.Render.ScriptApp,
             TextNotLoaded = content.Render.VisibleChars < settings.Crawl.MinPageTextChars,
-            Language = versionLanguage ?? content.HtmlLang,
+            Language = versionLanguage is { } version && version != "und" ? version : content.HtmlLang,
             HreflangGroup = Languages.HreflangGroups.Key(content.Alternates.Select(a => a.Url)),
             ProductIds = content.ProductIds,
         };

@@ -29,7 +29,10 @@ public sealed record VersionCrawlScope
     /// <summary>Query parameters every address of the version has (a version switched by <c>?lang=sk</c> in every link).</summary>
     public IReadOnlyList<QueryParameter> RequiredQuery { get; init; } = [];
 
-    /// <summary>Query parameters of the other versions; an address with one of them belongs to another version.</summary>
+    /// <summary>
+    /// Query parameters of the other versions; an address with one of them belongs to another version. The value <c>*</c> means
+    /// any value (the parameter that switches the language cookie: following it would switch the version of the crawl).
+    /// </summary>
     public IReadOnlyList<QueryParameter> ExcludedQuery { get; init; } = [];
 
     /// <summary>Cookies sent with every request of the version (<c>lang=sk</c> after the switch).</summary>
@@ -61,8 +64,12 @@ public sealed record VersionCrawlScope
         }
 
         var query = Query(url);
-        return RequiredQuery.All(p => query.Contains(p)) && !ExcludedQuery.Any(p => query.Contains(p));
+        return RequiredQuery.All(p => query.Contains(p))
+            && !ExcludedQuery.Any(p => p.Value == AnyValue ? query.Any(q => q.Name == p.Name) : query.Contains(p));
     }
+
+    /// <summary>Value of <see cref="ExcludedQuery"/> that matches any value of the parameter.</summary>
+    public const string AnyValue = "*";
 
     /// <summary>The scope of a version whose root is <paramref name="root"/>.</summary>
     public static VersionCrawlScope ForRoot(Uri root, string language) => new()

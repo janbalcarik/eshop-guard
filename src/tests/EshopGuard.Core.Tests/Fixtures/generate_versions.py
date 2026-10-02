@@ -227,7 +227,11 @@ def variant_shop(name, config, switch_link=None, extra_head="", extra_footer="",
     folder = ROOT / name
     simple_site(folder, CS, "", home_pairs, switch_link, 2, extra_head=extra_head, extra_footer=extra_footer)
     if variant:
-        simple_site(folder / "_lang-sk", SK, "", home_pairs, switch_link.replace("sk", "cs") if switch_link else None, 2,
+        # The same addresses as the Czech pages: the cookie or the browser language decides, not the address.
+        sk = dict(SK)
+        for key in ("delivery", "terms", "contact"):
+            sk[key] = (CS[key][0],) + SK[key][1:]
+        simple_site(folder / "_lang-sk", sk, "", home_pairs, switch_link.replace("sk", "cs") if switch_link else None, 2,
                     extra_head=extra_head, extra_footer=extra_footer)
     robots(folder)
     sitemap(folder, [("/", [])] + [(f"/{CS[k][0]}", []) for k in ("delivery", "terms", "contact")],

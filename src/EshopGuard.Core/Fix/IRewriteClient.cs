@@ -32,6 +32,9 @@ public sealed class RewriteRequest
 
     /// <summary>Findings of the page as sent.</summary>
     public IReadOnlyList<RewriteFinding> Findings { get; init; } = [];
+
+    /// <summary>Reasoning effort of this request (<c>low</c>, <c>medium</c>, <c>high</c>); null uses <c>rewrite.reasoning_effort</c>.</summary>
+    public string? ReasoningEffort { get; init; }
 }
 
 /// <summary>
