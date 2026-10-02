@@ -183,6 +183,26 @@ public sealed class VersionPlanTests
     }
 
     [Fact]
+    public void ProductIsForeign_OnlyWithMoreThanHalfOfItsSentencesInAnotherLanguage()
+    {
+        // goodie.sk, 2. 10. 2026: one Czech sentence of two in a translated description is not a Czech description.
+        var pages = Enumerable.Range(0, 4).Select(i => new SamplePage($"https://shop.sk/p{i}", VersionComparer.Sentences(Slovak(i)), null, [])).ToList();
+        var labels = new Dictionary<string, IReadOnlyList<string>>
+        {
+            [pages[0].Url] = ["cs", "sk"],
+            [pages[1].Url] = ["cs", "cs"],
+            [pages[2].Url] = ["sk", "sk"],
+            [pages[3].Url] = ["cs", "cs", "sk"],
+        };
+        var sk = new VersionSample("sk", "sk", true, pages, [], 4) { PageLanguages = labels };
+
+        var result = VersionComparer.Compare([sk], [], new MarketsOptions()).Versions.Single();
+
+        Assert.Equal((4, 2, "cs"), (result.LabeledProducts, result.ForeignTextProducts, result.ForeignTextLanguage));
+        Assert.Equal([pages[1].Url, pages[3].Url], result.UntranslatedExamples);
+    }
+
+    [Fact]
     public void Fragments_TakeSentencesOfTheRightLengthFromPairedPagesFirst()
     {
         var pages = Enumerable.Range(0, 5).Select(i => new SamplePage($"https://shop.cz/sk/p{i}", [Slovak(i), "Krátka.", new string('x', 400)], null, [])).ToList();

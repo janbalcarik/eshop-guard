@@ -13,7 +13,7 @@ dotnet build src/EshopGuard.sln
 dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"
 ```
 
-Očekávání: 1038 testů, 0 selhání, 8 explicitních přeskočeno (cloud, 2. 10. 2026). Testy běhů ve workeru (`src/tests/EshopGuard.Jobs.Tests/Runs`) potřebují PostgreSQL a databázi `eshopguard_test_jobs`. Když testy `Db` selžou se jménem klíče, chybí user-secrets `eshopguard-tests`: spusťte znovu `setup-local.ps1`.
+Očekávání: 1039 testů, 0 selhání, 8 explicitních přeskočeno (cloud, 2. 10. 2026). Testy běhů ve workeru (`src/tests/EshopGuard.Jobs.Tests/Runs`) potřebují PostgreSQL a databázi `eshopguard_test_jobs`. Když testy `Db` selžou se jménem klíče, chybí user-secrets `eshopguard-tests`: spusťte znovu `setup-local.ps1`.
 
 Pokud CLI ještě nemá tenanta `cli`, jednou ze složky `src`: `dotnet run --project EshopGuard.Cli -- cache init`.
 
@@ -88,7 +88,7 @@ Očekávání: stavy `discovering → crawling → … → finished | partial` (
 | 3.6 | Ukázka zdarma vegis.sk (nebo naturfyt.sk) ve workeru se skutečným Jevem a OpenAI | ≤ 1,00 USD (strop ukázky) | změna 8, úkol 13.7 |
 | 3.7 | Úvodní analýza vegis.sk ve workeru a srovnání s CLI | ~2,75 USD na 500 stránek, celý web ~32 USD (neměřeno) | změna 8, úkoly 13.5–13.6 |
 | 3.8 | Kontrola slovenských překladů textů pravidel: sken 2–3 e-shopů a srovnání vlastního rozboru stránek s Jevem | podle e-shopů, z cache většinou 0 | změna 6, úkoly 4.4, 4.5 a 8.4 |
-| 3.9 | Porovnání verzí goodie.sk na popisu z profilu (`markets --profiles`) | ~0,05 USD rozbor + 0,07–0,13 USD za profil (čekám 1–2) | změna 7, odchylka 20 |
+| 3.9 | Porovnání verzí goodie.sk na popisu z profilu (`markets --profiles`) | **hotovo 2. 10. 2026: 0,206 USD** (rozbor 0,057 + profil 0,149) | změna 7, odchylka 20 |
 
 Postup u jednotlivých kroků:
 
@@ -103,7 +103,7 @@ Postup u jednotlivých kroků:
 
   Worker běží pod tenantem `cli`, takže následný `eshopguard scan https://vegis.sk/ --max-pages 500` vezme odpovědi Jevu z jeho cache a Jev se zaplatí jen jednou. Srovnání nálezů (pravidlo, text, stránky, verdikty) udělám já.
 - **3.8:** po 3.5 nebo 3.7 projdu nálezy a texty pravidel `rules/texts/sk/` proti stránkám. Kde souhlasí, odstraní se `machine_draft` a vyplní `review` (kontrolu potvrdíte vy).
-- **3.9:** `cd src` a `dotnet run --project EshopGuard.Cli -- markets https://www.goodie.sk/ --profiles` (klíč OpenAI v `.env`, databáze jako u `scan`). CLI vypíše odhad nejdřív pro rozbor a potom znovu s novými profily („z toho nové profily šablon …“); nad limitem se zeptá. Pod tabulkou verzí je u každé verze, co se porovnalo (popis z profilu, nebo celý text), podíl spárovaných produktů s vlastním textem a počet popisů v jiném jazyce. `markets.json` mi pošlete: ověřím, že recenze z porovnání vypadly a že české popisy na slovenské verzi vyšly jako `untranslated_text`. Profil zůstane v databázi a `scan https://www.goodie.sk/` ho použije bez nového volání.
+- **3.9:** `cd src` a `dotnet run --project EshopGuard.Cli -- markets https://www.goodie.sk/ --profiles` (klíč OpenAI v `.env`, databáze jako u `scan`). CLI vypíše odhad nejdřív pro rozbor a potom znovu s novými profily („z toho nové profily šablon …“); nad limitem se zeptá. Pod tabulkou verzí je u každé verze, co se porovnalo (popis z profilu, nebo celý text), podíl spárovaných produktů s vlastním textem a počet popisů v jiném jazyce. `markets.json` mi pošlete: ověřím, že recenze z porovnání vypadly a že české popisy na slovenské verzi vyšly jako `untranslated_text`. Profil zůstane v databázi a `scan https://www.goodie.sk/` ho použije bez nového volání. Výsledek 2. 10. 2026: vlastní texty sk 87 %, cs-cz 88 % (bez profilu 49 a 52 %), profil `goodie.sk#1`; podrobnosti v odchylce 20 změny 7.
 
 ## 4. Rozhodnutí, která zůstávají na vás
 

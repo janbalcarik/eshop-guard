@@ -155,11 +155,14 @@ public static partial class VersionComparer
                 .Select(p => p.Url)
                 .ToList();
             // The language of each product of the version by its first sentences (the model): a description in another language
-            // is an untranslated text, in the main version too (goodie.sk: some descriptions in Czech).
-            var labeled = version.Products.Select(p => (Page: p, Language: Majority(version.PageLanguages.GetValueOrDefault(p.Url))))
-                .Where(x => x.Language is not null && x.Language != "und")
+            // is an untranslated text, in the main version too (goodie.sk: some descriptions in Czech). Only more than half of
+            // its sentences make a product foreign; one Czech sentence of two is not a Czech description (goodie.sk, 2. 10. 2026).
+            var labeled = version.Products
+                .Select(p => (Page: p, Labels: version.PageLanguages.GetValueOrDefault(p.Url) ?? []))
+                .Where(x => x.Labels.Any(l => l != "und"))
+                .Select(x => (x.Page, Language: Majority(x.Labels)))
                 .ToList();
-            var foreign = labeled.Where(x => !LanguageTags.SamePrimary(x.Language, version.Language)).ToList();
+            var foreign = labeled.Where(x => x.Language is not null && x.Language != "und" && !LanguageTags.SamePrimary(x.Language, version.Language)).ToList();
             var untranslated = pairs.Where(p => p.Kind == PairKinds.Untranslated).Select(p => p.OtherUrl)
                 .Concat(foreign.Select(x => x.Page.Url))
                 .Distinct(StringComparer.Ordinal)
@@ -332,8 +335,9 @@ public static partial class VersionComparer
         return pairs;
     }
 
+    /// <summary>The language of more than half of the labels of a page; null without such a majority (a tie is no language).</summary>
     private static string? Majority(IReadOnlyList<string>? labels) =>
-        labels is null || labels.Count == 0 ? null : labels.GroupBy(l => l).OrderByDescending(g => g.Count()).First().Key;
+        labels is null || labels.Count == 0 ? null : labels.GroupBy(l => l).FirstOrDefault(g => g.Count() * 2 > labels.Count)?.Key;
 
     [GeneratedRegex(@"(?<=[.!?…])\s+(?=[\p{Lu}\d„""])")]
     private static partial Regex SentenceEnd();
