@@ -10,8 +10,24 @@ public sealed class TenantContext : ITenantContext
     public Guid? UserId { get; private set; }
 
     /// <inheritdoc />
+    public bool UserScope { get; private set; }
+
+    /// <inheritdoc />
+    public void SetUser(Guid? userId)
+    {
+        if (UserScope && UserId is { } current && userId != current)
+        {
+            throw new InvalidOperationException("The user of this scope is already set to another user.");
+        }
+
+        UserScope = true;
+        UserId = userId ?? UserId;
+    }
+
+    /// <inheritdoc />
     public void Set(Guid tenantId, Guid? userId = null)
     {
+        userId ??= UserId;
         if (tenantId == Guid.Empty)
         {
             throw new ArgumentException("Empty tenant id.", nameof(tenantId));

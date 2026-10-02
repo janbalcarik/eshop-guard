@@ -17,8 +17,9 @@ public sealed class ProjectReferenceTests
         ["EshopGuard.Jobs"] = ["EshopGuard.Core", "EshopGuard.Data", "EshopGuard.Storage"],
         ["EshopGuard.Billing"] = ["EshopGuard.Data", "EshopGuard.Jobs"],
         ["EshopGuard.Connectors"] = ["EshopGuard.Core", "EshopGuard.Data", "EshopGuard.Storage", "EshopGuard.Jobs"],
-        ["EshopGuard.Api"] = ["EshopGuard.Data", "EshopGuard.Storage", "EshopGuard.Jobs", "EshopGuard.Billing", "EshopGuard.Connectors"],
-        ["EshopGuard.Worker"] = ["EshopGuard.Core", "EshopGuard.Data", "EshopGuard.Storage", "EshopGuard.Jobs", "EshopGuard.Billing", "EshopGuard.Connectors"],
+        ["EshopGuard.Application"] = ["EshopGuard.Data", "EshopGuard.Jobs"],
+        ["EshopGuard.Api"] = ["EshopGuard.Data", "EshopGuard.Storage", "EshopGuard.Jobs", "EshopGuard.Billing", "EshopGuard.Connectors", "EshopGuard.Application"],
+        ["EshopGuard.Worker"] = ["EshopGuard.Core", "EshopGuard.Data", "EshopGuard.Storage", "EshopGuard.Jobs", "EshopGuard.Billing", "EshopGuard.Connectors", "EshopGuard.Application"],
     };
 
     [Fact]

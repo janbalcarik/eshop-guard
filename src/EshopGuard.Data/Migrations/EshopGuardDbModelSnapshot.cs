@@ -3233,6 +3233,12 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<uint>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
                     b.HasKey("Id")
                         .HasName("pk_tenants");
 
@@ -3262,6 +3268,7 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnName("access_failed_count");
 
                     b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("text")
                         .HasColumnName("concurrency_stamp");
 
@@ -3295,7 +3302,6 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnName("last_login_at");
 
                     b.Property<string>("Locale")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("locale");
 
@@ -5815,7 +5821,6 @@ namespace EshopGuard.Data.Migrations
                         .WithMany()
                         .HasForeignKey("Locale")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
                         .HasConstraintName("fk_users_locales_locale");
                 });
 

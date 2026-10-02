@@ -63,11 +63,19 @@ public sealed class TenantTransactionInterceptor : DbTransactionInterceptor
 
     private static DbCommand? CreateCommand(DbConnection connection, DbContextEventData eventData, DbTransaction transaction)
     {
-        if (eventData.Context is not EshopGuardDb db || db.TenantContext.TenantId is not { } tenantId)
+        if (eventData.Context is not EshopGuardDb db)
         {
             return null;
         }
 
-        return TenantSql.CreateSetCommand((NpgsqlConnection)connection, (NpgsqlTransaction)transaction, tenantId, db.TenantContext.UserId);
+        var tenant = db.TenantContext;
+        if (tenant.TenantId is { } tenantId)
+        {
+            return TenantSql.CreateSetCommand((NpgsqlConnection)connection, (NpgsqlTransaction)transaction, tenantId, tenant.UserId);
+        }
+
+        return tenant.UserScope
+            ? TenantSql.CreateSetCommand((NpgsqlConnection)connection, (NpgsqlTransaction)transaction, TenantSql.NoTenant, tenant.UserId)
+            : null;
     }
 }

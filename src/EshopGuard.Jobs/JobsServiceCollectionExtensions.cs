@@ -1,4 +1,5 @@
 using EshopGuard.Jobs.Handlers;
+using EshopGuard.Jobs.Maintenance;
 using EshopGuard.Jobs.Processing;
 using EshopGuard.Jobs.Queue;
 using EshopGuard.Jobs.Scheduling;
@@ -48,10 +49,12 @@ public static class JobsServiceCollectionExtensions
         services.TryAddSingleton<JobNotificationHub>();
         services.AddJobHandler<EnsurePartitionsHandler>();
         services.AddJobHandler<CleanupJobsHandler>();
+        services.AddJobHandler<AuthCleanupHandler>();
 
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IScheduledTask, LeaseReaperTask>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IScheduledTask, PartitionMaintenanceTask>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IScheduledTask, JobCleanupTask>());
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IScheduledTask, AuthCleanupTask>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IScheduledTask, WorkerRegistryCleanupTask>());
 
         // Stopped in reverse order: scheduler, listener, then processing (which drains the running jobs).

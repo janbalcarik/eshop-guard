@@ -1,0 +1,11 @@
+REVOKE DELETE ON ops.rate_limit_buckets FROM eshopguard_worker;
+REVOKE DELETE ON iam.user_tokens FROM eshopguard_worker;
+REVOKE DELETE ON iam.user_logins FROM eshopguard_app;
+DROP INDEX IF EXISTS iam.ix_user_tokens_email_purpose_created;
+DROP POLICY IF EXISTS audit_log_insert_auth ON ops.audit_log;
+DROP POLICY IF EXISTS invitations_select_own_email ON iam.invitations;
+DROP POLICY IF EXISTS invitations_select_by_token ON iam.invitations;
+DROP POLICY IF EXISTS memberships_select_own ON iam.memberships;
+DROP FUNCTION IF EXISTS ops.in_user_scope();
+DROP FUNCTION IF EXISTS ops.current_invitation_hash();
+DROP FUNCTION IF EXISTS ops.current_user_id();

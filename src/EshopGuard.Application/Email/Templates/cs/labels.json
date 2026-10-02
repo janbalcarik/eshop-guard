@@ -1,0 +1,6 @@
+{
+  "role.owner": "vlastník",
+  "role.admin": "správce",
+  "role.editor": "editor",
+  "role.viewer": "čtenář"
+}

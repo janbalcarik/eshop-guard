@@ -1,0 +1,9 @@
+Kontrolu sa nepodarilo dokončiť
+
+Dobrý deň, kontrolu e-shopu {{shopName}} sa nepodarilo dokončiť.
+
+Dôvod a ďalší postup nájdete v aplikácii.
+
+Zobraziť podrobnosti: {{link}}
+
+Za nedokončenú kontrolu neplatíte nič navyše.

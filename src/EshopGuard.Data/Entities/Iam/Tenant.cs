@@ -43,4 +43,7 @@ public sealed class Tenant : GlobalEntity, ISoftDeletable
 
     /// <inheritdoc />
     public DateTimeOffset? DeletedAt { get; set; }
+
+    /// <summary>Version of the row for optimistic concurrency (PostgreSQL <c>xmin</c>, no column of its own).</summary>
+    public uint Version { get; set; }
 }

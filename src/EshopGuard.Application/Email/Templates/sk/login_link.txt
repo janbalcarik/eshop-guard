@@ -1,0 +1,9 @@
+Odkaz na prihlásenie do EshopGuard
+
+Dobrý deň, prihláste sa kliknutím na tlačidlo. Odkaz platí {{minutes}} minút a použiť sa dá raz.
+
+{{#isNewAccount}}Účet vytvoríme, keď kliknete na tlačidlo.
+
+{{/isNewAccount}}Prihlásiť sa: {{link}}
+
+Ak ste o prihlásenie nežiadali, e-mail ignorujte. Bez tohto odkazu sa do účtu nikto nedostane.

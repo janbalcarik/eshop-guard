@@ -11,6 +11,16 @@
     <ProjectReference Include="..\EshopGuard.Jobs\EshopGuard.Jobs.csproj" />
     <ProjectReference Include="..\EshopGuard.Billing\EshopGuard.Billing.csproj" />
     <ProjectReference Include="..\EshopGuard.Connectors\EshopGuard.Connectors.csproj" />
+    <ProjectReference Include="..\EshopGuard.Application\EshopGuard.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="EshopGuard.Api.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
   </ItemGroup>
 
 </Project>

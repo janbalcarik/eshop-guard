@@ -1,0 +1,11 @@
+Kontrola skončila čiastočne
+
+Dobrý deň, kontrola e-shopu {{shopName}} skončila, ale niektoré stránky sme neskontrolovali.
+
+Skontrolované stránky: {{pages}}. Neskontrolované stránky: {{unchecked}}. Nálezy: {{findings}}.
+
+Ktoré stránky sme neskontrolovali a prečo, nájdete vo výsledkoch.
+
+Zobraziť výsledky: {{link}}
+
+Výsledky sú len v aplikácii, e-mail texty stránok neobsahuje.

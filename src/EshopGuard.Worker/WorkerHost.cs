@@ -1,3 +1,4 @@
+using EshopGuard.Application;
 using EshopGuard.Data;
 using EshopGuard.Data.Connections;
 using EshopGuard.Jobs;
@@ -12,7 +13,8 @@ public static class WorkerHost
 {
     /// <summary>
     /// Generic Host with the database as <c>eshopguard_worker</c> (fixed here, not in configuration), file storage,
-    /// job processing with the scheduler, the steps of analysis runs (change 8) with their checks at start, JSON logs and a
+    /// job processing with the scheduler, the steps of analysis runs (change 8) with their checks at start, the delivery of the
+    /// e-mails of the outbox (change 9), JSON logs and a
     /// shutdown timeout of <c>Worker:ShutdownSeconds</c>.
     /// </summary>
     public static HostApplicationBuilder CreateBuilder(HostApplicationBuilderSettings settings)
@@ -27,6 +29,9 @@ public static class WorkerHost
         builder.Services.AddEshopGuardStorage();
         builder.Services.AddEshopGuardJobProcessing();
         builder.Services.AddAnalysisRuns(options => AnalysisSettings.Apply(options, builder.Configuration, builder.Environment.ContentRootPath));
+
+        // E-mails of the outbox (job email.send, change 9): templates, SMTP, languages; Email and Frontend checked at start.
+        builder.Services.AddEshopGuardEmailDelivery();
         // Read without the validators: those report invalid settings when the host starts, not while it is built.
         builder.Services.AddOptions<HostOptions>().Configure<IConfiguration>((host, configuration) =>
         {

@@ -1,0 +1,9 @@
+Pozvánka do účtu {{tenantName}}
+
+Dobrý den, {{inviterName}} vás zve do účtu {{tenantName}} v EshopGuard s rolí {{roleName}}.
+
+Pozvánku přijmete kliknutím na tlačítko. Platí {{days}} dní a použít se dá jednou.
+
+Přijmout pozvánku: {{link}}
+
+Pokud pozvánku nečekáte, e-mail ignorujte. Bez tohoto odkazu se do účtu nikdo nedostane.

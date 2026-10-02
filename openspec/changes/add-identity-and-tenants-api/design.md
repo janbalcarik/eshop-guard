@@ -372,3 +372,34 @@ worker OutboxEmailDispatcher (resource_class io):
 - `iam.users`, `iam.user_logins`, `iam.user_tokens`, `iam.tenants`, `iam.memberships`, `iam.invitations`;
 - `ops.rate_limit_buckets`, `ops.outbox`, `ops.audit_log`;
 - jen čtení: `ref.locales`, `ref.markets`.
+
+## Odchylky při implementaci (2. 10. 2026)
+
+Implementace se řídí návrhy z oddílu K rozhodnutí v `proposal.md` (body 2, 3, 4, 7, 8, 9, 10 a 11 jako výchozí volby; potvrzení uživatele čeká). Proti návrhu výše se liší:
+
+1. **Úložiště Identity je v `EshopGuard.Application`** (`Identity/EgUserStore.cs`), ne v `EshopGuard.Data`. Data nezávisí na Identity a nemá znát přihlašování. Uživatelské jméno je e-mail normalizovaný `EmailNormalizer` (malá písmena, punycode), vyhledání jde přes `lower(email)`; `ConcurrencyStamp` je token souběžnosti (migrace F5 mění jen model, ne schéma).
+2. **Bez funkcí `SECURITY DEFINER`.** Vlastník tabulek nemá `BYPASSRLS` a tabulky mají `FORCE ROW LEVEL SECURITY`, takže by funkce vlastníka cizí řádky stejně neviděla. Místo funkcí `iam.find_invitation_by_token_hash` a `iam.pending_invitations_for_email` jsou politiky:
+   - transakce uživatele bez tenanta má `app.tenant_id` nulové UUID (`TenantSql.NoTenant`), které žádný řádek nevlastní, a `app.user_id` uživatele (`ITenantContext.SetUser`, `ExecuteInUserTransactionAsync`, `TenantSql.BeginUserAsync`);
+   - `memberships_select_own`, `invitations_select_own_email` (pozvánky na e-mail přihlášeného) a `invitations_select_by_token` (`app.invitation_hash` = otisk tokenu v transakci) platí jen v takové transakci (`ops.in_user_scope()`); transakce tenanta dál vidí jen svého tenanta.
+   - `IUserContext` nevznikl: uživatel je v `ITenantContext` (`UserId`, `UserScope`).
+3. **`iam.users.locale` může být prázdný** (migrace F5): `PUT /api/me/locale` s `null` vrací uživatele k automatice (AD 10). Nový účet si jazyk uloží.
+4. **Výměna kontextu uvnitř transakce** (`SwitchTransactionContextAsync`): tenant nového účtu a jeho členství `owner`, přijetí pozvánky (členství, outbox, audit pod tenantem pozvánky) a čtení jako uživatel, který právě prokázal schránku, proběhnou v jedné transakci. Hodnoty jsou parametry, RLS kontroluje každý řádek.
+5. **Odesílání z outboxu přes úlohy, ne `OutboxEmailDispatcher`.** `ops.outbox` má RLS po tenantovi a worker ho nemůže procházet napříč tenanty. Každý řádek proto dostane ve stejné transakci úlohu `email.send` svého tenanta (`Jobs/Outbox/OutboxEmails.cs`, deduplikace podle řádku) a pošle ho `Application/Email/EmailSendHandler.cs`:
+   - fronta dává opakování s odstupem a jednoho odesílatele naráz; řádek drží `sent_at`, `attempts` a kód chyby;
+   - jazyk: `users.locale` příjemce (zapnutý), jinak `payload.locale`, jinak jazyk tenanta;
+   - druh s tokenem se z outboxu nesloží (`email.token_template_in_outbox`, log `Critical`).
+
+   Změna 8 (`FinalizeHandler`) teď zapisuje jeden řádek na příjemce se šablonou `sample_finished`, `run_finished`, `run_partial` nebo `run_failed`; parametry (počty, e-shop, odkaz) čte až odesílání. Worker má `AddEshopGuardEmailDelivery` a validuje `Email` a `Frontend` při startu.
+6. **Čas z `TimeProvider`:** tokeny, kbelíky limitů a audit používají čas aplikace (`@now`), ne `now()` databáze, aby testy s `FakeTimeProvider` ověřily vypršení v 15:01 a pauzu 60 s.
+7. **Audit:** IP je jen `data.ipHash` (HMAC), sloupec `ip` zůstává prázdný (K rozhodnutí 8). Navíc akce `auth.password_reset_requested`. Zapisovač odmítne klíče `email`, `token`, `password` v `data`.
+8. **Relace:** cookie nese jen `sub` a otisk `security_stamp` (žádný e-mail); `amr` a `auth_time` se při obnově principalu převezmou. Token CSRF je vázaný na uživatele, po přihlášení si ho frontend vyžádá znovu (`GET /api/auth/csrf`). Selhání u Googlu (odmítnutí, podvržený `state`) přesměruje na přihlašovací stránku s `?error=google.failed`.
+9. **Pozastavený tenant:** `GET /api/t/{tenantId}` funguje i v pozastaveném tenantovi (čtení účtu, K rozhodnutí 10), ostatní koncové body vrací `403 tenant.suspended`.
+10. **DTO odpovědí** jsou v `Application/Contracts`, těla požadavků v `Api/Contracts`. Chybějící tělo vrací `validation.failed` s `errors.body`, nečitelný JSON `request.invalid`.
+11. **Jazyky v testech:** `ref.locales` má `sk` i `cs` vypnuté, dokud nebudou hotové texty frontendu; testy API je zapínají jen v katalogu své instance, sdílená testovací databáze zůstává podle seedu. Do zapnutí je jazyk každého uživatele jazyk trhu.
+12. **Testy:**
+    - „Chyba ve filtru dotazu nevrátí cizí data“ ověřuje čisté SQL bez podmínky na tenanta ve službách API v kontextu tenanta A (`TenantIsolationApiTests`), ne zvláštní testovací koncový bod;
+    - 100 souběžných `ConsumeAsync` běží nejvýš po 20 spojeních (lokální PostgreSQL má `max_connections = 100` pro všechny testy);
+    - Google se testuje přes skutečný handler s falešným back channel a adresami `google.invalid`.
+13. **E-maily kromě odkazu na přihlášení nemají schválený návrh** (na plátně je jen 2b). Šablony `password_reset`, `invitation`, `invitation_accepted`, `sample_finished`, `run_finished`, `run_partial` a `run_failed` jsou ve stejném stylu a čekají na schválení textů; české znění je návrh ke kontrole.
+14. **`Legal:TermsVersion` a `Legal:PrivacyVersion` jsou `0`**, dokud nejsou zveřejněné obchodní podmínky a zásady (K rozhodnutí 9).
+15. **`/api` jen přes HTTPS** (nález ručního prokliku): cookies relace a CSRF jsou `Secure` a antiforgery čisté HTTP odmítá výjimkou. Požadavek pod `/api` bez HTTPS proto dostane `400 request.https_required` (`HttpsRequiredMiddleware`). Za Caddy (změna 17) se schéma bere z `X-Forwarded-Proto` jen od známé proxy (`Proxy:KnownProxies`, výchozí loopback); ve vývoji profil `https` v `launchSettings.json` (`https://localhost:5443`, `dotnet dev-certs https --trust`).

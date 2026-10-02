@@ -1,0 +1,1 @@
+Kontrolu {{shopName}} se nepodařilo dokončit

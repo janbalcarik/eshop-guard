@@ -1,0 +1,10 @@
+# Jen lokální vývoj (změna 9): Mailpit zachytí e-maily API a workeru, nikam je neodešle.
+# Spuštění: docker compose -f deploy/docker-compose.dev.yml up -d mailpit
+# SMTP localhost:1025 (appsettings.Development.json, Email:Smtp:Security = None), schránka http://localhost:8025.
+services:
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "127.0.0.1:1025:1025"
+      - "127.0.0.1:8025:8025"
+    restart: unless-stopped

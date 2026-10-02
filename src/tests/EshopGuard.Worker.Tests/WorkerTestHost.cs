@@ -14,7 +14,7 @@ namespace EshopGuard.Worker.Tests;
 /// </summary>
 internal static class WorkerTestHost
 {
-    public static IHost Build(InMemoryLoggerProvider logs, IDictionary<string, string?> settings, bool withStartupGuard = true)
+    public static IHost Build(InMemoryLoggerProvider logs, IDictionary<string, string?> settings, bool withStartupGuard = true, Action<IServiceCollection>? configure = null)
     {
         var builder = WorkerHost.CreateBuilder(new HostApplicationBuilderSettings { EnvironmentName = "Testing", Args = [] });
         var root = Directory.CreateTempSubdirectory("eshopguard-worker-").FullName;
@@ -29,6 +29,7 @@ internal static class WorkerTestHost
             ["Worker:Slots:Io"] = "0",
             ["Worker:Slots:System"] = "0",
             ["Scheduler:Enabled"] = "false",
+            ["Frontend:BaseUrl"] = "https://app.eshopguard.test",
         });
         builder.Configuration.AddInMemoryCollection(settings);
         builder.Logging.ClearProviders();
@@ -39,6 +40,7 @@ internal static class WorkerTestHost
             builder.Services.Remove(guard);
         }
 
+        configure?.Invoke(builder.Services);
         return builder.Build();
     }
 }

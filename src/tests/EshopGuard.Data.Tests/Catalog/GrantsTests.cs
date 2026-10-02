@@ -16,6 +16,8 @@ public sealed class GrantsTests(PostgresTestDatabase database)
     {
         var m = TableNames.TenantTables.ToDictionary(t => t, _ => (Siud, Siud, Siud));
         foreach (var t in new[] { "iam.tenants", "iam.users", "iam.user_logins", "iam.user_tokens" }) m[t] = ("SIU", "S", Siud);
+        m["iam.user_logins"] = (Siud, "S", Siud); // unlinking Google (change 9)
+        m["iam.user_tokens"] = ("SIU", "SD", Siud); // daily auth.cleanup of the worker (change 9)
         foreach (var t in new[] { "checks.rule_sets", "billing.price_lists", "billing.price_tiers", "billing.volume_discounts", "billing.promo_codes", "ref.markets", "ref.locales" }) m[t] = ("S", "SIU", Siud);
         m["shop.free_sample_claims"] = (string.Empty, string.Empty, Siud); // only through shop.claim_free_sample (change 8)
         m["billing.stripe_events"] = ("SIU", "SU", Siud);
@@ -24,7 +26,7 @@ public sealed class GrantsTests(PostgresTestDatabase database)
         m["ops.jobs"] = ("SIU", Siud, Siud);
         m["ops.workers"] = ("S", Siud, Siud);
         m["ops.domains"] = ("S", Siud, Siud);
-        m["ops.rate_limit_buckets"] = ("SIU", "SIU", Siud);
+        m["ops.rate_limit_buckets"] = ("SIU", Siud, Siud); // auth.cleanup deletes full buckets of the sign-in (change 9)
         m["ops.system_settings"] = ("S", "SU", Siud);
         return m;
     }

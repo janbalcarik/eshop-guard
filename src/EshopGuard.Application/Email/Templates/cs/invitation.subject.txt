@@ -1,0 +1,1 @@
+Pozvánka do účtu {{tenantName}} v EshopGuard

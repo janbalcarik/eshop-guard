@@ -13,7 +13,8 @@ public sealed class User : GlobalEntity, ISoftDeletable
 
     public string? DisplayName { get; set; }
 
-    public required string Locale { get; set; }
+    /// <summary>Language chosen by the user; <c>null</c> = automatic (browser, then the market, change 9 AD 10).</summary>
+    public string? Locale { get; set; }
 
     public DateTimeOffset? LastLoginAt { get; set; }
 

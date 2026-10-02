@@ -5,7 +5,9 @@ using EshopGuard.Core.Markets;
 using EshopGuard.Core.Pipeline;
 using EshopGuard.Data.Entities.Checks;
 using EshopGuard.Data.Entities.Ops;
+using EshopGuard.Jobs.Outbox;
 using EshopGuard.Jobs.Processing;
+using EshopGuard.Jobs.Queue;
 using EshopGuard.Jobs.Runs.Storage;
 using Microsoft.Extensions.Logging;
 using Npgsql;
@@ -97,7 +99,7 @@ internal sealed class FinalizeHandler(RunHandlerContext context) : RunJobHandler
             };
             await RunEventWriter.WriteAsync(connection, transaction, run.TenantId, run.Id, status == RunStatus.Failed ? "error" : "info", code, data, ct).ConfigureAwait(false);
             await UpdateShopAsync(connection, transaction, locked, report, ct).ConfigureAwait(false);
-            await NotifyAsync(connection, transaction, locked, code, ct).ConfigureAwait(false);
+            await NotifyAsync(connection, transaction, Ctx.Queue, locked, code, ct).ConfigureAwait(false);
         }, ct).ConfigureAwait(false);
         Logger.LogInformation("run.finished {RunId} {TenantId} {JobId} {Status} {PagesChecked}", run.Id, run.TenantId, job.Job.Id, status, report.PagesChecked);
         return JobResult.Done;
@@ -129,8 +131,8 @@ internal sealed class FinalizeHandler(RunHandlerContext context) : RunJobHandler
         await command.ExecuteNonQueryAsync(ct).ConfigureAwait(false);
     }
 
-    /// <summary>A notification in the application and, for the members who want it, an e-mail through the outbox (change 11 sends it).</summary>
-    private static async Task NotifyAsync(NpgsqlConnection connection, NpgsqlTransaction transaction, RunRow run, string code, CancellationToken ct)
+    /// <summary>A notification in the application and, for the members who want it, an e-mail through the outbox (sent by the job email.send).</summary>
+    private static async Task NotifyAsync(NpgsqlConnection connection, NpgsqlTransaction transaction, IJobQueue queue, RunRow run, string code, CancellationToken ct)
     {
         var parameters = new JsonObject { ["run_id"] = run.Id.ToString("D"), ["kind"] = JsonValue.Create(run.Kind.ToString()) };
         await using (var notification = new NpgsqlCommand(
@@ -150,24 +152,38 @@ internal sealed class FinalizeHandler(RunHandlerContext context) : RunJobHandler
             await notification.ExecuteNonQueryAsync(ct).ConfigureAwait(false);
         }
 
-        await using var email = new NpgsqlCommand(
+        // One e-mail per member who wants it (change 9 sends it through the job email.send of each row).
+        var template = code == RunCodes.EventFailed ? EmailTemplates.RunFailed
+            : run.IsSample ? EmailTemplates.SampleFinished
+            : code == RunCodes.EventPartial ? EmailTemplates.RunPartial
+            : EmailTemplates.RunFinished;
+        var recipients = new List<Guid>();
+        await using (var select = new NpgsqlCommand(
             """
-            INSERT INTO ops.outbox (tenant_id, kind, payload, attempts, created_at, updated_at)
-            SELECT $1, 'email', jsonb_build_object('template', 'run_finished', 'run_id', $2::text, 'shop_id', $3::text, 'event', $4::text,
-                       'user_ids', jsonb_agg(DISTINCT user_id)), 0, now(), now()
-            FROM iam.notification_settings
-            WHERE email_run_finished AND (shop_id IS NULL OR shop_id = $3)
-            HAVING count(*) > 0
+            SELECT DISTINCT s.user_id FROM iam.notification_settings s
+            JOIN iam.memberships m ON m.tenant_id = s.tenant_id AND m.user_id = s.user_id
+            WHERE s.email_run_finished AND (s.shop_id IS NULL OR s.shop_id = $1)
+            ORDER BY s.user_id
             """, connection, transaction)
         {
-            Parameters =
+            Parameters = { new NpgsqlParameter { Value = run.ShopId } },
+        })
+        await using (var reader = await select.ExecuteReaderAsync(ct).ConfigureAwait(false))
+        {
+            while (await reader.ReadAsync(ct).ConfigureAwait(false))
             {
-                new NpgsqlParameter { Value = run.TenantId },
-                new NpgsqlParameter { Value = run.Id },
-                new NpgsqlParameter { Value = run.ShopId },
-                new NpgsqlParameter { Value = code },
-            },
-        };
-        await email.ExecuteNonQueryAsync(ct).ConfigureAwait(false);
+                recipients.Add(reader.GetGuid(0));
+            }
+        }
+
+        foreach (var userId in recipients)
+        {
+            await OutboxEmails.AddAsync(transaction, queue, run.TenantId, new OutboxEmail(template, userId, null, null, new JsonObject
+            {
+                ["run_id"] = run.Id.ToString("D"),
+                ["shop_id"] = run.ShopId.ToString("D"),
+                ["event"] = code,
+            }), ct).ConfigureAwait(false);
+        }
     }
 }

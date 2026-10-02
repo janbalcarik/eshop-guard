@@ -1,0 +1,7 @@
+Pozvánka je přijatá
+
+Dobrý den, {{memberEmail}} má teď přístup do účtu {{tenantName}} s rolí {{roleName}}.
+
+Zobrazit členy: {{link}}
+
+Role členů změníte v Nastavení účtu.

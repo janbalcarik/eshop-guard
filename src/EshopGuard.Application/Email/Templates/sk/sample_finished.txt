@@ -1,0 +1,9 @@
+Ukážka kontroly je hotová
+
+Dobrý deň, ukážka kontroly e-shopu {{shopName}} je hotová.
+
+Skontrolované stránky: {{pages}}. Nálezy: {{findings}}.
+
+Zobraziť výsledky: {{link}}
+
+Výsledky sú len v aplikácii, e-mail texty stránok neobsahuje.

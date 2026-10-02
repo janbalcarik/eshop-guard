@@ -86,6 +86,8 @@ Set-UserSecrets 'eshopguard-data' @{
 }
 Set-UserSecrets 'eshopguard-api' @{
     ConnectionStrings = @{ App = New-ConnectionString 'eshopguard' 'eshopguard_app' $passwords['APP'] }
+    # Klíč HMAC e-mailů a IP adres v limitech a auditu (změna 9); nový klíč jen „zapomene“ dosavadní limity.
+    Security = @{ IpHashKey = [Convert]::ToBase64String([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(32)) }
 }
 Set-UserSecrets 'eshopguard-worker' @{
     ConnectionStrings = @{ Worker = New-ConnectionString 'eshopguard' 'eshopguard_worker' $passwords['WORKER'] }

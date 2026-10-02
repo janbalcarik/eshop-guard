@@ -1,0 +1,5 @@
+EshopGuard · pre {{email}}
+
+{{body}}
+
+Nenahrádza právne poradenstvo.

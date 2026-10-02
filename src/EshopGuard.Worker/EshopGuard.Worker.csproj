@@ -12,6 +12,7 @@
     <ProjectReference Include="..\EshopGuard.Jobs\EshopGuard.Jobs.csproj" />
     <ProjectReference Include="..\EshopGuard.Billing\EshopGuard.Billing.csproj" />
     <ProjectReference Include="..\EshopGuard.Connectors\EshopGuard.Connectors.csproj" />
+    <ProjectReference Include="..\EshopGuard.Application\EshopGuard.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

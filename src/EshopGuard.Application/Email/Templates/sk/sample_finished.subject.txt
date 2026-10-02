@@ -1,0 +1,1 @@
+Ukážka kontroly {{shopName}} je hotová

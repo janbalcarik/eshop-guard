@@ -29,6 +29,30 @@ public static class TenantSql
         }
     }
 
+    /// <summary>The tenant of a transaction of a user without a tenant: no tenant has it, so it sees no tenant row.</summary>
+    public static readonly Guid NoTenant = Guid.Empty;
+
+    /// <summary>
+    /// Begins a transaction of a user without a tenant (<see cref="NoTenant"/>), or of an anonymous request (no user):
+    /// tenant tables show only what the policies by user or by token allow.
+    /// </summary>
+    public static async Task<NpgsqlTransaction> BeginUserAsync(NpgsqlConnection connection, Guid? userId, CancellationToken ct = default)
+    {
+        ArgumentNullException.ThrowIfNull(connection);
+        var transaction = await connection.BeginTransactionAsync(ct).ConfigureAwait(false);
+        try
+        {
+            await using var command = CreateSetCommand(connection, transaction, NoTenant, userId);
+            await command.ExecuteNonQueryAsync(ct).ConfigureAwait(false);
+            return transaction;
+        }
+        catch
+        {
+            await transaction.DisposeAsync().ConfigureAwait(false);
+            throw;
+        }
+    }
+
     /// <summary>
     /// <c>SELECT set_config('app.tenant_id', $1, true), set_config('app.user_id', $2, true)</c>; the tenant is a <see cref="Guid"/>,
     /// so no text from outside can reach <c>set_config</c>.
