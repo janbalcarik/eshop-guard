@@ -1,0 +1,88 @@
+# Technické podpisy platforem e-shopů pro rozpoznání z úvodní stránky (změna 10, AD 2). Další platforma je nový blok tady,
+# kód seznam platforem nemá. Kódy platforem odpovídají hodnotám shops.platform.
+# Jen technické znaky, nikdy text stránky:
+# - meta: <meta name="…" content="…">; contains je část hodnoty content (bez ohledu na velikost písmen), bez contains stačí jméno;
+# - host: hostitel souboru, který stránka načítá (script, link, img, source, iframe), i jeho subdomény; odkazy v textu (a href) se nečtou;
+# - path: část cesty souboru na doméně e-shopu (se www i bez);
+# - header: hlavička odpovědi (jméno, volitelně contains v hodnotě);
+# - cookie: začátek jména cookie, kterou odpověď nastavuje.
+# Dva podpisy různých druhů jedné platformy = jistě (certain), jeden = pravděpodobně (likely), podpisy dvou platforem = neznámá (unknown).
+# source: kde byl podpis viděn. „uložená stránka“ = ověřeno na uložené úvodní stránce skutečného e-shopu; „k ověření“ =
+# veřejně známý znak platformy, který je potřeba ověřit na skutečné stránce před ostrým provozem (změna 10, odchylky).
+shoptet:
+  - code: cdn_host
+    kind: host
+    value: cdn.myshoptet.com
+    source: uložená stránka (src/snapshots, 1. 10. 2026)
+  - code: web_author
+    kind: meta
+    name: web_author
+    contains: shoptet
+    source: uložená stránka (src/snapshots, 1. 10. 2026)
+upgates:
+  - code: files_host
+    kind: host
+    value: upgates.com
+    source: k ověření
+  - code: generator
+    kind: meta
+    name: generator
+    contains: upgates
+    source: k ověření
+biznisweb:
+  - code: files_host
+    kind: host
+    value: biznisweb.sk
+    source: k ověření
+  - code: generator
+    kind: meta
+    name: generator
+    contains: biznisweb
+    source: k ověření
+woocommerce:
+  - code: generator
+    kind: meta
+    name: generator
+    contains: woocommerce
+    source: k ověření (WooCommerce přidává <meta name="generator" content="WooCommerce …">)
+  - code: plugin_path
+    kind: path
+    value: /wp-content/plugins/woocommerce/
+    source: k ověření
+  - code: store_api_path
+    kind: path
+    value: /wp-json/wc/
+    source: k ověření
+  - code: session_cookie
+    kind: cookie
+    value: wp_woocommerce_session_
+    source: k ověření
+  - code: cart_cookie
+    kind: cookie
+    value: woocommerce_
+    source: k ověření
+shopify:
+  - code: cdn_host
+    kind: host
+    value: cdn.shopify.com
+    source: k ověření
+  - code: shop_cdn_path
+    kind: path
+    value: /cdn/shop/
+    source: k ověření
+  - code: shop_id_header
+    kind: header
+    name: x-shopid
+    source: k ověření
+  - code: stage_header
+    kind: header
+    name: x-shopify-stage
+    source: k ověření
+  - code: checkout_token
+    kind: meta
+    name: shopify-checkout-api-token
+    source: k ověření
+  - code: visitor_cookie
+    kind: cookie
+    value: _shopify_
+    source: k ověření

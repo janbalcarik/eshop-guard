@@ -2,23 +2,23 @@
 
 ## 1. E-shopy: založení, seznam, úprava, smazání
 
-- [ ] 1.1 `Application/Shops/ShopUrlNormalizer.cs`:
+- [x] 1.1 `Application/Shops/ShopUrlNormalizer.cs`:
   - schéma, port a `user:heslo@`;
   - IP v4 a v6, vnitřní jména;
   - IDN → punycode, `www.`, `base_path`;
   - `Shops:AllowedDevHosts` jen v Development a Test.
-- [ ] 1.2 Migrace `Data/Migrations/*_ShopsUniqueActive` (částečný jedinečný index `ux_shops_tenant_domain_path_active … WHERE deleted_at IS NULL`) a `*_ShopsDetection` (sloupec `shops.detection jsonb`).
-- [ ] 1.3 `Application/Shops/ShopService.cs`:
+- [x] 1.2 Migrace `Data/Migrations/*_ShopsUniqueActive` (částečný jedinečný index `ux_shops_tenant_domain_path_active … WHERE deleted_at IS NULL`) a `*_ShopsDetection` (sloupec `shops.detection jsonb`).
+- [x] 1.3 `Application/Shops/ShopService.cs`:
   - `CreateAsync`: dostupné moduly jako výchozí, `source_mode = web`, kbelík `shops:create:tenant:*`, úloha `shop.detect_platform` ve stejné transakci, audit;
   - `RenameAsync` (`If-Match` / `xmin`);
   - `SoftDeleteAsync` s kontrolou předplatného a běžícího běhu.
-- [ ] 1.4 `Api/Endpoints/ShopEndpoints.cs`: `GET /shops`, `POST /shops`, `GET /shops/{shopId}`, `PATCH /shops/{shopId}`, `DELETE /shops/{shopId}`. DTO `ShopListItemDto`, `ShopDto` v `Contracts/Shops/`. Role podle matice změny 9.
-- [ ] 1.5 `Application/Shops/ShopStatusTransitions.cs` (sdílené se změnou 12) a test `ShopStatusTransitionsTests` (povolené a zakázané přechody).
-- [ ] 1.6 Test `ShopUrlNormalizerTests`:
+- [x] 1.4 `Api/Endpoints/ShopEndpoints.cs`: `GET /shops`, `POST /shops`, `GET /shops/{shopId}`, `PATCH /shops/{shopId}`, `DELETE /shops/{shopId}`. DTO `ShopListItemDto`, `ShopDto` v `Contracts/Shops/`. Role podle matice změny 9.
+- [x] 1.5 `Application/Shops/ShopStatusTransitions.cs` (sdílené se změnou 12) a test `ShopStatusTransitionsTests` (povolené a zakázané přechody).
+- [x] 1.6 Test `ShopUrlNormalizerTests`:
   - `https://www.Bylinkovo.sk/` → `bylinkovo.sk` + `/`;
   - `http://169.254.169.254/`, `http://[::1]/`, `http://intranet/`, `https://eshop.sk:8443/`, `https://user:pw@eshop.sk/` → odmítnuto;
   - `https://kvetináč.sk` → punycode.
-- [ ] 1.7 Test `ShopCrudTests`:
+- [x] 1.7 Test `ShopCrudTests`:
   - založení s úlohou v téže transakci;
   - duplicita → `409` s `shopId`;
   - stejná doména u druhého tenanta → `201`;
@@ -27,34 +27,34 @@
 
 ## 2. Rozpoznání platformy
 
-- [ ] 2.1 `Core/Platforms/PlatformDetector.cs`, `PlatformDetection`, `PlatformSignatures` a `config/platforms.yaml`:
+- [x] 2.1 `Core/Platforms/PlatformDetector.cs`, `PlatformDetection`, `PlatformSignatures` a `config/platforms.yaml`:
   - jen technické podpisy (meta `generator`, hostitelé, hlavičky, cookies, cesty API);
   - `certain` při 2 a více podpisech, `likely` při 1;
   - konflikt → `unknown`.
-- [ ] 2.2 Uložené úvodní stránky `tests/EshopGuard.Core.Tests/Fixtures/platforms/{shoptet,upgates,biznisweb,woocommerce,shopify,unknown,conflict}.html` + hlavičky. Bez textů zákazníků navíc, jen veřejné HTML úvodní stránky.
-- [ ] 2.3 Test `PlatformDetectorTests`: každá platforma poznaná, `unknown` u obyčejné stránky, `unknown` při konfliktu, text stránky se slovem „Shopify“ v článku nezmění výsledek.
-- [ ] 2.4 `Jobs/Shops/ShopDetectPlatformHandler.cs`:
+- [x] 2.2 Uložené úvodní stránky `tests/EshopGuard.Core.Tests/Fixtures/platforms/{shoptet,upgates,biznisweb,woocommerce,shopify,unknown,conflict}.html` + hlavičky. Bez textů zákazníků navíc, jen veřejné HTML úvodní stránky.
+- [x] 2.3 Test `PlatformDetectorTests`: každá platforma poznaná, `unknown` u obyčejné stránky, `unknown` při konfliktu, text stránky se slovem „Shopify“ v článku nezmění výsledek.
+- [x] 2.4 `Jobs/Shops/ShopDetectPlatformHandler.cs`:
   - stahovač se SSRF ochranou a robots.txt ze změny 5;
   - strop `Shops:Detection:MaxBytes` a 10 s;
   - zápis `shops.platform`, `base_url` a `detection`;
   - přesměrování na jinou doménu jen jako `redirectedToOtherDomain`.
-- [ ] 2.5 `Application/Jobs/JobCompletionAwaiter.cs`: dotaz na řádek `ops.jobs` každých 250 ms do `Api:InteractiveWaitSeconds`.
-- [ ] 2.6 `GET /shops/{shopId}/detection`, `POST /shops/{shopId}/detection` (kbelík `shops:detect:shop:*`, `409 detection.in_progress`), `PUT /shops/{shopId}/platform` (`platformSource = user`, audit `shop.platform_set`).
-- [ ] 2.7 Test `ShopDetectPlatformHandlerTests`:
+- [x] 2.5 `Application/Jobs/JobCompletionAwaiter.cs`: dotaz na řádek `ops.jobs` každých 250 ms do `Api:InteractiveWaitSeconds`.
+- [x] 2.6 `GET /shops/{shopId}/detection`, `POST /shops/{shopId}/detection` (kbelík `shops:detect:shop:*`, `409 detection.in_progress`), `PUT /shops/{shopId}/platform` (`platformSource = user`, audit `shop.platform_set`).
+- [x] 2.7 Test `ShopDetectPlatformHandlerTests`:
   - testovací stahovač: Shoptet, timeout → `failed/timeout`;
   - robots.txt zakazuje `/` → `failed/robots_blocked`;
   - přesměrování `bylinkovo.cz` → `bylinkovo.sk`.
-- [ ] 2.8 Test `DetectionTests` (API): odpověď do 8 s s výsledkem; pomalá úloha → `pending` a pozdější `GET` s výsledkem (`FakeTimeProvider`, ručně dokončená úloha).
+- [x] 2.8 Test `DetectionTests` (API): odpověď do 8 s s výsledkem; pomalá úloha → `pending` a pozdější `GET` s výsledkem (`FakeTimeProvider`, ručně dokončená úloha).
 
 ## 3. Způsob napojení
 
-- [ ] 3.1 `Application/Shops/SourceModeService.cs`:
+- [x] 3.1 `Application/Shops/SourceModeService.cs`:
   - `web`;
   - `feed` (normalizace adresy, `format` `heureka`/`google`, `shop.feeds`);
   - `connector` jen se `shop.connectors.status = connected`;
   - `409 shop.run_in_progress` při běhu.
-- [ ] 3.2 `PUT /shops/{shopId}/source` a audit `shop.source_changed`.
-- [ ] 3.3 Test `SourceModeTests`: feed uložen, neplatný formát → `400 feed.format_unknown`, konektor bez připojení → `409`, změna při běžící analýze → `409`.
+- [x] 3.2 `PUT /shops/{shopId}/source` a audit `shop.source_changed`.
+- [x] 3.3 Test `SourceModeTests`: feed uložen, neplatný formát → `400 feed.format_unknown`, konektor bez připojení → `409`, změna při běžící analýze → `409`.
 
 ## 4. Ukázka zdarma
 

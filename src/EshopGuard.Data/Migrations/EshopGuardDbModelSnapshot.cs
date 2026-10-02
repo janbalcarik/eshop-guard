@@ -4570,6 +4570,10 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at");
 
+                    b.Property<JsonDocument>("Detection")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("detection");
+
                     b.Property<string>("Domain")
                         .IsRequired()
                         .HasColumnType("text")
@@ -4651,6 +4655,12 @@ namespace EshopGuard.Data.Migrations
                     b.Property<string>("VerificationMethod")
                         .HasColumnType("text")
                         .HasColumnName("verification_method");
+
+                    b.Property<uint>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
 
                     b.HasKey("Id")
                         .HasName("pk_shops");
@@ -4759,6 +4769,14 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<DateTimeOffset?>("DecidedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("decided_at");
+
+                    b.Property<Guid?>("DecidedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("decided_by");
+
                     b.Property<JsonDocument>("DescriptionLanguages")
                         .HasColumnType("jsonb")
                         .HasColumnName("description_languages");
@@ -4805,6 +4823,9 @@ namespace EshopGuard.Data.Migrations
 
                     b.HasKey("ShopId", "Language")
                         .HasName("pk_shop_languages");
+
+                    b.HasIndex("DecidedBy")
+                        .HasDatabaseName("ix_shop_languages_decided_by");
 
                     b.HasIndex("TenantId", "SampleRunId")
                         .HasDatabaseName("ix_shop_languages_tenant_id_sample_run_id");
@@ -4923,6 +4944,10 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<string>("FailureCode")
+                        .HasColumnType("text")
+                        .HasColumnName("failure_code");
+
                     b.Property<string>("Method")
                         .IsRequired()
                         .HasColumnType("text")
@@ -4964,6 +4989,8 @@ namespace EshopGuard.Data.Migrations
                     b.ToTable("shop_verifications", "shop", t =>
                         {
                             t.HasCheckConstraint("ck_shop_verifications_method", "method IN ('meta', 'dns', 'connector')");
+
+                            t.HasCheckConstraint("ck_shop_verifications_status", "status IN ('pending', 'verified', 'failed')");
                         });
                 });
 
@@ -6005,6 +6032,12 @@ namespace EshopGuard.Data.Migrations
 
             modelBuilder.Entity("EshopGuard.Data.Entities.Shops.ShopLanguage", b =>
                 {
+                    b.HasOne("EshopGuard.Data.Entities.Iam.User", null)
+                        .WithMany()
+                        .HasForeignKey("DecidedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_shop_languages_users_decided_by");
+
                     b.HasOne("EshopGuard.Data.Entities.Checks.Run", null)
                         .WithMany()
                         .HasForeignKey("TenantId", "SampleRunId")

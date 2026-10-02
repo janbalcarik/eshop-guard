@@ -39,6 +39,11 @@ public sealed class ShopLanguage : ITenantOwned, IHasTimestamps
     /// <summary>How the version is crawled (<c>VersionCrawlScope</c> of change 7: addresses, cookie, Accept-Language); null for the whole site.</summary>
     public JsonDocument? CrawlScope { get; set; }
 
+    /// <summary>Who decided the state by hand (exclusion, inclusion, confirmation of another domain); the analysis keeps such a state.</summary>
+    public Guid? DecidedBy { get; set; }
+
+    public DateTimeOffset? DecidedAt { get; set; }
+
     /// <inheritdoc />
     public DateTimeOffset CreatedAt { get; set; }
 

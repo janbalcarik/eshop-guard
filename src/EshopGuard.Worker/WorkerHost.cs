@@ -4,6 +4,7 @@ using EshopGuard.Data.Connections;
 using EshopGuard.Jobs;
 using EshopGuard.Jobs.Processing;
 using EshopGuard.Jobs.Runs;
+using EshopGuard.Jobs.Shops;
 using EshopGuard.Storage;
 
 namespace EshopGuard.Worker;
@@ -28,7 +29,12 @@ public static class WorkerHost
         builder.Services.AddEshopGuardData(DatabaseRole.Worker);
         builder.Services.AddEshopGuardStorage();
         builder.Services.AddEshopGuardJobProcessing();
+        // The policy of ownership of change 10 (Shops:Ownership:RequiredBefore checked at start) before the runs take theirs.
+        builder.Services.AddEshopGuardOwnershipPolicy();
         builder.Services.AddAnalysisRuns(options => AnalysisSettings.Apply(options, builder.Configuration, builder.Environment.ContentRootPath));
+
+        // The interactive jobs of an e-shop (change 10): recognition of the platform and the check of ownership.
+        builder.Services.AddShopJobs();
 
         // E-mails of the outbox (job email.send, change 9): templates, SMTP, languages; Email and Frontend checked at start.
         builder.Services.AddEshopGuardEmailDelivery();

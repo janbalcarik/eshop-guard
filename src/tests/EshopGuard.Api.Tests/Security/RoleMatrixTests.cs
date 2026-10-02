@@ -26,6 +26,17 @@ public sealed class RoleMatrixTests : ApiTestBase
         ["POST /api/t/{tenantId:guid}/invitations"] = TenantRole.Admin,
         ["POST /api/t/{tenantId:guid}/invitations/{invitationId:guid}/resend"] = TenantRole.Admin,
         ["DELETE /api/t/{tenantId:guid}/invitations/{invitationId:guid}"] = TenantRole.Admin,
+
+        // Change 10: reading for every member, changes for admin and owner.
+        ["GET /api/t/{tenantId:guid}/shops/"] = TenantRole.Viewer,
+        ["POST /api/t/{tenantId:guid}/shops/"] = TenantRole.Admin,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}"] = TenantRole.Viewer,
+        ["PATCH /api/t/{tenantId:guid}/shops/{shopId:guid}"] = TenantRole.Admin,
+        ["DELETE /api/t/{tenantId:guid}/shops/{shopId:guid}"] = TenantRole.Admin,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/detection"] = TenantRole.Viewer,
+        ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/detection"] = TenantRole.Admin,
+        ["PUT /api/t/{tenantId:guid}/shops/{shopId:guid}/platform"] = TenantRole.Admin,
+        ["PUT /api/t/{tenantId:guid}/shops/{shopId:guid}/source"] = TenantRole.Admin,
     };
 
     [Fact]
@@ -61,9 +72,7 @@ public sealed class RoleMatrixTests : ApiTestBase
 
             foreach (var (role, person) in members)
             {
-                var path = endpoint.Pattern.Replace("{tenantId:guid}", owner.TenantId.ToString("D"), StringComparison.Ordinal)
-                    .Replace("{userId:guid}", Guid.NewGuid().ToString("D"), StringComparison.Ordinal)
-                    .Replace("{invitationId:guid}", Guid.NewGuid().ToString("D"), StringComparison.Ordinal);
+                var path = RoutePaths.Fill(endpoint.Pattern, owner.TenantId);
                 using var response = await person.Browser.SendAsync(new HttpMethod(endpoint.Method), path, endpoint.Method == "GET" ? null : new { }, csrf: endpoint.Method != "GET");
                 var forbidden = response.StatusCode == HttpStatusCode.Forbidden
                     && (await ApiClient.ProblemAsync(response)).Code == "auth.forbidden_role";

@@ -18,6 +18,7 @@ internal sealed class ShopConfiguration : IEntityTypeConfiguration<Shop>
         builder.HasEnum(x => x.SourceMode);
         builder.HasEnum(x => x.Status);
         builder.HasEnum(x => x.VerificationMethod);
+        builder.Property(x => x.Version).IsRowVersion();
         builder.HasIndex(x => new { x.TenantId, x.Domain, x.BasePath }).IsUnique().HasFilter("deleted_at IS NULL");
         builder.HasOne<Tenant>().WithMany().HasForeignKey(x => x.TenantId).OnDelete(DeleteBehavior.Restrict);
         builder.HasTenantForeignKey<Run>(nameof(Shop.LastFullRunId));

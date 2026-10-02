@@ -54,3 +54,13 @@ public sealed record AcceptInvitationRequest(string? Token, string? Market) : IV
 {
     public void Validate(ValidationResult result) => TokenRequest.Require(result, "token", Token);
 }
+
+public sealed record CreateShopRequest(string? Url);
+
+public sealed record RenameShopRequest(string? Name, uint? Version);
+
+public sealed record SetPlatformRequest(string? Platform);
+
+public sealed record FeedRequest(string? Url, string? Format);
+
+public sealed record SetSourceRequest(string? Mode, FeedRequest? Feed);

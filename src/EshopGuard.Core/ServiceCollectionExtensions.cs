@@ -49,6 +49,19 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
+    /// Only the rules and their data (<see cref="IRuleSetProvider"/>, the texts): for a host that reads the catalog of markets
+    /// and modules without running analyses (the API, change 10). The host configures <see cref="EshopGuardOptions"/> itself.
+    /// </summary>
+    public static IServiceCollection AddEshopGuardRules(this IServiceCollection services)
+    {
+        ArgumentNullException.ThrowIfNull(services);
+        services.AddOptions<EshopGuardOptions>();
+        services.TryAddSingleton<IRuleTextProvider, YamlRuleTextProvider>();
+        services.TryAddSingleton<IRuleSetProvider, YamlRuleSetProvider>();
+        return services;
+    }
+
+    /// <summary>
     /// Registers <see cref="IEshopGuard"/> and its default implementations as singletons.
     /// Services registered by the host before this call replace the defaults.
     /// </summary>

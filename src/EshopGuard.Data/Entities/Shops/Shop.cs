@@ -1,3 +1,4 @@
+using System.Text.Json;
 using EshopGuard.Data.Entities.Common;
 
 namespace EshopGuard.Data.Entities.Shops;
@@ -42,6 +43,15 @@ public sealed class Shop : TenantEntity, ISoftDeletable
     public Guid? LastFullRunId { get; set; }
 
     public DateTimeOffset? LastRunAt { get; set; }
+
+    /// <summary>
+    /// The last recognition of the platform (change 10): status, platform, confidence, codes of the signals, the final address,
+    /// a redirect to another domain, the code of a failure, the time and the id of the job while it runs.
+    /// </summary>
+    public JsonDocument? Detection { get; set; }
+
+    /// <summary>Version of the row for optimistic concurrency (PostgreSQL <c>xmin</c>, no column of its own).</summary>
+    public uint Version { get; set; }
 
     /// <inheritdoc />
     public DateTimeOffset? DeletedAt { get; set; }

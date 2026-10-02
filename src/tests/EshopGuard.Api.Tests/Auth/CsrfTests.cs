@@ -24,9 +24,7 @@ public sealed class CsrfTests : ApiTestBase
         var failures = new List<string>();
         foreach (var (method, pattern) in endpoints)
         {
-            var path = pattern.Replace("{tenantId:guid}", tenantId.ToString("D"), StringComparison.Ordinal)
-                .Replace("{userId:guid}", Guid.NewGuid().ToString("D"), StringComparison.Ordinal)
-                .Replace("{invitationId:guid}", Guid.NewGuid().ToString("D"), StringComparison.Ordinal);
+            var path = RoutePaths.Fill(pattern, tenantId);
             using var response = await browser.SendAsync(new HttpMethod(method), path, new { }, csrf: false);
             if (response.StatusCode != HttpStatusCode.BadRequest || (await ApiClient.ProblemAsync(response)).Code != "csrf.invalid")
             {

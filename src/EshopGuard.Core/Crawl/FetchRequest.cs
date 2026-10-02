@@ -21,6 +21,12 @@ public sealed record FetchRequest(Uri Url)
     /// <summary><c>Accept-Language</c> of the crawl scope; null keeps the default of the crawler.</summary>
     public string? AcceptLanguage { get; init; }
 
+    /// <summary>
+    /// Keep the headers of the response in <see cref="FetchResponse.Headers"/> (recognition of the platform, change 10); a crawl
+    /// does not keep them, so thousands of pages do not hold them in memory.
+    /// </summary>
+    public bool CaptureHeaders { get; init; }
+
     /// <summary>True when the request carries a validator.</summary>
     public bool IsConditional => IfNoneMatch is not null || IfModifiedSince is not null;
 }

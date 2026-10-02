@@ -26,13 +26,7 @@ public static class AnalysisSettings
         var root = configuration[$"{SectionName}:BaseDirectory"] is { Length: > 0 } baseDirectory
             ? Path.GetFullPath(Path.Combine(contentRoot, baseDirectory))
             : contentRoot;
-        var rules = options.Rules;
-        rules.Directory = Rooted(root, rules.Directory);
-        rules.LabelsFile = Rooted(root, rules.LabelsFile);
-        rules.LegalRequirementsFile = Rooted(root, rules.LegalRequirementsFile);
-        rules.SieveFile = Rooted(root, rules.SieveFile);
-        rules.JurisdictionsFile = Rooted(root, rules.JurisdictionsFile);
-        rules.TextsDirectory = rules.TextsDirectory is null ? null : Rooted(root, rules.TextsDirectory);
+        options.Rules.ResolveUnder(root);
         options.Rewrite.PromptFile = Rooted(root, options.Rewrite.PromptFile);
     }
 

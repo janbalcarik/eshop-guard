@@ -11,7 +11,10 @@ public sealed class ShopVerification : TenantEntity
 
     public required string Token { get; set; }
 
-    public required string Status { get; set; }
+    public ShopVerificationStatus Status { get; set; }
+
+    /// <summary>Why the check failed (<c>meta_not_found</c>, <c>dns_record_not_found</c>, <c>token_mismatch</c>, <c>fetch_failed</c>).</summary>
+    public string? FailureCode { get; set; }
 
     public DateTimeOffset? CheckedAt { get; set; }
 }

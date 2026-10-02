@@ -11,11 +11,13 @@ namespace EshopGuard.Api.Tests.Security;
 /// <summary>Two tenants, both with the shop <c>vegis.sk</c> and an invitation (change 9, task 11.2).</summary>
 internal sealed class TwoTenantsFixture : IAsyncDisposable
 {
-    private TwoTenantsFixture(ApiFactory factory, Person a, Person b)
+    private TwoTenantsFixture(ApiFactory factory, Person a, Person b, Guid shopA, Guid shopB)
     {
         Factory = factory;
         A = a;
         B = b;
+        ShopA = shopA;
+        ShopB = shopB;
     }
 
     public ApiFactory Factory { get; }
@@ -24,15 +26,24 @@ internal sealed class TwoTenantsFixture : IAsyncDisposable
 
     public Person B { get; }
 
+    /// <summary>The e-shop <c>vegis.sk</c> of tenant A.</summary>
+    public Guid ShopA { get; }
+
+    /// <summary>The e-shop <c>vegis.sk</c> of tenant B.</summary>
+    public Guid ShopB { get; }
+
     public static async Task<TwoTenantsFixture> CreateAsync(ApiFactory factory, Func<string, object?[], Task<int>> admin)
     {
         var a = await People.OwnerAsync(factory);
         var b = await People.OwnerAsync(factory);
+        var shops = new List<Guid>();
         foreach (var tenant in new[] { a.TenantId, b.TenantId })
         {
+            var shop = Guid.CreateVersion7();
+            shops.Add(shop);
             await admin(
                 "INSERT INTO shop.shops (id, tenant_id, domain, base_url, base_path, home_country, platform, source_mode, status, created_at, updated_at) " +
-                "VALUES ($1, $2, 'vegis.sk', 'https://vegis.sk/', '/', 'SK', 'unknown', 'web', 'draft', now(), now())", [Guid.CreateVersion7(), tenant]);
+                "VALUES ($1, $2, 'vegis.sk', 'https://vegis.sk/', '/', 'SK', 'unknown', 'web', 'draft', now(), now())", [shop, tenant]);
         }
 
         using (var invited = await a.Browser.PostAsync($"/api/t/{a.TenantId}/invitations", new { email = People.NewEmail("a"), role = "viewer" }))
@@ -45,7 +56,7 @@ internal sealed class TwoTenantsFixture : IAsyncDisposable
             Assert.Equal(HttpStatusCode.Created, invited.StatusCode);
         }
 
-        return new TwoTenantsFixture(factory, a, b);
+        return new TwoTenantsFixture(factory, a, b, shops[0], shops[1]);
     }
 
     public ValueTask DisposeAsync()
@@ -76,9 +87,11 @@ public sealed class TenantIsolationApiTests : ApiTestBase
         {
             foreach (var tenant in new[] { tenants.B.TenantId, Guid.NewGuid() })
             {
-                var path = pattern.Replace("{tenantId:guid}", tenant.ToString("D"), StringComparison.Ordinal)
-                    .Replace("{userId:guid}", tenants.B.UserId.ToString("D"), StringComparison.Ordinal)
-                    .Replace("{invitationId:guid}", Guid.NewGuid().ToString("D"), StringComparison.Ordinal);
+                var path = RoutePaths.Fill(pattern, tenant, new Dictionary<string, string>
+                {
+                    ["userId"] = tenants.B.UserId.ToString("D"),
+                    ["shopId"] = tenants.ShopB.ToString("D"),
+                });
                 using var response = await tenants.A.Browser.SendAsync(new HttpMethod(method), path, method == "GET" ? null : new { }, csrf: method != "GET");
                 if (response.StatusCode != HttpStatusCode.NotFound || (await ApiClient.ProblemAsync(response)).Code != "tenant.not_found")
                 {

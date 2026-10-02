@@ -312,6 +312,9 @@ public sealed class RulesOptions
     /// <summary>YAML file with the known jurisdictions and the language of their laws.</summary>
     public string JurisdictionsFile { get; set; } = "config/jurisdictions.yaml";
 
+    /// <summary>YAML file with the technical signatures of the platforms of e-shops (change 10).</summary>
+    public string PlatformsFile { get; set; } = "config/platforms.yaml";
+
     /// <summary>Folder with the texts of the rules, one subfolder per language; null means <c>texts</c> in <see cref="Directory"/>.</summary>
     public string? TextsDirectory { get; set; }
 
@@ -332,6 +335,22 @@ public sealed class RulesOptions
 
     /// <summary>The file of question set fingerprints.</summary>
     public string ResolvedQuestionSetHashesFile => QuestionSetHashesFile ?? Path.Combine(Directory, "question-set-hashes.json");
+
+    /// <summary>Makes every relative path of the rules and their data absolute under <paramref name="root"/> (a host with a content root).</summary>
+    public void ResolveUnder(string root)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        Directory = Rooted(root, Directory);
+        LabelsFile = Rooted(root, LabelsFile);
+        LegalRequirementsFile = Rooted(root, LegalRequirementsFile);
+        SieveFile = Rooted(root, SieveFile);
+        JurisdictionsFile = Rooted(root, JurisdictionsFile);
+        PlatformsFile = Rooted(root, PlatformsFile);
+        TextsDirectory = TextsDirectory is null ? null : Rooted(root, TextsDirectory);
+        QuestionSetHashesFile = QuestionSetHashesFile is null ? null : Rooted(root, QuestionSetHashesFile);
+    }
+
+    private static string Rooted(string root, string path) => Path.IsPathRooted(path) ? path : Path.Combine(root, path);
 }
 
 /// <summary>

@@ -57,6 +57,9 @@ public sealed class FetchResponse
     /// <summary><c>Set-Cookie</c> headers of the response (redirects included), kept by the crawl scope that asked.</summary>
     public IReadOnlyList<string> SetCookies { get; init; } = [];
 
+    /// <summary>Headers of the response (names in lower case) when <see cref="FetchRequest.CaptureHeaders"/> asked for them; otherwise empty.</summary>
+    public IReadOnlyList<KeyValuePair<string, string>> Headers { get; init; } = [];
+
     /// <summary>True for a 2xx response with a body.</summary>
     public bool IsSuccess => Error is null && StatusCode is >= 200 and < 300 && Body is not null;
 

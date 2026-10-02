@@ -6,6 +6,7 @@ using EshopGuard.Api.Problems;
 using EshopGuard.Api.RateLimiting;
 using EshopGuard.Api.Security;
 using EshopGuard.Api.Tenancy;
+using EshopGuard.Application;
 using EshopGuard.Application.Problems;
 using EshopGuard.Data;
 using EshopGuard.Data.Connections;
@@ -32,6 +33,9 @@ builder.Services.AddEshopGuardJobQueue();
 
 // Identity, session, CSRF, Google and the services of change 9 (EshopGuard.Application).
 builder.Services.AddEshopGuardIdentity(builder.Configuration);
+
+// E-shops and the onboarding (change 10): the rules of the worker, the runs of change 8 and the policy of ownership.
+builder.Services.AddEshopGuardShops();
 builder.Services.AddScoped<SessionWriter>();
 builder.Services.AddAuthorization();
 builder.Services.AddEshopGuardRateLimiter(builder.Configuration);
@@ -96,7 +100,8 @@ var api = app.MapGroup("/api").RequireCsrf()
 api.MapAuthEndpoints();
 api.MapMeEndpoints();
 api.MapTenantsEndpoints();
-api.MapTenantGroup();
+var tenant = api.MapTenantGroup();
+tenant.MapShopEndpoints();
 api.MapInvitationEndpoints();
 api.MapRefEndpoints();
 

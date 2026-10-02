@@ -68,6 +68,11 @@ internal sealed class ApiFactory(
         builder.UseSetting("RateLimiting:AuthPerMinute", "100000");
         builder.UseSetting("RateLimiting:PerMinute", "100000");
         builder.UseSetting("DataProtection:KeysPath", Path.Combine(_blobs.FullName, "keys"));
+
+        // E-shops (change 10): the rules of the repository, the policy as in development, no waiting for a worker (none runs).
+        builder.UseSetting("EshopGuard:BaseDirectory", Path.Combine(RepositoryRoot.Find(), "src"));
+        builder.UseSetting("Shops:Ownership:RequiredBefore:0", "full_analysis");
+        builder.UseSetting("Api:InteractiveWaitSeconds", "0");
         foreach (var (key, value) in settings ?? new Dictionary<string, string?>())
         {
             builder.UseSetting(key, value);

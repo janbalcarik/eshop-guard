@@ -1,5 +1,6 @@
 using EshopGuard.Data.Configurations.Conventions;
 using EshopGuard.Data.Entities.Checks;
+using EshopGuard.Data.Entities.Iam;
 using EshopGuard.Data.Entities.Shops;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,5 +18,6 @@ internal sealed class ShopLanguageConfiguration : IEntityTypeConfiguration<ShopL
         builder.HasEnum(x => x.Status);
         builder.HasTenantForeignKey<Shop>(nameof(ShopLanguage.ShopId));
         builder.HasTenantForeignKey<Run>(nameof(ShopLanguage.SampleRunId));
+        builder.HasOne<User>().WithMany().HasForeignKey(x => x.DecidedBy).OnDelete(DeleteBehavior.Restrict);
     }
 }

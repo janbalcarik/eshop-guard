@@ -32,6 +32,21 @@ public static class AuditActions
     public const string InvitationRevoked = "invitation.revoked";
     public const string InvitationAccepted = "invitation.accepted";
 
+    public const string ShopCreated = "shop.created";
+    public const string ShopRenamed = "shop.renamed";
+    public const string ShopDeleted = "shop.deleted";
+    public const string ShopPlatformSet = "shop.platform_set";
+    public const string ShopSourceChanged = "shop.source_changed";
+    public const string SampleStarted = "sample.started";
+    public const string MarketsConfirmed = "markets.confirmed";
+    public const string LanguageConfirmed = "language.confirmed";
+    public const string LanguageRejectedOtherDomain = "language.rejected_other_domain";
+    public const string LanguageExcluded = "language.excluded";
+    public const string LanguageIncluded = "language.included";
+    public const string OwnershipVerificationCreated = "ownership.verification_created";
+    public const string OwnershipVerified = "ownership.verified";
+    public const string SettingsChanged = "settings.changed";
+
     /// <summary>Methods of a sign-in (<c>data.method</c> and the claim <c>amr</c> of the session).</summary>
     public static class Methods
     {

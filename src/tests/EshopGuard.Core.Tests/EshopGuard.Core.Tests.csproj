@@ -21,6 +21,7 @@
     <None Include="..\..\config\legal_requirements.yaml" Link="config\legal_requirements.yaml" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\config\sieve.yaml" Link="config\sieve.yaml" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\config\rewrite.yaml" Link="config\rewrite.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\config\platforms.yaml" Link="config\platforms.yaml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

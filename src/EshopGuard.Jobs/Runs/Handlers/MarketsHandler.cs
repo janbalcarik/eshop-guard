@@ -268,7 +268,8 @@ internal sealed class MarketsHandler(
                     source = excluded.source, translated_share = excluded.translated_share, language_share = excluded.language_share,
                     description_languages = excluded.description_languages, sample_run_id = excluded.sample_run_id,
                     product_count = excluded.product_count, crawl_scope = excluded.crawl_scope,
-                    status = CASE WHEN shop.shop_languages.source = 'user' THEN shop.shop_languages.status ELSE excluded.status END,
+                    status = CASE WHEN shop.shop_languages.source = 'user' OR shop.shop_languages.decided_at IS NOT NULL
+                                  THEN shop.shop_languages.status ELSE excluded.status END,
                     updated_at = now()
                 """, connection, transaction)
             {

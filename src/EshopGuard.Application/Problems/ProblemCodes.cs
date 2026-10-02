@@ -51,6 +51,54 @@ public static class ProblemCodes
     public const string InvitationEmailMismatch = "invitation.email_mismatch";
     public const string InvitationAlreadyMember = "invitation.already_member";
 
+    public const string ShopNotFound = "shop.not_found";
+    public const string ShopUrlInvalid = "shop.url_invalid";
+    public const string ShopUrlNotAllowed = "shop.url_not_allowed";
+    public const string ShopAlreadyExists = "shop.already_exists";
+    public const string ShopSubscriptionActive = "shop.subscription_active";
+    public const string ShopRunInProgress = "shop.run_in_progress";
+    public const string ShopConnectorNotConnected = "shop.connector_not_connected";
+    public const string ShopOwnershipNotVerified = "shop.ownership_not_verified";
+    public const string ShopStatusNotOrderable = "shop.status_not_orderable";
+    public const string DetectionInProgress = "detection.in_progress";
+    public const string PlatformUnknown = "platform.unknown";
+    public const string FeedUrlInvalid = "feed.url_invalid";
+    public const string FeedFormatUnknown = "feed.format_unknown";
+    public const string SourceModeUnknown = "source.mode_unknown";
+
+    public const string SampleAlreadyUsedForDomain = "sample.already_used_for_domain";
+    public const string SampleNotAllowedInStatus = "sample.not_allowed_in_status";
+    public const string SampleNotStarted = "sample.not_started";
+    public const string SampleNotFinished = "sample.not_finished";
+
+    public const string MarketsNoneSelected = "markets.none_selected";
+    public const string MarketsUnsupported = "markets.unsupported";
+    public const string MarketsUnknown = "markets.unknown";
+    public const string MarketsLockedDuringRun = "markets.locked_during_run";
+    public const string MarketsNotConfirmed = "markets.not_confirmed";
+
+    public const string LanguageNotFound = "language.not_found";
+    public const string LanguageNotAwaitingConfirmation = "language.not_awaiting_confirmation";
+    public const string LanguageLastCheckedVersion = "language.last_checked_version";
+    public const string LanguageAwaitingConfirmation = "language.awaiting_confirmation";
+    public const string LanguagesConfirmationPending = "languages.confirmation_pending";
+
+    public const string ScopeBasisMissing = "scope.basis_missing";
+    public const string ScopeNoCheckableVersion = "scope.no_checkable_version";
+    public const string ScopeProductCountUnknown = "scope.product_count_unknown";
+    public const string QuoteSampleNotFinished = "quote.sample_not_finished";
+    public const string QuoteBasisMissing = "quote.basis_missing";
+    public const string BillingUnavailable = "billing.unavailable";
+
+    public const string OwnershipMethodUnknown = "ownership.method_unknown";
+    public const string OwnershipAlreadyVerified = "ownership.already_verified";
+    public const string OwnershipVerificationNotFound = "ownership.verification_not_found";
+
+    public const string SettingsNoModule = "settings.no_module";
+    public const string SettingsModuleUnavailable = "settings.module_unavailable";
+    public const string SettingsHiddenCheckRequiresConnector = "settings.hidden_check_requires_connector";
+    public const string SettingsHiddenCheckUnsupportedPlatform = "settings.hidden_check_unsupported_platform";
+
     /// <summary>Codes of single fields inside <see cref="ValidationFailed"/>.</summary>
     public static class Fields
     {
@@ -62,5 +110,7 @@ public static class ProblemCodes
         public const string NameTooLong = "name.too_long";
         public const string RoleInvalid = "role.invalid";
         public const string CodeInvalid = "code.invalid";
+        public const string UrlInvalid = "url.invalid";
+        public const string ValueUnknown = "value.unknown";
     }
 }

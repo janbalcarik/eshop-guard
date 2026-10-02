@@ -58,6 +58,7 @@ internal sealed class HttpPageFetcher(
             var status = (int)response.StatusCode;
             var contentType = response.Content.Headers.ContentType;
             IReadOnlyList<string> setCookies = response.Headers.TryGetValues("Set-Cookie", out var cookies) ? cookies.ToList() : [];
+            IReadOnlyList<KeyValuePair<string, string>> headers = fetch.CaptureHeaders ? Headers(response) : [];
 
             if (status == 304)
             {
@@ -81,6 +82,7 @@ internal sealed class HttpPageFetcher(
                     StatusCode = status,
                     RedirectLocation = location is null ? null : location.IsAbsoluteUri ? location : new Uri(url, location),
                     SetCookies = setCookies,
+                    Headers = headers,
                 };
             }
 
@@ -88,7 +90,7 @@ internal sealed class HttpPageFetcher(
             {
                 var retry = response.Headers.RetryAfter;
                 var retryAfter = retry?.Delta ?? (retry?.Date is { } date ? date - DateTimeOffset.UtcNow : null);
-                return new FetchResponse { Url = url, StatusCode = status, MediaType = contentType?.MediaType, RetryAfter = retryAfter, SetCookies = setCookies };
+                return new FetchResponse { Url = url, StatusCode = status, MediaType = contentType?.MediaType, RetryAfter = retryAfter, SetCookies = setCookies, Headers = headers };
             }
 
             if (response.Content.Headers.ContentLength > maxBytes)
@@ -113,6 +115,7 @@ internal sealed class HttpPageFetcher(
                 ETag = response.Headers.ETag?.ToString(),
                 LastModified = response.Content.Headers.LastModified,
                 SetCookies = setCookies,
+                Headers = headers,
             };
         }
         catch (OperationCanceledException) when (!ct.IsCancellationRequested)
@@ -131,6 +134,11 @@ internal sealed class HttpPageFetcher(
             return new FetchResponse { Url = url, Error = ex.Message };
         }
     }
+
+    private static List<KeyValuePair<string, string>> Headers(HttpResponseMessage response) =>
+        response.Headers.Concat(response.Content.Headers)
+            .SelectMany(h => h.Value.Select(v => new KeyValuePair<string, string>(h.Key.ToLowerInvariant(), v)))
+            .ToList();
 
     private static SsrfBlockedException? FindBlocked(Exception? ex)
     {

@@ -99,6 +99,14 @@ public enum VerificationMethod
     Connector,
 }
 
+/// <summary>Values of <c>ShopVerificationStatus</c> (stored as snake_case text with a CHECK constraint).</summary>
+public enum ShopVerificationStatus
+{
+    Pending,
+    Verified,
+    Failed,
+}
+
 /// <summary>Values of <c>ConnectorStatus</c> (stored as snake_case text with a CHECK constraint).</summary>
 public enum ConnectorStatus
 {

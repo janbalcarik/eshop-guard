@@ -30,6 +30,7 @@ internal static class WorkerTestHost
             ["Worker:Slots:System"] = "0",
             ["Scheduler:Enabled"] = "false",
             ["Frontend:BaseUrl"] = "https://app.eshopguard.test",
+            ["Shops:Ownership:RequiredBefore:0"] = "full_analysis",
         });
         builder.Configuration.AddInMemoryCollection(settings);
         builder.Logging.ClearProviders();

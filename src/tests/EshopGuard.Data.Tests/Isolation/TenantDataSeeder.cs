@@ -60,7 +60,7 @@ internal static class TenantDataSeeder
         var fixGroup = new FixGroup { ShopId = shop.Id, Kind = FixGroupKind.RepeatedText, Status = FixGroupStatus.Draft, PageCount = 1 };
         var subscription = new Subscription { ShopId = shop.Id, Status = SubscriptionStatus.Active, Interval = BillingInterval.Month, PriceListId = priceListId, TierCode = "s", UnitPrice = 29m };
         db.AddRange(run, profile, connector, fixGroup, subscription);
-        db.Add(new ShopVerification { ShopId = shop.Id, Method = VerificationMethod.Meta, Token = "token", Status = "verified" });
+        db.Add(new ShopVerification { ShopId = shop.Id, Method = VerificationMethod.Meta, Token = "token", Status = ShopVerificationStatus.Verified });
         db.Add(new Feed { ShopId = shop.Id, Url = "https://vegis.sk/feed.xml", Format = FeedFormat.Heureka });
         db.Add(new ShopFact { ShopId = shop.Id, Topic = "packaging", Text = "Recyklovateľný obal", CreatedBy = tenant.UserId });
         db.Add(new NotificationSetting { UserId = tenant.UserId, ShopId = shop.Id, EmailNewViolation = true });
