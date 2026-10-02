@@ -60,7 +60,8 @@ internal sealed class FinalizeHandler(RunHandlerContext context) : RunJobHandler
             var markets = await RunFiles.GetTextAsync(Ctx.Blobs, RunFiles.Key(job.Scope, RunFiles.Discovery, "markets.json.gz"), ct).ConfigureAwait(false);
             var analysis = markets is null ? null : JsonSerializer.Deserialize<MarketsAnalysisResult>(markets, PipelineJson.Options);
             var sitemap = await RunFiles.GetAsync<DiscoveryResult>(Ctx.Blobs, job.Scope, RunFiles.Discovery, DiscoverHandler.Scope(0), ct).ConfigureAwait(false);
-            basis = ScopeBasisBuilder.Build(analysis, run.Id, sitemap?.SitemapEntries.Count ?? 0, Ctx.Guard.Markets.CountedMinOwnShare, Ctx.Time.GetUtcNow());
+            var versions = await RunFiles.GetAsync<List<VersionSitemap>>(Ctx.Blobs, job.Scope, RunFiles.Discovery, VersionSitemap.File, ct).ConfigureAwait(false);
+            basis = ScopeBasisBuilder.Build(analysis, run.Id, sitemap?.SitemapEntries.Count ?? 0, Ctx.Guard.Markets.CountedMinOwnShare, Ctx.Time.GetUtcNow(), versions);
         }
 
         var estimated = RunStore.Decimal(RunStore.Section(run.Estimate, "internal"), "total_usd");

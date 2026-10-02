@@ -172,7 +172,7 @@ internal sealed class FetchBatchHandler(RunHandlerContext context, FetchStep fet
 
         var seq = checked((batchNo * 100_000) + index);
         await RunPages.UpsertUrlAsync(connection, transaction, scopeContext.TenantId, scopeContext.RunId, hash,
-            new RunUrlRow(scope.ScopeKey, url, scope.Language ?? page.Extract?.Info.Language, state, page.IsHome ? "home" : null, seq, batchNo, code, pageId), ct).ConfigureAwait(false);
+            new RunUrlRow(scope.ScopeKey, url, scope.Language ?? page.Extract?.Info.Language, state, page.IsHome ? "home" : null, seq, batchNo, code, pageId, page.HttpStatus), ct).ConfigureAwait(false);
         if (page.RequestedUrl.AbsoluteUri != url)
         {
             await using var redirected = new NpgsqlCommand(

@@ -14,7 +14,7 @@ using DataPageType = EshopGuard.Data.Entities.Content.PageType;
 namespace EshopGuard.Jobs.Runs;
 
 /// <summary>An address of a run with its outcome (<c>checks.run_urls</c>).</summary>
-internal sealed record RunUrlRow(string ScopeKey, string Url, string? Language, RunUrlState State, string? Queue, int? Seq, int? BatchNo, string? ErrorCode, Guid? PageId);
+internal sealed record RunUrlRow(string ScopeKey, string Url, string? Language, RunUrlState State, string? Queue, int? Seq, int? BatchNo, string? ErrorCode, Guid? PageId, int? HttpStatus = null);
 
 /// <summary>A page of the run read back for a step over the whole site: its address, page and extraction.</summary>
 internal sealed record RunPage(string ScopeKey, string Url, Guid PageId, string? Language, ExtractedPageRecord Record);
@@ -44,7 +44,7 @@ internal static class RunPages
         FetchOutcome.RedirectOffSite => (RunUrlState.OffsiteRedirect, "offsite_redirect"),
         FetchOutcome.RobotsBlocked => (RunUrlState.RobotsBlocked, "robots_blocked"),
         FetchOutcome.Blocked => (RunUrlState.SsrfBlocked, "ssrf_blocked"),
-        _ => (RunUrlState.Failed, "fetch_failed"),
+        _ => (StepErrorPolicy.OfShopFailure(page.HttpStatus, page.FailureCode), page.FailureCode ?? "fetch_failed"),
     };
 
     /// <summary>Inserts or updates the page and returns its id.</summary>
@@ -94,8 +94,8 @@ internal static class RunPages
     {
         await using var command = new NpgsqlCommand(
             """
-            INSERT INTO checks.run_urls (tenant_id, run_id, scope_key, url_hash, url, language, state, queue, seq, batch_no, attempts, error_code, page_id, created_at, updated_at)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, now(), now())
+            INSERT INTO checks.run_urls (tenant_id, run_id, scope_key, url_hash, url, language, state, queue, seq, batch_no, attempts, error_code, page_id, http_status, created_at, updated_at)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, now(), now())
             ON CONFLICT (run_id, scope_key, url_hash) DO UPDATE SET
                 state = CASE WHEN excluded.state = 'pending' THEN checks.run_urls.state ELSE excluded.state END,
                 url = excluded.url,
@@ -105,6 +105,7 @@ internal static class RunPages
                 attempts = checks.run_urls.attempts + excluded.attempts,
                 error_code = coalesce(excluded.error_code, checks.run_urls.error_code),
                 page_id = coalesce(excluded.page_id, checks.run_urls.page_id),
+                http_status = coalesce(excluded.http_status, checks.run_urls.http_status),
                 updated_at = now()
             """, connection, transaction)
         {
@@ -123,6 +124,7 @@ internal static class RunPages
                 new NpgsqlParameter { Value = (short)(row.State == RunUrlState.Pending ? 0 : 1) },
                 new NpgsqlParameter { Value = (object?)row.ErrorCode ?? DBNull.Value, NpgsqlDbType = NpgsqlDbType.Text },
                 new NpgsqlParameter { Value = (object?)row.PageId ?? DBNull.Value, NpgsqlDbType = NpgsqlDbType.Uuid },
+                new NpgsqlParameter { Value = row.HttpStatus is { } status ? (short)status : DBNull.Value, NpgsqlDbType = NpgsqlDbType.Smallint },
             },
         };
         await command.ExecuteNonQueryAsync(ct).ConfigureAwait(false);

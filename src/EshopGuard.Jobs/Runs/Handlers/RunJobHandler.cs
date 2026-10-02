@@ -61,7 +61,9 @@ public sealed class RunJob(JobExecutionContext context, RunRow run, RunAmbientSc
 /// canceled (a canceled run ends <c>canceled</c> here). During the step: the tenant, e-shop and run of the job are the
 /// context of the stores (<see cref="RunAmbient"/>). After it: the usage gathered is written. Errors: invalid rule sets end
 /// the run <c>failed</c>; a fatal error of Jev or OpenAI (key, credit) pauses the class of jobs without using an attempt
-/// (change 4) with the event <c>run.paused_internal</c>; other exceptions go to the queue, which repeats the batch.
+/// (change 4) with the event <c>run.paused_internal</c>; other exceptions go to the queue, which repeats the batch; on the
+/// last attempt of the job they end the run <c>failed</c> with <c>internal_error</c>, so no run is left unfinished
+/// (<see cref="StepErrorPolicy"/>).
 /// </summary>
 public abstract class RunJobHandler(RunHandlerContext context) : IJobHandler
 {
@@ -130,10 +132,18 @@ public abstract class RunJobHandler(RunHandlerContext context) : IJobHandler
         {
             return await PauseAsync(context, run, "llm.fatal_" + ex.StatusCode, ct).ConfigureAwait(false);
         }
-        catch (TransientStepException ex)
+        catch (TransientStepException ex) when (!StepErrorPolicy.IsLastAttempt(job))
         {
-            _logger.LogWarning("run.step_retry {RunId} {TenantId} {JobId} {Kind} {Code}", runId, tenantId, job.Id, Kind, ex.Code);
+            _logger.LogWarning("run.step_retry {RunId} {TenantId} {JobId} {Kind} {Attempt} {Code}", runId, tenantId, job.Id, Kind, job.Attempt, ex.Code);
             return new JobResult.Retry(ex.Code, ex.RetryAfter);
+        }
+        catch (Exception ex) when (StepErrorPolicy.IsLastAttempt(job) && ex is not (OperationCanceledException or LeaseLostException))
+        {
+            // The queue would fail the job and the run would wait for it forever.
+            _logger.LogError("run.step_exhausted {RunId} {TenantId} {JobId} {Kind} {Attempt} {ErrorKind} {ExceptionType}",
+                runId, tenantId, job.Id, Kind, job.Attempt, StepErrorPolicy.Of(ex), ex.GetType().Name);
+            await FailRunAsync(context, run.Id, RunCodes.InternalError, ct).ConfigureAwait(false);
+            return JobResult.Done;
         }
         finally
         {
@@ -227,13 +237,4 @@ public abstract class RunJobHandler(RunHandlerContext context) : IJobHandler
         await InTenantAsync(run.TenantId, (c, t) => RunEventWriter.WriteAsync(c, t, run.TenantId, run.Id, "warning", RunCodes.EventPausedInternal, new System.Text.Json.Nodes.JsonObject(), ct), ct).ConfigureAwait(false);
         return new JobResult.PauseClass(code);
     }
-}
-
-/// <summary>A temporary failure of a step after the clients' own retries: the queue repeats the batch later.</summary>
-public sealed class TransientStepException(string code, TimeSpan? retryAfter = null, Exception? inner = null)
-    : Exception($"{code}: temporary failure of a step", inner)
-{
-    public string Code { get; } = code;
-
-    public TimeSpan? RetryAfter { get; } = retryAfter;
 }

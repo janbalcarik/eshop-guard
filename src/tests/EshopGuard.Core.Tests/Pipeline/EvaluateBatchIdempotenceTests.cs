@@ -54,16 +54,23 @@ public sealed class EvaluateBatchIdempotenceTests
         Assert.Equal(50, client.Calls);
     }
 
-    [Fact]
-    public async Task FailedRequest_IsListedAsNotEvaluated()
+    [Theory]
+    [InlineData(500, 1)]
+    [InlineData(503, 1)]
+    [InlineData(429, 1)]
+    [InlineData(0, 1)]
+    [InlineData(400, 0)]
+    [InlineData(422, 0)]
+    public async Task FailedRequest_IsListedAsNotEvaluated_AndCountedAsTransientOnlyWhenItMayPassLater(int status, int transient)
     {
-        var client = new ScriptedJevClient { FailAt = 3 };
+        var client = new ScriptedJevClient { FailAt = 3, FailStatus = status };
         await using var provider = Create(client, new InMemoryJevCache());
         var (input, ruleSets) = await BatchAsync(provider, 5);
 
         var result = await provider.GetRequiredService<EvaluateStep>().EvaluateAsync(input, ruleSets, null, TestContext.Current.CancellationToken);
 
         Assert.Equal(1, result.Errors);
+        Assert.Equal(transient, result.TransientErrors);
         Assert.Equal([input.Segments[2].Hash], result.NotEvaluated);
         Assert.Equal(4, result.Probabilities.Count);
     }
@@ -108,6 +115,8 @@ public sealed class EvaluateBatchIdempotenceTests
 
         public int? FailAt { get; init; }
 
+        public int FailStatus { get; init; } = 500;
+
         public int Calls { get; set; }
 
         public CancellationToken Token => _cancel.Token;
@@ -122,7 +131,7 @@ public sealed class EvaluateBatchIdempotenceTests
 
             if (Calls == FailAt)
             {
-                throw new JevApiException("Chyba.", 500, null, isFatal: false);
+                throw new JevApiException("Chyba.", FailStatus, null, isFatal: false);
             }
 
             if (Calls > CancelAfter)

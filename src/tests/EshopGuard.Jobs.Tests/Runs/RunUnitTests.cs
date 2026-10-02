@@ -111,6 +111,27 @@ public sealed class RunUnitTests
     }
 
     [Fact]
+    public void ScopeBasis_GivesOtherPagesOfACheckedVersion_AndLeavesAnUncheckedOneUnknown()
+    {
+        var analysis = new MarketsAnalysisResult
+        {
+            Site = "https://bylinkovo.sk/",
+            Versions =
+            [
+                new ShopLanguageRow { Language = "sk", BaseUrl = "https://bylinkovo.sk/", SwitchMethod = "path", Source = "main", Status = "active", Counted = true, ProductCount = 3120 },
+                new ShopLanguageRow { Language = "cs", BaseUrl = "https://bylinkovo.sk/cz/", SwitchMethod = "path", Source = "hreflang", Status = "active", Counted = true, ProductCount = 3090 },
+            ],
+        };
+        VersionSitemap[] sitemaps = [new("sk", "https://bylinkovo.sk/", 3120, 76), new("cs", "https://bylinkovo.sk/other/", 3090, 70)];
+
+        var basis = ScopeBasisBuilder.Build(analysis, Guid.CreateVersion7(), 6386, 0.2, DateTimeOffset.UnixEpoch, sitemaps);
+
+        var versions = basis["versions"]!.AsArray();
+        Assert.Equal(76, (int)versions[0]!["other_pages"]!);
+        Assert.Null(versions[1]!["other_pages"]);
+    }
+
+    [Fact]
     public void Estimate_OfAFreeSample_IsCheckedAgainstItsCap()
     {
         var runs = new RunsOptions();

@@ -27,6 +27,9 @@ internal sealed record SieveBatchInput(IReadOnlyList<SieveChunkInput> Chunks, IR
 internal sealed record SieveBatchResult(IReadOnlyList<SieveChunkResult> Chunks, int Calls, int CacheHits, int Errors, int TooLong, long InputTokens) : IPipelineRecord
 {
     public int SchemaVersion { get; init; } = PipelineSchema.Version;
+
+    /// <summary>Of <see cref="Errors"/>, failures that may pass on a later attempt (<see cref="ServiceErrors"/>).</summary>
+    public int TransientErrors { get; init; }
 }
 
 /// <summary>Input of one batch of <see cref="EvaluateStep"/>.</summary>
@@ -49,6 +52,9 @@ internal sealed record EvaluateBatchResult(
     IReadOnlyList<string> NotEvaluated) : IPipelineRecord
 {
     public int SchemaVersion { get; init; } = PipelineSchema.Version;
+
+    /// <summary>Of <see cref="Errors"/>, failures that may pass on a later attempt (<see cref="ServiceErrors"/>).</summary>
+    public int TransientErrors { get; init; }
 
     public static EvaluateBatchResult Empty { get; } = new(0, 0, 0, 0, null, new Dictionary<string, Dictionary<string, double>>(), []);
 }

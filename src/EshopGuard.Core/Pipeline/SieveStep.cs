@@ -14,7 +14,10 @@ internal sealed class SieveStep(PageSieve pageSieve)
         ArgumentNullException.ThrowIfNull(input);
         var (_, work) = await pageSieve.PrepareAsync(input.Chunks.Select(c => (c.Url, c.Chunk)).ToList(), sieve, input.Modules, input.QuestionLanguage, ct);
         var summary = await pageSieve.EvaluateAsync(work, input.Concurrency, progress, ct);
-        return new SieveBatchResult(summary.Chunks, summary.Calls, summary.CacheHits, summary.Errors, summary.TooLong, summary.InputTokens);
+        return new SieveBatchResult(summary.Chunks, summary.Calls, summary.CacheHits, summary.Errors, summary.TooLong, summary.InputTokens)
+        {
+            TransientErrors = summary.TransientErrors,
+        };
     }
 
     /// <summary>

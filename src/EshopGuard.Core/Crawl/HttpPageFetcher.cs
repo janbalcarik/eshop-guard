@@ -93,14 +93,14 @@ internal sealed class HttpPageFetcher(
 
             if (response.Content.Headers.ContentLength > maxBytes)
             {
-                return new FetchResponse { Url = url, StatusCode = status, Error = $"larger than {maxBytes} bytes" };
+                return new FetchResponse { Url = url, StatusCode = status, Error = $"larger than {maxBytes} bytes", TooLarge = true };
             }
 
             await using var stream = await response.Content.ReadAsStreamAsync(ct);
             var body = await ReadLimitedAsync(stream, maxBytes, ct);
             if (body is null)
             {
-                return new FetchResponse { Url = url, StatusCode = status, Error = $"larger than {maxBytes} bytes" };
+                return new FetchResponse { Url = url, StatusCode = status, Error = $"larger than {maxBytes} bytes", TooLarge = true };
             }
 
             return new FetchResponse

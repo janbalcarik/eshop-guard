@@ -20,7 +20,10 @@ internal sealed class EvaluateStep(SegmentEvaluator segmentEvaluator)
             segments, ruleSets, input.QuestionLanguage, input.Concurrency, confirm: null, progress, ct,
             (segment, set) => modules[segment.Hash].Contains(set.Module));
         var probabilities = segments.Where(s => s.Probabilities.Count > 0).ToDictionary(s => s.Hash, s => s.Probabilities);
-        return new EvaluateBatchResult(summary.Calls, summary.CacheHits, summary.Errors, summary.InputTokens, summary.Model, probabilities, summary.NotEvaluated);
+        return new EvaluateBatchResult(summary.Calls, summary.CacheHits, summary.Errors, summary.InputTokens, summary.Model, probabilities, summary.NotEvaluated)
+        {
+            TransientErrors = summary.TransientErrors,
+        };
     }
 
     /// <summary>Writes the probabilities of a batch into the segments of the run.</summary>

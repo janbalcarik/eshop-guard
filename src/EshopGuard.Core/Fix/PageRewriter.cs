@@ -170,7 +170,10 @@ internal sealed class PageRewriter(
             catch (RewriteApiException ex) when (!ex.IsFatal)
             {
                 logger.LogWarning("Rewrite of {Url} failed: {Message}", work.Page.Url, ex.Message);
-                return new RewritePage { Url = work.Page.Url, Findings = work.Findings, Blocks = Apply(work, []), Error = ex.Message };
+                return new RewritePage
+                {
+                    Url = work.Page.Url, Findings = work.Findings, Blocks = Apply(work, []), Error = ex.Message, ErrorIsTransient = Pipeline.ServiceErrors.IsTransient(ex),
+                };
             }
 
             usage.Add(response);

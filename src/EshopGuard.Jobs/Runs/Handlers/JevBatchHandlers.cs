@@ -14,7 +14,8 @@ namespace EshopGuard.Jobs.Runs.Handlers;
 
 /// <summary>
 /// <c>run.sieve</c>: one batch of chunks of the sieve (<c>Runs:SieveBatchChunks</c>). Answers go to the cache as they arrive
-/// (a repeated batch pays nothing twice) and the usage with them; the batch that finishes last plans the evaluation.
+/// (a repeated batch pays nothing twice) and the usage with them; chunks Jev did not answer for a while send the batch back
+/// to the queue (<see cref="StepErrorPolicy"/>); the batch that finishes last plans the evaluation.
 /// </summary>
 internal sealed class SieveBatchHandler(RunHandlerContext context, IRuleSetProvider ruleSets, SieveStep sieve) : RunJobHandler(context)
 {
@@ -34,6 +35,12 @@ internal sealed class SieveBatchHandler(RunHandlerContext context, IRuleSetProvi
         var input = await RunFiles.RequireAsync<SieveBatchInput>(Ctx.Blobs, job.Scope, RunFiles.Work, SegmentHandler.SieveFile(batch), ct).ConfigureAwait(false);
         job.Scope.JevOperation = UsageOperation.Sieve;
         var result = await sieve.SieveAsync(input, rules.Sieve ?? rules.Catalog.Sieve!, null, ct).ConfigureAwait(false);
+        if (StepErrorPolicy.RepeatBatch(result.TransientErrors, job.Job))
+        {
+            // The answers received are in the cache: the repeated batch asks only for the chunks without one.
+            throw new TransientStepException(StepErrorPolicy.JevUnavailable);
+        }
+
         await RunFiles.PutAsync(Ctx.Blobs, job.Scope, RunFiles.Work, ResultFile(batch), result, ct).ConfigureAwait(false);
         await CompleteAsync(job, async (tx, locked) =>
         {
@@ -121,8 +128,9 @@ internal sealed class PlanEvaluateHandler(RunHandlerContext context, IRuleSetPro
 
 /// <summary>
 /// <c>run.evaluate</c>: one batch of segments with the detailed questions of their modules (<c>EvaluateStep</c>, one Jev
-/// request per segment through the limiter of the worker). Answers go to the cache as they arrive; segments whose request
-/// failed stay without an answer and are reported. The batch that finishes last starts the rules.
+/// request per segment through the limiter of the worker). Answers go to the cache as they arrive; segments Jev did not answer
+/// for a while send the batch back to the queue, and after its last attempt they stay without an answer and are reported
+/// (<see cref="StepErrorPolicy"/>). The batch that finishes last starts the rules.
 /// </summary>
 internal sealed class EvaluateBatchHandler(RunHandlerContext context, IRuleSetProvider ruleSets, EvaluateStep evaluate) : RunJobHandler(context)
 {
@@ -142,6 +150,12 @@ internal sealed class EvaluateBatchHandler(RunHandlerContext context, IRuleSetPr
         var input = await RunFiles.RequireAsync<EvaluateBatchInput>(Ctx.Blobs, job.Scope, RunFiles.Work, PlanEvaluateHandler.EvaluateFile(batch), ct).ConfigureAwait(false);
         job.Scope.JevOperation = UsageOperation.SentenceEval;
         var result = await evaluate.EvaluateAsync(input, rules.RuleSets, null, ct).ConfigureAwait(false);
+        if (StepErrorPolicy.RepeatBatch(result.TransientErrors, job.Job))
+        {
+            // The answers received are in the cache: the repeated batch asks only for the segments without one.
+            throw new TransientStepException(StepErrorPolicy.JevUnavailable);
+        }
+
         await RunFiles.PutAsync(Ctx.Blobs, job.Scope, RunFiles.Work, ResultFile(batch), result, ct).ConfigureAwait(false);
         await CompleteAsync(job, async (tx, locked) =>
         {

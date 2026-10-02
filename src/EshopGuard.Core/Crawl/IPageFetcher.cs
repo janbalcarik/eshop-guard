@@ -42,6 +42,9 @@ public sealed class FetchResponse
     /// <summary>Error description when the request failed (timeout, too large, network error).</summary>
     public string? Error { get; init; }
 
+    /// <summary>True when the body was over the size limit and was not read (<see cref="Error"/> is set too).</summary>
+    public bool TooLarge { get; init; }
+
     /// <summary>How long the server asked to wait (Retry-After of a 429 or 503 answer).</summary>
     public TimeSpan? RetryAfter { get; init; }
 

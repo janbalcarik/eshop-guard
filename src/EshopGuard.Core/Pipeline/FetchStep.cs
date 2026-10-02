@@ -135,7 +135,7 @@ internal sealed class FetchStep(
             var download = await FetchHtmlAsync(item.Url);
             if (download.Html is null)
             {
-                Pages.Add(new FetchedPage(item.Url, download.FinalUrl, download.Outcome, isHome, item.Depth));
+                Pages.Add(new FetchedPage(item.Url, download.FinalUrl, download.Outcome, isHome, item.Depth) { HttpStatus = download.Status, FailureCode = download.Failure });
                 return;
             }
 
@@ -153,7 +153,7 @@ internal sealed class FetchStep(
                     download = await FetchHtmlAsync(download.FinalUrl, conditional: false);
                     if (download.Html is null)
                     {
-                        Pages.Add(new FetchedPage(item.Url, download.FinalUrl, download.Outcome, isHome, item.Depth));
+                        Pages.Add(new FetchedPage(item.Url, download.FinalUrl, download.Outcome, isHome, item.Depth) { HttpStatus = download.Status, FailureCode = download.Failure });
                         return;
                     }
                 }
@@ -256,7 +256,7 @@ internal sealed class FetchStep(
                 {
                     Log.LogWarning("Failed to download {Url}: status {Status}, {Error}", current, response.StatusCode, response.Error);
                     State.Counters.Failed++;
-                    return new Download(current, FetchOutcome.Failed);
+                    return new Download(current, FetchOutcome.Failed, Status: response.StatusCode == 0 ? null : response.StatusCode, Failure: FailureCode(response));
                 }
 
                 if (!IsHtml(response))
@@ -271,9 +271,17 @@ internal sealed class FetchStep(
 
             Log.LogWarning("Too many redirects from {Url}", url);
             State.Counters.Failed++;
-            return new Download(current, FetchOutcome.Failed);
+            return new Download(current, FetchOutcome.Failed, Failure: "too_many_redirects");
         }
     }
 
-    private readonly record struct Download(Uri FinalUrl, FetchOutcome Outcome, string? Html = null, string? ETag = null, DateTimeOffset? LastModified = null);
+    /// <summary>Why a request failed: <c>too_large</c>, <c>timeout</c>, <c>http_{status}</c> or <c>network_error</c>.</summary>
+    internal static string FailureCode(FetchResponse response) =>
+        response.TooLarge ? "too_large"
+        : response.Error == "timeout" ? "timeout"
+        : response.Error is null && response.StatusCode is >= 300 ? $"http_{response.StatusCode}"
+        : "network_error";
+
+    private readonly record struct Download(
+        Uri FinalUrl, FetchOutcome Outcome, string? Html = null, string? ETag = null, DateTimeOffset? LastModified = null, int? Status = null, string? Failure = null);
 }

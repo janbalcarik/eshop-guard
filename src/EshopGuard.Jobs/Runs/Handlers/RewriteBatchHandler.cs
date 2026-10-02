@@ -79,6 +79,13 @@ internal sealed class RewriteBatchHandler(RunHandlerContext context, RewriteStep
             results.Add(await rewrite.RewriteBatchAsync(input, null, ct).ConfigureAwait(false));
         }
 
+        var transient = results.SelectMany(r => r.Pages).Count(p => p.Error is not null && p.ErrorIsTransient);
+        if ((!run.IsSample || example is null) && StepErrorPolicy.RepeatBatch(transient, job.Job))
+        {
+            // Rewrites received are in the cache: the repeated batch asks only for the pages without one.
+            throw new TransientStepException(StepErrorPolicy.LlmUnavailable);
+        }
+
         var merged = RewriteStep.Merge(results);
         await CompleteAsync(job, async (tx, locked) =>
         {

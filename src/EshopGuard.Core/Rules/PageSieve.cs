@@ -23,6 +23,9 @@ internal sealed class SieveSummary
 
     public int Errors { get; init; }
 
+    /// <summary>Of <see cref="Errors"/>, failures that may pass later (<see cref="Pipeline.ServiceErrors.IsTransient"/>).</summary>
+    public int TransientErrors { get; init; }
+
     public int TooLong { get; init; }
 
     public long InputTokens { get; init; }
@@ -102,6 +105,7 @@ internal sealed class PageSieve(
         var pending = work.Where(w => w.CacheKey is not null && w.Cached is null).ToList();
         var answers = new ConcurrentDictionary<Prepared, JevResult>();
         var errors = 0;
+        var transient = 0;
         var completed = 0;
         long tokens = 0;
         JevApiException? fatal = null;
@@ -137,6 +141,11 @@ internal sealed class PageSieve(
             {
                 // Fail safe: the chunk keeps no probabilities and all its sentences are evaluated in detail.
                 Interlocked.Increment(ref errors);
+                if (Pipeline.ServiceErrors.IsTransient(ex))
+                {
+                    Interlocked.Increment(ref transient);
+                }
+
                 logger.LogWarning(ex, "Sieve request for chunk {Chunk} of {Url} failed; its sentences are evaluated in detail", item.Chunk.Index, item.Url);
             }
             finally
@@ -169,6 +178,7 @@ internal sealed class PageSieve(
             Calls = pending.Count,
             CacheHits = work.Count(w => w.Cached is not null),
             Errors = errors,
+            TransientErrors = transient,
             TooLong = work.Count(w => w.CacheKey is null),
             InputTokens = tokens,
         };

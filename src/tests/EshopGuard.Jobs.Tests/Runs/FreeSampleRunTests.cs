@@ -32,6 +32,8 @@ public sealed class FreeSampleRunTests(JobsTestDatabase database) : JobsTestBase
         Assert.True(sample["example_fix_proposal_id"] is not null || sample["example_fix_missing_reason"] is not null);
         var estimate = await RunTests.RunJsonAsync(Db, shop, runId, "estimate");
         Assert.Equal(runId.ToString("D"), (string)estimate["basis"]!["source_run_id"]!);
+        var main = estimate["basis"]!["versions"]!.AsArray().Single(v => (string?)v!["language"] == "sk")!;
+        Assert.True((int?)main["other_pages"] >= 0, "other_pages of the checked version");
         Assert.NotNull(estimate["internal"]!["total_usd"]);
         var markets = await RunTests.ScalarAsync<long>(Db, shop.TenantId, "SELECT count(*) FROM shop.shop_markets WHERE shop_id = $1 AND detection_run_id = $2", shop.ShopId, runId);
         var languages = await RunTests.ScalarAsync<long>(Db, shop.TenantId, "SELECT count(*) FROM shop.shop_languages WHERE shop_id = $1 AND sample_run_id = $2", shop.ShopId, runId);

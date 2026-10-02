@@ -201,6 +201,12 @@ internal sealed record FetchedPage(Uri RequestedUrl, Uri FinalUrl, FetchOutcome 
 {
     public string? ETag { get; init; }
 
+    /// <summary>HTTP status of a failed page, when the server answered.</summary>
+    public int? HttpStatus { get; init; }
+
+    /// <summary>Why the page failed (<see cref="FetchStep.FailureCode"/>); null for a page that did not fail.</summary>
+    public string? FailureCode { get; init; }
+
     public DateTimeOffset? LastModified { get; init; }
 
     /// <summary>The extraction, when the batch extracted the page right away (CLI, runs with a product limit, home page).</summary>

@@ -76,6 +76,7 @@ internal sealed class MarketsHandler(
         var mainDiscovery = await RunFiles.RequireAsync<DiscoveryResult>(Ctx.Blobs, job.Scope, RunFiles.Discovery, DiscoverHandler.Scope(0), ct).ConfigureAwait(false);
         var scopes = new List<(RunScopeRow Row, List<RunUrlRow> Planned)>();
         var budget = Math.Max(1, Ctx.Runs.FreeSample.MaxPages / Math.Max(1, crawled.Count));
+        var sitemaps = new List<VersionSitemap>();
         if (crawled.Count == 0)
         {
             // No version to check (the analysis failed or found none): the sample checks the site as given.
@@ -95,7 +96,11 @@ internal sealed class MarketsHandler(
                 ? Planned(found, urls, version.BaseUrl, version.Language)
                 : (Limit(found.Frontier, budget, budget), []);
             scopes.Add((Row(site.SiteUrl.AbsoluteUri, version.Language, scope, found, frontier), planned));
+            sitemaps.Add(VersionSitemap.Of(version.Language, version.BaseUrl, scope, found));
         }
+
+        // The pages of every checked version by its sitemap: the scope basis of the price (screen 3c: products and other pages).
+        await RunFiles.PutAsync(Ctx.Blobs, job.Scope, RunFiles.Discovery, VersionSitemap.File, sitemaps, ct).ConfigureAwait(false);
 
         var usage = result.Usage;
         var choice = default(RunScopeChoice);

@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using EshopGuard.Core.Models;
 
 namespace EshopGuard.Core.Fix;
@@ -165,6 +166,10 @@ public sealed class RewritePage
 
     /// <summary>Error of the page, if the model could not rewrite it.</summary>
     public string? Error { get; init; }
+
+    /// <summary>True when the <see cref="Error"/> may pass on a later attempt (no answer, 408, 429, 5xx); not written when false.</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool ErrorIsTransient { get; init; }
 }
 
 /// <summary>

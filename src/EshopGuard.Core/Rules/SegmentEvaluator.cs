@@ -34,6 +34,9 @@ internal sealed class EvaluationSummary
 
     public int Errors { get; init; }
 
+    /// <summary>Of <see cref="Errors"/>, failures that may pass later (<see cref="Pipeline.ServiceErrors.IsTransient"/>).</summary>
+    public int TransientErrors { get; init; }
+
     public long InputTokens { get; init; }
 
     public string? Model { get; init; }
@@ -134,6 +137,7 @@ internal sealed class SegmentEvaluator(
         var failed = new ConcurrentBag<string>();
         var completed = 0;
         var errors = 0;
+        var transient = 0;
         long tokens = 0;
         JevApiException? fatal = null;
         using var stop = CancellationTokenSource.CreateLinkedTokenSource(ct);
@@ -178,6 +182,11 @@ internal sealed class SegmentEvaluator(
             catch (Exception ex) when (ex is not OperationCanceledException)
             {
                 Interlocked.Increment(ref errors);
+                if (Pipeline.ServiceErrors.IsTransient(ex))
+                {
+                    Interlocked.Increment(ref transient);
+                }
+
                 failed.Add(request.Segment.Hash);
                 logger.LogWarning(ex, "Jev evaluation of segment {Hash} ({Modules}) failed", request.Segment.Hash, string.Join(", ", request.Items.Select(i => i.Module)));
             }
@@ -215,6 +224,7 @@ internal sealed class SegmentEvaluator(
             Calls = pending.Count,
             CacheHits = cached.Count,
             Errors = errors,
+            TransientErrors = transient,
             InputTokens = tokens,
             Model = modelName,
             NotEvaluated = [.. failed.Order(StringComparer.Ordinal)],
