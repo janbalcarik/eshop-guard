@@ -64,3 +64,16 @@ public sealed record SetPlatformRequest(string? Platform);
 public sealed record FeedRequest(string? Url, string? Format);
 
 public sealed record SetSourceRequest(string? Mode, FeedRequest? Feed);
+
+public sealed record ConfirmMarketsRequest(string[]? Active);
+
+public sealed record LanguageConfirmationRequest(bool? BelongsToShop);
+
+public sealed record LanguageExclusionRequest(bool? Excluded);
+
+public sealed record QuoteRequest(string[]? ActiveMarkets, string[]? ExcludedLanguages);
+
+public sealed record CreateVerificationRequest(string? Method);
+
+/// <summary>A field left out keeps its value; <c>name: null</c> clears the name.</summary>
+public sealed record UpdateShopSettingsRequest(System.Text.Json.JsonElement? Name, string[]? Modules, bool? CheckHiddenOnSave, uint? Version);

@@ -37,6 +37,21 @@ public sealed class RoleMatrixTests : ApiTestBase
         ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/detection"] = TenantRole.Admin,
         ["PUT /api/t/{tenantId:guid}/shops/{shopId:guid}/platform"] = TenantRole.Admin,
         ["PUT /api/t/{tenantId:guid}/shops/{shopId:guid}/source"] = TenantRole.Admin,
+        ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/sample"] = TenantRole.Admin,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/sample"] = TenantRole.Viewer,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/markets"] = TenantRole.Viewer,
+        ["PUT /api/t/{tenantId:guid}/shops/{shopId:guid}/markets"] = TenantRole.Admin,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/languages"] = TenantRole.Viewer,
+        ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/languages/{language}/confirmation"] = TenantRole.Admin,
+        ["PUT /api/t/{tenantId:guid}/shops/{shopId:guid}/languages/{language}/exclusion"] = TenantRole.Admin,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/scope"] = TenantRole.Viewer,
+        ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/quote"] = TenantRole.Admin,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/onboarding"] = TenantRole.Viewer,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/ownership"] = TenantRole.Viewer,
+        ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/ownership/verifications"] = TenantRole.Admin,
+        ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/ownership/verifications/{verificationId:guid}/check"] = TenantRole.Admin,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/settings"] = TenantRole.Viewer,
+        ["PATCH /api/t/{tenantId:guid}/shops/{shopId:guid}/settings"] = TenantRole.Admin,
     };
 
     [Fact]

@@ -27,7 +27,7 @@ public sealed record HomePageResult(Uri FinalUrl, FetchResponse? Response, strin
 
 /// <summary>
 /// Reads one home page the user named, for the recognition of the platform and the check of ownership (change 10): robots.txt
-/// first (a 4xx answer allows all, another failure forbids all, as the crawl), then the page through the fetcher with the
+/// first (a 4xx answer allows all, another status forbids all, as the crawl; no answer at all is <c>fetch_failed</c>), then the page through the fetcher with the
 /// protection against SSRF, redirects followed only within the same site (with or without <c>www.</c>, at most 5). A redirect
 /// to another domain is reported, never followed: only sites the user named are downloaded.
 /// </summary>
@@ -50,6 +50,12 @@ public static class HomePageReader
             if (!robots.TryGetValue(authority, out var rules))
             {
                 var answer = await fetcher.FetchAsync(new FetchRequest(new Uri(authority + "/robots.txt")), ct).ConfigureAwait(false);
+                if (answer.Error is not null)
+                {
+                    // No answer at all (network, the protection against SSRF, a timeout): the site was not reached.
+                    return new HomePageResult(current, null, answer.Error == "timeout" ? HomePageCodes.Timeout : HomePageCodes.FetchFailed, null);
+                }
+
                 rules = answer.IsSuccess
                     ? RobotsTxt.Parse(HtmlDecoding.Decode(answer.Body!, answer.Charset), token)
                     : answer.Error is null && answer.StatusCode is >= 400 and < 500 ? RobotsTxt.AllowAll : RobotsTxt.DisallowAll;

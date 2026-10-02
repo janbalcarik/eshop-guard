@@ -36,6 +36,23 @@
         ],
         "type": "object"
       },
+      "ConfirmMarketsRequest": {
+        "properties": {
+          "active": {
+            "items": {
+              "type": "string"
+            },
+            "type": [
+              "null",
+              "array"
+            ]
+          }
+        },
+        "required": [
+          "active"
+        ],
+        "type": "object"
+      },
       "ConnectorAvailabilityDto": {
         "properties": {
           "available": {
@@ -135,6 +152,20 @@
         ],
         "type": "object"
       },
+      "CreateVerificationRequest": {
+        "properties": {
+          "method": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "method"
+        ],
+        "type": "object"
+      },
       "CsrfTokenDto": {
         "properties": {
           "token": {
@@ -205,6 +236,59 @@
         ],
         "type": "object"
       },
+      "ExampleFixDto": {
+        "properties": {
+          "findingId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "originalText": {
+            "type": "string"
+          },
+          "proposalId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "proposedText": {
+            "type": "string"
+          },
+          "recheckStatus": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "proposalId",
+          "findingId",
+          "originalText",
+          "proposedText",
+          "recheckStatus"
+        ],
+        "type": "object"
+      },
+      "FairUseDto": {
+        "properties": {
+          "exceeded": {
+            "type": "boolean"
+          },
+          "otherPagesLimit": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "otherPagesLimit",
+          "exceeded"
+        ],
+        "type": "object"
+      },
       "FeedDto": {
         "properties": {
           "format": {
@@ -238,6 +322,46 @@
         "required": [
           "url",
           "format"
+        ],
+        "type": "object"
+      },
+      "FindingCountsDto": {
+        "properties": {
+          "byCheckability": {
+            "additionalProperties": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ]
+            },
+            "type": "object"
+          },
+          "bySeverity": {
+            "additionalProperties": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ]
+            },
+            "type": "object"
+          },
+          "total": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "total",
+          "byCheckability",
+          "bySeverity"
         ],
         "type": "object"
       },
@@ -358,6 +482,198 @@
         ],
         "type": "object"
       },
+      "JsonElement": {},
+      "LanguageConfirmationRequest": {
+        "properties": {
+          "belongsToShop": {
+            "type": [
+              "null",
+              "boolean"
+            ]
+          }
+        },
+        "required": [
+          "belongsToShop"
+        ],
+        "type": "object"
+      },
+      "LanguageExclusionRequest": {
+        "properties": {
+          "excluded": {
+            "type": [
+              "null",
+              "boolean"
+            ]
+          }
+        },
+        "required": [
+          "excluded"
+        ],
+        "type": "object"
+      },
+      "LanguageSummaryDto": {
+        "properties": {
+          "byMarket": {
+            "items": {
+              "$ref": "#/components/schemas/ScopeMarketDto"
+            },
+            "type": "array"
+          },
+          "checkedLanguages": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "mutualJurisdictions": {
+            "type": "boolean"
+          },
+          "versionsFound": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "versionsFound",
+          "checkedLanguages",
+          "mutualJurisdictions",
+          "byMarket"
+        ],
+        "type": "object"
+      },
+      "LanguageVersionDto": {
+        "properties": {
+          "baseUrl": {
+            "type": "string"
+          },
+          "checked": {
+            "type": "boolean"
+          },
+          "checkedReason": {
+            "type": "string"
+          },
+          "foreignTextLanguage": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "isMain": {
+            "type": "boolean"
+          },
+          "jurisdictions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "language": {
+            "type": "string"
+          },
+          "languageShare": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/JsonElement"
+              }
+            ]
+          },
+          "productCount": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "sampleProducts": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "source": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "switchMethod": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "translatedShare": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+-]?\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "untranslatedProducts": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "language",
+          "baseUrl",
+          "isMain",
+          "switchMethod",
+          "source",
+          "status",
+          "productCount",
+          "translatedShare",
+          "sampleProducts",
+          "untranslatedProducts",
+          "foreignTextLanguage",
+          "languageShare",
+          "checked",
+          "checkedReason",
+          "jurisdictions"
+        ],
+        "type": "object"
+      },
+      "LanguageVersionsDto": {
+        "properties": {
+          "summary": {
+            "$ref": "#/components/schemas/LanguageSummaryDto"
+          },
+          "versions": {
+            "items": {
+              "$ref": "#/components/schemas/LanguageVersionDto"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "summary",
+          "versions"
+        ],
+        "type": "object"
+      },
       "LocaleDto": {
         "properties": {
           "code": {
@@ -474,6 +790,42 @@
           "currency",
           "webStatus",
           "checksStatus"
+        ],
+        "type": "object"
+      },
+      "MarketEvidenceDto": {
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "pageUrl": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "params": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "quote": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "code",
+          "params",
+          "quote",
+          "pageUrl"
         ],
         "type": "object"
       },
@@ -636,6 +988,191 @@
         ],
         "type": "object"
       },
+      "NotCheckedDto": {
+        "properties": {
+          "byReason": {
+            "additionalProperties": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ]
+            },
+            "type": "object"
+          },
+          "fetchError": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "other": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "robotsBlocked": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "textNotLoaded": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "tooLarge": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "robotsBlocked",
+          "textNotLoaded",
+          "tooLarge",
+          "fetchError",
+          "other",
+          "byReason"
+        ],
+        "type": "object"
+      },
+      "OnboardingOwnershipDto": {
+        "properties": {
+          "required": {
+            "type": "boolean"
+          },
+          "verified": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "required",
+          "verified"
+        ],
+        "type": "object"
+      },
+      "OnboardingSampleDto": {
+        "properties": {
+          "runId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "runId"
+        ],
+        "type": "object"
+      },
+      "OnboardingStateDto": {
+        "properties": {
+          "blocking": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "languagesAwaitingConfirmation": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "marketsConfirmed": {
+            "type": "boolean"
+          },
+          "ownership": {
+            "$ref": "#/components/schemas/OnboardingOwnershipDto"
+          },
+          "sample": {
+            "$ref": "#/components/schemas/OnboardingSampleDto"
+          },
+          "scopeHash": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "step": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "step",
+          "blocking",
+          "sample",
+          "marketsConfirmed",
+          "languagesAwaitingConfirmation",
+          "ownership",
+          "scopeHash"
+        ],
+        "type": "object"
+      },
+      "OwnershipDto": {
+        "properties": {
+          "method": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "requiredBefore": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "verifications": {
+            "items": {
+              "$ref": "#/components/schemas/VerificationDto"
+            },
+            "type": "array"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "verifiedAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "verified",
+          "verifiedAt",
+          "method",
+          "requiredBefore",
+          "verifications"
+        ],
+        "type": "object"
+      },
       "PasswordLoginRequest": {
         "properties": {
           "email": {
@@ -679,6 +1216,161 @@
           "tenantName",
           "role",
           "expiresAt"
+        ],
+        "type": "object"
+      },
+      "PriceQuoteDto": {
+        "properties": {
+          "analysisNet": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "currency": {
+            "type": "string"
+          },
+          "fairUse": {
+            "$ref": "#/components/schemas/FairUseDto"
+          },
+          "firstMonitoringChargeAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "isCustom": {
+            "type": "boolean"
+          },
+          "monitoringDiscountPercent": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "monitoringMonthlyNet": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "priceListId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "quoteId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "tierCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "tierMaxProducts": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "todayNet": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "validUntil": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "vatPreview": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/JsonElement"
+              }
+            ]
+          }
+        },
+        "required": [
+          "quoteId",
+          "priceListId",
+          "currency",
+          "tierCode",
+          "tierMaxProducts",
+          "isCustom",
+          "fairUse",
+          "analysisNet",
+          "monitoringMonthlyNet",
+          "monitoringDiscountPercent",
+          "todayNet",
+          "firstMonitoringChargeAt",
+          "vatPreview",
+          "validUntil"
+        ],
+        "type": "object"
+      },
+      "QuoteDto": {
+        "properties": {
+          "price": {
+            "$ref": "#/components/schemas/PriceQuoteDto"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/ScopeDto"
+          }
+        },
+        "required": [
+          "scope",
+          "price"
+        ],
+        "type": "object"
+      },
+      "QuoteRequest": {
+        "properties": {
+          "activeMarkets": {
+            "items": {
+              "type": "string"
+            },
+            "type": [
+              "null",
+              "array"
+            ]
+          },
+          "excludedLanguages": {
+            "items": {
+              "type": "string"
+            },
+            "type": [
+              "null",
+              "array"
+            ]
+          }
+        },
+        "required": [
+          "activeMarkets",
+          "excludedLanguages"
         ],
         "type": "object"
       },
@@ -775,6 +1467,483 @@
         "required": [
           "token",
           "newPassword"
+        ],
+        "type": "object"
+      },
+      "SampleDto": {
+        "properties": {
+          "finishedAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "progress": {
+            "$ref": "#/components/schemas/SampleProgressDto"
+          },
+          "queue": {
+            "$ref": "#/components/schemas/SampleQueueDto"
+          },
+          "result": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SampleResultDto"
+              }
+            ]
+          },
+          "runId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "startedAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "runId",
+          "status",
+          "startedAt",
+          "finishedAt",
+          "progress",
+          "queue",
+          "result"
+        ],
+        "type": "object"
+      },
+      "SampleFindingDto": {
+        "properties": {
+          "findingId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "module": {
+            "type": "string"
+          },
+          "page": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SamplePageDto"
+              }
+            ]
+          },
+          "params": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/JsonElement"
+              }
+            ]
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "ruleSetId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "strictest": {
+            "$ref": "#/components/schemas/VerdictDto"
+          },
+          "text": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "verdicts": {
+            "items": {
+              "$ref": "#/components/schemas/VerdictDto"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "findingId",
+          "ruleSetId",
+          "ruleId",
+          "module",
+          "scope",
+          "strictest",
+          "verdicts",
+          "text",
+          "page",
+          "params"
+        ],
+        "type": "object"
+      },
+      "SamplePageDto": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "language": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "url",
+          "language"
+        ],
+        "type": "object"
+      },
+      "SampleProgressDto": {
+        "properties": {
+          "pagesFetched": {
+            "format": "int64",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "pagesPlanned": {
+            "format": "int64",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "pagesProcessed": {
+            "format": "int64",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "pagesPlanned",
+          "pagesFetched",
+          "pagesProcessed"
+        ],
+        "type": "object"
+      },
+      "SampleQueueDto": {
+        "properties": {
+          "estimatedFinishAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "position": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "position",
+          "estimatedFinishAt"
+        ],
+        "type": "object"
+      },
+      "SampleResultDto": {
+        "properties": {
+          "exampleFix": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ExampleFixDto"
+              }
+            ]
+          },
+          "exampleFixMissingReason": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "findingCounts": {
+            "$ref": "#/components/schemas/FindingCountsDto"
+          },
+          "jurisdictions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "notChecked": {
+            "$ref": "#/components/schemas/NotCheckedDto"
+          },
+          "pagesChecked": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "pagesPlanned": {
+            "format": "int64",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "topFindings": {
+            "items": {
+              "$ref": "#/components/schemas/SampleFindingDto"
+            },
+            "type": "array"
+          },
+          "versions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "pagesPlanned",
+          "pagesChecked",
+          "notChecked",
+          "versions",
+          "jurisdictions",
+          "findingCounts",
+          "topFindings",
+          "exampleFix",
+          "exampleFixMissingReason"
+        ],
+        "type": "object"
+      },
+      "ScopeBasisDto": {
+        "properties": {
+          "finishedAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "sampleRunId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "sampleRunId",
+          "finishedAt"
+        ],
+        "type": "object"
+      },
+      "ScopeCheckedVersionDto": {
+        "properties": {
+          "baseUrl": {
+            "type": "string"
+          },
+          "isMain": {
+            "type": "boolean"
+          },
+          "jurisdictions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "language": {
+            "type": "string"
+          },
+          "markets": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "otherPageCount": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "productCount": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "language",
+          "baseUrl",
+          "isMain",
+          "productCount",
+          "otherPageCount",
+          "jurisdictions",
+          "markets",
+          "reason"
+        ],
+        "type": "object"
+      },
+      "ScopeDto": {
+        "properties": {
+          "basis": {
+            "$ref": "#/components/schemas/ScopeBasisDto"
+          },
+          "checkedVersions": {
+            "items": {
+              "$ref": "#/components/schemas/ScopeCheckedVersionDto"
+            },
+            "type": "array"
+          },
+          "issues": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "jurisdictions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "markets": {
+            "items": {
+              "$ref": "#/components/schemas/ScopeMarketDto"
+            },
+            "type": "array"
+          },
+          "notCheckedVersions": {
+            "items": {
+              "$ref": "#/components/schemas/ScopeNotCheckedVersionDto"
+            },
+            "type": "array"
+          },
+          "otherPagesTotal": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "productTotal": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "scopeHash": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "markets",
+          "checkedVersions",
+          "notCheckedVersions",
+          "jurisdictions",
+          "productTotal",
+          "otherPagesTotal",
+          "basis",
+          "issues",
+          "scopeHash"
+        ],
+        "type": "object"
+      },
+      "ScopeMarketDto": {
+        "properties": {
+          "language": {
+            "type": "string"
+          },
+          "marketCode": {
+            "type": "string"
+          },
+          "productCount": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "marketCode",
+          "language",
+          "productCount"
+        ],
+        "type": "object"
+      },
+      "ScopeNotCheckedVersionDto": {
+        "properties": {
+          "baseUrl": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "language",
+          "baseUrl",
+          "reason"
         ],
         "type": "object"
       },
@@ -1067,6 +2236,156 @@
         ],
         "type": "object"
       },
+      "ShopMarketDto": {
+        "properties": {
+          "checksStatus": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/MarketEvidenceDto"
+            },
+            "type": "array"
+          },
+          "evidenceLevel": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "isHome": {
+            "type": "boolean"
+          },
+          "marketCode": {
+            "type": "string"
+          },
+          "preselected": {
+            "type": "boolean"
+          },
+          "source": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "countryCode",
+          "marketCode",
+          "isHome",
+          "status",
+          "preselected",
+          "evidenceLevel",
+          "source",
+          "evidence",
+          "checksStatus"
+        ],
+        "type": "object"
+      },
+      "ShopMarketsDto": {
+        "properties": {
+          "confirmedAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "confirmedBy": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "markets": {
+            "items": {
+              "$ref": "#/components/schemas/ShopMarketDto"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "markets",
+          "confirmedAt",
+          "confirmedBy"
+        ],
+        "type": "object"
+      },
+      "ShopModuleDto": {
+        "properties": {
+          "available": {
+            "type": "boolean"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "jurisdictions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "module": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "module",
+          "enabled",
+          "available",
+          "jurisdictions"
+        ],
+        "type": "object"
+      },
+      "ShopSettingsDto": {
+        "properties": {
+          "checkHiddenOnSave": {
+            "type": "boolean"
+          },
+          "checkHiddenOnSaveAvailable": {
+            "type": "boolean"
+          },
+          "excludedLanguages": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "modules": {
+            "items": {
+              "$ref": "#/components/schemas/ShopModuleDto"
+            },
+            "type": "array"
+          },
+          "name": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "version": {
+            "format": "uint32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "modules",
+          "checkHiddenOnSave",
+          "checkHiddenOnSaveAvailable",
+          "excludedLanguages",
+          "version"
+        ],
+        "type": "object"
+      },
       "TenantDto": {
         "properties": {
           "countryCode": {
@@ -1166,6 +2485,156 @@
         },
         "required": [
           "displayName"
+        ],
+        "type": "object"
+      },
+      "UpdateShopSettingsRequest": {
+        "properties": {
+          "checkHiddenOnSave": {
+            "type": [
+              "null",
+              "boolean"
+            ]
+          },
+          "modules": {
+            "items": {
+              "type": "string"
+            },
+            "type": [
+              "null",
+              "array"
+            ]
+          },
+          "name": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/JsonElement"
+              }
+            ]
+          },
+          "version": {
+            "format": "uint32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "modules",
+          "checkHiddenOnSave",
+          "version"
+        ],
+        "type": "object"
+      },
+      "VerdictDto": {
+        "properties": {
+          "band": {
+            "type": "string"
+          },
+          "checkability": {
+            "type": "string"
+          },
+          "jurisdiction": {
+            "type": "string"
+          },
+          "legalRefs": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/JsonElement"
+              }
+            ]
+          },
+          "severity": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "jurisdiction",
+          "checkability",
+          "severity",
+          "band",
+          "legalRefs"
+        ],
+        "type": "object"
+      },
+      "VerificationDto": {
+        "properties": {
+          "checkedAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "failureCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "instructions": {
+            "$ref": "#/components/schemas/VerificationInstructionsDto"
+          },
+          "method": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "method",
+          "status",
+          "token",
+          "instructions",
+          "checkedAt",
+          "failureCode"
+        ],
+        "type": "object"
+      },
+      "VerificationInstructionsDto": {
+        "properties": {
+          "dnsName": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "dnsValue": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "metaTag": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "metaTag",
+          "dnsName",
+          "dnsValue"
         ],
         "type": "object"
       }
@@ -2724,6 +4193,511 @@
         ]
       }
     },
+    "/api/t/{tenantId}/shops/{shopId}/languages": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LanguageVersionsDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/languages/{language}/confirmation": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "language",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/LanguageConfirmationRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LanguageVersionsDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "language.not_awaiting_confirmation",
+          "language.not_found",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/languages/{language}/exclusion": {
+      "put": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "language",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/LanguageExclusionRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LanguageVersionsDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "language.awaiting_confirmation",
+          "language.last_checked_version",
+          "language.not_found",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/markets": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopMarketsDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      },
+      "put": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ConfirmMarketsRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopMarketsDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "markets.locked_during_run",
+          "markets.none_selected",
+          "markets.unknown",
+          "markets.unsupported",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/onboarding": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardingStateDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/ownership": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OwnershipDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/ownership/verifications": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CreateVerificationRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerificationDto"
+                }
+              }
+            },
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "ownership.already_verified",
+          "ownership.method_unknown",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/ownership/verifications/{verificationId}/check": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "verificationId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerificationDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerificationDto"
+                }
+              }
+            },
+            "description": "Accepted"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "ownership.verification_not_found",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
     "/api/t/{tenantId}/shops/{shopId}/platform": {
       "put": {
         "parameters": [
@@ -2777,6 +4751,312 @@
           "rate_limited",
           "request.https_required",
           "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/quote": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/QuoteRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.unavailable",
+          "csrf.invalid",
+          "internal_error",
+          "markets.none_selected",
+          "markets.unknown",
+          "markets.unsupported",
+          "quote.basis_missing",
+          "quote.sample_not_finished",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "scope.no_checkable_version",
+          "scope.product_count_unknown",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/sample": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "sample.not_started",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleDto"
+                }
+              }
+            },
+            "description": "Accepted"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "sample.already_used_for_domain",
+          "sample.not_allowed_in_status",
+          "shop.not_found",
+          "shop.ownership_not_verified",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/scope": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScopeDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "quote.sample_not_finished",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "scope.basis_missing",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/settings": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopSettingsDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/UpdateShopSettingsRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopSettingsDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "shops"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "concurrency.conflict",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "settings.hidden_check_requires_connector",
+          "settings.hidden_check_unsupported_platform",
+          "settings.module_unavailable",
+          "settings.no_module",
           "shop.not_found",
           "tenant.not_found",
           "tenant.suspended",

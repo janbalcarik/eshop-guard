@@ -110,3 +110,140 @@ public sealed record VerdictDto(string Jurisdiction, string Checkability, string
 public sealed record SamplePageDto(Guid Id, string? Title, string Url, string? Language);
 
 public sealed record ExampleFixDto(Guid ProposalId, Guid? FindingId, string OriginalText, string ProposedText, string RecheckStatus);
+
+/// <summary>The places of sale of an e-shop (3c): only markets with checks, each with its reason.</summary>
+public sealed record ShopMarketsDto(IReadOnlyList<ShopMarketDto> Markets, DateTimeOffset? ConfirmedAt, Guid? ConfirmedBy);
+
+/// <summary>
+/// A market: its state, whether 3c ticks it in advance (strong evidence or delivery), the level of the evidence, the source,
+/// the reasons as codes with parameters and verified quotes, and the support of checks (<c>limited</c>, <c>full</c>).
+/// </summary>
+public sealed record ShopMarketDto(
+    string CountryCode,
+    string MarketCode,
+    bool IsHome,
+    string Status,
+    bool Preselected,
+    string? EvidenceLevel,
+    string Source,
+    IReadOnlyList<MarketEvidenceDto> Evidence,
+    string ChecksStatus);
+
+/// <summary>A reason of a market: a technical sign (<c>signal</c>: <c>seat</c>, <c>tld</c>, <c>currency</c> …) or a verified quote (<c>citation</c>).</summary>
+public sealed record MarketEvidenceDto(string Kind, string Code, IReadOnlyDictionary<string, string> Params, string? Quote, string? PageUrl);
+
+/// <summary>The language versions of an e-shop (3c, 3d), computed by the same rule as the price.</summary>
+public sealed record LanguageVersionsDto(LanguageSummaryDto Summary, IReadOnlyList<LanguageVersionDto> Versions);
+
+/// <summary>
+/// The summary sentence of 3c as codes: <c>single_version</c>, <c>all_checked</c>, <c>some_not_checked</c> or
+/// <c>needs_confirmation</c>; the version checked for every ticked market; whether a version is judged by more markets.
+/// </summary>
+public sealed record LanguageSummaryDto(
+    string Kind, int VersionsFound, IReadOnlyList<string> CheckedLanguages, bool MutualJurisdictions, IReadOnlyList<ScopeMarketDto> ByMarket);
+
+/// <summary>
+/// A version: address, how it is reached, its state, products, the share of the products of the sample with a description in
+/// its language (<c>translatedShare</c>) and those with a description in another language, whether it is checked and why.
+/// </summary>
+public sealed record LanguageVersionDto(
+    string Language,
+    string BaseUrl,
+    bool IsMain,
+    string? SwitchMethod,
+    string Source,
+    string Status,
+    int? ProductCount,
+    double? TranslatedShare,
+    int? SampleProducts,
+    int? UntranslatedProducts,
+    string? ForeignTextLanguage,
+    System.Text.Json.JsonElement? LanguageShare,
+    bool Checked,
+    string CheckedReason,
+    IReadOnlyList<string> Jurisdictions);
+
+public sealed record ScopeMarketDto(string MarketCode, string Language, int? ProductCount);
+
+public sealed record ScopeCheckedVersionDto(
+    string Language, string BaseUrl, bool IsMain, int? ProductCount, int? OtherPageCount, IReadOnlyList<string> Jurisdictions, IReadOnlyList<string> Markets,
+    string Reason);
+
+public sealed record ScopeNotCheckedVersionDto(string Language, string BaseUrl, string Reason);
+
+public sealed record ScopeBasisDto(Guid? SampleRunId, DateTimeOffset? FinishedAt);
+
+/// <summary>
+/// The scope of the check: the products of every ticked market, the checked and not checked versions, the jurisdictions,
+/// the products for the band (<c>productTotal</c>, null when not known), other pages, the basis and <c>scopeHash</c>.
+/// <c>issues</c> holds what prevents a price.
+/// </summary>
+public sealed record ScopeDto(
+    IReadOnlyList<ScopeMarketDto> Markets,
+    IReadOnlyList<ScopeCheckedVersionDto> CheckedVersions,
+    IReadOnlyList<ScopeNotCheckedVersionDto> NotCheckedVersions,
+    IReadOnlyList<string> Jurisdictions,
+    int? ProductTotal,
+    int? OtherPagesTotal,
+    ScopeBasisDto Basis,
+    IReadOnlyList<string> Issues,
+    string ScopeHash);
+
+public sealed record QuoteDto(ScopeDto Scope, PriceQuoteDto Price);
+
+/// <summary>The price for a scope (amounts, discounts and VAT come from change 12).</summary>
+public sealed record PriceQuoteDto(
+    Guid QuoteId,
+    Guid? PriceListId,
+    string Currency,
+    string? TierCode,
+    int? TierMaxProducts,
+    bool IsCustom,
+    FairUseDto FairUse,
+    decimal? AnalysisNet,
+    decimal? MonitoringMonthlyNet,
+    decimal? MonitoringDiscountPercent,
+    decimal? TodayNet,
+    DateTimeOffset? FirstMonitoringChargeAt,
+    System.Text.Json.JsonElement? VatPreview,
+    DateTimeOffset ValidUntil);
+
+public sealed record FairUseDto(int? OtherPagesLimit, bool Exceeded);
+
+/// <summary>Where the onboarding of an e-shop is (<c>connect</c>, <c>sample</c>, <c>scope</c>, <c>payment</c>, <c>analysis</c>, <c>done</c>) and what blocks the order.</summary>
+public sealed record OnboardingStateDto(
+    string Step,
+    IReadOnlyList<string> Blocking,
+    OnboardingSampleDto Sample,
+    bool MarketsConfirmed,
+    IReadOnlyList<string> LanguagesAwaitingConfirmation,
+    OnboardingOwnershipDto Ownership,
+    string? ScopeHash);
+
+public sealed record OnboardingSampleDto(string? Status, Guid? RunId);
+
+public sealed record OnboardingOwnershipDto(bool Required, bool Verified);
+
+/// <summary>The ownership of an e-shop: verified or not, by which method, before which steps it is required, the verifications.</summary>
+public sealed record OwnershipDto(bool Verified, DateTimeOffset? VerifiedAt, string? Method, IReadOnlyList<string> RequiredBefore, IReadOnlyList<VerificationDto> Verifications);
+
+/// <summary>
+/// A verification: its method, state, the token and what to put where (<c>metaTag</c> for the <c>&lt;head&gt;</c>, or the
+/// name and the value of the TXT record), and the code of a failure (<c>meta_not_found</c>, <c>dns_record_not_found</c>,
+/// <c>token_mismatch</c>, <c>fetch_failed</c>).
+/// </summary>
+public sealed record VerificationDto(
+    Guid Id, string Method, string Status, string Token, VerificationInstructionsDto Instructions, DateTimeOffset? CheckedAt, string? FailureCode);
+
+public sealed record VerificationInstructionsDto(string? MetaTag, string? DnsName, string? DnsValue);
+
+/// <summary>The settings of an e-shop: name, modules (available for its markets), the check on save and the excluded versions.</summary>
+public sealed record ShopSettingsDto(
+    string? Name,
+    IReadOnlyList<ShopModuleDto> Modules,
+    bool CheckHiddenOnSave,
+    bool CheckHiddenOnSaveAvailable,
+    IReadOnlyList<string> ExcludedLanguages,
+    uint Version);
+
+public sealed record ShopModuleDto(string Module, bool Enabled, bool Available, IReadOnlyList<string> Jurisdictions);

@@ -58,27 +58,27 @@
 
 ## 4. Ukázka zdarma
 
-- [ ] 4.1 `Application/Shops/SampleService.StartAsync`:
+- [x] 4.1 `Application/Shops/SampleService.StartAsync`:
   - stav `draft`;
   - `IShopOwnershipPolicy.EnsureAsync(gate: sample)`;
   - kbelík `shops:sample:tenant:*`;
   - `RunService.CreateFreeSampleAsync` (změna 8);
   - `shops.status = sample`;
   - audit `sample.started`.
-- [ ] 4.2 Převod konfliktu nároku ze změny 8 na `409 sample.already_used_for_domain` bez údajů o druhém tenantovi.
-- [ ] 4.3 `Application/Shops/SampleResultReader.cs`:
+- [x] 4.2 Převod konfliktu nároku ze změny 8 na `409 sample.already_used_for_domain` bez údajů o druhém tenantovi.
+- [x] 4.3 `Application/Shops/SampleResultReader.cs`:
   - průběh a fronta (`IRunQueueEstimator`, když chybí, `null`);
   - `notChecked` po důvodech;
   - počty podle skupiny a závažnosti;
   - 5 nálezů podle `VerdictStrictness` (změna 6);
   - 1 ukázka opravy s `recheck_status = ok`.
-- [ ] 4.4 `POST /shops/{shopId}/sample` a `GET /shops/{shopId}/sample` (`SampleDto`, `SampleResultDto`, `VerdictDto`).
-- [ ] 4.5 Test `SampleTests`:
+- [x] 4.4 `POST /shops/{shopId}/sample` a `GET /shops/{shopId}/sample` (`SampleDto`, `SampleResultDto`, `VerdictDto`).
+- [x] 4.5 Test `SampleTests`:
   - první ukázka → `202`, nárok a běh v jedné transakci (při chybě po nároku se nic neuloží);
   - druhý tenant na stejné doméně → `409` bez ID tenanta;
   - stav `sample` → `409 sample.not_allowed_in_status`;
   - 6. ukázka za den → `429`.
-- [ ] 4.6 Test `SampleResultTests` nad daty ve tvaru ze změny 8:
+- [x] 4.6 Test `SampleResultTests` nad daty ve tvaru ze změny 8:
   - `finished` se 11 nálezy;
   - `partial` s výčtem nezkontrolovaných;
   - odpověď neobsahuje texty vysvětlení, jen `ruleId` a `params`;
@@ -86,12 +86,12 @@
 
 ## 5. Místa prodeje
 
-- [ ] 5.1 `Application/Shops/MarketEvidenceMapper.cs`: z `shop_markets.evidence` jen ověřené citace a kódy znaků (`seat`, `tld`, `currency`, `language_version`, `delivery_terms`, `local_authority`) s parametry.
-- [ ] 5.2 `Application/Shops/MarketService.cs`:
+- [x] 5.1 `Application/Shops/MarketEvidenceMapper.cs`: z `shop_markets.evidence` jen ověřené citace a kódy znaků (`seat`, `tld`, `currency`, `language_version`, `delivery_terms`, `local_authority`) s parametry.
+- [x] 5.2 `Application/Shops/MarketService.cs`:
   - `GetAsync`: jen `checks_status` ≠ `none`, `preselected` podle síly důkazu;
   - `ConfirmAsync`: transakce, `source = user` u nové země, `confirmed_by`/`at`, aspoň jedna země, `409 markets.locked_during_run`, audit `markets.confirmed`.
-- [ ] 5.3 `GET /shops/{shopId}/markets` a `PUT /shops/{shopId}/markets` (`ShopMarketsDto`, `ShopMarketDto`).
-- [ ] 5.4 Test `MarketsTests`:
+- [x] 5.3 `GET /shops/{shopId}/markets` a `PUT /shops/{shopId}/markets` (`ShopMarketsDto`, `ShopMarketDto`).
+- [x] 5.4 Test `MarketsTests`:
   - SK a CZ předvybrané se znaky;
   - obecný důkaz nepředvybraný;
   - neověřená citace chybí;
@@ -102,14 +102,14 @@
 
 ## 6. Jazykové verze
 
-- [ ] 6.1 `Application/Shops/LanguageVersionService.cs` a `LanguageSummaryBuilder.cs`:
+- [x] 6.1 `Application/Shops/LanguageVersionService.cs` a `LanguageSummaryBuilder.cs`:
   - verze bez `unsupported`;
   - `checked`, `checkedReason`, `jurisdictions` z `ShopScopeCalculator`;
   - `countedReason`, `comparison` s příklady jako kódy;
   - `summary.kind`.
-- [ ] 6.2 `POST /shops/{shopId}/languages/{language}/confirmation` (jen `needs_confirmation`, audit `language.confirmed` / `language.rejected_other_domain`).
-- [ ] 6.3 `PUT /shops/{shopId}/languages/{language}/exclusion` (`400 language.last_checked_version`, `409 language.awaiting_confirmation`, audit `language.excluded` / `language.included`).
-- [ ] 6.4 Test `LanguageVersionsTests`:
+- [x] 6.2 `POST /shops/{shopId}/languages/{language}/confirmation` (jen `needs_confirmation`, audit `language.confirmed` / `language.rejected_other_domain`).
+- [x] 6.3 `PUT /shops/{shopId}/languages/{language}/exclusion` (`400 language.last_checked_version`, `409 language.awaiting_confirmation`, audit `language.excluded` / `language.included`).
+- [x] 6.4 Test `LanguageVersionsTests`:
   - bylinkovo (sk + cs 96 %) → `all_checked_own_texts`;
   - cs s 3 % → `below_threshold`;
   - goodie.cz čeká na potvrzení a po `false` je `excluded`;
@@ -118,15 +118,15 @@
 
 ## 7. Rozsah a dynamická cena
 
-- [ ] 7.1 `Application/Shops/Scope/ShopScopeCalculator.cs` (čistá funkce podle AD 7), `ShopScope`, `ScopeHasher` (SHA-256 kanonického JSON), konfigurace `Markets:ReadableLanguages` (`productTotal` = součet produktů za zaškrtnuté země, rozhodnutí 2. 10. 2026; `Pricing:OwnTextShareThreshold` zrušen).
-- [ ] 7.2 `Application/Shops/Scope/ScopeInputsLoader.cs`: uložené země a verze, základ ze souhrnu dokončené ukázky (`runs.estimate`, změna 8), `quote.basis_missing` bez ukázky a bez nároku.
-- [ ] 7.3 Test `ShopScopeCalculatorTests`: případy A–J z `design.md` jako tabulkový test včetně `scopeHash`, který se změní se zeměmi i s vyloučením.
-- [ ] 7.4 `Application/Shops/Pricing/IPriceQuoteService.cs`, `PriceQuoteRequest`, `PriceQuote` (smlouva pro změnu 12). Registrace bez implementace → `quote` vrátí `503 billing.unavailable`.
-- [ ] 7.5 `GET /shops/{shopId}/scope` a `POST /shops/{shopId}/quote` v `Api/Endpoints/OnboardingEndpoints.cs`:
+- [x] 7.1 `Application/Shops/Scope/ShopScopeCalculator.cs` (čistá funkce podle AD 7), `ShopScope`, `ScopeHasher` (SHA-256 kanonického JSON), konfigurace `Markets:ReadableLanguages` (`productTotal` = součet produktů za zaškrtnuté země, rozhodnutí 2. 10. 2026; `Pricing:OwnTextShareThreshold` zrušen).
+- [x] 7.2 `Application/Shops/Scope/ScopeInputsLoader.cs`: uložené země a verze, základ ze souhrnu dokončené ukázky (`runs.estimate`, změna 8), `quote.basis_missing` bez ukázky a bez nároku.
+- [x] 7.3 Test `ShopScopeCalculatorTests`: případy A–J z `design.md` jako tabulkový test včetně `scopeHash`, který se změní se zeměmi i s vyloučením.
+- [x] 7.4 `Application/Shops/Pricing/IPriceQuoteService.cs`, `PriceQuoteRequest`, `PriceQuote` (smlouva pro změnu 12). Registrace bez implementace → `quote` vrátí `503 billing.unavailable`.
+- [x] 7.5 `GET /shops/{shopId}/scope` a `POST /shops/{shopId}/quote` v `Api/Endpoints/OnboardingEndpoints.cs`:
   - kombinace zemí a vyloučených verzí z těla, nic se neukládá;
   - kódy `quote.sample_not_finished`, `quote.basis_missing`, `markets.none_selected`, `markets.unsupported`.
-- [ ] 7.6 `tests/EshopGuard.Api.Tests/Fakes/FakePriceQuoteService.cs` (pásma 500 / 2 000 / 5 000 / 20 000, nad 20 000 `isCustom`; jen pro testy, ne pro produkci).
-- [ ] 7.7 Test `QuoteTests`:
+- [x] 7.6 `tests/EshopGuard.Api.Tests/Fakes/FakePriceQuoteService.cs` (pásma 500 / 2 000 / 5 000 / 20 000, nad 20 000 `isCustom`; jen pro testy, ne pro produkci).
+- [x] 7.7 Test `QuoteTests`:
   - SK + CZ → 11 668, SK → 5 834 a jiný `scopeHash`;
   - `shop_markets` se nezmění;
   - ukázka nedoběhla → `409`;
@@ -135,10 +135,10 @@
 
 ## 8. Onboarding a připravenost k objednávce
 
-- [ ] 8.1 `Application/Shops/Onboarding/OnboardingStateService.cs`: krok (`connect`, `sample`, `scope`, `payment`, `analysis`, `done`) a blokující kódy z požadavku „Připravenost k objednávce“.
-- [ ] 8.2 `IShopOrderReadiness` + `ShopOrderReadiness.CheckAsync`: přepočet rozsahu z uloženého stavu, `scopeHash`, blokující kódy (pro změnu 12).
-- [ ] 8.3 `GET /shops/{shopId}/onboarding` (`OnboardingStateDto`).
-- [ ] 8.4 Test `OnboardingStateTests`:
+- [x] 8.1 `Application/Shops/Onboarding/OnboardingStateService.cs`: krok (`connect`, `sample`, `scope`, `payment`, `analysis`, `done`) a blokující kódy z požadavku „Připravenost k objednávce“.
+- [x] 8.2 `IShopOrderReadiness` + `ShopOrderReadiness.CheckAsync`: přepočet rozsahu z uloženého stavu, `scopeHash`, blokující kódy (pro změnu 12).
+- [x] 8.3 `GET /shops/{shopId}/onboarding` (`OnboardingStateDto`).
+- [x] 8.4 Test `OnboardingStateTests`:
   - po založení `connect`, po ukázce `scope`;
   - nepotvrzené země → `markets.not_confirmed`;
   - verze čeká → `languages.confirmation_pending`;
@@ -146,31 +146,31 @@
 
 ## 9. Ověření vlastnictví
 
-- [ ] 9.1 `Application/Shops/Ownership/OwnershipPolicyOptions.cs` + `OwnershipPolicyOptionsValidator` (`ValidateOnStart`; chybějící `Shops:Ownership:RequiredBefore` zastaví API i worker).
-- [ ] 9.2 `IShopOwnershipPolicy` + `ShopOwnershipPolicy.EnsureAsync(shopId, gate)` → `409 shop.ownership_not_verified`. Zapojit do `SampleService` a předat změně 8 pro `RunService.CreateFullAnalysisAsync`.
-- [ ] 9.3 `Application/Shops/Ownership/OwnershipService.cs`: vytvoření ověření (token 22 znaků, instrukce `meta` a `dns`), `409 ownership.already_verified`, kbelík `shops:verify:shop:*`.
-- [ ] 9.4 `Jobs/Shops/ShopVerifyOwnershipHandler.cs`:
+- [x] 9.1 `Application/Shops/Ownership/OwnershipPolicyOptions.cs` + `OwnershipPolicyOptionsValidator` (`ValidateOnStart`; chybějící `Shops:Ownership:RequiredBefore` zastaví API i worker).
+- [x] 9.2 `IShopOwnershipPolicy` + `ShopOwnershipPolicy.EnsureAsync(shopId, gate)` → `409 shop.ownership_not_verified`. Zapojit do `SampleService` a předat změně 8 pro `RunService.CreateFullAnalysisAsync`.
+- [x] 9.3 `Application/Shops/Ownership/OwnershipService.cs`: vytvoření ověření (token 22 znaků, instrukce `meta` a `dns`), `409 ownership.already_verified`, kbelík `shops:verify:shop:*`.
+- [x] 9.4 `Jobs/Shops/ShopVerifyOwnershipHandler.cs`:
   - `meta` přes stahovač (jen `<head>`, robots.txt);
   - `dns` přes `DnsClient` (TXT `_eshopguard.{domain}`);
   - kódy selhání;
   - zápis `shops.ownership_verified_at` a `verification_method`.
-- [ ] 9.5 `GET /shops/{shopId}/ownership`, `POST /shops/{shopId}/ownership/verifications`, `POST /shops/{shopId}/ownership/verifications/{verificationId}/check` (čekání přes `JobCompletionAwaiter`).
-- [ ] 9.6 Test `ShopVerifyOwnershipHandlerTests`: značka nalezena, značka chybí, jiný token, TXT nalezen, DNS bez záznamu.
-- [ ] 9.7 Test `OwnershipTests` (API):
+- [x] 9.5 `GET /shops/{shopId}/ownership`, `POST /shops/{shopId}/ownership/verifications`, `POST /shops/{shopId}/ownership/verifications/{verificationId}/check` (čekání přes `JobCompletionAwaiter`).
+- [x] 9.6 Test `ShopVerifyOwnershipHandlerTests`: značka nalezena, značka chybí, jiný token, TXT nalezen, DNS bez záznamu.
+- [x] 9.7 Test `OwnershipTests` (API):
   - politika `[sample]` → ukázka neověřeného e-shopu `409`;
   - politika `[full_analysis]` → blokující kód v `IShopOrderReadiness`;
   - start bez nastavení selže.
 
 ## 10. Nastavení e-shopu
 
-- [ ] 10.1 `Application/Shops/Settings/ModuleAvailability.cs`: dostupné moduly z `checks.rule_sets` (`enabled`, nejnovější verze) podle průniku `jurisdictions` s aktivními zeměmi. Test `ModuleAvailabilityTests` (CZ bez `eco` a `dur`, SK se všemi).
-- [ ] 10.2 `Application/Shops/Settings/ShopSettingsService.cs`:
+- [x] 10.1 `Application/Shops/Settings/ModuleAvailability.cs`: dostupné moduly z `checks.rule_sets` (`enabled`, nejnovější verze) podle průniku `jurisdictions` s aktivními zeměmi. Test `ModuleAvailabilityTests` (CZ bez `eco` a `dur`, SK se všemi).
+- [x] 10.2 `Application/Shops/Settings/ShopSettingsService.cs`:
   - název, moduly (aspoň jeden, jen dostupné);
   - `checkHiddenOnSave` jen s konektorem a ne BiznisWeb;
   - `If-Match`;
   - audit `settings.changed`.
-- [ ] 10.3 `GET /shops/{shopId}/settings` a `PATCH /shops/{shopId}/settings` (`ShopSettingsDto`).
-- [ ] 10.4 Test `ShopSettingsTests`:
+- [x] 10.3 `GET /shops/{shopId}/settings` a `PATCH /shops/{shopId}/settings` (`ShopSettingsDto`).
+- [x] 10.4 Test `ShopSettingsTests`:
   - `eco` u CZ → `400 settings.module_unavailable`;
   - prázdné moduly → `400`;
   - kontrola při uložení u `web` → `409`;
@@ -178,20 +178,21 @@
 
 ## 11. Ověření
 
-- [ ] 11.1 Test `ShopsRoleAndIsolationTests`:
+- [x] 11.1 Test `ShopsRoleAndIsolationTests`:
   - všechny koncové body této změny pro role viewer, editor, admin a owner podle matice;
   - dva tenanti s e-shopem `vegis.sk`;
   - e-shop tenanta B pod adresou tenanta A → `404` na každém koncovém bodu;
   - zápisy do `shop_markets`, `shop_languages` a `shop_verifications` tenanta B se nezmění.
-- [ ] 11.2 Doplnit nové koncové body do `RoleMatrixTests` a snímku `Snapshots/openapi-v1.json` (změna 9) a ověřit `x-problem-codes`.
-- [ ] 11.3 Kontrola logů (`LogRedactionTests`): logy rozpoznání, ukázky a ověření neobsahují citace z webu ani HTML.
-- [ ] 11.4 Lokální proklik bez placených služeb:
+- [x] 11.2 Doplnit nové koncové body do `RoleMatrixTests` a snímku `Snapshots/openapi-v1.json` (změna 9) a ověřit `x-problem-codes`.
+- [x] 11.3 Kontrola logů (`LogRedactionTests`): logy rozpoznání, ukázky a ověření neobsahují citace z webu ani HTML.
+- [x] 11.4 Lokální proklik bez placených služeb:
   1. testovací e-shop (`serve-fixture`, `Fixtures/site-sk`) přes `Shops:AllowedDevHosts`;
   2. založení a rozpoznání;
   3. ukázka s `MockJevClient` a `MockRewriteClient` (změna 8);
   4. místa prodeje, verze, `quote` s `FakePriceQuoteService`.
+  - *Provedeno 2. 10. 2026 s odchylkou (design, odchylka 16):* worker vnitřní síť nestahuje (změna 8), rozpoznání a ukázka na `localhost:8000` proto skončily kódem chyby; zbytek nad daty ve tvaru rozboru ukázky. `quote` bez `FakePriceQuoteService` (ta je jen v testech) vrátil `503 billing.unavailable`.
 - [ ] 11.5 Živá ukázka na skutečném e-shopu (Jev a OpenAI jsou placené):
   - před spuštěním odhad ceny (strategie: ~0,5–1 USD na ukázku; rozbor zemí a verzí ~0,05 USD na e-shop podle měření 1. 10. 2026) a souhlas uživatele;
-  - bez souhlasu se nespouští.
-- [ ] 11.6 `dotnet build` a `dotnet test` projdou.
-- [ ] 11.7 `openspec validate add-shops-and-onboarding-api` projde.
+  - bez souhlasu se nespouští. *Nespuštěno: čeká na odhad ceny a souhlas uživatele.*
+- [x] 11.6 `dotnet build` a `dotnet test` projdou.
+- [x] 11.7 `openspec validate add-shops-and-onboarding-api` projde.

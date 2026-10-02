@@ -16,7 +16,9 @@ public static class ShopJobsServiceCollectionExtensions
         services.AddOptions<ShopJobsOptions>().BindConfiguration(ShopJobsOptions.SectionName);
         services.TryAddSingleton<PlatformSignatureSource>();
         services.TryAddSingleton(TimeProvider.System);
+        services.TryAddSingleton<IDnsTxtResolver, DnsClientTxtResolver>();
         services.AddJobHandler<ShopDetectPlatformHandler>();
+        services.AddJobHandler<ShopVerifyOwnershipHandler>();
         return services;
     }
 }

@@ -101,7 +101,7 @@ api.MapAuthEndpoints();
 api.MapMeEndpoints();
 api.MapTenantsEndpoints();
 var tenant = api.MapTenantGroup();
-tenant.MapShopEndpoints();
+tenant.MapShopEndpoints().MapOnboardingEndpoints().MapOwnershipAndSettingsEndpoints();
 api.MapInvitationEndpoints();
 api.MapRefEndpoints();
 

@@ -1,5 +1,8 @@
 using EshopGuard.Application.Shops;
+using EshopGuard.Application.Shops.Onboarding;
 using EshopGuard.Application.Shops.Ownership;
+using EshopGuard.Application.Shops.Scope;
+using EshopGuard.Application.Shops.Settings;
 using EshopGuard.Core;
 using EshopGuard.Core.Options;
 using EshopGuard.Jobs.Runs;
@@ -61,6 +64,17 @@ public static class ShopsServiceCollectionExtensions
         services.TryAddScoped<ShopService>();
         services.TryAddScoped<PlatformService>();
         services.TryAddScoped<SourceModeService>();
+        services.TryAddScoped<SampleService>();
+        services.TryAddScoped<SampleResultReader>();
+        services.TryAddScoped<MarketService>();
+        services.TryAddScoped<LanguageVersionService>();
+        services.TryAddScoped<ScopeInputsLoader>();
+        services.TryAddScoped<ScopeService>();
+        services.TryAddScoped<ShopOrderReadiness>();
+        services.TryAddScoped<IShopOrderReadiness>(provider => provider.GetRequiredService<ShopOrderReadiness>());
+        services.TryAddScoped<OnboardingStateService>();
+        services.TryAddScoped<OwnershipService>();
+        services.TryAddScoped<ShopSettingsService>();
         return services;
     }
 }

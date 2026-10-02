@@ -37,6 +37,24 @@ public sealed class ShopDetectPlatformHandlerTests(JobsTestDatabase database) : 
     }
 
     [Fact]
+    public async Task Logs_HoldOnlyCodes_NoTextOrHtmlOfThePage()
+    {
+        var shop = await RunTests.CreateShopAsync();
+        var fetcher = new ShopPageFetcher().Html(shop.BaseUrl.AbsoluteUri, Fixture("shoptet.html"));
+
+        await DetectAsync(shop, fetcher);
+
+        var logs = Workers.All.SelectMany(w => w.Logs.Logs).ToList();
+        Assert.Contains(logs, l => l.Message.Contains("shop.detected", StringComparison.Ordinal));
+        Assert.All(logs, l =>
+        {
+            Assert.DoesNotContain("Ukážkový obchod", l.AllText, StringComparison.Ordinal);
+            Assert.DoesNotContain("<meta", l.AllText, StringComparison.Ordinal);
+            Assert.DoesNotContain("myshoptet.com/prj", l.AllText, StringComparison.Ordinal);
+        });
+    }
+
+    [Fact]
     public async Task SiteThatDoesNotAnswer_FailsWithTimeout()
     {
         var shop = await RunTests.CreateShopAsync();

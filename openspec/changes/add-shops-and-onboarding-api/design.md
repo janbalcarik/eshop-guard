@@ -329,3 +329,40 @@ worker: TXT dotaz → shoda → shop_verifications.status verified, shops.owners
 - přes `RunService` ze změny 8: `shop.free_sample_claims`, `checks.runs`, `ops.jobs`;
 - čtení: `checks.findings`, `fixes.fix_proposals`, `checks.rule_sets`, `ref.markets`, `shop.connectors`, `billing.subscriptions`;
 - zápis: `ops.audit_log`, `ops.rate_limit_buckets`.
+
+## Odchylky při implementaci (2. 10. 2026)
+
+Implementace se řídí návrhy z oddílu K rozhodnutí v `proposal.md` (uživatel: „Pokračuj tedy z bodem 10“, výchozí volby se zkontrolují hromadně na konci). Proti návrhu výše se liší:
+
+1. **Verze řádku v těle, ne `If-Match`.** `PATCH /shops/{shopId}` a `PATCH …/settings` nesou `version` (xmin) v těle stejně jako `PATCH /api/t/{tenantId}` ve změně 9, aby API bylo jednotné. Jiná verze vrací `409 concurrency.conflict`.
+2. **Jedna migrace `F6ShopsOnboarding`.** Částečný jedinečný index nesmazaných e-shopů existuje od F1 (`ix_shops_tenant_id_domain_base_path … WHERE deleted_at IS NULL`), migrace `ShopsUniqueActive` proto nevznikla. F6 přidává:
+   - `shops.detection jsonb`;
+   - `shop_languages.decided_by` a `decided_at`: ruční rozhodnutí klienta o verzi (vyloučení, vrácení, potvrzení jiné domény). Rozbor ukázky (`MarketsHandler` změny 8) takový stav nepřepíše, zdroj verze (`main`, `hreflang` …) zůstává. Cizí klíč na `iam.users` je `NOT VALID`, protože ověření starých řádků by běželo pod RLS vlastníka bez tenanta; nové řádky se kontrolují;
+   - `shop_verifications.failure_code` a stavy `pending`, `verified`, `failed`.
+3. **Země a moduly z pravidel, ne z konfigurace API ani z `checks.rule_sets`.** Čitelnost jazyků je `readable_languages` z `config/jurisdictions.yaml` (stejná data jako worker, K rozhodnutí 8), moduly a jejich jurisdikce ze sad pravidel `rules/*.yaml` (tabulku `checks.rule_sets` plní až běh). API proto čte pravidla (`EshopGuard:BaseDirectory`, ve vývoji `..`, `AddEshopGuardRules` knihovny). Podporu trhu dává zapnutá sada pravidel a `ref.markets.checks_status` ≠ `none`.
+4. **Rozpoznání platformy:**
+   - bez klíče deduplikace; souběh hlídá zámek řádku e-shopu a `409 detection.in_progress`. Stav `pending` nese `shops.detection` s `job_id`; úloha, která skončila bez výsledku, je `failed/fetch_failed`, e-shop bez rozpoznání `failed/not_started`;
+   - podpisy: dva podpisy různých druhů = `certain`, jeden = `likely`. Shoptet je ověřený na uložené úvodní stránce (`cdn.myshoptet.com`, `meta web_author`), ostatní platformy jsou v `config/platforms.yaml` vedené jako „k ověření“ (veřejně známé znaky). Fixtures jsou zkrácené stránky jen s technickými znaky;
+   - hlavičky odpovědi jen na vyžádání (`FetchRequest.CaptureHeaders`), procházení webu je nedrží;
+   - přesměrování na jinou doménu je `done` s `redirectedToOtherDomain`, cizí doména se nestahuje; robots.txt bez jakékoli odpovědi je `fetch_failed` (ne `robots_blocked`).
+5. **Kontrola adresy:** adresa bez schématu je `https`; poslední segment s tečkou (`index.php`) je soubor, ne složka; povolený vývojový hostitel s portem je doména `localhost:8000`.
+6. **Způsob napojení:** jeden feed na e-shop; adresa feedu projde stejnou kontrolou jako e-shop (`feed.url_invalid`), dotaz v adrese zůstává (exporty v něm nesou klíč). Neznámý `mode` je `validation.failed` s kódem `source.mode_unknown`.
+7. **Ukázka:** stav a politika vlastnictví se kontrolují před kbelíkem, kbelík před nárokem domény; audit `sample.started` po vzniku běhu. Výsledek má navíc `notChecked.byReason` (všechny důvody včetně `over_limit`) a `exampleFixMissingReason`.
+8. **Místa prodeje:**
+   - citace jsou všechny `quotes` rozboru mimo signály (rozbor změny 7 ukládá jen ověřené citace, příznak `verified` v datech není); signály `seat` (domovská země doložená citací), `tld`, `currency`, `language_version`, `phone_prefix`. `delivery_terms` a `local_authority` rozbor po zemích neukládá, proto se nevrací;
+   - `markets.unknown` jen pro kód, který není dvojpísmenný; jiná země (např. `pl`) je `markets.unsupported`;
+   - dokud klient země nepotvrdí, platí jako uložené předvybrané země (silný důkaz nebo doručení).
+9. **Jazykové verze** ve tvaru úpravy 2. 10. 2026: `translatedShare`, `sampleProducts`, `untranslatedProducts`, `foreignTextLanguage`; souhrny `single_version`, `all_checked`, `some_not_checked`, `needs_confirmation` a `byMarket` (verze kontrolovaná pro každou zemi). Verze vyloučená rozborem (žádná zaškrtnutá země ji nepotřebuje) se klientovi ukazuje jako `active` s `checked = false` a důvodem `not_needed_by_markets`. Verze `needs_browser` a `mismatch` se vrací se svým stavem (nic se neskrývá).
+10. **Rozsah a nabídka:**
+    - `ShopScopeCalculator` používá `VersionMarketPlanner` knihovny (stejné pravidlo jako ukázka a worker) a navíc hlídá `scope.no_checkable_version`;
+    - `ScopeDto` má navíc `markets` (produkty za každou zemi) a `issues`; `productTotal` je `null`, když počet neznáme. `quote` pak vrací `409 scope.product_count_unknown` nebo `409 scope.no_checkable_version`;
+    - `excludedLanguages` v nabídce je celá množina, takže dříve vyloučenou verzi jde v nabídce vrátit; `GET …/scope` při běžící ukázce vrací `409 quote.sample_not_finished`.
+11. **Onboarding:** `OnboardingStateDto` má navíc `scopeHash`; blokující kódy zahrnují i problémy rozsahu. Neúspěšná ukázka (nárok domény už je spotřebovaný) je krok `scope` s `scope.basis_missing`.
+12. **Ověření vlastnictví:**
+    - samotná hodnota `none` znamená, že ověření není povinné (prázdné pole konfigurace nejde odlišit od chybějícího nastavení); vývoj a testy mají `full_analysis` podle návrhu A13;
+    - politika nahrazuje `DenyAllOwnershipPolicy` v API i ve workeru (`AddEshopGuardOwnershipPolicy`);
+    - DNS přes balíček `DnsClient` 1.8.0 (nová závislost `EshopGuard.Jobs`); kbelík `shops:verify:shop:*` platí pro vytvoření i kontrolu; audit `ownership.verified` zapisuje worker s aktérem `system`.
+13. **Nastavení:** nový e-shop dostane všechny zapnuté moduly; dostupné moduly se řídí aktivními (do potvrzení předvybranými) zeměmi, bez zemí jsou dostupné všechny.
+14. **DTO** odpovědí jsou v `Application/Contracts/ShopDtos.cs`, těla požadavků v `Api/Contracts/Requests.cs` (konvence změny 9). Koncové body jsou v `ShopEndpoints`, `OnboardingEndpoints` (ukázka, místa prodeje, verze, rozsah, nabídka, onboarding) a `OwnershipEndpoints` (vlastnictví a nastavení).
+15. **`IRunScopeResolver` změny 8 zůstal** (`ShopMarketsScopeResolver`): po potvrzení jsou v `shop_markets` jen aktivní a odmítnuté země, takže jurisdikce úvodní analýzy odpovídají `ShopScopeCalculator`.
+16. **Ruční proklik (11.4):** worker odmítá `EshopGuard:Crawl:AllowPrivateNetwork` v každém prostředí (změna 8), takže testovací e-shop na `localhost:8000` nestáhne. Proklik proto ověřil řetězec API → fronta → worker do konce: rozpoznání skončilo za 1 s `failed/fetch_failed`, ukázka `failed/target_not_allowed`. Místa prodeje, verze, rozsah (11 668 produktů za SK + CZ, po odškrtnutí CZ 5 834), nabídka (`503 billing.unavailable`), nastavení, ověření vlastnictví (`failed/fetch_failed`) a onboarding prošly nad daty ve tvaru rozboru změny 8, zapsanými ručně do vývojové databáze. Logy API ani workeru citace ani HTML neobsahují.
