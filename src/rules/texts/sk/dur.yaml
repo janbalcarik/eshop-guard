@@ -1,29 +1,32 @@
-# Kostra překladu do jazyka sk: vyplňte texty a review; zástupné symboly {…} musí zůstat stejné.
+# Texty pravidel sady dur (sk). Otázky pro Jev, logika a odkazy na zákon jsou v rules/dur.yaml.
+# Strojový návrh překladu z cs: nepoužije se, dokud ho nezkontroluje člověk (review). Citace předpisů zůstávají v jazyce předpisu.
 locale: sk
 rule_set: dur
 source_version: "dur-2026-09-30-draft3"
 review:
-  translated_by: ""
+  machine_draft: true
+  translated_by: "Claude (strojový návrh na žádost uživatele, 2. 10. 2026)"
   reviewed_by: ""
   reviewed_at: ""
+  note: "Návrh překladu z cs. Nepoužije se, dokud ho člověk nezkontroluje: pak odstraňte machine_draft a vyplňte reviewed_by a reviewed_at."
 rules:
   dur_lifetime_claim:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Tvrdenie o životnosti výrobku na overenie (nové od 27. 9. 2026)"
+    explanation: "Nepravdivé tvrdenie, že tovar má za bežných podmienok používania určitú životnosť (čas alebo intenzitu používania), je na Slovensku od 27. 9. 2026 zakázané za každých okolností. Z textu nemožno poznať, či je tvrdenie pravdivé, preto ide o nález na overenie."
+    recommendation: "Overte, že údaj o životnosti má oporu v dokladoch výrobcu (skúšky, norma, podmienky používania); ak nie, tvrdenie odstráňte."
   dur_repairable_claim:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Tvrdenie o opraviteľnosti na overenie (nové od 27. 9. 2026)"
+    explanation: "Prezentovať tovar ako opraviteľný, hoci ho opraviť nemožno, je na Slovensku od 27. 9. 2026 zakázané za každých okolností. Pravdivosť z textu poznať nemožno."
+    recommendation: "Overte, že tovar sa naozaj dá opraviť (dostupné náhradné diely, postup, servis); ak nie, tvrdenie odstráňte."
   dur_consumable_early:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Navádzanie na skoršiu výmenu spotrebného materiálu na overenie (nové od 27. 9. 2026)"
+    explanation: "Navádzať spotrebiteľa, aby spotrebný materiál vymenil alebo doplnil skôr, než je to z technických dôvodov nevyhnutné, je na Slovensku od 27. 9. 2026 zakázané za každých okolností. Či je interval technicky odôvodnený, z textu poznať nemožno."
+    recommendation: "Overte, že odporúčaný interval výmeny vychádza z technických dôvodov (údaje výrobcu); ak nie, odporučte výmenu po spotrebovaní alebo opotrebovaní."
   dur_non_original_damage:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Tvrdenie, že neoriginálne diely poškodia výrobok, na overenie (nové od 27. 9. 2026)"
+    explanation: "Nepravdivé tvrdenie, že neoriginálny spotrebný materiál, náhradné diely alebo príslušenstvo poškodia funkčnosť tovaru, je na Slovensku od 27. 9. 2026 zakázané za každých okolností. Pravdivosť z textu poznať nemožno."
+    recommendation: "Overte, že tvrdenie o poškodení má oporu v dokladoch výrobcu; ak nie, tvrdenie odstráňte."
   dur_update_necessary:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Aktualizácia softvéru prezentovaná ako nevyhnutná, na overenie (nové od 27. 9. 2026)"
+    explanation: "Prezentovať aktualizáciu softvéru ako nevyhnutnú na zachovanie súladu, hoci len vylepšuje funkcie, je na Slovensku od 27. 9. 2026 zakázané za každých okolností. Čo aktualizácia robí, z textu poznať nemožno."
+    recommendation: "Overte, že aktualizácia je naozaj nevyhnutná na zachovanie súladu; ak len pridáva funkcie, neprezentujte ju ako nevyhnutnú."

@@ -35,11 +35,11 @@ public sealed class RuleTextCompletenessTests
             Assert.All(set.Rules, r => Assert.False(r.HasInlineTexts, $"{set.Name}/{r.Id}"));
         }
 
-        // Until the Czech translation of legal_sk is reviewed (proposal, decision 8), Czech is not complete only because of it.
+        // Until a person reviews the machine draft of the Czech translation of legal_sk (decision 8), Czech is not complete only because of it.
         Assert.All(catalog.Texts.Problems["cs"], p => Assert.StartsWith("cs/legal_sk.yaml", p, StringComparison.Ordinal));
     }
 
-    /// <summary>Passes once the Slovak texts are translated and reviewed (tasks 4.4 and 4.5 of change 6).</summary>
+    /// <summary>Passes once a person reviews the machine drafts of the translations (tasks 4.4 and 4.5 of change 6).</summary>
     [Fact(Explicit = true)]
     [Trait("Category", "PendingTranslation")]
     public void SlovakAndCzech_AreComplete()
@@ -61,11 +61,50 @@ public sealed class RuleTextCompletenessTests
         Assert.Contains("0,70", renderer.Note(note, locale), StringComparison.Ordinal);
     }
 
+    /// <summary>
+    /// The machine drafts of 2. 10. 2026 are complete: once a person marks them reviewed, Slovak and Czech have every text,
+    /// the Slovak report is in Slovak and the Czech one shows legal_sk in Czech. Until then nothing of them is used.
+    /// </summary>
+    [Fact]
+    public async Task ReviewedDrafts_MakeSlovakAndCzechComplete()
+    {
+        using var rules = new TempRules();
+        Assert.DoesNotContain("sk", (await rules.LoadAsync()).CompleteLocales);
+
+        var reviewed = rules.ReviewDrafts();
+        var catalog = await rules.LoadAsync();
+
+        Assert.Equal(["cs/legal_sk.yaml", "sk/_engine.yaml", "sk/_labels.yaml", "sk/dur.yaml", "sk/eco.yaml", "sk/legal_cz.yaml", "sk/ucp.yaml"], reviewed);
+        Assert.Empty(catalog.Texts.Problems.GetValueOrDefault("cs") ?? []);
+        Assert.Empty(catalog.Texts.Problems.GetValueOrDefault("sk") ?? []);
+        Assert.Equal(["cs", "sk"], catalog.CompleteLocales);
+        Assert.Contains("sk", catalog.Texts.ToolLocales);
+        foreach (var set in catalog.RuleSets.Where(s => s.Enabled))
+        {
+            Assert.Equal("sk", catalog.Texts.SetTexts(set.Name, "sk")!.Value.Locale);
+            Assert.Equal("cs", catalog.Texts.SetTexts(set.Name, "cs")!.Value.Locale);
+        }
+
+        var renderer = new RuleTextRenderer(catalog);
+        var note = new FindingNote(EngineCodes.PresenceClosestParagraph, NoteParams.Of(("probability", 0.4213), ("threshold", 0.7)));
+        Assert.Equal("Najbližší nájdený odsek má pravdepodobnosť 0,42, prah prítomnosti je 0,70.", renderer.Note(note, "sk"));
+        var finding = new Finding
+        {
+            RuleId = "legal_withdrawal_function_missing",
+            Module = "legal",
+            Scope = "site",
+            Verdicts = [new JurisdictionVerdict { Jurisdiction = "sk", Severity = "high", Checkability = "verify", RuleSet = "legal_sk", RuleSetVersion = "x" }],
+        };
+        Assert.Equal("Chybí funkce „odstúpiť od zmluvy tu“ (povinná od 19. 6. 2026)", renderer.Render(finding, "cs").Title);
+        Assert.Equal("Chýba funkcia „odstúpiť od zmluvy tu“ (povinná od 19. 6. 2026)", renderer.Render(finding, "sk").Title);
+    }
+
     [Fact]
     public async Task DifferentPlaceholders_AreReportedAndTheTranslationIsNotUsed()
     {
         using var rules = new TempRules();
-        rules.Replace("rules/texts/sk/_engine.yaml", "  presence_closest_paragraph: \"\"", "  presence_closest_paragraph: \"Najbližší odsek má pravdepodobnosť {probability:0.00}.\"");
+        rules.ReviewDrafts();
+        rules.Replace("rules/texts/sk/_engine.yaml", ", prah prítomnosti je {threshold:0.00}.\"", ".\"");
 
         var catalog = await rules.LoadAsync();
 

@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using EshopGuard.Core.Options;
 using EshopGuard.Core.Rules;
 
@@ -7,7 +8,7 @@ namespace EshopGuard.Core.Tests;
 /// A copy of the shipped rules, texts and configuration in a temporary folder, for tests that change files (a translation,
 /// a new market, a changed question) without touching the repository.
 /// </summary>
-internal sealed class TempRules : IDisposable
+internal sealed partial class TempRules : IDisposable
 {
     public TempRules()
     {
@@ -58,7 +59,35 @@ internal sealed class TempRules : IDisposable
         Write(relativePath, text.Replace(oldValue, newValue, StringComparison.Ordinal));
     }
 
+    /// <summary>
+    /// Marks every machine draft of a translation as reviewed by a person, as the reviewer will after checking it
+    /// (removes <c>machine_draft</c>, fills <c>reviewed_by</c> and <c>reviewed_at</c>). Returns the reviewed files.
+    /// </summary>
+    public IReadOnlyList<string> ReviewDrafts()
+    {
+        var reviewed = new List<string>();
+        foreach (var file in Directory.GetFiles(TextsDirectory, "*.yaml", SearchOption.AllDirectories).Order(StringComparer.Ordinal))
+        {
+            var text = File.ReadAllText(file);
+            if (!DraftLine().IsMatch(text))
+            {
+                continue;
+            }
+
+            text = DraftLine().Replace(text, "")
+                .Replace("  reviewed_by: \"\"", "  reviewed_by: \"kontrolor\"", StringComparison.Ordinal)
+                .Replace("  reviewed_at: \"\"", "  reviewed_at: \"2026-10-02\"", StringComparison.Ordinal);
+            File.WriteAllText(file, text);
+            reviewed.Add(Path.GetRelativePath(TextsDirectory, file).Replace('\\', '/'));
+        }
+
+        return reviewed;
+    }
+
     public void Dispose() => Directory.Delete(Root, recursive: true);
+
+    [GeneratedRegex(@"^  machine_draft: true\r?\n", RegexOptions.Multiline)]
+    private static partial Regex DraftLine();
 
     private static void Copy(string source, string target)
     {

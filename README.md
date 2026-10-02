@@ -288,7 +288,7 @@ Vezme výsledky hotového skenu (`findings.json`, `pages.jsonl`) a stránky s n�
   - Jazyk textů ve zprávě určuje `--lang` (výchozí `cs`). Zpráva jde napsat v jazyce, jehož texty nástroje (`_engine.yaml`, `_labels.yaml`) jsou úplné a zkontrolované.
   - Texty sady, jejíž překlad chybí nebo ho nezkontroloval člověk, se ukážou v jazyce, ve kterém byla sada napsaná. Proto je `legal_sk` i v české zprávě slovensky, jako dosud.
   - Překlad se používá, jen když má v `review` vyplněné `reviewed_by` a `reviewed_at`. Návrh modelem (`machine_draft: true`) se nepoužije, dokud ho nezkontroluje člověk.
-  - Stav ukáže `eshopguard rules check-texts`. Kostry slovenských textů a českého překladu `legal_sk` jsou připravené a čekají na překladatele.
+  - Stav ukáže `eshopguard rules check-texts`. Slovenské texty a český překlad `legal_sk` jsou strojové návrhy (2. 10. 2026) a čekají na kontrolu člověkem. Do té doby zpráva v `sk` nejde napsat a `legal_sk` se v české zprávě ukazuje slovensky.
 - **Další trh (Německo, Polsko, Maďarsko…) bez změny kódu:**
   1. řádek v `config/jurisdictions.yaml`;
   2. sady `rules/<modul>_<země>.yaml`, nebo země navíc u sady, která platí beze změny;

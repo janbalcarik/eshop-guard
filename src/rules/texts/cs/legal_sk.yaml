@@ -1,41 +1,46 @@
-# Kostra překladu do jazyka cs: vyplňte texty a review; zástupné symboly {…} musí zůstat stejné.
+# Texty pravidel sady legal_sk (cs). Otázky pro Jev, logika a odkazy na zákon jsou v rules/legal_sk.yaml.
+# Strojový návrh překladu ze sk: nepoužije se, dokud ho nezkontroluje člověk (review). Citace předpisů zůstávají v jazyce
+# předpisu (ods., písm., Z. z.); u citací paragrafů je navíc číslo zákona podle odkazů pravidla, aby bylo zřejmé, že jde
+# o slovenský zákon. Nápis „odstúpiť od zmluvy tu“ zůstává slovensky, protože ho předepisuje slovenský zákon.
 locale: cs
 rule_set: legal_sk
 source_version: "legal-sk-2026-09-26-draft4"
 review:
-  translated_by: ""
+  machine_draft: true
+  translated_by: "Claude (strojový návrh na žádost uživatele, 2. 10. 2026)"
   reviewed_by: ""
   reviewed_at: ""
+  note: "Návrh překladu ze sk. Nepoužije se, dokud ho člověk nezkontroluje: pak odstraňte machine_draft a vyplňte reviewed_by a reviewed_at."
 rules:
   legal_adr_missing:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Chybí odkaz na informace o subjektu alternativního řešení sporů"
+    explanation: "Prodávající musí spotřebitele poučit o právu podat žádost o nápravu s uvedením odkazu na webové sídlo, na kterém jsou zveřejněné informace o příslušném subjektu alternativního řešení sporů. Uvedení SOI jen jako orgánu dozoru nebo odkaz na zrušenou platformu ODR tuto povinnost nesplní."
+    recommendation: "Doplňte do obchodních podmínek odkaz na webové sídlo s informacemi o příslušném subjektu alternativního řešení sporů (u běžného zboží SOI)."
   legal_redress_request_missing:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Chybí poučení o právu podat žádost o nápravu"
+    explanation: "Součástí povinných informací je poučení, že spotřebitel může obchodníkovi podat žádost o nápravu, pokud není spokojený s vyřízením reklamace nebo se domnívá, že obchodník porušil jeho práva."
+    recommendation: "Doplňte do obchodních podmínek poučení o právu podat žádost o nápravu a kam ji poslat."
   legal_complaints_missing:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Chybí informace o reklamacích"
+    explanation: "Prodávající musí informovat o odpovědnosti za vady a o způsobu a místě uplatnění reklamace."
+    recommendation: "Doplňte reklamační řád včetně místa a způsobu uplatnění reklamace."
   legal_withdrawal_missing:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Chybí informace o odstoupení od smlouvy"
+    explanation: "Před uzavřením smlouvy na dálku musí spotřebitel dostat podmínky, lhůtu a postup pro odstoupení."
+    recommendation: "Doplňte podmínky, 14denní lhůtu a postup pro odstoupení."
   legal_withdrawal_form_missing:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Chybí vzorový formulář pro odstoupení"
+    explanation: "Spolu s poučením o odstoupení musí spotřebitel dostat vzorový formulář."
+    recommendation: "Přidejte vzorový formulář pro odstoupení od smlouvy."
   legal_harmonized_notice_missing:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Chybí harmonizované oznámení o zákonné odpovědnosti za vady (nové od 27. 9. 2026)"
+    explanation: "Od 27. 9. 2026 musí e-shop před objednávkou zřetelně informovat o zákonné odpovědnosti za vady včetně její délky, a to alespoň v podobě a rozsahu harmonizovaného oznámení EU: barevného obrázku s QR kódem na portál Vaše Evropa, který se nesmí upravovat. Text v obchodních podmínkách (například „Zákonná záruka je 24 měsíců“) tuto podobu nenahrazuje."
+    recommendation: "Zobrazte barevné harmonizované oznámení podle přílohy I nařízení (EU) 2025/1960 bez úprav na stránce produktu nebo v pokladně před odesláním objednávky; pokud ho už máte, doplňte k obrázku popis (alt), aby bylo dohledatelné."
   legal_withdrawal_function_missing:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Chybí funkce „odstúpiť od zmluvy tu“ (povinná od 19. 6. 2026)"
+    explanation: "E-shop musí spotřebiteli umožnit odstoupit od smlouvy také funkcí pro odstoupení, označenou „odstúpiť od zmluvy tu“ nebo obdobnou jednoznačnou formulací, zřetelně zobrazenou a nepřetržitě dostupnou po celou lhůtu pro odstoupení. Na prohledaných stránkách se nenašel odkaz ani tlačítko s takovým označením."
+    recommendation: "Doplňte zřetelně viditelný odkaz nebo tlačítko „odstúpiť od zmluvy tu“ (například v patičce a v zákaznickém účtu) s on-line formulářem podle § 20a ods. 3 zákona č. 108/2024 Z. z."
   legal_odr_link_outdated:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Odkaz na zrušenou platformu ODR"
+    explanation: "Platforma EU pro řešení sporů online (ODR) byla 20. 7. 2025 zrušena. Odkaz na ni už spotřebitele k informacím o subjektu alternativního řešení sporů nedovede; pokud je jediným odkazem, povinnost podle § 5 ods. 1 písm. q) zákona č. 108/2024 Z. z. nemusí být splněná."
+    recommendation: "Odkaz na platformu ODR odstraňte a nahraďte ho odkazem na informace o příslušném subjektu alternativního řešení sporů (u běžného zboží SOI)."

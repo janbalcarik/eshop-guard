@@ -64,7 +64,7 @@ rules:
     checkability: text
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 10a, ve znění směrnice (EU) 2024/825; odůvodnění 15; otázky a odpovědi Komise (září 2026), otázka 16", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
     explanation: "Vlastnost, kterou právní předpisy vyžadují u všech výrobků této kategorie na trhu EU včetně dovozu (například zákaz látky), obchodník nesmí prezentovat jako přednost své nabídky. Který požadavek a předpis to je, uvádí poznámka u nálezu."
     recommendation: "Tvrzení odstraňte, nebo ho uveďte jako informaci, že jde o požadavek platný pro všechny výrobky, a jako výhodu uvádějte jen to, co jde nad zákon."
 
@@ -80,7 +80,7 @@ rules:
     checkability: verify
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 10a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázka 16", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
     explanation: "Zákon u této kategorie stanoví limit, má výjimky nebo běží přechodné období či doprodej; tvrzení může být zákonným požadavkem vydávaným za přednost. Podrobnosti uvádí poznámka u nálezu."
     recommendation: "Ověřte, zda tvrzení jde nad zákonný požadavek; pokud ne, nepředstavujte ho jako přednost."
 
@@ -96,7 +96,7 @@ rules:
     checkability: assess
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 10a, ve znění směrnice (EU) 2024/825", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
     explanation: "Text uvádí, že vlastnost vyžaduje zákon nebo ji mají všechny výrobky; nejspíš nejde o prezentaci přednosti. Zkontrolujte celkový dojem (zvýraznění, umístění mezi výhodami)."
     recommendation: "Pokud je tvrzení zvýrazněné jako výhoda, upravte ho na neutrální informaci."
 
@@ -112,7 +112,7 @@ rules:
     checkability: verify
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 10a, ve znění směrnice (EU) 2024/825", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
     explanation: "Tvrzení jde podle textu nad zákonný požadavek; to je dovoleno, pokud je pravdivé a doložitelné."
     recommendation: "Ověřte, že srovnání se zákonným limitem je pravdivé a doložitelné."
 
@@ -131,7 +131,7 @@ rules:
     checkability: verify
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 10a, ve znění směrnice (EU) 2024/825", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 15, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
     explanation: "Tvrzení není v seznamu zákonných požadavků, nebo nástroj nepoznal kategorii výrobku. Seznam není úplný výčet právních předpisů; poznámka u nálezu uvádí, s jakou kategorií nástroj počítal."
     recommendation: "Ověřte, zda vlastnost není požadavkem právního předpisu pro všechny výrobky této kategorie; pokud je, nepředstavujte ji jako přednost."
 
@@ -148,7 +148,7 @@ rules:
     checkability: assess
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 6 odst. 2 písm. e), ve znění směrnice (EU) 2024/825; odůvodnění 5; otázky a odpovědi Komise (září 2026), otázka 11", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. e), ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. e), v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
     explanation: "Propagovat výhodu, která je pro spotřebitele bezvýznamná a nesouvisí s žádnou vlastností produktu (voda bez lepku, papír bez plastu), je klamavé, pokud to může ovlivnit rozhodnutí o koupi; posuzuje se případ od případu a obě podmínky musí platit zároveň."
     recommendation: "Tvrzení odstraňte, nebo ho spojte s konkrétní potřebou spotřebitelů, pro které je relevantní."
 
@@ -164,7 +164,7 @@ rules:
     checkability: assess
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 6 odst. 2 písm. e), ve znění směrnice (EU) 2024/825; odůvodnění 5; otázky a odpovědi Komise (září 2026), otázka 11", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. e), ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. e), v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
     explanation: "Seznam uvádí toto tvrzení jako příklad bezvýznamné výhody ze zdrojů (odůvodnění 5 směrnice (EU) 2024/825, otázky a odpovědi Komise, technický dokument k tvrzením u kosmetiky); posuzuje se případ od případu."
     recommendation: "Tvrzení odstraňte, nebo ho spojte s konkrétní potřebou spotřebitelů, pro které je relevantní."
 
@@ -178,6 +178,6 @@ rules:
     checkability: assess
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 6 odst. 2 písm. e), ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázka 11", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. e), ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. e), v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
     explanation: "Informace pro určitou skupinu (alergici, celiaci, vegani) může být relevantní; ověřte, zda nepůsobí jako výhoda oproti výrobkům, které X také neobsahují."
     recommendation: "Ponechte tvrzení jako informaci pro danou skupinu a nepředstavujte ho jako výhodu oproti podobným výrobkům."

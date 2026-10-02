@@ -112,7 +112,7 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
       - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_generic_claim_open
@@ -127,7 +127,7 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 2 písm. o) a p) a příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 3 a 14", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
       - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_generic_claim_implied
@@ -143,7 +143,7 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 2 písm. o) a p) a příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 2 písm. n) a príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 2 písm. n) a príloha č. 1 bod 6, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
       - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_sustainable_claim
@@ -158,7 +158,7 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 10", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
       - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_neutrality
@@ -172,7 +172,7 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4c, ve znění směrnice (EU) 2024/825; odůvodnění 12", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 8, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 8, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
       - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_climate_claim_unsupported
@@ -186,7 +186,7 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I body 4a a 4c, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázka 6", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 body 6 a 8, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 body 6 a 8, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
       - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_company_climate_claim
@@ -199,7 +199,7 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 10", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
       - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_label_unrecognized
@@ -217,7 +217,7 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
       - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. b) zákona č. 634/1992 Sb. (neoprávněné užívání značky jakosti); zákaz podle bodu 2a přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_label_generic_term
@@ -234,8 +234,8 @@ rules:
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky)", status: to_verify}
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
       - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. b) zákona č. 634/1992 Sb. (neoprávněné užívání značky jakosti); zákaz podle bodu 2a přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_label_open
@@ -250,7 +250,7 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 2 písm. r) a příloha I bod 2a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 5, 14 a 15", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
       - {jurisdiction: cz, ref: "§ 4 odst. 4 a příloha č. 1 písm. b) zákona č. 634/1992 Sb. (neoprávněné užívání značky jakosti); zákaz podle bodu 2a přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_part_as_whole
@@ -266,7 +266,7 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 4b, ve znění směrnice (EU) 2024/825", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 7, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 7, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
       - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovný zákaz přinese novela podle sněmovního tisku 53", status: to_verify}
 
   - id: eco_future_claim
@@ -279,5 +279,5 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, čl. 6 odst. 2 písm. d), ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 12", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. d), ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. d), v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
       - {jurisdiction: cz, ref: "§ 4 odst. 3 a 4 a § 5 zákona č. 634/1992 Sb. (klamavé konání); výslovné pravidlo přinese novela podle sněmovního tisku 53", status: to_verify}

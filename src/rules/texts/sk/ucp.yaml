@@ -1,25 +1,28 @@
-# Kostra překladu do jazyka sk: vyplňte texty a review; zástupné symboly {…} musí zůstat stejné.
+# Texty pravidel sady ucp (sk). Otázky pro Jev, logika a odkazy na zákon jsou v rules/ucp.yaml.
+# Strojový návrh překladu z cs: nepoužije se, dokud ho nezkontroluje člověk (review). Citace předpisů zůstávají v jazyce předpisu.
 locale: sk
 rule_set: ucp
 source_version: "ucp-2026-09-26-draft4"
 review:
-  translated_by: ""
+  machine_draft: true
+  translated_by: "Claude (strojový návrh na žádost uživatele, 2. 10. 2026)"
   reviewed_by: ""
   reviewed_at: ""
+  note: "Návrh překladu z cs. Nepoužije se, dokud ho člověk nezkontroluje: pak odstraňte machine_draft a vyplňte reviewed_by a reviewed_at."
 rules:
   ucp_review_reward_positive:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Odmena za kladnú recenziu"
+    explanation: "Odmena za kladné hodnotenie vedie k falošným recenziám; zadávanie falošných recenzií je zakázané za každých okolností."
+    recommendation: "Odmenu za recenziu nepodmieňujte jej obsahom ani hodnotením."
   ucp_reviews_only_positive:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Zverejňovanie len kladných recenzií"
+    explanation: "Zverejňovanie len kladných recenzií a mazanie záporných skresľuje spotrebiteľské recenzie; to je zakázané za každých okolností."
+    recommendation: "Zverejňujte kladné aj záporné recenzie; mazať smiete len recenzie, ktoré porušujú zverejnené pravidlá (spam, vulgarizmy)."
   ucp_review_reward_any:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Odmena za recenziu na overenie"
+    explanation: "Odmena za recenziu bez ohľadu na hodnotenie nie je sama osebe zakázaná, ale recenzie potom nemusia odrážať bežnú skúsenosť zákazníkov; zákazník by sa mal dozvedieť, ako obchod recenzie získava a overuje."
+    recommendation: "Overte, že odmena nezávisí od obsahu recenzie a že pri recenziách je informácia o tom, ako sa získavajú a overujú."
   ucp_reviews_verified_claim:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Tvrdenie o overených recenziách na overenie"
+    explanation: "Tvrdiť, že recenzie píšu zákazníci, ktorí produkt kúpili alebo použili, je zakázané, ak obchod neprijal primerané opatrenia na overenie (napríklad hodnotiť smie len zákazník s dokončenou objednávkou). Opatrenia na webe vidieť nie sú, preto ide o nález na overenie."
+    recommendation: "Overte, že obchod naozaj kontroluje pôvod recenzií (napríklad podľa čísla objednávky), a opíšte to priamo pri recenziách."

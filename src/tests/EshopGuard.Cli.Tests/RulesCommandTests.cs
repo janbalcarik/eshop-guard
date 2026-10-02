@@ -76,7 +76,7 @@ public sealed class RulesCommandTests
             Assert.Equal(0, exitCode);
             var text = output.ReplaceLineEndings(" ");
             Assert.Contains("zpráva jde napsat v: cs", text, StringComparison.Ordinal);
-            Assert.Contains("sk/eco.yaml: čeká na kontrolu", text, StringComparison.Ordinal);
+            Assert.Contains("sk/eco.yaml: návrh překladu čeká na kontrolu člověkem", text, StringComparison.Ordinal);
         }
         finally
         {

@@ -1,37 +1,41 @@
-# Kostra překladu do jazyka sk: vyplňte texty a review; zástupné symboly {…} musí zůstat stejné.
+# Texty pravidel sady legal_cz (sk). Otázky pro Jev, logika a odkazy na zákon jsou v rules/legal_cz.yaml.
+# Strojový návrh překladu z cs: nepoužije se, dokud ho nezkontroluje člověk (review). Citace předpisů zůstávají v jazyce předpisu,
+# nápis tlačítka „Odstoupit od smlouvy“ zůstává česky, protože ho předepisuje český zákon pro české e-shopy.
 locale: sk
 rule_set: legal_cz
 source_version: "legal-cz-2026-10-01-draft4"
 review:
-  translated_by: ""
+  machine_draft: true
+  translated_by: "Claude (strojový návrh na žádost uživatele, 2. 10. 2026)"
   reviewed_by: ""
   reviewed_at: ""
+  note: "Návrh překladu z cs. Nepoužije se, dokud ho člověk nezkontroluje: pak odstraňte machine_draft a vyplňte reviewed_by a reviewed_at."
 rules:
   legal_adr_missing:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Chýba informácia o mimosúdnom riešení sporov"
+    explanation: "Predávajúci musí spotrebiteľa informovať o subjekte mimosúdneho riešenia spotrebiteľských sporov."
+    recommendation: "Doplňte do obchodných podmienok príslušný subjekt (typicky ČOI) a odkaz na jeho web."
   legal_complaints_missing:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Chýba informácia o reklamáciách"
+    explanation: "Predávajúci musí informovať o rozsahu, podmienkach a spôsobe reklamácie a o tom, kde ju možno uplatniť."
+    recommendation: "Doplňte reklamačné podmienky vrátane miesta a spôsobu uplatnenia."
   legal_withdrawal_missing:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Chýba informácia o odstúpení od zmluvy"
+    explanation: "Pred uzavretím zmluvy na diaľku musí spotrebiteľ dostať podmienky, lehotu a postup na odstúpenie."
+    recommendation: "Doplňte podmienky, 14-dňovú lehotu a postup na odstúpenie."
   legal_withdrawal_form_missing:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Chýba vzorový formulár na odstúpenie"
+    explanation: "Spolu s informáciou o odstúpení musí spotrebiteľ dostať vzorový formulár."
+    recommendation: "Pridajte vzorový formulár na odstúpenie od zmluvy."
   legal_withdrawal_function_missing:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Chýba tlačidlo „Odstoupit od smlouvy“ (povinné od 1. 1. 2027)"
+    explanation: "Od 1. 1. 2027 musí e-shop umožniť spotrebiteľovi odstúpiť od zmluvy aj vyhlásením v on-line rozhraní pomocou tlačidla alebo obdobného ovládacieho prvku. Ten musí byť zobrazený výrazným spôsobom, ľahko prístupný, dostupný nepretržite počas celej lehoty na odstúpenie a označený ľahko čitateľným nápisom „Odstoupit od smlouvy“ alebo inou zodpovedajúcou jednoznačnou formuláciou. Na prehľadaných stránkach sa odkaz ani tlačidlo s takým nápisom nenašli."
+    recommendation: "Doplňte výrazne viditeľné tlačidlo alebo odkaz „Odstoupit od smlouvy“ (napríklad v pätičke a v zákazníckom účte), ktoré vedie k vyplneniu a potvrdeniu vyhlásenia o odstúpení."
   legal_withdrawal_button_info_missing:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Chýba informácia o možnosti odstúpiť tlačidlom (povinná od 1. 1. 2027)"
+    explanation: "Od 1. 1. 2027 musia informácie pred uzavretím zmluvy uzatváranej prostredníctvom on-line rozhrania obsahovať aj údaj o možnosti odstúpiť od zmluvy aj použitím tlačidla alebo obdobného ovládacieho prvku na odstúpenie."
+    recommendation: "Doplňte do obchodných podmienok alebo poučenia o odstúpení, že od zmluvy možno odstúpiť aj tlačidlom „Odstoupit od smlouvy“ na webe."
   legal_withdrawal_button_location_missing:
-    title: ""
-    explanation: ""
-    recommendation: ""
+    title: "Chýba informácia, kde je tlačidlo na odstúpenie (povinná od 1. 1. 2027)"
+    explanation: "Od 1. 1. 2027 musia informácie pred uzavretím zmluvy uzatváranej prostredníctvom on-line rozhrania obsahovať aj údaj o umiestnení tlačidla alebo obdobného ovládacieho prvku na odstúpenie od zmluvy."
+    recommendation: "Doplňte do obchodných podmienok alebo poučenia o odstúpení, kde na webe tlačidlo „Odstoupit od smlouvy“ nájdete (napríklad stránku, položku menu alebo zákaznícky účet)."

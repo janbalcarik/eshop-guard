@@ -105,7 +105,7 @@ Věta používá výraz, který odůvodnění 9 směrnice (EU) 2024/825 uvádí 
 **Předpisy:**
 
 - EU: Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9 (status: ověřit)
-- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026) (status: ověřit)
+- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
 
 1. „Tento šampón je ekologický a šetrný k prírode.“ – skóre 0,87, vysoká jistota
    - Kontext: …Ekologický šampón s levanduľou **[věta]** Balenie obsahuje 250 ml a vydrží približne 2 mesiace. Cena: 8,90 €…
@@ -133,7 +133,7 @@ Tvrzení, že produkt (zboží nebo služba, například doprava) má neutráln�
 **Předpisy:**
 
 - EU: Směrnice 2005/29/ES, příloha I bod 4c, ve znění směrnice (EU) 2024/825; odůvodnění 12 (status: ověřit)
-- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 8, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026) (status: ověřit)
+- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 8, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
 
 1. „Doprava je klimaticky neutrálna vďaka kompenzácii emisií.“ – skóre 0,87, vysoká jistota
    - Kontext: …Prírodná kozmetika zo Záhoria Vyrábame mydlá a šampóny z byliniek, ktoré pestujeme vo vlastnej záhrade pri Senici. **[věta]** Objednávky odosielame do 2 pracovných dní cez Packetu alebo Slovenskú poštu.…
@@ -151,7 +151,7 @@ Tvrzení „udržitelný“, „odpovědný“ nebo „uvědomělý“ se kromě
 **Předpisy:**
 
 - EU: Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 10 (status: ověřit)
-- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026) (status: ověřit)
+- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
 
 1. „Sme zodpovedná a udržateľná firma.“ – skóre 0,87, vysoká jistota
    - Kontext: …O nás **[věta]** Ako firma sme klimaticky neutrálni vďaka výsadbe stromov. Do roku 2030 budeme vyrábať úplne bez emisií.…
@@ -188,8 +188,8 @@ Odznak nebo značka bez vlastního názvu certifikačního systému (například
 
 - EU: Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky) (status: ověřit)
 - EU: Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; odůvodnění 9 (status: ověřit)
-- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026) (status: ověřit)
-- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026) (status: ověřit)
+- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
+- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
 
 1. „Eco“ – skóre 0,86, vysoká jistota
    - Kontext: …Tuhý dezodorant s levanduľou **[věta]** Vegan Doprava zadarmo nad 50 €…
@@ -207,7 +207,7 @@ Environmentální tvrzení o celém produktu nebo celé firmě je zakázané, po
 **Předpisy:**
 
 - EU: Směrnice 2005/29/ES, příloha I bod 4b, ve znění směrnice (EU) 2024/825 (status: ověřit)
-- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 7, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026) (status: ověřit)
+- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 7, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
 
 1. „Ekologický produkt – obal je z recyklovaného papiera.“ – skóre 0,87, vysoká jistota
    - Kontext: …Tuhý šampón s pŕhľavou Vegan **[věta]** Šampón vystačí zhruba na 60 umytí.…
@@ -246,7 +246,7 @@ Odznak bez vlastního názvu certifikačního systému a bez environmentálního
 **Předpisy:**
 
 - EU: Směrnice 2005/29/ES, čl. 2 písm. r) a příloha I bod 2a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 5, 14 a 15 (status: ověřit)
-- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026) (status: ověřit)
+- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
 
 1. „Vegan“ – skóre 0,89, vysoká jistota
    - Kontext: …Tuhý šampón s pŕhľavou **[věta]** Ekologický produkt – obal je z recyklovaného papiera. Šampón vystačí zhruba na 60 umytí.…
@@ -264,7 +264,7 @@ Věta používá slovo, které zákon ani odůvodnění 9 směrnice (EU) 2024/82
 **Předpisy:**
 
 - EU: Směrnice 2005/29/ES, čl. 2 písm. o) a p) a příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 3 a 14 (status: ověřit)
-- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026) (status: ověřit)
+- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
 
 1. „Ocenené certifikátom GreenStar Planet.“ – skóre 0,86, vysoká jistota
    - Kontext: …Pleťový krém s rakytníkom **[věta]** Krém je vhodný pre suchú pleť, obsah balenia je 50 ml. ✓ Netestované na zvieratách.…
@@ -320,7 +320,7 @@ Tvrzení o budoucím environmentálním výkonu (například „klimaticky neutr
 **Předpisy:**
 
 - EU: Směrnice 2005/29/ES, čl. 6 odst. 2 písm. d), ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 12 (status: ověřit)
-- SK: Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. d), ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026) (status: ověřit)
+- SK: Zákon č. 108/2024 Z. z., § 10 ods. 2 písm. d), v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
 
 1. „Do roku 2030 budeme vyrábať úplne bez emisií.“ – skóre 0,91, vysoká jistota
    - Kontext: …Sme zodpovedná a udržateľná firma. Ako firma sme klimaticky neutrálni vďaka výsadbe stromov. **[věta]** Naše mydlá nesú pečať Fair Soap Alliance za férové pracovné podmienky. Mydlá varíme ručne od roku 2010.…
@@ -338,7 +338,7 @@ Zákaz tvrzení založených na kompenzacích (bod 4c) se týká produktů. Tvrz
 **Předpisy:**
 
 - EU: Směrnice 2005/29/ES, příloha I bod 4a, ve znění směrnice (EU) 2024/825; otázky a odpovědi Komise (září 2026), otázky 6 a 10 (status: ověřit)
-- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026) (status: ověřit)
+- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 6, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
 
 1. „Ako firma sme klimaticky neutrálni vďaka výsadbe stromov.“ – skóre 0,90, vysoká jistota
    - Kontext: …O nás Sme zodpovedná a udržateľná firma. **[věta]** Do roku 2030 budeme vyrábať úplne bez emisií. Naše mydlá nesú pečať Fair Soap Alliance za férové pracovné podmienky.…
@@ -356,7 +356,7 @@ Navádět spotřebitele, aby spotřební materiál vyměnil nebo doplnil dřív,
 **Předpisy:**
 
 - EU: Směrnice 2005/29/ES, příloha I bod 23i, ve znění směrnice (EU) 2024/825 (status: ověřit)
-- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 38, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
+- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 38, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
 
 1. „Filter vymieňajte každý mesiac, aj keď ešte funguje.“ – skóre 0,90, vysoká jistota
    - Kontext: …Vysávač má výkon 700 W a nádobu na 1,5 l prachu. Motor vydrží 10 rokov každodenného používania. **[věta]** Neoriginálne vrecká poškodia motor vysávača.…
@@ -374,7 +374,7 @@ Nepravdivé tvrzení, že neoriginální spotřební materiál, náhradní díly
 **Předpisy:**
 
 - EU: Směrnice 2005/29/ES, příloha I bod 23j, ve znění směrnice (EU) 2024/825 (status: ověřit)
-- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 39, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
+- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 39, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
 
 1. „Neoriginálne vrecká poškodia motor vysávača.“ – skóre 0,90, vysoká jistota
    - Kontext: …Motor vydrží 10 rokov každodenného používania. Filter vymieňajte každý mesiac, aj keď ešte funguje. **[věta]** …
@@ -392,7 +392,7 @@ Značka udržitelnosti (environmentální i sociální, například férový obc
 **Předpisy:**
 
 - EU: Směrnice 2005/29/ES, příloha I bod 2a, ve znění směrnice (EU) 2024/825 (označení udržitelnosti zahrnuje environmentální i sociální znaky) (status: ověřit)
-- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, ve znění zákona č. 310/2025 Z. z. (účinnost od 27. 9. 2026) (status: ověřit)
+- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 3, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
 
 1. „Naše mydlá nesú pečať Fair Soap Alliance za férové pracovné podmienky.“ – skóre 0,87, vysoká jistota
    - Kontext: …Ako firma sme klimaticky neutrálni vďaka výsadbe stromov. Do roku 2030 budeme vyrábať úplne bez emisií. **[věta]** Mydlá varíme ručne od roku 2010.…
@@ -433,7 +433,7 @@ Nepravdivé tvrzení, že zboží má za běžných podmínek používání urč
 **Předpisy:**
 
 - EU: Směrnice 2005/29/ES, příloha I bod 23g, ve znění směrnice (EU) 2024/825 (status: ověřit)
-- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 36, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
+- SK: Zákon č. 108/2024 Z. z., príloha č. 1 bod 36, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026) (status: ověřit)
 
 1. „Motor vydrží 10 rokov každodenného používania.“ – skóre 0,87, vysoká jistota
    - Kontext: …Tyčový vysávač Tornádo Vysávač má výkon 700 W a nádobu na 1,5 l prachu. **[věta]** Filter vymieňajte každý mesiac, aj keď ešte funguje. Neoriginálne vrecká poškodia motor vysávača.…

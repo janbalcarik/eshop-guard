@@ -1,81 +1,84 @@
-# Kostra překladu do jazyka sk: vyplňte texty a review; zástupné symboly {…} musí zůstat stejné.
+# Texty pravidel sady eco (sk). Otázky pro Jev, logika a odkazy na zákon jsou v rules/eco.yaml.
+# Strojový návrh překladu z cs: nepoužije se, dokud ho nezkontroluje člověk (review). Citace předpisů zůstávají v jazyce předpisu.
 locale: sk
 rule_set: eco
 source_version: "eco-2026-09-30-draft14"
 review:
-  translated_by: ""
+  machine_draft: true
+  translated_by: "Claude (strojový návrh na žádost uživatele, 2. 10. 2026)"
   reviewed_by: ""
   reviewed_at: ""
+  note: "Návrh překladu z cs. Nepoužije se, dokud ho člověk nezkontroluje: pak odstraňte machine_draft a vyplňte reviewed_by a reviewed_at."
 rules:
   eco_generic_claim:
-    title: ""
-    explanation: ""
+    title: "Všeobecné environmentálne tvrdenie bez spresnenia"
+    explanation: "Veta používa výraz, ktorý odôvodnenie 9 smernice (EÚ) 2024/825 uvádza ako príklad všeobecného environmentálneho tvrdenia (napríklad „ekologický“, „šetrný k životnému prostrediu“, „zelený“, „priateľský k prírode“), alebo priamo tvrdí prínos pre životné prostredie, prírodu či klímu. Bez jasného a výrazného spresnenia priamo pri tvrdení je zakázané, ak obchodník nepreukáže uznávanú vynikajúcu environmentálnu výkonnosť relevantnú pre tvrdenie (ekoznačka EÚ alebo úradne uznaná ekoznačka typu I). Certifikované biopotraviny smú „bio“ a „eko“ používať."
     explanation_by_jurisdiction:
-      cz: ""
-    recommendation: ""
+      cz: "V Česku zatiaľ výslovný zákaz všeobecných environmentálnych tvrdení v zákone nie je: smernica (EÚ) 2024/825 sa má prevziať novelou zákona o ochrane spotrebiteľa (snemovná tlač 53), ktorá k 25. 9. 2026 nebola schválená. Česká obchodná inšpekcia môže tvrdenie posúdiť ako klamlivé konanie podľa § 5 zákona č. 634/1992 Sb., ak uvádza spotrebiteľa do omylu. Po prevzatí smernice bude všeobecné tvrdenie bez uznávanej vynikajúcej environmentálnej výkonnosti zakázané vždy."
+    recommendation: "Tvrdenie odstráňte alebo ho nahraďte konkrétnym a preukázateľným údajom priamo pri ňom."
   eco_generic_claim_open:
-    title: ""
-    explanation: ""
+    title: "Možné všeobecné environmentálne tvrdenie (posudzuje sa prípad od prípadu)"
+    explanation: "Veta používa slovo, ktoré zákon ani odôvodnenie 9 smernice (EÚ) 2024/825 medzi príkladmi všeobecných environmentálnych tvrdení neuvádza, napríklad „prírodný“, „bio“ pri výrobku, ktorý nie je potravinou, alebo „šetrný“ bez zmienky o prírode. Environmentálnym tvrdením je, len ak u priemerného spotrebiteľa vyvolá dojem prínosu pre životné prostredie; Komisia to posudzuje prípad od prípadu (otázky a odpovede č. 3 pri názvoch výrobkov a značiek, č. 14 pri „bio“ a „eco“). Ak taký dojem vyvolá a priamo pri ňom nie je spresnenie, ide o zakázané všeobecné tvrdenie."
     explanation_by_jurisdiction:
-      cz: ""
-    recommendation: ""
+      cz: "V Česku zatiaľ výslovný zákaz všeobecných environmentálnych tvrdení v zákone nie je: smernica (EÚ) 2024/825 sa má prevziať novelou zákona o ochrane spotrebiteľa (snemovná tlač 53), ktorá k 25. 9. 2026 nebola schválená. Česká obchodná inšpekcia môže tvrdenie posúdiť ako klamlivé konanie podľa § 5 zákona č. 634/1992 Sb., ak uvádza spotrebiteľa do omylu. Po prevzatí smernice bude všeobecné tvrdenie bez uznávanej vynikajúcej environmentálnej výkonnosti zakázané vždy."
+    recommendation: "Posúďte, či výraz v kontexte stránky pôsobí ako sľub prínosu pre prírodu. Ak áno, doplňte priamo k nemu konkrétny preukázateľný údaj, alebo ho odstráňte."
   eco_generic_claim_implied:
-    title: ""
-    explanation: ""
+    title: "Environmentálne slovo o zákazníkoch alebo cieľovej skupine (naznačené tvrdenie)"
+    explanation: "Environmentálne slovo tu opisuje zákazníkov, pre ktorých je výrobok určený (napríklad „pre ekologicky zmýšľajúcich zákazníkov“, „pre milovníkov prírody“), nie výrobok alebo firmu. Environmentálnym tvrdením je aj vyjadrenie, ktoré prínos pre životné prostredie len naznačuje (§ 2 písm. n) zákona č. 108/2024 Z. z.). Či to táto veta naznačuje, závisí od toho, ako ju chápe priemerný spotrebiteľ; z textu zákona to rozhodnúť nemožno. Ak áno a priamo pri vete nie je spresnenie, ide o zakázané všeobecné tvrdenie."
     explanation_by_jurisdiction:
-      cz: ""
-    recommendation: ""
+      cz: "V Česku zatiaľ výslovný zákaz všeobecných environmentálnych tvrdení v zákone nie je: smernica (EÚ) 2024/825 sa má prevziať novelou zákona o ochrane spotrebiteľa (snemovná tlač 53). Česká obchodná inšpekcia môže tvrdenie posúdiť ako klamlivé konanie podľa § 5 zákona č. 634/1992 Sb., ak uvádza spotrebiteľa do omylu."
+    recommendation: "Posúďte, či veta sľubuje prínos výrobku pre prírodu. Ak áno, doplňte priamo k nej konkrétny preukázateľný fakt (napríklad „rukoväť kefky je z bambusu namiesto plastu“), alebo ju napíšte bez environmentálneho slova."
   eco_sustainable_claim:
-    title: ""
-    explanation: ""
+    title: "„Udržateľný“ alebo „zodpovedný“ bez spresnenia"
+    explanation: "Tvrdenia „udržateľný“, „zodpovedný“ alebo „uvedomelý“ sa okrem životného prostredia týkajú aj sociálnych znakov, preto ich podľa odôvodnenia smernice EmpCo nemožno oprieť len o ekoznačku. Bez jasného spresnenia priamo pri tvrdení ide o zakázané všeobecné tvrdenie."
     explanation_by_jurisdiction:
-      cz: ""
-    recommendation: ""
+      cz: "V Česku zatiaľ výslovný zákaz v zákone nie je (novela podľa snemovnej tlače 53 nebola k 25. 9. 2026 schválená); Česká obchodná inšpekcia môže tvrdenie posúdiť ako klamlivé konanie podľa § 5 zákona č. 634/1992 Sb. Podľa smernice EmpCo sa „udržateľný“ alebo „zodpovedný“ týka aj sociálnych znakov a nemožno ho oprieť len o ekoznačku."
+    recommendation: "Tvrdenie odstráňte, alebo priamo pri ňom uveďte, v čom konkrétne a preukázateľne je produkt udržateľný."
   eco_neutrality:
-    title: ""
-    explanation: ""
+    title: "Klimatické tvrdenie o produkte založené na kompenzáciách"
+    explanation: "Tvrdenie, že produkt (tovar alebo služba, napríklad doprava) má neutrálny, znížený alebo pozitívny vplyv na klímu, je zakázané vždy, ak stojí na kompenzácii emisií mimo hodnotového reťazca produktu. Povolené je len tvrdenie založené na skutočnom znížení emisií počas životného cyklu produktu."
     explanation_by_jurisdiction:
-      cz: ""
-    recommendation: ""
+      cz: "V Česku zatiaľ výslovný zákaz v zákone nie je (novela podľa snemovnej tlače 53 nebola k 25. 9. 2026 schválená); Česká obchodná inšpekcia môže tvrdenie posúdiť ako klamlivé konanie podľa § 5 zákona č. 634/1992 Sb. Po prevzatí smernice EmpCo bude tvrdenie o vplyve produktu na klímu založené na kompenzáciách zakázané vždy."
+    recommendation: "Tvrdenie odstráňte. O podpore klimatických projektov môžete informovať, ale nie ako o vlastnosti produktu."
   eco_climate_claim_unsupported:
-    title: ""
-    explanation: ""
+    title: "Tvrdenie o klíme bez uvedeného základu"
+    explanation: "Všeobecné tvrdenia ako „klimaticky neutrálny“ alebo „uhlíkovo neutrálny“ sú všeobecné environmentálne tvrdenia a bez uznávanej vynikajúcej environmentálnej výkonnosti sú zakázané; ak stoja na kompenzáciách emisií, sú pri produkte zakázané vždy. Povolené je len tvrdenie opreté o skutočné zníženie emisií počas životného cyklu, jasne spresnené priamo pri ňom."
     explanation_by_jurisdiction:
-      cz: ""
-    recommendation: ""
+      cz: "V Česku zatiaľ výslovný zákaz v zákone nie je (novela podľa snemovnej tlače 53 nebola k 25. 9. 2026 schválená); Česká obchodná inšpekcia môže tvrdenie posúdiť ako klamlivé konanie podľa § 5 zákona č. 634/1992 Sb. Podľa smernice EmpCo sú všeobecné tvrdenia o klimatickej neutralite bez uznávanej vynikajúcej environmentálnej výkonnosti zakázané a tvrdenia o produkte založené na kompenzáciách zakázané vždy."
+    recommendation: "Overte, na čom tvrdenie stojí. Ak na kompenzáciách, odstráňte ho; ak na znížení emisií počas životného cyklu, uveďte priamo pri ňom konkrétny a preukázateľný údaj."
   eco_company_climate_claim:
-    title: ""
-    explanation: ""
+    title: "Tvrdenie o klimatickej neutralite firmy založené na kompenzáciách"
+    explanation: "Zákaz tvrdení založených na kompenzáciách (bod 4c) sa týka produktov. Tvrdenie, že je klimaticky neutrálna celá firma, je však všeobecné environmentálne tvrdenie a bez uznávanej vynikajúcej environmentálnej výkonnosti je zakázané. Investície do klimatických projektov smie firma propagovať, ak to nepôsobí klamlivo."
     explanation_by_jurisdiction:
-      cz: ""
-    recommendation: ""
+      cz: "V Česku zatiaľ výslovný zákaz v zákone nie je (novela podľa snemovnej tlače 53 nebola k 25. 9. 2026 schválená); Česká obchodná inšpekcia môže tvrdenie posúdiť ako klamlivé konanie podľa § 5 zákona č. 634/1992 Sb. Podľa smernice EmpCo je tvrdenie o klimatickej neutralite celej firmy všeobecné environmentálne tvrdenie."
+    recommendation: "Namiesto neutrality uveďte, čo firma skutočne robí (napríklad o koľko znížila emisie a ako), a podporu projektov opíšte oddelene od vlastností produktov."
   eco_label_unrecognized:
-    title: ""
-    explanation: ""
+    title: "Menovaná značka udržateľnosti mimo zoznamu overených"
+    explanation: "Značka udržateľnosti (environmentálna aj sociálna, napríklad spravodlivý obchod) je zakázaná, ak nevychádza z certifikačného systému s nezávislým overovaním alebo ju nezaviedol orgán verejnej moci. Veta menuje značku, ktorá nie je na zozname overených; či podmienky spĺňa, sa z webu zistiť nedá."
     explanation_by_jurisdiction:
-      cz: ""
-    recommendation: ""
+      cz: "V Česku zatiaľ platí len všeobecný zákaz neoprávneného používania značky kvality (príloha č. 1 písm. b) zákona č. 634/1992 Sb.) a klamlivého konania (§ 5); výslovný zákaz značiek udržateľnosti bez certifikačného systému prinesie novela podľa snemovnej tlače 53."
+    recommendation: "Overte, či značka vychádza z certifikačného systému s nezávislým overovaním alebo ju zaviedol úrad. Ak nie, odstráňte ju."
   eco_label_generic_term:
-    title: ""
-    explanation: ""
+    title: "Odznak alebo značka so všeobecným environmentálnym výrazom"
+    explanation: "Odznak alebo značka bez vlastného názvu certifikačného systému (napríklad „Eco“ alebo „Green“ pri výrobku) je značkou udržateľnosti, ktorá nevychádza z certifikačného systému (bod 3), a zároveň výrazom, ktorý odôvodnenie 9 smernice (EÚ) 2024/825 uvádza ako príklad všeobecného environmentálneho tvrdenia (bod 6). Je zakázaná, ak výrobok nemá ekoznačku EÚ alebo úradne uznanú ekoznačku typu I."
     explanation_by_jurisdiction:
-      cz: ""
-    recommendation: ""
+      cz: "V Česku zatiaľ platí len všeobecný zákaz neoprávneného používania značky kvality (príloha č. 1 písm. b) zákona č. 634/1992 Sb.) a klamlivého konania (§ 5); výslovný zákaz značiek udržateľnosti bez certifikačného systému prinesie novela podľa snemovnej tlače 53."
+    recommendation: "Odznak odstráňte, alebo ho nahraďte skutočnou certifikovanou značkou, ktorú výrobok má."
   eco_label_open:
-    title: ""
-    explanation: ""
+    title: "Odznak alebo symbol, ktorý môže pôsobiť ako značka udržateľnosti"
+    explanation: "Odznak bez vlastného názvu certifikačného systému a bez environmentálneho výrazu (napríklad „Vegan“, „Vegetarian“, „GMO free“, „BIO“ pri výrobku, ktorý nie je potravinou, alebo zelený lístok) je značkou udržateľnosti, len ak ním obchodník naznačuje prínos pre životné prostredie alebo sociálny prínos, napríklad pre dobré životné podmienky zvierat. Komisia to posudzuje prípad od prípadu podľa kontextu a vnímania priemerného spotrebiteľa (otázky a odpovede č. 5, 14 a 15). Ak je značkou udržateľnosti, musí vychádzať z certifikačného systému."
     explanation_by_jurisdiction:
-      cz: ""
-    recommendation: ""
+      cz: "V Česku zatiaľ platí len všeobecný zákaz neoprávneného používania značky kvality (príloha č. 1 písm. b) zákona č. 634/1992 Sb.) a klamlivého konania (§ 5); výslovný zákaz značiek udržateľnosti bez certifikačného systému prinesie novela podľa snemovnej tlače 53."
+    recommendation: "Posúďte, či odznak v kontexte obchodu pôsobí ako sľub prínosu pre prírodu alebo zvieratá. Ak áno, používajte ho len s certifikáciou; ak ide len o údaj o zložení alebo o vhodnosti pre určitú stravu, prínos nenaznačujte."
   eco_part_as_whole:
-    title: ""
-    explanation: ""
+    title: "Tvrdenie o celom produkte, hoci sa týka len časti"
+    explanation: "Environmentálne tvrdenie o celom produkte alebo celej firme je zakázané, ak sa týka len určitého aspektu, napríklad obalu."
     explanation_by_jurisdiction:
-      cz: ""
-    recommendation: ""
+      cz: "V Česku zatiaľ výslovný zákaz v zákone nie je (novela podľa snemovnej tlače 53 nebola k 25. 9. 2026 schválená); Česká obchodná inšpekcia môže tvrdenie posúdiť ako klamlivé konanie podľa § 5 zákona č. 634/1992 Sb. Po prevzatí smernice EmpCo bude tvrdenie o celom produkte, ktoré sa týka len jeho časti, zakázané vždy."
+    recommendation: "Spresnite, ktorej časti sa výhoda týka, napríklad len obalu."
   eco_future_claim:
-    title: ""
-    explanation: ""
+    title: "Budúci environmentálny záväzok na overenie"
+    explanation: "Tvrdenie o budúcej environmentálnej výkonnosti (napríklad „klimaticky neutrálny do roku 2030“) je klamlivé, ak za ním nestoja jasné, verejne dostupné a overiteľné záväzky v podrobnom a realistickom vykonávacom pláne s merateľnými cieľmi, ktorý pravidelne overuje nezávislý odborník. Posudzuje sa prípad od prípadu."
     explanation_by_jurisdiction:
-      cz: ""
-    recommendation: ""
+      cz: "V Česku zatiaľ výslovné pravidlo pre budúce environmentálne tvrdenia v zákone nie je (novela podľa snemovnej tlače 53 nebola k 25. 9. 2026 schválená); Česká obchodná inšpekcia môže tvrdenie posúdiť ako klamlivé konanie podľa § 5 zákona č. 634/1992 Sb."
+    recommendation: "Overte, že k záväzku existuje verejný vykonávací plán s merateľnými cieľmi a nezávislým overovaním, a odkážte naň priamo pri tvrdení; inak tvrdenie odstráňte."

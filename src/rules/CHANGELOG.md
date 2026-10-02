@@ -2,6 +2,16 @@
 
 Každá změna znění otázky nebo pravidla zvyšuje verzi sady (`version`), protože verze je součástí klíče cache i hlavičky zprávy.
 
+## Slovenské odkazy celé slovensky, návrhy překladů textů (2. 10. 2026, změna 6, úkoly 4.3 a 4.6)
+
+- Odkazy `jurisdiction: sk` v `eco.yaml` (13), `dur.yaml` (5) a vypnuté `lr.yaml` (8) měly české části „ve znění“ a „účinnost“. Nově „v znení zákona“ a „(účinnosť od …)“. Čísla ustanovení, data a stav `to_verify` se nezměnily. Otázky ani logika pravidel se nezměnily, proto zůstávají verze sad i otisky otázek (design změny 6, oddíl Soubory: „`version` se nemění“).
+- Odkazy EU zůstávají česky, dokud nebude zkontrolovaný jejich slovenský překlad (`ref_by_language`, K rozhodnutí 11).
+- Návrhy překladů textů pravidel napsal na žádost uživatele Claude jako strojový návrh (`review.machine_draft: true`):
+  - `rules/texts/sk/{eco,dur,ucp,legal_cz,_engine,_labels}.yaml` z češtiny;
+  - `rules/texts/cs/legal_sk.yaml` ze slovenštiny.
+
+  Nepoužijí se, dokud je nezkontroluje člověk. Nápisy předepsané zákonem („Odstoupit od smlouvy“, „odstúpiť od zmluvy tu“) a citace předpisů zůstávají v jazyce předpisu. Kontrola proběhne později lokálně: skenování skutečných e-shopů a porovnání vlastního rozboru stránek s výsledky Jevu.
+
 ## Česko: tlačítko „Odstoupit od smlouvy“, legal_cz draft4 (připraveno 1. 10. 2026, změna 6)
 
 Nová verze sady `legal_cz` (`legal-cz-2026-10-01-draft4`) přidá tři pravidla s účinností od 1. 1. 2027. Znění je ověřené proti textu zákona v `podklady/predpisy-cz/cz-159-2026-novela-financni-sluzby-na-dalku-tlacitko-odstoupeni.txt` a proti rešerši `podklady/reserse/cz-informacni-povinnosti.md` (oddíl `cz_withdrawal_button`). Všechny odkazy mají stav `to_verify` a ustanovení posoudí právník.

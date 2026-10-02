@@ -44,7 +44,7 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23g, ve znění směrnice (EU) 2024/825", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 36, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 36, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
   - id: dur_repairable_claim
     scope: segment
     logic:
@@ -55,7 +55,7 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23h, ve znění směrnice (EU) 2024/825", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 37, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 37, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
   - id: dur_consumable_early
     scope: segment
     logic:
@@ -66,7 +66,7 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23i, ve znění směrnice (EU) 2024/825", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 38, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 38, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
   - id: dur_non_original_damage
     scope: segment
     logic:
@@ -77,7 +77,7 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23j, ve znění směrnice (EU) 2024/825", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 39, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 39, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
   - id: dur_update_necessary
     scope: segment
     logic:
@@ -88,4 +88,4 @@ rules:
     effective_from: {sk: 2026-09-27}
     legal_refs:
       - {jurisdiction: eu, ref: "Směrnice 2005/29/ES, příloha I bod 23e, ve znění směrnice (EU) 2024/825", status: to_verify}
-      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 34, ve znění zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
+      - {jurisdiction: sk, ref: "Zákon č. 108/2024 Z. z., príloha č. 1 bod 34, v znení zákona č. 310/2025 Z. z. (účinnosť od 27. 9. 2026)", status: to_verify}
