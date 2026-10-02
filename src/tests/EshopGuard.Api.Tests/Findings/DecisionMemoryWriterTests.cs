@@ -10,8 +10,6 @@ namespace EshopGuard.Api.Tests.Findings;
 /// <summary>The memory of decisions (change 11, AD 9): a new decision supersedes the older one, taking it back deletes nothing.</summary>
 public sealed class DecisionMemoryWriterTests : FindingsTestBase
 {
-    private static CancellationToken Ct => TestContext.Current.CancellationToken;
-
     [Fact]
     public async Task NewDecision_SupersedesTheOlder_TextIsNormalized_AndNothingIsPublishedAutomatically()
     {

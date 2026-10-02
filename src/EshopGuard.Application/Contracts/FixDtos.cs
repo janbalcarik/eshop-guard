@@ -113,3 +113,41 @@ public sealed record ShopNotificationPrefsDto(Guid ShopId, NotificationPrefsDto 
 
 /// <summary><c>GET T/notification-settings</c>: the account (its row or the defaults) and the e-shops with their own row.</summary>
 public sealed record NotificationSettingsDto(NotificationPrefsDto Account, IReadOnlyList<ShopNotificationPrefsDto> Shops);
+
+/// <summary>Where a piece of evidence was used: findings, pages and e-shops („19 produktov“).</summary>
+public sealed record EvidenceLinksDto(int Findings, int Pages, int Shops);
+
+/// <summary>One use of a piece of evidence (detail).</summary>
+public sealed record EvidenceLinkDto(Guid LinkId, Guid ShopId, Guid? PageId, string? PageTitle, Guid? FindingId);
+
+/// <summary>
+/// A piece of evidence of the tenant (design G): the claim, its subject, the kind, the file, the validity and the state
+/// (<c>valid</c>, <c>expiring</c>, <c>expired</c>, <c>awaiting_answer</c>, <c>claim_removed</c>). A row <c>awaiting_answer</c> is an
+/// open question (<c>questionId</c>) and has no evidence yet. <c>items</c> only in the detail.
+/// </summary>
+public sealed record EvidenceDto(
+    Guid Id,
+    Guid? QuestionId,
+    string ClaimText,
+    string SubjectKind,
+    string? SubjectLabel,
+    string Kind,
+    string? Title,
+    string? FileName,
+    bool HasFile,
+    string Source,
+    DateOnly? ValidFrom,
+    DateOnly? ValidUntil,
+    string Status,
+    int? DaysToExpiry,
+    EvidenceLinksDto Links,
+    FindingActorDto? CreatedBy,
+    DateTimeOffset CreatedAt,
+    uint Version,
+    IReadOnlyList<EvidenceLinkDto>? Items = null);
+
+/// <summary>The numbers above the list of evidence.</summary>
+public sealed record EvidenceStatsDto(int Valid, int Expiring, int AwaitingAnswer, int ProductsCovered);
+
+/// <summary><c>GET T/evidence</c>.</summary>
+public sealed record EvidenceListDto(EvidenceStatsDto Stats, IReadOnlyList<EvidenceDto> Items);

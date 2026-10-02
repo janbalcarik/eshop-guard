@@ -80,6 +80,14 @@ public sealed class RoleMatrixTests : ApiTestBase
         ["POST /api/t/{tenantId:guid}/notifications/read-all"] = TenantRole.Viewer,
         ["GET /api/t/{tenantId:guid}/notification-settings"] = TenantRole.Viewer,
         ["PUT /api/t/{tenantId:guid}/notification-settings"] = TenantRole.Viewer,
+        ["GET /api/t/{tenantId:guid}/evidence"] = TenantRole.Viewer,
+        ["POST /api/t/{tenantId:guid}/evidence"] = TenantRole.Editor,
+        ["GET /api/t/{tenantId:guid}/evidence/{evidenceId:guid}"] = TenantRole.Viewer,
+        ["PATCH /api/t/{tenantId:guid}/evidence/{evidenceId:guid}"] = TenantRole.Editor,
+        ["DELETE /api/t/{tenantId:guid}/evidence/{evidenceId:guid}"] = TenantRole.Editor,
+        ["GET /api/t/{tenantId:guid}/evidence/{evidenceId:guid}/file"] = TenantRole.Viewer,
+        ["POST /api/t/{tenantId:guid}/evidence/{evidenceId:guid}/links"] = TenantRole.Editor,
+        ["DELETE /api/t/{tenantId:guid}/evidence/{evidenceId:guid}/links/{linkId:guid}"] = TenantRole.Editor,
     };
 
     [Fact]

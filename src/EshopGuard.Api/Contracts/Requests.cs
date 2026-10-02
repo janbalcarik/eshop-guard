@@ -93,3 +93,13 @@ public sealed record ReadAllNotificationsRequest(Guid? ShopId);
 
 /// <summary><c>PUT T/notification-settings</c>: the account (<c>shopId</c> null) or one e-shop.</summary>
 public sealed record NotificationSettingsRequest(Guid? ShopId, bool? EmailNewViolation, bool? EmailWeeklySummary, bool? EmailRunFinished);
+
+/// <summary>The metadata of <c>POST T/evidence</c> (the form field <c>metadata</c>, JSON).</summary>
+public sealed record CreateEvidenceRequest(
+    string? ClaimText, string? SubjectKind, string? SubjectLabel, string? Kind, string? Title, DateOnly? ValidFrom, DateOnly? ValidUntil, string? RegistryRef);
+
+/// <summary><c>PATCH T/evidence/{id}</c>: only the given fields change.</summary>
+public sealed record UpdateEvidenceRequest(string? ClaimText, string? SubjectKind, string? SubjectLabel, string? Title, DateOnly? ValidFrom, DateOnly? ValidUntil);
+
+/// <summary><c>POST T/evidence/{id}/links</c>.</summary>
+public sealed record EvidenceLinksRequest(IReadOnlyList<Guid>? FindingIds);

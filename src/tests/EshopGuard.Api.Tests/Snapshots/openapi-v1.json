@@ -721,6 +721,288 @@
         ],
         "type": "object"
       },
+      "EvidenceDto": {
+        "properties": {
+          "claimText": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/FindingActorDto"
+              }
+            ]
+          },
+          "daysToExpiry": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "fileName": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "hasFile": {
+            "type": "boolean"
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceLinkDto"
+            },
+            "type": [
+              "null",
+              "array"
+            ]
+          },
+          "kind": {
+            "type": "string"
+          },
+          "links": {
+            "$ref": "#/components/schemas/EvidenceLinksDto"
+          },
+          "questionId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "source": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "subjectKind": {
+            "type": "string"
+          },
+          "subjectLabel": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "validFrom": {
+            "format": "date",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "validUntil": {
+            "format": "date",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "version": {
+            "format": "uint32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "questionId",
+          "claimText",
+          "subjectKind",
+          "subjectLabel",
+          "kind",
+          "title",
+          "fileName",
+          "hasFile",
+          "source",
+          "validFrom",
+          "validUntil",
+          "status",
+          "daysToExpiry",
+          "links",
+          "createdBy",
+          "createdAt",
+          "version"
+        ],
+        "type": "object"
+      },
+      "EvidenceLinkDto": {
+        "properties": {
+          "findingId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "linkId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "pageId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "pageTitle": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "shopId": {
+            "format": "uuid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "linkId",
+          "shopId",
+          "pageId",
+          "pageTitle",
+          "findingId"
+        ],
+        "type": "object"
+      },
+      "EvidenceLinksDto": {
+        "properties": {
+          "findings": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "pages": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "shops": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "findings",
+          "pages",
+          "shops"
+        ],
+        "type": "object"
+      },
+      "EvidenceLinksRequest": {
+        "properties": {
+          "findingIds": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": [
+              "null",
+              "array"
+            ]
+          }
+        },
+        "required": [
+          "findingIds"
+        ],
+        "type": "object"
+      },
+      "EvidenceListDto": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceDto"
+            },
+            "type": "array"
+          },
+          "stats": {
+            "$ref": "#/components/schemas/EvidenceStatsDto"
+          }
+        },
+        "required": [
+          "stats",
+          "items"
+        ],
+        "type": "object"
+      },
+      "EvidenceStatsDto": {
+        "properties": {
+          "awaitingAnswer": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "expiring": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "productsCovered": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "valid": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "valid",
+          "expiring",
+          "awaitingAnswer",
+          "productsCovered"
+        ],
+        "type": "object"
+      },
       "ExampleFixDto": {
         "properties": {
           "findingId": {
@@ -4552,6 +4834,57 @@
         ],
         "type": "object"
       },
+      "UpdateEvidenceRequest": {
+        "properties": {
+          "claimText": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "subjectKind": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "subjectLabel": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "validFrom": {
+            "format": "date",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "validUntil": {
+            "format": "date",
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "claimText",
+          "subjectKind",
+          "subjectLabel",
+          "title",
+          "validFrom",
+          "validUntil"
+        ],
+        "type": "object"
+      },
       "UpdateMeRequest": {
         "properties": {
           "displayName": {
@@ -5289,6 +5622,35 @@
         ]
       }
     },
+    "/api/files/{token}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "files"
+        ],
+        "x-problem-codes": [
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid"
+        ]
+      }
+    },
     "/api/invitations/accept": {
       "post": {
         "requestBody": {
@@ -5741,6 +6103,415 @@
           "tenant.not_found",
           "tenant.suspended",
           "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/evidence": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "shopId",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceListDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "evidence"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceDto"
+                }
+              }
+            },
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "evidence"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "evidence.claim_required",
+          "evidence.file_too_large",
+          "evidence.file_type_not_allowed",
+          "evidence.valid_until_before_from",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/evidence/{evidenceId}": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "evidenceId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "evidence"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "evidence.not_found",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      },
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "evidenceId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "evidence"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "evidence.not_found",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "evidenceId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/UpdateEvidenceRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "evidence"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "concurrency.conflict",
+          "csrf.invalid",
+          "evidence.claim_required",
+          "evidence.not_found",
+          "evidence.valid_until_before_from",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/evidence/{evidenceId}/file": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "evidenceId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "evidence"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "evidence.no_file",
+          "evidence.not_found",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/evidence/{evidenceId}/links": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "evidenceId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/EvidenceLinksRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "evidence"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "evidence.not_found",
+          "finding.not_found",
+          "finding.transition_not_allowed",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.sample_only",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/evidence/{evidenceId}/links/{linkId}": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "evidenceId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "linkId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "evidence"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "evidence.not_found",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended"
         ]
       }
     },
@@ -9001,6 +9772,9 @@
       "name": "tenant"
     },
     {
+      "name": "evidence"
+    },
+    {
       "name": "shops"
     },
     {
@@ -9014,6 +9788,9 @@
     },
     {
       "name": "catalog"
+    },
+    {
+      "name": "files"
     }
   ]
 }

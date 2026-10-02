@@ -1,3 +1,4 @@
+using EshopGuard.Jobs.Evidence;
 using EshopGuard.Jobs.Notifications;
 using EshopGuard.Jobs.Fixes;
 using EshopGuard.Application.Findings;
@@ -39,6 +40,8 @@ public static class FindingsServiceCollectionExtensions
         services.TryAddScoped<GenerationBudget>();
         services.TryAddScoped<QuestionService>();
         services.TryAddScoped<Notifications.NotificationService>();
+        services.AddEvidenceOptions();
+        services.TryAddScoped<Evidence.EvidenceService>();
         return services;
     }
 }

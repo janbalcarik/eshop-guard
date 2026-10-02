@@ -126,25 +126,25 @@
 
 ## 6. Doklady
 
-- [ ] 6.1 `Application/Evidence/EvidenceFileValidator.cs`: typ podle magických čísel (PDF, JPEG, PNG), `Evidence:MaxFileBytes`, bezpečné jméno souboru.
-- [ ] 6.2 `Application/Evidence/EvidenceStatusCalculator.cs`: stavy a `daysToExpiry` (AD 10). Test `EvidenceStatusCalculatorTests` s hraničními dny (0, 1, 30, 31, po vypršení).
-- [ ] 6.3 `Application/Evidence/EvidenceService.cs`:
+- [x] 6.1 `Application/Evidence/EvidenceFileValidator.cs`: typ podle magických čísel (PDF, JPEG, PNG), `Evidence:MaxFileBytes`, bezpečné jméno souboru.
+- [x] 6.2 `Application/Evidence/EvidenceStatusCalculator.cs`: stavy a `daysToExpiry` (AD 10). Test `EvidenceStatusCalculatorTests` s hraničními dny (0, 1, 30, 31, po vypršení).
+- [x] 6.3 `Application/Evidence/EvidenceService.cs`:
   - seznam se statistikami, detail s vazbami;
   - vytvoření se souborem do `IBlobStore` (`tenants/{t}/evidence/{id}/…`);
   - úprava s `If-Match`;
   - měkké smazání (nálezy → `open`, paměť `superseded_at`);
   - vazby a jejich odebrání;
   - podepsaný odkaz 5 minut.
-- [ ] 6.4 Koncové body v `EvidenceEndpoints.cs`: `GET/POST T/evidence`, `GET/PATCH/DELETE T/evidence/{id}`, `GET T/evidence/{id}/file`, `POST T/evidence/{id}/links`, `DELETE T/evidence/{id}/links/{linkId}`.
-- [ ] 6.5 `Jobs/Evidence/EvidenceRefreshStatusHandler.cs` (denně): `expiring` → upozornění jednou (`reminder_sent_at`), `expired` → nálezy `open` + upozornění `evidence_expired`.
-- [ ] 6.6 Test `EvidenceTests`:
+- [x] 6.4 Koncové body v `EvidenceEndpoints.cs`: `GET/POST T/evidence`, `GET/PATCH/DELETE T/evidence/{id}`, `GET T/evidence/{id}/file`, `POST T/evidence/{id}/links`, `DELETE T/evidence/{id}/links/{linkId}`.
+- [x] 6.5 `Jobs/Evidence/EvidenceRefreshStatusHandler.cs` (denně): `expiring` → upozornění jednou (`reminder_sent_at`), `expired` → nálezy `open` + upozornění `evidence_expired`.
+- [x] 6.6 Test `EvidenceTests`:
   - nahrání PDF;
   - podvržený typ → `400`;
   - soubor nad limit → `400`;
   - stažení přes `302` s krátkou platností;
   - smazání otevře nálezy;
   - doklad platí ve dvou e-shopech tenanta.
-- [ ] 6.7 Test `EvidenceRefreshStatusHandlerTests` (`FakeTimeProvider`: BDIH 20. 10. 2026, připomenutí jen jednou, vypršení otevře 6 nálezů).
+- [x] 6.7 Test `EvidenceRefreshStatusHandlerTests` (`FakeTimeProvider`: BDIH 20. 10. 2026, připomenutí jen jednou, vypršení otevře 6 nálezů).
 
 ## 7. Hromadné opravy
 

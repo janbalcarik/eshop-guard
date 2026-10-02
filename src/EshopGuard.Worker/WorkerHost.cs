@@ -2,6 +2,7 @@ using EshopGuard.Application;
 using EshopGuard.Data;
 using EshopGuard.Data.Connections;
 using EshopGuard.Jobs;
+using EshopGuard.Jobs.Evidence;
 using EshopGuard.Jobs.Fixes;
 using EshopGuard.Jobs.Processing;
 using EshopGuard.Jobs.Runs;
@@ -37,6 +38,7 @@ public static class WorkerHost
         // The interactive jobs of an e-shop (change 10): recognition of the platform and the check of ownership.
         builder.Services.AddShopJobs();
         builder.Services.AddFixJobs();
+        builder.Services.AddEvidenceJobs();
 
         // E-mails of the outbox (job email.send, change 9): templates, SMTP, languages; Email and Frontend checked at start.
         builder.Services.AddEshopGuardEmailDelivery();

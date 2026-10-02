@@ -169,6 +169,12 @@ public sealed class QuestionService(
                     }
                 }
 
+                if (question.Scope == QuestionScope.Finding)
+                {
+                    // „Nevieme doložiť“: the answer is a record of the evidence too (claim_removed), for the protocol and the list.
+                    evidenceId = await AnswerEvidenceAsync(userId, question, matching, findings, EvidenceStatus.ClaimRemoved, ct).ConfigureAwait(false);
+                }
+
                 // Taken last: above the budget the whole answer is rolled back.
                 await budget.TakeAsync(shop.TenantId, generate.Count, ct).ConfigureAwait(false);
             }
@@ -192,31 +198,12 @@ public sealed class QuestionService(
             return new AnswerResultDto(counts.Questions, counts.Findings, counts.Pages, evidenceId, generate.Count > 0);
         }, ct).ConfigureAwait(false);
 
-    /// <summary>„Áno“: one piece of evidence of the kind <c>answer</c> for all the findings, linked to each finding and page.</summary>
+    /// <summary>„Áno“: one piece of evidence of the kind <c>answer</c> for all the findings; the findings are kept with it and remembered.</summary>
     private async Task<Guid> YesAsync(Guid userId, Question question, IReadOnlyList<Question> matching, IReadOnlyList<Finding> findings, CancellationToken ct)
     {
-        var pagesOf = await PagesAsync(findings, ct).ConfigureAwait(false);
-        var pageCount = pagesOf.Values.SelectMany(p => p).Distinct().Count();
-        var first = findings.FirstOrDefault(f => f.Id == question.FindingId) ?? findings.FirstOrDefault();
-        var evidence = new EvidenceItem
-        {
-            ClaimText = first?.Text ?? question.Code,
-            SubjectKind = question.Scope == QuestionScope.Site || pageCount != 1 ? EvidenceSubjectKind.Group : EvidenceSubjectKind.Product,
-            SubjectLabel = Label(question.Params),
-            Kind = EvidenceKind.Answer,
-            Source = EvidenceSource.Answer,
-            Status = EvidenceStatus.Valid,
-            CreatedBy = userId,
-        };
-        db.EvidenceItems.Add(evidence);
+        var evidenceId = await AnswerEvidenceAsync(userId, question, matching, findings, EvidenceStatus.Valid, ct).ConfigureAwait(false);
         foreach (var finding in findings)
         {
-            var pages = pagesOf.GetValueOrDefault(finding.Id) ?? [];
-            foreach (var page in pages.Count > 0 ? pages.Select(p => (Guid?)p) : [null])
-            {
-                db.EvidenceLinks.Add(new EvidenceLink { EvidenceId = evidence.Id, ShopId = finding.ShopId, PageId = page, FindingId = finding.Id });
-            }
-
             if (finding.Status == FindingStatus.Open)
             {
                 await transitions.ApplyAsync(finding, FindingStatus.NeedsAnswer, userId, ct, "answer_yes").ConfigureAwait(false);
@@ -228,17 +215,48 @@ public sealed class QuestionService(
             }
         }
 
+        await db.SaveChangesAsync(ct).ConfigureAwait(false);
+        foreach (var finding in findings.Where(f => f.Status == FindingStatus.KeptWithEvidence))
+        {
+            await memory.RecordAsync(finding.ShopId, finding.SegmentHash, finding.Text, Decision.KeepWithEvidence, userId, ct, evidenceId: evidenceId).ConfigureAwait(false);
+        }
+
+        return evidenceId;
+    }
+
+    /// <summary>The evidence of the kind <c>answer</c> of an answer, linked to each finding and page and to the questions.</summary>
+    private async Task<Guid> AnswerEvidenceAsync(
+        Guid userId, Question question, IReadOnlyList<Question> matching, IReadOnlyList<Finding> findings, EvidenceStatus status, CancellationToken ct)
+    {
+        var pagesOf = await PagesAsync(findings, ct).ConfigureAwait(false);
+        var pageCount = pagesOf.Values.SelectMany(p => p).Distinct().Count();
+        var first = findings.FirstOrDefault(f => f.Id == question.FindingId) ?? findings.FirstOrDefault();
+        var evidence = new EvidenceItem
+        {
+            ClaimText = first?.Text ?? question.Code,
+            SubjectKind = question.Scope == QuestionScope.Site || pageCount != 1 ? EvidenceSubjectKind.Group : EvidenceSubjectKind.Product,
+            SubjectLabel = Label(question.Params),
+            Kind = EvidenceKind.Answer,
+            Source = EvidenceSource.Answer,
+            Status = status,
+            CreatedBy = userId,
+        };
+        db.EvidenceItems.Add(evidence);
+        foreach (var finding in findings)
+        {
+            var pages = pagesOf.GetValueOrDefault(finding.Id) ?? [];
+            foreach (var page in pages.Count > 0 ? pages.Select(p => (Guid?)p) : [null])
+            {
+                db.EvidenceLinks.Add(new EvidenceLink { EvidenceId = evidence.Id, ShopId = finding.ShopId, PageId = page, FindingId = finding.Id });
+            }
+        }
+
         foreach (var q in matching)
         {
             q.EvidenceId = evidence.Id;
         }
 
         await db.SaveChangesAsync(ct).ConfigureAwait(false);
-        foreach (var finding in findings.Where(f => f.Status == FindingStatus.KeptWithEvidence))
-        {
-            await memory.RecordAsync(finding.ShopId, finding.SegmentHash, finding.Text, Decision.KeepWithEvidence, userId, ct, evidenceId: evidence.Id).ConfigureAwait(false);
-        }
-
         return evidence.Id;
     }
 

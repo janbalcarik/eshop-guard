@@ -115,7 +115,9 @@ public sealed class QuestionTests : FindingsTestBase
 
         // The evidence of „Áno“ is deleted and its memory superseded.
         Assert.Equal(0L, await AdminScalarAsync<long>(
-            "SELECT count(*) FROM fixes.evidence_items e JOIN fixes.evidence_links l ON l.evidence_id = e.id WHERE l.finding_id = $1 AND e.deleted_at IS NULL", data.Findings["vodnar"]));
+            "SELECT count(DISTINCT e.id) FROM fixes.evidence_items e JOIN fixes.evidence_links l ON l.evidence_id = e.id WHERE l.finding_id = $1 AND e.deleted_at IS NULL AND e.status <> 'claim_removed'", data.Findings["vodnar"]));
+        Assert.Equal(1L, await AdminScalarAsync<long>(
+            "SELECT count(DISTINCT e.id) FROM fixes.evidence_items e JOIN fixes.evidence_links l ON l.evidence_id = e.id WHERE l.finding_id = $1 AND e.deleted_at IS NULL AND e.status = 'claim_removed'", data.Findings["vodnar"]));
         Assert.Equal(0L, await AdminScalarAsync<long>(
             "SELECT count(*) FROM fixes.decision_memory WHERE shop_id = $1 AND segment_hash = $2 AND superseded_at IS NULL", data.ShopId, BylinkovoSeed.VodnarHash));
         await AdminScalarAsync<int>(
