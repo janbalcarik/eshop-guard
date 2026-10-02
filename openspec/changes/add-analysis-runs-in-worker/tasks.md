@@ -110,7 +110,7 @@
 - [x] 12.1 `src/EshopGuard.Jobs/ServiceCollectionExtensions.cs`: `AddAnalysisRuns()` registruje obsluhy, `IRunService`, odhady, `UsageRecorder`, `RunEventWriter`, `IRunQueueEstimator` a PostgreSQL úložiště z 1.5–1.7 pro úlohy. *(`AddRunService` a `AddAnalysisRuns` v `RunsServiceCollectionExtensions`.)*
 - [x] 12.2 `src/EshopGuard.Worker/Program.cs` a `appsettings.json`: obsluhy podle `kind`, sloty `fetch`, `cpu` (podle jader), `jev`, `llm`, `system`; žádná logika běhů ve workeru.
 - [x] 12.3 `src/EshopGuard.Worker/StartupChecks.cs`: odmítnout start s `CrawlOptions.AllowPrivateNetwork = true`, mimo Development s `crawl.user_agent` obsahujícím `doplnte-kontakt` a s `Jev:UseMock` mimo Development/Test; klíče `TYPESAFE_API_KEY` a `OPENAI_API_KEY` jen z proměnných prostředí. *(`StartupChecks` v `AnalysisSettings.cs`.)*
-- [x] 12.4 `src/EshopGuard.Worker/Dev/SeedRunCommand.cs`: `dev seed-run --tenant --shop-url --kind [--approve]` jen při `DOTNET_ENVIRONMENT=Development`.
+- [x] 12.4 `src/EshopGuard.Worker/Dev/SeedRunCommand.cs`: `dev seed-run --tenant --shop-url --kind [--approve]` jen při `DOTNET_ENVIRONMENT=Development`. *(Navíc `dev approve-run --tenant --run` pro schválení po přečtení odhadu.)*
 - [x] 12.5 Test `tests/EshopGuard.Worker.Tests/StartupChecksTests.cs`: každá zakázaná konfigurace z 12.3 zastaví start s chybou. *(`StartupChecksTests`.)*
 - [x] 12.6 Test `tests/EshopGuard.Worker.Tests/LogSafetyTests.cs`: zachycené logy celého běhu neobsahují hodnotu testovacích klíčů ani žádnou větu ze stránek testovacího e-shopu; obsahují `tenant_id`, `run_id` a `job_id`. *(Součást `RunEventsTests`.)*
 

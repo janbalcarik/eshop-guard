@@ -18,10 +18,15 @@ public static class SeedRunCommand
     /// <summary>The administrator of approvals made by this command (audit).</summary>
     public static readonly Guid DevAdmin = new("00000000-0000-0000-0000-00000000de01");
 
-    public static bool Matches(string[] args) => args.Length >= 2 && args[0] == "dev" && args[1] == "seed-run";
+    public static bool Matches(string[] args) => args.Length >= 2 && args[0] == "dev" && args[1] is "seed-run" or "approve-run";
 
     public static async Task<int> RunAsync(string[] args)
     {
+        if (args[1] == "approve-run")
+        {
+            return await ApproveAsync(args.Skip(2).ToArray());
+        }
+
         var options = Parse(args.Skip(2).ToArray());
         if (options is null)
         {
@@ -67,6 +72,52 @@ public static class SeedRunCommand
 
         Console.WriteLine($"run {created.RunId} shop {shopId} tenant {tenantId}");
         return 0;
+    }
+
+    /// <summary>
+    /// <c>dev approve-run --tenant &lt;id|cli&gt; --run &lt;id&gt;</c>: approves a full analysis that waits for its payment (after
+    /// reading its internal estimate in <c>checks.runs.estimate</c>), with an audit record. Development only.
+    /// </summary>
+    private static async Task<int> ApproveAsync(string[] args)
+    {
+        string? tenant = null;
+        Guid run = Guid.Empty;
+        for (var i = 0; i + 1 < args.Length; i += 2)
+        {
+            switch (args[i])
+            {
+                case "--tenant":
+                    tenant = args[i + 1];
+                    break;
+                case "--run" when Guid.TryParse(args[i + 1], out var parsed):
+                    run = parsed;
+                    break;
+                default:
+                    run = Guid.Empty;
+                    i = args.Length;
+                    break;
+            }
+        }
+
+        if (tenant is null || run == Guid.Empty || (tenant != "cli" && !Guid.TryParse(tenant, out _)))
+        {
+            Console.Error.WriteLine("Použití: dev approve-run --tenant <id|cli> --run <id>");
+            return 2;
+        }
+
+        var builder = WorkerHost.CreateBuilder(new HostApplicationBuilderSettings { Args = [] });
+        if (!builder.Environment.IsDevelopment())
+        {
+            Console.Error.WriteLine("dev approve-run běží jen s DOTNET_ENVIRONMENT=Development.");
+            return 2;
+        }
+
+        using var host = builder.Build();
+        await using var scope = host.Services.CreateAsyncScope();
+        scope.ServiceProvider.GetRequiredService<ITenantContext>().Set(tenant == "cli" ? CliTenant.Id : Guid.Parse(tenant, CultureInfo.InvariantCulture));
+        var approved = await scope.ServiceProvider.GetRequiredService<IRunService>().ApproveWithoutPaymentAsync(run, DevAdmin, "dev approve-run");
+        Console.WriteLine(approved.Succeeded ? $"run {run} schválen" : $"Schválení selhalo: {approved.ErrorCode}");
+        return approved.Succeeded ? 0 : 1;
     }
 
     private static async Task<Guid> EnsureShopAsync(EshopGuardDataSource dataSource, Guid tenantId, Uri url)
