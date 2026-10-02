@@ -12,7 +12,8 @@
     2. souhlas s cenou (nejvýš Runs:FreeSample:MaxInternalUsd, výchozí 1,00 USD) a kontakt do User-Agentu;
     3. zastaví dřívější API a worker, ověří PostgreSQL a user-secrets (chybějící doplní setup-local.ps1, který zároveň
        vygeneruje nová hesla rolí), migrace, sestavení a vývojový certifikát HTTPS;
-    4. Mailpit: použije běžící, jinak ho stáhne do .data/tools/mailpit a spustí jen na 127.0.0.1;
+    4. Mailpit: použije běžící na 8025, jinak ho stáhne do .data/tools/mailpit a spustí jen na 127.0.0.1 na volných portech
+       (8025 a 1025, když je Windows nedovolí, třeba kvůli portům vyhrazeným pro Hyper-V, jiné); port SMTP dostane API i worker;
     5. API a worker na pozadí (logy do složky výsledků), ukázka přes live-sample.ps1, cena běhu z usage.usage_records;
     6. výsledky a logy v .data/live-sample/<čas>/ a vedle jako .zip; API, worker a Mailpit, které spustil, zastaví.
 
@@ -49,6 +50,7 @@ $outDir = Join-Path $repo ".data/live-sample/$(Get-Date -Format 'yyyyMMdd-HHmmss
 New-Item -ItemType Directory -Force -Path $outDir | Out-Null
 $apiUrl = 'https://localhost:5443'
 $mailpitUrl = 'http://127.0.0.1:8025'
+$smtpEnvironment = @{}
 $pwshPath = Join-Path $PSHOME $(if ($IsWindows) { 'pwsh.exe' } else { 'pwsh' })
 if (-not (Test-Path $pwshPath)) { $pwshPath = (Get-Command pwsh).Source }
 $started = [System.Collections.Generic.List[object]]::new()
@@ -155,6 +157,23 @@ function Start-Background([string] $Name, [string] $File, [string[]] $Arguments,
 
 function Test-Mailpit {
     try { Invoke-RestMethod "$mailpitUrl/api/v1/messages?limit=1" -TimeoutSec 3 | Out-Null; return $true } catch { return $false }
+}
+
+function Test-PortFree([int] $Port) {
+    # Windows odmítne i port z vyhrazeného rozsahu (netsh interface ipv4 show excludedportrange protocol=tcp).
+    $listener = [System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Loopback, $Port)
+    try { $listener.Start(); return $true } catch { return $false } finally { try { $listener.Stop() } catch { } }
+}
+
+function Get-FreePort([int] $Preferred, [int[]] $Taken = @()) {
+    if ($Taken -notcontains $Preferred -and (Test-PortFree $Preferred)) { return $Preferred }
+    for ($i = 0; $i -lt 20; $i++) {
+        $listener = [System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Loopback, 0)
+        $listener.Start()
+        try { $port = $listener.LocalEndpoint.Port } finally { $listener.Stop() }
+        if ($Taken -notcontains $port) { return $port }
+    }
+    throw 'Nenašel se volný port.'
 }
 
 function Test-Api {
@@ -291,18 +310,26 @@ try {
             else { & tar -xzf $archive -C $toolDir; if ($LASTEXITCODE -ne 0) { throw "Rozbalení $asset selhalo." } }
             Remove-Item $archive
         }
-        $null = Start-Background 'mailpit' $exe @('--listen', '127.0.0.1:8025', '--smtp', '127.0.0.1:1025')
+        $httpPort = Get-FreePort 8025
+        $smtpPort = Get-FreePort 1025 @($httpPort)
+        $mailpitUrl = "http://127.0.0.1:$httpPort"
+        if ($smtpPort -ne 1025) {
+            # API i worker posílají e-maily podle Email:Smtp (appsettings.Development.json: localhost:1025).
+            $smtpEnvironment = @{ Email__Smtp__Host = '127.0.0.1'; Email__Smtp__Port = "$smtpPort" }
+        }
+        $mailpit = Start-Background 'mailpit' $exe @('--listen', "127.0.0.1:$httpPort", '--smtp', "127.0.0.1:$smtpPort")
         $deadline = (Get-Date).AddSeconds(30)
         while (-not (Test-Mailpit)) {
+            if ($mailpit.HasExited) { Show-Log 'mailpit'; throw 'Mailpit skončil hned po spuštění.' }
             if ((Get-Date) -gt $deadline) { Show-Log 'mailpit'; throw 'Mailpit se do 30 s nespustil.' }
             Start-Sleep -Milliseconds 500
         }
-        Write-Host "Mailpit běží ($mailpitUrl)."
+        Write-Host "Mailpit běží (schránka $mailpitUrl, SMTP 127.0.0.1:$smtpPort)."
     }
 
     # 4. API a worker
     Write-Step 'API a worker'
-    $api = Start-Background 'api' 'dotnet' @('run', '--no-build', '--project', 'src/EshopGuard.Api', '--launch-profile', 'https')
+    $api = Start-Background 'api' 'dotnet' @('run', '--no-build', '--project', 'src/EshopGuard.Api', '--launch-profile', 'https') $smtpEnvironment
     $deadline = (Get-Date).AddMinutes(2)
     while (-not (Test-Api)) {
         if ($api.HasExited) { Show-Log 'api'; throw 'API se nespustilo.' }
@@ -311,6 +338,7 @@ try {
     }
     Write-Host "API běží ($apiUrl)."
 
+    foreach ($name in $smtpEnvironment.Keys) { $workerEnvironment[$name] = $smtpEnvironment[$name] }
     $worker = Start-Background 'worker' 'dotnet' @('run', '--no-build', '--project', 'src/EshopGuard.Worker') $workerEnvironment
     $workerEnvironment = $null
     $workerLog = Join-Path $outDir 'worker.log'
@@ -336,7 +364,7 @@ try {
     # 6. Ukázka přes API
     Write-Step 'Ukázka'
     $arguments = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', (Join-Path $PSScriptRoot 'live-sample.ps1'),
-        '-ShopUrl', $ShopUrl, '-OutDir', $outDir, '-TimeoutMinutes', $TimeoutMinutes, '-NoCostHint')
+        '-ShopUrl', $ShopUrl, '-Mailpit', $mailpitUrl, '-OutDir', $outDir, '-TimeoutMinutes', $TimeoutMinutes, '-NoCostHint')
     if ($SkipCertificateCheck) { $arguments += '-SkipCertificateCheck' }
     & $pwshPath @arguments
     $exitCode = $LASTEXITCODE
