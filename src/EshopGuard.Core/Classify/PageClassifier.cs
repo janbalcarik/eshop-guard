@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 namespace EshopGuard.Core.Classify;
 
 /// <summary>
-/// Decides the page type by heuristics: legal pages by URL and title, product pages by JSON-LD or og:type.
+/// Decides the page type by heuristics: legal pages by URL and title, product pages by JSON-LD, microdata (one Product) or og:type.
 /// </summary>
 internal sealed class PageClassifier
 {
@@ -31,7 +31,7 @@ internal sealed class PageClassifier
             return PageType.Home;
         }
 
-        if (page.HasProductJsonLd || (page.OgType?.StartsWith("product", StringComparison.OrdinalIgnoreCase) ?? false))
+        if (page.HasProductJsonLd || page.HasProductMicrodata || (page.OgType?.StartsWith("product", StringComparison.OrdinalIgnoreCase) ?? false))
         {
             return PageType.Product;
         }

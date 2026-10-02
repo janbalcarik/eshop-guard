@@ -320,9 +320,10 @@ Zjistí, do kterých zemí e-shop prodává a jaké má jazykové verze (změna 
    Verze na jiné doméně čeká na potvrzení klientem (`needs_confirmation`). Verze v jazyce nepodporovaného trhu je `unsupported`.
 6. **Plán.** Pro každý zaškrtnutý trh se kontroluje verze v jeho jazyce, jinak hlavní verze. Verze se posoudí podle všech zaškrtnutých zemí, jejichž zákazníci ji čtou (`readable_languages`).
 7. **Rozbor verzí v ukázce** (při víc verzích):
-   - vzorek 100 stránek, ~20 párů přes `hreflang`, EAN a kód produktu;
+   - vzorek 100 stránek, ~20 párů přes `hreflang` (ze sitemap, a když ho sitemap nemá, z produktových stránek hlavní verze), EAN a kód produktu;
+   - produktem je stránka označená v sitemap jako produkt, s JSON-LD `Product`, s jednou položkou `Product` v mikrodatech nebo s `og:type=product`;
    - jazyk textu jedním voláním modelu na verzi;
-   - podíl vlastních textů podle otisků vět;
+   - podíl vlastních textů podle otisků vět; s aspoň 10 páry jen nad spárovanými produkty (věty, které na protějšku nejsou); u páru i podíl společných vět `shared_sentence_share`;
    - druh rozdílu: shodný, překlad, zkrácený nebo jiný, nepřeložený.
 
    Verze se započítá do ceny při podílu vlastních textů aspoň 0,20 (`markets.counted_min_own_share`, neměřeno) a aspoň 10 produktových stránkách ve vzorku. Při nejistotě se nezapočítá.

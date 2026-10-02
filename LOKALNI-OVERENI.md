@@ -13,7 +13,7 @@ dotnet build src/EshopGuard.sln
 dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"
 ```
 
-Očekávání: 1019 testů, 0 selhání, 8 explicitních přeskočeno (cloud, 2. 10. 2026). Testy běhů ve workeru (`src/tests/EshopGuard.Jobs.Tests/Runs`) potřebují PostgreSQL a databázi `eshopguard_test_jobs`. Když testy `Db` selžou se jménem klíče, chybí user-secrets `eshopguard-tests`: spusťte znovu `setup-local.ps1`.
+Očekávání: 1027 testů, 0 selhání, 8 explicitních přeskočeno (cloud, 2. 10. 2026). Testy běhů ve workeru (`src/tests/EshopGuard.Jobs.Tests/Runs`) potřebují PostgreSQL a databázi `eshopguard_test_jobs`. Když testy `Db` selžou se jménem klíče, chybí user-secrets `eshopguard-tests`: spusťte znovu `setup-local.ps1`.
 
 Pokud CLI ještě nemá tenanta `cli`, jednou ze složky `src`: `dotnet run --project EshopGuard.Cli -- cache init`.
 

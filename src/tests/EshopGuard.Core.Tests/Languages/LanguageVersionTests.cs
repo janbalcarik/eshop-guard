@@ -47,6 +47,24 @@ public sealed class LanguageVersionTests
     }
 
     [Fact]
+    public void Finder_SameAddressAndLanguage_IsOneVersion()
+    {
+        // goodie.sk (2. 10. 2026): hreflang cs-CZ to www.goodie.cz and a switcher to the same domain without a language.
+        var signals = new MarketSignals
+        {
+            Site = "https://www.goodie.sk/", HtmlLang = "sk",
+            Hreflang = [new HreflangSignal("sk-SK", "https://www.goodie.sk/", "page"), new HreflangSignal("cs-CZ", "https://www.goodie.cz/", "page")],
+            SwitcherCandidates = [new SwitcherCandidate("https://www.goodie.cz/", "domain", null)],
+        };
+
+        var versions = LanguageVersionFinder.Find(signals, new Uri("https://www.goodie.sk/"), Catalog);
+
+        var cz = Assert.Single(versions, v => !v.IsMain);
+        Assert.Equal(("cs-cz", "https://www.goodie.cz/"), (cz.Language, cz.BaseUrl));
+        Assert.Equal(2, cz.Evidence.Count);
+    }
+
+    [Fact]
     public void Finder_PolishVersionIsUnsupported()
     {
         var signals = new MarketSignals

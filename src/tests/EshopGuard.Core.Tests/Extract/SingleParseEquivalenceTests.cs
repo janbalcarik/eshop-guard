@@ -109,13 +109,14 @@ public sealed class SingleParseEquivalenceTests
         File.ReadLines(file).Select(l => l.Split('\t')).Where(p => p[0] == group).ToDictionary(p => p[1], p => p[2]);
 
     /// <summary>
-    /// Technical signs of markets and language versions added by change 7 (read from the same one parse); the hashes of the
-    /// code before change 5 do not have them, so they are left out of the comparison and tested on their own
-    /// (<c>MarketSignalReaderTests</c>).
+    /// Technical signs of markets and language versions added by change 7 and the product in microdata (2. 10. 2026), read from
+    /// the same one parse; the hashes of the code before change 5 do not have them, so they are left out of the comparison and
+    /// tested on their own (<c>MarketSignalReaderTests</c>, <c>CrawlTests.Extract_FindsOneProductInMicrodata_ButNotAListing</c>).
     /// </summary>
     private static readonly HashSet<string> AddedByChange7 =
         [nameof(ExtractedPage.HtmlLang), nameof(ExtractedPage.Alternates), nameof(ExtractedPage.Currencies), nameof(ExtractedPage.ProductIds),
-         nameof(ExtractedPage.PhoneNumbers), nameof(ExtractedPage.FooterLinks), nameof(ExtractedPage.ScriptSources), nameof(ExtractedPage.ScriptSwitchElements)];
+         nameof(ExtractedPage.PhoneNumbers), nameof(ExtractedPage.FooterLinks), nameof(ExtractedPage.ScriptSources), nameof(ExtractedPage.ScriptSwitchElements),
+         nameof(ExtractedPage.HasProductMicrodata)];
 
     private static readonly JsonSerializerOptions WithoutChange7 = new()
     {

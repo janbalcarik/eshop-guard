@@ -334,6 +334,24 @@ public class CrawlTests
         Assert.DoesNotContain(page.MainBlocks, b => b.Text.Contains("Detský svet", StringComparison.Ordinal));
     }
 
+    [Theory]
+    [InlineData("""<div itemscope itemtype="http://schema.org/Product"><h1 itemprop="name">Acerola</h1><div itemprop="offers" itemscope itemtype="http://schema.org/Offer"></div></div>""", true)]
+    [InlineData("""<div itemscope itemtype="https://schema.org/Product"><div itemscope itemtype="https://schema.org/Product">varianta</div></div>""", true)]
+    [InlineData("""<ul><li itemscope itemtype="http://schema.org/Product">A</li><li itemscope itemtype="http://schema.org/Product">B</li></ul>""", false)]
+    [InlineData("""<div itemscope itemtype="http://schema.org/ProductGroup">A</div>""", false)]
+    [InlineData("""<div itemscope itemtype="http://schema.org/WebPage">A</div>""", false)]
+    public void Extract_FindsOneProductInMicrodata_ButNotAListing(string body, bool product)
+    {
+        // goodie.sk (2. 10. 2026): product pages only in microdata, og:type=article, no JSON-LD.
+        var html = $"<html><head><meta property=\"og:type\" content=\"article\"></head><body><main>{body}<p>Popis produktu.</p></main></body></html>";
+
+        var page = new ContentExtractor(NullLogger<ContentExtractor>.Instance).Extract(new Uri("https://shop.example/p/acerola"), html);
+        var type = new PageClassifier(Microsoft.Extensions.Options.Options.Create(new EshopGuardOptions())).Classify(new Uri("https://shop.example/p/acerola"), page, isHome: false);
+
+        Assert.Equal(product, page.HasProductMicrodata);
+        Assert.Equal(product ? PageType.Product : PageType.Content, type);
+    }
+
     [Fact]
     public void Classifier_RecognizesLegalProductHomeAndContentPages()
     {

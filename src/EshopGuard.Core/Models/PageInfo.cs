@@ -8,7 +8,7 @@ public enum PageType
     /// <summary>The home page of the site.</summary>
     Home,
 
-    /// <summary>A product detail page (JSON-LD <c>Product</c> or <c>og:type=product</c>).</summary>
+    /// <summary>A product detail page (JSON-LD <c>Product</c>, one microdata <c>Product</c> or <c>og:type=product</c>).</summary>
     Product,
 
     /// <summary>A legal page such as terms and conditions or the complaints procedure.</summary>

@@ -1,3 +1,4 @@
+using EshopGuard.Core.Crawl;
 using EshopGuard.Core.Pipeline;
 
 namespace EshopGuard.Core.Languages;
@@ -89,6 +90,53 @@ internal static class VersionSamplePlanner
 
         return new VersionSamplePlan(urls, samplePairs, samplePairs.Count > 0 ? ModeHreflang : ModeIdentifiers, seed);
     }
+
+    /// <summary>
+    /// Pairs found on the downloaded product pages of the main version (their hreflang): at most <paramref name="perVersion"/>
+    /// for each other version. The address of the other version replaces one of its random products, so the size of the
+    /// sample stays; the main address becomes a pair.
+    /// </summary>
+    public static VersionSamplePlan WithPagePairs(VersionSamplePlan plan, string mainKey, IReadOnlyList<SamplePair> found, int perVersion)
+    {
+        ArgumentNullException.ThrowIfNull(plan);
+        ArgumentNullException.ThrowIfNull(found);
+        var urls = plan.Urls.ToList();
+        var pairs = plan.Pairs.ToList();
+        foreach (var group in found.GroupBy(p => p.OtherKey))
+        {
+            foreach (var pair in group.DistinctBy(p => p.MainUrl).DistinctBy(p => p.OtherUrl).Take(perVersion))
+            {
+                var mainIndex = urls.FindIndex(u => u.VersionKey == mainKey && Same(u.Url, pair.MainUrl));
+                if (mainIndex >= 0)
+                {
+                    urls[mainIndex] = urls[mainIndex] with { Kind = "pair" };
+                }
+
+                var otherIndex = urls.FindIndex(u => u.VersionKey == pair.OtherKey && Same(u.Url, pair.OtherUrl));
+                if (otherIndex >= 0)
+                {
+                    urls[otherIndex] = urls[otherIndex] with { Kind = "pair" };
+                }
+                else
+                {
+                    var replaced = urls.FindLastIndex(u => u.VersionKey == pair.OtherKey && u.Kind == "product");
+                    if (replaced < 0)
+                    {
+                        continue;
+                    }
+
+                    urls[replaced] = new SampleUrl(pair.OtherUrl, pair.OtherKey, "pair");
+                }
+
+                pairs.Add(pair);
+            }
+        }
+
+        return plan with { Urls = urls, Pairs = pairs, PairingMode = pairs.Count > 0 ? ModeHreflang : plan.PairingMode };
+    }
+
+    private static bool Same(string a, string b) =>
+        string.Equals(UrlTools.Normalize(new Uri(a)).AbsoluteUri, UrlTools.Normalize(new Uri(b)).AbsoluteUri, StringComparison.Ordinal);
 
     private static List<T> Shuffle<T>(List<T> items, Random random)
     {

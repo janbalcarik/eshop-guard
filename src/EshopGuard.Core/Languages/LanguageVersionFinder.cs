@@ -107,7 +107,10 @@ public static class LanguageVersionFinder
             return;
         }
 
-        var index = found.FindIndex(v => !v.IsMain && v.BaseUrl == baseUrl && (normalized is null || v.Language is null || v.Language == normalized));
+        // One address with one language is one version: hreflang cs-CZ and a switcher to the same domain (cs by its TLD) are
+        // the same version (goodie.cz, 2. 10. 2026); the language first found is kept.
+        var index = found.FindIndex(v => !v.IsMain && v.BaseUrl == baseUrl
+            && (normalized is null || v.Language is null || LanguageTags.SamePrimary(v.Language, normalized)));
         if (index >= 0)
         {
             found[index] = found[index] with { Language = found[index].Language ?? normalized, Evidence = [.. found[index].Evidence, evidence] };

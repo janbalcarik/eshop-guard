@@ -221,20 +221,47 @@ internal sealed class MarketsAnalyzer(
         }
 
         var plan = VersionSamplePlanner.Plan(inputs, markets.SamplePages, markets.PairedProducts, seed);
+        var fetched = new Dictionary<string, List<ExtractedPageRecord>>(StringComparer.Ordinal);
+        var others = versions.Where(v => !v.IsMain).ToList();
+        if (plan.Pairs.Count == 0 && others.Count > 0 && markets.PairedProducts > 0)
+        {
+            // The sitemap names no alternates (goodie.sk, 2. 10. 2026): the product pages of the main version name them in
+            // their hreflang. Those pages are downloaded first and their alternates replace random products of the other
+            // versions, so the comparison sees the same products in both languages; the number of requests stays the same.
+            var mainKey = Key(main);
+            var mainUrls = plan.Urls.Where(u => u.VersionKey == mainKey && u.Kind == "product").Take(markets.PairedProducts).Select(u => new Uri(u.Url)).ToList();
+            var mainPages = await FetchAsync(run, new SiteScope(new Uri(main.BaseUrl)) { Version = main.Scope }, discoveries[Authority(main)], mainUrls, ct);
+            fetched[mainKey] = mainPages;
+            var found = mainPages
+                .SelectMany(page => others.Select(other => (Page: page, Other: other,
+                    Alternate: page.Content.Alternates.FirstOrDefault(a => LanguageTags.SamePrimary(a.Language, other.Language) && other.Scope!.Contains(a.Url)))))
+                .Where(x => x.Alternate is not null)
+                .Select(x => new SamplePair(x.Page.Info.Url, x.Alternate!.Url.AbsoluteUri, Key(x.Other)))
+                .ToList();
+            plan = VersionSamplePlanner.WithPagePairs(plan, mainKey, found, Math.Max(1, markets.PairedProducts / others.Count));
+        }
+
         var samples = new List<VersionSample>();
         foreach (var version in versions)
         {
             var key = Key(version);
             var urls = plan.Urls.Where(u => u.VersionKey == key).ToList();
             var siteScope = new SiteScope(new Uri(version.BaseUrl)) { Version = version.Scope };
-            var downloaded = await FetchAsync(run, siteScope, discoveries[Authority(version)], urls.Select(u => new Uri(u.Url)).ToList(), ct);
+            var already = fetched.GetValueOrDefault(key) ?? [];
+            var known = already.Select(p => p.Info.Url).ToHashSet(StringComparer.Ordinal);
+            var rest = urls.Select(u => new Uri(u.Url)).Where(u => !known.Contains(UrlTools.Normalize(u).AbsoluteUri) && !known.Contains(u.AbsoluteUri)).ToList();
+            var downloaded = already.Concat(await FetchAsync(run, siteScope, discoveries[Authority(version)], rest, ct)).DistinctBy(p => p.Info.Url).ToList();
             var mandatoryUrls = urls.Where(u => u.Kind == "mandatory").Select(u => u.Url).ToHashSet(StringComparer.Ordinal);
+
+            // Products of the sample are the pages planned as products (the sitemap marks them so, the price counts them so),
+            // and pages the classifier recognizes as products; a page may lack both JSON-LD and og:type (goodie.sk).
+            var plannedProducts = urls.Where(u => u.Kind is "product" or "pair").Select(u => UrlTools.Normalize(new Uri(u.Url)).AbsoluteUri).ToHashSet(StringComparer.Ordinal);
             var sitemap = discoveries[Authority(version)].SitemapEntries;
             samples.Add(new VersionSample(
                 key,
                 version.Language ?? "und",
                 version.IsMain,
-                downloaded.Where(p => p.Info.Type == PageType.Product && !mandatoryUrls.Contains(p.Info.Url)).Select(Sample).ToList(),
+                downloaded.Where(p => !mandatoryUrls.Contains(p.Info.Url) && (p.Info.Type == PageType.Product || plannedProducts.Contains(p.Info.Url))).Select(Sample).ToList(),
                 downloaded.Where(p => mandatoryUrls.Contains(p.Info.Url)).Select(Sample).ToList(),
                 ProductCount(sitemap, version.Scope)));
         }

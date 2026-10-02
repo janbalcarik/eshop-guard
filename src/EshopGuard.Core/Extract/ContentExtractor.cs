@@ -198,6 +198,7 @@ internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger)
             MetaDescription = metaDescription.Length > 0 ? metaDescription : null,
             OgType = ogType,
             HasProductJsonLd = jsonLd.HasProduct,
+            HasProductMicrodata = HasSingleProductMicrodata(document),
             JsonLdDescription = jsonLd.ProductDescription,
             Category = category,
             MainBlocks = mainBlocks,
@@ -481,6 +482,20 @@ internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger)
 
         return alternates.Distinct().ToList();
     }
+
+    /// <summary>
+    /// Exactly one item of the schema.org type Product in microdata that is not inside another one: the product of a detail page.
+    /// A listing marks every tile as a Product, so more than one is not a product page.
+    /// </summary>
+    internal static bool HasSingleProductMicrodata(IDocument document)
+    {
+        var products = document.QuerySelectorAll("[itemtype]").Where(e => IsProductType(e.GetAttribute("itemtype"))).ToList();
+        return products.Count(p => !products.Any(o => !ReferenceEquals(o, p) && o.Contains(p))) == 1;
+    }
+
+    private static bool IsProductType(string? itemtype) =>
+        (itemtype ?? "").Split(' ', StringSplitOptions.RemoveEmptyEntries)
+            .Any(t => t.TrimEnd('/').EndsWith("schema.org/Product", StringComparison.OrdinalIgnoreCase));
 
     /// <summary>Currencies of microdata (<c>itemprop=priceCurrency</c>) and of the product meta tags (Open Graph).</summary>
     private static IEnumerable<string> ReadMicrodataCurrencies(IDocument document)

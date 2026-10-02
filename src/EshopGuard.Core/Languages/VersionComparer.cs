@@ -26,7 +26,11 @@ public static class PairKinds
 }
 
 /// <summary>A pair of the same product in the main version and another one.</summary>
-public sealed record PairComparison(string MainUrl, string OtherUrl, string Kind, double LengthRatio, int MainSentences, int OtherSentences);
+public sealed record PairComparison(string MainUrl, string OtherUrl, string Kind, double LengthRatio, int MainSentences, int OtherSentences)
+{
+    /// <summary>Share of the sentences of the other page found word for word on the main page (a copied, untranslated text is near 1).</summary>
+    public double SharedSentenceShare { get; init; }
+}
 
 /// <summary>The comparison of one version with the others (a row of <c>shop.shop_languages</c> and the details of 3d).</summary>
 public sealed record VersionComparison
@@ -37,7 +41,10 @@ public sealed record VersionComparison
 
     public bool IsMain { get; init; }
 
-    /// <summary>Share of unique sentences of the main text of its product pages found in no other checked version.</summary>
+    /// <summary>
+    /// Share of unique sentences of the main text of its product pages found in no other checked version; with at least
+    /// <c>markets.min_sample_products</c> pairs, over the paired products only (sentences not on the counterpart pages).
+    /// </summary>
     public double OwnTextShare { get; init; }
 
     /// <summary>Share of the sentences labeled by the model, by language.</summary>
@@ -95,15 +102,31 @@ public static partial class VersionComparer
         var fingerprints = versions.ToDictionary(v => v.Key, v => v.Products.SelectMany(p => p.Sentences).Select(SentenceFingerprint.Of).ToHashSet());
         var mainMandatory = main.Mandatory.SelectMany(p => p.Sentences).Select(SentenceFingerprint.Of).ToHashSet();
         var modes = new HashSet<string>();
+        var paired = versions.Where(v => v.Key != main.Key).ToDictionary(v => v.Key, v => PairPages(main, v, plannedPairs, modes));
         var results = new List<VersionComparison>();
         foreach (var version in versions)
         {
             var own = fingerprints[version.Key];
-            var others = versions.Where(v => v.Key != version.Key).SelectMany(v => fingerprints[v.Key]).ToHashSet();
-            var ownShare = own.Count == 0 ? 0 : own.Count(f => !others.Contains(f)) / (double)own.Count;
+            var versionPairs = version.Key == main.Key ? paired.Values.SelectMany(p => p).ToList() : paired[version.Key];
+            double ownShare;
+            if (versionPairs.Count >= options.MinSampleProducts)
+            {
+                // The same products in both versions: own sentences are those not on the counterpart pages. Over different
+                // products (random samples) every product would look like an own text, a copied catalog too.
+                var mine = SentencePrints(version.Key == main.Key ? versionPairs.Select(p => p.Main) : versionPairs.Select(p => p.Other));
+                var theirs = SentencePrints(version.Key == main.Key ? versionPairs.Select(p => p.Other) : versionPairs.Select(p => p.Main));
+                ownShare = mine.Count == 0 ? 0 : mine.Count(f => !theirs.Contains(f)) / (double)mine.Count;
+            }
+            else
+            {
+                var others = versions.Where(v => v.Key != version.Key).SelectMany(v => fingerprints[v.Key]).ToHashSet();
+                ownShare = own.Count == 0 ? 0 : own.Count(f => !others.Contains(f)) / (double)own.Count;
+            }
+
             var labels = version.PageLanguages.Values.SelectMany(l => l).ToList();
             var languageShare = labels.GroupBy(l => l).ToDictionary(g => g.Key, g => Math.Round(g.Count() / (double)labels.Count, 3));
-            var pairs = version.IsMain ? [] : Pairs(main, version, plannedPairs, modes);
+            var pairs = version.Key == main.Key ? []
+                : paired[version.Key].Select(p => Classify(p.Main, p.Other, main.Language, version.Language, Majority(version.PageLanguages.GetValueOrDefault(p.Other.Url)))).ToList();
             var sampleProducts = version.Products.Count(p => p.Sentences.Count > 0);
             var mandatoryDiffer = version.IsMain ? [] : version.Mandatory
                 .Where(p => p.Sentences.Select(SentenceFingerprint.Of).Any(f => !mainMandatory.Contains(f)))
@@ -186,7 +209,9 @@ public static partial class VersionComparer
             kind = PairKinds.ShortenedOrDifferent;
         }
 
-        return new PairComparison(mainPage.Url, otherPage.Url, kind, ratio, a, b);
+        var mainPrints = mainPage.Sentences.Select(SentenceFingerprint.Of).ToHashSet();
+        var shared = b == 0 ? 0 : Math.Round(otherPage.Sentences.Count(s => mainPrints.Contains(SentenceFingerprint.Of(s))) / (double)b, 3);
+        return new PairComparison(mainPage.Url, otherPage.Url, kind, ratio, a, b) { SharedSentenceShare = shared };
     }
 
     /// <summary>Sentences of a main text: blocks split at the end of a sentence.</summary>
@@ -225,7 +250,11 @@ public static partial class VersionComparer
         return fragments;
     }
 
-    private static List<PairComparison> Pairs(VersionSample main, VersionSample other, IReadOnlyList<SamplePair> plannedPairs, HashSet<string> modes)
+    private static HashSet<long> SentencePrints(IEnumerable<SamplePage> pages) =>
+        pages.DistinctBy(p => p.Url).SelectMany(p => p.Sentences).Select(SentenceFingerprint.Of).ToHashSet();
+
+    /// <summary>The same products in the main version and another one: planned pairs, then the same alternates group or identifier.</summary>
+    private static List<(SamplePage Main, SamplePage Other)> PairPages(VersionSample main, VersionSample other, IReadOnlyList<SamplePair> plannedPairs, HashSet<string> modes)
     {
         var mainPages = main.Products.ToDictionary(p => p.Url);
         var otherPages = other.Products.ToDictionary(p => p.Url);
@@ -251,7 +280,7 @@ public static partial class VersionComparer
             }
         }
 
-        return pairs.Select(p => Classify(p.Main, p.Other, main.Language, other.Language, Majority(other.PageLanguages.GetValueOrDefault(p.Other.Url)))).ToList();
+        return pairs;
     }
 
     private static string? Majority(IReadOnlyList<string>? labels) =>

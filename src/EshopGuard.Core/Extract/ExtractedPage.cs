@@ -41,6 +41,9 @@ internal sealed class ExtractedPage
 
     public bool HasProductJsonLd { get; init; }
 
+    /// <summary>Exactly one schema.org Product in microdata (<c>itemtype</c>), not a listing of several.</summary>
+    public bool HasProductMicrodata { get; init; }
+
     public string? JsonLdDescription { get; init; }
 
     /// <summary>
@@ -113,6 +116,7 @@ internal sealed class ExtractedPage
         MetaDescription = MetaDescription,
         OgType = OgType,
         HasProductJsonLd = HasProductJsonLd,
+        HasProductMicrodata = HasProductMicrodata,
         JsonLdDescription = JsonLdDescription,
         Category = Category,
         MainBlocks = MainBlocks,
