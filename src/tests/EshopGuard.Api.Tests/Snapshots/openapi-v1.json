@@ -3718,6 +3718,101 @@
         ],
         "type": "object"
       },
+      "ProtocolDto": {
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "errorCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "generatedBy": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "locale": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "periodFrom": {
+            "format": "date",
+            "type": "string"
+          },
+          "periodTo": {
+            "format": "date",
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "summary": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/JsonElement"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "number",
+          "periodFrom",
+          "periodTo",
+          "locale",
+          "status",
+          "errorCode",
+          "generatedBy",
+          "createdAt",
+          "summary"
+        ],
+        "type": "object"
+      },
+      "ProtocolRequest": {
+        "properties": {
+          "locale": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "periodFrom": {
+            "format": "date",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "periodTo": {
+            "format": "date",
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "periodFrom",
+          "periodTo",
+          "locale"
+        ],
+        "type": "object"
+      },
       "PublicationBatchDto": {
         "properties": {
           "publications": {
@@ -10494,6 +10589,207 @@
           "tenant.not_found",
           "tenant.suspended",
           "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/protocols": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ProtocolDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ProtocolRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProtocolDto"
+                }
+              }
+            },
+            "description": "Accepted"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "locale.not_enabled",
+          "protocol.no_completed_run",
+          "protocol.period_invalid",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/protocols/{protocolId}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "protocolId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProtocolDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "protocol.not_found",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/protocols/{protocolId}/pdf": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "protocolId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "protocol.failed",
+          "protocol.not_found",
+          "protocol.not_ready",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
         ]
       }
     },

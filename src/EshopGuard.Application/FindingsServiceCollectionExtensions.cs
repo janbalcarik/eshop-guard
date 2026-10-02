@@ -3,6 +3,7 @@ using EshopGuard.Jobs.Notifications;
 using EshopGuard.Jobs.Fixes;
 using EshopGuard.Application.Findings;
 using EshopGuard.Application.Fixes;
+using EshopGuard.Application.Protocols;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -39,6 +40,9 @@ public static class FindingsServiceCollectionExtensions
         services.TryAddScoped<FixProposalService>();
         services.TryAddScoped<FixGroupService>();
         services.TryAddScoped<PublicationService>();
+        services.TryAddScoped<ProtocolNumberAllocator>();
+        services.TryAddScoped<ProtocolDocumentBuilder>();
+        services.TryAddScoped<ProtocolService>();
         services.TryAddScoped<GenerationBudget>();
         services.TryAddScoped<QuestionService>();
         services.TryAddScoped<Notifications.NotificationService>();

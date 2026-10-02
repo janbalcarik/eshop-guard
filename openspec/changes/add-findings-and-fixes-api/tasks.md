@@ -189,17 +189,17 @@
 
 ## 9. Protokol PDF
 
-- [ ] 9.1 `Application/Protocols/ProtocolNumberAllocator.cs` (`pg_advisory_xact_lock`, formát `EG-{rok}-{NNNN}`, rok v `Localization:TimeZone`). Test `ProtocolNumberAllocatorTests`: 20 souběžných → 20 po sobě jdoucích čísel; přelom roku 31. 12. 23:30 UTC = 1. 1. v Bratislavě → nová řada.
-- [ ] 9.2 `Application/Protocols/ProtocolDocumentBuilder.cs` + `Texts/sk.yaml`, `Texts/cs.yaml`:
+- [x] 9.1 `Application/Protocols/ProtocolNumberAllocator.cs` (`pg_advisory_xact_lock`, formát `EG-{rok}-{NNNN}`, rok v `Localization:TimeZone`). Test `ProtocolNumberAllocatorTests`: 20 souběžných → 20 po sobě jdoucích čísel; přelom roku 31. 12. 23:30 UTC = 1. 1. v Bratislavě → nová řada.
+- [x] 9.2 `Application/Protocols/ProtocolDocumentBuilder.cs` + `Texts/sk.yaml`, `Texts/cs.yaml`:
   - souhrn, nezkontrolované, verze pravidel, země;
   - rozhodnutí a opravy, doklady, čekající na rozhodnutí;
   - prohlášení.
 
   Test `ProtocolDocumentBuilderTests` nad `BylinkovoSeed` (obsah odpovídá `Protocol.dc.html`, odkazy na zákon slovensky i v českém protokolu).
-- [ ] 9.3 `Application/Protocols/IPdfRenderer.cs` a `Jobs/Protocols/PdfRenderer.cs` (knihovna podle K rozhodnutí 6; do rozhodnutí jen rozhraní a test s náhradní implementací).
-- [ ] 9.4 `Application/Protocols/ProtocolService.cs` (období, jazyk, `protocol.no_completed_run`, číslo, úloha `protocol.render`, audit) a `Jobs/Protocols/ProtocolRenderHandler.cs` (uložení do `IBlobStore`, `status`, upozornění `protocol_ready` / `protocol_failed`).
-- [ ] 9.5 Koncové body v `ProtocolEndpoints.cs`: `GET S/protocols`, `POST S/protocols`, `GET S/protocols/{id}`, `GET S/protocols/{id}/pdf`.
-- [ ] 9.6 Test `ProtocolTests`:
+- [x] 9.3 `Application/Protocols/IPdfRenderer.cs` a `Jobs/Protocols/PdfRenderer.cs` (knihovna podle K rozhodnutí 6; do rozhodnutí jen rozhraní a test s náhradní implementací).
+- [x] 9.4 `Application/Protocols/ProtocolService.cs` (období, jazyk, `protocol.no_completed_run`, číslo, úloha `protocol.render`, audit) a `Jobs/Protocols/ProtocolRenderHandler.cs` (uložení do `IBlobStore`, `status`, upozornění `protocol_ready` / `protocol_failed`).
+- [x] 9.5 Koncové body v `ProtocolEndpoints.cs`: `GET S/protocols`, `POST S/protocols`, `GET S/protocols/{id}`, `GET S/protocols/{id}/pdf`.
+- [x] 9.6 Test `ProtocolTests`:
   - žádost → `202 EG-2026-0142`;
   - stažení před dokončením → `409`;
   - po úloze → `302`;

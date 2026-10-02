@@ -32,3 +32,79 @@ statuses:
   dismissed: Nejde o problém
   resolved: Vyriešené
 whole_site: Celý e-shop
+# Protokol o kontrole (Protocol.dc.html): odkazy na zákon nie sú tu, prichádzajú z verdiktov v jazyku zákona.
+# Zástupné znaky {date}, {pages}, {text}, {name}…; plurál [1, 2–4, 0 a 5+].
+protocol:
+  title: "Protokol o kontrole"
+  heading: "Protokol o kontrole textov e-shopu"
+  number: "Č. {number}"
+  issued: "Vystavené {date}"
+  facts:
+    shop: "E-shop"
+    period: "Obdobie"
+    initial_check: "Úvodná kontrola"
+    initial_check_value: "{date}, {pages}"
+    initial_check_none: "neprebehla"
+    unchecked: "Nekontrolované"
+    rules: "Pravidlá"
+    countries: "Krajiny kontroly"
+  # Dôvody nekontrolovaných stránok (runs.stats.unchecked, zmena 8); kód bez textu sa uvedie ako „iný dôvod (kód)“.
+  unchecked:
+    failed: "nepodarilo sa stiahnuť"
+    robots_blocked: "zakázané v robots.txt"
+    ssrf_blocked: "adresa vo vnútornej sieti"
+    excluded: "vylúčené filtrom"
+    over_limit: "nad limit rozsahu"
+    not_loaded: "text sa nenačítal"
+    extract_timeout: "spracovanie trvalo príliš dlho"
+    too_large: "príliš veľká stránka"
+    offsite_redirect: "presmerované mimo e-shop"
+    not_html: "nie je stránka HTML"
+    unread_documents: "neprečítané dokumenty"
+    not_evaluated: "nevyhodnotené"
+    sieve_unanswered: "bez odpovede klasifikátora"
+    pages_without_profile: "bez profilu stránky"
+    other: "iný dôvod ({code})"
+  countries:
+    sk: "Slovensko"
+    cz: "Česko"
+  summary:
+    initial: "nálezov pri úvodnej kontrole"
+    fixed: "opravených a zverejnených"
+    kept_with_evidence: "ponechaných s dokladom"
+    kept: "ponechaných rozhodnutím prevádzkovateľa"
+    approved: "schválených, čaká na zverejnenie"
+    waiting: "čaká na rozhodnutie"
+  decisions:
+    title: "Rozhodnutia a opravy"
+    headers: ["Dátum", "Stránky", "Pôvodne", "Riešenie", "Bod"]
+    empty: "V tomto období prevádzkovateľ nerozhodol o žiadnom náleze."
+    replaced: "Nahradené „{text}“"
+    removed: "Odstránené"
+    published: ", zverejnené {date}"
+    kept: "Ponechané, rozhodol prevádzkovateľ"
+    kept_by: "Ponechané, rozhodol prevádzkovateľ ({name})"
+    kept_with_evidence: "Ponechané, doklad: {evidence}"
+    bulk: "{pages} (hromadne)"
+    whole_site: "celý e-shop"
+    no_reference: "–"
+  evidence:
+    title: "Doklady prevádzkovateľa"
+    empty: "Prevádzkovateľ v tomto období nepredložil žiadny doklad."
+    line: "„{claim}“{subject}: {kind}{validity}, zaznamenané {date} ({products})."
+    subject:
+      brand: ", značka {label}"
+      product: ", produkt {label}"
+      group: ", {label}"
+    kind:
+      certificate: "certifikát"
+      license: "licencia"
+      test_report: "protokol o skúške"
+      statement: "vyhlásenie"
+      answer: "odpoveď prevádzkovateľa"
+    valid_until: " platný do {date}"
+    expired: " (platnosť skončila {date})"
+  plural:
+    pages: ["stránka", "stránky", "stránok"]
+    products: ["produkt", "produkty", "produktov"]
+  disclaimer: "Protokol zaznamenáva kontrolu textov nástrojom EshopGuard a rozhodnutia prevádzkovateľa. Nie je právnym posúdením ani certifikátom. O nálezoch „na posúdenie“ a „na overenie“ rozhodol prevádzkovateľ; návrhy textov pripravila umelá inteligencia a pred zverejnením ich schválil prevádzkovateľ."

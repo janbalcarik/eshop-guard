@@ -100,6 +100,9 @@ public sealed record FixGroupPageRequest(Guid? PageId);
 /// <summary><c>POST S/publications</c>: the accepted changes of these pages, proposals or group (one of them at least).</summary>
 public sealed record PublicationRequest(Guid[]? PageIds, Guid[]? ProposalIds, Guid? GroupId);
 
+/// <summary><c>POST S/protocols</c>: the period (days in <c>Localization:TimeZone</c>) and the language (otherwise the one of the home market).</summary>
+public sealed record ProtocolRequest(DateOnly? PeriodFrom, DateOnly? PeriodTo, string? Locale);
+
 /// <summary><c>POST S/questions/{questionId}/answer</c>: <c>yes</c> („Áno“) or <c>no</c> („Nie“).</summary>
 public sealed record AnswerQuestionRequest(string? Answer);
 

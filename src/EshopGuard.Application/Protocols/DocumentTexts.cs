@@ -7,9 +7,9 @@ using YamlDotNet.Serialization.NamingConventions;
 namespace EshopGuard.Application.Protocols;
 
 /// <summary>
-/// Texts of the documents the backend writes itself (change 11): the export of findings (CSV) and the protocol (PDF), from
-/// the embedded files <c>Protocols/Texts/{locale}.yaml</c>. The texts of the findings come from the texts of the rules; the
-/// legal references stay in the language of the law.
+/// Texts of the documents the backend writes itself (change 11): the export of findings (CSV) here, the protocol (PDF) in
+/// <see cref="ProtocolTexts"/> (section <c>protocol</c>), from the embedded files <c>Protocols/Texts/{locale}.yaml</c>. The texts
+/// of the findings come from the texts of the rules; the legal references stay in the language of the law.
 /// </summary>
 public sealed class DocumentTexts
 {
@@ -28,8 +28,6 @@ public sealed class DocumentTexts
     public Dictionary<string, string> Statuses { get; set; } = [];
 
     public string WholeSite { get; set; } = "";
-
-    public ProtocolTexts Protocol { get; set; } = new();
 
     [YamlIgnore]
     public CultureInfo CultureInfo => CultureInfo.GetCultureInfo(string.IsNullOrEmpty(Culture) ? Locale : Culture);
@@ -70,14 +68,4 @@ public sealed class DocumentTexts
 public sealed class CsvTexts
 {
     public Dictionary<string, string> Columns { get; set; } = [];
-}
-
-/// <summary>Texts of the protocol (headings, labels, the statement).</summary>
-public sealed class ProtocolTexts
-{
-    public Dictionary<string, string> Labels { get; set; } = [];
-
-    public string Statement { get; set; } = "";
-
-    public string Label(string key) => Labels.GetValueOrDefault(key, key);
 }

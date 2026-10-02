@@ -5,6 +5,7 @@ using EshopGuard.Jobs;
 using EshopGuard.Jobs.Evidence;
 using EshopGuard.Jobs.Fixes;
 using EshopGuard.Jobs.Processing;
+using EshopGuard.Jobs.Protocols;
 using EshopGuard.Jobs.Runs;
 using EshopGuard.Jobs.Shops;
 using EshopGuard.Storage;
@@ -39,6 +40,7 @@ public static class WorkerHost
         builder.Services.AddShopJobs();
         builder.Services.AddFixJobs();
         builder.Services.AddEvidenceJobs();
+        builder.Services.AddProtocolJobs();
 
         // E-mails of the outbox (job email.send, change 9): templates, SMTP, languages; Email and Frontend checked at start.
         builder.Services.AddEshopGuardEmailDelivery();
