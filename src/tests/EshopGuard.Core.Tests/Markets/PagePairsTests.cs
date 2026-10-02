@@ -149,6 +149,10 @@ public sealed class PagePairsTests
         Assert.Equal(czechPaired, notice.Params["products"]);
         Assert.Equal(pairedNumbers.Count, notice.Params["of"]);
         Assert.Equal(Math.Round(czechPaired / (double)pairedNumbers.Count, 2), notice.Params["share"]);
+        var fragments = result.Details.Single(d => d.Language == "sk").LanguageFragments;
+        Assert.Equal(40, fragments.Count);
+        Assert.All(fragments.Where(f => f.Language == "cs"), f => Assert.Equal(0, Number(f.PageUrl) % 3));
+        Assert.Equal(czechPaired, fragments.Where(f => f.Language == "cs").Select(f => f.PageUrl).Distinct().Count());
 
         // A product with the Czech text in both versions is the same text, not a text of the Czech version.
         var cz = Assert.Single(result.Versions, v => !v.IsMain);

@@ -96,7 +96,11 @@ public sealed record VersionSummary(string Code, IReadOnlyDictionary<string, obj
 /// <summary>Details of a version for 3d.</summary>
 public sealed record VersionDetails(
     string? Language, string BaseUrl, string Status, double? OwnTextShare, VersionComparisonSummary? Comparison, IReadOnlyList<string> Codes,
-    IReadOnlyList<string> Warnings, IReadOnlyList<string> UntranslatedExamples);
+    IReadOnlyList<string> Warnings, IReadOnlyList<string> UntranslatedExamples)
+{
+    /// <summary>The sentences of the product pages the model labeled, with their language (what the language of the version rests on).</summary>
+    public IReadOnlyList<LabeledFragment> LanguageFragments { get; init; } = [];
+}
 
 /// <summary>Language and alternates group of a downloaded page (<c>content.pages.language</c>, <c>hreflang_group</c>).</summary>
 public sealed record PageLanguageRow(string Url, string? Language, string? HreflangGroup);

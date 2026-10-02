@@ -321,6 +321,7 @@ internal sealed class MarketsAnalyzer(
                     PageLanguages = fragments.Where(f => labels.Labels.ContainsKey(f.Id))
                         .GroupBy(f => f.PageUrl)
                         .ToDictionary(g => g.Key, g => (IReadOnlyList<string>)g.Select(f => labels.Labels[f.Id]).ToList()),
+                    Fragments = fragments.Where(f => labels.Labels.ContainsKey(f.Id)).Select(f => new LabeledFragment(f.PageUrl, f.Text, labels.Labels[f.Id])).ToList(),
                 };
             }
         }
@@ -539,7 +540,10 @@ internal sealed class MarketsAnalyzer(
             {
                 var c = compared.GetValueOrDefault(Key(v));
                 return new VersionDetails(v.Language, v.BaseUrl, v.Status, c?.OwnTextShare, c is null ? null : Comparison(c),
-                    v.Codes.Concat(c?.Codes ?? []).Distinct().ToList(), c?.Warnings ?? [], c?.UntranslatedExamples ?? []);
+                    v.Codes.Concat(c?.Codes ?? []).Distinct().ToList(), c?.Warnings ?? [], c?.UntranslatedExamples ?? [])
+                {
+                    LanguageFragments = c?.LanguageFragments ?? [],
+                };
             }).ToList(),
             Plan = plan,
             PairingMode = comparison?.PairingMode,

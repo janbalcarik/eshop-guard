@@ -18,7 +18,13 @@ public sealed record VersionSample(string Key, string Language, bool IsMain, IRe
 {
     /// <summary>Labels of the language of the sentences sent to the model, by page.</summary>
     public IReadOnlyDictionary<string, IReadOnlyList<string>> PageLanguages { get; init; } = new Dictionary<string, IReadOnlyList<string>>();
+
+    /// <summary>The sentences sent to the model with the language it gave them (for 3d and the check of the analysis).</summary>
+    public IReadOnlyList<LabeledFragment> Fragments { get; init; } = [];
 }
+
+/// <summary>A sentence of a product page and the language the model gave it.</summary>
+public sealed record LabeledFragment(string PageUrl, string Text, string Language);
 
 /// <summary>Kinds of difference of a pair (change 7, design section 6).</summary>
 public static class PairKinds
@@ -99,6 +105,9 @@ public sealed record VersionComparison
 
     /// <summary>Products whose language the model labeled.</summary>
     public int LabeledProducts { get; init; }
+
+    /// <summary>The sentences the model labeled, with their language.</summary>
+    public IReadOnlyList<LabeledFragment> LanguageFragments { get; init; } = [];
 }
 
 /// <summary>The comparison of all versions of the sample and how pairs were made.</summary>
@@ -222,6 +231,7 @@ public static partial class VersionComparer
                 ForeignTextProducts = foreign.Count,
                 ForeignTextLanguage = foreign.GroupBy(x => x.Language).OrderByDescending(g => g.Count()).FirstOrDefault()?.Key,
                 LabeledProducts = labeled.Count,
+                LanguageFragments = version.Fragments,
             });
         }
 

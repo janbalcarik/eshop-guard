@@ -89,6 +89,7 @@ Očekávání: stavy `discovering → crawling → … → finished | partial` (
 | 3.7 | Úvodní analýza vegis.sk ve workeru a srovnání s CLI | ~2,75 USD na 500 stránek, celý web ~32 USD (neměřeno) | změna 8, úkoly 13.5–13.6 |
 | 3.8 | Kontrola slovenských překladů textů pravidel: sken 2–3 e-shopů a srovnání vlastního rozboru stránek s Jevem | podle e-shopů, z cache většinou 0 | změna 6, úkoly 4.4, 4.5 a 8.4 |
 | 3.9 | Porovnání verzí goodie.sk na popisu z profilu (`markets --profiles`) | **hotovo 2. 10. 2026: 0,206 USD** (rozbor 0,057 + profil 0,149) | změna 7, odchylka 20 |
+| 3.10 | Práh započtení verze a jazyk popisů: `markets --profiles` na bonami, freshlabels, havlikovaapoteka, panakeia a znovu goodie | ~0,55–0,95 USD (rozbor ~0,06 USD na e-shop, nový profil 0,07–0,15 USD; goodie má profil uložený) | změna 7, úkol 7.4 a odchylka 20 |
 
 Postup u jednotlivých kroků:
 
@@ -104,6 +105,17 @@ Postup u jednotlivých kroků:
   Worker běží pod tenantem `cli`, takže následný `eshopguard scan https://vegis.sk/ --max-pages 500` vezme odpovědi Jevu z jeho cache a Jev se zaplatí jen jednou. Srovnání nálezů (pravidlo, text, stránky, verdikty) udělám já.
 - **3.8:** po 3.5 nebo 3.7 projdu nálezy a texty pravidel `rules/texts/sk/` proti stránkám. Kde souhlasí, odstraní se `machine_draft` a vyplní `review` (kontrolu potvrdíte vy).
 - **3.9:** `cd src` a `dotnet run --project EshopGuard.Cli -- markets https://www.goodie.sk/ --profiles` (klíč OpenAI v `.env`, databáze jako u `scan`). CLI vypíše odhad nejdřív pro rozbor a potom znovu s novými profily („z toho nové profily šablon …“); nad limitem se zeptá. Pod tabulkou verzí je u každé verze, co se porovnalo (popis z profilu, nebo celý text), podíl spárovaných produktů s vlastním textem a počet popisů v jiném jazyce. `markets.json` mi pošlete: ověřím, že recenze z porovnání vypadly a že české popisy na slovenské verzi vyšly jako `untranslated_text`. Profil zůstane v databázi a `scan https://www.goodie.sk/` ho použije bez nového volání. Výsledek 2. 10. 2026: vlastní texty sk 87 %, cs-cz 88 % (bez profilu 49 a 52 %), profil `goodie.sk#1`; podrobnosti v odchylce 20 změny 7.
+- **3.10:** ze složky `src`, s klíčem OpenAI v `.env` a databází jako v kroku 3.9:
+
+  ```powershell
+  $out = "out/verze-2026-10-02"
+  foreach ($url in 'https://www.bonami.sk/', 'https://www.freshlabels.sk/', 'https://www.havlikovaapoteka.cz/', 'https://www.panakeia.sk/', 'https://www.goodie.sk/') {
+      dotnet run --project EshopGuard.Cli -- markets $url --profiles --out $out
+  }
+  Get-ChildItem $out -Recurse -Filter markets.json | Select-Object FullName
+  ```
+
+  Každý běh vypíše odhad a nad limitem `rewrite.max_usd_without_confirm` (1,00 USD) se zeptá. Když web přesměruje jinam (bez `www`, jiná doména), použijte adresu z prohlížeče. Pošlete mi všech pět `markets.json`: v `details[].language_fragments` jsou věty, kterým model určil jazyk, takže ověřím, jestli goodie.sk má české popisy (výzkum 1. 10. 2026: 2 z 10) a jestli nové pravidlo většiny vět žádný nepřehlédne. Z vlastních textů a druhů párů navrhnu práh `markets.counted_min_own_share` a porovnám je s výzkumem (bonami 10× překlad, havlikovaapoteka 6× překlad a 1× zkráceno, panakeia 9× jiný text).
 
 ## 4. Rozhodnutí, která zůstávají na vás
 
