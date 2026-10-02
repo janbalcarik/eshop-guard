@@ -162,9 +162,11 @@ public static class SampleOnlyGuard
     public static void Ensure(Shop shop)
     {
         ArgumentNullException.ThrowIfNull(shop);
-        if (shop.Status is ShopStatus.Draft or ShopStatus.Sample)
+        if (IsSampleOnly(shop))
         {
             throw new DomainException(ProblemCodes.ShopSampleOnly, 409);
         }
     }
+
+    public static bool IsSampleOnly(Shop shop) => shop.Status is ShopStatus.Draft or ShopStatus.Sample;
 }

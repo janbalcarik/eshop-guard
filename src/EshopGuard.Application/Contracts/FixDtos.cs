@@ -58,7 +58,7 @@ public sealed record ReviewPositionDto(string Tab, int Index, int Total, Guid? P
 /// <summary>Accepted changes of the page, all changes, groups still waiting for a fact.</summary>
 public sealed record ReviewSummaryDto(int Accepted, int Total, int GroupsAwaitingValue);
 
-/// <summary>Whether the page can be published into the e-shop, and if not, why (<c>no_connector</c>, <c>connector_error</c>, <c>read_only</c>, <c>publisher_missing</c>, <c>nothing_accepted</c>).</summary>
+/// <summary>Whether the page can be published into the e-shop, and if not, why (<c>no_connector</c>, <c>connector_error</c>, <c>read_only</c>, <c>publisher_missing</c>, <c>ownership_not_verified</c>, <c>nothing_accepted</c>).</summary>
 public sealed record PublishAvailabilityDto(bool Available, string? ReasonCode, string? Platform, int AcceptedCount);
 
 /// <summary><c>GET …/pages/{pageId}/review</c>: every change of the page in the order of its text.</summary>
@@ -151,3 +151,75 @@ public sealed record EvidenceStatsDto(int Valid, int Expiring, int AwaitingAnswe
 
 /// <summary><c>GET T/evidence</c>.</summary>
 public sealed record EvidenceListDto(EvidenceStatsDto Stats, IReadOnlyList<EvidenceDto> Items);
+
+/// <summary>A bulk fix in the list: how many pages, how many fit, what is missing.</summary>
+public sealed record FixGroupListItemDto(
+    Guid Id, string Kind, string? OriginalText, int PageCount, int FitsCount, int IndividualCount, string Status, string Mode, int MissingValues,
+    string? Recheck, string? RuleId);
+
+/// <summary>The sums above the list of bulk fixes.</summary>
+public sealed record FixGroupTotalsDto(int Groups, int Pages);
+
+/// <summary><c>GET S/fix-groups</c>.</summary>
+public sealed record FixGroupListDto(IReadOnlyList<FixGroupListItemDto> Groups, FixGroupTotalsDto Totals);
+
+/// <summary>How the fix looks on a page: the text before and after the sentence.</summary>
+public sealed record FixGroupSampleDto(Guid PageId, string? Title, string? Before, string? After);
+
+/// <summary>A page where the fix does not fit, with the reason (<c>fix_groups.fit.individual</c>).</summary>
+public sealed record FixGroupIndividualDto(Guid PageId, string? Title, string ReasonCode, JsonElement? Params);
+
+/// <summary>Where the fix fits: the number of pages and those to fix one by one.</summary>
+public sealed record FixGroupFitDto(int Fits, IReadOnlyList<FixGroupIndividualDto> Individual);
+
+/// <summary>A page of a bulk fix.</summary>
+public sealed record FixGroupPageDto(Guid PageId, string? Title);
+
+/// <summary>The pages of a bulk fix (a page of them, by title), and the pages the merchant left out.</summary>
+public sealed record FixGroupPagesDto(int Total, IReadOnlyList<Guid> ExcludedPageIds, IReadOnlyList<FixGroupPageDto> Items, string? NextCursor);
+
+/// <summary>
+/// A bulk fix (design E): the sentence, the template with its facts, the mode (<c>replace</c>, <c>remove</c>, <c>custom</c>), the
+/// resulting wording, the rule and its verdicts, the state and the recheck, samples on pages, where it fits and the pages.
+/// </summary>
+public sealed record FixGroupDto(
+    Guid Id,
+    string Kind,
+    string? OriginalText,
+    string? ReplacementTemplate,
+    string? Replacement,
+    IReadOnlyList<PlaceholderDto> Placeholders,
+    string Mode,
+    string? CustomText,
+    string? RuleId,
+    IReadOnlyList<VerdictDto> Verdicts,
+    string Status,
+    RecheckDto Recheck,
+    IReadOnlyList<FixGroupSampleDto> Samples,
+    FixGroupFitDto Fit,
+    FixGroupPagesDto Pages,
+    uint Version);
+
+/// <summary>
+/// <c>GET S/pages/{pageId}/fixed-text</c>: the whole field with the accepted changes („Kopírovať text“). Proposals not decided
+/// yet are in <see cref="PendingProposalIds"/>; accepted ones whose original text is not in the page any more are in
+/// <see cref="UnplacedProposalIds"/> (not written in, fail-closed).
+/// </summary>
+public sealed record FixedTextDto(
+    string Field, string Text, IReadOnlyList<Guid> AppliedProposalIds, IReadOnlyList<Guid> PendingProposalIds, IReadOnlyList<Guid> UnplacedProposalIds,
+    Guid SourceVersionId);
+
+/// <summary>
+/// A publication of one field of a page through the connector. <see cref="OldValue"/> and <see cref="NewValue"/> only in the
+/// detail (the original is kept by the job of change 15).
+/// </summary>
+public sealed record PublicationDto(
+    Guid Id, Guid PageId, string Field, string? Language, string Status, int Attempts, string? ErrorCode, Guid? RequestedBy,
+    DateTimeOffset? PublishedAt, DateTimeOffset? RolledBackAt, IReadOnlyList<Guid> FixProposalIds, DateTimeOffset CreatedAt,
+    string? OldValue = null, string? NewValue = null);
+
+/// <summary>A field that is not published: <c>copy_only</c> (the platform cannot write it) or <c>not_located</c> (a change is not in the page any more).</summary>
+public sealed record PublicationSkippedDto(Guid PageId, string Field, string ReasonCode, IReadOnlyList<Guid> ProposalIds);
+
+/// <summary><c>POST S/publications</c>: one publication per page and field (an equal request returns the same ones).</summary>
+public sealed record PublicationBatchDto(IReadOnlyList<PublicationDto> Publications, IReadOnlyList<PublicationSkippedDto> Skipped);

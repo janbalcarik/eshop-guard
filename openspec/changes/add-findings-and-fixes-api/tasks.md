@@ -148,19 +148,19 @@
 
 ## 7. Hromadné opravy
 
-- [ ] 7.1 `Application/Fixes/FixGroupService.cs`:
+- [x] 7.1 `Application/Fixes/FixGroupService.cs`:
   - seznam se součty;
   - detail se vzorky v kontextu, `fit` a stránkami (kurzor);
   - údaje, režim, vyřazení stránek s `If-Match` a úlohou `fix.recheck` u `replace` po vyplnění a u `custom`.
-- [ ] 7.2 `FixGroupService.ApproveAsync`:
+- [x] 7.2 `FixGroupService.ApproveAsync`:
   - jedna transakce;
   - zahrnuté stránky = skupina − vyřazené − `fit.individual`;
   - návrhy `accepted` s `group_id`, nálezy `approved`;
   - paměť jednou za skupinu;
   - `locked_at`, audit `group.approved`.
-- [ ] 7.3 `ApprovePageAsync` („Len na tejto stránke“, `group.page_needs_individual_fix`) a `UnapproveAsync` (jen před první publikací).
-- [ ] 7.4 Koncové body v `FixGroupEndpoints.cs`: `GET S/fix-groups`, `GET S/fix-groups/{groupId}`, `PUT …/values`, `PUT …/mode`, `PUT …/excluded-pages`, `POST …/approve`, `POST …/approve-page`, `POST …/unapprove`.
-- [ ] 7.5 Test `FixGroupTests`:
+- [x] 7.3 `ApprovePageAsync` („Len na tejto stránke“, `group.page_needs_individual_fix`) a `UnapproveAsync` (jen před první publikací).
+- [x] 7.4 Koncové body v `FixGroupEndpoints.cs`: `GET S/fix-groups`, `GET S/fix-groups/{groupId}`, `PUT …/values`, `PUT …/mode`, `PUT …/excluded-pages`, `POST …/approve`, `POST …/approve-page`, `POST …/unapprove`.
+- [x] 7.5 Test `FixGroupTests`:
   - 38 stránek → 36 přijatých, 2 bez návrhu, 1 záznam paměti;
   - chybí údaj → `409 group.value_missing`;
   - `custom` čeká na kontrolu → `409 group.recheck_pending`;
@@ -169,17 +169,17 @@
 
 ## 8. Publikace a sestavený text
 
-- [ ] 8.1 `Application/Fixes/IFixPublisher.cs` (smlouva pro změnu 15) a `tests/…/FakeFixPublisher.cs`. Bez registrace → `409 publication.connector_unavailable`.
-- [ ] 8.2 `Application/Fixes/FixedTextComposer.cs`: text pole z bloků verze stránky a přijatých návrhů (`block_index`), nepřijaté v `pendingProposalIds`. Test `FixedTextComposerTests` (více změn v jednom bloku, změna na hranici bloků, pole `name`).
-- [ ] 8.3 `Application/Fixes/PublicationService.cs`:
+- [x] 8.1 `Application/Fixes/IFixPublisher.cs` (smlouva pro změnu 15) a `tests/…/FakeFixPublisher.cs`. Bez registrace → `409 publication.connector_unavailable`.
+- [x] 8.2 `Application/Fixes/FixedTextComposer.cs`: text pole z bloků verze stránky a přijatých návrhů (`block_index`), nepřijaté v `pendingProposalIds`. Test `FixedTextComposerTests` (více změn v jednom bloku, změna na hranici bloků, pole `name`).
+- [x] 8.3 `Application/Fixes/PublicationService.cs`:
   - předpoklady (AD 4);
   - seskupení po (stránka, pole), `old_value_hash`, `idempotency_key`;
   - `skipped` s `copy_only`;
   - úloha `publish.fix` (P1, `io`, `concurrency_key = connector:{shopId}`);
   - `rollback` → `publish.rollback`;
   - audit.
-- [ ] 8.4 Koncové body v `PublicationEndpoints.cs` (`POST S/publications`, `GET S/publications`, `GET S/publications/{id}`, `POST …/rollback`) a `GET S/pages/{pageId}/fixed-text`.
-- [ ] 8.5 Test `PublicationTests`:
+- [x] 8.4 Koncové body v `PublicationEndpoints.cs` (`POST S/publications`, `GET S/publications`, `GET S/publications/{id}`, `POST …/rollback`) a `GET S/pages/{pageId}/fixed-text`.
+- [x] 8.5 Test `PublicationTests`:
   - Shoptet s `FakeFixPublisher` → `202` a úloha P1;
   - opakovaný požadavek vrátí stejnou publikaci;
   - `web` → `409 no_connector` a `fixed-text` funguje;

@@ -37,6 +37,8 @@ public static class FindingsServiceCollectionExtensions
         services.TryAddScoped<PublishAvailability>();
         services.TryAddScoped<PageReviewService>();
         services.TryAddScoped<FixProposalService>();
+        services.TryAddScoped<FixGroupService>();
+        services.TryAddScoped<PublicationService>();
         services.TryAddScoped<GenerationBudget>();
         services.TryAddScoped<QuestionService>();
         services.TryAddScoped<Notifications.NotificationService>();

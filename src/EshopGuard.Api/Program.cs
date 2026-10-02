@@ -104,7 +104,7 @@ api.MapMeEndpoints();
 api.MapTenantsEndpoints();
 var tenant = api.MapTenantGroup();
 tenant.MapShopEndpoints().MapOnboardingEndpoints().MapOwnershipAndSettingsEndpoints();
-tenant.MapShopWorkGroup().MapFindingEndpoints().MapFixEndpoints().MapQuestionEndpoints();
+tenant.MapShopWorkGroup().MapFindingEndpoints().MapFixEndpoints().MapQuestionEndpoints().MapFixGroupEndpoints().MapPublicationEndpoints();
 tenant.MapNotificationEndpoints().MapEvidenceEndpoints();
 api.MapInvitationEndpoints();
 api.MapRefEndpoints();

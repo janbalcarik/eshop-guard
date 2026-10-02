@@ -85,6 +85,21 @@ public sealed record EditProposalTextRequest(string? Text);
 
 public sealed record ProposalPlaceholdersRequest(Dictionary<string, string?>? Values);
 
+/// <summary><c>PUT S/fix-groups/{groupId}/values</c>: the facts of the placeholders; an empty value clears the fact.</summary>
+public sealed record FixGroupValuesRequest(Dictionary<string, string?>? Values);
+
+/// <summary><c>PUT S/fix-groups/{groupId}/mode</c>: <c>replace</c>, <c>remove</c> or <c>custom</c> with its own wording.</summary>
+public sealed record FixGroupModeRequest(string? Mode, string? CustomText);
+
+/// <summary><c>PUT S/fix-groups/{groupId}/excluded-pages</c>: the pages the fix of the group is not written to.</summary>
+public sealed record FixGroupExcludedPagesRequest(Guid[]? PageIds);
+
+/// <summary><c>POST S/fix-groups/{groupId}/approve-page</c>: „Len na tejto stránke“.</summary>
+public sealed record FixGroupPageRequest(Guid? PageId);
+
+/// <summary><c>POST S/publications</c>: the accepted changes of these pages, proposals or group (one of them at least).</summary>
+public sealed record PublicationRequest(Guid[]? PageIds, Guid[]? ProposalIds, Guid? GroupId);
+
 /// <summary><c>POST S/questions/{questionId}/answer</c>: <c>yes</c> („Áno“) or <c>no</c> („Nie“).</summary>
 public sealed record AnswerQuestionRequest(string? Answer);
 

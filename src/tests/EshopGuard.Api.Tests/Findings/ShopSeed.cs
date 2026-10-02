@@ -49,14 +49,18 @@ internal sealed class ShopSeed(Guid tenantId, Guid shopId, IBlobStore blobs)
         return RunId;
     }
 
-    /// <summary>A page with its current version; its extraction (the main text, one block per line) goes to the file store.</summary>
+    /// <summary>
+    /// A page with its current version; its extraction (the main text, one block per line, the meta and JSON-LD description)
+    /// goes to the file store.
+    /// </summary>
     public async Task<(Guid PageId, Guid VersionId)> PageAsync(
-        string title, string path, string language, string mainText, string pageType = "product", string source = "crawl", string? externalId = null)
+        string title, string path, string language, string mainText, string pageType = "product", string source = "crawl", string? externalId = null,
+        string? metaDescription = null, string? description = null)
     {
         var pageId = Guid.CreateVersion7();
         var versionId = Guid.CreateVersion7();
         var key = BlobKey.ForShop(TenantId, ShopId, "runs", "seed", "pages", pageId.ToString("N") + ".extract.json.gz");
-        await using (var content = new MemoryStream(ExtractContextReader.Compress(title, mainText)))
+        await using (var content = new MemoryStream(ExtractContextReader.Compress(title, mainText, metaDescription, description)))
         {
             await blobs.PutAsync(key, content, "application/gzip", TestContext.Current.CancellationToken);
         }

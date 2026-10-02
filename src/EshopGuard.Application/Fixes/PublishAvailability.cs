@@ -7,8 +7,9 @@ using Microsoft.EntityFrameworkCore;
 namespace EshopGuard.Application.Fixes;
 
 /// <summary>
-/// Whether fixes of an e-shop can be published (change 11, AD 4): source <c>connector</c>, a connector <c>connected</c> with
-/// write access, a registered <see cref="IFixPublisher"/> and at least one accepted change. Otherwise the reason code.
+/// Whether fixes of an e-shop can be published (change 11, AD 4 and 8): source <c>connector</c>, a connector <c>connected</c>
+/// with write access, a registered <see cref="IFixPublisher"/>, the ownership verified and at least one accepted change.
+/// Otherwise the reason code.
 /// </summary>
 public sealed class PublishAvailability(EshopGuardDb db, IServiceProvider services)
 {
@@ -17,6 +18,7 @@ public sealed class PublishAvailability(EshopGuardDb db, IServiceProvider servic
     public const string ReadOnly = "read_only";
     public const string PublisherMissing = "publisher_missing";
     public const string NothingAccepted = "nothing_accepted";
+    public const string OwnershipNotVerified = "ownership_not_verified";
 
     /// <summary>The reason why the e-shop cannot publish at all (without counting accepted changes), or null.</summary>
     public async Task<(string? Reason, Connector? Connector)> BlockerAsync(Shop shop, CancellationToken ct)
@@ -43,7 +45,13 @@ public sealed class PublishAvailability(EshopGuardDb db, IServiceProvider servic
             return (ReadOnly, connector);
         }
 
-        return (Publisher is null ? PublisherMissing : null, connector);
+        if (Publisher is null)
+        {
+            return (PublisherMissing, connector);
+        }
+
+        // Writing into the e-shop needs the ownership verified (the connector itself verifies it when it connects).
+        return (shop.OwnershipVerifiedAt is null ? OwnershipNotVerified : null, connector);
     }
 
     public IFixPublisher? Publisher => (IFixPublisher?)services.GetService(typeof(IFixPublisher));
