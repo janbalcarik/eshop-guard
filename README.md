@@ -216,16 +216,22 @@ Ukázka zdarma a úvodní analýza běží ve workeru jako řetěz úloh nad ste
 
 ## Spuštění na testovacím e-shopu
 
+CLI se spouští ze složky `src`: tam hledá `config/settings.yaml`, `rules/` a `.env`, a tam zapisuje `out/`. Z kořene repozitáře skončí chybou „Pravidla nejsou platná: … neexistuje“. Worker (`src/EshopGuard.Worker`) se spouští odkudkoli, cesty bere ze složky projektu.
+
+```bash
+cd src
+```
+
 V jednom terminálu spusťte testovací e-shop:
 
 ```bash
-dotnet run --project src/EshopGuard.Cli -- serve-fixture --port 8000
+dotnet run --project EshopGuard.Cli -- serve-fixture --port 8000
 ```
 
 Ve druhém terminálu ho projděte. Během běhu serveru použijte `--no-build`, protože server drží sestavené soubory:
 
 ```bash
-dotnet run --no-build --project src/EshopGuard.Cli -- scan http://localhost:8000 --allow-private-network
+dotnet run --no-build --project EshopGuard.Cli -- scan http://localhost:8000 --allow-private-network
 ```
 
 `--allow-private-network` je nutné jen pro místní e-shop: bez něj se adresa v místní síti nestáhne (ochrana proti SSRF, viz níže).
@@ -262,7 +268,7 @@ Nástroj stahuje HTML a JavaScript nespouští. Stránka, která má v HTML mén
 ## Jeden text
 
 ```bash
-dotnet run --project src/EshopGuard.Cli -- check-text "Ekologický šampon. Obal je ze 100 % recyklovaného papíru."
+dotnet run --project EshopGuard.Cli -- check-text "Ekologický šampon. Obal je ze 100 % recyklovaného papíru."
 ```
 
 Vypíše pro každou větu pravděpodobnost každé otázky a výsledek každého pravidla. `--kind legal` vyhodnotí text jako právní stránku.
@@ -270,7 +276,7 @@ Vypíše pro každou větu pravděpodobnost každé otázky a výsledek každéh
 ## Přepis problematických pasáží
 
 ```bash
-dotnet run --project src/EshopGuard.Cli -- rewrite out/shop.sk-20260930-0919 --limit 5
+dotnet run --project EshopGuard.Cli -- rewrite out/shop.sk-20260930-0919 --limit 5
 ```
 
 Vezme výsledky hotového skenu (`findings.json`, `pages.jsonl`) a stránky s nálezem ve skupině porušení nebo k posouzení pošle modelu OpenAI (`rewrite.model`, výchozí `gpt-6.1-sol`). Model dostane celý text stránky v číslovaných blocích a vrátí jen změněné bloky („původně → nově“), místa „[doplňte: …]“ pro fakta, která zná jen obchod, a zdůvodnění; nálezy, jejichž znění jen popisuje složení nebo původ, může ponechat. Nástroj každý změněný blok znovu zkontroluje svými pravidly (se sousedními bloky jako okolím) a označí ho jako vyřešeno, čeká na doplnění, stále nález nebo ponecháno. Výstupem je `rewrite.md` (u každé stránky změny „původně → nově“, zdůvodnění a celý opravený text se zvýrazněnými změnami) a `rewrite.json` ve složce skenu; v něm má každá stránka pole `blocks` s každým blokem textu před přepisem a po něm (`original`, `rewritten`, `changed`), podklad pro zobrazení rozdílů ve webu.
@@ -284,7 +290,7 @@ Vezme výsledky hotového skenu (`findings.json`, `pages.jsonl`) a stránky s n�
 ## Místa prodeje a jazykové verze
 
 ```bash
-dotnet run --project src/EshopGuard.Cli -- markets https://www.example.sk --yes
+dotnet run --project EshopGuard.Cli -- markets https://www.example.sk --yes
 ```
 
 Zjistí, do kterých zemí e-shop prodává a jaké má jazykové verze (změna 7). Výsledek zapíše do `out/<web>-markets-<datum>/markets.json` a průběh do `markets.log`. Databázi nepotřebuje.

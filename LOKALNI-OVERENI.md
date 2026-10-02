@@ -1,6 +1,6 @@
 # Co spustit a ověřit lokálně (stav 2. 10. 2026, po změně 8)
 
-Pořadí: nejdřív kroky zdarma, potom kroky se sítí bez placených volání, nakonec placené kroky. Každý placený krok se spustí jen po odhadu ceny a souhlasu (CLAUDE.md). Příkazy jsou pro PowerShell v kořeni repozitáře. Klíče patří do `.env` (CLI) nebo do proměnných prostředí (worker), nikdy do souborů v repozitáři.
+Pořadí: nejdřív kroky zdarma, potom kroky se sítí bez placených volání, nakonec placené kroky. Každý placený krok se spustí jen po odhadu ceny a souhlasu (CLAUDE.md). Příkazy jsou pro PowerShell v kořeni repozitáře, **kromě CLI: to se spouští ze složky `src`** (`cd src`, potom `dotnet run --project EshopGuard.Cli -- …`), protože tam hledá `config/`, `rules/` a `.env`. Z kořene skončí chybou „Pravidla nejsou platná: … neexistuje“. Klíče patří do `.env` (CLI) nebo do proměnných prostředí (worker), nikdy do souborů v repozitáři.
 
 ## 0. Příprava (zdarma, bez sítě)
 
@@ -15,7 +15,7 @@ dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"
 
 Očekávání: 1019 testů, 0 selhání, 8 explicitních přeskočeno (cloud, 2. 10. 2026). Testy běhů ve workeru (`src/tests/EshopGuard.Jobs.Tests/Runs`) potřebují PostgreSQL a databázi `eshopguard_test_jobs`. Když testy `Db` selžou se jménem klíče, chybí user-secrets `eshopguard-tests`: spusťte znovu `setup-local.ps1`.
 
-Pokud CLI ještě nemá tenanta `cli`, jednou: `dotnet run --project src/EshopGuard.Cli -- cache init`.
+Pokud CLI ještě nemá tenanta `cli`, jednou ze složky `src`: `dotnet run --project EshopGuard.Cli -- cache init`.
 
 ## Test na skutečném e-shopu: doporučené pořadí
 
@@ -42,7 +42,8 @@ Změna 7 opravila poznání produktové sitemap (název souboru „sitemap“ ob
 ### 2.1 Změna 7, úkol 7.2: jazykové verze
 
 ```powershell
-dotnet run --project src/EshopGuard.Cli -- markets https://www.goodie.sk/ --mock
+cd src
+dotnet run --project EshopGuard.Cli -- markets https://www.goodie.sk/ --mock
 # totéž pro bonami, footshop, freshlabels, panakeia, nutriadapt, havlikovaapoteka
 ```
 
