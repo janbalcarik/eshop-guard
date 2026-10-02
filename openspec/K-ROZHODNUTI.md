@@ -22,6 +22,19 @@ Každá změna má v `proposal.md` oddíl „K rozhodnutí“, celkem asi 320 bo
   Limity OpenAI podle gpt-6.1-sol, Tier 4 (10 000 požadavků a 4 000 000 tokenů za minutu, ověřeno na stránce modelu) jsou od migrace F2 v bucketech `openai` a `openai:tokens`, takže chybějící bucket OpenAI ve změně 5 nenastane. Odchylky od designu s měřením jsou v `changes/add-job-queue-and-worker/design.md`, oddíl „Odchylky při implementaci“. Dopad na změnu 17: zátěžový test ověří převzetí, když jsou na začátku fronty úlohy tenantů nad stropem (dnes asi 30 ms na 20 000 přeskočených úloh).
 - **Změna 6, body K rozhodnutí (1. 10. 2026, uživatel):** přijaty návrhy z oddílu K rozhodnutí. Otevřené zůstává K13 (znění otázek pro uživatele schválí uživatel).
 - **Změna 7, body K rozhodnutí (2. 10. 2026, uživatel):** „pokračuj důsledně k cíli tak, jak je navrženo“: přijaty návrhy z oddílu K rozhodnutí (K1–K13). Zadání a schémata modelu pro místa prodeje a jazyk textu napíše Claude podle designu, protože výzkumné skripty (`research/langprobe-2026-10-01/`) jsou jen lokálně; výsledky se ověří placenými kroky 7.3 a 7.4. Údaje trhů jsou podle CLAUDE.md řádky `config/jurisdictions.yaml`, ne samostatný `config/markets.yaml`.
+- **Změna 8, body K rozhodnutí (2. 10. 2026, uživatel „pokračuj“):** implementace se řídí návrhy z oddílu K rozhodnutí:
+  - K1: běh se kvůli nákladům nezastavuje (architektura část 12), jen varování provozu;
+  - K2: strop ukázky zdarma `Runs:FreeSample:MaxInternalUsd` = 1,00 USD, nad ním `failed` `sample_budget_exceeded` (hodnotu potvrdí uživatel);
+  - K3: `findings.segment_hash` = otisk věty bez kontextu, stejná věta = jeden nález s výskyty (A14);
+  - K4: tabulky `checks.run_urls` a `checks.run_scopes` (migrace F4);
+  - K5: jedinečné indexy a hodnoty `market_analysis`, `version_language`; shoda ceny se ověřuje přes součet tokenů;
+  - K6: nárok jen na hlavní doménu, po `failed` naší chybou zůstává (uvolní ho provoz ručně);
+  - K7: hranice `partial` podle návrhu (i text vykreslený JavaScriptem);
+  - K8: `Runs:SiteOutageMaxHours` = 24;
+  - K10: úvodní analýza čeká na platbu po zjištění rozsahu;
+  - K14: `run_events.message` se nevyplňuje.
+
+  Odchylky od designu jsou v `changes/add-analysis-runs-in-worker/design.md`, oddíl „Odchylky při implementaci“ (mimo jiné verze se stejnými adresami přes cookie se zatím nestahují a běh je vyjmenuje). Otevřené zůstává: K9 (hromadné opravy), K11 (placené živé ověření na vegis.sk, odhad a souhlas), K15 (kroky `connector_check`).
 - **Změna 6, K8 překlad textů (2. 10. 2026, uživatel):** návrh překladu smí napsat model. Na žádost uživatele ho napsal přímo Claude v pracovní session, ne OpenAI za běhu produktu. Pravidlo „LLM jen OpenAI“ platí pro produkt. Soubory mají `machine_draft: true` a nepoužijí se, dokud je nezkontroluje člověk. Kontrola proběhne později lokálně: sken několika skutečných e-shopů a porovnání vlastního rozboru stránek s výsledky Jevu.
 - **Další trhy (1. 10. 2026, uživatel):** nástroj bude později i pro Německo, Polsko, Maďarsko a další země. Kód nesmí znát seznam zemí ani jazyků. Nová země znamená jen data: řádek v `config/jurisdictions.yaml`, sady pravidel, složku `rules/texts/<jazyk>/` a podklady (změna 6, design oddíl 9).
 - **Změna 5b bez převodu dat (1. 10. 2026, uživatel):** odpovědi Jevu, přepisy a profily ze `src/cache/jev-cache.sqlite` se do PostgreSQL nepřevádějí (hodnota řádově 10 USD, odhad); příkaz `cache import` nevzniká. Smysl úložiště odpovědí je hlavně limit Jevu (1 200 požadavků za minutu na klíč) při opakovaných bězích. Smazání souboru rozhodne uživatel.

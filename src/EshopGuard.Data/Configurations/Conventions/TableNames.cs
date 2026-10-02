@@ -55,6 +55,8 @@ public static class TableNames
         "content.page_versions",
         "checks.runs",
         "checks.run_events",
+        "checks.run_urls",
+        "checks.run_scopes",
         "checks.jev_answers",
         "checks.sieve_answers",
         "checks.findings",

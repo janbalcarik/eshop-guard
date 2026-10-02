@@ -1,7 +1,13 @@
 using EshopGuard.Data.Connections;
 using EshopGuard.Jobs.Processing;
 using EshopGuard.Worker;
+using EshopGuard.Worker.Dev;
 using Microsoft.Extensions.Options;
+
+if (SeedRunCommand.Matches(args))
+{
+    return await SeedRunCommand.RunAsync(args);
+}
 
 using var host = WorkerHost.CreateBuilder(new HostApplicationBuilderSettings { Args = args }).Build();
 try

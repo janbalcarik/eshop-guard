@@ -23,7 +23,7 @@ public sealed class ModelCatalogConsistencyTests
     public void AllEntityTypes_AreTenantOrGlobalTables()
     {
         Assert.Equal(TableNames.TenantTables.Concat(TableNames.GlobalTables).Order(StringComparer.Ordinal), Db.Model.GetEntityTypes().Select(Name).Order(StringComparer.Ordinal));
-        Assert.Equal(61, Db.Model.GetEntityTypes().Count());
+        Assert.Equal(63, Db.Model.GetEntityTypes().Count());
     }
 
     [Fact]

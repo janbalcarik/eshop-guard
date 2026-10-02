@@ -180,6 +180,23 @@ Fronta je tabulka `ops.jobs` (knihovna `src/EshopGuard.Jobs`). API úlohy jen za
 - Zámky na úrovni relace ani `SET` aplikace nepoužívá.
 - Připravené příkazy Npgsql (automatická příprava je vypnutá) vyžadují PgBouncer ≥ 1.21 s `max_prepared_statements`.
 
+## Běhy analýzy ve workeru
+
+Ukázka zdarma a úvodní analýza běží ve workeru jako řetěz úloh nad stejnými kroky knihovny jako CLI (`src/EshopGuard.Jobs/Runs`, změna 8). Shodu výsledků s CLI hlídá `CliParityTests`.
+
+- **Založení** jen přes `IRunService` (`AddRunService`), běh a jeho první úloha vždy v jedné transakci tenanta:
+  - `CreateFreeSampleAsync`: jednou na doménu napříč tenanty (`shop.claim_free_sample`; druhý nárok vrátí `sample.already_used_for_domain` bez údajů o jiném tenantovi);
+  - `CreateFullAnalysisAsync`: vyžaduje ověřené vlastnictví (`IShopOwnershipPolicy`; do změny 10 `DenyAllOwnershipPolicy`, nic se nespustí) a jen jednu běžící úvodní analýzu e-shopu;
+  - `MarkOrderPaidAsync` (Stripe, změna 12) a `ApproveWithoutPaymentAsync` (pilot, zápis do auditu) pustí stahování; zaplacení dřív, než skončí zjištění rozsahu, se neztratí;
+  - `RequestCancelAsync`: běh skončí `canceled` u další dávky, hned, když nic z něj neběží.
+- **Kroky:** `run.discover` → (ukázka) `run.markets` → `run.fetch` po dávkách → `run.profile` → `run.segment` → `run.sieve` po dávkách → `run.plan_evaluate` → `run.evaluate` po dávkách → `run.rules` → `run.rewrite` → `run.finalize`. Stavy běhu: `queued → discovering → (awaiting_payment) → crawling → profiling → segmenting → evaluating → ruling → rewriting → finished | partial | failed | canceled`; každý přechod je událost `run.status` v `checks.run_events` s `pg_notify('run_events', run_id)` po COMMIT.
+- **Data běhu:** výsledek každé adresy v `checks.run_urls`, fronta a tempo rozsahu (jazykové verze) v `checks.run_scopes`, stránky a jejich verze s otisky vět v `content.pages` a `content.page_versions`, nálezy v `checks.findings` (stejná věta na více stránkách = jeden nález s výskyty), návrhy oprav ve `fixes.fix_proposals`. HTML, extrakce a pracovní soubory jsou v úložišti pod `tenants/{t}/shops/{s}/runs/{r}/`, výsledek ve tvaru CLI v `result/scan.json.gz`.
+- **Nezkontrolované** (fail-closed): `runs.stats.unchecked` po důvodech, úplný seznam v `result/unchecked.json.gz`. Stránky, které selhaly, byly moc velké, nepřečtené včas, přesměrované jinam nebo do vnitřní sítě, bez načteného textu, věty bez odpovědi Jevu a nepřečtené dokumenty dají `partial`; robots.txt, filtr URL a limit stránek se jen vyjmenují. Běh bez jediné zkontrolované stránky je `failed` s kódem (`robots_disallow_all`, `target_not_allowed`, `site_unreachable`, `no_html_pages`).
+- **Náklady:** před každým placeným krokem se uloží interní odhad (`runs.estimate.internal`, zákazník ho nevidí). Ukázka zdarma se zastaví (`failed`, `sample_budget_exceeded`), když odhad překročí `Runs:FreeSample:MaxInternalUsd` (výchozí 1,00 USD); úvodní analýza se kvůli nákladům nikdy nezastaví, nad `Runs:CostAlertRatio` jen varování v logu a metrika `eshopguard.run.cost_over_estimate`. Spotřeba každého volání je v `usage.usage_records`.
+- **Ukázka** uloží `runs.stats.sample` (počty podle závažnosti a skupiny, 5 nejzávažnějších nálezů, ukázka opravy nebo důvod, proč chybí) a základ rozsahu `runs.estimate.basis` (verze, produkty, započtení; bez pásma a částky).
+- **Nastavení** v `src/EshopGuard.Worker/appsettings.json`: oddíl `Runs` (dávky, limity ukázky a analýzy) a `EshopGuard` (nastavení knihovny se stejnými klíči jako `config/settings.yaml`, PascalCase; `BaseDirectory` = složka s `rules/` a `config/` vůči složce projektu). Klíče jen z proměnných prostředí `TYPESAFE_API_KEY` (nebo `JEV_API_KEY`) a `OPENAI_API_KEY`. Worker se nespustí (`StartupChecks`), když je povolená vnitřní síť, klíč je v konfiguraci, nebo mimo Development a Testing chybí kontakt v `EshopGuard:Crawl:UserAgent` nebo je zapnutý mock.
+- **Vývoj:** běh založí `DOTNET_ENVIRONMENT=Development dotnet run --project src/EshopGuard.Worker -- dev seed-run --tenant <id|cli> --shop-url https://vegis.sk/ --kind free_sample|full_analysis [--approve]` (jen v Development; e-shop založí, když chybí, vlastnictví neověřuje). Samotný worker: `DOTNET_ENVIRONMENT=Development dotnet run --project src/EshopGuard.Worker`.
+
 ## Nastavení
 
 - `config/settings.yaml`: limity stahování, pravidla segmentace a ceny. Před skenováním cizího webu doplňte do `user_agent` skutečný kontakt.

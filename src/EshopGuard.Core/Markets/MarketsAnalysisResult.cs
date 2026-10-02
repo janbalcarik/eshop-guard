@@ -140,6 +140,12 @@ public sealed record MarketsAnalysisResult
     /// <summary>How the pairs of the analysis of versions were made (<c>hreflang</c>, <c>identifiers</c>, <c>sentence_overlap</c>), null without it.</summary>
     public string? PairingMode { get; init; }
 
+    /// <summary>
+    /// The pages of the sample by version (pairs, mandatory pages, random products; at most <c>markets.sample_pages</c>): the
+    /// free sample of change 8 checks them. With one version only its mandatory pages and random products.
+    /// </summary>
+    public VersionSamplePlan? SamplePlan { get; init; }
+
     public IReadOnlyList<PageLanguageRow> Pages { get; init; } = [];
 
     /// <summary>Codes of the analysis (<see cref="MarketCodes"/>, <c>model_mock</c>, <c>model_missing_key</c>).</summary>

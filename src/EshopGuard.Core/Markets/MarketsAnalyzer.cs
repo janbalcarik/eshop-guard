@@ -134,13 +134,14 @@ internal sealed class MarketsAnalyzer(
         var active = request.ActiveMarkets ?? DefaultMarkets(places, catalog, versions);
 
         VersionComparisonResult? comparison = null;
+        VersionSamplePlan? samplePlan = null;
         var counts = new Dictionary<string, VersionCount>();
         var sampled = versions.Where(v => v.Scope is not null && v.SwitchMethod != SwitchMethods.BrowserTranslation
             && (v.IsCheckable || v.Status == VersionStatus.NeedsConfirmation)).ToList();
         if (request.AnalyzeVersions && sampled.Count > 1)
         {
             progress?.Report("sample");
-            comparison = await CompareVersionsAsync(run, sampled, discovery, selected, canCall && unavailable != EngineCodes.ModelMissingKey, request.Seed, ct);
+            (comparison, samplePlan) = await CompareVersionsAsync(run, sampled, discovery, selected, canCall && unavailable != EngineCodes.ModelMissingKey, request.Seed, ct);
             foreach (var version in comparison.Versions)
             {
                 counts[version.Key] = new VersionCount(version.ProductCount, version.Counted);
@@ -150,10 +151,15 @@ internal sealed class MarketsAnalyzer(
         {
             var main = versions.First(v => v.IsMain);
             counts[VersionMarketPlanner.Key(main.Language, main.BaseUrl)] = new VersionCount(ProductCount(discovery.SitemapEntries, main.Scope), true);
+
+            // The sample of one version without a comparison: its mandatory pages and random products (the free sample checks them).
+            var mandatory = selected.Select(p => new Uri(p.Url)).Where(u => main.Scope?.Contains(u) ?? UrlTools.IsSameSite(u, home)).DistinctBy(u => u.AbsoluteUri).ToList();
+            var products = discovery.SitemapEntries.Where(e => e.ProductHint && (main.Scope?.Contains(e.Url) ?? true)).ToList();
+            samplePlan = VersionSamplePlanner.Plan([new VersionSampleInput(Key(main), main.Language ?? "und", true, products, mandatory)], markets.SamplePages, 0, request.Seed);
         }
 
         var plan = VersionMarketPlanner.Plan(versions, active, catalog, counts);
-        return Result(run, home, places, signals, versions, plan, comparison, catalog) with { SalesPages = selected };
+        return Result(run, home, places, signals, versions, plan, comparison, catalog) with { SalesPages = selected, SamplePlan = samplePlan };
     }
 
     private async Task<(VerifiedSales Sales, IReadOnlyList<SelectedPage> Selected)> AnalyzeSalesAsync(
@@ -187,7 +193,7 @@ internal sealed class MarketsAnalyzer(
     }
 
     /// <summary>Pages of the sample of every version, the language of their sentences and the comparison.</summary>
-    private async Task<VersionComparisonResult> CompareVersionsAsync(
+    private async Task<(VersionComparisonResult Result, VersionSamplePlan Plan)> CompareVersionsAsync(
         Run run, IReadOnlyList<LanguageVersionCandidate> versions, DiscoveryResult mainDiscovery, IReadOnlyList<SelectedPage> selected, bool labelLanguages,
         int seed, CancellationToken ct)
     {
@@ -264,7 +270,7 @@ internal sealed class MarketsAnalyzer(
         }
 
         var result = VersionComparer.Compare(samples, plan.Pairs, markets);
-        return result;
+        return (result, plan);
     }
 
     /// <summary>Downloads the addresses in the scope of the site, those on other hosts with their own robots.txt.</summary>

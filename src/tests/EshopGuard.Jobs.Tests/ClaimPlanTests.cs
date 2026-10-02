@@ -8,8 +8,9 @@ namespace EshopGuard.Jobs.Tests;
 
 /// <summary>
 /// Claim with a large queue (task 11.6): 100 000 waiting jobs without a key and 20 000 with a key on 500 domains. The claim
-/// statements must use the queue indexes, never a sequential scan of ops.jobs; the measured time goes to the test output
-/// as a baseline for the load test of change 17.
+/// statements must use the queue indexes, never a sequential scan of ops.jobs (the row of paused classes in the small
+/// ops.system_settings, checked by the claim since change 8, may be scanned); the measured time goes to the test output as a
+/// baseline for the load test of change 17.
 /// </summary>
 public sealed class ClaimPlanTests(JobsTestDatabase db) : JobsTestBase(db)
 {
@@ -35,7 +36,7 @@ public sealed class ClaimPlanTests(JobsTestDatabase db) : JobsTestBase(db)
         var plan = await ExplainAsync(JobQueueSql.ClaimUnkeyed, JobResourceClass.Cpu, 10, tenantCap: 4);
 
         Assert.Contains("ix_jobs_queued_unkeyed", plan, StringComparison.Ordinal);
-        Assert.DoesNotContain("Seq Scan", plan, StringComparison.Ordinal);
+        Assert.DoesNotContain("Seq Scan on jobs", plan, StringComparison.Ordinal);
         TestContext.Current.SendDiagnosticMessage("ClaimUnkeyed plan:\n" + plan);
     }
 
@@ -46,7 +47,7 @@ public sealed class ClaimPlanTests(JobsTestDatabase db) : JobsTestBase(db)
 
         Assert.Contains("ix_jobs_queued_keyed", plan, StringComparison.Ordinal);
         Assert.Contains("ix_jobs_queued_key_head", plan, StringComparison.Ordinal);
-        Assert.DoesNotContain("Seq Scan", plan, StringComparison.Ordinal);
+        Assert.DoesNotContain("Seq Scan on jobs", plan, StringComparison.Ordinal);
     }
 
     [Fact]

@@ -17,4 +17,6 @@ public enum UsageOperation
     Rewrite,
     Recheck,
     Fetch,
+    MarketAnalysis,
+    VersionLanguage,
 }

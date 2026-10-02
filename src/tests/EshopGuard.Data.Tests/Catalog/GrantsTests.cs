@@ -17,7 +17,7 @@ public sealed class GrantsTests(PostgresTestDatabase database)
         var m = TableNames.TenantTables.ToDictionary(t => t, _ => (Siud, Siud, Siud));
         foreach (var t in new[] { "iam.tenants", "iam.users", "iam.user_logins", "iam.user_tokens" }) m[t] = ("SIU", "S", Siud);
         foreach (var t in new[] { "checks.rule_sets", "billing.price_lists", "billing.price_tiers", "billing.volume_discounts", "billing.promo_codes", "ref.markets", "ref.locales" }) m[t] = ("S", "SIU", Siud);
-        m["shop.free_sample_claims"] = ("SI", "SI", Siud);
+        m["shop.free_sample_claims"] = (string.Empty, string.Empty, Siud); // only through shop.claim_free_sample (change 8)
         m["billing.stripe_events"] = ("SIU", "SU", Siud);
         m["usage.usage_records"] = (string.Empty, "SIU", "S");
         m["usage.usage_daily"] = (string.Empty, "SIU", "S");

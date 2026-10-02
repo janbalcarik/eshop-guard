@@ -32,6 +32,9 @@ public sealed class ShopLanguage : ITenantOwned, IHasTimestamps
 
     public int? ProductCount { get; set; }
 
+    /// <summary>How the version is crawled (<c>VersionCrawlScope</c> of change 7: addresses, cookie, Accept-Language); null for the whole site.</summary>
+    public JsonDocument? CrawlScope { get; set; }
+
     /// <inheritdoc />
     public DateTimeOffset CreatedAt { get; set; }
 

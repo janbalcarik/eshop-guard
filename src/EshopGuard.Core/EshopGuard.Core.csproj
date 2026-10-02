@@ -10,6 +10,7 @@
   <ItemGroup>
     <InternalsVisibleTo Include="EshopGuard.Core.Tests" />
     <InternalsVisibleTo Include="EshopGuard.Jobs" />
+    <InternalsVisibleTo Include="EshopGuard.Jobs.Tests" />
     <InternalsVisibleTo Include="EshopGuard.Data.Tests" />
   </ItemGroup>
 

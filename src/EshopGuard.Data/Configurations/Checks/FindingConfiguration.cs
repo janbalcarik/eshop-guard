@@ -19,6 +19,8 @@ internal sealed class FindingConfiguration : IEntityTypeConfiguration<Finding>
         builder.HasEnum(x => x.Scope);
         builder.HasEnum(x => x.Status);
         builder.HasIndex(x => new { x.ShopId, x.RuleId, x.SegmentHash }).IsUnique().HasFilter("scope = 'segment'");
+        builder.HasIndex(x => new { x.ShopId, x.RuleId, x.PageId }).IsUnique().HasFilter("scope = 'page'");
+        builder.HasIndex(x => new { x.ShopId, x.RuleId }).IsUnique().HasFilter("scope = 'site'");
         builder.HasIndex(x => new { x.TenantId, x.ShopId, x.Status });
         builder.HasTenantForeignKey<Shop>(nameof(Finding.ShopId));
         builder.HasOne<RuleSet>().WithMany().HasForeignKey(x => x.RuleSetId).OnDelete(DeleteBehavior.Restrict);

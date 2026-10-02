@@ -26,7 +26,14 @@ internal static class JobQueueSql
 
     public const string RunCancelRequested = "SELECT cancel_requested FROM checks.runs WHERE id = @run";
 
-    private const string Ready = "j.state = 'queued' AND j.resource_class = @class AND j.not_before <= clock_timestamp()";
+    /// <summary>
+    /// A waiting job of the class whose time came, in a class that is not paused: the claim itself checks the pause, so a worker
+    /// whose cache of paused classes is a moment old never takes back a job its pause returned (the cache only saves queries).
+    /// </summary>
+    private const string Ready = """
+        j.state = 'queued' AND j.resource_class = @class AND j.not_before <= clock_timestamp()
+        AND NOT EXISTS (SELECT 1 FROM ops.system_settings p WHERE p.key = 'jobs.paused_classes' AND p.value ? @class)
+        """;
 
     /// <summary>Soft cap of running jobs per tenant and class (0 = none); two workers at once may exceed it by what they take.</summary>
     private const string UnderTenantCap = """

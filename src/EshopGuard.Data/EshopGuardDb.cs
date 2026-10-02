@@ -123,6 +123,12 @@ public sealed class EshopGuardDb : DbContext
     /// <summary><c>checks.run_events</c>.</summary>
     public DbSet<RunEvent> RunEvents => Set<RunEvent>();
 
+    /// <summary><c>checks.run_urls</c>.</summary>
+    public DbSet<RunUrl> RunUrls => Set<RunUrl>();
+
+    /// <summary><c>checks.run_scopes</c>.</summary>
+    public DbSet<RunScope> RunScopes => Set<RunScope>();
+
     /// <summary><c>checks.jev_answers</c>.</summary>
     public DbSet<JevAnswer> JevAnswers => Set<JevAnswer>();
 

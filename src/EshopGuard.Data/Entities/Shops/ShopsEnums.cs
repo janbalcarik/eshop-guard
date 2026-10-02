@@ -64,11 +64,15 @@ public enum LanguageSwitchMethod
     Domain,
     Query,
     Cookie,
+    AcceptLanguage,
+    Script,
+    BrowserTranslation,
 }
 
 /// <summary>Values of <c>LanguageSource</c> (stored as snake_case text with a CHECK constraint).</summary>
 public enum LanguageSource
 {
+    Main,
     Hreflang,
     Switcher,
     Connector,
@@ -83,6 +87,8 @@ public enum ShopLanguageStatus
     Excluded,
     NeedsConfirmation,
     Unsupported,
+    NeedsBrowser,
+    Mismatch,
 }
 
 /// <summary>Values of <c>VerificationMethod</c> (stored as snake_case text with a CHECK constraint).</summary>

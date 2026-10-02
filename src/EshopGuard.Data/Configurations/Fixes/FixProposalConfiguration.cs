@@ -21,6 +21,8 @@ internal sealed class FixProposalConfiguration : IEntityTypeConfiguration<FixPro
         builder.HasEnum(x => x.Status);
         builder.Property(x => x.Version).IsRowVersion();
         builder.HasIndex(x => new { x.TenantId, x.ShopId, x.Status });
+        // A repeated batch of a run writes the same proposal once (change 8).
+        builder.HasIndex(x => new { x.ShopId, x.CreatedRunId, x.PageId, x.Field, x.BlockIndex }).IsUnique().AreNullsDistinct(false);
         builder.HasTenantForeignKey<Shop>(nameof(FixProposal.ShopId));
         builder.HasPartitionedTenantForeignKey<Page>(nameof(FixProposal.PageId));
         builder.HasPartitionedTenantForeignKey<PageVersion>(nameof(FixProposal.PageVersionId));

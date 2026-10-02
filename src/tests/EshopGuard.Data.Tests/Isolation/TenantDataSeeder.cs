@@ -28,7 +28,7 @@ internal sealed record SeededTenant(
     IReadOnlyCollection<string> Tables);
 
 /// <summary>
-/// One valid row in each of the 41 tenant tables for one tenant (e-shop <c>vegis.sk</c>, base path <c>/</c>), references
+/// One valid row in each of the 43 tenant tables for one tenant (e-shop <c>vegis.sk</c>, base path <c>/</c>), references
 /// only inside the tenant, written through EF as <c>eshopguard_app</c> with the tenant set.
 /// </summary>
 internal static class TenantDataSeeder
@@ -77,6 +77,8 @@ internal static class TenantDataSeeder
         db.Add(new ConnectorWebhook { ConnectorId = connector.Id, Event = "product:update", Status = "active" });
         db.Add(new ConnectorEvent { ConnectorId = connector.Id, ShopId = shop.Id, DedupeKey = Guid.NewGuid().ToString("N"), EventType = "product:update", Payload = Json("{}"), ReceivedAt = now, Status = "received" });
         db.Add(new RunEvent { RunId = run.Id, At = now, Level = "info", Code = "run.started" });
+        db.Add(new RunScope { RunId = run.Id, ScopeKey = "https://vegis.sk/", BaseUrl = "https://vegis.sk/", Language = "sk", Robots = Json("{}"), Frontier = Json("{}"), Pace = Json("{}") });
+        db.Add(new RunUrl { RunId = run.Id, ScopeKey = "https://vegis.sk/", UrlHash = 42, Url = "https://vegis.sk/sampon", Language = "sk", State = RunUrlState.Extracted, Queue = "product", Seq = 1 });
         db.Add(new SubscriptionChange { SubscriptionId = subscription.Id, Kind = SubscriptionChangeKind.Tier, EffectiveAt = now.AddMonths(1), Status = "scheduled" });
         await db.ExecuteInTenantTransactionAsync(() => db.SaveChangesAsync(ct), ct);
 

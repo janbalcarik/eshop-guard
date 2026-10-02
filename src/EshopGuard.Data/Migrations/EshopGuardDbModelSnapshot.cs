@@ -1080,6 +1080,11 @@ namespace EshopGuard.Data.Migrations
                     b.HasIndex("RuleSetId")
                         .HasDatabaseName("ix_findings_rule_set_id");
 
+                    b.HasIndex("ShopId", "RuleId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_findings_shop_id_rule_id")
+                        .HasFilter("scope = 'site'");
+
                     b.HasIndex("TenantId", "FirstRunId")
                         .HasDatabaseName("ix_findings_tenant_id_first_run_id");
 
@@ -1088,6 +1093,11 @@ namespace EshopGuard.Data.Migrations
 
                     b.HasIndex("TenantId", "ResolvedRunId")
                         .HasDatabaseName("ix_findings_tenant_id_resolved_run_id");
+
+                    b.HasIndex("ShopId", "RuleId", "PageId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_findings_shop_id_rule_id_page_id")
+                        .HasFilter("scope = 'page'");
 
                     b.HasIndex("ShopId", "RuleId", "SegmentHash")
                         .IsUnique()
@@ -1631,6 +1641,168 @@ namespace EshopGuard.Data.Migrations
                     b.ToTable("run_events", "checks");
                 });
 
+            modelBuilder.Entity("EshopGuard.Data.Entities.Checks.RunScope", b =>
+                {
+                    b.Property<Guid>("RunId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("run_id");
+
+                    b.Property<string>("ScopeKey")
+                        .HasColumnType("text")
+                        .HasColumnName("scope_key");
+
+                    b.Property<string>("BaseUrl")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("base_url");
+
+                    b.Property<int>("Batches")
+                        .HasColumnType("integer")
+                        .HasColumnName("batches");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<bool>("Exhausted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("exhausted");
+
+                    b.Property<JsonDocument>("Frontier")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("frontier");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text")
+                        .HasColumnName("language");
+
+                    b.Property<JsonDocument>("Pace")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("pace");
+
+                    b.Property<JsonDocument>("Robots")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("robots");
+
+                    b.Property<JsonDocument>("Scope")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("scope");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.HasKey("RunId", "ScopeKey")
+                        .HasName("pk_run_scopes");
+
+                    b.HasIndex("TenantId", "RunId")
+                        .HasDatabaseName("ix_run_scopes_tenant_id_run_id");
+
+                    b.ToTable("run_scopes", "checks");
+                });
+
+            modelBuilder.Entity("EshopGuard.Data.Entities.Checks.RunUrl", b =>
+                {
+                    b.Property<Guid>("RunId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("run_id");
+
+                    b.Property<string>("ScopeKey")
+                        .HasColumnType("text")
+                        .HasColumnName("scope_key");
+
+                    b.Property<long>("UrlHash")
+                        .HasColumnType("bigint")
+                        .HasColumnName("url_hash");
+
+                    b.Property<short>("Attempts")
+                        .HasColumnType("smallint")
+                        .HasColumnName("attempts");
+
+                    b.Property<int?>("BatchNo")
+                        .HasColumnType("integer")
+                        .HasColumnName("batch_no");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<string>("ErrorCode")
+                        .HasColumnType("text")
+                        .HasColumnName("error_code");
+
+                    b.Property<short?>("HttpStatus")
+                        .HasColumnType("smallint")
+                        .HasColumnName("http_status");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text")
+                        .HasColumnName("language");
+
+                    b.Property<Guid?>("PageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("page_id");
+
+                    b.Property<string>("Queue")
+                        .HasColumnType("text")
+                        .HasColumnName("queue");
+
+                    b.Property<int?>("Seq")
+                        .HasColumnType("integer")
+                        .HasColumnName("seq");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("state");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("url");
+
+                    b.HasKey("RunId", "ScopeKey", "UrlHash")
+                        .HasName("pk_run_urls");
+
+                    b.HasIndex("RunId", "State")
+                        .HasDatabaseName("ix_run_urls_run_id_state");
+
+                    b.HasIndex("TenantId", "RunId")
+                        .HasDatabaseName("ix_run_urls_tenant_id_run_id");
+
+                    b.ToTable("run_urls", "checks", t =>
+                        {
+                            t.HasCheckConstraint("ck_run_urls_queue", "queue IS NULL OR queue IN ('home', 'legal', 'product', 'other', 'sample_pair', 'sample_mandatory', 'sample_random')");
+
+                            t.HasCheckConstraint("ck_run_urls_state", "state IN ('pending', 'fetched', 'extracted', 'failed', 'robots_blocked', 'excluded', 'over_limit', 'not_loaded', 'extract_timeout', 'too_large', 'offsite_redirect', 'ssrf_blocked', 'gone', 'not_html', 'not_modified')");
+                        });
+                });
+
             modelBuilder.Entity("EshopGuard.Data.Entities.Checks.SieveAnswer", b =>
                 {
                     b.Property<Guid>("TenantId")
@@ -1932,6 +2104,10 @@ namespace EshopGuard.Data.Migrations
 
                     b.HasIndex("ShopId", "PageId", "FetchedAt")
                         .HasDatabaseName("ix_page_versions_shop_id_page_id_fetched_at");
+
+                    b.HasIndex("ShopId", "PageId", "RunId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_page_versions_shop_id_page_id_run_id");
 
                     b.HasIndex("TenantId", "ShopId", "PageId")
                         .HasDatabaseName("ix_page_versions_tenant_id_shop_id_page_id");
@@ -2454,6 +2630,12 @@ namespace EshopGuard.Data.Migrations
 
                     b.HasIndex("TenantId", "ShopId", "Status")
                         .HasDatabaseName("ix_fix_proposals_tenant_id_shop_id_status");
+
+                    b.HasIndex("ShopId", "CreatedRunId", "PageId", "Field", "BlockIndex")
+                        .IsUnique()
+                        .HasDatabaseName("ix_fix_proposals_shop_id_created_run_id_page_id_field_block_in");
+
+                    NpgsqlIndexBuilderExtensions.AreNullsDistinct(b.HasIndex("ShopId", "CreatedRunId", "PageId", "Field", "BlockIndex"), false);
 
                     b.ToTable("fix_proposals", "fixes", t =>
                         {
@@ -4571,6 +4753,10 @@ namespace EshopGuard.Data.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("counted");
 
+                    b.Property<JsonDocument>("CrawlScope")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("crawl_scope");
+
                     b.Property<DateTimeOffset>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -4628,11 +4814,11 @@ namespace EshopGuard.Data.Migrations
 
                     b.ToTable("shop_languages", "shop", t =>
                         {
-                            t.HasCheckConstraint("ck_shop_languages_source", "source IN ('hreflang', 'switcher', 'connector', 'llm', 'user')");
+                            t.HasCheckConstraint("ck_shop_languages_source", "source IN ('main', 'hreflang', 'switcher', 'connector', 'llm', 'user')");
 
-                            t.HasCheckConstraint("ck_shop_languages_status", "status IN ('active', 'excluded', 'needs_confirmation', 'unsupported')");
+                            t.HasCheckConstraint("ck_shop_languages_status", "status IN ('active', 'excluded', 'needs_confirmation', 'unsupported', 'needs_browser', 'mismatch')");
 
-                            t.HasCheckConstraint("ck_shop_languages_switch_method", "switch_method IN ('path', 'subdomain', 'domain', 'query', 'cookie')");
+                            t.HasCheckConstraint("ck_shop_languages_switch_method", "switch_method IN ('path', 'subdomain', 'domain', 'query', 'cookie', 'accept_language', 'script', 'browser_translation')");
                         });
                 });
 
@@ -4849,7 +5035,7 @@ namespace EshopGuard.Data.Migrations
 
                     b.ToTable("usage_daily", "usage", t =>
                         {
-                            t.HasCheckConstraint("ck_usage_daily_operation", "operation IN ('sentence_eval', 'sieve', 'profile', 'rewrite', 'recheck', 'fetch')");
+                            t.HasCheckConstraint("ck_usage_daily_operation", "operation IN ('sentence_eval', 'sieve', 'profile', 'rewrite', 'recheck', 'fetch', 'market_analysis', 'version_language')");
 
                             t.HasCheckConstraint("ck_usage_daily_provider", "provider IN ('jev', 'openai', 'crawl')");
                         });
@@ -4944,7 +5130,7 @@ namespace EshopGuard.Data.Migrations
 
                     b.ToTable("usage_records", "usage", t =>
                         {
-                            t.HasCheckConstraint("ck_usage_records_operation", "operation IN ('sentence_eval', 'sieve', 'profile', 'rewrite', 'recheck', 'fetch')");
+                            t.HasCheckConstraint("ck_usage_records_operation", "operation IN ('sentence_eval', 'sieve', 'profile', 'rewrite', 'recheck', 'fetch', 'market_analysis', 'version_language')");
 
                             t.HasCheckConstraint("ck_usage_records_provider", "provider IN ('jev', 'openai', 'crawl')");
                         });
@@ -5266,6 +5452,28 @@ namespace EshopGuard.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_run_events_runs_tenant_id_run_id");
+                });
+
+            modelBuilder.Entity("EshopGuard.Data.Entities.Checks.RunScope", b =>
+                {
+                    b.HasOne("EshopGuard.Data.Entities.Checks.Run", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "RunId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_run_scopes_runs_tenant_id_run_id");
+                });
+
+            modelBuilder.Entity("EshopGuard.Data.Entities.Checks.RunUrl", b =>
+                {
+                    b.HasOne("EshopGuard.Data.Entities.Checks.Run", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "RunId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_run_urls_runs_tenant_id_run_id");
                 });
 
             modelBuilder.Entity("EshopGuard.Data.Entities.Checks.SieveAnswer", b =>
