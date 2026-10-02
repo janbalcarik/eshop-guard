@@ -232,6 +232,19 @@ E-shopy, rozpoznání platformy, ukázka zdarma, místa prodeje, jazykové verze
 - **Nastavení** `GET`/`PATCH …/settings`: název, moduly (jen dostupné pro země e-shopu, aspoň jeden), kontrola při uložení (jen s konektorem a ne na BiznisWebu). `PATCH` e-shopu a nastavení nese `version` (xmin řádku) jako `PATCH` tenanta; jiná verze je `409 concurrency.conflict`.
 - **Pravidla v API:** API čte stejná pravidla a `config/` jako worker (`EshopGuard:BaseDirectory` vůči složce projektu, ve vývoji `..`), aby země a moduly byly data na jednom místě.
 
+## Nálezy a opravy v API
+
+Přehled, nálezy, revize stránky, návrhy, otázky, doklady, hromadné opravy, publikace, protokol, upozornění a živý průběh (změna 11). Služby jsou v `src/EshopGuard.Application` (`Findings`, `Fixes`, `Evidence`, `Protocols`, `Notifications`, `Runs`), koncové body pod `/api/t/{tenantId}/shops/{shopId}/…` a `/api/t/{tenantId}/…`. Čtení každý člen, rozhodnutí, odpovědi, doklady, schválení, publikace a protokol `editor`, zrušení běhu `admin`.
+
+- **Stavy nálezů** mění jen `FindingStatusMachine` (každý přechod v auditu `finding.status_changed`); u e-shopu jen s ukázkou zdarma ukáže API v seznamech jen 5 nálezů souhrnu ukázky a ostatní v počtech, rozhodnutí vrátí `409 shop.sample_only`.
+- **Návrhy:** vlastní znění nebo vyplněný údaj spustí úlohu `fix.recheck` (P0, Jev) a vrátí `202`; přijmout jde jen text s kontrolou `ok` ve všech aktivních zemích. Změny jdou přes `If-Match` (verze řádku), jiná verze je `409 concurrency.conflict`. Odpověď „Nie“ může založit úlohu `fix.generate_for_answer` (OpenAI) v denním rozpočtu tenanta.
+- **Hromadné opravy** (`…/fix-groups`): jedno schválení zapíše přijatý návrh pro každou zahrnutou stránku (skupina − vyřazené − `fit.individual`) v jedné transakci a paměť rozhodnutí jednou. Nález věty zůstane `proposed`, dokud nemají opravu i stránky k jednotlivému řešení.
+- **Publikace a „Kopírovať text“:** `GET …/pages/{pageId}/fixed-text?field=` složí celé pole s přijatými změnami (`FixedTextComposer`); změny, které na stránce už nejsou, jsou v `unplacedProposalIds`. `POST …/publications` založí publikaci po stránce a poli s klíčem idempotence a úlohu `publish.fix` pro změnu 15, jen s konektorem `read_write`, registrovaným `IFixPublisher` a ověřeným vlastnictvím; šablona je `copy_only`.
+- **Protokol** (`…/protocols`): číslo `EG-{rok}-{NNNN}` za tenanta a rok (`Localization:TimeZone`), obsah podle `Protocol.dc.html` ke dni vystavení (texty v `Protocols/Texts/{sk,cs}.yaml`, oddíl `protocol`; body zákona z verdiktů v jazyce zákona), PDF vykreslí worker přes `IPdfRenderer`. Knihovna PDF je otevřené K rozhodnutí 6: do té doby protokol skončí `failed` s `pdf_renderer_unavailable` a upozorněním `protocol_failed`.
+- **Doklady** (`/api/t/{tenantId}/evidence`): PDF, JPG a PNG do 20 MB, typ podle obsahu souboru; stažení jen podepsaným odkazem na 5 minut. Denní úloha `evidence.refresh_status` hlídá konec platnosti a vypršelý doklad vrátí nálezy na `open`.
+- **Upozornění:** `NotificationDispatcher` (Jobs) založí řádek pro každého příjemce a e-mail přes `ops.outbox` podle nastavení (`Notifications:Defaults`); parametry jsou jen kódy, počty a ID.
+- **Živý průběh (SSE):** `GET /api/t/{tenantId}/runs/{runId}/events` (`snapshot`, `run_event` s `id`, `progress`, `status`, `end`, `Last-Event-ID`) a `GET …/shops/{shopId}/events` (stav návrhů, skupin, publikací, otázek a běhů). API drží jedno spojení `LISTEN eg_run, eg_shop`, oznámení nesou jen ID a každý proud čte data sám pod RLS; každých 15 s `: ping` a kontrola databáze. Nejvýš `Sse:MaxConnectionsPerUser` (10) proudů na uživatele, jinak `429 sse.too_many_connections`.
+
 ## Nastavení
 
 - `config/settings.yaml`: limity stahování, pravidla segmentace a ceny. Před skenováním cizího webu doplňte do `user_agent` skutečný kontakt.

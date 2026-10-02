@@ -241,18 +241,18 @@
 
 ## 12. Ověření
 
-- [ ] 12.1 `FindingsRoleAndIsolationTests`:
+- [x] 12.1 `FindingsRoleAndIsolationTests`:
   - všechny koncové body této změny pro viewer / editor / admin / owner podle matice;
   - dva tenanti se stejnou doménou a stejným textem nálezu;
   - objekt tenanta B pod adresou tenanta A → `404` na každém koncovém bodu;
   - žádný řádek tenanta B se nezmění.
-- [ ] 12.2 Test `SampleOnlyShopTests`: e-shop ve stavu `sample` → seznamy jen s 5 nálezy ukázky a počty, rozhodnutí `409 shop.sample_only` (AD 14).
-- [ ] 12.3 Doplnit nové koncové body do `RoleMatrixTests`, `CsrfTests` a snímku `Snapshots/openapi-v1.json` (změna 9), včetně `x-problem-codes`.
-- [ ] 12.4 `LogRedactionTests`: logy toků 4–9 neobsahují texty nálezů, návrhů ani obsah dokladů.
-- [ ] 12.5 Celý tok nad `BylinkovoSeed` bez placených služeb (`MockJevClient`, `MockRewriteClient`, `FakeFixPublisher`): revize, úprava a kontrola, přijetí, hromadná oprava, odpověď, doklad, publikace, protokol, upozornění, SSE.
+- [x] 12.2 Test `SampleOnlyShopTests`: e-shop ve stavu `sample` → seznamy jen s 5 nálezy ukázky a počty, rozhodnutí `409 shop.sample_only` (AD 14).
+- [x] 12.3 Doplnit nové koncové body do `RoleMatrixTests`, `CsrfTests` a snímku `Snapshots/openapi-v1.json` (změna 9), včetně `x-problem-codes`.
+- [x] 12.4 `LogRedactionTests`: logy toků 4–9 neobsahují texty nálezů, návrhů ani obsah dokladů.
+- [x] 12.5 Celý tok nad `BylinkovoSeed` bez placených služeb (`MockJevClient`, `MockRewriteClient`, `FakeFixPublisher`): revize, úprava a kontrola, přijetí, hromadná oprava, odpověď, doklad, publikace, protokol, upozornění, SSE.
 - [ ] 12.6 Živá kontrola úpravy textu a návrhu po „Nie“ na testovacím e-shopu (Jev a OpenAI jsou placené):
   - před spuštěním odhad ceny (přepis ~1 cent za stránku a kontrola ~0,03 centu podle návrhu rozvoje 1a);
   - souhlas uživatele;
   - bez souhlasu se nespouští.
-- [ ] 12.7 `dotnet build` a `dotnet test` projdou.
-- [ ] 12.8 `openspec validate add-findings-and-fixes-api` projde.
+- [x] 12.7 `dotnet build` a `dotnet test` projdou.
+- [x] 12.8 `openspec validate add-findings-and-fixes-api` projde.

@@ -524,3 +524,99 @@ konečný stav běhu → "event: end" → uzavření
 - čtení a zápis: `checks.findings`, `checks.questions`, `fixes.fix_proposals`, `fixes.fix_groups`, `fixes.publications`, `fixes.decision_memory`, `fixes.evidence_items`, `fixes.evidence_links`, `fixes.protocols`, `iam.notifications`, `iam.notification_settings`;
 - zápis: `checks.runs.cancel_requested`, `ops.jobs`, `ops.outbox`, `ops.audit_log`, `ops.rate_limit_buckets`;
 - čtení: `checks.finding_occurrences`, `checks.runs`, `checks.run_events`, `checks.rule_sets`, `content.pages`, `content.page_versions`, `shop.shops`, `shop.shop_markets`, `shop.connectors`.
+
+## Odchylky při implementaci (2. 10. 2026)
+
+Implementace se řídí tímto návrhem s odchylkami níže. Většina vychází z povoleného směru závislostí (`Jobs` nesmí odkazovat
+na `Application`, `ProjectReferenceTests`), z datového modelu změny 8 nebo z pravidla fail-closed.
+
+### Skupiny 4, 5, 6 a 10 (revize, otázky, doklady, upozornění)
+- Skupina 4: FixEndpoints.cs místo PageReviewEndpoints.cs + ProposalEndpoints.cs; ExtractContextReader, ProposalText, GroupValues v Jobs/Fixes (sdílí API i worker); DecisionMemoryWriterTests v Api.Tests (potřebuje DB).
+- Skupina 5: Vodnár = 1 otázka / 1 nález / 4 stránky (identita nálezů změny 8), scénář spec 4/4/4 → test 1/1/4.
+- Otázka za celý web „Nie“: nález open, náprava = doporučení pravidla z katalogu textů, bez úlohy a bez LLM (nález za celý web nemá text k přepisu); fail-closed.
+- Knihovna: RewritePageInput.Answers (MerchantAnswer); odpovědi jsou v části stránky zadání jen když existují (bez nich beze změny, baseline beze změny); nález k ověření se přepisuje jen s odpovědí; po „Nie“ nalezené znovu stejné pravidlo k ověření = StillFinding.
+- WaitingForFacts po „Nie“ = still_finding (zástupný údaj chce fakt, který obchodník nemá).
+- Změna odpovědi: nejdřív se vezme zpět předchozí (doklad odpovědi smazán, paměť nahrazena, varianta answer_no odvybrána, přijetí vráceno, nálezy přes povolené přechody zpět na needs_answer).
+- Úloha fix.generate_for_answer: jeden přepis na nález (první stránka), výsledek pro návrhy dalších stránek se stejným blokem; nález bez návrhu dostane nový návrh; přechod open→proposed s auditem actor_kind system.
+- Rozpočet: kbelík se bere až nakonec v transakci odpovědi (nad rozpočtem rollback); tokeny se nevrací, pokud by transakce padla až po odběru.
+- Skupina 10 před skupinou 6: NotificationDispatcher, NotificationKinds, NotificationsOptions v Jobs/Notifications (ne Application), protože je volají úlohy workeru (doklady, protokol, publikace, konec běhu) a Jobs nesmí odkazovat na Application; e-mailová fronta (OutboxEmails) už v Jobs je.
+- FinalizeHandler (změna 8) posílá konec běhu přes dispatcher: řádek pro každého člena (user_id vyplněné, K8), druhy run_finished/run_partial/run_failed/sample_finished (dřív run.finished… s user_id NULL), e-mail i bez řádku nastavení podle Notifications:Defaults (návrh: vše zapnuto).
+- Odkazy e-mailů upozornění z route přes Frontend:RoutePaths (cesty frontendu jsou návrh).
+- Upozornění odmítne parametry, které nejsou kód/číslo/ID (regex), místo pouhé kontroly v testu.
+- Šablony e-mailů nových druhů (sk, cs) jsou návrh k hromadné kontrole.
+- Skupina 6: EvidenceStatusCalculator, EvidenceOptions a obnova stavů (EvidenceStatusRefresher, handler, plánovač po tenantech) v Jobs/Evidence (sdílí API i worker); úloha evidence.refresh_status je po tenantech (iam.tenants bez RLS), dedupe tenant+den, plánovač každou hodinu.
+- Platnost dokladu je datum (uloženo jako půlnoc UTC), „dnes“ v Localization:TimeZone.
+- Stažení: 302 na podepsaný odkaz; souborové úložiště neumí podepsat → API vydá vlastní /api/files/{token} (Data Protection, 5 min, attachment, jen pro přihlášené).
+- Odpověď „Nie“ u otázky k nálezu založí doklad typu odpověď ve stavu claim_removed („Nevieme doložiť“) s vazbami; seznam dokladů přidává otevřené otázky jako řádky awaiting_answer (questionId) po jednom na text.
+- EvidenceDto navíc questionId a items (vazby jen v detailu); createdBy jako { userId, displayName }.
+- POST links: nález přejde na kept_with_evidence přes stavový automat (jen z needs_answer, jinak 409 transition_not_allowed); odebrání poslední vazby a smazání vrací nález na open jen když ho nedrží jiný platný doklad.
+- Soubor se čte celý do paměti (nejvýš Evidence:MaxFileBytes) a typ se ověřuje na uložených bajtech.
+
+### Skupina 7 (hromadné opravy)
+- Scénář „Jedno rozhodnutí místo 36“ píše „36 nálezů je approved“. Nález opakované věty je ale v datovém modelu změny 8 jeden
+  (unikátní index `shop_id, rule_id, segment_hash` pro `scope = segment`) s 38 výskyty. Po schválení skupiny zůstane `proposed`,
+  dokud nemají přijatý návrh i 2 stránky k jednotlivému řešení (fail-closed: věta na stránce dál je, nález se neschválí).
+  Test ověřuje 36 přijatých návrhů s `group_id`, 2 stránky bez návrhu, nález `proposed`, 1 záznam paměti `replace`.
+  Nález, jehož žádná stránka opravu skupiny nedostala (vše vyřazeno nebo k jednotlivému řešení), se nemění.
+- `PUT …/mode` a `PUT …/values` vracejí `202`, jen když znění čeká na kontrolu (`recheck.status = pending`); jinak `200`
+  (např. `remove` kontrolu nepotřebuje).
+- `approve-page` bez `pageId` → `400 validation.failed` (`errors.pageId = value.required`) až po ověření e-shopu a skupiny (404 izolace).
+- Vzorky v kontextu: text těsně před a za větou (v rámci bloku, jinak sousední bloky), nejvýš 3; stránky po 30 s kurzorem (název, id).
+
+### Skupina 8 (publikace a sestavený text)
+- Pole a jejich zdroj v extrakci verze stránky podle mapování workeru (`RewriteBatchHandler.Field`): `name` = titulek,
+  `short_description` = meta popis, `description` = popis z JSON-LD, `block` = hlavní text (blok na řádek). Změna se hledá
+  s volnými mezerami (i přes konec řádku, takže může přesáhnout hranici bloků), nejdřív od svého bloku.
+- `FixedTextDto` má navíc `unplacedProposalIds`: přijaté změny, jejichž původní text na stránce už není (stránka se změnila),
+  ani překrývající se změny. Nevloží se a nic se tiše nezahodí (fail-closed). Zveřejněná změna, jejíž nový text už ve verzi je,
+  se počítá jako použitá.
+- Publikace pole s nenalezenou přijatou změnou se nezaloží: `skipped` s `reasonCode = not_located` (kromě `copy_only`).
+- `publication.not_available` s `ownership_not_verified`: zápis do e-shopu jen s ověřeným vlastnictvím (připojení konektoru ho ověří,
+  `verification_method = connector`). Stejný důvod vrací i `publish.reasonCode` revize stránky (`PublishAvailability`, až po
+  `publisher_missing`).
+- Šablona (`copy_only` přes `IFixPublisher.CanPublish(..., IsTemplate)`): návrh skupiny druhu `template` nebo blok bez indexu (rám stránky).
+- Opakovaný požadavek vrátí existující publikaci (stejný `idempotency_key`) bez nové úlohy; `old_value` ukládá až obsluha změny 15,
+  API zapíše jen `old_value_hash`.
+- Seznam publikací: nejnovější první, kurzor = id (UUIDv7), `limit` 1–100 jako ostatní seznamy.
+- `rollback` ověřuje stejné předpoklady jako publikace (konektor, zápis, `IFixPublisher`, vlastnictví) a zakládá `publish.rollback` (P1, `io`).
+
+### Skupina 9 (protokol)
+- Umístění kvůli povolenému směru závislostí (Jobs nesmí na Application): `ProtocolDocument` (obsah) a `IPdfRenderer` jsou v
+  `Jobs/Protocols` (ne v Application), `ProtocolRenderHandler` také; `ProtocolDocumentBuilder`, `ProtocolNumberAllocator`,
+  `ProtocolTexts` a `ProtocolService` v `Application/Protocols`.
+- Obsah protokolu se sestaví už při žádosti (stav ke dni vystavení) a uloží jako JSON vedle budoucího PDF
+  (`…/protocols/{number}.json`); worker jen vykresluje. Souhrn jde do `protocols.summary`.
+- K rozhodnutí 6 (knihovna PDF) je otevřené: žádná implementace `IPdfRenderer` není registrovaná, úloha skončí
+  `failed` s `pdf_renderer_unavailable` a upozorněním `protocol_failed`. Test s náhradním rendererem (`TextPdfRenderer`).
+- Texty protokolu jsou oddíl `protocol:` v existujících `Protocols/Texts/{sk,cs}.yaml` (texty exportu CSV beze změny);
+  zástupná třída `ProtocolTexts` z `DocumentTexts.cs` nahrazena.
+- Řádek „Sledovanie“ z návrhu chybí: předplatné je změna 12. Část „(zákon č. … v znení …)“ za pravidly chybí: sady pravidel
+  citaci zákona v datech nemají (nevymýšlet). Body zákona v tabulce jsou `legal_refs[].ref` verdiktů (jazyk zákona).
+- Navíc proti návrhu: řádek „Nekontrolované“ s důvody a počty (fail-closed), řádek „Krajiny kontroly“, v souhrnu i
+  „schválených, čaká na zverejnenie“; „ponechaných rozhodnutím prevádzkovateľa“ = kept + dismissed.
+- Rozhodnutí v tabulce: platné záznamy paměti rozhodnutí vzniklé v období (jeden řádek na větu, hromadné s počtem stránek
+  a „(hromadne)“, zveřejnění podle `publications`), u nálezů bez vlastní věty poslední změna stavu z auditu v období.
+- `ProtocolNumberAllocatorTests` a `ProtocolDocumentBuilderTests` jsou v `Api.Tests/Findings/ProtocolTests.cs` (potřebují
+  PostgreSQL a `BylinkovoSeed`, které Application.Tests nemá).
+
+### Skupina 11 (běhy a SSE)
+- `RunEventStream` otevře spojení `LISTEN` až s prvním odběratelem (ne při startu API) a po výpadku znovu s rostoucí pauzou
+  (1–30 s). Proud před snímkem počká (nejvýš 5 s), až spojení poslouchá, aby se mezi snímkem a prvním oznámením nic neztratilo.
+- Proud běhu při každém signálu i při každém pingu (15 s) přečte z databáze nové `run_events` a stav běhu; ztracené oznámení
+  tak jen zpozdí. `progress` a `status` se posílají, jen když se změnily; `run_event` po dávkách 500.
+- Bez `Last-Event-ID` pošle proud po snímku všechny dosavadní události běhu.
+- Proud e-shopu (`GET S/events`) začne událostí `ready`; pak události pojmenované podle entity (`proposal`, `group`,
+  `publication`, `question`, `run`) s `{ entity, id, status, recheckStatus }` přečtenými pod RLS.
+- `RunDto` má navíc `cancelRequested`; `errorCode` je `runs.error` (kód ze změny 8).
+- Zrušení běhu zapisuje audit `run.cancel_requested`.
+- Strop spojení platí na instanci API (počítadlo v paměti).
+
+### Skupina 12 (ověření)
+- `FindingsRoleAndIsolationTests`: objekty tenanta B (e-shop, stránka, nález, návrh, skupina, otázka, doklad, publikace,
+  protokol, běh, upozornění) pod adresou tenanta A vrátí `404` na každém koncovém bodu této změny (štítky `fixes`, `evidence`,
+  `runs`); koncové body změn 9 a 10 smějí prázdné tělo odmítnout dřív (`400`), nikdy neuspějí. Řádky B se nezmění (otisk
+  řádků přes všechny dotčené tabulky). Role všech koncových bodů hlídá `RoleMatrixTests`.
+- `FindingsFlowTests` (12.4 a 12.5) prochází celý tok v API; výsledky kontroly Jevem zapíše test tak, jak je zapisuje worker
+  (úlohy `fix.recheck` a `fix.generate_for_answer` mají vlastní testy ve `Jobs.Tests` s falešnými klienty). Logy celého toku
+  neobsahují texty nálezů, návrhů, údajů ani obsah dokladu.
+- 12.6 (živá kontrola s placeným Jevem a OpenAI) se nespustila: čeká na odhad ceny a souhlas uživatele.
