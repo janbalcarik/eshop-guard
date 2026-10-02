@@ -13,7 +13,7 @@ dotnet build src/EshopGuard.sln
 dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"
 ```
 
-Očekávání: 1044 testů, 0 selhání, 8 explicitních přeskočeno (cloud, 2. 10. 2026). Testy běhů ve workeru (`src/tests/EshopGuard.Jobs.Tests/Runs`) potřebují PostgreSQL a databázi `eshopguard_test_jobs`. Když testy `Db` selžou se jménem klíče, chybí user-secrets `eshopguard-tests`: spusťte znovu `setup-local.ps1`.
+Očekávání: 1045 testů, 0 selhání, 8 explicitních přeskočeno (cloud, 2. 10. 2026). Testy běhů ve workeru (`src/tests/EshopGuard.Jobs.Tests/Runs`) potřebují PostgreSQL a databázi `eshopguard_test_jobs`. Když testy `Db` selžou se jménem klíče, chybí user-secrets `eshopguard-tests`: spusťte znovu `setup-local.ps1`.
 
 Pokud CLI ještě nemá tenanta `cli`, jednou ze složky `src`: `dotnet run --project EshopGuard.Cli -- cache init`.
 
@@ -90,6 +90,7 @@ Očekávání: stavy `discovering → crawling → … → finished | partial` (
 | 3.8 | Kontrola slovenských překladů textů pravidel: sken 2–3 e-shopů a srovnání vlastního rozboru stránek s Jevem | podle e-shopů, z cache většinou 0 | změna 6, úkoly 4.4, 4.5 a 8.4 |
 | 3.9 | Porovnání verzí goodie.sk na popisu z profilu (`markets --profiles`) | **hotovo 2. 10. 2026: 0,206 USD** (rozbor 0,057 + profil 0,149) | změna 7, odchylka 20 |
 | 3.10 | Práh započtení verze a jazyk popisů: `markets --profiles` na bonami, freshlabels, havlikovaapoteka, panakeia a znovu goodie | ~0,55–0,95 USD (rozbor ~0,06 USD na e-shop, nový profil 0,07–0,15 USD; goodie má profil uložený) | změna 7, úkol 7.4 a odchylka 20 |
+| 3.11 | Cena za každou zemi a produkty bez produktové sitemap: `markets --profiles --markets sk,cz` na stejných 5 e-shopech | ~0,30–0,60 USD (rozbor ~0,06 USD na e-shop; freshlabels a havlikovaapoteka dostanou poprvé produkty do vzorku, takže možná nový profil 0,07–0,15 USD) | změna 7, úkoly 8.4–8.6 |
 
 Postup u jednotlivých kroků:
 
@@ -116,6 +117,17 @@ Postup u jednotlivých kroků:
   ```
 
   Každý běh vypíše odhad a nad limitem `rewrite.max_usd_without_confirm` (1,00 USD) se zeptá. Když web přesměruje jinam (bez `www`, jiná doména), použijte adresu z prohlížeče. Pošlete mi všech pět `markets.json`: v `details[].language_fragments` jsou věty, kterým model určil jazyk, takže ověřím, jestli goodie.sk má české popisy (výzkum 1. 10. 2026: 2 z 10) a jestli nové pravidlo většiny vět žádný nepřehlédne. *(Hotovo 2. 10. 2026, 0,561 USD; výsledky v odchylce 21 změny 7. Práh vlastních textů pak uživatel zrušil: cena za každou zemi.)* Z vlastních textů a druhů párů navrhnu práh `markets.counted_min_own_share` a porovnám je s výzkumem (bonami 10× překlad, havlikovaapoteka 6× překlad a 1× zkráceno, panakeia 9× jiný text).
+
+- **3.11:** ze složky `src` jako 3.10, jen s `--markets sk,cz` a novou složkou:
+
+  ```powershell
+  $out = "out/zeme-2026-10-02"
+  foreach ($url in 'https://www.bonami.sk/', 'https://www.freshlabels.sk/', 'https://www.havlikovaapoteka.cz/', 'https://www.panakeia.sk/', 'https://www.goodie.sk/') {
+      dotnet run --project EshopGuard.Cli -- markets $url --profiles --markets sk,cz --out $out
+  }
+  ```
+
+  Pod tabulkou verzí je řádek „Produkty do ceny za každou zemi: SK … + CZ … = …“ a u verze „popisy v jazyku verze“ (např. 19 z 20). Pošlete mi pět `markets.json`. Ověřím, že freshlabels.sk a havlikovaapoteka.cz mají ve vzorku produkty nalezené podle struktury stránky (dřív `version_sample_insufficient`) a počet produktů neznámý, a že u goodie.sk zůstaly české popisy jako `untranslated_text`.
 
 ## 4. Rozhodnutí, která zůstávají na vás
 

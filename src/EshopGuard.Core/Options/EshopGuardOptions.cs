@@ -87,6 +87,12 @@ public sealed class MarketsOptions
     /// <summary>Random products of a version whose description the model labels with its language.</summary>
     public int LanguageProducts { get; set; } = 20;
 
+    /// <summary>
+    /// Most random pages of the sitemap of a version without a product sitemap downloaded to find its products by the
+    /// structure of the page (proposal, not measured).
+    /// </summary>
+    public int ProductProbePages { get; set; } = 40;
+
     /// <summary>Sentences of the product descriptions of a version whose language the model labels (two of each product).</summary>
     public int LanguageFragmentsPerVersion { get; set; } = 40;
 

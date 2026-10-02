@@ -126,6 +126,9 @@ markets:
   min_sample_products: 10
   sample_pages: 100
   language_products: 20
+  # Verze bez produktové sitemap: nejvýš tolik náhodných stránek její sitemap se stáhne, aby se produkty našly podle
+  # struktury stránky (JSON-LD, mikrodata, og:type); počet produktů zůstane neznámý (návrh, neměřeno).
+  product_probe_pages: 40
   language_fragments_per_version: 40   # dvě první věty popisu každého z 20 produktů
   # Podpisy skriptů překladu v prohlížeči (adresa skriptu), technický znak, ne slova textu (K rozhodnutí 6).
   browser_translation_scripts: [weglot, gtranslate, translate.google, conveythis, localizejs, transifex]

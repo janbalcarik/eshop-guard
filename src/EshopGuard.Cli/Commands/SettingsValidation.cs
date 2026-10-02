@@ -38,6 +38,7 @@ internal static partial class SettingsValidation
             ("markets.max_home_links", settings.Markets.MaxHomeLinks),
             ("markets.sample_pages", settings.Markets.SamplePages),
             ("markets.language_products", settings.Markets.LanguageProducts),
+            ("markets.product_probe_pages", settings.Markets.ProductProbePages),
             ("markets.language_fragments_per_version", settings.Markets.LanguageFragmentsPerVersion),
         })
         {

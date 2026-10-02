@@ -164,6 +164,35 @@ public sealed class VersionLanguageAnalysisTests
     }
 
     [Fact]
+    public async Task WithoutAProductSitemap_ProductsAreFoundByTheStructureOfThePage_AndTheirNumberStaysUnknown()
+    {
+        // havlikovaapoteka.cz, freshlabels.sk (2. 10. 2026): one sitemap mixes products and categories, its name says nothing.
+        var fetcher = new PairShopFetcher(copied: false, flatSitemap: true);
+        var result = await AnalyzeAsync(fetcher, marketModel: new CzechAwareModel(fetcher.IsCzech), markets: BothMarkets);
+
+        Assert.All(result.Versions, v =>
+        {
+            Assert.Null(v.ProductCount);
+            Assert.Contains(VersionCodes.ProductCountUnknown, v.Codes);
+            Assert.DoesNotContain(VersionCodes.SampleInsufficient, v.Codes);
+            Assert.Equal(20, v.DescriptionLanguages!.LabeledProducts);
+            Assert.Equal(1.0, v.TranslatedShare);
+        });
+        var products = result.SamplePlan!.Urls.Where(u => u.Kind == VersionSamplePlanner.Product).ToList();
+        Assert.All(products, u => Assert.Contains("/p/produkt-", u.Url, StringComparison.Ordinal));
+        Assert.Equal([20, 20], products.GroupBy(u => u.VersionKey).Select(g => g.Count()));
+        Assert.True(result.Plan!.ProductCountUnknown);
+
+        // At most markets.product_probe_pages pages of each host, none downloaded twice.
+        foreach (var host in new[] { "pair-shop.sk", "pair-shop.cz" })
+        {
+            var pages = fetcher.Fetched.Where(u => u.Host == host && u.AbsolutePath.Length > 3 && u.AbsolutePath[2] == '/').ToList();
+            Assert.InRange(pages.Count, 20, 40);
+            Assert.Equal(pages.Count, pages.Distinct().Count());
+        }
+    }
+
+    [Fact]
     public async Task VersionOnADomainOfAnUnsupportedLanguage_IsUnsupported_AndTakesNoPartOfTheSample()
     {
         var result = await AnalyzeAsync(new PairShopFetcher(copied: false, italian: true));
@@ -258,9 +287,14 @@ public sealed class VersionLanguageAnalysisTests
     }
 
     /// <summary>pair-shop.sk and pair-shop.cz with 60 products each, the same paths, hreflang only on the pages.</summary>
-    private sealed class PairShopFetcher(bool copied, bool reviews = false, int czechInMain = 0, bool italian = false) : IPageFetcher
+    private sealed class PairShopFetcher(bool copied, bool reviews = false, int czechInMain = 0, bool italian = false, bool flatSitemap = false) : IPageFetcher
     {
         private const int Products = 60;
+
+        private const int Categories = 30;
+
+        /// <summary>Every address asked for, in order.</summary>
+        public System.Collections.Concurrent.ConcurrentQueue<Uri> Fetched { get; } = new();
 
         private readonly HashSet<string> czechSentences = Enumerable.Range(1, Products)
             .SelectMany(n => VersionLanguages.Sentences(Czech(n) + "\n" + Reviews(n)))
@@ -271,6 +305,7 @@ public sealed class VersionLanguageAnalysisTests
 
         public Task<FetchResponse> FetchAsync(Uri url, CancellationToken ct)
         {
+            Fetched.Enqueue(url);
             var sk = url.Host == "pair-shop.sk";
             var host = $"https://{url.Host}";
             if (url.Host == "pair-shop.it" && url.AbsolutePath == "/")
@@ -283,12 +318,18 @@ public sealed class VersionLanguageAnalysisTests
             string? body = url.AbsolutePath switch
             {
                 "/robots.txt" => $"User-agent: *\nAllow: /\n\nSitemap: {host}/sitemap.xml\n",
+                "/sitemap.xml" when flatSitemap => """<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">"""
+                    + string.Concat(Enumerable.Range(1, Products).Select(i => $"<url><loc>{host}/p/produkt-{i}</loc></url>"))
+                    + string.Concat(Enumerable.Range(1, Categories).Select(i => $"<url><loc>{host}/k/kategoria-{i}</loc></url>"))
+                    + "</urlset>",
                 "/sitemap.xml" => $"""<?xml version="1.0"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><sitemap><loc>{host}/sitemap-products.xml</loc></sitemap></sitemapindex>""",
                 "/sitemap-products.xml" => """<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">"""
                     + string.Concat(Enumerable.Range(1, Products).Select(i => $"<url><loc>{host}/p/produkt-{i}</loc></url>")) + "</urlset>",
                 "/" => Page(sk, "/", sk ? "Obchod s bylinkami." : "Obchod s bylinkami a čaji.",
                     "<a href=\"https://pair-shop.cz/\">Česká verze</a>" + (italian ? "<a href=\"https://pair-shop.it/\">Italiano</a>" : "")),
                 _ when url.AbsolutePath.StartsWith("/p/produkt-", StringComparison.Ordinal) => Product(sk, url.AbsolutePath),
+                _ when url.AbsolutePath.StartsWith("/k/kategoria-", StringComparison.Ordinal) => Page(sk, url.AbsolutePath,
+                    $"<h1>Kategória {url.AbsolutePath["/k/kategoria-".Length..]}</h1><p>{(sk ? "Bylinky a čaje z našej ponuky." : "Bylinky a čaje z naší nabídky.")}</p>", ""),
                 _ => null,
             };
             var type = url.AbsolutePath.EndsWith(".xml", StringComparison.Ordinal) ? "application/xml" : url.AbsolutePath == "/robots.txt" ? "text/plain" : "text/html";

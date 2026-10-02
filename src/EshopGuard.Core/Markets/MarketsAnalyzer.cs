@@ -226,6 +226,7 @@ internal sealed class MarketsAnalyzer(
         var main = versions.First(v => v.IsMain);
         var discoveries = new Dictionary<string, DiscoveryResult>(StringComparer.OrdinalIgnoreCase) { [Authority(main)] = mainDiscovery };
         var inputs = new List<VersionSampleInput>();
+        var probed = new Dictionary<string, List<ExtractedPageRecord>>(StringComparer.Ordinal);
         var mandatorySources = selected.Select(p => run.Pages.GetValueOrDefault(p.Url)).OfType<ExtractedPageRecord>().ToList();
         foreach (var version in versions)
         {
@@ -242,6 +243,17 @@ internal sealed class MarketsAnalyzer(
                 .DistinctBy(u => u.AbsoluteUri)
                 .ToList();
             var sitemapProducts = discovery.SitemapEntries.Where(e => e.ProductHint && version.Scope.Contains(e.Url)).ToList();
+            if (sitemapProducts.Count == 0)
+            {
+                // No product sitemap (havlikovaapoteka.cz, freshlabels.sk, 2. 10. 2026): random pages of its sitemap are
+                // downloaded, and those the structure of the page shows as a product go to the sample; its number of
+                // products stays unknown until the connector gives it.
+                var pages = probed[Key(version)] = await ProbeProductsAsync(run, version, discovery, mandatory, seed, ct);
+                sitemapProducts = pages.Where(p => p.Info.Type == PageType.Product).Take(markets.LanguageProducts)
+                    .Select(p => new SitemapEntry(new Uri(p.Info.Url), null, ProductHint: true))
+                    .ToList();
+            }
+
             inputs.Add(new VersionSampleInput(Key(version), version.Language ?? "und", version.IsMain, sitemapProducts, mandatory));
         }
 
@@ -252,7 +264,11 @@ internal sealed class MarketsAnalyzer(
             var key = Key(version);
             var urls = plan.Urls.Where(u => u.VersionKey == key).ToList();
             var siteScope = new SiteScope(new Uri(version.BaseUrl)) { Version = version.Scope };
-            var downloaded = (await FetchAsync(run, siteScope, discoveries[Authority(version)], urls.Select(u => new Uri(u.Url)).ToList(), ct)).DistinctBy(p => p.Info.Url).ToList();
+            var planned = urls.Select(u => UrlTools.Normalize(new Uri(u.Url)).AbsoluteUri).ToHashSet(StringComparer.Ordinal);
+            var already = (probed.GetValueOrDefault(key) ?? []).Where(p => planned.Contains(p.Info.Url)).ToList();
+            var known = already.Select(p => p.Info.Url).ToHashSet(StringComparer.Ordinal);
+            var rest = urls.Select(u => new Uri(u.Url)).Where(u => !known.Contains(UrlTools.Normalize(u).AbsoluteUri)).ToList();
+            var downloaded = already.Concat(await FetchAsync(run, siteScope, discoveries[Authority(version)], rest, ct)).DistinctBy(p => p.Info.Url).ToList();
             var mandatoryUrls = urls.Where(u => u.Kind == VersionSamplePlanner.Mandatory).Select(u => u.Url).ToHashSet(StringComparer.Ordinal);
 
             // Products of the sample are the pages planned as products (the sitemap marks them so, the price counts them so),
@@ -300,6 +316,39 @@ internal sealed class MarketsAnalyzer(
         }
 
         return (VersionLanguages.Analyze(samples, markets), plan);
+    }
+
+    /// <summary>
+    /// Random pages of the sitemap of a version without a product sitemap, downloaded in batches until the structure of the
+    /// pages (JSON-LD or microdata <c>Product</c>, <c>og:type=product</c>) shows <c>markets.language_products</c> products or
+    /// <c>markets.product_probe_pages</c> pages are downloaded. No word of the address or the text decides.
+    /// </summary>
+    private async Task<List<ExtractedPageRecord>> ProbeProductsAsync(
+        Run run, LanguageVersionCandidate version, DiscoveryResult discovery, IReadOnlyList<Uri> mandatory, int seed, CancellationToken ct)
+    {
+        var markets = options.Value.Markets;
+        var skip = mandatory.Select(u => UrlTools.Normalize(u).AbsoluteUri).Append(UrlTools.Normalize(new Uri(version.BaseUrl)).AbsoluteUri).ToHashSet(StringComparer.Ordinal);
+        var candidates = discovery.SitemapEntries.Select(e => e.Url)
+            .Where(u => version.Scope!.Contains(u) && !skip.Contains(UrlTools.Normalize(u).AbsoluteUri))
+            .DistinctBy(u => UrlTools.Normalize(u).AbsoluteUri)
+            .ToList();
+        var random = new Random(seed);
+        for (var i = candidates.Count - 1; i > 0; i--)
+        {
+            var j = random.Next(i + 1);
+            (candidates[i], candidates[j]) = (candidates[j], candidates[i]);
+        }
+
+        var site = new SiteScope(new Uri(version.BaseUrl)) { Version = version.Scope };
+        var pages = new List<ExtractedPageRecord>();
+        var limit = Math.Min(candidates.Count, markets.ProductProbePages);
+        var batch = Math.Max(1, markets.LanguageProducts / 2);
+        for (var taken = 0; taken < limit && pages.Count(p => p.Info.Type == PageType.Product) < markets.LanguageProducts; taken += batch)
+        {
+            pages.AddRange(await FetchAsync(run, site, discovery, candidates.Skip(taken).Take(Math.Min(batch, limit - taken)).ToList(), ct));
+        }
+
+        return pages;
     }
 
     /// <summary>Downloads the addresses in the scope of the site, those on other hosts with their own robots.txt.</summary>
