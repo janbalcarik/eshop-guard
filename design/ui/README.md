@@ -2,7 +2,7 @@
 
 Schválený návrh obrazovek. Živé plátno: https://claude.ai/artifact/34wYLsJzieFtmWdueAwYay
 
-Je to kopie plátna verze 27 z 1. 10. 2026. Platí pravidlo: **nejdřív návrh, pak kód**. Když se obrazovka na plátně změní, je potřeba zkopírovat i soubor sem.
+Je to kopie plátna verze 31 z 2. 10. 2026 (3c, 3d, ceník a předplatné upravené na cenu za každou zemi, čeká na schválení). Platí pravidlo: **nejdřív návrh, pak kód**. Když se obrazovka na plátně změní, je potřeba zkopírovat i soubor sem.
 
 - Každá obrazovka je jeden soubor `*.dc.html`.
   - Rozvržení a texty jsou v HTML.
@@ -22,7 +22,7 @@ Je to kopie plátna verze 27 z 1. 10. 2026. Platí pravidlo: **nejdřív návrh,
 | `Onboarding.dc.html` | 3a · Připojení e-shopu (platforma rozpoznána) |
 | `OnboardingOther.dc.html` | 3b · Připojení e-shopu (platforma nerozpoznána) |
 | `OnboardingScope.dc.html` | 3c · Kde predávate (len podporované krajiny), jazykové verzie vetou, rozsah, cena a spustenie |
-| `VersionDetails.dc.html` | 3d · Jazykové verze z ukázky (jazyk textů, vlastní texty, porovnání, co jde do ceny) |
+| `VersionDetails.dc.html` | 3d · Jazykové verze z ukázky (jazyk popisů, produkty do ceny za každou zemi, popisy v jiném jazyce) |
 | `Dashboard.dc.html` | 4 · Přehled |
 | `Fixes.dc.html` | 5 · Opravy (po stránkách, filtr jazykové verze, hromadné opravy, šablona) |
 | `Review.dc.html` | 6a · Oprava stránky (verdikt po zemích SK/CZ, text v kontextu, hromadná změna, co pomůže, zkratky) |

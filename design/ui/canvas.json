@@ -147,7 +147,7 @@
     },
     "VersionDetails.dc.html": {
       "h": 960,
-      "title": "3d · Jazykové verze z ukázky (jazyk textů, vlastní texty, porovnání, co jde do ceny)",
+      "title": "3d · Jazykové verze z ukázky (jazyk popisů, produkty do ceny za každou zemi, popisy v jiném jazyce)",
       "w": 1440,
       "x": 4560,
       "y": 4454
@@ -172,7 +172,7 @@
     },
     "row2": {
       "kind": "title1",
-      "maxW": 9040,
+      "maxW": 8000,
       "text": "Aplikace: připojení e-shopu, první kontrola, přehled, opravy po stránkách",
       "w": 240,
       "x": 0,

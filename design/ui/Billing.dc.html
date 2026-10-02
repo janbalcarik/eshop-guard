@@ -58,7 +58,7 @@ a{color:#0E5A52}a:hover{color:#0B4A43}
 <div style="{{t.style}}"><span style="font-size: 14px; font-weight: 600;">{{t.label}}</span><span style="font-size: 13px; color: #5F646C;">{{t.price}}</span></div>
 </sc-for>
 </div>
-<span style="font-size: 13px; line-height: 19px; color: #5F646C;">Pásmo určujeme podľa počtu zverejnených produktov v každej jazykovej verzii, varianty sa nepočítajú zvlášť. Kategórie, články a ostatné stránky e-shopu sledujeme v cene. Počet zistíme z prepojenia s e-shopom alebo z jeho webu. Keď e-shop prerastie pásmo, upozorníme vás a vyššie pásmo platí od ďalšieho obdobia.</span>
+<span style="font-size: 13px; line-height: 19px; color: #5F646C;">Pásmo určujeme podľa počtu zverejnených produktov za každú krajinu, kam predávate, varianty sa nepočítajú zvlášť. Kategórie, články a ostatné stránky e-shopu sledujeme v cene. Počet zistíme z prepojenia s e-shopom alebo z jeho webu. Keď e-shop prerastie pásmo, upozorníme vás a vyššie pásmo platí od ďalšieho obdobia.</span>
 </section>
 </div>
 
@@ -112,7 +112,7 @@ monthly.push({ date: '1. ' + month + '. ' + year, label: 'Sledovanie zmien · by
 });
 return {
 shops: [
-{ shop: 'bylinkovo.sk', size: '2 jazykové verzie, 11 668 produktov · pásmo do 20 000', paid: '1. 10. 2026', status: 'Aktívne', badgeStyle: active, price: '[CENA] € mesačne', next: '1. 5. 2027' },
+{ shop: 'bylinkovo.sk', size: '2 krajiny, 11 668 produktov · pásmo do 20 000', paid: '1. 10. 2026', status: 'Aktívne', badgeStyle: active, price: '[CENA] € mesačne', next: '1. 5. 2027' },
 { shop: 'bylinkovo-darceky.sk', size: '200 produktov · pásmo do 500', paid: '5. 10. 2026', status: 'Aktívne', badgeStyle: active, price: '[CENA] € mesačne', next: '5. 5. 2027' },
 { shop: 'bylinkovo.cz', size: '1 460 produktov · pásmo do 2 000', paid: '20. 4. 2027', status: 'Prvý mesiac v cene do 19. 5.', badgeStyle: trial, price: 'potom [CENA] € mesačne, −[X] % ako 3. e-shop', next: '20. 5. 2027' },
 ],

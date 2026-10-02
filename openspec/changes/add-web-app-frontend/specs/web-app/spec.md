@@ -100,12 +100,13 @@ Systém MUST na obrazovce 3c ukázat jen podporované země z API, u každé zem
 - AND platba není možná
 
 ### Requirement: Jazykové verze souhrnem a podrobnostmi
-Systém MUST na obrazovce 3c ukázat jazykové verze e-shopu jednou až dvěma větami z výsledku ukázky (například „Našli sme slovenskú … a českú verziu …“) bez zaškrtávání verzí. Na obrazovce 3d MUST ukázat tabulku verzí (Verzia, Adresa, Produkty, Jazyk popisov, Preložené produkty, Kontroluje sa pre krajiny), počty produktů za každou zemi a odkaz na vyloučení verze v nastaveních (upraveno 2. 10. 2026: cena za každou zemi, texty verzí se neporovnávají; podrobnosti podle upraveného návrhu UI 3d). Po návratu z 3d MUST zůstat zachovaný výběr na 3c.
+Systém MUST na obrazovce 3c ukázat jazykové verze e-shopu jednou až dvěma větami z výsledku ukázky (například „Našli sme slovenskú … a českú verziu …“) bez zaškrtávání verzí. Na obrazovce 3d MUST ukázat tabulku verzí (Verzia, Adresa, Produkty, Jazyk popisov, Popisy v jazyku verzie), část „Produkty do ceny“ (každá zaškrtnutá země, verze kontrolovaná pro ni, její počet produktů, součet a pásmo), produkty ze vzorku s popisem v jiném jazyce a odkaz na vyloučení verze v nastaveních (upraveno 2. 10. 2026: cena za každou zemi, texty verzí se neporovnávají; návrh UI 3d, plátno verze 31). Po návratu z 3d MUST zůstat zachovaný výběr na 3c.
 
 #### Scenario: Podrobnosti verzí
 - GIVEN ukázka našla verze `bylinkovo.sk` a `bylinkovo.sk/cz/`
 - WHEN uživatel na 3c zvolí „Podrobnosti“
-- THEN 3d ukáže dva řádky tabulky s hodnotami z API (např. „98 % po česky“, „Pri 1 produkte slovenský text“, „19 z 20 preložených“, „SK, CZ“) a počty produktů za každou zemi
+- THEN 3d ukáže dva řádky tabulky s hodnotami z API (např. „čeština“, „19 z 20 produktov“, „Pri 1 produkte slovenský popis“)
+- AND „Produkty do ceny“ ukáže Slovensko (slovenská verzia, 5 834) a Česko (česká verzia, 5 834), spolu 11 668 produktov a pásmo do 20 000
 - AND „Späť na objednávku“ vrátí na 3c se stejným výběrem zemí a stejnou nabídkou
 
 #### Scenario: E-shop bez dalších verzí

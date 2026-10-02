@@ -26,45 +26,47 @@ a{color:#0E5A52}a:hover{color:#0B4A43}
 <main style="flex: 1 1 auto; min-height: 0; padding: 32px 120px; display: flex; flex-direction: column; gap: 22px;">
 <div style="display: flex; flex-direction: column; gap: 6px;">
 <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 32px; font-weight: 700; letter-spacing: -0.01em;">Jazykové verzie bylinkovo.sk</h1>
-<span style="font-size: 16px; line-height: 24px; color: #4A4F57; max-width: 900px;">Zistené z ukážky zdarma: porovnali sme 20 rovnakých produktov v oboch verziách a povinné stránky každej verzie. Podľa toho počítame cenu a kontrolujeme texty.</span>
+<span style="font-size: 16px; line-height: 24px; color: #4A4F57; max-width: 900px;">Zistené z ukážky zdarma: počet produktov každej verzie a jazyk popisov pri 20 náhodných produktoch z každej verzie. Každú verziu kontrolujeme zvlášť.</span>
 </div>
 
 <section aria-label="Verzie" style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; overflow: hidden;">
-<div style="display: grid; grid-template-columns: 1.1fr 1.3fr 0.9fr 1.6fr 1.3fr 0.9fr; gap: 16px; padding: 10px 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5F646C; background: #FBFAF7; border-bottom: 1px solid #EFEEE8;">
-<span>Verzia</span><span>Adresa</span><span>Produkty</span><span>Jazyk textov</span><span>Vlastné texty</span><span>Do ceny</span>
+<div style="display: grid; grid-template-columns: 1.1fr 1.4fr 0.9fr 1.1fr 1.9fr; gap: 16px; padding: 10px 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5F646C; background: #FBFAF7; border-bottom: 1px solid #EFEEE8;">
+<span>Verzia</span><span>Adresa</span><span>Produkty</span><span>Jazyk popisov</span><span>Popisy v jazyku verzie</span>
 </div>
 <sc-for list="{{versions}}" as="v" hint-placeholder-count="2">
-<div style="display: grid; grid-template-columns: 1.1fr 1.3fr 0.9fr 1.6fr 1.3fr 0.9fr; gap: 16px; padding: 14px 20px; align-items: center; border-bottom: 1px solid #EFEEE8; font-size: 15px;">
+<div style="display: grid; grid-template-columns: 1.1fr 1.4fr 0.9fr 1.1fr 1.9fr; gap: 16px; padding: 14px 20px; align-items: center; border-bottom: 1px solid #EFEEE8; font-size: 15px;">
 <span style="font-weight: 600;">{{v.name}}</span>
 <span style="color: #4A4F57;">{{v.url}}</span>
 <span>{{v.products}}</span>
-<span style="display: flex; flex-direction: column; gap: 2px;"><span>{{v.language}}</span><span style="font-size: 13px; color: #8A4B00;">{{v.languageNote}}</span></span>
-<span>{{v.own}}</span>
-<span><span style="{{v.countedStyle}}">{{v.counted}}</span></span>
+<span>{{v.language}}</span>
+<span style="display: flex; flex-direction: column; gap: 2px;"><span>{{v.share}}</span><span style="font-size: 13px; color: #8A4B00;">{{v.shareNote}}</span></span>
 </div>
 </sc-for>
 </section>
 
 <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px;">
-<section aria-label="Porovnanie produktov" style="grid-column: span 7; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px;">
-<h2 style="margin: 0; font-size: 17px; font-weight: 600;">Porovnanie 20 rovnakých produktov</h2>
-<div style="display: flex; gap: 10px; flex-wrap: wrap;">
-<sc-for list="{{chips}}" as="c" hint-placeholder-count="3">
-<span style="{{c.style}}">{{c.label}}</span>
+<section aria-label="Produkty do ceny" style="grid-column: span 7; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600;">Produkty do ceny</h2>
+<span style="font-size: 14px; line-height: 21px; color: #33373D;">Cenu počítame za každú krajinu, kam predávate: počet produktov verzie, ktorú pre túto krajinu kontrolujeme. Keď jedna verzia slúži pre dve krajiny, jej produkty počítame za každú z nich.</span>
+<div style="display: flex; flex-direction: column; font-size: 15px;">
+<sc-for list="{{countries}}" as="c" hint-placeholder-count="2">
+<div style="display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-top: 1px solid #EFEEE8;"><span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 600;">{{c.country}}</span><span style="font-size: 13px; color: #5F646C;">{{c.version}}</span></span><span>{{c.products}}</span></div>
 </sc-for>
+<div style="display: flex; justify-content: space-between; gap: 16px; padding: 10px 0 0; border-top: 1px solid #CFCCC2; font-weight: 700;"><span>Spolu · pásmo do 20 000</span><span>11 668 produktov</span></div>
 </div>
-<sc-for list="{{notable}}" as="n" hint-placeholder-count="3">
-<div style="display: flex; align-items: flex-start; gap: 12px; border-top: 1px solid #EFEEE8; padding-top: 12px;">
-<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 15px; font-weight: 600;">{{n.product}}</span><span style="font-size: 14px; line-height: 20px; color: #4A4F57;">{{n.note}}</span></span>
-<a href="#" style="flex-shrink: 0; font-size: 14px; font-weight: 600;">Porovnať verzie</a>
-</div>
-</sc-for>
+<span style="font-size: 13px; line-height: 19px; color: #5F646C;">Keď krajinu v objednávke odškrtnete, súčet sa prepočíta.</span>
 </section>
 
 <div style="grid-column: span 5; display: flex; flex-direction: column; gap: 20px;">
-<section aria-label="Povinné stránky" style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 20px 22px; display: flex; flex-direction: column; gap: 10px;">
-<h2 style="margin: 0; font-size: 17px; font-weight: 600;">Povinné a obchodné stránky</h2>
-<span style="font-size: 14px; line-height: 21px; color: #33373D;">Doprava, obchodné podmienky a reklamácie sa vo verziách líšia (iné ceny dopravy, iný postup vrátenia). Kontrolujeme ich v každej verzii zvlášť.</span>
+<section aria-label="Popisy v inom jazyku" style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 20px 22px; display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600;">Popisy v inom jazyku</h2>
+<span style="font-size: 14px; line-height: 21px; color: #33373D;">V českej verzii má 1 z 20 produktov z ukážky popis po slovensky. Ostatné produkty ukážka nezahŕňa, môžu mať rovnaký problém. Kontrolujeme ich ako ostatné texty.</span>
+<sc-for list="{{foreign}}" as="f" hint-placeholder-count="1">
+<div style="display: flex; align-items: flex-start; gap: 12px; border-top: 1px solid #EFEEE8; padding-top: 10px;">
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 15px; font-weight: 600;">{{f.product}}</span><span style="font-size: 14px; line-height: 20px; color: #4A4F57;">{{f.note}}</span></span>
+<a href="#" style="flex-shrink: 0; font-size: 14px; font-weight: 600;">Otvoriť stránku</a>
+</div>
+</sc-for>
 </section>
 <section aria-label="Ako kontrolujeme" style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 20px 22px; display: flex; flex-direction: column; gap: 10px;">
 <h2 style="margin: 0; font-size: 17px; font-weight: 600;">Podľa ktorého zákona</h2>
@@ -79,21 +81,17 @@ a{color:#0E5A52}a:hover{color:#0B4A43}
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
 class Component extends DCLogic {
 renderVals() {
-const badge = 'font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px;';
 return {
 versions: [
-{ name: 'Slovenčina', url: 'bylinkovo.sk', products: '5 834', language: '100 % po slovensky', languageNote: '', own: 'hlavná verzia', counted: 'Áno', countedStyle: badge + ' background: #E4F4EA; color: #1C6B3E;' },
-{ name: 'Čeština', url: 'bylinkovo.sk/cz/', products: '5 834', language: '98 % po česky', languageNote: 'Pri 1 produkte slovenský text', own: '96 % produktov', counted: 'Áno', countedStyle: badge + ' background: #E4F4EA; color: #1C6B3E;' },
+{ name: 'Slovenčina', url: 'bylinkovo.sk', products: '5 834', language: 'slovenčina', share: '20 z 20 produktov', shareNote: '' },
+{ name: 'Čeština', url: 'bylinkovo.sk/cz/', products: '5 834', language: 'čeština', share: '19 z 20 produktov', shareNote: 'Pri 1 produkte slovenský popis' },
 ],
-chips: [
-{ label: '17 preložených', style: badge + ' background: #E4F4EA; color: #1C6B3E;' },
-{ label: '2 skrátené alebo iný text', style: badge + ' background: #FEF1DC; color: #8A4B00;' },
-{ label: '1 nepreložený', style: badge + ' background: #EFEAFB; color: #5B3E9A;' },
+countries: [
+{ country: 'Slovensko', version: 'slovenská verzia · bylinkovo.sk', products: '5 834 produktov' },
+{ country: 'Česko', version: 'česká verzia · bylinkovo.sk/cz/', products: '5 834 produktov' },
 ],
-notable: [
-{ product: 'Zubná pasta + bambusová kefka', note: 'Česká verzia je o tretinu kratšia, chýba v nej časť o zložení. Kontrolujeme obe verzie zvlášť.' },
-{ product: 'Sviečka Vodnár', note: 'Česká verzia má iný text s inými tvrdeniami („100 % prírodná“). Kontrolujeme obe verzie zvlášť.' },
-{ product: 'Bylinný čaj Upokojenie', note: 'V českej verzii je slovenský text. Kontrolujeme ho podľa oboch zákonov ako ostatné texty.' },
+foreign: [
+{ product: 'Bylinný čaj Upokojenie', note: 'V českej verzii je popis po slovensky.' },
 ],
 };
 }
