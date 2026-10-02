@@ -103,7 +103,7 @@ api.MapMeEndpoints();
 api.MapTenantsEndpoints();
 var tenant = api.MapTenantGroup();
 tenant.MapShopEndpoints().MapOnboardingEndpoints().MapOwnershipAndSettingsEndpoints();
-tenant.MapShopWorkGroup().MapFindingEndpoints().MapFixEndpoints();
+tenant.MapShopWorkGroup().MapFindingEndpoints().MapFixEndpoints().MapQuestionEndpoints();
 api.MapInvitationEndpoints();
 api.MapRefEndpoints();
 api.MapCatalogEndpoints();

@@ -329,10 +329,15 @@ internal sealed class PageRewriter(
 
         for (var i = 0; i < pages.Length; i++)
         {
+            // A claim the shop answered „Nie“ about cannot stay: its rule found again in the new text is real too.
+            var answered = works[i].Page.Answers is { Count: > 0 } answers && answers.Any(a => !a.Yes)
+                ? works[i].Findings.Where(f => f.Finding.Checkability == "verify").Select(f => f.Finding.RuleId).ToHashSet(StringComparer.Ordinal)
+                : [];
             foreach (var change in pages[i].Changes)
             {
                 // A finding in a sentence with a placeholder waits for the shop's facts; one in any other sentence is real.
-                var real = change.RemainingFindings.Any(f => !f.Text!.Contains(RewritePrompt.PlaceholderMarker, StringComparison.Ordinal));
+                var real = change.RemainingFindings.Any(f => !f.Text!.Contains(RewritePrompt.PlaceholderMarker, StringComparison.Ordinal))
+                    || change.VerifyFindings.Any(f => answered.Contains(f.RuleId));
                 change.Status = change.Rewritten.Length == 0 ? RewriteStatus.Resolved
                     : real ? RewriteStatus.StillFinding
                     : change.Placeholders.Count > 0 || change.Rewritten.Contains(RewritePrompt.PlaceholderMarker, StringComparison.Ordinal) ? RewriteStatus.WaitingForFacts
@@ -368,6 +373,11 @@ internal sealed class PageRewriter(
     /// <summary>A finding of a sentence or paragraph in the groups porušení and k posouzení: its text is rewritten.</summary>
     internal static bool IsRewritable(Finding f) => f.Scope == "segment" && (f.Checkability is "text" or "assess") && !string.IsNullOrWhiteSpace(f.Text);
 
+    /// <summary>A finding of the group k ověření whose page carries the answers of the shop: the facts decide, it is rewritten.</summary>
+    private static bool IsAnswered(Finding f, IReadOnlyDictionary<string, RewritePageInput> pages) =>
+        f.Scope == "segment" && f.Checkability == "verify" && !string.IsNullOrWhiteSpace(f.Text)
+        && f.Urls.FirstOrDefault(pages.ContainsKey) is { } url && pages[url].Answers is { Count: > 0 };
+
     /// <summary>The texts of the findings in the language of the content of the shop.</summary>
     private async Task<(RuleTextRenderer Renderer, string Locale)> TextsAsync(RewriteInput input, CancellationToken ct)
     {
@@ -377,8 +387,8 @@ internal sealed class PageRewriter(
     }
 
     /// <summary>
-    /// Pages with findings of the groups porušení and k posouzení. A finding with the same text on several pages is
-    /// rewritten once, on the first page of the scan that is in the input; the others are listed.
+    /// Pages with findings of the groups porušení and k posouzení (and k ověření where the shop answered). A finding with the
+    /// same text on several pages is rewritten once, on the first page of the scan that is in the input; the others are listed.
     /// </summary>
     private static List<RewriteWork> BuildWork(RewriteInput input, (RuleTextRenderer Renderer, string Locale) texts, out List<string> warnings)
     {
@@ -386,7 +396,7 @@ internal sealed class PageRewriter(
         var pages = input.Pages.GroupBy(p => p.Url, StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.First(), StringComparer.Ordinal);
         var byPage = new Dictionary<string, List<Finding>>(StringComparer.Ordinal);
         var withoutPage = 0;
-        foreach (var finding in input.Findings.Where(IsRewritable))
+        foreach (var finding in input.Findings.Where(f => IsRewritable(f) || IsAnswered(f, pages)))
         {
             var url = finding.Urls.FirstOrDefault(pages.ContainsKey);
             if (url is null)

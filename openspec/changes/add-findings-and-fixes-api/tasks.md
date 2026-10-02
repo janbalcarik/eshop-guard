@@ -99,30 +99,30 @@
 
 ## 5. Otázky a odpovědi
 
-- [ ] 5.1 `Application/Fixes/AnswerPropagation.cs`:
+- [x] 5.1 `Application/Fixes/AnswerPropagation.cs`:
   - dotaz na shodné otevřené otázky (`code` + `segment_hash`) v tenantovi;
   - u `scope = site` jen v e-shopu;
   - výpočet `appliesTo`.
 
   Test `AnswerPropagationTests` (4 sviečky, dva e-shopy tenanta, otázka za celý web, druhý tenant nedotčen).
-- [ ] 5.2 `Application/Fixes/QuestionService.AnswerAsync`:
+- [x] 5.2 `Application/Fixes/QuestionService.AnswerAsync`:
   - „Áno“ → doklad `answer` + vazby + `kept_with_evidence` + paměť;
   - „Nie“ → varianta `answer_no`, text z pravidla u otázky za celý web, nebo úloha `fix.generate_for_answer`;
   - `question.answer_locked`;
   - audit.
-- [ ] 5.3 `Application/Fixes/GenerationBudget.cs`: kbelík `fixes:generate:tenant:{id}` (`Fixes:DailyGenerationsPerTenant`), nad stropem `429 budget.daily_limit_reached` bez uložení odpovědi.
-- [ ] 5.4 `Jobs/Fixes/FixGenerateForAnswerHandler.cs`:
+- [x] 5.3 `Application/Fixes/GenerationBudget.cs`: kbelík `fixes:generate:tenant:{id}` (`Fixes:DailyGenerationsPerTenant`), nad stropem `429 budget.daily_limit_reached` bez uložení odpovědi.
+- [x] 5.4 `Jobs/Fixes/FixGenerateForAnswerHandler.cs`:
   - přepis přes `IRewriteClient` (změna 5) s odpovědí jako faktem;
   - kontrola Jevem;
   - uložení varianty `answer_no`;
   - nález `open → proposed` jen při kontrole `ok`, jinak zůstane `open` s upozorněním.
-- [ ] 5.5 Koncové body `GET S/questions`, `POST S/questions/{questionId}/answer` v `QuestionEndpoints.cs`.
-- [ ] 5.6 Test `QuestionTests`:
+- [x] 5.5 Koncové body `GET S/questions`, `POST S/questions/{questionId}/answer` v `QuestionEndpoints.cs`.
+- [x] 5.6 Test `QuestionTests`:
   - Vodnár „Nie“ → 4 nálezy `proposed`;
   - COSMOS „Áno“ → doklad a `kept_with_evidence`;
   - rozpočet vyčerpaný → `429` a otázka `open`;
   - změna odpovědi po publikaci → `409`.
-- [ ] 5.7 Test `FixGenerateForAnswerHandlerTests` (`MockRewriteClient`, `MockJevClient`; neprošlá kontrola nechá nález `open`).
+- [x] 5.7 Test `FixGenerateForAnswerHandlerTests` (`MockRewriteClient`, `MockJevClient`; neprošlá kontrola nechá nález `open`).
 
 ## 6. Doklady
 

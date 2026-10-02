@@ -215,6 +215,24 @@ internal static class RewritePrompt
             }
         }
 
+        // The answers of the shop are facts outside the web: „Nie“ means the claim cannot be backed and must not stay.
+        if (page.Answers is { Count: > 0 } answers)
+        {
+            text.Append("\nOdpovede obchodníka (fakty mimo web, nič iné nedomýšľaj):\n");
+            foreach (var answer in answers)
+            {
+                text.Append("- otázka ").Append(answer.QuestionCode);
+                if (answer.Params.Count > 0)
+                {
+                    text.Append(" (").Append(string.Join(", ", answer.Params.OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => $"{p.Key}: {p.Value}"))).Append(')');
+                }
+
+                text.Append(answer.Yes
+                    ? ": odpoveď „Áno“, tvrdenie je doložené.\n"
+                    : ": odpoveď „Nie“, tvrdenie sa nedá doložiť; vo vete ho neuvádzaj.\n");
+            }
+        }
+
         return text.ToString();
     }
 

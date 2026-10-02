@@ -13,6 +13,7 @@ public static class FixJobsServiceCollectionExtensions
         services.TryAddSingleton(TimeProvider.System);
         services.TryAddScoped<ExtractContextReader>();
         services.AddJobHandler<FixRecheckHandler>();
+        services.AddJobHandler<FixGenerateForAnswerHandler>();
         return services;
     }
 }

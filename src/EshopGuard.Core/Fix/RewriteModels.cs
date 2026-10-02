@@ -58,6 +58,27 @@ public sealed class RewritePageInput
 
     /// <summary>Product description from JSON-LD, when the scan stored it.</summary>
     public string? JsonLdDescription { get; init; }
+
+    /// <summary>
+    /// Answers of the shop to questions about the findings of the page (facts outside the web). The model gets them as
+    /// facts, and a finding of the group k ověření on the page is rewritten with them. Null or empty: the request is the
+    /// same as without answers.
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<MerchantAnswer>? Answers { get; init; }
+}
+
+/// <summary>An answer of the shop to a question about a finding: the code of the question, its parameters and „yes“ or „no“.</summary>
+public sealed class MerchantAnswer
+{
+    /// <summary>Code of the question (for example <c>certificate_evidence</c>).</summary>
+    public required string QuestionCode { get; init; }
+
+    /// <summary>Parameters of the question (for example <c>certificate = COSMOS</c>).</summary>
+    public IReadOnlyDictionary<string, string> Params { get; init; } = new Dictionary<string, string>();
+
+    /// <summary>True for „Áno“ (the claim is backed), false for „Nie“.</summary>
+    public required bool Yes { get; init; }
 }
 
 /// <summary>

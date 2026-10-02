@@ -89,3 +89,9 @@ public sealed record ProposalDto(
     RecheckDto Recheck,
     string Status,
     uint Version);
+
+/// <summary>
+/// <c>POST S/questions/{questionId}/answer</c>: how many questions, findings and pages the answer changed, the evidence of
+/// „Áno“ and whether a proposal is being generated after „Nie“.
+/// </summary>
+public sealed record AnswerResultDto(int AffectedQuestions, int AffectedFindings, int AffectedPages, Guid? EvidenceId, bool GenerationPending);

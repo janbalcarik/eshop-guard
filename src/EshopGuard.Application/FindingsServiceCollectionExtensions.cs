@@ -34,6 +34,8 @@ public static class FindingsServiceCollectionExtensions
         services.TryAddScoped<PublishAvailability>();
         services.TryAddScoped<PageReviewService>();
         services.TryAddScoped<FixProposalService>();
+        services.TryAddScoped<GenerationBudget>();
+        services.TryAddScoped<QuestionService>();
         return services;
     }
 }

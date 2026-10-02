@@ -41,6 +41,66 @@
         ],
         "type": "object"
       },
+      "AnswerQuestionRequest": {
+        "properties": {
+          "answer": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "answer"
+        ],
+        "type": "object"
+      },
+      "AnswerResultDto": {
+        "properties": {
+          "affectedFindings": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "affectedPages": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "affectedQuestions": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "evidenceId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "generationPending": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "affectedQuestions",
+          "affectedFindings",
+          "affectedPages",
+          "evidenceId",
+          "generationPending"
+        ],
+        "type": "object"
+      },
       "AppliesToDto": {
         "properties": {
           "findings": {
@@ -7864,6 +7924,150 @@
           "proposal.already_published",
           "proposal.locked",
           "proposal.not_found",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "shop.sample_only",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/questions": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "scope",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/QuestionDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/questions/{questionId}/answer": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "questionId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/AnswerQuestionRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnswerResultDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "budget.daily_limit_reached",
+          "csrf.invalid",
+          "finding.transition_not_allowed",
+          "internal_error",
+          "question.answer_locked",
+          "question.not_found",
           "rate_limited",
           "request.https_required",
           "request.invalid",

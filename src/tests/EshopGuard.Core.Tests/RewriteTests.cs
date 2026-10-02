@@ -78,6 +78,36 @@ public class RewriteTests
     }
 
     [Fact]
+    public async Task FindingToVerify_IsRewrittenOnlyWithTheAnswerOfTheShop_WhichTheModelGetsAsAFact()
+    {
+        var client = new RecordingClient(_ => """
+            {"changes":[{"block_ids":["B2"],"original":"","rewritten":"","finding_ids":["F1"],"placeholders":[],"reason_cs":"a"}],"kept":[]}
+            """);
+        await using var provider = Create(client);
+        var rewriter = provider.GetRequiredService<ITextRewriter>();
+        const string Claim = "Certifikovaná prírodná kozmetika COSMOS";
+        var finding = Finding(Claim, Url, "verify");
+        var page = Page(Url, "Rozjasňujúce sérum\n" + Claim + "\nPleť je žiarivá.");
+        var answered = new RewritePageInput
+        {
+            Url = page.Url, Type = page.Type, Title = page.Title, MainText = page.MainText,
+            Answers = [new MerchantAnswer { QuestionCode = "certificate_evidence", Params = new Dictionary<string, string> { ["certificate"] = "COSMOS" }, Yes = false }],
+        };
+
+        await rewriter.RewriteAsync(new RewriteInput { Pages = [page], Findings = [finding] }, ct: TestContext.Current.CancellationToken);
+        var withoutAnswer = client.Requests.Count;
+        var result = await rewriter.RewriteAsync(new RewriteInput { Pages = [answered], Findings = [finding] }, ct: TestContext.Current.CancellationToken);
+
+        Assert.Equal(0, withoutAnswer);
+        var request = Assert.Single(client.Requests);
+        Assert.Contains("F1 | skupina: k ověření", request.PagePart, StringComparison.Ordinal);
+        Assert.EndsWith(
+            "Odpovede obchodníka (fakty mimo web, nič iné nedomýšľaj):\n- otázka certificate_evidence (certificate: COSMOS): odpoveď „Nie“, tvrdenie sa nedá doložiť; vo vete ho neuvádzaj.\n",
+            request.PagePart, StringComparison.Ordinal);
+        Assert.Equal(RewriteStatus.Resolved, Assert.Single(result.Pages[0].Findings).Status);
+    }
+
+    [Fact]
     public async Task SecondRunComesFromTheCacheAndCostsNothing()
     {
         var client = new RecordingClient(_ => """{"changes":[],"kept":[{"finding_id":"F1","reason_cs":"x"}]}""");
@@ -190,7 +220,7 @@ public class RewriteTests
 
     internal static RewritePageInput Page(string url, string mainText) => new() { Url = url, Type = "product", Title = "Produkt", MainText = mainText };
 
-    private static Finding Finding(string text, string url) => new()
+    private static Finding Finding(string text, string url, string checkability = "text") => new()
     {
         RuleId = "eco_generic_claim",
         Module = "eco",
@@ -198,7 +228,7 @@ public class RewriteTests
         Text = text,
         Urls = [url],
         Sources = [SegmentSource.Main],
-        Verdicts = [new JurisdictionVerdict { Jurisdiction = "sk", Severity = "high", Checkability = "text", RuleSet = "eco", RuleSetVersion = "eco-test" }],
+        Verdicts = [new JurisdictionVerdict { Jurisdiction = "sk", Severity = "high", Checkability = checkability, RuleSet = "eco", RuleSetVersion = "eco-test" }],
     };
 
     internal sealed class RecordingClient(Func<RewriteRequest, string> answer) : IRewriteClient
