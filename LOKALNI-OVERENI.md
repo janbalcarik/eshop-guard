@@ -91,7 +91,7 @@ Očekávání: stavy `discovering → crawling → … → finished | partial` (
 | 3.9 | Porovnání verzí goodie.sk na popisu z profilu (`markets --profiles`) | **hotovo 2. 10. 2026: 0,206 USD** (rozbor 0,057 + profil 0,149) | změna 7, odchylka 20 |
 | 3.10 | Práh započtení verze a jazyk popisů: `markets --profiles` na bonami, freshlabels, havlikovaapoteka, panakeia a znovu goodie | ~0,55–0,95 USD (rozbor ~0,06 USD na e-shop, nový profil 0,07–0,15 USD; goodie má profil uložený) | změna 7, úkol 7.4 a odchylka 20 |
 | 3.11 | Cena za každou zemi a produkty bez produktové sitemap: `markets --profiles --markets sk,cz` na stejných 5 e-shopech | ~0,30–0,60 USD (rozbor ~0,06 USD na e-shop; freshlabels a havlikovaapoteka dostanou poprvé produkty do vzorku, takže možná nový profil 0,07–0,15 USD) | změna 7, úkoly 8.4–8.6 |
-| 3.12 | Živá ukázka www.naturfyt.sk přes API (e-shop, rozpoznání platformy, ukázka, místa prodeje, verze, rozsah) | ≤ 1,00 USD (strop ukázky; strategie 0,5–1 USD, rozbor zemí a verzí ~0,06 USD je v tom) | změna 10, úkol 11.5; zároveň změna 8, úkol 13.7 |
+| 3.12 | Živá ukázka www.naturfyt.sk přes API (e-shop, rozpoznání platformy, ukázka, místa prodeje, verze, rozsah) | **hotovo 2. 10. 2026: 0,317 USD** (Jev 0,169, OpenAI 0,148; strop 1,00 USD) | změna 10, úkol 11.5; zároveň změna 8, úkol 13.7 |
 
 Postup u jednotlivých kroků:
 

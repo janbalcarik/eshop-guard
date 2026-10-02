@@ -191,8 +191,14 @@
   3. ukázka s `MockJevClient` a `MockRewriteClient` (změna 8);
   4. místa prodeje, verze, `quote` s `FakePriceQuoteService`.
   - *Provedeno 2. 10. 2026 s odchylkou (design, odchylka 16):* worker vnitřní síť nestahuje (změna 8), rozpoznání a ukázka na `localhost:8000` proto skončily kódem chyby; zbytek nad daty ve tvaru rozboru ukázky. `quote` bez `FakePriceQuoteService` (ta je jen v testech) vrátil `503 billing.unavailable`.
-- [ ] 11.5 Živá ukázka na skutečném e-shopu (Jev a OpenAI jsou placené):
+- [x] 11.5 Živá ukázka na skutečném e-shopu (Jev a OpenAI jsou placené):
   - před spuštěním odhad ceny (strategie: ~0,5–1 USD na ukázku; rozbor zemí a verzí ~0,05 USD na e-shop podle měření 1. 10. 2026) a souhlas uživatele;
-  - bez souhlasu se nespouští. *Souhlas 2. 10. 2026, spouští uživatel lokálně (krok 3.12 v `LOKALNI-OVERENI.md`, skript `deploy/dev/live-sample.ps1`, e-shop www.naturfyt.sk, strop 1,00 USD). Čeká na výsledek.*
+  - bez souhlasu se nespouští. *Souhlas 2. 10. 2026, spouští uživatel lokálně (krok 3.12 v `LOKALNI-OVERENI.md`, skript `deploy/dev/live-sample.ps1`, e-shop www.naturfyt.sk, strop 1,00 USD). Provedeno 2. 10. 2026 (`deploy\dev\run-live-sample.cmd`):*
+    - *rozpoznání `shoptet`, `certain`, signály `shoptet.cdn_host` a `shoptet.web_author`;*
+    - *ukázka `finished` za 2 min 46 s: 100 stránek zkontrolováno, 3 937 nezkontrolováno (`over_limit`), 31 nálezů (5 vysoká, 25 střední, 1 nízká závažnost), ukázka opravy s `recheckStatus = ok`;*
+    - *země jen SK (`strong`, citace sídla a dopravy jen v rámci SR), jedna verze `sk`;*
+    - *rozsah: 4 036 ostatních stránek, počet produktů neznámý (`scope.product_count_unknown`; jedna sitemap bez produktové, počet dodá konektor změny 15, K-ROZHODNUTI A21);*
+    - *skutečná cena 0,317 USD (Jev 0,169, OpenAI 0,148), strop 1,00 USD;*
+    - *v logech API a workeru nejsou klíče, hesla ani tokeny.*
 - [x] 11.6 `dotnet build` a `dotnet test` projdou.
 - [x] 11.7 `openspec validate add-shops-and-onboarding-api` projde.
