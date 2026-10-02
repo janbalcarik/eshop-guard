@@ -79,6 +79,7 @@ public sealed class FrontendOptions
         ["protocols.item"] = "/app/{tenantId}/obchody/{shopId}/protokoly/{protocolId}",
         ["publications.item"] = "/app/{tenantId}/obchody/{shopId}/publikacie/{publicationId}",
         ["settings.members"] = "/app/{tenantId}/nastavenia/clenovia",
+        ["billing.overview"] = "/app/{tenantId}/predplatne",
     };
 
     /// <summary>The link of a target of a notification; an unknown key leads to the overview of the tenant.</summary>

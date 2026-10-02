@@ -19,6 +19,10 @@ internal sealed class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
         builder.Property(x => x.AmountGross).HasPrecision(12, 2);
         builder.Property(x => x.Currency).HasColumnType("character(3)");
         builder.HasEnum(x => x.EinvoiceStatus);
+        builder.HasEnum(x => x.Status);
+        builder.HasEnum(x => x.SourceKind);
+        builder.HasEnum(x => x.EmailStatus).HasDefaultValueSql("'not_required'");
+        builder.HasIndex(x => x.SourceKey).IsUnique();
         builder.HasIndex(x => new { x.TenantId, x.IssuedAt }).IsDescending(false, true);
         builder.HasTenantForeignKey<Shop>(nameof(Invoice.ShopId));
         builder.HasTenantForeignKey<Payment>(nameof(Invoice.PaymentId));

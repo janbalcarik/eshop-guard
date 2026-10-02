@@ -24,6 +24,14 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(x => x.Currency).HasColumnType("character(3)");
         builder.HasEnum(x => x.Status);
         builder.HasIndex(x => x.StripeCheckoutSessionId).IsUnique();
+        builder.Property(x => x.MonitoringMonthly).HasPrecision(12, 2);
+        builder.Property(x => x.MonitoringDiscountPercent).HasPrecision(5, 2);
+        builder.HasEnum(x => x.TaxTreatment);
+        builder.Property(x => x.CheckoutAttempt).HasDefaultValue(0);
+
+        // One open order per e-shop: a second tab gets the open one (requirement „Garantovaná cena objednávky“).
+        builder.HasIndex(x => x.ShopId).IsUnique().HasFilter("status IN ('created', 'checkout_open')").HasDatabaseName("ux_orders_open_per_shop");
+        builder.HasTenantForeignKey<PriceQuote>(nameof(Order.PriceQuoteId));
         builder.HasTenantForeignKey<Shop>(nameof(Order.ShopId));
         builder.HasOne<PriceList>().WithMany().HasForeignKey(x => x.PriceListId).OnDelete(DeleteBehavior.Restrict);
         builder.HasTenantForeignKey<Run>(nameof(Order.RunId));

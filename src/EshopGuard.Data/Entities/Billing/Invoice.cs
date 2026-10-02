@@ -44,7 +44,21 @@ public sealed class Invoice : TenantEntity
 
     public string? PdfBlobKey { get; set; }
 
-    public required string Status { get; set; }
+    public InvoiceStatus Status { get; set; }
 
     public Guid? CreditNoteFor { get; set; }
+
+    /// <summary>The id of the paid invoice or of the refund of Stripe (unique: one invoice per payment, AD 8).</summary>
+    public string? SourceKey { get; set; }
+
+    public InvoiceSourceKind? SourceKind { get; set; }
+
+    public DateOnly? PeriodFrom { get; set; }
+
+    public DateOnly? PeriodTo { get; set; }
+
+    /// <summary>Code (and HTTP status) why the invoice waits for a person, e.g. <c>tax_mismatch</c>; never a text of SuperFaktúra.</summary>
+    public string? NeedsReviewReason { get; set; }
+
+    public InvoiceEmailStatus EmailStatus { get; set; }
 }

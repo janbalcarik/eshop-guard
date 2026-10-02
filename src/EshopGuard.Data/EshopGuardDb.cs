@@ -186,6 +186,9 @@ public sealed class EshopGuardDb : DbContext
     /// <summary><c>billing.payment_methods</c>.</summary>
     public DbSet<PaymentMethod> PaymentMethods => Set<PaymentMethod>();
 
+    /// <summary><c>billing.price_quotes</c> (change 12).</summary>
+    public DbSet<PriceQuote> PriceQuotes => Set<PriceQuote>();
+
     /// <summary><c>billing.orders</c>.</summary>
     public DbSet<Order> Orders => Set<Order>();
 

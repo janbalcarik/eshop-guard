@@ -20,7 +20,9 @@ public sealed class GrantsTests(PostgresTestDatabase database)
         m["iam.user_tokens"] = ("SIU", "SD", Siud); // daily auth.cleanup of the worker (change 9)
         foreach (var t in new[] { "checks.rule_sets", "billing.price_lists", "billing.price_tiers", "billing.volume_discounts", "billing.promo_codes", "ref.markets", "ref.locales" }) m[t] = ("S", "SIU", Siud);
         m["shop.free_sample_claims"] = (string.Empty, string.Empty, Siud); // only through shop.claim_free_sample (change 8)
-        m["billing.stripe_events"] = ("SIU", "SU", Siud);
+        m["billing.stripe_events"] = ("SIU", "SIU", Siud); // the nightly reconciliation stores lost webhooks (change 12)
+        m["billing.price_tiers"] = ("S", Siud, Siud); // the worker replaces the tiers of a draft (change 12)
+        m["billing.volume_discounts"] = ("S", Siud, Siud);
         m["usage.usage_records"] = (string.Empty, "SIU", "S");
         m["usage.usage_daily"] = (string.Empty, "SIU", "S");
         m["ops.jobs"] = ("SIU", Siud, Siud);

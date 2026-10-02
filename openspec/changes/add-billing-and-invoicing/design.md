@@ -431,3 +431,65 @@ Stripe ─► customer.updated / payment_method.attached ─► AccountCardServi
   - `BillingEndpointsAuthorizationTests` (role, izolace tenantů);
   - `OrderFlowTests`.
 - `tests/EshopGuard.Billing.IntegrationTests/`: běží jen s proměnnou `ESHOPGUARD_STRIPE_TEST=1` proti testovacímu režimu Stripe a sandboxu SuperFaktúry, ne v CI.
+
+## Odchylky při implementaci (2. 10. 2026)
+
+Implementace se řídí tímto návrhem s odchylkami níže. Většina vychází z povoleného směru závislostí, z práv rolí databáze
+(`eshopguard_app` jen čte globální ceník) a z chování Stripe.
+
+### Skupiny 1–4 (projekt, datový model, ceník, ocenění)
+- `EshopGuard.Billing` odkazuje i na `EshopGuard.Application` (`ProjectReferenceTests`): `IPriceQuoteService`, `ShopScope` a
+  `IShopOrderReadiness` změny 10 jsou tam (projekt `Application` vznikl až změnou 9). `Application` na `Billing` neodkazuje.
+- Obsluhy úloh `billing.*` jsou v knihovně `Billing` (`AddBillingJobs()`), ne ve `Worker/Handlers/Billing`: worker zůstává tenký
+  jako u změny 11. API registruje jen `AddEshopGuardBilling()`.
+- Brána `IStripeGateway` nevrací typy Stripe.net, ale vlastní záznamy (`Stripe/StripeModels.cs`); logika a testy Stripe.net
+  nevidí. Falešná brána je `tests/Shared/FakeStripeGateway.cs` (sdílí `Billing.Tests` a `Api.Tests`). Stripe.net 53.0.0,
+  verze API `2026-09-30.endive`; `Billing:Stripe:ApiVersion`, když je vyplněná, musí verzi balíčku odpovídat.
+- `Billing:Stripe:Mode` má navíc hodnotu `disabled` (vývoj bez klíčů, nikdy `Production`): ceny a nabídky fungují z databáze,
+  každé volání Stripe vrátí `503 billing.unavailable`, webhook nic nepřijme. Výchozí hodnota chybí (fail-closed), vývojové
+  `appsettings.Development.json` má `disabled`.
+- Daňová data jsou nastavení `Billing:Tax` (stát dodavatele, státy oblasti DPH EU, domácí sazba jen pro náhled), ne kód.
+- Admin API ceníku nemá roli v tenantovi: administrátoři EshopGuard jsou `Admin:UserIds` (výchozí prázdné = nikdo,
+  `RequirePlatformAdmin`, `EndpointPolicyValidator` to pro `/api/admin/` vyžaduje). API ceník jen čte; koncept, pásma, slevy,
+  náhled dopadu a žádost o zveřejnění provádí worker úlohou `billing.price_list_admin` (role worker smí do ceníku zapisovat a
+  vidí předplatná všech tenantů po tenantech). API čeká nejvýš `Api:InteractiveWaitSeconds`, pak `202` s úlohou. Náhled dopadu
+  je uložený v `price_lists.impact`.
+- Nové objekty Price vznikají bez `lookup_key`: Stripe odmítne klíč, který má jiná Price, bez `transfer_lookup_key`. Klíče
+  přejdou na nové Price až při aktivaci (`TransferLookupKeyAsync`). Uložené ID se zapisuje hned po každém volání, takže
+  přerušená synchronizace pokračuje a klíče idempotence chrání i mezikrok.
+- Aktivní ceník trhu a měny = zveřejněný s `valid_from` ≤ nyní, nejnovější (požadavek). Aktivace (`valid_from`) navíc převede
+  klíče, nastaví `ref.markets.price_list_id`, předchozí ceník převede na `retired` a založí převod předplatných.
+- Migrace se podle zvyklosti repozitáře jmenuje `F8Billing`; výchozí ceník je v `Migrations/Sql/F8/01_billing.sql`, ne
+  v `Seed/BillingSeed.sql`. Pásmo `t500` začíná 0 produkty (e-shop jen se stránkami), pásmo `custom` má ceny prázdné (sloupce
+  cen jsou nově nullable). Navíc: `price_tiers.archived_at` (archivace v Stripe), `payments.stripe_charge_id` (vrácení peněz),
+  `price_lists.impact`/`impact_at`, `orders.monitoring_monthly`, `monitoring_discount_percent`, `checkout_attempt`,
+  `subscriptions.order_id`, `schedule_hash`; stavy jako výčty s CHECK. Práva workeru: DELETE na `price_tiers` a
+  `volume_discounts` (náhrada pásem konceptu), INSERT do `stripe_events` (dorovnání), UPDATE jen sloupců `iam.tenants`
+  ze Stripe; audit ceníku bez tenanta jen pro akce `price_list.*` (politika `audit_log_insert_price_list`). Produkty Stripe
+  jsou v `ops.system_settings` (`billing:stripe_products:{mode}`).
+- Odpověď `POST …/quote` (`PriceQuoteDto`) má navíc `status`, `reasonCode`, `priceUnit` a `countedProducts`. Opakovaná nabídka
+  vrátí uložený řádek (stejné `quoteId` i částky).
+- Změna 8 žádný `AnalysisPriceEstimator` nemá, ukládá jen základ rozsahu: úkol 4.5 je splněný testem, že pásmo nabídky je
+  pásmo počtu ze základu ukázky.
+- Testy: pravidla bez databáze a služby workeru nad databází (role worker) v `EshopGuard.Billing.Tests`, endpointy
+  v `EshopGuard.Api.Tests/Billing`. Ceníky jsou globální, proto má každý test vlastní skrytý trh (`x…`).
+
+### Skupiny 5–6 (objednávka, Checkout, webhooky)
+- `POST /shops/{s}/orders` nejdřív ověří, že e-shop v tenantovi existuje (`404 shop.not_found`, stejně jako cizí e-shop), pak
+  verzi obchodních podmínek (`409 billing.terms_outdated` s `current`). Otevřená objednávka e-shopu se vrátí (`200`) dřív,
+  než se kontroluje nabídka; nová vznikne s `201`.
+- `GET /orders/{o}` přijímá `sessionId` z `success_url`: `awaitingConfirmation` je `true`, jen když objednávka čeká
+  v `checkout_open` a session je její. Návrat sám nic nepotvrzuje.
+- Věta Checkoutu o první měsíční platbě je v `Billing/Texts/{sk,cs}.json` (jazyk tenanta, datum v `Localization:TimeZone`),
+  ne v kódu. Částky se píší s nedělitelnou mezerou (`59 €`).
+- Obsluhy událostí jsou metody `StripeEventProcessor` (`Webhooks/`), ne samostatné třídy ve `Stripe/Handlers/`. Každá načte
+  aktuální objekt přes `IStripeGateway`. Tenant objektu je tenant jeho zákazníka; neznámý zákazník nebo metadata jiného
+  tenanta znamenají `ignored` a záznam v logu (fail-closed). Podle metadat se přiřadí jen objekt bez zákazníka.
+- Uvolnění běhu: `OrderTablePaymentGate` změny 8 už čte `billing.orders` se stavem `paid`, proto nevzniká
+  `BillingRunPaymentGate`. `RunService.MarkOrderPaidAsync` je idempotentní, druhá událost běh znovu nespustí.
+- `billing.stripe_events.payload` je celé tělo události (jako v návrhu databáze). Ze stejné tabulky čte procesor zákazníka
+  u `customer.tax_id.*`, jehož objektem je IČ DPH.
+- Webhook nad 512 kB vrací `413` a nic neuloží. Neplatný podpis, starší podpis než 300 s a chybějící hlavička vrací
+  `400 billing.webhook_signature_invalid`. Do logu jde jen kód.
+- Falešná brána dává ID unikátní napříč testy (sdílená testovací databáze má unikátní indexy na ID Stripe).
+- Úkol 5.5 (testovací hodiny Stripe, Apple Pay a Google Pay) potřebuje testovací účet Stripe, zůstává otevřený se skupinou 0.

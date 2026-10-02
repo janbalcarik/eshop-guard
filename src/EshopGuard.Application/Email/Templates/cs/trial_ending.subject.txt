@@ -1,0 +1,1 @@
+První platba za sledování {{shopName}} bude {{date}}

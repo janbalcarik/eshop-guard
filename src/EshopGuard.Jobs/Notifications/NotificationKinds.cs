@@ -17,6 +17,9 @@ public enum NotificationEmail
 
     /// <summary>Always to the roles editor and above (evidence, protocols, publications).</summary>
     EditorsAlways,
+
+    /// <summary>Always to the owners and admins, who pay (billing, change 12).</summary>
+    BillingAlways,
 }
 
 /// <summary>A kind of notification: its code (also the template of its e-mail) and its e-mail.</summary>
@@ -41,10 +44,19 @@ public static class NotificationKinds
     public static readonly NotificationKind MarketNowSupported = new("market_now_supported", NotificationEmail.None);
     public static readonly NotificationKind InvitationAccepted = new("invitation_accepted", NotificationEmail.None);
 
+    // Billing (change 12): the payments and prices of monitoring, to owners and admins.
+    public static readonly NotificationKind TrialEnding = new("trial_ending", NotificationEmail.BillingAlways);
+    public static readonly NotificationKind PaymentFailed = new("payment_failed", NotificationEmail.BillingAlways);
+    public static readonly NotificationKind SubscriptionEnded = new("subscription_ended", NotificationEmail.BillingAlways);
+    public static readonly NotificationKind PriceChange = new("price_change", NotificationEmail.BillingAlways);
+    public static readonly NotificationKind TierChange = new("tier_change", NotificationEmail.BillingAlways);
+    public static readonly NotificationKind PriceChangeCanceled = new("price_change_canceled", NotificationEmail.BillingAlways);
+
     public static IReadOnlyList<NotificationKind> All { get; } =
     [
         NewViolation, RunFinished, RunPartial, RunFailed, SampleFinished, WeeklySummary, EvidenceExpiring, EvidenceExpired, ProtocolReady, ProtocolFailed,
-        PublicationFailed, PublicationConflict, MarketSuggested, MarketNowSupported, InvitationAccepted,
+        PublicationFailed, PublicationConflict, MarketSuggested, MarketNowSupported, InvitationAccepted, TrialEnding, PaymentFailed, SubscriptionEnded,
+        PriceChange, TierChange, PriceChangeCanceled,
     ];
 
     public static NotificationKind? Find(string? code) => All.FirstOrDefault(k => k.Code == code);
@@ -60,6 +72,7 @@ public static class NotificationRoutes
     public const string Publication = "publications.item";
     public const string Overview = "shops.overview";
     public const string Members = "settings.members";
+    public const string Billing = "billing.overview";
 }
 
 /// <summary>Settings <c>Notifications</c>: the e-mails of a member without a row of settings (K rozhodnutí 8, proposal).</summary>

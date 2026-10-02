@@ -12,4 +12,6 @@ public sealed class VolumeDiscount : GlobalEntity
     public decimal Percent { get; set; }
 
     public string? StripeCouponId { get; set; }
+
+    public StripeMode? StripeMode { get; set; }
 }

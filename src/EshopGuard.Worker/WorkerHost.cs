@@ -1,4 +1,5 @@
 using EshopGuard.Application;
+using EshopGuard.Billing;
 using EshopGuard.Data;
 using EshopGuard.Data.Connections;
 using EshopGuard.Jobs;
@@ -41,6 +42,10 @@ public static class WorkerHost
         builder.Services.AddFixJobs();
         builder.Services.AddEvidenceJobs();
         builder.Services.AddProtocolJobs();
+
+        // Billing (change 12): Billing checked at start, the jobs billing.* with the gateway of Stripe and SuperFaktúra.
+        builder.Services.AddEshopGuardBilling();
+        builder.Services.AddBillingJobs();
 
         // E-mails of the outbox (job email.send, change 9): templates, SMTP, languages; Email and Frontend checked at start.
         builder.Services.AddEshopGuardEmailDelivery();

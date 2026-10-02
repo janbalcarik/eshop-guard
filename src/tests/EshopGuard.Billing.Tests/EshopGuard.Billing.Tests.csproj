@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EshopGuard.Billing\EshopGuard.Billing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Shared\FakeStripeGateway.cs" Link="Shared\FakeStripeGateway.cs" />
+    <Compile Include="..\Shared\StripeTestEvents.cs" Link="Shared\StripeTestEvents.cs" />
+    <Compile Include="..\Shared\TestDatabase.cs" Link="Shared\TestDatabase.cs" />
+    <Compile Include="..\Shared\InMemoryLoggerProvider.cs" Link="Shared\InMemoryLoggerProvider.cs" />
+  </ItemGroup>
+
+</Project>

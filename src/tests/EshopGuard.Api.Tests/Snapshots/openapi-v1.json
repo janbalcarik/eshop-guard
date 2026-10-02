@@ -22,6 +22,26 @@
         ],
         "type": "object"
       },
+      "AdminJobDto": {
+        "properties": {
+          "jobId": {
+            "format": "int64",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "state": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "jobId",
+          "state"
+        ],
+        "type": "object"
+      },
       "AlternativeDto": {
         "properties": {
           "key": {
@@ -447,6 +467,27 @@
         ],
         "type": "object"
       },
+      "CheckoutDto": {
+        "properties": {
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "orderId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "orderId",
+          "url",
+          "expiresAt"
+        ],
+        "type": "object"
+      },
       "ConfirmMarketsRequest": {
         "properties": {
           "active": {
@@ -525,6 +566,71 @@
           "email",
           "role",
           "locale"
+        ],
+        "type": "object"
+      },
+      "CreateOrderRequest": {
+        "properties": {
+          "quoteId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "scopeHash": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "termsVersion": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "quoteId",
+          "scopeHash",
+          "termsVersion"
+        ],
+        "type": "object"
+      },
+      "CreatePriceListRequest": {
+        "properties": {
+          "copyFrom": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "currency": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "marketCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "name": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "marketCode",
+          "currency",
+          "name",
+          "copyFrom"
         ],
         "type": "object"
       },
@@ -3054,6 +3160,150 @@
         ],
         "type": "object"
       },
+      "OrderDto": {
+        "properties": {
+          "analysisGross": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "analysisNet": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "awaitingConfirmation": {
+            "type": "boolean"
+          },
+          "checkoutExpiresAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "monitoringDiscountPercent": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "monitoringMonthlyNet": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "paidAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "quoteId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "runId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "shopId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "taxTreatment": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "tierCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "trialEndPlanned": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "vatAmount": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "vatRate": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "number",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "shopId",
+          "status",
+          "awaitingConfirmation",
+          "quoteId",
+          "tierCode",
+          "currency",
+          "analysisNet",
+          "vatRate",
+          "vatAmount",
+          "analysisGross",
+          "monitoringMonthlyNet",
+          "monitoringDiscountPercent",
+          "taxTreatment",
+          "trialEndPlanned",
+          "checkoutExpiresAt",
+          "paidAt",
+          "runId",
+          "createdAt"
+        ],
+        "type": "object"
+      },
       "OverviewDto": {
         "properties": {
           "badges": {
@@ -3514,6 +3764,169 @@
         ],
         "type": "object"
       },
+      "PriceListDto": {
+        "properties": {
+          "activatedAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "currency": {
+            "type": "string"
+          },
+          "fairUseOtherPagesFactor": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "marketCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "noticeDays": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "publishedAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "stripeMode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "syncError": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "syncStatus": {
+            "type": "string"
+          },
+          "tiers": {
+            "items": {
+              "$ref": "#/components/schemas/PriceTierDto"
+            },
+            "type": "array"
+          },
+          "validFrom": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "volumeDiscounts": {
+            "items": {
+              "$ref": "#/components/schemas/VolumeDiscountDto"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "marketCode",
+          "currency",
+          "validFrom",
+          "publishedAt",
+          "activatedAt",
+          "status",
+          "syncStatus",
+          "syncError",
+          "stripeMode",
+          "noticeDays",
+          "fairUseOtherPagesFactor",
+          "tiers",
+          "volumeDiscounts"
+        ],
+        "type": "object"
+      },
+      "PriceListImpactDto": {
+        "properties": {
+          "computedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "decrease": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "firstDecreaseAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "firstIncreaseAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "increase": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "noticeDays": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "unchanged": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "computedAt",
+          "increase",
+          "decrease",
+          "unchanged",
+          "firstIncreaseAt",
+          "firstDecreaseAt",
+          "noticeDays"
+        ],
+        "type": "object"
+      },
       "PriceQuoteDto": {
         "properties": {
           "analysisNet": {
@@ -3522,6 +3935,15 @@
             "type": [
               "null",
               "number",
+              "string"
+            ]
+          },
+          "countedProducts": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
               "string"
             ]
           },
@@ -3566,8 +3988,24 @@
               "string"
             ]
           },
+          "priceUnit": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
           "quoteId": {
             "format": "uuid",
+            "type": "string"
+          },
+          "reasonCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "default": "offer",
             "type": "string"
           },
           "tierCode": {
@@ -3624,6 +4062,142 @@
           "firstMonitoringChargeAt",
           "vatPreview",
           "validUntil"
+        ],
+        "type": "object"
+      },
+      "PriceTierDto": {
+        "properties": {
+          "analysisPrice": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "archived": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "isCustom": {
+            "type": "boolean"
+          },
+          "maxProducts": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "minProducts": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "monitoringMonthly": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "monitoringYearly": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "synced": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "minProducts",
+          "maxProducts",
+          "analysisPrice",
+          "monitoringMonthly",
+          "monitoringYearly",
+          "isCustom",
+          "synced",
+          "archived"
+        ],
+        "type": "object"
+      },
+      "PriceTierRequest": {
+        "properties": {
+          "analysisPrice": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "code": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "maxProducts": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "minProducts": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "monitoringMonthly": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "monitoringYearly": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "code",
+          "minProducts",
+          "maxProducts",
+          "analysisPrice",
+          "monitoringMonthly",
+          "monitoringYearly"
         ],
         "type": "object"
       },
@@ -3843,6 +4417,113 @@
         ],
         "type": "object"
       },
+      "PublicPriceListDto": {
+        "properties": {
+          "currency": {
+            "type": "string"
+          },
+          "market": {
+            "type": "string"
+          },
+          "noticeDays": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "tiers": {
+            "items": {
+              "$ref": "#/components/schemas/PublicPriceTierDto"
+            },
+            "type": "array"
+          },
+          "validFrom": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "volumeDiscounts": {
+            "items": {
+              "$ref": "#/components/schemas/VolumeDiscountDto"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "market",
+          "currency",
+          "validFrom",
+          "noticeDays",
+          "tiers",
+          "volumeDiscounts"
+        ],
+        "type": "object"
+      },
+      "PublicPriceTierDto": {
+        "properties": {
+          "analysisPrice": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "code": {
+            "type": "string"
+          },
+          "isCustom": {
+            "type": "boolean"
+          },
+          "maxProducts": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "minProducts": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "monitoringMonthly": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "monitoringYearly": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "code",
+          "minProducts",
+          "maxProducts",
+          "analysisPrice",
+          "monitoringMonthly",
+          "monitoringYearly",
+          "isCustom"
+        ],
+        "type": "object"
+      },
       "PublicationBatchDto": {
         "properties": {
           "publications": {
@@ -4057,6 +4738,21 @@
           "reasonCode",
           "platform",
           "acceptedCount"
+        ],
+        "type": "object"
+      },
+      "PublishPriceListRequest": {
+        "properties": {
+          "validFrom": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "validFrom"
         ],
         "type": "object"
       },
@@ -5402,6 +6098,43 @@
         ],
         "type": "object"
       },
+      "SetPriceTiersRequest": {
+        "properties": {
+          "fairUseFactor": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "noticeDays": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "tiers": {
+            "items": {
+              "$ref": "#/components/schemas/PriceTierRequest"
+            },
+            "type": [
+              "null",
+              "array"
+            ]
+          }
+        },
+        "required": [
+          "tiers",
+          "noticeDays",
+          "fairUseFactor"
+        ],
+        "type": "object"
+      },
       "SetSourceRequest": {
         "properties": {
           "feed": {
@@ -5424,6 +6157,23 @@
         "required": [
           "mode",
           "feed"
+        ],
+        "type": "object"
+      },
+      "SetVolumeDiscountsRequest": {
+        "properties": {
+          "discounts": {
+            "items": {
+              "$ref": "#/components/schemas/VolumeDiscountRequest"
+            },
+            "type": [
+              "null",
+              "array"
+            ]
+          }
+        },
+        "required": [
+          "discounts"
         ],
         "type": "object"
       },
@@ -6099,6 +6849,58 @@
         ],
         "type": "object"
       },
+      "VolumeDiscountDto": {
+        "properties": {
+          "fromShopNumber": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "percent": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "number",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "fromShopNumber",
+          "percent"
+        ],
+        "type": "object"
+      },
+      "VolumeDiscountRequest": {
+        "properties": {
+          "fromShopNumber": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "percent": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "fromShopNumber",
+          "percent"
+        ],
+        "type": "object"
+      },
       "WorkCountsDto": {
         "properties": {
           "accepted": {
@@ -6184,6 +6986,392 @@
   },
   "openapi": "3.1.1",
   "paths": {
+    "/api/admin/price-lists": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "market",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PriceListDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "admin"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid"
+        ]
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CreatePriceListRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceListDto"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminJobDto"
+                }
+              }
+            },
+            "description": "Accepted"
+          }
+        },
+        "tags": [
+          "admin"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.price_list_not_found",
+          "billing.unavailable",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/admin/price-lists/{priceListId}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "priceListId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceListDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "admin"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.price_list_not_found",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid"
+        ]
+      }
+    },
+    "/api/admin/price-lists/{priceListId}/impact": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "priceListId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceListImpactDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminJobDto"
+                }
+              }
+            },
+            "description": "Accepted"
+          }
+        },
+        "tags": [
+          "admin"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.price_list_not_found",
+          "billing.unavailable",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid"
+        ]
+      }
+    },
+    "/api/admin/price-lists/{priceListId}/publish": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "priceListId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/PublishPriceListRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminJobDto"
+                }
+              }
+            },
+            "description": "Accepted"
+          }
+        },
+        "tags": [
+          "admin"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.price_list_not_editable",
+          "billing.price_list_not_found",
+          "billing.price_list_tiers_invalid",
+          "billing.price_list_valid_from_invalid",
+          "billing.unavailable",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/admin/price-lists/{priceListId}/tiers": {
+      "put": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "priceListId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SetPriceTiersRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceListDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminJobDto"
+                }
+              }
+            },
+            "description": "Accepted"
+          }
+        },
+        "tags": [
+          "admin"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.price_list_not_editable",
+          "billing.price_list_not_found",
+          "billing.price_list_tiers_invalid",
+          "billing.unavailable",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/admin/price-lists/{priceListId}/volume-discounts": {
+      "put": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "priceListId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SetVolumeDiscountsRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceListDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminJobDto"
+                }
+              }
+            },
+            "description": "Accepted"
+          }
+        },
+        "tags": [
+          "admin"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.price_list_not_editable",
+          "billing.price_list_not_found",
+          "billing.unavailable",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "validation.failed"
+        ]
+      }
+    },
     "/api/auth/csrf": {
       "get": {
         "responses": {
@@ -7005,6 +8193,43 @@
           "csrf.invalid",
           "internal_error",
           "password.current_invalid",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/public/prices": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "market",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicPriceListDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "x-problem-codes": [
+          "billing.price_list_missing",
+          "csrf.invalid",
+          "internal_error",
           "rate_limited",
           "request.https_required",
           "request.invalid",
@@ -8063,6 +9288,101 @@
           "csrf.invalid",
           "internal_error",
           "notification.not_found",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/orders/{orderId}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sessionId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "billing"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.order_not_found",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/orders/{orderId}/checkout": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "billing"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.order_not_found",
+          "billing.order_not_open",
+          "billing.tax_id_pending",
+          "billing.tax_treatment_undetermined",
+          "billing.unavailable",
+          "csrf.invalid",
+          "internal_error",
           "rate_limited",
           "request.https_required",
           "request.invalid",
@@ -9981,6 +11301,94 @@
           "shop.not_found",
           "tenant.not_found",
           "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/orders": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CreateOrderRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDto"
+                }
+              }
+            },
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "billing"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.company_id_required",
+          "billing.quote_not_found",
+          "billing.quote_not_payable",
+          "billing.tax_treatment_undetermined",
+          "billing.terms_outdated",
+          "csrf.invalid",
+          "internal_error",
+          "markets.not_confirmed",
+          "quote.stale",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "sample.not_finished",
+          "shop.not_found",
+          "shop.ownership_not_verified",
+          "shop.status_not_orderable",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
         ]
       }
     },
@@ -12084,6 +13492,28 @@
           "validation.failed"
         ]
       }
+    },
+    "/api/webhooks/stripe": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "webhooks"
+        ],
+        "x-problem-codes": [
+          "billing.unavailable",
+          "billing.webhook_mode_mismatch",
+          "billing.webhook_signature_invalid",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid"
+        ]
+      }
     }
   },
   "servers": [
@@ -12117,16 +13547,28 @@
       "name": "fixes"
     },
     {
+      "name": "billing"
+    },
+    {
       "name": "invitations"
     },
     {
       "name": "ref"
     },
     {
-      "name": "catalog"
+      "name": "admin"
+    },
+    {
+      "name": "public"
+    },
+    {
+      "name": "webhooks"
     },
     {
       "name": "files"
+    },
+    {
+      "name": "catalog"
     }
   ]
 }

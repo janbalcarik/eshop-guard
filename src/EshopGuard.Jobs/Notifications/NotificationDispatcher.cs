@@ -23,6 +23,7 @@ public sealed record NotificationRequest(Guid TenantId, Guid? ShopId, Notificati
 public sealed partial class NotificationDispatcher(IJobQueue queue, IOptions<NotificationsOptions> options)
 {
     private static readonly string[] Editors = ["owner", "admin", "editor"];
+    private static readonly string[] Payers = ["owner", "admin"];
 
     /// <summary>Sends the notification; returns the number of members it went to.</summary>
     public async Task<int> NotifyAsync(NpgsqlTransaction transaction, NotificationRequest request, CancellationToken ct)
@@ -89,6 +90,11 @@ public sealed partial class NotificationDispatcher(IJobQueue queue, IOptions<Not
         if (email == NotificationEmail.EditorsAlways)
         {
             return members.Where(m => Editors.Contains(m.Role)).Select(m => m.UserId).ToList();
+        }
+
+        if (email == NotificationEmail.BillingAlways)
+        {
+            return members.Where(m => Payers.Contains(m.Role)).Select(m => m.UserId).ToList();
         }
 
         var column = email switch

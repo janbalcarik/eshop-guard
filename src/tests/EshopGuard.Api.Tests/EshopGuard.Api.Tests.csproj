@@ -12,6 +12,8 @@
   <ItemGroup>
     <Compile Include="..\Shared\TestDatabase.cs" Link="Shared\TestDatabase.cs" />
     <Compile Include="..\Shared\InMemoryLoggerProvider.cs" Link="Shared\InMemoryLoggerProvider.cs" />
+    <Compile Include="..\Shared\FakeStripeGateway.cs" Link="Shared\FakeStripeGateway.cs" />
+    <Compile Include="..\Shared\StripeTestEvents.cs" Link="Shared\StripeTestEvents.cs" />
   </ItemGroup>
 
 </Project>

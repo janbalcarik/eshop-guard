@@ -1,0 +1,7 @@
+Nové pásmo sledování
+
+Dobrý den, e-shop {{shopName}} má nyní {{products}} produktů. Od {{date}} se cena sledování mění z {{oldAmount}} na {{newAmount}} měsíčně bez DPH.{{#decrease}} Jde o snížení ceny.{{/decrease}}
+
+Předplatné a platby: {{link}}
+
+{{^decrease}}Do {{date}} můžete sledování zrušit v aplikaci.{{/decrease}}{{#decrease}}Nemusíte nic dělat.{{/decrease}}

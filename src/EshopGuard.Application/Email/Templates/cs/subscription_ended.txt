@@ -1,0 +1,7 @@
+Sledování skončilo
+
+Dobrý den, sledování e-shopu {{shopName}} skončilo {{date}}.{{#paymentFailed}} Platbu se nepodařilo strhnout.{{/paymentFailed}}
+
+Zapnout sledování: {{link}}
+
+Nálezy, opravy, doklady a protokoly zůstávají dostupné v aplikaci.

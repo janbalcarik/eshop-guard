@@ -1,0 +1,7 @@
+Změna ceny se neuplatní
+
+Dobrý den, ohlášená změna ceny sledování e-shopu {{shopName}} od {{date}} se neuplatní. Cena zůstává stejná.
+
+Předplatné a platby: {{link}}
+
+Nemusíte nic dělat.

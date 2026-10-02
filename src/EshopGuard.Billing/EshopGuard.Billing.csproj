@@ -1,13 +1,30 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- Orders, payments and invoices: filled by change 12 (add-billing-and-invoicing). -->
+  <!-- Price lists, quotes, orders, Stripe, tax treatment and invoices in SuperFaktúra (change 12, add-billing-and-invoicing). -->
   <PropertyGroup>
     <RootNamespace>EshopGuard.Billing</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="EshopGuard.Billing.Tests" />
+    <InternalsVisibleTo Include="EshopGuard.Api" />
+    <InternalsVisibleTo Include="EshopGuard.Api.Tests" />
+    <InternalsVisibleTo Include="EshopGuard.Worker" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EshopGuard.Data\EshopGuard.Data.csproj" />
     <ProjectReference Include="..\EshopGuard.Jobs\EshopGuard.Jobs.csproj" />
+    <ProjectReference Include="..\EshopGuard.Application\EshopGuard.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Texts/*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Stripe.net" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,1 @@
+Nové pásmo sledování {{shopName}} od {{date}}

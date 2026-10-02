@@ -1,0 +1,7 @@
+První měsíc sledování končí
+
+Dobrý den, první měsíc sledování e-shopu {{shopName}} končí. Dne {{date}} stáhneme z karty {{amount}} bez DPH za další měsíc.
+
+Předplatné a platby: {{link}}
+
+Sledování můžete do {{date}} zrušit v aplikaci a nic se nestrhne.

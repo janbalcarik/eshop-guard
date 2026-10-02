@@ -205,7 +205,12 @@ public sealed record ScopeDto(
 
 public sealed record QuoteDto(ScopeDto Scope, PriceQuoteDto Price);
 
-/// <summary>The price for a scope (amounts, discounts and VAT come from change 12).</summary>
+/// <summary>
+/// The price for a scope (change 12): amounts without VAT, the discount of the monitoring, the preview of VAT and the state
+/// (<c>offer</c> can be paid; <c>individual_offer</c> with <c>billing.fair_use_exceeded</c> or <c>billing.individual_offer</c>;
+/// <c>unavailable</c> with <c>billing.price_list_missing</c> or <c>billing.stripe_mode_mismatch</c>). <c>CountedProducts</c>
+/// in <c>PriceUnit</c> is what the tier was chosen by. Codes and numbers only; the frontend composes the sentences.
+/// </summary>
 public sealed record PriceQuoteDto(
     Guid QuoteId,
     Guid? PriceListId,
@@ -220,7 +225,11 @@ public sealed record PriceQuoteDto(
     decimal? TodayNet,
     DateTimeOffset? FirstMonitoringChargeAt,
     System.Text.Json.JsonElement? VatPreview,
-    DateTimeOffset ValidUntil);
+    DateTimeOffset ValidUntil,
+    string Status = "offer",
+    string? ReasonCode = null,
+    string? PriceUnit = null,
+    int? CountedProducts = null);
 
 public sealed record FairUseDto(int? OtherPagesLimit, bool Exceeded);
 

@@ -15,7 +15,9 @@ public sealed class CsrfTests : ApiTestBase
         using var browser = factory.CreateApiClient();
         var session = await browser.SignInByLinkAsync(factory, NewEmail());
         var tenantId = session.GetProperty("createdTenantId").GetGuid();
+        // Webhooks are signed by their sender and have no CSRF (EndpointPolicyValidator allows that only under /api/webhooks/).
         var endpoints = factory.Services.GetRequiredService<EndpointDataSource>().Endpoints.OfType<RouteEndpoint>()
+            .Where(e => e.Metadata.GetMetadata<DisableCsrfMetadata>() is null)
             .SelectMany(e => (e.Metadata.GetMetadata<HttpMethodMetadata>()?.HttpMethods ?? []).Select(m => (Method: m, Pattern: "/" + e.RoutePattern.RawText!.TrimStart('/'))))
             .Where(e => e.Pattern.StartsWith("/api/", StringComparison.Ordinal) && CsrfEndpointFilter.IsUnsafe(e.Method))
             .ToList();

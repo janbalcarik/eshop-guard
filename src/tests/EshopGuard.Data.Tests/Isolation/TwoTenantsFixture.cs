@@ -3,7 +3,7 @@ using EshopGuard.Tests.Shared;
 namespace EshopGuard.Data.Tests.Isolation;
 
 /// <summary>
-/// Tenants A and B, both with the e-shop <c>vegis.sk</c> and one row in each of the 43 tenant tables. New tenants on every
+/// Tenants A and B, both with the e-shop <c>vegis.sk</c> and one row in each of the 44 tenant tables. New tenants on every
 /// run: nothing has to be deleted, older rows are hidden by RLS, and other test projects using the same database are not disturbed.
 /// </summary>
 public sealed class TwoTenantsFixture : IAsyncLifetime

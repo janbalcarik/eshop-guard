@@ -44,7 +44,8 @@ public sealed class TimestampAndSeedTests(TwoTenantsFixture tenants)
     {
         await using var db = TestDatabase.CreateDb("App", new TenantContext());
         var locales = await db.Locales.AsNoTracking().OrderBy(l => l.Code).ToListAsync(Ct);
-        var markets = await db.Markets.AsNoTracking().OrderBy(m => m.Code).ToListAsync(Ct);
+        // Tests of billing (change 12) add hidden markets of their own (code x…) to the shared test database.
+        var markets = await db.Markets.AsNoTracking().Where(m => !m.Code.StartsWith("x")).OrderBy(m => m.Code).ToListAsync(Ct);
 
         Assert.Equal(["cs", "sk"], locales.Select(l => l.Code));
         Assert.All(locales, l => Assert.False(l.Enabled));

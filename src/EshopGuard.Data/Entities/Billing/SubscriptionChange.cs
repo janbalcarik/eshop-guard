@@ -20,5 +20,11 @@ public sealed class SubscriptionChange : TenantEntity
 
     public DateTimeOffset? AppliedAt { get; set; }
 
-    public required string Status { get; set; }
+    public SubscriptionChangeStatus Status { get; set; }
+
+    /// <summary>Why the change exists or was canceled (<c>tier_up</c>, <c>back_in_tier</c> …).</summary>
+    public string? ReasonCode { get; set; }
+
+    /// <summary>Fingerprint of the phases of the schedule the change was written with.</summary>
+    public string? StripeSchedulePhaseHash { get; set; }
 }

@@ -12,6 +12,7 @@ internal sealed class VolumeDiscountConfiguration : IEntityTypeConfiguration<Vol
         builder.ToTable("volume_discounts", Schemas.Billing);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Percent).HasPrecision(5, 2);
+        builder.HasEnum(x => x.StripeMode);
         builder.HasIndex(x => new { x.PriceListId, x.FromShopNumber }).IsUnique();
         builder.HasOne<PriceList>().WithMany().HasForeignKey(x => x.PriceListId).OnDelete(DeleteBehavior.Restrict);
     }

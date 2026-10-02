@@ -36,4 +36,34 @@ public sealed class Order : TenantEntity
     public Guid? CreatedBy { get; set; }
 
     public DateTimeOffset? PaidAt { get; set; }
+
+    // The snapshot of the quote the customer confirmed (change 12, requirement „Garantovaná cena objednávky“).
+    public Guid? PriceQuoteId { get; set; }
+
+    public string? ScopeHash { get; set; }
+
+    public string? StripePriceAnalysis { get; set; }
+
+    public string? StripePriceMonitoring { get; set; }
+
+    public string? StripeCouponId { get; set; }
+
+    /// <summary>Monthly monitoring without VAT and before the discount, as quoted.</summary>
+    public decimal? MonitoringMonthly { get; set; }
+
+    public decimal? MonitoringDiscountPercent { get; set; }
+
+    public string? TermsVersion { get; set; }
+
+    public TaxTreatment? TaxTreatment { get; set; }
+
+    /// <summary>End of the trial planned when the payment starts (<c>Billing:TrialMode</c>).</summary>
+    public DateTimeOffset? TrialEndPlanned { get; set; }
+
+    public string? StripeSubscriptionId { get; set; }
+
+    public DateTimeOffset? CheckoutExpiresAt { get; set; }
+
+    /// <summary>Number of Checkout Sessions created (part of the idempotency key <c>checkout:{orderId}:{attempt}</c>).</summary>
+    public int CheckoutAttempt { get; set; }
 }

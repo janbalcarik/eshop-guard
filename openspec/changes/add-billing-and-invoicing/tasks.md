@@ -30,43 +30,43 @@
 
 ## 1. Projekt a konfigurace
 
-- [ ] 1.1 Založit `src/EshopGuard.Billing/EshopGuard.Billing.csproj`:
+- [x] 1.1 Založit `src/EshopGuard.Billing/EshopGuard.Billing.csproj`:
   - reference na `EshopGuard.Data` a `EshopGuard.Jobs`, balíček `Stripe.net` v pevné verzi;
   - přidat do `EshopGuard.sln`.
 
   Test: `dotnet build` projde.
-- [ ] 1.2 Přidat `BillingOptions`:
+- [x] 1.2 Přidat `BillingOptions`:
   - sekce `Billing:Stripe`, `Billing:SuperFaktura`, `TrialMode`, `TierChangeNoticeDays`, `CheckoutExpiresMinutes`, `PublicAppUrl`;
   - `ToString()` s maskou;
   - čtení z user-secrets a proměnných prostředí;
   - doplnit prázdné klíče do `.env.example`.
 
   Test: `BillingOptionsTests.ToString_masks_secrets`.
-- [ ] 1.3 Přidat `BillingOptionsValidator`:
+- [x] 1.3 Přidat `BillingOptionsValidator`:
   - shoda `Mode` s předponou klíče (`sk_test_`/`rk_test_` × `sk_live_`/`rk_live_`);
   - živý klíč mimo `Production` znamená chybu;
   - chybějící `WebhookSecret` znamená chybu;
   - `SuperFaktura:Sandbox` mimo `Production` musí být `true`.
 
   Testy `BillingOptionsValidatorTests` (4 případy z požadavku „Testovací režim a ochrana platebních klíčů“).
-- [ ] 1.4 Přidat `IStripeGateway` a `StripeGateway`:
+- [x] 1.4 Přidat `IStripeGateway` a `StripeGateway`:
   - jen metody potřebné v této změně;
   - každé zápisové volání s parametrem `idempotencyKey`;
   - vypnuté logování těl a hlaviček.
 
   Test: `StripeGatewayTests.Write_calls_require_idempotency_key` (analyzátor nebo reflexe).
-- [ ] 1.5 Přidat `ServiceCollectionExtensions.AddEshopGuardBilling` a napojit ho v `EshopGuard.Api/Program.cs` a `EshopGuard.Worker/Program.cs`. Test: start API s testovací konfigurací ve `WebApplicationFactory`.
+- [x] 1.5 Přidat `ServiceCollectionExtensions.AddEshopGuardBilling` a napojit ho v `EshopGuard.Api/Program.cs` a `EshopGuard.Worker/Program.cs`. Test: start API s testovací konfigurací ve `WebApplicationFactory`.
 
 ## 2. Datový model
 
-- [ ] 2.1 Porovnat stav schématu `billing` ze změny 3 se seznamem v `design.md`, File Changes. Zapsat rozdíly do komentáře migrace.
-- [ ] 2.2 Migrace `AddBilling` v `src/EshopGuard.Data/Migrations`:
+- [x] 2.1 Porovnat stav schématu `billing` ze změny 3 se seznamem v `design.md`, File Changes. Zapsat rozdíly do komentáře migrace.
+- [x] 2.2 Migrace `AddBilling` v `src/EshopGuard.Data/Migrations`:
   - doplněné sloupce `price_lists`, `price_tiers` (tři `lookup_key_*`), `volume_discounts`, `orders`, `subscriptions`, `subscription_changes`, `invoices`, `stripe_events` a `iam.tenants`;
   - částečné jedinečné indexy (otevřená objednávka na e-shop, běžící předplatné na e-shop, `invoices.source_key`).
 
   Test: migrace proběhne jako `eshopguard_owner` na prázdné i na naplněné databázi.
-- [ ] 2.3 Tabulka `billing.price_quotes` s RLS (`FORCE ROW LEVEL SECURITY`, politika `tenant_id`), konfigurace EF `PriceQuoteConfiguration`. Test v `EshopGuard.Data.Tests/RlsIsolationTests`: tenant A nevidí nabídky tenanta B přes EF ani čistým SQL jako `eshopguard_app`.
-- [ ] 2.4 `src/EshopGuard.Data/Seed/BillingSeed.sql`:
+- [x] 2.3 Tabulka `billing.price_quotes` s RLS (`FORCE ROW LEVEL SECURITY`, politika `tenant_id`), konfigurace EF `PriceQuoteConfiguration`. Test v `EshopGuard.Data.Tests/RlsIsolationTests`: tenant A nevidí nabídky tenanta B přes EF ani čistým SQL jako `eshopguard_app`.
+- [x] 2.4 `src/EshopGuard.Data/Seed/BillingSeed.sql`:
   - ceník SK/EUR a CZ/CZK jako koncept s pásmy podle `design.md`, `notice_days = 30`, `fair_use_other_pages_factor = 2`;
   - `volume_discounts` prázdné;
   - práva: `eshopguard_app` jen čte globální ceník.
@@ -75,16 +75,16 @@
 
 ## 3. Ceník a synchronizace do Stripe
 
-- [ ] 3.1 Implementovat `TierResolver.Resolve(priceList, countedProducts)` s hranicemi včetně a pásmem `custom`. Testy `TierResolverTests`: 0, 1, 500, 501, 20 000 a 20 001 produktů.
-- [ ] 3.2 Implementovat `PriceListService`:
+- [x] 3.1 Implementovat `TierResolver.Resolve(priceList, countedProducts)` s hranicemi včetně a pásmem `custom`. Testy `TierResolverTests`: 0, 1, 500, 501, 20 000 a 20 001 produktů.
+- [x] 3.2 Implementovat `PriceListService`:
   - koncept jako kopie aktivního ceníku;
   - úpravy pásem a slev jen ve stavu `draft`;
   - kontrola souvislosti pásem;
   - audit každé změny.
 
   Testy: úprava zveřejněného ceníku vrátí `billing.price_list_not_editable`.
-- [ ] 3.3 Implementovat `PriceListService.PreviewImpactAsync`: počty předplatných se zdražením, zlevněním a beze změny a nejbližší `effective_at`. Test na 40 předplatných podle scénáře „Náhled dopadu před zveřejněním“.
-- [ ] 3.4 Implementovat `StripeCatalogSync.SyncAsync(priceListId)`:
+- [x] 3.3 Implementovat `PriceListService.PreviewImpactAsync`: počty předplatných se zdražením, zlevněním a beze změny a nejbližší `effective_at`. Test na 40 předplatných podle scénáře „Náhled dopadu před zveřejněním“.
+- [x] 3.4 Implementovat `StripeCatalogSync.SyncAsync(priceListId)`:
   - Product „analýza“ a „sledování“ (ID v `ops.system_settings` `billing:stripe_products:{mode}`);
   - 3 Price na pásmo (`tax_behavior = exclusive`, `lookup_key` bez převodu);
   - kupóny `percent_off`, `duration = forever`, `applies_to.products`;
@@ -92,42 +92,42 @@
   - stav `published` až po uložení všech ID.
 
   Testy s `FakeStripeGateway`: úspěch (12 Price, 1 kupón) a pád po 5 Price s dokončením při opakování.
-- [ ] 3.5 Implementovat `PriceListService.ActivateAsync` (úloha `billing.activate_price_list`, `not_before = valid_from`):
+- [x] 3.5 Implementovat `PriceListService.ActivateAsync` (úloha `billing.activate_price_list`, `not_before = valid_from`):
   - převod `lookup_key` s `transfer_lookup_key = true`;
   - `ref.markets.price_list_id`;
   - předchozí ceník `retired`;
   - založení `billing.schedule_price_list_transfer`.
 
   Test: aktivace dvakrát za sebou nic nezdvojí.
-- [ ] 3.6 Admin API `AdminPriceListEndpoints`:
+- [x] 3.6 Admin API `AdminPriceListEndpoints`:
   - koncept, úpravy, náhled dopadu, zveřejnění s `valid_from`;
   - jen administrátorská role, audit.
 
   Testy oprávnění v `EshopGuard.Api.Tests/Billing/AdminPriceListEndpointsTests`.
-- [ ] 3.7 Veřejný endpoint `GET /api/public/prices?market=sk`: aktivní ceník bez ID Stripe, s měnou a pásmy, cache 5 min. Test: koncept se nevrací a chybějící ceník vrátí 404 `billing.price_list_missing`.
-- [ ] 3.8 Úloha `billing.archive_unused_prices`: archivuje Price bez běžícího předplatného a bez otevřené objednávky. Test: Price s běžícím předplatným se nearchivuje.
+- [x] 3.7 Veřejný endpoint `GET /api/public/prices?market=sk`: aktivní ceník bez ID Stripe, s měnou a pásmy, cache 5 min. Test: koncept se nevrací a chybějící ceník vrátí 404 `billing.price_list_missing`.
+- [x] 3.8 Úloha `billing.archive_unused_prices`: archivuje Price bez běžícího předplatného a bez otevřené objednávky. Test: Price s běžícím předplatným se nearchivuje.
 
 ## 4. Ocenění rozsahu
 
-- [ ] 4.1 Implementovat `PriceQuoteService : IPriceQuoteService` (rozhraní ze změny 10) nad `ShopScope`:
+- [x] 4.1 Implementovat `PriceQuoteService : IPriceQuoteService` (rozhraní ze změny 10) nad `ShopScope`:
   - výběr ceníku (měna trhu, dokud `tenants.currency` je NULL);
   - pásmo, sleva podle pořadí, `vat_preview`;
   - důvody nezapočtení verzí převzaté beze změny.
 
   Testy `PriceQuoteServiceTests`: rozsah 11 668 → `t20000`, rozsah po odškrtnutí CZ, chybějící ceník.
-- [ ] 4.2 Implementovat `FairUsePolicy` (ostatní stránky z rozsahu > faktor × produkty → `individual_offer`, `billing.fair_use_exceeded`). Testy na hranici přesně 2× a 2× + 1.
-- [ ] 4.3 Záznam ceny v `billing.price_quotes`: `INSERT … ON CONFLICT (shop_id, scope_hash, price_list_id) DO NOTHING`, vrácení `quoteId`. Test „Opakovaný dotaz se stejným rozsahem“.
-- [ ] 4.4 Napojení na změnu 10:
+- [x] 4.2 Implementovat `FairUsePolicy` (ostatní stránky z rozsahu > faktor × produkty → `individual_offer`, `billing.fair_use_exceeded`). Testy na hranici přesně 2× a 2× + 1.
+- [x] 4.3 Záznam ceny v `billing.price_quotes`: `INSERT … ON CONFLICT (shop_id, scope_hash, price_list_id) DO NOTHING`, vrácení `quoteId`. Test „Opakovaný dotaz se stejným rozsahem“.
+- [x] 4.4 Napojení na změnu 10:
   - registrace `PriceQuoteService` místo `FakePriceQuoteService`;
   - `POST …/quote` vrací ceny, `quoteId` a `scopeHash` jako kódy a parametry, žádné hotové věty (architektura, část 12, Aplikace);
   - bez ceníku `billing.price_list_missing`, bez základu `quote.basis_missing` ze změny 10.
 
   Test kontraktu v `OrderFlowTests`.
-- [ ] 4.5 Sladit se změnou 8 (proposal, K rozhodnutí 15): `AnalysisPriceEstimator` ukládá jen základ rozsahu a pásmo a částku bere z `IPriceQuoteService`. Test: `runs.estimate` ukázky a `POST …/quote` dají stejné pásmo.
+- [x] 4.5 Sladit se změnou 8 (proposal, K rozhodnutí 15): `AnalysisPriceEstimator` ukládá jen základ rozsahu a pásmo a částku bere z `IPriceQuoteService`. Test: `runs.estimate` ukázky a `POST …/quote` dají stejné pásmo.
 
 ## 5. Objednávka a Checkout
 
-- [ ] 5.1 Implementovat `OrderService.CreateAsync`:
+- [x] 5.1 Implementovat `OrderService.CreateAsync`:
   - `IShopOrderReadiness` (změna 10);
   - nový výpočet rozsahu a porovnání `scopeHash` a ceníku (409 `quote.stale` s `reason` a novou nabídkou), `billing.quote_not_payable`;
   - daňový režim;
@@ -136,17 +136,17 @@
   - `orders.run_id` = běh `full_analysis` ve stavu `awaiting_payment` z `RunService.CreateFullAnalysisAsync` (změna 8).
 
   Testy podle scénářů požadavku „Garantovaná cena objednávky“.
-- [ ] 5.2 Implementovat zákazníka Stripe pro tenanta (`customer:{tenantId}`):
+- [x] 5.2 Implementovat zákazníka Stripe pro tenanta (`customer:{tenantId}`):
   - jméno, adresa, `preferred_locales`, e-mail z `billing_email`;
   - IČ DPH přes `TaxIdService` z údajů tenanta, ne z Checkoutu.
 
   Test: druhé volání zákazníka nezaloží.
-- [ ] 5.3 Implementovat `CheckoutService.CreateSessionAsync` podle `design.md`:
+- [x] 5.3 Implementovat `CheckoutService.CreateSessionAsync` podle `design.md`:
   - položky, `trial_end`, metadata, `automatic_tax`, `locale`, `custom_text`, `discounts`, `expires_at`;
   - opakované použití otevřené session.
 
   Testy `CheckoutServiceTests`: parametry session, `calendar_month` 31. 1. → 28. 2., `days_30`.
-- [ ] 5.4 Endpointy `POST /orders`, `POST /orders/{o}/checkout` a `GET /orders/{o}` (stav `awaiting_confirmation` po návratu před webhookem). Testy `OrderFlowTests`.
+- [x] 5.4 Endpointy `POST /orders`, `POST /orders/{o}/checkout` a `GET /orders/{o}` (stav `awaiting_confirmation` po návratu před webhookem). Testy `OrderFlowTests`.
 - [ ] 5.5 Ověřit v dokumentaci Stripe a testem s testovacími hodinami (`IntegrationTests/CheckoutTrialTests`):
   - jednorázová položka se zaplatí hned i se zkušební dobou;
   - kupón s `applies_to` se nepoužije na analýzu;
@@ -157,14 +157,14 @@
 
 ## 6. Webhooky Stripe
 
-- [ ] 6.1 `StripeWebhookEndpoint`:
+- [x] 6.1 `StripeWebhookEndpoint`:
   - syrové tělo do 512 kB;
   - `EventUtility.ConstructEvent` s tolerancí 300 s;
   - kontrola `livemode`;
   - `INSERT … ON CONFLICT DO NOTHING` a úloha `billing.process_stripe_event` v jedné transakci, 200.
 
   Testy `StripeWebhookEndpointTests`: neplatný podpis 400, duplicita 200 bez úlohy, nesoulad režimu 400.
-- [ ] 6.2 `StripeEventProcessor` s obsluhami v `Stripe/Handlers/`:
+- [x] 6.2 `StripeEventProcessor` s obsluhami v `Stripe/Handlers/`:
   - `CheckoutSessionHandler` (completed, expired);
   - `InvoiceHandler` (paid, payment_failed, payment_action_required);
   - `SubscriptionHandler` (created, updated, deleted);
@@ -177,14 +177,14 @@
   Testy:
   - `StripeEventProcessorTests.Out_of_order_updates_keep_latest_state`;
   - deduplikace napříč událostmi: webhook i dorovnání dají jeden doklad.
-- [ ] 6.3 Uvolnění běhu po `checkout.session.completed`:
+- [x] 6.3 Uvolnění běhu po `checkout.session.completed`:
   - `orders` jen z `created`/`checkout_open` na `paid`;
   - `RunService.MarkOrderPaidAsync(order)` (změna 8, idempotentní);
   - `BillingRunPaymentGate : IRunPaymentGate` místo `OrderTablePaymentGate`;
   - audit `order.paid`.
 
   Test: dvakrát zpracovaná událost uvolní běh jednou a nezaplacená objednávka vrátí `order_not_paid`.
-- [ ] 6.4 Úloha `billing.reconcile_stripe` (denně 4:00): faktury zaplacené a předplatná změněná za 72 h, doplnění přes stejný procesor. Test: chybějící `invoice.paid` vytvoří platbu a úlohu dokladu se stejným `dedupe_key`.
+- [x] 6.4 Úloha `billing.reconcile_stripe` (denně 4:00): faktury zaplacené a předplatná změněná za 72 h, doplnění přes stejný procesor. Test: chybějící `invoice.paid` vytvoří platbu a úlohu dokladu se stejným `dedupe_key`.
 
 ## 7. Předplatné, karta a zrušení
 
@@ -253,7 +253,7 @@
 
 ## 9. Daňový režim
 
-- [ ] 9.1 `TaxTreatmentResolver` podle tabulky v `design.md`. Testy `TaxTreatmentResolverTests`: SK s IČ DPH i bez, CZ `verified`, CZ `pending`, CZ bez IČ DPH, mimo EU.
+- [x] 9.1 `TaxTreatmentResolver` podle tabulky v `design.md`. Testy `TaxTreatmentResolverTests`: SK s IČ DPH i bez, CZ `verified`, CZ `pending`, CZ bez IČ DPH, mimo EU.
 - [ ] 9.2 Synchronizace `tenants.tax_id_status` z `customer.tax_id.created/updated`. Zablokování Checkoutu (`billing.tax_id_pending`, `billing.tax_treatment_undetermined`) a povinné IČO (`billing.company_id_required`). Testy endpointů.
 - [ ] 9.3 Kontrola souladu daně při vystavení dokladu (`total_tax_amounts`, přenesení daňové povinnosti) proti `orders.tax_treatment` → `needs_review` s důvodem `tax_mismatch` a upozornění provozu. Test podle scénáře „Nesoulad daně ve Stripe“.
 

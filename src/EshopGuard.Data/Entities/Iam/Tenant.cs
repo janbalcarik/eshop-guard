@@ -41,6 +41,11 @@ public sealed class Tenant : GlobalEntity, ISoftDeletable
 
     public DateTimeOffset? FounderUntil { get; set; }
 
+    /// <summary>Verification of <see cref="IcDph"/> by Stripe (VIES), change 12.</summary>
+    public TaxIdStatus TaxIdStatus { get; set; }
+
+    public DateTimeOffset? TaxIdVerifiedAt { get; set; }
+
     /// <inheritdoc />
     public DateTimeOffset? DeletedAt { get; set; }
 

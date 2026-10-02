@@ -80,6 +80,13 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("einvoice_status");
 
+                    b.Property<string>("EmailStatus")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasColumnName("email_status")
+                        .HasDefaultValueSql("'not_required'");
+
                     b.Property<DateTimeOffset?>("IssuedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("issued_at");
@@ -94,6 +101,10 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("kind");
 
+                    b.Property<string>("NeedsReviewReason")
+                        .HasColumnType("text")
+                        .HasColumnName("needs_review_reason");
+
                     b.Property<string>("Number")
                         .HasColumnType("text")
                         .HasColumnName("number");
@@ -106,6 +117,14 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("pdf_blob_key");
 
+                    b.Property<DateOnly?>("PeriodFrom")
+                        .HasColumnType("date")
+                        .HasColumnName("period_from");
+
+                    b.Property<DateOnly?>("PeriodTo")
+                        .HasColumnType("date")
+                        .HasColumnName("period_to");
+
                     b.Property<bool>("ReverseCharge")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -115,6 +134,14 @@ namespace EshopGuard.Data.Migrations
                     b.Property<Guid>("ShopId")
                         .HasColumnType("uuid")
                         .HasColumnName("shop_id");
+
+                    b.Property<string>("SourceKey")
+                        .HasColumnType("text")
+                        .HasColumnName("source_key");
+
+                    b.Property<string>("SourceKind")
+                        .HasColumnType("text")
+                        .HasColumnName("source_kind");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -150,6 +177,10 @@ namespace EshopGuard.Data.Migrations
                     b.HasAlternateKey("TenantId", "Id")
                         .HasName("ak_invoices_tenant_id_id");
 
+                    b.HasIndex("SourceKey")
+                        .IsUnique()
+                        .HasDatabaseName("ix_invoices_source_key");
+
                     b.HasIndex("TenantId", "CreditNoteFor")
                         .HasDatabaseName("ix_invoices_tenant_id_credit_note_for");
 
@@ -167,7 +198,13 @@ namespace EshopGuard.Data.Migrations
                         {
                             t.HasCheckConstraint("ck_invoices_einvoice_status", "einvoice_status IN ('not_required', 'queued', 'sent', 'delivered', 'failed')");
 
+                            t.HasCheckConstraint("ck_invoices_email_status", "email_status IN ('not_required', 'pending', 'sent', 'failed')");
+
                             t.HasCheckConstraint("ck_invoices_kind", "kind IN ('invoice', 'credit_note', 'proforma')");
+
+                            t.HasCheckConstraint("ck_invoices_source_kind", "source_kind IN ('stripe_invoice', 'stripe_refund')");
+
+                            t.HasCheckConstraint("ck_invoices_status", "status IN ('creating', 'issued', 'needs_review', 'failed')");
                         });
                 });
 
@@ -187,6 +224,16 @@ namespace EshopGuard.Data.Migrations
                         .HasPrecision(12, 2)
                         .HasColumnType("numeric(12,2)")
                         .HasColumnName("amount_net");
+
+                    b.Property<int>("CheckoutAttempt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("checkout_attempt");
+
+                    b.Property<DateTimeOffset?>("CheckoutExpiresAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("checkout_expires_at");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -213,6 +260,16 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("kind");
 
+                    b.Property<decimal?>("MonitoringDiscountPercent")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)")
+                        .HasColumnName("monitoring_discount_percent");
+
+                    b.Property<decimal?>("MonitoringMonthly")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("monitoring_monthly");
+
                     b.Property<DateTimeOffset?>("PaidAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("paid_at");
@@ -221,9 +278,17 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("price_list_id");
 
+                    b.Property<Guid?>("PriceQuoteId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("price_quote_id");
+
                     b.Property<Guid?>("RunId")
                         .HasColumnType("uuid")
                         .HasColumnName("run_id");
+
+                    b.Property<string>("ScopeHash")
+                        .HasColumnType("text")
+                        .HasColumnName("scope_hash");
 
                     b.Property<Guid>("ShopId")
                         .HasColumnType("uuid")
@@ -238,17 +303,45 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("stripe_checkout_session_id");
 
+                    b.Property<string>("StripeCouponId")
+                        .HasColumnType("text")
+                        .HasColumnName("stripe_coupon_id");
+
                     b.Property<string>("StripePaymentIntentId")
                         .HasColumnType("text")
                         .HasColumnName("stripe_payment_intent_id");
+
+                    b.Property<string>("StripePriceAnalysis")
+                        .HasColumnType("text")
+                        .HasColumnName("stripe_price_analysis");
+
+                    b.Property<string>("StripePriceMonitoring")
+                        .HasColumnType("text")
+                        .HasColumnName("stripe_price_monitoring");
+
+                    b.Property<string>("StripeSubscriptionId")
+                        .HasColumnType("text")
+                        .HasColumnName("stripe_subscription_id");
+
+                    b.Property<string>("TaxTreatment")
+                        .HasColumnType("text")
+                        .HasColumnName("tax_treatment");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uuid")
                         .HasColumnName("tenant_id");
 
+                    b.Property<string>("TermsVersion")
+                        .HasColumnType("text")
+                        .HasColumnName("terms_version");
+
                     b.Property<string>("TierCode")
                         .HasColumnType("text")
                         .HasColumnName("tier_code");
+
+                    b.Property<DateTimeOffset?>("TrialEndPlanned")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("trial_end_planned");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .ValueGeneratedOnAdd()
@@ -278,9 +371,17 @@ namespace EshopGuard.Data.Migrations
                     b.HasIndex("PriceListId")
                         .HasDatabaseName("ix_orders_price_list_id");
 
+                    b.HasIndex("ShopId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_orders_open_per_shop")
+                        .HasFilter("status IN ('created', 'checkout_open')");
+
                     b.HasIndex("StripeCheckoutSessionId")
                         .IsUnique()
                         .HasDatabaseName("ix_orders_stripe_checkout_session_id");
+
+                    b.HasIndex("TenantId", "PriceQuoteId")
+                        .HasDatabaseName("ix_orders_tenant_id_price_quote_id");
 
                     b.HasIndex("TenantId", "RunId")
                         .HasDatabaseName("ix_orders_tenant_id_run_id");
@@ -293,6 +394,8 @@ namespace EshopGuard.Data.Migrations
                             t.HasCheckConstraint("ck_orders_kind", "kind IN ('analysis_with_trial', 'custom')");
 
                             t.HasCheckConstraint("ck_orders_status", "status IN ('created', 'checkout_open', 'paid', 'expired', 'canceled', 'refunded')");
+
+                            t.HasCheckConstraint("ck_orders_tax_treatment", "tax_treatment IN ('domestic_vat', 'reverse_charge', 'pending_verification', 'undetermined')");
                         });
                 });
 
@@ -349,6 +452,10 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("status");
 
+                    b.Property<string>("StripeChargeId")
+                        .HasColumnType("text")
+                        .HasColumnName("stripe_charge_id");
+
                     b.Property<string>("StripeInvoiceId")
                         .HasColumnType("text")
                         .HasColumnName("stripe_invoice_id");
@@ -376,6 +483,13 @@ namespace EshopGuard.Data.Migrations
 
                     b.HasAlternateKey("TenantId", "Id")
                         .HasName("ak_payments_tenant_id_id");
+
+                    b.HasIndex("StripeChargeId")
+                        .HasDatabaseName("ix_payments_stripe_charge_id");
+
+                    b.HasIndex("StripeInvoiceId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_payments_stripe_invoice_id");
 
                     b.HasIndex("TenantId", "OrderId")
                         .HasDatabaseName("ix_payments_tenant_id_order_id");
@@ -468,6 +582,10 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnName("id")
                         .HasDefaultValueSql("uuidv7()");
 
+                    b.Property<DateTimeOffset?>("ActivatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("activated_at");
+
                     b.Property<DateTimeOffset>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -478,6 +596,21 @@ namespace EshopGuard.Data.Migrations
                         .IsRequired()
                         .HasColumnType("character(3)")
                         .HasColumnName("currency");
+
+                    b.Property<decimal>("FairUseOtherPagesFactor")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)")
+                        .HasDefaultValue(2m)
+                        .HasColumnName("fair_use_other_pages_factor");
+
+                    b.Property<JsonDocument>("Impact")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("impact");
+
+                    b.Property<DateTimeOffset?>("ImpactAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("impact_at");
 
                     b.Property<string>("MarketCode")
                         .IsRequired()
@@ -502,6 +635,21 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("status");
 
+                    b.Property<string>("StripeMode")
+                        .HasColumnType("text")
+                        .HasColumnName("stripe_mode");
+
+                    b.Property<string>("SyncError")
+                        .HasColumnType("text")
+                        .HasColumnName("sync_error");
+
+                    b.Property<string>("SyncStatus")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasColumnName("sync_status")
+                        .HasDefaultValueSql("'pending'");
+
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -518,9 +666,157 @@ namespace EshopGuard.Data.Migrations
                     b.HasIndex("MarketCode", "ValidFrom")
                         .HasDatabaseName("ix_price_lists_market_code_valid_from");
 
+                    b.HasIndex("MarketCode", "Currency", "ValidFrom")
+                        .IsUnique()
+                        .HasDatabaseName("ux_price_lists_published")
+                        .HasFilter("status = 'published'");
+
                     b.ToTable("price_lists", "billing", t =>
                         {
                             t.HasCheckConstraint("ck_price_lists_status", "status IN ('draft', 'published', 'retired')");
+
+                            t.HasCheckConstraint("ck_price_lists_stripe_mode", "stripe_mode IN ('test', 'live')");
+
+                            t.HasCheckConstraint("ck_price_lists_sync_status", "sync_status IN ('pending', 'synced', 'failed')");
+                        });
+                });
+
+            modelBuilder.Entity("EshopGuard.Data.Entities.Billing.PriceQuote", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("uuidv7()");
+
+                    b.Property<decimal?>("AnalysisPrice")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("analysis_price");
+
+                    b.Property<Guid?>("BasisRunId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("basis_run_id");
+
+                    b.Property<int?>("CountedProducts")
+                        .HasColumnType("integer")
+                        .HasColumnName("counted_products");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("character(3)")
+                        .HasColumnName("currency");
+
+                    b.Property<decimal?>("DiscountPercent")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)")
+                        .HasColumnName("discount_percent");
+
+                    b.Property<JsonDocument>("FairUse")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("fair_use");
+
+                    b.PrimitiveCollection<string[]>("Markets")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text[]")
+                        .HasColumnName("markets")
+                        .HasDefaultValueSql("'{}'");
+
+                    b.Property<decimal?>("MonitoringMonthly")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("monitoring_monthly");
+
+                    b.Property<int?>("OtherPages")
+                        .HasColumnType("integer")
+                        .HasColumnName("other_pages");
+
+                    b.Property<Guid?>("PriceListId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("price_list_id");
+
+                    b.Property<string>("PriceUnit")
+                        .HasColumnType("text")
+                        .HasColumnName("price_unit");
+
+                    b.Property<string>("ReasonCode")
+                        .HasColumnType("text")
+                        .HasColumnName("reason_code");
+
+                    b.Property<string>("ScopeHash")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("scope_hash");
+
+                    b.Property<Guid>("ShopId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("shop_id");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
+                    b.Property<string>("TierCode")
+                        .HasColumnType("text")
+                        .HasColumnName("tier_code");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<JsonDocument>("VatPreview")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("vat_preview");
+
+                    b.Property<JsonDocument>("Versions")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("versions");
+
+                    b.HasKey("Id")
+                        .HasName("pk_price_quotes");
+
+                    b.HasAlternateKey("TenantId", "Id")
+                        .HasName("ak_price_quotes_tenant_id_id");
+
+                    b.HasIndex("CreatedBy")
+                        .HasDatabaseName("ix_price_quotes_created_by");
+
+                    b.HasIndex("PriceListId")
+                        .HasDatabaseName("ix_price_quotes_price_list_id");
+
+                    b.HasIndex("TenantId", "BasisRunId")
+                        .HasDatabaseName("ix_price_quotes_tenant_id_basis_run_id");
+
+                    b.HasIndex("TenantId", "ShopId")
+                        .HasDatabaseName("ix_price_quotes_tenant_id_shop_id");
+
+                    b.HasIndex("ShopId", "ScopeHash", "PriceListId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_price_quotes_shop_id_scope_hash_price_list_id");
+
+                    NpgsqlIndexBuilderExtensions.AreNullsDistinct(b.HasIndex("ShopId", "ScopeHash", "PriceListId"), false);
+
+                    b.ToTable("price_quotes", "billing", t =>
+                        {
+                            t.HasCheckConstraint("ck_price_quotes_status", "status IN ('offer', 'individual_offer', 'unavailable')");
                         });
                 });
 
@@ -531,10 +827,14 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnName("id")
                         .HasDefaultValueSql("uuidv7()");
 
-                    b.Property<decimal>("AnalysisPrice")
+                    b.Property<decimal?>("AnalysisPrice")
                         .HasPrecision(12, 2)
                         .HasColumnType("numeric(12,2)")
                         .HasColumnName("analysis_price");
+
+                    b.Property<DateTimeOffset?>("ArchivedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("archived_at");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -547,9 +847,17 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
-                    b.Property<string>("LookupKey")
+                    b.Property<string>("LookupKeyAnalysis")
                         .HasColumnType("text")
-                        .HasColumnName("lookup_key");
+                        .HasColumnName("lookup_key_analysis");
+
+                    b.Property<string>("LookupKeyMonthly")
+                        .HasColumnType("text")
+                        .HasColumnName("lookup_key_monthly");
+
+                    b.Property<string>("LookupKeyYearly")
+                        .HasColumnType("text")
+                        .HasColumnName("lookup_key_yearly");
 
                     b.Property<int?>("MaxProducts")
                         .HasColumnType("integer")
@@ -559,7 +867,7 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("min_products");
 
-                    b.Property<decimal>("MonitoringMonthly")
+                    b.Property<decimal?>("MonitoringMonthly")
                         .HasPrecision(12, 2)
                         .HasColumnType("numeric(12,2)")
                         .HasColumnName("monitoring_monthly");
@@ -669,6 +977,12 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("id");
 
+                    b.Property<int>("Attempts")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("attempts");
+
                     b.Property<DateTimeOffset>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -678,6 +992,16 @@ namespace EshopGuard.Data.Migrations
                     b.Property<string>("Error")
                         .HasColumnType("text")
                         .HasColumnName("error");
+
+                    b.Property<bool>("Livemode")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("livemode");
+
+                    b.Property<string>("ObjectId")
+                        .HasColumnType("text")
+                        .HasColumnName("object_id");
 
                     b.Property<JsonDocument>("Payload")
                         .IsRequired()
@@ -718,7 +1042,10 @@ namespace EshopGuard.Data.Migrations
                     b.HasIndex("TenantId")
                         .HasDatabaseName("ix_stripe_events_tenant_id");
 
-                    b.ToTable("stripe_events", "billing");
+                    b.ToTable("stripe_events", "billing", t =>
+                        {
+                            t.HasCheckConstraint("ck_stripe_events_status", "status IN ('received', 'processed', 'ignored', 'failed')");
+                        });
                 });
 
             modelBuilder.Entity("EshopGuard.Data.Entities.Billing.Subscription", b =>
@@ -762,18 +1089,46 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("interval");
 
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("order_id");
+
+                    b.Property<string>("PauseReason")
+                        .HasColumnType("text")
+                        .HasColumnName("pause_reason");
+
                     b.Property<Guid>("PriceListId")
                         .HasColumnType("uuid")
                         .HasColumnName("price_list_id");
+
+                    b.Property<string>("ScheduleHash")
+                        .HasColumnType("text")
+                        .HasColumnName("schedule_hash");
 
                     b.Property<Guid>("ShopId")
                         .HasColumnType("uuid")
                         .HasColumnName("shop_id");
 
+                    b.Property<int?>("ShopOrdinal")
+                        .HasColumnType("integer")
+                        .HasColumnName("shop_ordinal");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("status");
+
+                    b.Property<string>("StripeCouponId")
+                        .HasColumnType("text")
+                        .HasColumnName("stripe_coupon_id");
+
+                    b.Property<string>("StripePriceId")
+                        .HasColumnType("text")
+                        .HasColumnName("stripe_price_id");
+
+                    b.Property<string>("StripeScheduleId")
+                        .HasColumnType("text")
+                        .HasColumnName("stripe_schedule_id");
 
                     b.Property<string>("StripeSubscriptionId")
                         .HasColumnType("text")
@@ -791,6 +1146,10 @@ namespace EshopGuard.Data.Migrations
                     b.Property<DateTimeOffset?>("TrialEnd")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("trial_end");
+
+                    b.Property<DateTimeOffset?>("TrialReminderSentAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("trial_reminder_sent_at");
 
                     b.Property<decimal>("UnitPrice")
                         .HasPrecision(12, 2)
@@ -821,11 +1180,14 @@ namespace EshopGuard.Data.Migrations
                     b.HasIndex("ShopId")
                         .IsUnique()
                         .HasDatabaseName("ix_subscriptions_shop_id")
-                        .HasFilter("status <> 'canceled'");
+                        .HasFilter("status IN ('trialing', 'active', 'past_due', 'incomplete')");
 
                     b.HasIndex("StripeSubscriptionId")
                         .IsUnique()
                         .HasDatabaseName("ix_subscriptions_stripe_subscription_id");
+
+                    b.HasIndex("TenantId", "OrderId")
+                        .HasDatabaseName("ix_subscriptions_tenant_id_order_id");
 
                     b.HasIndex("TenantId", "ShopId")
                         .HasDatabaseName("ix_subscriptions_tenant_id_shop_id");
@@ -872,10 +1234,18 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("notified_at");
 
+                    b.Property<string>("ReasonCode")
+                        .HasColumnType("text")
+                        .HasColumnName("reason_code");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("status");
+
+                    b.Property<string>("StripeSchedulePhaseHash")
+                        .HasColumnType("text")
+                        .HasColumnName("stripe_schedule_phase_hash");
 
                     b.Property<Guid>("SubscriptionId")
                         .HasColumnType("uuid")
@@ -907,6 +1277,8 @@ namespace EshopGuard.Data.Migrations
                     b.ToTable("subscription_changes", "billing", t =>
                         {
                             t.HasCheckConstraint("ck_subscription_changes_kind", "kind IN ('price_list', 'tier', 'discount', 'interval', 'cancel')");
+
+                            t.HasCheckConstraint("ck_subscription_changes_status", "status IN ('scheduled', 'notified', 'applied', 'canceled')");
                         });
                 });
 
@@ -940,6 +1312,10 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("stripe_coupon_id");
 
+                    b.Property<string>("StripeMode")
+                        .HasColumnType("text")
+                        .HasColumnName("stripe_mode");
+
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -953,7 +1329,10 @@ namespace EshopGuard.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_volume_discounts_price_list_id_from_shop_number");
 
-                    b.ToTable("volume_discounts", "billing");
+                    b.ToTable("volume_discounts", "billing", t =>
+                        {
+                            t.HasCheckConstraint("ck_volume_discounts_stripe_mode", "stripe_mode IN ('test', 'live')");
+                        });
                 });
 
             modelBuilder.Entity("EshopGuard.Data.Entities.Checks.Finding", b =>
@@ -3272,6 +3651,17 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("superfaktura_client_id");
 
+                    b.Property<string>("TaxIdStatus")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasColumnName("tax_id_status")
+                        .HasDefaultValueSql("'none'");
+
+                    b.Property<DateTimeOffset?>("TaxIdVerifiedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("tax_id_verified_at");
+
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -3298,6 +3688,8 @@ namespace EshopGuard.Data.Migrations
                             t.HasCheckConstraint("ck_tenants_partner_kind", "partner_kind IN ('agency', 'lawyer', 'certifier')");
 
                             t.HasCheckConstraint("ck_tenants_status", "status IN ('active', 'suspended', 'deleted')");
+
+                            t.HasCheckConstraint("ck_tenants_tax_id_status", "tax_id_status IN ('none', 'pending', 'verified', 'unverified')");
                         });
                 });
 
@@ -5248,6 +5640,13 @@ namespace EshopGuard.Data.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_orders_price_lists_price_list_id");
 
+                    b.HasOne("EshopGuard.Data.Entities.Billing.PriceQuote", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "PriceQuoteId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_orders_price_quotes_tenant_id_price_quote_id");
+
                     b.HasOne("EshopGuard.Data.Entities.Checks.Run", null)
                         .WithMany()
                         .HasForeignKey("TenantId", "RunId")
@@ -5301,6 +5700,36 @@ namespace EshopGuard.Data.Migrations
                         .HasConstraintName("fk_price_lists_markets_market_code");
                 });
 
+            modelBuilder.Entity("EshopGuard.Data.Entities.Billing.PriceQuote", b =>
+                {
+                    b.HasOne("EshopGuard.Data.Entities.Iam.User", null)
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_price_quotes_users_created_by");
+
+                    b.HasOne("EshopGuard.Data.Entities.Billing.PriceList", null)
+                        .WithMany()
+                        .HasForeignKey("PriceListId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_price_quotes_price_lists_price_list_id");
+
+                    b.HasOne("EshopGuard.Data.Entities.Checks.Run", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "BasisRunId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_price_quotes_runs_tenant_id_basis_run_id");
+
+                    b.HasOne("EshopGuard.Data.Entities.Shops.Shop", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "ShopId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_price_quotes_shops_tenant_id_shop_id");
+                });
+
             modelBuilder.Entity("EshopGuard.Data.Entities.Billing.PriceTier", b =>
                 {
                     b.HasOne("EshopGuard.Data.Entities.Billing.PriceList", null)
@@ -5328,6 +5757,13 @@ namespace EshopGuard.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_subscriptions_price_lists_price_list_id");
+
+                    b.HasOne("EshopGuard.Data.Entities.Billing.Order", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "OrderId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_subscriptions_orders_tenant_id_order_id");
 
                     b.HasOne("EshopGuard.Data.Entities.Shops.Shop", null)
                         .WithMany()

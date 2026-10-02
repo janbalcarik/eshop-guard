@@ -18,6 +18,8 @@ internal sealed partial class EgExceptionHandler(ILogger<EgExceptionHandler> log
             DomainException domain => EgProblem.From(httpContext, domain),
             AntiforgeryValidationException => EgProblem.Create(httpContext, ProblemCodes.CsrfInvalid, StatusCodes.Status400BadRequest),
             BadHttpRequestException bad => EgProblem.Create(httpContext, ProblemCodes.RequestInvalid, bad.StatusCode),
+            Billing.Stripe.BillingUnavailableException => EgProblem.Create(httpContext, ProblemCodes.BillingUnavailable, StatusCodes.Status503ServiceUnavailable),
+            Billing.Stripe.StripeGatewayException stripe => Unavailable(httpContext, stripe),
             _ => null,
         };
         if (problem is null)
@@ -29,6 +31,16 @@ internal sealed partial class EgExceptionHandler(ILogger<EgExceptionHandler> log
         await EgProblem.WriteAsync(httpContext, problem).ConfigureAwait(false);
         return true;
     }
+
+    /// <summary>Stripe refused or did not answer: <c>503 billing.unavailable</c>, the code of Stripe only in the log.</summary>
+    private EgProblemDto Unavailable(HttpContext context, Billing.Stripe.StripeGatewayException exception)
+    {
+        LogStripe(logger, exception.Code, exception.HttpStatus, context.TraceIdentifier);
+        return EgProblem.Create(context, ProblemCodes.BillingUnavailable, StatusCodes.Status503ServiceUnavailable);
+    }
+
+    [LoggerMessage(Level = LogLevel.Warning, Message = "stripe.failed {Code} {HttpStatus} {TraceId}")]
+    private static partial void LogStripe(ILogger logger, string code, int? httpStatus, string traceId);
 
     [LoggerMessage(Level = LogLevel.Error, Message = "request.failed {TraceId}")]
     private static partial void LogUnexpected(ILogger logger, Exception exception, string traceId);

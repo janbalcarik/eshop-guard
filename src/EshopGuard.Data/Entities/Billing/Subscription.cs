@@ -31,6 +31,26 @@ public sealed class Subscription : TenantEntity
 
     public DateTimeOffset? CanceledAt { get; set; }
 
+    /// <summary>The order whose payment started the subscription (null for monitoring started again).</summary>
+    public Guid? OrderId { get; set; }
+
+    public string? StripePriceId { get; set; }
+
+    public string? StripeCouponId { get; set; }
+
+    public string? StripeScheduleId { get; set; }
+
+    /// <summary>Fingerprint of the phases last written to the Subscription Schedule (no call when unchanged).</summary>
+    public string? ScheduleHash { get; set; }
+
+    /// <summary>Order of the e-shop in the account by the start of its subscription (volume discount).</summary>
+    public int? ShopOrdinal { get; set; }
+
+    public DateTimeOffset? TrialReminderSentAt { get; set; }
+
+    /// <summary>Why monitoring stopped (<c>payment_failed</c>, <c>canceled</c>).</summary>
+    public string? PauseReason { get; set; }
+
     /// <summary>Concurrency token (PostgreSQL <c>xmin</c>).</summary>
     public uint Version { get; set; }
 }

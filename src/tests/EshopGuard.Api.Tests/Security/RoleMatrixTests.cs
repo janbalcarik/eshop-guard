@@ -110,6 +110,11 @@ public sealed class RoleMatrixTests : ApiTestBase
         ["GET /api/t/{tenantId:guid}/evidence/{evidenceId:guid}/file"] = TenantRole.Viewer,
         ["POST /api/t/{tenantId:guid}/evidence/{evidenceId:guid}/links"] = TenantRole.Editor,
         ["DELETE /api/t/{tenantId:guid}/evidence/{evidenceId:guid}/links/{linkId:guid}"] = TenantRole.Editor,
+
+        // Change 12: ordering and paying only for owner and admin.
+        ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/orders"] = TenantRole.Admin,
+        ["GET /api/t/{tenantId:guid}/orders/{orderId:guid}"] = TenantRole.Admin,
+        ["POST /api/t/{tenantId:guid}/orders/{orderId:guid}/checkout"] = TenantRole.Admin,
     };
 
     [Fact]

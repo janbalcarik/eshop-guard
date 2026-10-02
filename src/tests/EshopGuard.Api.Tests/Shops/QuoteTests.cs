@@ -2,6 +2,7 @@ using System.Net;
 using EshopGuard.Api.Tests.Fakes;
 using EshopGuard.Application.Shops.Pricing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace EshopGuard.Api.Tests.Shops;
 
@@ -100,7 +101,8 @@ public sealed class QuoteTests : ShopTestBase
     [Fact]
     public async Task WithoutPayments_QuoteIs503_AndTheScopeStillAnswers()
     {
-        await using var factory = Factory();
+        // Change 12 registers the price of a scope; without it (as before change 12) change 10 stays fail-closed.
+        await using var factory = Factory(services: s => s.RemoveAll<IPriceQuoteService>());
         using var owner = await People.OwnerAsync(factory);
         var domain = NewDomain();
         var shopId = (await CreateShopAsync(owner, "https://" + domain)).GetProperty("id").GetGuid();

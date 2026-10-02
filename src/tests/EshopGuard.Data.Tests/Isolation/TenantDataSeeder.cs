@@ -28,7 +28,7 @@ internal sealed record SeededTenant(
     IReadOnlyCollection<string> Tables);
 
 /// <summary>
-/// One valid row in each of the 43 tenant tables for one tenant (e-shop <c>vegis.sk</c>, base path <c>/</c>), references
+/// One valid row in each of the 44 tenant tables for one tenant (e-shop <c>vegis.sk</c>, base path <c>/</c>), references
 /// only inside the tenant, written through EF as <c>eshopguard_app</c> with the tenant set.
 /// </summary>
 internal static class TenantDataSeeder
@@ -71,7 +71,8 @@ internal static class TenantDataSeeder
         // Stage 3: page and its version, run-dependent rows, order.
         var page = new Page { ShopId = shop.Id, Url = "https://vegis.sk/sampon", UrlHash = Random.Shared.NextInt64(), Source = PageSource.Crawl, Status = PageStatus.Active, FirstSeenAt = now, ProfileId = profile.Id, RotationBucket = 3 };
         var order = new Order { ShopId = shop.Id, Kind = OrderKind.AnalysisWithTrial, PriceListId = priceListId, AmountNet = 100m, VatRate = 23m, VatAmount = 23m, AmountGross = 123m, Currency = "EUR", Status = OrderStatus.Paid, RunId = run.Id };
-        db.AddRange(page, order);
+        var quote = new PriceQuote { ShopId = shop.Id, BasisRunId = run.Id, ScopeHash = "scope-" + Guid.NewGuid().ToString("N"), PriceListId = priceListId, TierCode = "t500", Versions = Json("[]"), Markets = ["sk"], Currency = "EUR", Status = PriceQuoteStatus.Offer };
+        db.AddRange(page, order, quote);
         db.Add(new ShopMarket { ShopId = shop.Id, CountryCode = "sk", IsHome = true, Status = ShopMarketStatus.Active, Source = MarketSource.Detected, DetectionRunId = run.Id });
         db.Add(new ShopLanguage { ShopId = shop.Id, Language = "sk", BaseUrl = "https://vegis.sk/", Source = LanguageSource.Hreflang, Status = ShopLanguageStatus.Active, TranslatedShare = 1f, SampleRunId = run.Id });
         db.Add(new ConnectorWebhook { ConnectorId = connector.Id, Event = "product:update", Status = "active" });
@@ -79,7 +80,7 @@ internal static class TenantDataSeeder
         db.Add(new RunEvent { RunId = run.Id, At = now, Level = "info", Code = "run.started" });
         db.Add(new RunScope { RunId = run.Id, ScopeKey = "https://vegis.sk/", BaseUrl = "https://vegis.sk/", Language = "sk", Robots = Json("{}"), Frontier = Json("{}"), Pace = Json("{}") });
         db.Add(new RunUrl { RunId = run.Id, ScopeKey = "https://vegis.sk/", UrlHash = 42, Url = "https://vegis.sk/sampon", Language = "sk", State = RunUrlState.Extracted, Queue = "product", Seq = 1 });
-        db.Add(new SubscriptionChange { SubscriptionId = subscription.Id, Kind = SubscriptionChangeKind.Tier, EffectiveAt = now.AddMonths(1), Status = "scheduled" });
+        db.Add(new SubscriptionChange { SubscriptionId = subscription.Id, Kind = SubscriptionChangeKind.Tier, EffectiveAt = now.AddMonths(1), Status = SubscriptionChangeStatus.Scheduled });
         await db.ExecuteInTenantTransactionAsync(() => db.SaveChangesAsync(ct), ct);
 
         var version = new PageVersion { ShopId = shop.Id, PageId = page.Id, RunId = run.Id, FetchedAt = now, SegmentHashes = [11, 22, 33], IsCurrent = true };
@@ -102,7 +103,7 @@ internal static class TenantDataSeeder
         db.AddRange(finding, proposal);
         db.Add(new Publication { ShopId = shop.Id, ConnectorId = connector.Id, PageId = page.Id, Field = "description", NewValue = "Šampón", IdempotencyKey = Guid.NewGuid().ToString("N"), Status = PublicationStatus.Queued });
         db.Add(new Protocol { ShopId = shop.Id, Number = $"EG-{Guid.NewGuid():N}", PeriodFrom = new DateOnly(2026, 9, 1), PeriodTo = new DateOnly(2026, 9, 30), Locale = "sk" });
-        db.Add(new Invoice { ShopId = shop.Id, PaymentId = payment.Id, Kind = InvoiceKind.Invoice, Buyer = Json("{}"), Items = Json("[]"), AmountNet = 100m, VatAmount = 23m, AmountGross = 123m, Currency = "EUR", EinvoiceStatus = EinvoiceStatus.NotRequired, Status = "issued", IssuedAt = now });
+        db.Add(new Invoice { ShopId = shop.Id, PaymentId = payment.Id, Kind = InvoiceKind.Invoice, Buyer = Json("{}"), Items = Json("[]"), AmountNet = 100m, VatAmount = 23m, AmountGross = 123m, Currency = "EUR", EinvoiceStatus = EinvoiceStatus.NotRequired, Status = InvoiceStatus.Issued, IssuedAt = now });
         db.Add(new PageChange { ShopId = shop.Id, PageId = page.Id, DetectedAt = now, Source = PageChangeSource.Crawl, ChangeKind = PageChangeKind.TextChanged, RunId = run.Id });
         await db.ExecuteInTenantTransactionAsync(() => db.SaveChangesAsync(ct), ct);
 

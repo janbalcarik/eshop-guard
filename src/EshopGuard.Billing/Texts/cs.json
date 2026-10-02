@@ -1,0 +1,10 @@
+{
+  "checkout.submit_message": "Dnes zaplatíte úvodní analýzu. První měsíční platba za sledování {monthly} bez DPH bude {date}. Sledování můžete kdykoli zrušit v aplikaci.",
+  "invoice.item.analysis": "Úvodní analýza · {shop} · s 1. měsícem sledování",
+  "invoice.item.monitoring": "Sledování změn · pásmo {tier} · {shop} · období {from}–{to}",
+  "invoice.item.discount": "Sleva {percent} % od {from}. e-shopu",
+  "invoice.reverse_charge": "Přenesení daňové povinnosti",
+  "tier.custom": "individuální",
+  "tier.up_to_products": "do {max} produktů",
+  "tier.up_to_pages": "do {max} stránek ke kontrole"
+}

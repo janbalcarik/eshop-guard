@@ -8,6 +8,7 @@ using EshopGuard.Api.Security;
 using EshopGuard.Api.Tenancy;
 using EshopGuard.Application;
 using EshopGuard.Application.Problems;
+using EshopGuard.Billing;
 using EshopGuard.Data;
 using EshopGuard.Data.Connections;
 using EshopGuard.Jobs;
@@ -37,6 +38,11 @@ builder.Services.AddEshopGuardIdentity(builder.Configuration);
 // E-shops and the onboarding (change 10): the rules of the worker, the runs of change 8 and the policy of ownership.
 builder.Services.AddEshopGuardShops();
 builder.Services.AddEshopGuardFindings();
+
+// Billing (change 12): Billing checked at start, Stripe switched off only outside Production (Billing:Stripe:Mode = disabled).
+builder.Services.AddEshopGuardBilling();
+builder.Services.AddOptions<EshopGuard.Application.Options.PlatformAdminOptions>().BindConfiguration(EshopGuard.Application.Options.PlatformAdminOptions.SectionName);
+builder.Services.AddScoped<EshopGuard.Billing.Admin.PriceListAdminApi>();
 builder.Services.AddSingleton<EshopGuard.Api.Http.BlobLinks>();
 builder.Services.AddScoped<SessionWriter>();
 builder.Services.AddAuthorization();
@@ -105,9 +111,12 @@ api.MapTenantsEndpoints();
 var tenant = api.MapTenantGroup();
 tenant.MapShopEndpoints().MapOnboardingEndpoints().MapOwnershipAndSettingsEndpoints();
 tenant.MapShopWorkGroup().MapFindingEndpoints().MapFixEndpoints().MapQuestionEndpoints().MapFixGroupEndpoints().MapPublicationEndpoints().MapProtocolEndpoints();
-tenant.MapNotificationEndpoints().MapEvidenceEndpoints().MapRunEndpoints();
+tenant.MapNotificationEndpoints().MapEvidenceEndpoints().MapRunEndpoints().MapBillingEndpoints();
 api.MapInvitationEndpoints();
 api.MapRefEndpoints();
+api.MapAdminPriceListEndpoints();
+api.MapPublicPricesEndpoints();
+api.MapStripeWebhookEndpoint();
 api.MapCatalogEndpoints();
 EshopGuard.Api.Http.FileEndpoints.MapFileEndpoints(api);
 

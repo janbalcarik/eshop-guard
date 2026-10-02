@@ -29,7 +29,9 @@ public sealed class EndpointPolicyTests : ApiTestBase
             Endpoint("POST", "/api/shops", new TenantRoleMetadata(TenantRole.Admin)),
             Endpoint("POST", "/api/me/x", new DisableCsrfMetadata()),
             Endpoint("POST", "/api/webhooks/stripe", new DisableCsrfMetadata()),
-            Endpoint("GET", "/api/t/{tenantId:guid}/y", new TenantRoleMetadata(TenantRole.Viewer)));
+            Endpoint("GET", "/api/t/{tenantId:guid}/y", new TenantRoleMetadata(TenantRole.Viewer)),
+            Endpoint("GET", "/api/admin/price-lists"),
+            Endpoint("GET", "/api/admin/price-lists/{id}", new PlatformAdminMetadata()));
 
         var problems = EndpointPolicyValidator.Validate(source);
 
@@ -38,6 +40,7 @@ public sealed class EndpointPolicyTests : ApiTestBase
             "POST /api/t/{tenantId:guid}/x: RequireTenantRole",
             "POST /api/shops: RequireCsrf",
             "POST /api/me/x: DisableCsrf outside /api/webhooks/",
+            "GET /api/admin/price-lists: RequirePlatformAdmin",
         ], problems);
         var validator = new EndpointPolicyValidator(source);
         var ex = await Assert.ThrowsAsync<InvalidOperationException>(() => validator.StartAsync(Ct));

@@ -2,6 +2,7 @@ using System.Net;
 using System.Security.Cryptography;
 using EshopGuard.Application.Email;
 using EshopGuard.Application.Localization;
+using EshopGuard.Billing.Stripe;
 using EshopGuard.Data.Connections;
 using EshopGuard.Tests.Shared;
 using Microsoft.AspNetCore.Builder;
@@ -43,6 +44,14 @@ internal sealed class ApiFactory(
 
     public FakeTimeProvider? Time { get; } = time;
 
+    /// <summary>A key of the shape of a test key of Stripe; never a real key (the logs of the tests are searched for it).</summary>
+    public const string StripeTestKey = "sk_test_EshopGuardTestsOnly000000000000000000";
+
+    public const string StripeWebhookSecret = "whsec_EshopGuardTestsOnly0000000000";
+
+    /// <summary>Stripe of the tests (change 12).</summary>
+    public FakeStripeGateway Stripe { get; } = new();
+
     public string IpHashKey { get; } = ipHashKey ?? NewKey();
 
     public static string NewKey() => Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
@@ -73,6 +82,11 @@ internal sealed class ApiFactory(
         builder.UseSetting("EshopGuard:BaseDirectory", Path.Combine(RepositoryRoot.Find(), "src"));
         builder.UseSetting("Shops:Ownership:RequiredBefore:0", "full_analysis");
         builder.UseSetting("Api:InteractiveWaitSeconds", "0");
+
+        // Billing (change 12): the test mode with keys of the tests only, Stripe is FakeStripeGateway (no network).
+        builder.UseSetting("Billing:Stripe:Mode", "test");
+        builder.UseSetting("Billing:Stripe:SecretKey", StripeTestKey);
+        builder.UseSetting("Billing:Stripe:WebhookSecret", StripeWebhookSecret);
         foreach (var (key, value) in settings ?? new Dictionary<string, string?>())
         {
             builder.UseSetting(key, value);
@@ -89,6 +103,7 @@ internal sealed class ApiFactory(
             }
 
             s.AddSingleton<IStartupFilter, ClientIpStartupFilter>();
+            s.Replace(ServiceDescriptor.Singleton<IStripeGateway>(Stripe));
             if (!withStartupGuard)
             {
                 s.Remove(s.Single(d => d.ImplementationType == typeof(DatabaseStartupGuard)));

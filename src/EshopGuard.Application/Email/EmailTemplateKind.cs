@@ -25,13 +25,23 @@ public sealed record EmailTemplateKind(string Code, bool ContainsToken, IReadOnl
     public static readonly EmailTemplateKind PublicationFailed = new("publication_failed", false, ["email", "link", "shopName"], []);
     public static readonly EmailTemplateKind PublicationConflict = new("publication_conflict", false, ["email", "link", "shopName"], []);
 
+    // Billing (change 12): amounts and dates come as codes and are formatted by the language of the recipient.
+    public static readonly EmailTemplateKind TrialEnding = new("trial_ending", false, ["email", "link", "shopName", "amount", "date"], []);
+    public static readonly EmailTemplateKind PaymentFailed = new("payment_failed", false, ["email", "link", "shopName", "amount"], []);
+    public static readonly EmailTemplateKind SubscriptionEnded = new("subscription_ended", false, ["email", "link", "shopName", "date"], ["paymentFailed"]);
+    public static readonly EmailTemplateKind PriceChange = new("price_change", false, ["email", "link", "shopName", "oldAmount", "newAmount", "date"], ["decrease"]);
+    public static readonly EmailTemplateKind TierChange = new("tier_change", false, ["email", "link", "shopName", "oldAmount", "newAmount", "date", "products"], ["decrease"]);
+    public static readonly EmailTemplateKind PriceChangeCanceled = new("price_change_canceled", false, ["email", "link", "shopName", "date"], []);
+
     /// <summary>The kinds whose values come from a notification (<c>NotificationDispatcher</c>) rather than from a run.</summary>
     public static IReadOnlyList<EmailTemplateKind> Notifications { get; } =
-        [NewViolation, EvidenceExpiring, EvidenceExpired, ProtocolReady, ProtocolFailed, PublicationFailed, PublicationConflict];
+        [NewViolation, EvidenceExpiring, EvidenceExpired, ProtocolReady, ProtocolFailed, PublicationFailed, PublicationConflict,
+            TrialEnding, PaymentFailed, SubscriptionEnded, PriceChange, TierChange, PriceChangeCanceled];
 
     public static IReadOnlyList<EmailTemplateKind> All { get; } =
         [LoginLink, PasswordReset, Invitation, InvitationAccepted, SampleFinished, RunFinished, RunPartial, RunFailed,
-            NewViolation, EvidenceExpiring, EvidenceExpired, ProtocolReady, ProtocolFailed, PublicationFailed, PublicationConflict];
+            NewViolation, EvidenceExpiring, EvidenceExpired, ProtocolReady, ProtocolFailed, PublicationFailed, PublicationConflict,
+            TrialEnding, PaymentFailed, SubscriptionEnded, PriceChange, TierChange, PriceChangeCanceled];
 
     public static EmailTemplateKind? Find(string? code) => All.FirstOrDefault(k => k.Code == code);
 }

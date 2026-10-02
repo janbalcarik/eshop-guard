@@ -12,5 +12,7 @@ internal sealed class StripeEventConfiguration : IEntityTypeConfiguration<Stripe
         builder.ToTable("stripe_events", Schemas.Billing);
         builder.HasKey(x => x.Id);
         builder.HasIndex(x => x.TenantId);
+        builder.HasEnum(x => x.Status);
+        builder.Property(x => x.Attempts).HasDefaultValue(0);
     }
 }

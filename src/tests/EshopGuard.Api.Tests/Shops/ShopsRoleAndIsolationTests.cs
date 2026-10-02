@@ -23,6 +23,7 @@ public sealed class ShopsRoleAndIsolationTests : ShopTestBase
         ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/quote"] = new { activeMarkets = new[] { "sk" } },
         ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/ownership/verifications"] = new { method = "dns" },
         ["PATCH /api/t/{tenantId:guid}/shops/{shopId:guid}/settings"] = new { name = "x", version = 1 },
+        ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/orders"] = new { quoteId = Guid.NewGuid(), scopeHash = "x", termsVersion = "test-terms-1" },
     };
 
     [Fact]

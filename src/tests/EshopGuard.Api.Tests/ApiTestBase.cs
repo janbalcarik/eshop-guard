@@ -25,7 +25,7 @@ public abstract class ApiTestBase : IAsyncLifetime
         new(TestConfiguration.ConnectionString("App"), time: time, ipHashKey: ipHashKey, settings: settings, services: services);
 
     /// <summary>Runs SQL as eshopguard_admin (BYPASSRLS: setup and checks across tenants that RLS hides from the application).</summary>
-    protected static async Task<int> AdminAsync(string sql, params object?[] parameters)
+    protected internal static async Task<int> AdminAsync(string sql, params object?[] parameters)
     {
         await using var connection = new NpgsqlConnection(TestConfiguration.ConnectionString("Admin"));
         await connection.OpenAsync(Ct);
@@ -39,7 +39,7 @@ public abstract class ApiTestBase : IAsyncLifetime
     }
 
     /// <summary>Rows of a query as eshopguard_admin.</summary>
-    protected static async Task<List<object?[]>> AdminRowsAsync(string sql, params object?[] parameters)
+    protected internal static async Task<List<object?[]>> AdminRowsAsync(string sql, params object?[] parameters)
     {
         await using var connection = new NpgsqlConnection(TestConfiguration.ConnectionString("Admin"));
         await connection.OpenAsync(Ct);
@@ -61,7 +61,7 @@ public abstract class ApiTestBase : IAsyncLifetime
         return rows;
     }
 
-    protected static async Task<T?> AdminScalarAsync<T>(string sql, params object?[] parameters)
+    protected internal static async Task<T?> AdminScalarAsync<T>(string sql, params object?[] parameters)
     {
         var rows = await AdminRowsAsync(sql, parameters);
         return rows.Count == 0 || rows[0][0] is null ? default : (T)rows[0][0]!;

@@ -15,6 +15,14 @@ internal sealed class PriceListConfiguration : IEntityTypeConfiguration<PriceLis
         builder.Property(x => x.Currency).HasColumnType("character(3)");
         builder.HasEnum(x => x.Status);
         builder.HasIndex(x => new { x.MarketCode, x.ValidFrom });
+        builder.HasEnum(x => x.StripeMode);
+        builder.HasEnum(x => x.SyncStatus).HasDefaultValueSql("'pending'");
+        builder.Property(x => x.FairUseOtherPagesFactor).HasPrecision(5, 2).HasDefaultValue(2m);
+        builder.Property(x => x.Impact).HasColumnType("jsonb");
+
+        // At most one published version per market, currency and start (requirement „Ceník v databázi“).
+        builder.HasIndex(x => new { x.MarketCode, x.Currency, x.ValidFrom }).IsUnique().HasFilter("status = 'published'")
+            .HasDatabaseName("ux_price_lists_published");
         builder.HasOne<Market>().WithMany().HasForeignKey(x => x.MarketCode).HasPrincipalKey(x => x.Code).OnDelete(DeleteBehavior.Restrict);
     }
 }

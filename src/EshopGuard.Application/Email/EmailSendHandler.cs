@@ -154,6 +154,13 @@ public sealed partial class EmailSendHandler(
                 values[name] = parameters[name] is JsonValue value ? value.GetValue<object>() : null;
             }
 
+            foreach (var flag in kind.Flags)
+            {
+                values[flag] = parameters[flag] is JsonValue value && value.TryGetValue<bool>(out var on) && on;
+            }
+
+            EmailValues.Format(values, parameters, locale);
+
             var route = parameters["route"] as JsonObject;
             var routeParams = (route?["params"] as JsonObject ?? []).ToDictionary(p => p.Key, p => (string?)p.Value?.ToString(), StringComparer.Ordinal);
             values["link"] = links.Route(tenantId, (string?)route?["key"], routeParams);

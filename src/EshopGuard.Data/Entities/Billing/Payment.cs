@@ -13,6 +13,9 @@ public sealed class Payment : TenantEntity
 
     public string? StripePaymentIntentId { get; set; }
 
+    /// <summary>The charge of the payment (a refund names its charge, change 12).</summary>
+    public string? StripeChargeId { get; set; }
+
     public decimal AmountGross { get; set; }
 
     public required string Currency { get; set; }

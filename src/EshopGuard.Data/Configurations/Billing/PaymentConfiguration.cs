@@ -16,6 +16,8 @@ internal sealed class PaymentConfiguration : IEntityTypeConfiguration<Payment>
         builder.Property(x => x.Currency).HasColumnType("character(3)");
         builder.HasEnum(x => x.Status);
         builder.Property(x => x.RefundedAmount).HasPrecision(12, 2);
+        builder.HasIndex(x => x.StripeInvoiceId).IsUnique();
+        builder.HasIndex(x => x.StripeChargeId);
         builder.HasTenantForeignKey<Order>(nameof(Payment.OrderId));
         builder.HasTenantForeignKey<Subscription>(nameof(Payment.SubscriptionId));
     }

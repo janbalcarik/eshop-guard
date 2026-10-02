@@ -72,6 +72,7 @@ public static class TableNames
         "fixes.protocols",
         "fixes.rewrite_cache",
         "billing.payment_methods",
+        "billing.price_quotes",
         "billing.orders",
         "billing.subscriptions",
         "billing.subscription_changes",

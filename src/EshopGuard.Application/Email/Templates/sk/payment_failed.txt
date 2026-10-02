@@ -1,0 +1,9 @@
+Platba sa nepodarila
+
+Dobrý deň, platba {{amount}} za sledovanie e-shopu {{shopName}} sa nepodarila. Doklad nevznikol.
+
+Skontrolujte prosím platobnú kartu, platbu zopakujeme.
+
+Zmeniť kartu: {{link}}
+
+Ak platba nebude úspešná ani pri ďalších pokusoch, sledovanie sa pozastaví. Nálezy, opravy a doklady zostanú v aplikácii.

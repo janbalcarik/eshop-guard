@@ -5,7 +5,8 @@ namespace EshopGuard.Api.Tenancy;
 
 /// <summary>
 /// At start, every endpoint must carry its policies (AD 6, fail-closed): one under <c>/api/t/</c> its lowest role
-/// (<see cref="TenantRoleMetadata"/>), one that changes data (POST, PUT, PATCH, DELETE) the CSRF check, unless it is under
+/// (<see cref="TenantRoleMetadata"/>), one under <c>/api/admin/</c> the administrators of EshopGuard
+/// (<see cref="PlatformAdminMetadata"/>), one that changes data (POST, PUT, PATCH, DELETE) the CSRF check, unless it is under
 /// <c>/api/webhooks/</c> and turns it off. Otherwise the API does not start and the error names the endpoints.
 /// </summary>
 public sealed class EndpointPolicyValidator(EndpointDataSource endpoints) : IHostedService
@@ -38,6 +39,11 @@ public sealed class EndpointPolicyValidator(EndpointDataSource endpoints) : IHos
             if (pattern.StartsWith("/api/t/", StringComparison.Ordinal) && endpoint.Metadata.GetMetadata<TenantRoleMetadata>() is null)
             {
                 problems.Add(name + ": RequireTenantRole");
+            }
+
+            if (pattern.StartsWith("/api/admin/", StringComparison.Ordinal) && endpoint.Metadata.GetMetadata<PlatformAdminMetadata>() is null)
+            {
+                problems.Add(name + ": RequirePlatformAdmin");
             }
 
             var unsafeMethod = methods.Count == 0 || methods.Any(CsrfEndpointFilter.IsUnsafe);

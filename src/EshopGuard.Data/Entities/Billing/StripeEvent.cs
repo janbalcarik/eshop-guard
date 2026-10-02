@@ -16,7 +16,14 @@ public sealed class StripeEvent : IHasTimestamps
 
     public DateTimeOffset? ProcessedAt { get; set; }
 
-    public required string Status { get; set; }
+    public StripeEventStatus Status { get; set; }
+
+    public bool Livemode { get; set; }
+
+    public int Attempts { get; set; }
+
+    /// <summary>The id of the object of the event (the processing loads its current state from Stripe).</summary>
+    public string? ObjectId { get; set; }
 
     public required JsonDocument Payload { get; set; }
 

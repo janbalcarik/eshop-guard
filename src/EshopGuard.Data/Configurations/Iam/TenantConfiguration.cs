@@ -15,6 +15,7 @@ internal sealed class TenantConfiguration : IEntityTypeConfiguration<Tenant>
         builder.Property(x => x.Currency).HasColumnType("character(3)");
         builder.HasEnum(x => x.Status);
         builder.HasEnum(x => x.PartnerKind);
+        builder.HasEnum(x => x.TaxIdStatus).HasDefaultValueSql("'none'");
         builder.Property(x => x.Version).IsRowVersion();
         builder.HasOne<Market>().WithMany().HasForeignKey(x => x.MarketCode).HasPrincipalKey(x => x.Code).OnDelete(DeleteBehavior.Restrict);
         builder.HasOne<Locale>().WithMany().HasForeignKey(x => x.Locale).HasPrincipalKey(x => x.Code).OnDelete(DeleteBehavior.Restrict);

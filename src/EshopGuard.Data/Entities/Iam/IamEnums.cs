@@ -32,3 +32,12 @@ public enum UserTokenPurpose
     Confirm,
     MagicLink,
 }
+
+/// <summary>Verification of the VAT id of a tenant by Stripe (change 12).</summary>
+public enum TaxIdStatus
+{
+    None,
+    Pending,
+    Verified,
+    Unverified,
+}
