@@ -43,6 +43,12 @@ public static class FindingsServiceCollectionExtensions
         services.TryAddScoped<ProtocolNumberAllocator>();
         services.TryAddScoped<ProtocolDocumentBuilder>();
         services.TryAddScoped<ProtocolService>();
+        services.TryAddScoped<Runs.RunQueryService>();
+        services.TryAddScoped<Runs.RunCancelService>();
+        services.TryAddScoped<Runs.ShopChangeReader>();
+        services.AddOptions<Runs.SseOptions>().BindConfiguration(Runs.SseOptions.SectionName);
+        services.TryAddSingleton<Runs.RunEventStream>();
+        services.AddHostedService(sp => sp.GetRequiredService<Runs.RunEventStream>());
         services.TryAddScoped<GenerationBudget>();
         services.TryAddScoped<QuestionService>();
         services.TryAddScoped<Notifications.NotificationService>();

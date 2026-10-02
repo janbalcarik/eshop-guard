@@ -678,6 +678,36 @@
         ],
         "type": "object"
       },
+      "CursorPageOfRunDto": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/RunDto"
+            },
+            "type": "array"
+          },
+          "nextCursor": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "total": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "nextCursor",
+          "total"
+        ],
+        "type": "object"
+      },
       "DetectionDto": {
         "properties": {
           "confidence": {
@@ -4567,6 +4597,181 @@
         ],
         "type": "object"
       },
+      "RunDto": {
+        "properties": {
+          "cancelRequested": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "errorCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "finishedAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "jurisdictions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "modules": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "progress": {
+            "$ref": "#/components/schemas/RunProgressDto"
+          },
+          "queue": {
+            "$ref": "#/components/schemas/RunQueueDto"
+          },
+          "shopId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "startedAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "trigger": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "shopId",
+          "kind",
+          "trigger",
+          "status",
+          "progress",
+          "jurisdictions",
+          "modules",
+          "createdAt",
+          "startedAt",
+          "finishedAt",
+          "errorCode",
+          "cancelRequested",
+          "queue"
+        ],
+        "type": "object"
+      },
+      "RunProgressDto": {
+        "properties": {
+          "pagesFetched": {
+            "format": "int64",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "pagesPlanned": {
+            "format": "int64",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "pagesProcessed": {
+            "format": "int64",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "steps": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/RunStepDto"
+            },
+            "type": "object"
+          }
+        },
+        "required": [
+          "pagesPlanned",
+          "pagesFetched",
+          "pagesProcessed",
+          "steps"
+        ],
+        "type": "object"
+      },
+      "RunQueueDto": {
+        "properties": {
+          "estimatedFinishAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "position": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "position",
+          "estimatedFinishAt"
+        ],
+        "type": "object"
+      },
+      "RunStepDto": {
+        "properties": {
+          "done": {
+            "format": "int64",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "total": {
+            "format": "int64",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "done",
+          "total"
+        ],
+        "type": "object"
+      },
       "SampleDto": {
         "properties": {
           "error": {
@@ -7907,6 +8112,134 @@
         ]
       }
     },
+    "/api/t/{tenantId}/runs/{runId}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "runId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "runs"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "run.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/runs/{runId}/cancel": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "runId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunDto"
+                }
+              }
+            },
+            "description": "Accepted"
+          }
+        },
+        "tags": [
+          "runs"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "run.not_cancelable",
+          "run.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/runs/{runId}/events": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "runId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "runs"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "run.not_found",
+          "sse.too_many_connections",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
     "/api/t/{tenantId}/shops": {
       "get": {
         "responses": {
@@ -8228,6 +8561,50 @@
           "request.https_required",
           "request.invalid",
           "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/events": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "runs"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "sse.too_many_connections",
           "tenant.not_found",
           "tenant.suspended"
         ]
@@ -11242,6 +11619,74 @@
         ]
       }
     },
+    "/api/t/{tenantId}/shops/{shopId}/runs": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "kind",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CursorPageOfRunDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "runs"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
     "/api/t/{tenantId}/shops/{shopId}/sample": {
       "get": {
         "parameters": [
@@ -11661,6 +12106,9 @@
     },
     {
       "name": "evidence"
+    },
+    {
+      "name": "runs"
     },
     {
       "name": "shops"

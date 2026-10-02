@@ -221,17 +221,17 @@
 
 ## 11. Běhy a živý průběh
 
-- [ ] 11.1 `Application/Runs/RunQueryService.cs` (seznam, detail, pozice ve frontě ze změny 8, když je) a `RunCancelService.cs` (jen `free_sample` a `recheck` v nekonečném stavu → `cancel_requested`; jinak `409 run.not_cancelable`).
-- [ ] 11.2 `Application/Runs/RunEventStream.cs`:
+- [x] 11.1 `Application/Runs/RunQueryService.cs` (seznam, detail, pozice ve frontě ze změny 8, když je) a `RunCancelService.cs` (jen `free_sample` a `recheck` v nekonečném stavu → `cancel_requested`; jinak `409 run.not_cancelable`).
+- [x] 11.2 `Application/Runs/RunEventStream.cs`:
   - `IHostedService`, jedno spojení `LISTEN eg_run, eg_shop`, opětovné připojení;
   - rozesílání odběratelům podle (`tenant`, `run`) a (`tenant`, `shop`);
   - strop `Sse:MaxConnectionsPerUser`.
-- [ ] 11.3 `Api/Http/SseWriter.cs` a koncové body `GET T/runs/{runId}/events`, `GET S/events`:
+- [x] 11.3 `Api/Http/SseWriter.cs` a koncové body `GET T/runs/{runId}/events`, `GET S/events`:
   - `snapshot`, `progress`, `status`, `run_event` s `id`, `: ping` po 15 s, `end`;
   - `Last-Event-ID`;
   - `Cache-Control: no-store`, `X-Accel-Buffering: no`.
-- [ ] 11.4 Koncové body `GET S/runs`, `GET T/runs/{runId}`, `POST T/runs/{runId}/cancel` (admin).
-- [ ] 11.5 Test `RunSseTests`:
+- [x] 11.4 Koncové body `GET S/runs`, `GET T/runs/{runId}`, `POST T/runs/{runId}/cancel` (admin).
+- [x] 11.5 Test `RunSseTests`:
   - pořadí událostí;
   - obnovení od `Last-Event-ID: 812`;
   - `end` po `finished`;
