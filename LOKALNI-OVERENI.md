@@ -98,14 +98,20 @@ Postup u jednotlivých kroků:
 - **3.1:** `dotnet run --project src/tests/EshopGuard.Core.Tests -- -trait "Category=Jev"` (klíč v `.env`).
 - **3.2 až 3.5:** CLI vypíše odhad z dotazu před prvním voláním a nad limitem se zeptá. Příkazy jsou v `tasks.md` změn 6 a 7. Výsledky 3.2 a 3.3 se zapíšou do README, oddíl Místa prodeje a jazykové verze (úkol 7.5 změny 7).
 - **3.6:** jako krok 2.2, ale bez proměnných `UseMock`, s klíči v proměnných prostředí `TYPESAFE_API_KEY` a `OPENAI_API_KEY`. Strop `Runs:FreeSample:MaxInternalUsd` (1,00 USD) je souhlas s cenou: nad odhadem se nic nezaplatí a běh skončí `failed` s kódem `sample_budget_exceeded`. Skutečnou cenu ukáže `SELECT provider, operation, sum(calls), sum(input_tokens), sum(cost_usd) FROM usage.usage_records WHERE run_id = '<id>' GROUP BY 1, 2;`. Ověřit souhrn ukázky, rozbor verzí (`shop.shop_languages`) a `estimate.basis`.
-- **3.12:** naturfyt.sk je Shoptet (jediná platforma s podpisy ověřenými na skutečné stránce) a má víc jazykových verzí, takže prověří rozpoznání platformy, skrytí nepodporovaných verzí i rozsah za SK a CZ; na nahrávku a výstupy CLI ho porovnám. Tři okna PowerShellu v kořeni repozitáře:
+- **3.12:** naturfyt.sk je Shoptet (jediná platforma s podpisy ověřenými na skutečné stránce) a má víc jazykových verzí, takže prověří rozpoznání platformy, skrytí nepodporovaných verzí i rozsah za SK a CZ; na nahrávku a výstupy CLI ho porovnám. Tři okna **PowerShellu 7** (`pwsh`, ne Windows PowerShell 5.1: skript i příkazy níže potřebují .NET z PowerShellu 7) v kořeni repozitáře:
 
   ```powershell
-  # Jednou: migrace (krok 0), důvěra ve vývojový certifikát, klíč pro otisky IP v auditu (když v user-secrets API chybí)
+  # Jednou: důvěra ve vývojový certifikát a kontrola user-secrets API (vypíše jen jména klíčů, ne hodnoty)
   dotnet dev-certs https --trust
-  dotnet user-secrets list --project src/EshopGuard.Api        # musí obsahovat Security:IpHashKey a ConnectionStrings:App
-  dotnet user-secrets set "Security:IpHashKey" ([Convert]::ToBase64String([Security.Cryptography.RandomNumberGenerator]::GetBytes(32))) --project src/EshopGuard.Api
-  docker compose -f deploy/docker-compose.dev.yml up -d mailpit  # schránka http://localhost:8025
+  dotnet user-secrets list --project src/EshopGuard.Api | ForEach-Object { ($_ -split ' = ', 2)[0] }   # musí být Security:IpHashKey a ConnectionStrings:App
+  # Když Security:IpHashKey chybí: znovu setup-local.ps1 (doplní klíč a vygeneruje nová hesla rolí, ostatní user-secrets nechá), pak migrace
+  $env:PGPASSWORD = 'postgres'; ./deploy/dev/setup-local.ps1; Remove-Item Env:PGPASSWORD
+  dotnet ef database update --project src/EshopGuard.Data      # migrace až po F6ShopsOnboarding
+
+  # Mailpit (schránka http://localhost:8025, SMTP localhost:1025), jedna z možností:
+  docker compose -f deploy/docker-compose.dev.yml up -d mailpit  # Docker Desktop musí běžet
+  # nebo bez Dockeru: mailpit.exe z https://github.com/axllent/mailpit/releases (mailpit-windows-amd64.zip) v samostatném okně
+  .\mailpit.exe --listen 127.0.0.1:8025 --smtp 127.0.0.1:1025
 
   # Okno 1: API
   dotnet run --project src/EshopGuard.Api --launch-profile https
