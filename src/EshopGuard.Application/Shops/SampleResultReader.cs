@@ -98,9 +98,7 @@ public sealed class SampleResultReader(EshopGuardDb db, ShopReader reader, IRunR
 
     private static SampleFindingDto ToDto(Finding finding, SamplePageDto? page)
     {
-        var verdicts = finding.Verdicts.RootElement.ValueKind == JsonValueKind.Array
-            ? finding.Verdicts.RootElement.EnumerateArray().Select(Verdict).ToList()
-            : [];
+        var verdicts = Findings.VerdictStrictness.Verdicts(finding.Verdicts);
         var checkability = SnakeCaseEnumConverter<Checkability>.ToText(finding.Checkability);
         var band = finding.Band == FindingBand.High ? "high" : "review";
         var strictest = verdicts.FirstOrDefault(v => v.Checkability == checkability && v.Severity == finding.Severity && v.Band == band)
@@ -109,14 +107,6 @@ public sealed class SampleResultReader(EshopGuardDb db, ShopReader reader, IRunR
             finding.Id, finding.RuleSetId, finding.RuleId, finding.Module, SnakeCaseEnumConverter<FindingScope>.ToText(finding.Scope),
             strictest, verdicts, finding.Text, page, finding.Params?.RootElement.Clone());
     }
-
-    private static VerdictDto Verdict(JsonElement verdict) => new(
-        Text(verdict, "jurisdiction"), Text(verdict, "checkability"), Text(verdict, "severity"),
-        Text(verdict, "band") is "high" ? "high" : "review",
-        verdict.TryGetProperty("legal_refs", out var refs) ? refs.Clone() : null);
-
-    private static string Text(JsonElement element, string name) =>
-        element.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.String ? value.GetString()! : "";
 
     private static Dictionary<string, int> Counts(JsonObject? counts) =>
         (counts ?? []).Where(p => p.Value is JsonValue v && v.TryGetValue<int>(out _))

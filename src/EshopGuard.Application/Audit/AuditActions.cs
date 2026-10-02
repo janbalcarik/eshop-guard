@@ -47,6 +47,32 @@ public static class AuditActions
     public const string OwnershipVerified = "ownership.verified";
     public const string SettingsChanged = "settings.changed";
 
+    public const string FindingStatusChanged = "finding.status_changed";
+    public const string FindingsExported = "findings.exported";
+    public const string ProposalAlternativeSelected = "proposal.alternative_selected";
+    public const string ProposalEdited = "proposal.edited";
+    public const string ProposalPlaceholdersFilled = "proposal.placeholders_filled";
+    public const string ProposalAccepted = "proposal.accepted";
+    public const string ProposalRejected = "proposal.rejected";
+    public const string ProposalUnaccepted = "proposal.unaccepted";
+    public const string QuestionAnswered = "question.answered";
+    public const string EvidenceCreated = "evidence.created";
+    public const string EvidenceUpdated = "evidence.updated";
+    public const string EvidenceDeleted = "evidence.deleted";
+    public const string EvidenceLinked = "evidence.linked";
+    public const string EvidenceUnlinked = "evidence.unlinked";
+    public const string GroupValuesSet = "group.values_set";
+    public const string GroupModeSet = "group.mode_set";
+    public const string GroupPagesExcluded = "group.pages_excluded";
+    public const string GroupApproved = "group.approved";
+    public const string GroupPageApproved = "group.page_approved";
+    public const string GroupUnapproved = "group.unapproved";
+    public const string PublicationRequested = "publication.requested";
+    public const string PublicationRollbackRequested = "publication.rollback_requested";
+    public const string ProtocolRequested = "protocol.requested";
+    public const string NotificationSettingsChanged = "notification.settings_changed";
+    public const string RunCancelRequested = "run.cancel_requested";
+
     /// <summary>Methods of a sign-in (<c>data.method</c> and the claim <c>amr</c> of the session).</summary>
     public static class Methods
     {

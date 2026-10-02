@@ -2,15 +2,15 @@
 
 ## 1. Datový základ a testovací data
 
-- [ ] 1.1 Migrace `Data/Migrations/*_FindingsApi`:
+- [x] 1.1 Migrace `Data/Migrations/*_FindingsApi`:
   - `fixes.protocols.status` a `error_code`;
   - jedinečný index (`tenant_id`, `number`);
   - `fixes.fix_proposals.recheck_result jsonb`;
   - funkce `checks.strictness_rank(verdicts jsonb)` a index `ix_findings_shop_status_rank`;
   - `CREATE EXTENSION IF NOT EXISTS pg_trgm` (jako `eshopguard_owner`) a trigramové indexy `content.pages (shop_id, title)`, `checks.findings (shop_id, text)`;
   - index `checks.questions (tenant_id, code, status)`.
-- [ ] 1.2 `Data/Migrations/Sql/notify_triggers.sql`: spouštěče `pg_notify('eg_run', …)` na `checks.run_events` a `checks.runs` a `pg_notify('eg_shop', …)` na `fixes.fix_proposals`, `fixes.fix_groups`, `fixes.publications`, `checks.questions` (jen ID). Test `NotifyTriggersTests`: obsah oznámení neobsahuje text.
-- [ ] 1.3 `tests/EshopGuard.Api.Tests/Findings/BylinkovoSeed.cs` podle návrhu UI:
+- [x] 1.2 `Data/Migrations/Sql/notify_triggers.sql`: spouštěče `pg_notify('eg_run', …)` na `checks.run_events` a `checks.runs` a `pg_notify('eg_shop', …)` na `fixes.fix_proposals`, `fixes.fix_groups`, `fixes.publications`, `checks.questions` (jen ID). Test `NotifyTriggersTests`: obsah oznámení neobsahuje text.
+- [x] 1.3 `tests/EshopGuard.Api.Tests/Findings/BylinkovoSeed.cs` podle návrhu UI:
   - 28 položek, 43 nálezů (14 / 23 / 6);
   - verze sk a cs, 7 skupin (včetně „Všetky naše produkty balíme ekologicky.“ na 38 stránkách, 2 k jednotlivému řešení);
   - otázky (Vodnár × 4, COSMOS, košík);
@@ -20,48 +20,48 @@
 
 ## 2. Stavy, verdikty a texty pravidel
 
-- [ ] 2.1 `Application/Findings/FindingStatus.cs` a `FindingStatusMachine.cs` (tabulka z AD 1, výsledek `Allowed` / `NotAllowed(from, to)`).
-- [ ] 2.2 Test `FindingStatusMachineTests`: všech 81 dvojic stavů proti tabulce; nepovolené dávají `finding.transition_not_allowed`.
-- [ ] 2.3 `VerdictStrictness` (převzít ze změny 6, jinak `Application/Findings/VerdictStrictness.cs` s pořadím z K rozhodnutí 2). Test `VerdictStrictnessTests`: `sk text/high` přísnější než `cz assess/high`, shoda podle závažnosti, podle pásma.
-- [ ] 2.4 `Application/Findings/RuleTextCatalog.cs`:
+- [x] 2.1 `Application/Findings/FindingStatus.cs` a `FindingStatusMachine.cs` (tabulka z AD 1, výsledek `Allowed` / `NotAllowed(from, to)`).
+- [x] 2.2 Test `FindingStatusMachineTests`: všech 81 dvojic stavů proti tabulce; nepovolené dávají `finding.transition_not_allowed`.
+- [x] 2.3 `VerdictStrictness` (převzít ze změny 6, jinak `Application/Findings/VerdictStrictness.cs` s pořadím z K rozhodnutí 2). Test `VerdictStrictnessTests`: `sk text/high` přísnější než `cz assess/high`, shoda podle závažnosti, podle pásma.
+- [x] 2.4 `Application/Findings/RuleTextCatalog.cs`:
   - texty z `checks.rule_sets.texts`, náhradní jazyk z `ref.locales.fallback_code`;
   - `409 catalog.locale_incomplete`;
   - `IMemoryCache` po (`rule_set_id`, jazyk).
-- [ ] 2.5 `GET /api/catalog/rule-texts` v `Api/Endpoints/CatalogEndpoints.cs` s `ETag` a `Cache-Control: private, max-age=3600`.
-- [ ] 2.6 Test `RuleTextCatalogTests`:
+- [x] 2.5 `GET /api/catalog/rule-texts` v `Api/Endpoints/CatalogEndpoints.cs` s `ETag` a `Cache-Control: private, max-age=3600`.
+- [x] 2.6 Test `RuleTextCatalogTests`:
   - `cs` a `sk` vrátí vysvětlení po jurisdikcích a „Čo pomôže“;
   - neúplný jazyk → `409`;
   - shodný `If-None-Match` → `304`.
 
 ## 3. Přehled, stránky, nálezy, hledání, export
 
-- [ ] 3.1 `Application/Findings/PageTabs.cs` a `PageWorkQueryService.cs`:
+- [x] 3.1 `Application/Findings/PageTabs.cs` a `PageWorkQueryService.cs`:
   - definice záložek a virtuální položky `site_template` a `site_obligations` (AD 3);
   - filtr `language`, `q`;
   - řazení podle `strictness_rank`, počtu a názvu;
   - stránkování kurzorem.
-- [ ] 3.2 `Application/Findings/FindingQueryService.cs`:
+- [x] 3.2 `Application/Findings/FindingQueryService.cs`:
   - filtry `checkability` (nejpřísnější), `status`, `module`, `language`, `jurisdiction`, `q`;
   - `groupBy=page`;
   - záložky `FindingTabsDto` („Opravené“ = `published` + `resolved`);
   - detail s historií z `ops.audit_log`.
-- [ ] 3.3 `Application/Findings/OverviewService.cs`: poslední běh, počty, záložky, 5 stránek k řešení, 3 rychlé odpovědi, `badges` (opravy, doklady `expiring` + `awaiting_answer`), `monitoring = null`.
-- [ ] 3.4 `Application/Findings/SearchService.cs` (`q` aspoň 2 znaky, trigramy, nejvýš 10 + 10) a `FindingsCsvExporter.cs`:
+- [x] 3.3 `Application/Findings/OverviewService.cs`: poslední běh, počty, záložky, 5 stránek k řešení, 3 rychlé odpovědi, `badges` (opravy, doklady `expiring` + `awaiting_answer`), `monitoring = null`.
+- [x] 3.4 `Application/Findings/SearchService.cs` (`q` aspoň 2 znaky, trigramy, nejvýš 10 + 10) a `FindingsCsvExporter.cs`:
   - proudově, UTF-8 BOM, `;`;
   - názvy pravidel v jazyce uživatele;
   - strop `Findings:ExportMaxRows`;
   - audit `findings.exported`.
-- [ ] 3.5 Koncové body v `OverviewEndpoints.cs` a `FindingEndpoints.cs`: `GET S/overview`, `GET S/pages`, `GET S/pages/tabs`, `GET S/findings`, `GET S/findings/tabs`, `GET S/findings/{findingId}`, `GET S/findings/export.csv`, `GET S/search`.
-- [ ] 3.6 Test `PageTabsTests` nad `BylinkovoSeed`:
+- [x] 3.5 Koncové body v `OverviewEndpoints.cs` a `FindingEndpoints.cs`: `GET S/overview`, `GET S/pages`, `GET S/pages/tabs`, `GET S/findings`, `GET S/findings/tabs`, `GET S/findings/{findingId}`, `GET S/findings/export.csv`, `GET S/search`.
+- [x] 3.6 Test `PageTabsTests` nad `BylinkovoSeed`:
   - 24 / 12 / 12 / 4 / 28;
   - stránka s otázkou jen v `needs_answer`;
   - filtr `cs` ponechá položky za celý web.
-- [ ] 3.7 Test `PagesAndFindingsTests`:
+- [x] 3.7 Test `PagesAndFindingsTests`:
   - řazení podle nejpřísnějšího;
   - stabilní kurzor při 120 nálezech;
   - `checkability=fatal` → `400`;
   - záložky nálezů 14 / 23 / 6 / 9.
-- [ ] 3.8 Test `CsvExportTests` (hlavička, BOM, názvy pravidel česky pro uživatele `cs`, verdikty po zemích) a `OverviewTests`.
+- [x] 3.8 Test `CsvExportTests` (hlavička, BOM, názvy pravidel česky pro uživatele `cs`, verdikty po zemích) a `OverviewTests`.
 
 ## 4. Oprava stránky a návrhy
 

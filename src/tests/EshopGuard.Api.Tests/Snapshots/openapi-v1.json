@@ -22,6 +22,75 @@
         ],
         "type": "object"
       },
+      "AppliesToDto": {
+        "properties": {
+          "findings": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "pages": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "questions": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "questions",
+          "findings",
+          "pages"
+        ],
+        "type": "object"
+      },
+      "BadgesDto": {
+        "properties": {
+          "evidence": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "fixes": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "monitoring": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "fixes",
+          "evidence",
+          "monitoring"
+        ],
+        "type": "object"
+      },
       "ChangeRoleRequest": {
         "properties": {
           "role": {
@@ -33,6 +102,40 @@
         },
         "required": [
           "role"
+        ],
+        "type": "object"
+      },
+      "CheckCountsDto": {
+        "properties": {
+          "assess": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "text": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "verify": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "text",
+          "assess",
+          "verify"
         ],
         "type": "object"
       },
@@ -174,6 +277,66 @@
         },
         "required": [
           "token"
+        ],
+        "type": "object"
+      },
+      "CursorPageOfFindingListItemDto": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/FindingListItemDto"
+            },
+            "type": "array"
+          },
+          "nextCursor": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "total": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "nextCursor",
+          "total"
+        ],
+        "type": "object"
+      },
+      "CursorPageOfPageWorkItemDto": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PageWorkItemDto"
+            },
+            "type": "array"
+          },
+          "nextCursor": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "total": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "nextCursor",
+          "total"
         ],
         "type": "object"
       },
@@ -325,6 +488,68 @@
         ],
         "type": "object"
       },
+      "FindingActorDto": {
+        "properties": {
+          "displayName": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "userId": {
+            "format": "uuid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "displayName"
+        ],
+        "type": "object"
+      },
+      "FindingCountsByGroupDto": {
+        "properties": {
+          "assess": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "text": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "total": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "verify": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "total",
+          "text",
+          "assess",
+          "verify"
+        ],
+        "type": "object"
+      },
       "FindingCountsDto": {
         "properties": {
           "byCheckability": {
@@ -362,6 +587,367 @@
           "total",
           "byCheckability",
           "bySeverity"
+        ],
+        "type": "object"
+      },
+      "FindingDecisionRequest": {
+        "properties": {
+          "reasonCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "reasonCode"
+        ],
+        "type": "object"
+      },
+      "FindingDetailDto": {
+        "properties": {
+          "contextAfter": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "contextBefore": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/FindingEvidenceDto"
+            },
+            "type": "array"
+          },
+          "finding": {
+            "$ref": "#/components/schemas/FindingListItemDto"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/FindingHistoryDto"
+            },
+            "type": "array"
+          },
+          "occurrencePages": {
+            "items": {
+              "$ref": "#/components/schemas/PageRefDto"
+            },
+            "type": "array"
+          },
+          "proposals": {
+            "items": {
+              "$ref": "#/components/schemas/FindingProposalDto"
+            },
+            "type": "array"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/QuestionDto"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "finding",
+          "contextBefore",
+          "contextAfter",
+          "occurrencePages",
+          "questions",
+          "proposals",
+          "evidence",
+          "history"
+        ],
+        "type": "object"
+      },
+      "FindingEvidenceDto": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "validUntil": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "title",
+          "status",
+          "validUntil"
+        ],
+        "type": "object"
+      },
+      "FindingHistoryDto": {
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "actor": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/FindingActorDto"
+              }
+            ]
+          },
+          "at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "from": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "reasonCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "to": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "at",
+          "action",
+          "from",
+          "to",
+          "reasonCode",
+          "actor"
+        ],
+        "type": "object"
+      },
+      "FindingListItemDto": {
+        "properties": {
+          "findingId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "module": {
+            "type": "string"
+          },
+          "occurrences": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "page": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/PageRefDto"
+              }
+            ]
+          },
+          "params": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/JsonElement"
+              }
+            ]
+          },
+          "proposal": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/FindingProposalRefDto"
+              }
+            ]
+          },
+          "questionId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "ruleSetId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "strictest": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/VerdictDto"
+              }
+            ]
+          },
+          "text": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "verdicts": {
+            "items": {
+              "$ref": "#/components/schemas/VerdictDto"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "findingId",
+          "ruleSetId",
+          "ruleId",
+          "module",
+          "scope",
+          "status",
+          "text",
+          "page",
+          "occurrences",
+          "verdicts",
+          "strictest",
+          "params",
+          "proposal",
+          "questionId"
+        ],
+        "type": "object"
+      },
+      "FindingProposalDto": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "originalText": {
+            "type": "string"
+          },
+          "pageId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "recheckStatus": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "pageId",
+          "status",
+          "recheckStatus",
+          "originalText",
+          "text"
+        ],
+        "type": "object"
+      },
+      "FindingProposalRefDto": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "recheckStatus": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "recheckStatus"
+        ],
+        "type": "object"
+      },
+      "FindingTabsDto": {
+        "properties": {
+          "assess": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "fixed": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "text": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "verify": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "text",
+          "assess",
+          "verify",
+          "fixed"
         ],
         "type": "object"
       },
@@ -1133,6 +1719,117 @@
         ],
         "type": "object"
       },
+      "OverviewDto": {
+        "properties": {
+          "badges": {
+            "$ref": "#/components/schemas/BadgesDto"
+          },
+          "findingCounts": {
+            "$ref": "#/components/schemas/FindingCountsByGroupDto"
+          },
+          "lastRun": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/OverviewRunDto"
+              }
+            ]
+          },
+          "monitoring": {},
+          "pageTabs": {
+            "$ref": "#/components/schemas/PageTabsDto"
+          },
+          "priorityPages": {
+            "items": {
+              "$ref": "#/components/schemas/PageWorkItemDto"
+            },
+            "type": "array"
+          },
+          "quickQuestions": {
+            "$ref": "#/components/schemas/QuickQuestionsDto"
+          },
+          "shop": {
+            "$ref": "#/components/schemas/OverviewShopDto"
+          }
+        },
+        "required": [
+          "shop",
+          "lastRun",
+          "findingCounts",
+          "pageTabs",
+          "priorityPages",
+          "quickQuestions",
+          "badges",
+          "monitoring"
+        ],
+        "type": "object"
+      },
+      "OverviewRunDto": {
+        "properties": {
+          "finishedAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "jurisdictions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "notChecked": {
+            "$ref": "#/components/schemas/NotCheckedDto"
+          },
+          "pagesChecked": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "runId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "runId",
+          "kind",
+          "status",
+          "finishedAt",
+          "pagesChecked",
+          "notChecked",
+          "jurisdictions"
+        ],
+        "type": "object"
+      },
+      "OverviewShopDto": {
+        "properties": {
+          "domain": {
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "domain"
+        ],
+        "type": "object"
+      },
       "OwnershipDto": {
         "properties": {
           "method": {
@@ -1170,6 +1867,183 @@
           "method",
           "requiredBefore",
           "verifications"
+        ],
+        "type": "object"
+      },
+      "PageRefDto": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "language": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "path": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "path",
+          "url",
+          "language"
+        ],
+        "type": "object"
+      },
+      "PageTabsDto": {
+        "properties": {
+          "needsAnswer": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "published": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "toApprove": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "toResolve": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "withFindings": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "toResolve",
+          "toApprove",
+          "needsAnswer",
+          "published",
+          "withFindings"
+        ],
+        "type": "object"
+      },
+      "PageWorkItemDto": {
+        "properties": {
+          "counts": {
+            "$ref": "#/components/schemas/CheckCountsDto"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "language": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "pageId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "pageType": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "path": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "preview": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/WorkPreviewDto"
+              }
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "strictest": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/VerdictDto"
+              }
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "url": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "work": {
+            "$ref": "#/components/schemas/WorkCountsDto"
+          }
+        },
+        "required": [
+          "kind",
+          "pageId",
+          "title",
+          "path",
+          "url",
+          "language",
+          "pageType",
+          "counts",
+          "work",
+          "preview",
+          "status",
+          "strictest"
         ],
         "type": "object"
       },
@@ -1332,6 +2206,124 @@
         ],
         "type": "object"
       },
+      "QuestionDto": {
+        "properties": {
+          "answer": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "answeredAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "answeredBy": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "appliesTo": {
+            "$ref": "#/components/schemas/AppliesToDto"
+          },
+          "code": {
+            "type": "string"
+          },
+          "findingId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "page": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/PageRefDto"
+              }
+            ]
+          },
+          "params": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/JsonElement"
+              }
+            ]
+          },
+          "questionId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "ruleId": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "ruleSetId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "scope": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "questionId",
+          "scope",
+          "code",
+          "params",
+          "ruleSetId",
+          "ruleId",
+          "findingId",
+          "page",
+          "status",
+          "answer",
+          "answeredBy",
+          "answeredAt",
+          "appliesTo"
+        ],
+        "type": "object"
+      },
+      "QuickQuestionsDto": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/QuestionDto"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "total",
+          "items"
+        ],
+        "type": "object"
+      },
       "QuoteDto": {
         "properties": {
           "price": {
@@ -1467,6 +2459,121 @@
         "required": [
           "token",
           "newPassword"
+        ],
+        "type": "object"
+      },
+      "RuleExplanationDto": {
+        "properties": {
+          "byJurisdiction": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "default": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "default",
+          "byJurisdiction"
+        ],
+        "type": "object"
+      },
+      "RuleHelpDto": {
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "text"
+        ],
+        "type": "object"
+      },
+      "RuleSetTextsDto": {
+        "properties": {
+          "locale": {
+            "type": "string"
+          },
+          "module": {
+            "type": "string"
+          },
+          "ruleSetId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "rules": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/RuleTextDto"
+            },
+            "type": "object"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ruleSetId",
+          "module",
+          "version",
+          "locale",
+          "rules"
+        ],
+        "type": "object"
+      },
+      "RuleTextCatalogDto": {
+        "properties": {
+          "locale": {
+            "type": "string"
+          },
+          "ruleSets": {
+            "items": {
+              "$ref": "#/components/schemas/RuleSetTextsDto"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "locale",
+          "ruleSets"
+        ],
+        "type": "object"
+      },
+      "RuleTextDto": {
+        "properties": {
+          "explanation": {
+            "$ref": "#/components/schemas/RuleExplanationDto"
+          },
+          "helps": {
+            "items": {
+              "$ref": "#/components/schemas/RuleHelpDto"
+            },
+            "type": "array"
+          },
+          "questions": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "recommendation": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "explanation",
+          "recommendation",
+          "helps",
+          "questions"
         ],
         "type": "object"
       },
@@ -1951,6 +3058,27 @@
           "language",
           "baseUrl",
           "reason"
+        ],
+        "type": "object"
+      },
+      "SearchResultDto": {
+        "properties": {
+          "findings": {
+            "items": {
+              "$ref": "#/components/schemas/FindingListItemDto"
+            },
+            "type": "array"
+          },
+          "pages": {
+            "items": {
+              "$ref": "#/components/schemas/PageRefDto"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "pages",
+          "findings"
         ],
         "type": "object"
       },
@@ -2548,6 +3676,13 @@
           "checkability": {
             "type": "string"
           },
+          "effectiveFrom": {
+            "format": "date",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
           "jurisdiction": {
             "type": "string"
           },
@@ -2562,6 +3697,10 @@
             ]
           },
           "severity": {
+            "type": "string"
+          },
+          "status": {
+            "default": "finding",
             "type": "string"
           }
         },
@@ -2642,6 +3781,83 @@
           "metaTag",
           "dnsName",
           "dnsValue"
+        ],
+        "type": "object"
+      },
+      "WorkCountsDto": {
+        "properties": {
+          "accepted": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "openQuestions": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "proposals": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "proposals",
+          "accepted",
+          "openQuestions"
+        ],
+        "type": "object"
+      },
+      "WorkPreviewDto": {
+        "properties": {
+          "after": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "before": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "kind": {
+            "type": "string"
+          },
+          "questionCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "questionParams": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/JsonElement"
+              }
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "before",
+          "after",
+          "questionCode",
+          "questionParams"
         ],
         "type": "object"
       }
@@ -3080,6 +4296,52 @@
           "reset_link.expired",
           "reset_link.invalid",
           "reset_link.used",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/catalog/rule-texts": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ruleSetIds",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuleTextCatalogDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "catalog"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "catalog.locale_incomplete",
+          "csrf.invalid",
+          "internal_error",
+          "locale.not_enabled",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
           "validation.failed"
         ]
       }
@@ -4200,6 +5462,503 @@
         ]
       }
     },
+    "/api/t/{tenantId}/shops/{shopId}/findings": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "Checkability",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "Module",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "Language",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "Jurisdiction",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "Q",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "GroupBy",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CursorPageOfFindingListItemDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/findings/export.csv": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "Checkability",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "Module",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "Language",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "Jurisdiction",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "Q",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "GroupBy",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "locale",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "locale.not_enabled",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/findings/tabs": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "language",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FindingTabsDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/findings/{findingId}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "findingId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FindingDetailDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "finding.not_found",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/findings/{findingId}/dismiss": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "findingId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/FindingDecisionRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FindingDetailDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "finding.not_found",
+          "finding.transition_not_allowed",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "shop.sample_only",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/findings/{findingId}/keep": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "findingId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/FindingDecisionRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FindingDetailDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "finding.not_found",
+          "finding.transition_not_allowed",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "shop.sample_only",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/findings/{findingId}/reopen": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "findingId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FindingDetailDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "finding.not_found",
+          "finding.transition_not_allowed",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "shop.sample_only",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
     "/api/t/{tenantId}/shops/{shopId}/languages": {
       "get": {
         "parameters": [
@@ -4523,6 +6282,47 @@
         ]
       }
     },
+    "/api/t/{tenantId}/shops/{shopId}/overview": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OverviewDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
     "/api/t/{tenantId}/shops/{shopId}/ownership": {
       "get": {
         "parameters": [
@@ -4696,6 +6496,136 @@
           "csrf.invalid",
           "internal_error",
           "ownership.verification_not_found",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/pages": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "tab",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "language",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CursorPageOfPageWorkItemDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/pages/tabs": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "language",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageTabsDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
           "rate_limited",
           "request.https_required",
           "request.invalid",
@@ -4968,6 +6898,55 @@
         ]
       }
     },
+    "/api/t/{tenantId}/shops/{shopId}/search": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResultDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "search.query_too_short",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
     "/api/t/{tenantId}/shops/{shopId}/settings": {
       "get": {
         "parameters": [
@@ -5203,10 +7182,16 @@
       "name": "shops"
     },
     {
+      "name": "fixes"
+    },
+    {
       "name": "invitations"
     },
     {
       "name": "ref"
+    },
+    {
+      "name": "catalog"
     }
   ]
 }

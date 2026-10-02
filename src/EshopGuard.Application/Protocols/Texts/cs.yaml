@@ -1,0 +1,34 @@
+# Texty dokumentů, které skládá backend (změna 11): export nálezů do CSV a protokol PDF. Texty nálezů jsou v textech
+# pravidel (rules/texts/), odkazy na zákon zůstávají v jazyce zákona.
+locale: cs
+culture: cs-CZ
+csv:
+  columns:
+    text: Text na stránce
+    page: Stránka
+    url: Adresa
+    language: Jazyková verze
+    group: Skupina
+    verdicts: Verdikt po zemích
+    provisions: Ustanovení
+    status: Stav
+    rule: Pravidlo
+groups:
+  text: Porušení
+  assess: K posouzení
+  verify: K ověření
+severities:
+  high: vysoká
+  medium: střední
+  low: nízká
+statuses:
+  open: Otevřené
+  needs_answer: Čeká na odpověď
+  proposed: Návrh připraven
+  approved: Schváleno
+  published: Publikováno
+  kept: Ponecháno
+  kept_with_evidence: Ponecháno s dokladem
+  dismissed: Nejde o problém
+  resolved: Vyřešeno
+whole_site: Celý e-shop

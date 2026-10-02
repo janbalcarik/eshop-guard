@@ -16,6 +16,8 @@ internal sealed class FixGroupConfiguration : IEntityTypeConfiguration<FixGroup>
         builder.HasAlternateKey(x => new { x.TenantId, x.Id });
         builder.HasEnum(x => x.Kind);
         builder.HasEnum(x => x.Status);
+        builder.HasEnum(x => x.Mode);
+        builder.HasEnum(x => x.RecheckStatus);
         builder.Property(x => x.Version).IsRowVersion();
         builder.HasIndex(x => new { x.TenantId, x.ShopId, x.Status });
         builder.HasTenantForeignKey<Shop>(nameof(FixGroup.ShopId));

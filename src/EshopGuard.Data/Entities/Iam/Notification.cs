@@ -16,5 +16,8 @@ public sealed class Notification : TenantEntity
 
     public string? Link { get; set; }
 
+    /// <summary>Language-neutral target of the link (change 11): <c>{ "key": "fixes.page", "params": { … } }</c>.</summary>
+    public JsonDocument? Route { get; set; }
+
     public DateTimeOffset? ReadAt { get; set; }
 }

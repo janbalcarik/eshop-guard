@@ -245,6 +245,14 @@ public sealed class EshopGuardDb : DbContext
     internal bool IsHardDelete(object entity) => _hardDeletes.Contains(entity);
 
     /// <inheritdoc />
+    /// <summary>
+    /// <c>checks.strictness_rank(verdicts)</c> (change 11) for queries: how strict the strictest verdict of a finding is,
+    /// smaller is stricter. Only translatable to SQL.
+    /// </summary>
+    [DbFunction("strictness_rank", Schema = "checks")]
+    public static short StrictnessRank(System.Text.Json.JsonDocument verdicts) =>
+        throw new NotSupportedException("checks.strictness_rank runs only in SQL.");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(EshopGuardDb).Assembly);

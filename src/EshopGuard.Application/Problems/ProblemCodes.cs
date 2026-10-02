@@ -99,6 +99,67 @@ public static class ProblemCodes
     public const string SettingsHiddenCheckRequiresConnector = "settings.hidden_check_requires_connector";
     public const string SettingsHiddenCheckUnsupportedPlatform = "settings.hidden_check_unsupported_platform";
 
+    public const string ShopSampleOnly = "shop.sample_only";
+    public const string FindingNotFound = "finding.not_found";
+    public const string FindingTransitionNotAllowed = "finding.transition_not_allowed";
+    public const string PageNotFound = "page.not_found";
+    public const string PageNoAcceptedChanges = "page.no_accepted_changes";
+    public const string SearchQueryTooShort = "search.query_too_short";
+    public const string CatalogLocaleIncomplete = "catalog.locale_incomplete";
+
+    public const string ProposalNotFound = "proposal.not_found";
+    public const string ProposalAlternativeUnknown = "proposal.alternative_unknown";
+    public const string ProposalTextEmpty = "proposal.text_empty";
+    public const string ProposalTextUnchanged = "proposal.text_unchanged";
+    public const string ProposalTextTooLong = "proposal.text_too_long";
+    public const string ProposalLocked = "proposal.locked";
+    public const string ProposalPlaceholderUnknown = "proposal.placeholder_unknown";
+    public const string ProposalPlaceholderEmpty = "proposal.placeholder_empty";
+    public const string ProposalPlaceholderMissing = "proposal.placeholder_missing";
+    public const string ProposalRecheckPending = "proposal.recheck_pending";
+    public const string ProposalRecheckFailed = "proposal.recheck_failed";
+    public const string ProposalAlreadyPublished = "proposal.already_published";
+
+    public const string QuestionNotFound = "question.not_found";
+    public const string QuestionAnswerLocked = "question.answer_locked";
+    public const string BudgetDailyLimitReached = "budget.daily_limit_reached";
+
+    public const string GroupNotFound = "group.not_found";
+    public const string GroupPlaceholderUnknown = "group.placeholder_unknown";
+    public const string GroupLocked = "group.locked";
+    public const string GroupCustomTextRequired = "group.custom_text_required";
+    public const string GroupPageNotInGroup = "group.page_not_in_group";
+    public const string GroupNoPagesLeft = "group.no_pages_left";
+    public const string GroupValueMissing = "group.value_missing";
+    public const string GroupRecheckPending = "group.recheck_pending";
+    public const string GroupRecheckFailed = "group.recheck_failed";
+    public const string GroupPageNeedsIndividualFix = "group.page_needs_individual_fix";
+    public const string GroupAlreadyPublished = "group.already_published";
+
+    public const string PublicationNotAvailable = "publication.not_available";
+    public const string PublicationConnectorUnavailable = "publication.connector_unavailable";
+    public const string PublicationNothingToPublish = "publication.nothing_to_publish";
+    public const string PublicationNotFound = "publication.not_found";
+    public const string PublicationNotRollbackable = "publication.not_rollbackable";
+
+    public const string EvidenceNotFound = "evidence.not_found";
+    public const string EvidenceFileTypeNotAllowed = "evidence.file_type_not_allowed";
+    public const string EvidenceFileTooLarge = "evidence.file_too_large";
+    public const string EvidenceClaimRequired = "evidence.claim_required";
+    public const string EvidenceValidUntilBeforeFrom = "evidence.valid_until_before_from";
+    public const string EvidenceNoFile = "evidence.no_file";
+
+    public const string ProtocolNotFound = "protocol.not_found";
+    public const string ProtocolPeriodInvalid = "protocol.period_invalid";
+    public const string ProtocolNoCompletedRun = "protocol.no_completed_run";
+    public const string ProtocolNotReady = "protocol.not_ready";
+    public const string ProtocolFailed = "protocol.failed";
+
+    public const string NotificationNotFound = "notification.not_found";
+    public const string RunNotFound = "run.not_found";
+    public const string RunNotCancelable = "run.not_cancelable";
+    public const string SseTooManyConnections = "sse.too_many_connections";
+
     /// <summary>Codes of single fields inside <see cref="ValidationFailed"/>.</summary>
     public static class Fields
     {
@@ -112,5 +173,6 @@ public static class ProblemCodes
         public const string CodeInvalid = "code.invalid";
         public const string UrlInvalid = "url.invalid";
         public const string ValueUnknown = "value.unknown";
+        public const string ValueNotAllowed = "value.not_allowed";
     }
 }

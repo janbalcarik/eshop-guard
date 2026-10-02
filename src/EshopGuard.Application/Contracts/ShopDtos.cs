@@ -108,8 +108,13 @@ public sealed record SampleFindingDto(
     SamplePageDto? Page,
     System.Text.Json.JsonElement? Params);
 
-/// <summary>A verdict of one jurisdiction (the shape of change 6); the legal references in the language of the law.</summary>
-public sealed record VerdictDto(string Jurisdiction, string Checkability, string Severity, string Band, System.Text.Json.JsonElement? LegalRefs);
+/// <summary>
+/// A verdict of a finding in one jurisdiction (change 6): the group, severity, band and the legal references in the language of
+/// the law; <c>status</c> is <c>upcoming</c> before the rule takes effect there (<c>effectiveFrom</c>), otherwise <c>finding</c>.
+/// </summary>
+public sealed record VerdictDto(
+    string Jurisdiction, string Checkability, string Severity, string Band, System.Text.Json.JsonElement? LegalRefs,
+    string Status = "finding", DateOnly? EffectiveFrom = null);
 
 public sealed record SamplePageDto(Guid Id, string? Title, string Url, string? Language);
 

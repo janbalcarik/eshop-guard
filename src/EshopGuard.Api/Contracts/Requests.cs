@@ -77,3 +77,4 @@ public sealed record CreateVerificationRequest(string? Method);
 
 /// <summary>A field left out keeps its value; <c>name: null</c> clears the name.</summary>
 public sealed record UpdateShopSettingsRequest(System.Text.Json.JsonElement? Name, string[]? Modules, bool? CheckHiddenOnSave, uint? Version);
+public sealed record FindingDecisionRequest(string? ReasonCode);

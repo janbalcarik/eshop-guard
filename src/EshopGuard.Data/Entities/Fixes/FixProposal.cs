@@ -36,6 +36,12 @@ public sealed class FixProposal : TenantEntity
 
     public RecheckStatus RecheckStatus { get; set; }
 
+    /// <summary>
+    /// What the last recheck found (change 11): <c>{ "text_hash", "checked_at", "jurisdictions": { "sk": "ok", "cz": "still_finding" },
+    /// "rule_ids": [] }</c>; written only for the text it was computed for.
+    /// </summary>
+    public JsonDocument? RecheckResult { get; set; }
+
     public string? Model { get; set; }
 
     public string? PromptVersion { get; set; }

@@ -23,4 +23,10 @@ public sealed class Protocol : TenantEntity
     public JsonDocument? Summary { get; set; }
 
     public Guid[] RuleSetIds { get; set; } = [];
+
+    /// <summary>State of the rendering (change 11): rendering until the worker stores the PDF.</summary>
+    public ProtocolStatus Status { get; set; }
+
+    /// <summary>Code of a failed rendering (<c>pdf_render_failed</c>, …); never a text of a page.</summary>
+    public string? ErrorCode { get; set; }
 }

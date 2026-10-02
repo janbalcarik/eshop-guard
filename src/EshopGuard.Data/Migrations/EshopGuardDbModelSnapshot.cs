@@ -2401,6 +2401,10 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<string>("CustomText")
+                        .HasColumnType("text")
+                        .HasColumnName("custom_text");
+
                     b.PrimitiveCollection<Guid[]>("ExcludedPageIds")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -2412,6 +2416,10 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("jsonb")
                         .HasColumnName("filled_values");
 
+                    b.Property<JsonDocument>("Fit")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("fit");
+
                     b.Property<string>("Kind")
                         .IsRequired()
                         .HasColumnType("text")
@@ -2420,6 +2428,11 @@ namespace EshopGuard.Data.Migrations
                     b.Property<DateTimeOffset?>("LockedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("locked_at");
+
+                    b.Property<string>("Mode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("mode");
 
                     b.Property<string>("OriginalText")
                         .HasColumnType("text")
@@ -2432,6 +2445,14 @@ namespace EshopGuard.Data.Migrations
                     b.Property<JsonDocument>("Placeholders")
                         .HasColumnType("jsonb")
                         .HasColumnName("placeholders");
+
+                    b.Property<JsonDocument>("RecheckResult")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("recheck_result");
+
+                    b.Property<string>("RecheckStatus")
+                        .HasColumnType("text")
+                        .HasColumnName("recheck_status");
 
                     b.Property<string>("ReplacementTemplate")
                         .HasColumnType("text")
@@ -2481,6 +2502,10 @@ namespace EshopGuard.Data.Migrations
                     b.ToTable("fix_groups", "fixes", t =>
                         {
                             t.HasCheckConstraint("ck_fix_groups_kind", "kind IN ('repeated_text', 'template', 'site_obligation')");
+
+                            t.HasCheckConstraint("ck_fix_groups_mode", "mode IN ('replace', 'remove', 'custom')");
+
+                            t.HasCheckConstraint("ck_fix_groups_recheck_status", "recheck_status IN ('ok', 'still_finding', 'pending')");
 
                             t.HasCheckConstraint("ck_fix_groups_status", "status IN ('draft', 'needs_value', 'approved', 'published', 'partially_published', 'rejected')");
                         });
@@ -2573,6 +2598,10 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("reason");
 
+                    b.Property<JsonDocument>("RecheckResult")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("recheck_result");
+
                     b.Property<string>("RecheckStatus")
                         .IsRequired()
                         .HasColumnType("text")
@@ -2660,6 +2689,10 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
+                    b.Property<string>("ErrorCode")
+                        .HasColumnType("text")
+                        .HasColumnName("error_code");
+
                     b.Property<Guid?>("GeneratedBy")
                         .HasColumnType("uuid")
                         .HasColumnName("generated_by");
@@ -2697,6 +2730,11 @@ namespace EshopGuard.Data.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("shop_id");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("status");
+
                     b.Property<JsonDocument>("Summary")
                         .HasColumnType("jsonb")
                         .HasColumnName("summary");
@@ -2727,7 +2765,10 @@ namespace EshopGuard.Data.Migrations
                     b.HasIndex("TenantId", "ShopId")
                         .HasDatabaseName("ix_protocols_tenant_id_shop_id");
 
-                    b.ToTable("protocols", "fixes");
+                    b.ToTable("protocols", "fixes", t =>
+                        {
+                            t.HasCheckConstraint("ck_protocols_status", "status IN ('rendering', 'ready', 'failed')");
+                        });
                 });
 
             modelBuilder.Entity("EshopGuard.Data.Entities.Fixes.Publication", b =>
@@ -3032,6 +3073,10 @@ namespace EshopGuard.Data.Migrations
                     b.Property<DateTimeOffset?>("ReadAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("read_at");
+
+                    b.Property<JsonDocument>("Route")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("route");
 
                     b.Property<Guid?>("ShopId")
                         .HasColumnType("uuid")

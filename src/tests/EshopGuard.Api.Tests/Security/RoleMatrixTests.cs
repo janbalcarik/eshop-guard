@@ -52,6 +52,19 @@ public sealed class RoleMatrixTests : ApiTestBase
         ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/ownership/verifications/{verificationId:guid}/check"] = TenantRole.Admin,
         ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/settings"] = TenantRole.Viewer,
         ["PATCH /api/t/{tenantId:guid}/shops/{shopId:guid}/settings"] = TenantRole.Admin,
+
+        // Change 11: reading for every member, decisions for editor and above.
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/overview"] = TenantRole.Viewer,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/pages"] = TenantRole.Viewer,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/pages/tabs"] = TenantRole.Viewer,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/findings"] = TenantRole.Viewer,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/findings/tabs"] = TenantRole.Viewer,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/findings/export.csv"] = TenantRole.Viewer,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/findings/{findingId:guid}"] = TenantRole.Viewer,
+        ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/findings/{findingId:guid}/keep"] = TenantRole.Editor,
+        ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/findings/{findingId:guid}/dismiss"] = TenantRole.Editor,
+        ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/findings/{findingId:guid}/reopen"] = TenantRole.Editor,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/search"] = TenantRole.Viewer,
     };
 
     [Fact]

@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Email/Templates/**/*" />
+    <EmbeddedResource Include="Protocols/Texts/*.yaml" />
   </ItemGroup>
 
 </Project>

@@ -36,6 +36,7 @@ builder.Services.AddEshopGuardIdentity(builder.Configuration);
 
 // E-shops and the onboarding (change 10): the rules of the worker, the runs of change 8 and the policy of ownership.
 builder.Services.AddEshopGuardShops();
+builder.Services.AddEshopGuardFindings();
 builder.Services.AddScoped<SessionWriter>();
 builder.Services.AddAuthorization();
 builder.Services.AddEshopGuardRateLimiter(builder.Configuration);
@@ -102,8 +103,10 @@ api.MapMeEndpoints();
 api.MapTenantsEndpoints();
 var tenant = api.MapTenantGroup();
 tenant.MapShopEndpoints().MapOnboardingEndpoints().MapOwnershipAndSettingsEndpoints();
+tenant.MapShopWorkGroup().MapFindingEndpoints();
 api.MapInvitationEndpoints();
 api.MapRefEndpoints();
+api.MapCatalogEndpoints();
 
 // A refused start (DatabaseStartupException, OptionsValidationException) propagates: the host has logged its code,
 // the exception message is only the code, and the process ends with a non-zero exit code before Kestrel listens.

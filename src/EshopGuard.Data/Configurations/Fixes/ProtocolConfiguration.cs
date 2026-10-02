@@ -15,6 +15,7 @@ internal sealed class ProtocolConfiguration : IEntityTypeConfiguration<Protocol>
         builder.HasKey(x => x.Id);
         builder.HasAlternateKey(x => new { x.TenantId, x.Id });
         builder.HasIndex(x => new { x.TenantId, x.Number }).IsUnique();
+        builder.HasEnum(x => x.Status);
         builder.HasTenantForeignKey<Shop>(nameof(Protocol.ShopId));
         builder.HasOne<User>().WithMany().HasForeignKey(x => x.GeneratedBy).OnDelete(DeleteBehavior.Restrict);
     }

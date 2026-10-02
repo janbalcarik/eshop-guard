@@ -41,7 +41,8 @@ public sealed class ShopCatalog(IRuleSetProvider rules, IRefCatalog refCatalog)
     public static IReadOnlyList<string> Available(IReadOnlyList<ModuleInfo> modules, IReadOnlyCollection<string>? markets) =>
         modules.Where(m => markets is null || m.Jurisdictions.Any(markets.Contains)).Select(m => m.Module).ToList();
 
-    private async Task<RuleCatalog> RulesAsync(CancellationToken ct)
+    /// <summary>The rules and their texts, loaded once.</summary>
+    public async Task<RuleCatalog> RulesAsync(CancellationToken ct)
     {
         if (_rules is { } loaded)
         {

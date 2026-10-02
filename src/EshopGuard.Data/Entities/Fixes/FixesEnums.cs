@@ -19,6 +19,22 @@ public enum FixGroupStatus
     Rejected,
 }
 
+/// <summary>Values of <c>FixGroupMode</c> (stored as snake_case text with a CHECK constraint).</summary>
+public enum FixGroupMode
+{
+    Replace,
+    Remove,
+    Custom,
+}
+
+/// <summary>Values of <c>ProtocolStatus</c> (stored as snake_case text with a CHECK constraint).</summary>
+public enum ProtocolStatus
+{
+    Rendering,
+    Ready,
+    Failed,
+}
+
 /// <summary>Values of <c>FixField</c> (stored as snake_case text with a CHECK constraint).</summary>
 public enum FixField
 {
