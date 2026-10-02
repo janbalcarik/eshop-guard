@@ -16,7 +16,7 @@ EshopGuard kontroluje texty e-shopů podle spotřebitelského práva. Primárně
   - Webová aplikace (změna 2): `EshopGuard.Data` (EF Core, role, migrace), `.Storage` (`IBlobStore`, zatím jen lokální souborové úložiště), `.Jobs` (fronta úloh v PostgreSQL, zpracování a plánovač; běhy ukázky a úvodní analýzy v `Runs/`; README, oddíly Fronta úloh a worker, Běhy analýzy ve workeru), `.Application` (identita, tenanti, členové, pozvánky, e-maily a audit pro API a worker, změna 9; e-shopy, ukázka, místa prodeje, verze, rozsah, vlastnictví a nastavení, změna 10; README, oddíly Identita, tenanti a API a E-shopy a onboarding v API), `.Billing`, `.Connectors`, `.Api`, `.Worker`. Povolený směr závislostí hlídá `ProjectReferenceTests`.
   - Testy `src/tests/EshopGuard.*.Tests`, společné nastavení `src/tests/Directory.Build.props`, verze balíčků `src/Directory.Packages.props`.
   - Pravidla `src/rules/*.yaml`, jejich texty `src/rules/texts/<jazyk>/` (`_engine.yaml`, `_labels.yaml`, soubor po sadě), nastavení `src/config/*.yaml` (známé země v `jurisdictions.yaml`, technické podpisy platforem e-shopů v `platforms.yaml`).
-- `deploy/`: `sql/00_roles.sql` (role a databáze), `dev/setup-local.ps1` (lokální nastavení).
+- `deploy/`: `sql/00_roles.sql` (role a databáze), `dev/setup-local.ps1` (lokální nastavení), `dev/run-live-sample.cmd` (živá ukázka jedním příkazem, krok 3.12 v `LOKALNI-OVERENI.md`).
 - `openspec/`: implementační plán.
   - Pořadí 18 změn je v `openspec/README.md`.
   - Otevřená rozhodnutí jsou v `openspec/K-ROZHODNUTI.md`.

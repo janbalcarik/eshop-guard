@@ -1,0 +1,2 @@
+# Dávky pro cmd potřebují konce řádků CRLF.
+*.cmd text eol=crlf

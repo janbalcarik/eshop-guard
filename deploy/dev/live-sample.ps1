@@ -35,7 +35,9 @@ param(
     [string] $Mailpit = 'http://localhost:8025',
     [string] $OutDir = (Join-Path '.data' "live-sample/$(Get-Date -Format 'yyyyMMdd-HHmmss')"),
     [int] $TimeoutMinutes = 30,
-    [switch] $SkipCertificateCheck
+    [switch] $SkipCertificateCheck,
+    # run-live-sample.ps1 cenu načte a výsledky zabalí sám
+    [switch] $NoCostHint
 )
 
 $ErrorActionPreference = 'Stop'
@@ -180,6 +182,7 @@ else {
     Write-Host "  rozsah: HTTP $($scope.Status) $($scope.Json.code)"
 }
 
+if ($NoCostHint) { exit 0 }
 Write-Host ""
 Write-Host "Skutečná cena (psql jako postgres, databáze eshopguard):" -ForegroundColor Cyan
 Write-Host "  SELECT provider, operation, sum(calls), sum(input_tokens), sum(cost_usd) FROM usage.usage_records WHERE run_id = '$runId' GROUP BY 1, 2;"

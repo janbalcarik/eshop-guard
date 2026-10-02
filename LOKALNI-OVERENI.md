@@ -98,7 +98,18 @@ Postup u jednotlivých kroků:
 - **3.1:** `dotnet run --project src/tests/EshopGuard.Core.Tests -- -trait "Category=Jev"` (klíč v `.env`).
 - **3.2 až 3.5:** CLI vypíše odhad z dotazu před prvním voláním a nad limitem se zeptá. Příkazy jsou v `tasks.md` změn 6 a 7. Výsledky 3.2 a 3.3 se zapíšou do README, oddíl Místa prodeje a jazykové verze (úkol 7.5 změny 7).
 - **3.6:** jako krok 2.2, ale bez proměnných `UseMock`, s klíči v proměnných prostředí `TYPESAFE_API_KEY` a `OPENAI_API_KEY`. Strop `Runs:FreeSample:MaxInternalUsd` (1,00 USD) je souhlas s cenou: nad odhadem se nic nezaplatí a běh skončí `failed` s kódem `sample_budget_exceeded`. Skutečnou cenu ukáže `SELECT provider, operation, sum(calls), sum(input_tokens), sum(cost_usd) FROM usage.usage_records WHERE run_id = '<id>' GROUP BY 1, 2;`. Ověřit souhrn ukázky, rozbor verzí (`shop.shop_languages`) a `estimate.basis`.
-- **3.12:** naturfyt.sk je Shoptet (jediná platforma s podpisy ověřenými na skutečné stránce) a má víc jazykových verzí, takže prověří rozpoznání platformy, skrytí nepodporovaných verzí i rozsah za SK a CZ; na nahrávku a výstupy CLI ho porovnám. Tři okna **PowerShellu 7** (`pwsh`, ne Windows PowerShell 5.1: skript i příkazy níže potřebují .NET z PowerShellu 7) v kořeni repozitáře:
+- **3.12:** naturfyt.sk je Shoptet (jediná platforma s podpisy ověřenými na skutečné stránce) a má víc jazykových verzí, takže prověří rozpoznání platformy, skrytí nepodporovaných verzí i rozsah za SK a CZ; na nahrávku a výstupy CLI ho porovnám.
+
+  **Jedním příkazem** z cmd v kořeni repozitáře: `deploy\dev\run-live-sample.cmd`
+  - Volitelně nejdřív zkouška zdarma s falešným Jevem a OpenAI: `deploy\dev\run-live-sample.cmd -Mock`.
+  - Skript se zeptá na souhlas s cenou a na kontakt do User-Agentu. Zbytek udělá sám:
+    - klíče vezme ze `src/.env`, z proměnných prostředí nebo z uživatelských proměnných Windows, jinak se na ně zeptá;
+    - doplní chybějící user-secrets přes `setup-local.ps1`, pustí migrace, sestavení a důvěru v certifikát;
+    - stáhne a spustí Mailpit, potom API a worker na pozadí;
+    - projde ukázku, načte cenu, zabalí výsledky a logy do `.data/live-sample/<čas>.zip` a všechno, co spustil, zastaví.
+  - Když už doména ukázku měla, zeptá se na smazání nároku.
+
+  Ručně: tři okna **PowerShellu 7** (`pwsh`, ne Windows PowerShell 5.1: skript i příkazy níže potřebují .NET z PowerShellu 7) v kořeni repozitáře:
 
   ```powershell
   # Jednou: důvěra ve vývojový certifikát a kontrola user-secrets API (vypíše jen jména klíčů, ne hodnoty)
