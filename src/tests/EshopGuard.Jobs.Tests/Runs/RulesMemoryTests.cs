@@ -4,9 +4,10 @@ using EshopGuard.Jobs.Tests.Runs.Support;
 namespace EshopGuard.Jobs.Tests.Runs;
 
 /// <summary>
-/// Memory of a full analysis of a synthetic e-shop with 5 000 product pages (design of change 8, task 5.8): the peak of the
-/// managed heap and of the working set while the run is segmenting (<c>run.segment</c>) and ruling (<c>run.rules</c>), sampled
-/// every 50 ms and written to the output of the test. A measurement, so it runs only on demand (several minutes).
+/// Memory of a full analysis of a synthetic e-shop with 5 000 product pages (design of change 8, task 5.8): while the run is
+/// segmenting (<c>run.segment</c>) and ruling (<c>run.rules</c>), the peak of the live managed objects (after a full
+/// collection, every 500 ms), of the managed heap with its garbage and of the working set of the whole test process, written
+/// to the output of the test. A measurement, so it runs only on demand (about two minutes).
 /// </summary>
 public sealed class RulesMemoryTests(JobsTestDatabase database) : JobsTestBase(database)
 {
@@ -27,7 +28,8 @@ public sealed class RulesMemoryTests(JobsTestDatabase database) : JobsTestBase(d
         await RunTests.WaitForStatusAsync(Db, shop, runId, TimeSpan.FromMinutes(2), [worker], "awaiting_payment");
         await RunTests.ServiceAsync(worker.Host.Services, shop.TenantId, s => s.ApproveWithoutPaymentAsync(runId, Guid.CreateVersion7(), "test", Ct));
 
-        var samples = new Dictionary<string, (long Heap, long WorkingSet, Stopwatch Time)>();
+        var samples = new Dictionary<string, (long Live, long Heap, long WorkingSet, Stopwatch Time)>();
+        var tick = 0;
         var process = Process.GetCurrentProcess();
         string status;
         var deadline = DateTime.UtcNow + TimeSpan.FromMinutes(30);
@@ -36,12 +38,13 @@ public sealed class RulesMemoryTests(JobsTestDatabase database) : JobsTestBase(d
             status = await RunTests.ScalarAsync<string>(Db, shop.TenantId, "SELECT status FROM checks.runs WHERE id = $1", runId);
             process.Refresh();
             var heap = GC.GetTotalMemory(forceFullCollection: false);
+            var live = tick++ % 10 == 0 ? GC.GetTotalMemory(forceFullCollection: true) : 0;
             if (!samples.TryGetValue(status, out var sample))
             {
-                sample = (0, 0, Stopwatch.StartNew());
+                sample = (0, 0, 0, Stopwatch.StartNew());
             }
 
-            samples[status] = (Math.Max(sample.Heap, heap), Math.Max(sample.WorkingSet, process.WorkingSet64), sample.Time);
+            samples[status] = (Math.Max(sample.Live, live), Math.Max(sample.Heap, heap), Math.Max(sample.WorkingSet, process.WorkingSet64), sample.Time);
             foreach (var other in samples.Where(s => s.Key != status))
             {
                 other.Value.Time.Stop();
@@ -56,7 +59,8 @@ public sealed class RulesMemoryTests(JobsTestDatabase database) : JobsTestBase(d
         output.WriteLine($"Run {runId}: {status}, {pages} pages, {fetcher.Requests} requests.");
         foreach (var (name, sample) in samples)
         {
-            output.WriteLine($"{name,-12} {sample.Time.Elapsed.TotalSeconds,7:0.0} s  heap peak {sample.Heap / 1048576.0,7:0.0} MB  working set peak {sample.WorkingSet / 1048576.0,7:0.0} MB");
+            output.WriteLine(
+                $"{name,-12} {sample.Time.Elapsed.TotalSeconds,7:0.0} s  live peak {sample.Live / 1048576.0,7:0.0} MB  heap with garbage {sample.Heap / 1048576.0,7:0.0} MB  working set {sample.WorkingSet / 1048576.0,7:0.0} MB");
         }
 
         Assert.True(status is "finished" or "partial", status);
