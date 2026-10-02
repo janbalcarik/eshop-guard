@@ -17,7 +17,8 @@ namespace EshopGuard.Jobs.Runs;
 public static class RunsServiceCollectionExtensions
 {
     /// <summary>
-    /// <see cref="IRunService"/> with its policies (the API of change 10 and the payments of change 12 use it). Requires
+    /// <see cref="IRunService"/> with its policies, <see cref="IRunReadModel"/> and <see cref="IRunQueueEstimator"/> (the API of
+    /// change 10 and the payments of change 12 use them). Requires
     /// <c>AddEshopGuardData</c> and <c>AddEshopGuardJobQueue</c>. The ownership of an e-shop is denied until change 10
     /// registers its policy before this call (fail-closed).
     /// </summary>
@@ -30,6 +31,9 @@ public static class RunsServiceCollectionExtensions
         services.TryAddSingleton<IRunScopeResolver, ShopMarketsScopeResolver>();
         services.TryAddSingleton<IRunPaymentGate, OrderTablePaymentGate>();
         services.TryAddScoped<IRunService, RunService>();
+        services.TryAddScoped<IRunReadModel, RunReadModel>();
+        services.TryAddScoped<IRunQueueEstimator, RunQueueEstimator>();
+        services.TryAddSingleton(TimeProvider.System);
         return services;
     }
 

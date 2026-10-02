@@ -1,5 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
+using EshopGuard.Data.Configurations.Conventions;
+using EshopGuard.Data.Entities.Checks;
 using EshopGuard.Data.Entities.Ops;
 using EshopGuard.Jobs.Queue;
 using EshopGuard.Jobs.Workers;
@@ -18,7 +20,8 @@ public static class RunPlan
     public const int BatchMaxAttempts = 6;
 
     public static JobRequest Discover(RunRow run) =>
-        Job(run, RunJobKinds.Discover, JobResourceClass.Fetch, JobPriority.P0, "discover", JobKeys.Domain(run.ShopDomain), null);
+        Job(run, RunJobKinds.Discover, JobResourceClass.Fetch, JobPriority.P0, "discover", JobKeys.Domain(run.ShopDomain),
+            new { run_kind = SnakeCaseEnumConverter<RunKind>.ToText(run.Kind) });
 
     public static JobRequest Markets(RunRow run) =>
         Job(run, RunJobKinds.Markets, JobResourceClass.Llm, JobPriority.P0, "markets", JobKeys.Domain(run.ShopDomain), null);

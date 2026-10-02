@@ -123,8 +123,11 @@ public static class RunStore
         return current;
     }
 
-    /// <summary>Integer value of a JSON property, 0 when missing.</summary>
-    public static long Long(JsonObject node, string name) => node[name] is JsonValue value && value.TryGetValue<long>(out var number) ? number : 0;
+    /// <summary>Integer value of a JSON property, 0 when missing (read from the database or set in memory as int or long).</summary>
+    public static long Long(JsonObject node, string name) => node[name] is not JsonValue value ? 0
+        : value.TryGetValue<long>(out var number) ? number
+        : value.TryGetValue<int>(out var small) ? small
+        : 0;
 
     /// <summary>Decimal value of a JSON property, 0 when missing.</summary>
     public static decimal Decimal(JsonObject node, string name) => node[name] is JsonValue value && value.TryGetValue<decimal>(out var number) ? number : 0m;
