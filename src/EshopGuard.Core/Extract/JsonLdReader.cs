@@ -6,8 +6,8 @@ using AngleSharp.Dom;
 namespace EshopGuard.Core.Extract;
 
 /// <summary>
-/// Reads JSON-LD blocks and finds a <c>Product</c> node (description, name, category) and breadcrumb names.
-/// Invalid JSON is ignored.
+/// Reads JSON-LD blocks and finds a <c>Product</c> node (description, name, category, identifiers), the currencies of
+/// prices and breadcrumb names. Invalid JSON is ignored.
 /// </summary>
 internal static partial class JsonLdReader
 {
@@ -25,16 +25,28 @@ internal static partial class JsonLdReader
         MaxDepth = 64,
     };
 
+    /// <summary>Identifiers of a product in schema.org, in the order they are read.</summary>
+    private static readonly string[] IdentifierProperties = ["gtin", "gtin8", "gtin12", "gtin13", "gtin14", "sku", "mpn", "productID"];
+
     /// <param name="HasProduct">A Product node exists.</param>
     /// <param name="ProductDescription">Description of the first product that has one.</param>
     /// <param name="CategoryHints">Product names, product categories and breadcrumb names: where the product category is read from.</param>
-    public sealed record Result(bool HasProduct, string? ProductDescription, IReadOnlyList<string> CategoryHints);
+    public sealed record Result(bool HasProduct, string? ProductDescription, IReadOnlyList<string> CategoryHints)
+    {
+        /// <summary>Currencies of prices (<c>priceCurrency</c> anywhere, e.g. in offers), ISO 4217 upper case.</summary>
+        public IReadOnlyList<string> Currencies { get; init; } = [];
+
+        /// <summary>Identifiers of the products (<c>gtin*</c>, <c>sku</c>, <c>mpn</c>, <c>productID</c>).</summary>
+        public IReadOnlyList<Models.ProductIdentifier> ProductIds { get; init; } = [];
+    }
 
     private sealed class State
     {
         public bool HasProduct;
         public string? Description;
         public readonly List<string> CategoryHints = [];
+        public readonly List<string> Currencies = [];
+        public readonly List<Models.ProductIdentifier> ProductIds = [];
     }
 
     public static Result Read(IDocument document)
@@ -58,7 +70,11 @@ internal static partial class JsonLdReader
             }
         }
 
-        return new Result(state.HasProduct, state.Description, state.CategoryHints.Distinct().ToList());
+        return new Result(state.HasProduct, state.Description, state.CategoryHints.Distinct().ToList())
+        {
+            Currencies = state.Currencies.Distinct().ToList(),
+            ProductIds = state.ProductIds.Distinct().ToList(),
+        };
     }
 
     private static void Visit(JsonElement element, int depth, State state)
@@ -96,6 +112,13 @@ internal static partial class JsonLdReader
 
             AddNames(element, "name", state.CategoryHints);
             AddNames(element, "category", state.CategoryHints);
+            foreach (var property in IdentifierProperties)
+            {
+                if (ScalarText(element, property) is { Length: > 0 } id)
+                {
+                    state.ProductIds.Add(new Models.ProductIdentifier(property, id));
+                }
+            }
         }
         else if (HasType(element, type => type.Equals("BreadcrumbList", StringComparison.OrdinalIgnoreCase))
             && element.TryGetProperty("itemListElement", out var items) && items.ValueKind == JsonValueKind.Array)
@@ -109,6 +132,11 @@ internal static partial class JsonLdReader
                     AddNames(node, "name", state.CategoryHints);
                 }
             }
+        }
+
+        if (ScalarText(element, "priceCurrency") is { Length: 3 } currency && currency.All(char.IsAsciiLetter))
+        {
+            state.Currencies.Add(currency.ToUpperInvariant());
         }
 
         foreach (var property in element.EnumerateObject())
@@ -142,6 +170,22 @@ internal static partial class JsonLdReader
                 names.Add(clean);
             }
         }
+    }
+
+    /// <summary>A string or a number of the property, trimmed; null when it is something else.</summary>
+    private static string? ScalarText(JsonElement element, string property)
+    {
+        if (!element.TryGetProperty(property, out var value))
+        {
+            return null;
+        }
+
+        return value.ValueKind switch
+        {
+            JsonValueKind.String => value.GetString()?.Trim(),
+            JsonValueKind.Number => value.GetRawText(),
+            _ => null,
+        };
     }
 
     private static string CleanValue(string? value) => TextTools.Clean(WebUtility.HtmlDecode(Tags().Replace(value ?? "", "\n")));

@@ -108,3 +108,23 @@ profiles:
   max_outline_chars: 80000
   estimated_output_tokens: 3500
   max_usd_without_confirm: 1.00
+
+markets:
+  # Rozbor míst prodeje a jazykových verzí (eshopguard markets, změna 7). Trhy samotné jsou v config/jurisdictions.yaml.
+  # Model, klíč a ceny jsou z oddílu rewrite; odhad nad rewrite.max_usd_without_confirm se potvrzuje.
+  max_selected_pages: 4
+  page_text_chars: 8000
+  home_text_chars: 6000
+  max_home_links: 300
+  pick_reasoning_effort: low
+  sales_reasoning_effort: medium
+  language_reasoning_effort: low
+  # Verze se započítá do ceny při podílu vlastních textů aspoň 0,20 (architektura část 12: návrh, neměřeno)
+  # a aspoň 10 produktových stránkách s hlavním textem ve vzorku (K rozhodnutí 3, neměřeno).
+  counted_min_own_share: 0.20
+  min_sample_products: 10
+  sample_pages: 100
+  paired_products: 20
+  language_fragments_per_version: 30
+  # Podpisy skriptů překladu v prohlížeči (adresa skriptu), technický znak, ne slova textu (K rozhodnutí 6).
+  browser_translation_scripts: [weglot, gtranslate, translate.google, conveythis, localizejs, transifex]

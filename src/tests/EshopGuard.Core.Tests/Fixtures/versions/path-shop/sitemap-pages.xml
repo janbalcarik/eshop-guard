@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<url><loc>{{base_url}}/</loc><xhtml:link rel="alternate" hreflang="cs" href="{{base_url}}/"/><xhtml:link rel="alternate" hreflang="sk" href="{{base_url}}/sk/"/></url>
+<url><loc>{{base_url}}/sk/</loc><xhtml:link rel="alternate" hreflang="cs" href="{{base_url}}/"/><xhtml:link rel="alternate" hreflang="sk" href="{{base_url}}/sk/"/></url>
+<url><loc>{{base_url}}/doprava.html</loc></url>
+<url><loc>{{base_url}}/obchodni-podminky.html</loc></url>
+<url><loc>{{base_url}}/kontakt.html</loc></url>
+<url><loc>{{base_url}}/sk/doprava.html</loc></url>
+<url><loc>{{base_url}}/sk/obchodne-podmienky.html</loc></url>
+<url><loc>{{base_url}}/sk/kontakt.html</loc></url>
+</urlset>

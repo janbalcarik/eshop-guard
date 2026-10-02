@@ -13,7 +13,17 @@ internal static class SitemapParser
     private const long MaxUncompressedBytes = 100L * 1024 * 1024;
 
     /// <summary>A <c>loc</c> of the sitemap with its <c>lastmod</c> (null when missing or not a valid W3C date).</summary>
-    public sealed record SitemapLocation(string Url, DateTimeOffset? LastModified);
+    public sealed record SitemapLocation(string Url, DateTimeOffset? LastModified)
+    {
+        /// <summary>Alternates of the entry (<c>xhtml:link rel="alternate" hreflang</c>): language as written and URL.</summary>
+        public IReadOnlyList<(string Language, string Url)> Alternates { get; init; } = [];
+
+        /// <summary>Equal with the same alternates in the same order (not the same list).</summary>
+        public bool Equals(SitemapLocation? other) =>
+            other is not null && Url == other.Url && LastModified == other.LastModified && Alternates.SequenceEqual(other.Alternates);
+
+        public override int GetHashCode() => HashCode.Combine(Url, LastModified, Alternates.Count);
+    }
 
     public sealed record Result(bool IsIndex, IReadOnlyList<SitemapLocation> Entries)
     {
@@ -40,10 +50,20 @@ internal static class SitemapParser
             .Where(e => e.Name.LocalName == "loc")
             .Select(e => (Url: e.Value.Trim(), Entry: e.Parent))
             .Where(v => v.Url.Length > 0)
-            .Select(v => new SitemapLocation(v.Url, LastModified(v.Entry)))
+            .Select(v => new SitemapLocation(v.Url, LastModified(v.Entry)) { Alternates = Alternates(v.Entry) })
             .ToList();
         return new Result(isIndex, locations);
     }
+
+    /// <summary><c>xhtml:link rel="alternate" hreflang href</c> next to the <c>loc</c>.</summary>
+    private static List<(string Language, string Url)> Alternates(XElement? entry) =>
+        entry?.Elements()
+            .Where(e => e.Name.LocalName == "link"
+                && string.Equals((string?)e.Attribute("rel"), "alternate", StringComparison.OrdinalIgnoreCase)
+                && !string.IsNullOrWhiteSpace((string?)e.Attribute("hreflang"))
+                && !string.IsNullOrWhiteSpace((string?)e.Attribute("href")))
+            .Select(e => (((string)e.Attribute("hreflang")!).Trim(), ((string)e.Attribute("href")!).Trim()))
+            .ToList() ?? [];
 
     /// <summary><c>lastmod</c> next to the <c>loc</c> (W3C datetime: a date, or a date and time with a zone).</summary>
     private static DateTimeOffset? LastModified(XElement? entry)

@@ -32,7 +32,7 @@ internal sealed class ExtractStep(
         var key = new PageContentKey(site.SiteKey, finalUrl.AbsoluteUri);
         await contents.PutHtmlAsync(key, PageContent.Compress(html), ct);
         var timeout = TimeSpan.FromSeconds(Math.Max(1, options.Value.Crawl.ExtractTimeoutSeconds));
-        var work = Task.Run(() => Extract(finalUrl, html, isHome, storedProfiles), ct);
+        var work = Task.Run(() => Extract(finalUrl, html, isHome, storedProfiles, site.Version?.VersionLanguage), ct);
         try
         {
             var page = await work.WaitAsync(timeout, ct);
@@ -79,7 +79,7 @@ internal sealed class ExtractStep(
         return new ExtractResult(pages);
     }
 
-    private ExtractedPageRecord Extract(Uri finalUrl, string html, bool isHome, IReadOnlyList<PageProfile> storedProfiles)
+    private ExtractedPageRecord Extract(Uri finalUrl, string html, bool isHome, IReadOnlyList<PageProfile> storedProfiles, string? versionLanguage)
     {
         var settings = options.Value;
         var parsed = ParsedPage.Parse(finalUrl, html);
@@ -103,7 +103,14 @@ internal sealed class ExtractStep(
             CheckedTextChars = content.MainBlocks.Concat(content.ChromeRegions.SelectMany(r => r)).Concat(content.RestBlocks).Sum(b => b.Text.Length),
             ScriptApp = content.Render.ScriptApp,
             TextNotLoaded = content.Render.VisibleChars < settings.Crawl.MinPageTextChars,
+            Language = versionLanguage ?? content.HtmlLang,
+            HreflangGroup = Languages.HreflangGroups.Key(content.Alternates.Select(a => a.Url)),
+            ProductIds = content.ProductIds,
         };
+        if (versionLanguage is not null && content.HtmlLang is { } declared && !Markets.LanguageTags.SamePrimary(declared, versionLanguage))
+        {
+            logger.LogWarning("Page {Url} of the version {Version} declares html lang {Lang}", finalUrl, versionLanguage, declared);
+        }
 
         // Legal pages and pages without loaded text never use a profile: missing information on a legal page is a finding.
         var body = parsed.Document.Body;

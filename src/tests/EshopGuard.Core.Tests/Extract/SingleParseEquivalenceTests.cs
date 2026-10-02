@@ -108,8 +108,38 @@ public sealed class SingleParseEquivalenceTests
     private static Dictionary<string, string> ReadHashes(string file, string group) =>
         File.ReadLines(file).Select(l => l.Split('\t')).Where(p => p[0] == group).ToDictionary(p => p[1], p => p[2]);
 
+    /// <summary>
+    /// Technical signs of markets and language versions added by change 7 (read from the same one parse); the hashes of the
+    /// code before change 5 do not have them, so they are left out of the comparison and tested on their own
+    /// (<c>MarketSignalReaderTests</c>).
+    /// </summary>
+    private static readonly HashSet<string> AddedByChange7 =
+        [nameof(ExtractedPage.HtmlLang), nameof(ExtractedPage.Alternates), nameof(ExtractedPage.Currencies), nameof(ExtractedPage.ProductIds),
+         nameof(ExtractedPage.PhoneNumbers), nameof(ExtractedPage.FooterLinks), nameof(ExtractedPage.ScriptSources), nameof(ExtractedPage.ScriptSwitchElements)];
+
+    private static readonly JsonSerializerOptions WithoutChange7 = new()
+    {
+        WriteIndented = false,
+        TypeInfoResolver = new System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver
+        {
+            Modifiers =
+            {
+                info =>
+                {
+                    if (info.Type == typeof(ExtractedPage))
+                    {
+                        foreach (var property in info.Properties.Where(p => AddedByChange7.Contains(p.Name)).ToList())
+                        {
+                            info.Properties.Remove(property);
+                        }
+                    }
+                },
+            },
+        },
+    };
+
     private static string Hash(ExtractedPage content, ProfileMatcher.Application application) =>
-        TextTools.Sha256(JsonSerializer.Serialize(content, Json) + "\n" + JsonSerializer.Serialize(application, Json));
+        TextTools.Sha256(JsonSerializer.Serialize(content, WithoutChange7) + "\n" + JsonSerializer.Serialize(application, WithoutChange7));
 
     private static async Task<List<(Uri Url, string Html)>> FixturePagesAsync(string site)
     {

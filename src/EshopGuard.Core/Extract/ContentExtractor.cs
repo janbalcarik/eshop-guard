@@ -183,8 +183,17 @@ internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger)
             .Where(b => b.Text.Length < MinContainedChars || !remainder.ListingTexts.Contains(TextTools.NormalizeForHash(b.Text)))
             .ToList();
 
+        var allBlocks = mainBlocks.Concat(chromeRegions.SelectMany(r => r)).Concat(remainder.Rest);
         return new ExtractedPage
         {
+            HtmlLang = ReadHtmlLang(document),
+            Alternates = ReadAlternates(document, baseUri),
+            Currencies = jsonLd.Currencies.Concat(ReadMicrodataCurrencies(document)).Distinct().ToList(),
+            ProductIds = jsonLd.ProductIds,
+            PhoneNumbers = ReadPhoneNumbers(document, allBlocks),
+            FooterLinks = ReadFooterLinks(document, baseUri),
+            ScriptSources = ReadScriptSources(document, baseUri),
+            ScriptSwitchElements = ReadScriptSwitchElements(document),
             Title = title.Length > 0 ? title : null,
             MetaDescription = metaDescription.Length > 0 ? metaDescription : null,
             OgType = ogType,
@@ -446,6 +455,151 @@ internal sealed partial class ContentExtractor(ILogger<ContentExtractor> logger)
 
         return images;
     }
+
+    /// <summary><c>lang</c> of the <c>html</c> element, normalized; null when missing or not a language tag.</summary>
+    internal static string? ReadHtmlLang(IDocument document)
+    {
+        var lang = Markets.LanguageTags.Normalize(document.DocumentElement?.GetAttribute("lang") ?? document.DocumentElement?.GetAttribute("xml:lang"));
+        return Markets.LanguageTags.IsLanguageTag(lang) ? lang : null;
+    }
+
+    /// <summary>Alternates from <c>link rel="alternate" hreflang</c>, language normalized (<c>x-default</c> kept).</summary>
+    private static List<PageAlternate> ReadAlternates(IDocument document, Uri baseUri)
+    {
+        var alternates = new List<PageAlternate>();
+        foreach (var link in document.QuerySelectorAll("link[hreflang][href]"))
+        {
+            var rel = (link.GetAttribute("rel") ?? "").Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var language = Markets.LanguageTags.Normalize(link.GetAttribute("hreflang"));
+            var url = UrlTools.TryResolve(link.GetAttribute("href"), baseUri);
+            if (rel.Contains("alternate", StringComparer.OrdinalIgnoreCase) && url is not null
+                && (language == "x-default" || Markets.LanguageTags.IsLanguageTag(language)))
+            {
+                alternates.Add(new PageAlternate(language, UrlTools.Normalize(url)));
+            }
+        }
+
+        return alternates.Distinct().ToList();
+    }
+
+    /// <summary>Currencies of microdata (<c>itemprop=priceCurrency</c>) and of the product meta tags (Open Graph).</summary>
+    private static IEnumerable<string> ReadMicrodataCurrencies(IDocument document)
+    {
+        var values = document.QuerySelectorAll("[itemprop=priceCurrency]").Select(e => e.GetAttribute("content") ?? e.TextContent)
+            .Concat(document.QuerySelectorAll("meta[property]")
+                .Where(m => (m.GetAttribute("property") ?? "").Trim().ToLowerInvariant() is "product:price:currency" or "og:price:currency")
+                .Select(m => m.GetAttribute("content")));
+        return values.Select(v => (v ?? "").Trim().ToUpperInvariant()).Where(v => v.Length == 3 && v.All(char.IsAsciiLetterUpper));
+    }
+
+    /// <summary>
+    /// Phone numbers with an international prefix: <c>tel:</c> links and numbers in the text that start with <c>+</c> or
+    /// <c>00</c> (the shape of the number, never words around it). Returned as <c>+</c> and 8 to 15 digits.
+    /// </summary>
+    private static List<string> ReadPhoneNumbers(IDocument document, IEnumerable<TextBlock> blocks)
+    {
+        var numbers = new List<string>();
+        foreach (var link in document.QuerySelectorAll("a[href]"))
+        {
+            var href = (link.GetAttribute("href") ?? "").Trim();
+            if (href.StartsWith("tel:", StringComparison.OrdinalIgnoreCase) && International(Uri.UnescapeDataString(href[4..])) is { } number)
+            {
+                numbers.Add(number);
+            }
+        }
+
+        foreach (var block in blocks)
+        {
+            foreach (Match match in InternationalPhone().Matches(block.Text))
+            {
+                if (International(match.Value) is { } number)
+                {
+                    numbers.Add(number);
+                }
+            }
+        }
+
+        return numbers.Distinct().ToList();
+
+        static string? International(string text)
+        {
+            var trimmed = text.Trim();
+            var international = trimmed.StartsWith('+') || trimmed.StartsWith("00", StringComparison.Ordinal);
+            var digits = new string(trimmed.Where(char.IsAsciiDigit).ToArray());
+            if (trimmed.StartsWith("00", StringComparison.Ordinal))
+            {
+                digits = digits[2..];
+            }
+
+            return international && digits.Length is >= 8 and <= 15 ? "+" + digits : null;
+        }
+    }
+
+    /// <summary>A number that starts with + or 00 and has digits separated by spaces, hyphens, slashes, dots or brackets.</summary>
+    [GeneratedRegex(@"(?<![\w+])(?:\+|00)\d[\d \u00A0\-/.()]{6,20}\d")]
+    private static partial Regex InternationalPhone();
+
+    /// <summary>Links inside the outermost footers (<c>footer</c>, <c>[role=contentinfo]</c>).</summary>
+    private static List<PageLink> ReadFooterLinks(IDocument document, Uri baseUri)
+    {
+        const string footer = "footer, [role=contentinfo]";
+        var links = new List<PageLink>();
+        foreach (var element in document.QuerySelectorAll(footer).Where(e => !HasAncestor(e, footer)))
+        {
+            foreach (var anchor in element.QuerySelectorAll("a[href]"))
+            {
+                if (UrlTools.TryResolve(anchor.GetAttribute("href"), baseUri) is { } target)
+                {
+                    links.Add(new PageLink(target, TextTools.Clean(anchor.TextContent)));
+                }
+            }
+        }
+
+        return links;
+    }
+
+    private static List<string> ReadScriptSources(IDocument document, Uri baseUri) =>
+        document.QuerySelectorAll("script[src]")
+            .Select(s => UrlTools.TryResolve(s.GetAttribute("src"), baseUri)?.AbsoluteUri)
+            .OfType<string>()
+            .Distinct()
+            .ToList();
+
+    /// <summary>
+    /// Elements that switch the language only by script: an attribute naming a language (<c>data-lang</c>,
+    /// <c>data-language</c>, <c>data-locale</c>), or an <c>onclick</c> handler that sets a language or locale; a link with an
+    /// http address is a link, not a script switch.
+    /// </summary>
+    private static List<ScriptSwitchElement> ReadScriptSwitchElements(IDocument document)
+    {
+        var found = new List<ScriptSwitchElement>();
+        foreach (var element in document.Body?.QuerySelectorAll("*") ?? Enumerable.Empty<IElement>())
+        {
+            if (element.LocalName == "a" && UrlTools.TryResolve(element.GetAttribute("href"), new Uri("http://localhost/")) is not null
+                && !(element.GetAttribute("href") ?? "").TrimStart().StartsWith('#'))
+            {
+                continue;
+            }
+
+            var language = new[] { "data-lang", "data-language", "data-locale" }
+                .Select(a => Markets.LanguageTags.Normalize(element.GetAttribute(a)))
+                .FirstOrDefault(Markets.LanguageTags.IsLanguageTag);
+            if (language is not null)
+            {
+                found.Add(new ScriptSwitchElement(element.LocalName, language));
+            }
+            else if (LanguageHandler().IsMatch(element.GetAttribute("onclick") ?? ""))
+            {
+                found.Add(new ScriptSwitchElement(element.LocalName, ""));
+            }
+        }
+
+        return found;
+    }
+
+    /// <summary>A script handler that sets a language or locale (a technical sign of the switch, not a word of the text).</summary>
+    [GeneratedRegex(@"\b(lang|language|locale)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex LanguageHandler();
 
     private static List<PageLink> ReadLinks(IDocument document, Uri baseUri)
     {

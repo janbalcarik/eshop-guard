@@ -17,6 +17,17 @@ internal sealed record TextBlock(string Text, int HeadingLevel = 0)
 /// </summary>
 internal sealed record PageLink(Uri Url, string Text);
 
+/// <summary>An alternate of the page from <c>link rel="alternate" hreflang</c>: language (normalized, or <c>x-default</c>) and URL.</summary>
+internal sealed record PageAlternate(string Language, Uri Url);
+
+/// <summary>
+/// An element that switches the language only by script: no link with an address, but an attribute naming a language
+/// (<c>data-lang</c>, <c>data-language</c>, <c>data-locale</c>) or an <c>onclick</c> handler that sets one.
+/// </summary>
+/// <param name="Tag">Element name.</param>
+/// <param name="Language">Language from the attribute (normalized), or empty when only the handler shows it.</param>
+internal sealed record ScriptSwitchElement(string Tag, string Language);
+
 /// <summary>
 /// Everything taken from one HTML page.
 /// </summary>
@@ -71,6 +82,30 @@ internal sealed class ExtractedPage
     /// </summary>
     public IReadOnlyList<TextBlock> ProfileSkippedBlocks { get; init; } = [];
 
+    /// <summary><c>lang</c> of the <c>html</c> element, normalized (<c>sk-sk</c>); null when missing.</summary>
+    public string? HtmlLang { get; init; }
+
+    /// <summary>Alternates of the page (<c>link rel="alternate" hreflang</c>).</summary>
+    public IReadOnlyList<PageAlternate> Alternates { get; init; } = [];
+
+    /// <summary>Currencies of prices in the structured data (JSON-LD, microdata, meta of the product), ISO 4217.</summary>
+    public IReadOnlyList<string> Currencies { get; init; } = [];
+
+    /// <summary>Identifiers of the product from JSON-LD (EAN/GTIN, SKU, MPN, productID).</summary>
+    public IReadOnlyList<ProductIdentifier> ProductIds { get; init; } = [];
+
+    /// <summary>Phone numbers with an international prefix (<c>tel:</c> links and numbers in the text), as <c>+</c> and digits.</summary>
+    public IReadOnlyList<string> PhoneNumbers { get; init; } = [];
+
+    /// <summary>Links inside the footer (<c>footer</c>, <c>[role=contentinfo]</c>).</summary>
+    public IReadOnlyList<PageLink> FooterLinks { get; init; } = [];
+
+    /// <summary>Absolute addresses of the scripts of the page (<c>script src</c>).</summary>
+    public IReadOnlyList<string> ScriptSources { get; init; } = [];
+
+    /// <summary>Elements that switch the language only by script.</summary>
+    public IReadOnlyList<ScriptSwitchElement> ScriptSwitchElements { get; init; } = [];
+
     /// <summary>A copy with the frame and the other text left after a profile, and the blocks it left out.</summary>
     public ExtractedPage WithProfile(IReadOnlyList<IReadOnlyList<TextBlock>> chromeRegions, IReadOnlyList<TextBlock> restBlocks, IReadOnlyList<TextBlock> skipped) => new()
     {
@@ -90,5 +125,13 @@ internal sealed class ExtractedPage
         Links = Links,
         Render = Render,
         ProfileSkippedBlocks = skipped,
+        HtmlLang = HtmlLang,
+        Alternates = Alternates,
+        Currencies = Currencies,
+        ProductIds = ProductIds,
+        PhoneNumbers = PhoneNumbers,
+        FooterLinks = FooterLinks,
+        ScriptSources = ScriptSources,
+        ScriptSwitchElements = ScriptSwitchElements,
     };
 }

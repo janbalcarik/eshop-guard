@@ -51,6 +51,9 @@ public sealed class FetchResponse
     /// <summary>Last-Modified of the response, for a later conditional request.</summary>
     public DateTimeOffset? LastModified { get; init; }
 
+    /// <summary><c>Set-Cookie</c> headers of the response (redirects included), kept by the crawl scope that asked.</summary>
+    public IReadOnlyList<string> SetCookies { get; init; } = [];
+
     /// <summary>True for a 2xx response with a body.</summary>
     public bool IsSuccess => Error is null && StatusCode is >= 200 and < 300 && Body is not null;
 

@@ -127,7 +127,25 @@ public sealed class PageInfo
     /// Only the title, meta description and JSON-LD of such a page were checked; no findings do not mean the page is fine.
     /// </summary>
     public bool TextNotLoaded { get; init; }
+
+    /// <summary>
+    /// Language of the page: the language of the shop version it was crawled in (change 7), otherwise its <c>html lang</c>;
+    /// null when neither is known. Goes to <c>content.pages.language</c>.
+    /// </summary>
+    public string? Language { get; init; }
+
+    /// <summary>
+    /// Key of the group of alternates (<c>hreflang</c>): the first 16 characters of SHA-256 of the sorted URLs of the
+    /// alternates. Two pages of the same product in two language versions have the same key; null without alternates.
+    /// </summary>
+    public string? HreflangGroup { get; init; }
+
+    /// <summary>Identifiers of the product from its structured data (EAN/GTIN, SKU, MPN, productID), for pairing versions.</summary>
+    public IReadOnlyList<ProductIdentifier> ProductIds { get; init; } = [];
 }
+
+/// <summary>An identifier of a product from structured data: kind (<c>gtin13</c>, <c>sku</c>, <c>mpn</c>, <c>productID</c>) and value.</summary>
+public sealed record ProductIdentifier(string Kind, string Value);
 
 /// <summary>
 /// An image on a page. Jev does not see images; alt texts and file names are only flagged for manual review.

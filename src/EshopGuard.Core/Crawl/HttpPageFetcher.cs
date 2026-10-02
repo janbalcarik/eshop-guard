@@ -42,9 +42,22 @@ internal sealed class HttpPageFetcher(
                 request.Headers.IfModifiedSince = since;
             }
 
+            // The cookies and language of the crawl scope (language version); the client keeps no cookies of its own, and a
+            // header of the request replaces the default one of the client.
+            if (CookieJar.Header(fetch.Cookies) is { } cookie)
+            {
+                request.Headers.TryAddWithoutValidation("Cookie", cookie);
+            }
+
+            if (!string.IsNullOrWhiteSpace(fetch.AcceptLanguage))
+            {
+                request.Headers.TryAddWithoutValidation("Accept-Language", fetch.AcceptLanguage);
+            }
+
             using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct);
             var status = (int)response.StatusCode;
             var contentType = response.Content.Headers.ContentType;
+            IReadOnlyList<string> setCookies = response.Headers.TryGetValues("Set-Cookie", out var cookies) ? cookies.ToList() : [];
 
             if (status == 304)
             {
@@ -55,6 +68,7 @@ internal sealed class HttpPageFetcher(
                     StatusCode = status,
                     ETag = response.Headers.ETag?.ToString() ?? fetch.IfNoneMatch,
                     LastModified = response.Content.Headers.LastModified ?? fetch.IfModifiedSince,
+                    SetCookies = setCookies,
                 };
             }
 
@@ -66,6 +80,7 @@ internal sealed class HttpPageFetcher(
                     Url = url,
                     StatusCode = status,
                     RedirectLocation = location is null ? null : location.IsAbsoluteUri ? location : new Uri(url, location),
+                    SetCookies = setCookies,
                 };
             }
 
@@ -73,7 +88,7 @@ internal sealed class HttpPageFetcher(
             {
                 var retry = response.Headers.RetryAfter;
                 var retryAfter = retry?.Delta ?? (retry?.Date is { } date ? date - DateTimeOffset.UtcNow : null);
-                return new FetchResponse { Url = url, StatusCode = status, MediaType = contentType?.MediaType, RetryAfter = retryAfter };
+                return new FetchResponse { Url = url, StatusCode = status, MediaType = contentType?.MediaType, RetryAfter = retryAfter, SetCookies = setCookies };
             }
 
             if (response.Content.Headers.ContentLength > maxBytes)
@@ -97,6 +112,7 @@ internal sealed class HttpPageFetcher(
                 Body = body,
                 ETag = response.Headers.ETag?.ToString(),
                 LastModified = response.Content.Headers.LastModified,
+                SetCookies = setCookies,
             };
         }
         catch (OperationCanceledException) when (!ct.IsCancellationRequested)

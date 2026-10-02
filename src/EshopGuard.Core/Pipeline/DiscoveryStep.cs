@@ -37,6 +37,8 @@ internal sealed class DiscoveryStep(
         var state = new UrlFrontierState
         {
             Home = home,
+            Scope = input.Site.Version,
+            Cookies = input.Site.Version?.Cookies.ToDictionary(c => c.Key, c => c.Value) ?? [],
             MaxPages = limits.MaxPages,
             MaxProducts = limits.SampleProducts,
             MaxLinkDepth = crawl.MaxLinkDepth,
@@ -209,7 +211,14 @@ internal sealed class DiscoveryStep(
                     }
                     else
                     {
-                        found.Add(new SitemapEntry(target, location.LastModified, hint));
+                        found.Add(new SitemapEntry(target, location.LastModified, hint)
+                        {
+                            Alternates = location.Alternates
+                                .Select(a => (Language: Markets.LanguageTags.Normalize(a.Language), Url: UrlTools.TryResolve(a.Url, url)))
+                                .Where(a => a.Url is not null && (a.Language == "x-default" || Markets.LanguageTags.IsLanguageTag(a.Language)))
+                                .Select(a => new Extract.PageAlternate(a.Language, UrlTools.Normalize(a.Url!)))
+                                .ToList(),
+                        });
                         if (found.Count >= max)
                         {
                             Warnings.Add(new ScanWarning(EngineCodes.SitemapTooMany, NoteParams.Of(("max", max))));

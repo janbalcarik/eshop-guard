@@ -11,6 +11,12 @@ internal sealed record SiteScope(Uri SiteUrl)
 
     /// <summary>Host without "www." (and the port when not default): www.shop.sk and shop.sk share profiles.</summary>
     public string SiteKey => ProfileStep.SiteKey(SiteUrl);
+
+    /// <summary>
+    /// The language version crawled (change 7): only its addresses, with its cookies and <c>Accept-Language</c>, every page
+    /// with its language. Null crawls the whole site as before.
+    /// </summary>
+    public Languages.VersionCrawlScope? Version { get; init; }
 }
 
 /// <summary>Limits of one crawl (scan options over the settings).</summary>
@@ -35,7 +41,11 @@ internal sealed record RobotsSnapshot(string Status, string? Text, string Produc
 }
 
 /// <summary>A page URL from a sitemap, with its <c>lastmod</c> and whether it came from a product sitemap.</summary>
-internal sealed record SitemapEntry(Uri Url, DateTimeOffset? LastModified, bool ProductHint);
+internal sealed record SitemapEntry(Uri Url, DateTimeOffset? LastModified, bool ProductHint)
+{
+    /// <summary>Alternates of the page in other language versions (<c>xhtml:link hreflang</c>), language normalized.</summary>
+    public IReadOnlyList<Extract.PageAlternate> Alternates { get; init; } = [];
+}
 
 /// <summary>State of the adaptive pace (<see cref="AdaptiveGate"/>) carried from batch to batch.</summary>
 /// <param name="Rate">Requests per second now.</param>
@@ -81,6 +91,12 @@ internal sealed class UrlFrontierState : IPipelineRecord
     public int SchemaVersion { get; init; } = PipelineSchema.Version;
 
     public required Uri Home { get; init; }
+
+    /// <summary>The language version crawled; null crawls the whole site (same host).</summary>
+    public Languages.VersionCrawlScope? Scope { get; init; }
+
+    /// <summary>Cookies of this crawl: those of the version and those the site set during the crawl; never shared with another crawl.</summary>
+    public Dictionary<string, string> Cookies { get; init; } = [];
 
     public bool LinkMode { get; set; }
 

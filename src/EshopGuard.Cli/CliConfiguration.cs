@@ -27,6 +27,9 @@ internal sealed class SettingsFile
 
     /// <summary>Profiles of page templates, written by the rewrite model.</summary>
     public ProfileOptions Profiles { get; set; } = new();
+
+    /// <summary>Analysis of the places of sale and of the language versions (eshopguard markets).</summary>
+    public MarketsOptions Markets { get; set; } = new();
 }
 
 /// <summary>
@@ -197,6 +200,7 @@ internal sealed class CliConfiguration
         options.Report.Locale = ReportLocale;
         options.Rewrite = Settings.Rewrite;
         options.Profiles = Settings.Profiles;
+        options.Markets = Settings.Markets;
         options.Rewrite.ApiKey = OpenAiApiKey;
         options.Rewrite.UseMock = useMock;
 

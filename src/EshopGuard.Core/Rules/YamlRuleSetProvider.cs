@@ -116,6 +116,10 @@ internal sealed class YamlRuleSetProvider(
                 {
                     errors.Add($"{name}: jurisdikce „{code}“ potřebuje law_language.");
                 }
+                else
+                {
+                    errors.AddRange(Markets.MarketCatalog.Validate(code, info).Select(e => $"{name}: {e}"));
+                }
             }
 
             return new JurisdictionRegistry(raw.Where(p => p.Value is not null).ToDictionary(p => p.Key, p => p.Value, StringComparer.Ordinal));

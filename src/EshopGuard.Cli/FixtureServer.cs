@@ -60,9 +60,17 @@ internal sealed class FixtureServer(string root, int port)
         {
             var requestUrl = context.Request.Url!;
             var relative = Uri.UnescapeDataString(requestUrl.AbsolutePath).TrimStart('/');
-            if (relative.Length == 0)
+            if (relative.Length == 0 || relative.EndsWith('/'))
             {
-                relative = "index.html";
+                // A folder answers with its index.html (the Slovak version /sk/ of the fixture shops of change 7).
+                relative += "index.html";
+            }
+
+            if (relative.StartsWith('_'))
+            {
+                // _server.json and _lang-*/ describe the test server, they are not pages.
+                response.StatusCode = 404;
+                return 404;
             }
 
             var fullRoot = Path.GetFullPath(root);

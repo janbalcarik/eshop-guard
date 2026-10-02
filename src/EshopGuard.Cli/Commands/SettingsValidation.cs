@@ -32,12 +32,23 @@ internal static partial class SettingsValidation
             ("crawl.extract_timeout_seconds", crawl.ExtractTimeoutSeconds),
             ("crawl.fetch_batch_max_pages", crawl.FetchBatchMaxPages),
             ("crawl.fetch_batch_max_seconds", crawl.FetchBatchMaxSeconds),
+            ("markets.max_selected_pages", settings.Markets.MaxSelectedPages),
+            ("markets.page_text_chars", settings.Markets.PageTextChars),
+            ("markets.home_text_chars", settings.Markets.HomeTextChars),
+            ("markets.max_home_links", settings.Markets.MaxHomeLinks),
+            ("markets.sample_pages", settings.Markets.SamplePages),
+            ("markets.language_fragments_per_version", settings.Markets.LanguageFragmentsPerVersion),
         })
         {
             if (value <= 0)
             {
                 return $"{key} musí být kladné číslo (je {value}).";
             }
+        }
+
+        if (settings.Markets.CountedMinOwnShare is <= 0 or > 1)
+        {
+            return $"markets.counted_min_own_share musí být mezi 0 a 1 (je {settings.Markets.CountedMinOwnShare}).";
         }
 
         return crawl.AllowPrivateNetwork

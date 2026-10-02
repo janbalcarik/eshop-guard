@@ -34,6 +34,76 @@ public sealed class EshopGuardOptions
 
     /// <summary>Profiles of page templates written by the same OpenAI model; they only leave out interface text.</summary>
     public ProfileOptions Profiles { get; set; } = new();
+
+    /// <summary>Analysis of the places of sale and of the language versions of a shop (change 7).</summary>
+    public MarketsOptions Markets { get; set; } = new();
+}
+
+/// <summary>
+/// Analysis of the places of sale and of the language versions (change 7). The markets themselves are data in
+/// <c>config/jurisdictions.yaml</c>; these are the limits of the analysis.
+/// </summary>
+public sealed class MarketsOptions
+{
+    /// <summary>Most pages about sales and delivery the model may pick from the links of the home page and the footer.</summary>
+    public int MaxSelectedPages { get; set; } = 4;
+
+    /// <summary>Characters of the text of one picked page sent to the model.</summary>
+    public int PageTextChars { get; set; } = 8_000;
+
+    /// <summary>Characters of the text of the home page sent to the model.</summary>
+    public int HomeTextChars { get; set; } = 6_000;
+
+    /// <summary>Most links of the home page offered to the model.</summary>
+    public int MaxHomeLinks { get; set; } = 300;
+
+    /// <summary>Reasoning effort of the pick of pages (a short list of links).</summary>
+    public string PickReasoningEffort { get; set; } = "low";
+
+    /// <summary>Reasoning effort of the analysis of the places of sale.</summary>
+    public string SalesReasoningEffort { get; set; } = "medium";
+
+    /// <summary>Reasoning effort of the language of texts.</summary>
+    public string LanguageReasoningEffort { get; set; } = "low";
+
+    /// <summary>Expected output tokens of the pick (estimate).</summary>
+    public int PickOutputTokens { get; set; } = 800;
+
+    /// <summary>Expected output tokens of the analysis of the places of sale (estimate).</summary>
+    public int SalesOutputTokens { get; set; } = 4_000;
+
+    /// <summary>Expected output tokens of the language of texts of one version (estimate).</summary>
+    public int LanguageOutputTokens { get; set; } = 500;
+
+    /// <summary>
+    /// Share of own texts from which a version counts into the price (architecture part 12: proposal, not measured).
+    /// Own = unique sentences of the main text of its product pages that are in no other checked version.
+    /// </summary>
+    public double CountedMinOwnShare { get; set; } = 0.20;
+
+    /// <summary>Fewest product pages with a main text in the sample of a version for it to count (proposal, not measured).</summary>
+    public int MinSampleProducts { get; set; } = 10;
+
+    /// <summary>Pages of the sample of the analysis of versions (all versions together).</summary>
+    public int SamplePages { get; set; } = 100;
+
+    /// <summary>Products in two versions compared as pairs.</summary>
+    public int PairedProducts { get; set; } = 20;
+
+    /// <summary>Sentences of the main text of the product pages of a version whose language the model labels.</summary>
+    public int LanguageFragmentsPerVersion { get; set; } = 30;
+
+    /// <summary>Shortest and longest sentence sent for the language of texts.</summary>
+    public int LanguageFragmentMinChars { get; set; } = 30;
+
+    /// <summary>Longest sentence sent for the language of texts.</summary>
+    public int LanguageFragmentMaxChars { get; set; } = 300;
+
+    /// <summary>
+    /// Signatures of scripts of translation services in the browser, matched in the address of a script (technical signs like
+    /// the framework names of the render check, never words of the text): a version made by them has no text of its own.
+    /// </summary>
+    public List<string> BrowserTranslationScripts { get; set; } = ["weglot", "gtranslate", "translate.google", "conveythis", "localizejs", "transifex"];
 }
 
 /// <summary>

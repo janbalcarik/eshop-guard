@@ -202,13 +202,18 @@ internal sealed class FetchStep(
             var crawl = owner.Crawl;
             for (var hop = 0; hop <= crawl.MaxRedirects; hop++)
             {
-                var request = new FetchRequest(current);
+                var request = new FetchRequest(current)
+                {
+                    Cookies = State.Cookies.Count > 0 ? new Dictionary<string, string>(State.Cookies) : null,
+                    AcceptLanguage = State.Scope?.AcceptLanguage,
+                };
                 if (conditional && input.Validators.TryGetValue(current.AbsoluteUri, out var validators))
                 {
                     request = request with { IfNoneMatch = validators.ETag, IfModifiedSince = validators.LastModified };
                 }
 
                 var response = await FetchPacedAsync(owner.Fetcher, gate, request, State.Counters, Log, ct);
+                CookieJar.Apply(State.Cookies, response.SetCookies, DateTimeOffset.UtcNow);
                 if (response.Error == SsrfGuard.Error)
                 {
                     State.Counters.SsrfBlocked.Add(current.AbsoluteUri);
@@ -224,9 +229,9 @@ internal sealed class FetchStep(
                 if (response.RedirectLocation is { } location)
                 {
                     var next = UrlTools.Normalize(location);
-                    if (!frontier.IsSameSite(next))
+                    if (!frontier.IsInScope(next))
                     {
-                        Log.LogInformation("Not following redirect from {Url} to another site {Target}", current, next);
+                        Log.LogInformation("Not following redirect from {Url} to another site or language version {Target}", current, next);
                         State.Counters.Failed++;
                         return new Download(current, FetchOutcome.RedirectOffSite);
                     }

@@ -95,7 +95,20 @@ internal static class UrlTools
         return Uri.UnescapeDataString(slash >= 0 ? path[(slash + 1)..] : path);
     }
 
-    private static string StripWww(string host) =>
+    /// <summary>The address belongs to the language version (<see cref="Languages.VersionCrawlScope.Contains"/>).</summary>
+    public static bool IsInScope(Uri uri, Languages.VersionCrawlScope scope) => scope.Contains(uri);
+
+    /// <summary><paramref name="host"/> is a subdomain of <paramref name="parent"/> (a leading www. of the parent ignored): <c>sk.shop.cz</c> of <c>www.shop.cz</c>.</summary>
+    public static bool IsSubdomainOf(string host, string parent)
+    {
+        var bare = StripWww(parent);
+        return host.Length > bare.Length + 1
+            && host.EndsWith("." + bare, StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(host, "www." + bare, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>The host without a leading <c>www.</c>.</summary>
+    public static string StripWww(string host) =>
         host.StartsWith("www.", StringComparison.OrdinalIgnoreCase) ? host[4..] : host;
 
     private static string RemoveTrackingParameters(string query)

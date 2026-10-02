@@ -1,8 +1,22 @@
-# Jurisdikce, které nástroj zná (změna 6, design oddíl 9). Další trh je nový řádek tady, sady pravidel
+# Jurisdikce a trhy, které nástroj zná (změna 6, design oddíl 9; změna 7). Další trh je nový řádek tady, sady pravidel
 # rules/<modul>_<země>.yaml (nebo jurisdikce navíc u sady, která platí beze změny) a texty v rules/texts/<jazyk>/.
-# Kód nikde seznam zemí nemá. law_language je jazyk předpisů té země: odkazy na předpisy EU se u jejích verdiktů
-# zobrazí v něm, pokud mají překlad (ref_by_language), jinak v původním znění.
+# Kód nikde seznam zemí ani jazyků nemá.
+# - law_language: jazyk předpisů té země; odkazy na předpisy EU se u jejích verdiktů zobrazí v něm, pokud mají překlad
+#   (ref_by_language), jinak v původním znění.
+# - country: kód ISO 3166-1 alpha-2, jak ho vrací rozbor míst prodeje; jurisdikce bez country není trh e-shopů.
+# - language: jazyk verze e-shopu, která se pro tento trh kontroluje.
+# - readable_languages: verze v těchto jazycích čtou zákazníci tohoto trhu (posoudí se i podle jeho pravidel).
+# - tlds: domény nejvyššího řádu; domovská země z domény, když ji nejde doložit adresou (s potvrzením klientem).
+# Trh je podporovaný, když ho pokrývá zapnutá sada pravidel (a v aplikaci ho povolí hostitel, ref.markets).
 sk:
   law_language: sk
+  country: SK
+  language: sk
+  readable_languages: [sk, cs]
+  tlds: [sk]
 cz:
   law_language: cs
+  country: CZ
+  language: cs
+  readable_languages: [cs, sk]
+  tlds: [cz]

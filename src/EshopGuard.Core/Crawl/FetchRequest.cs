@@ -12,6 +12,12 @@ public sealed record FetchRequest(Uri Url)
     /// <summary>Last-Modified of the last download (<c>If-Modified-Since</c>).</summary>
     public DateTimeOffset? IfModifiedSince { get; init; }
 
+    /// <summary>Cookies of the crawl scope (the language version), sent in the <c>Cookie</c> header; null sends none.</summary>
+    public IReadOnlyDictionary<string, string>? Cookies { get; init; }
+
+    /// <summary><c>Accept-Language</c> of the crawl scope; null keeps the default of the crawler.</summary>
+    public string? AcceptLanguage { get; init; }
+
     /// <summary>True when the request carries a validator.</summary>
     public bool IsConditional => IfNoneMatch is not null || IfModifiedSince is not null;
 }

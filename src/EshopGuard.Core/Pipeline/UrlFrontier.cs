@@ -39,6 +39,9 @@ internal sealed class UrlFrontier
 
     public bool IsSameSite(Uri url) => UrlTools.IsSameSite(url, State.Home);
 
+    /// <summary>The address belongs to the crawl: the language version when there is one, otherwise the same site.</summary>
+    public bool IsInScope(Uri url) => State.Scope is { } scope ? UrlTools.IsInScope(url, scope) : IsSameSite(url);
+
     public bool IsAllowedByRobots(Uri url) => _robots.IsAllowed(url);
 
     /// <summary>Marks the URL as visited; false when it was visited before.</summary>
@@ -47,7 +50,7 @@ internal sealed class UrlFrontier
     /// <summary>Adds a URL found in a sitemap or a link, unless it is another site, known, forbidden or filtered out.</summary>
     public void Consider(Uri url, int depth, bool productHint, string foundOn, bool onlyLegal = false)
     {
-        if (!IsSameSite(url))
+        if (!IsInScope(url))
         {
             return;
         }
@@ -118,7 +121,7 @@ internal sealed class UrlFrontier
         {
             if (UrlFilter.IsPdf(link.Url))
             {
-                if (IsSameSite(link.Url) && (_classifier.IsLegalUrl(link.Url) || _classifier.IsLegalText(link.Text)))
+                if (IsInScope(link.Url) && (_classifier.IsLegalUrl(link.Url) || _classifier.IsLegalText(link.Text)))
                 {
                     AddUnchecked(link.Url, link.Text, finalUrl);
                 }

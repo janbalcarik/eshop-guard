@@ -75,6 +75,9 @@ public static class ServiceCollectionExtensions
                 var allowPrivate = provider.GetRequiredService<IOptions<EshopGuardOptions>>().Value.Crawl.AllowPrivateNetwork;
                 return new SocketsHttpHandler
                 {
+                    // No shared cookie container: cookies are kept per crawl scope (site or language version) and sent by
+                    // the request (change 7, K rozhodnutí 7), so they never pass between sites or tenants.
+                    UseCookies = false,
                     AllowAutoRedirect = false,
                     AutomaticDecompression = DecompressionMethods.All,
                     PooledConnectionLifetime = TimeSpan.FromMinutes(5),
