@@ -120,12 +120,12 @@ markets:
   pick_reasoning_effort: low
   sales_reasoning_effort: medium
   language_reasoning_effort: low
-  # Verze se započítá do ceny při podílu vlastních textů aspoň 0,20 (architektura část 12: návrh, neměřeno)
-  # a aspoň 10 produktových stránkách s hlavním textem ve vzorku (K rozhodnutí 3, neměřeno).
-  counted_min_own_share: 0.20
+  # Cena se počítá za každou zemi (rozhodnutí 2. 10. 2026); texty verzí se neporovnávají. Jazyk popisů produktů určí model
+  # u language_products náhodných produktů každé verze; s méně než min_sample_products produkty ve vzorku je to upozornění
+  # version_sample_insufficient (návrh, neměřeno).
   min_sample_products: 10
   sample_pages: 100
-  paired_products: 20
-  language_fragments_per_version: 40   # dvě první věty popisu každého z 20 spárovaných produktů
+  language_products: 20
+  language_fragments_per_version: 40   # dvě první věty popisu každého z 20 produktů
   # Podpisy skriptů překladu v prohlížeči (adresa skriptu), technický znak, ne slova textu (K rozhodnutí 6).
   browser_translation_scripts: [weglot, gtranslate, translate.google, conveythis, localizejs, transifex]

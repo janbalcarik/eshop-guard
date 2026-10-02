@@ -1,3 +1,4 @@
+using EshopGuard.Core.Languages;
 using EshopGuard.Core.Markets;
 using EshopGuard.Core.Models;
 using EshopGuard.Core.Options;
@@ -86,28 +87,70 @@ public sealed class RunUnitTests
     }
 
     [Fact]
-    public void ScopeBasis_HasNoBandAndNoAmount_AndSaysWhyAVersionDoesNotCount()
+    public void ScopeBasis_HasNoBandAndNoAmount_AndGivesTheProductsOfEveryCountry()
     {
         var analysis = new MarketsAnalysisResult
         {
             Site = "https://bylinkovo.sk/",
             Versions =
             [
-                new ShopLanguageRow { Language = "sk", BaseUrl = "https://bylinkovo.sk/", SwitchMethod = "path", Source = "main", Status = "active", Counted = true, ProductCount = 3120, OwnTextShare = 1.0 },
-                new ShopLanguageRow { Language = "cs", BaseUrl = "https://bylinkovo.sk/cz/", SwitchMethod = "path", Source = "hreflang", Status = "active", Counted = false, ProductCount = 3090, OwnTextShare = 0.04 },
-                new ShopLanguageRow { Language = "pl", BaseUrl = "https://bylinkovo.sk/pl/", SwitchMethod = "path", Source = "hreflang", Status = "unsupported", Counted = false },
+                new ShopLanguageRow { Language = "sk", BaseUrl = "https://bylinkovo.sk/", SwitchMethod = "path", Source = "main", Status = "active", ProductCount = 3120, TranslatedShare = 1.0 },
+                new ShopLanguageRow { Language = "cs", BaseUrl = "https://bylinkovo.sk/cz/", SwitchMethod = "path", Source = "hreflang", Status = "active", ProductCount = 3090, TranslatedShare = 0.95 },
+                new ShopLanguageRow { Language = "pl", BaseUrl = "https://bylinkovo.sk/pl/", SwitchMethod = "path", Source = "hreflang", Status = "unsupported" },
             ],
+            Plan = new VersionPlan
+            {
+                ByMarket = [new("sk", "sk", "https://bylinkovo.sk/", 3120), new("cz", "cs", "https://bylinkovo.sk/cz/", 3090)],
+                CountedProducts = 6210,
+            },
         };
 
-        var basis = ScopeBasisBuilder.Build(analysis, Guid.CreateVersion7(), 5872, 0.2, DateTimeOffset.UnixEpoch);
+        var basis = ScopeBasisBuilder.Build(analysis, Guid.CreateVersion7(), 5872, DateTimeOffset.UnixEpoch);
 
+        var markets = basis["markets"]!.AsArray();
+        Assert.Equal([("sk", "sk", 3120), ("cz", "cs", 3090)], markets.Select(m => ((string)m!["market"]!, (string)m["language"]!, (int)m["product_count"]!)));
+        Assert.All(markets, m => Assert.Null(m!["unknown_reason"]));
         var versions = basis["versions"]!.AsArray();
-        Assert.Null(versions[0]!["not_counted_reason"]);
-        Assert.Equal("menu_only_translation", (string)versions[1]!["not_counted_reason"]!);
-        Assert.Equal("unsupported_market", (string)versions[2]!["not_counted_reason"]!);
+        Assert.Equal(0.95, (double)versions[1]!["translated_share"]!);
+        Assert.Equal("unsupported", (string)versions[2]!["status"]!);
         Assert.Equal(5872, (int)basis["sitemap_url_count"]!);
         Assert.DoesNotContain("usd", basis.ToJsonString(), StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("band", basis.ToJsonString(), StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("counted", basis.ToJsonString(), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ScopeBasis_OneVersionForTwoCountries_WithAnIncompleteSitemap_SaysWhyItsProductsAreUnknown()
+    {
+        // bonami.sk, 2. 10. 2026: a product sitemap over the size limit; the URLs read so far are only the lower bound.
+        var analysis = new MarketsAnalysisResult
+        {
+            Site = "https://shop.sk/",
+            Versions =
+            [
+                new ShopLanguageRow
+                {
+                    Language = "sk", BaseUrl = "https://shop.sk/", SwitchMethod = "path", Source = "main", Status = "active", ProductCountAtLeast = 2632,
+                    Codes = [VersionCodes.ProductCountIncomplete, VersionCodes.ProductCountUnknown],
+                },
+            ],
+            Plan = new VersionPlan
+            {
+                ByMarket = [new("sk", "sk", "https://shop.sk/", null), new("cz", "sk", "https://shop.sk/", null)],
+                ProductCountUnknown = true,
+            },
+        };
+
+        var basis = ScopeBasisBuilder.Build(analysis, Guid.CreateVersion7(), 2700, DateTimeOffset.UnixEpoch);
+
+        var markets = basis["markets"]!.AsArray();
+        Assert.Equal(["sk", "cz"], markets.Select(m => (string)m!["market"]!));
+        Assert.All(markets, m =>
+        {
+            Assert.Null(m!["product_count"]);
+            Assert.Equal(2632, (int)m["product_count_at_least"]!);
+            Assert.Equal("product_count_incomplete", (string)m["unknown_reason"]!);
+        });
     }
 
     [Fact]
@@ -118,13 +161,13 @@ public sealed class RunUnitTests
             Site = "https://bylinkovo.sk/",
             Versions =
             [
-                new ShopLanguageRow { Language = "sk", BaseUrl = "https://bylinkovo.sk/", SwitchMethod = "path", Source = "main", Status = "active", Counted = true, ProductCount = 3120 },
-                new ShopLanguageRow { Language = "cs", BaseUrl = "https://bylinkovo.sk/cz/", SwitchMethod = "path", Source = "hreflang", Status = "active", Counted = true, ProductCount = 3090 },
+                new ShopLanguageRow { Language = "sk", BaseUrl = "https://bylinkovo.sk/", SwitchMethod = "path", Source = "main", Status = "active", ProductCount = 3120 },
+                new ShopLanguageRow { Language = "cs", BaseUrl = "https://bylinkovo.sk/cz/", SwitchMethod = "path", Source = "hreflang", Status = "active", ProductCount = 3090 },
             ],
         };
         VersionSitemap[] sitemaps = [new("sk", "https://bylinkovo.sk/", 3120, 76), new("cs", "https://bylinkovo.sk/other/", 3090, 70)];
 
-        var basis = ScopeBasisBuilder.Build(analysis, Guid.CreateVersion7(), 6386, 0.2, DateTimeOffset.UnixEpoch, sitemaps);
+        var basis = ScopeBasisBuilder.Build(analysis, Guid.CreateVersion7(), 6386, DateTimeOffset.UnixEpoch, sitemaps);
 
         var versions = basis["versions"]!.AsArray();
         Assert.Equal(76, (int)versions[0]!["other_pages"]!);

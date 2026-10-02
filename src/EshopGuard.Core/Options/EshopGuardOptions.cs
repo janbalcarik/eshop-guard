@@ -76,21 +76,18 @@ public sealed class MarketsOptions
     public int LanguageOutputTokens { get; set; } = 500;
 
     /// <summary>
-    /// Share of own texts from which a version counts into the price (architecture part 12: proposal, not measured).
-    /// Own = unique sentences of the main text of its product pages that are in no other checked version.
+    /// Fewest product pages with sentences in the sample of a version for the language of its descriptions to rest on enough
+    /// products (proposal, not measured); with fewer the version has <c>version_sample_insufficient</c> (a notice for 3c).
     /// </summary>
-    public double CountedMinOwnShare { get; set; } = 0.20;
-
-    /// <summary>Fewest product pages with a main text in the sample of a version for it to count (proposal, not measured).</summary>
     public int MinSampleProducts { get; set; } = 10;
 
     /// <summary>Pages of the sample of the analysis of versions (all versions together).</summary>
     public int SamplePages { get; set; } = 100;
 
-    /// <summary>Products in two versions compared as pairs.</summary>
-    public int PairedProducts { get; set; } = 20;
+    /// <summary>Random products of a version whose description the model labels with its language.</summary>
+    public int LanguageProducts { get; set; } = 20;
 
-    /// <summary>Sentences of the main text of the product pages of a version whose language the model labels.</summary>
+    /// <summary>Sentences of the product descriptions of a version whose language the model labels (two of each product).</summary>
     public int LanguageFragmentsPerVersion { get; set; } = 40;
 
     /// <summary>Shortest and longest sentence sent for the language of texts.</summary>

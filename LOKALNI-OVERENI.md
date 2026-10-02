@@ -8,12 +8,12 @@ Pořadí: nejdřív kroky zdarma, potom kroky se sítí bez placených volání,
 git pull
 pwsh deploy/dev/setup-local.ps1        # jen poprvé nebo po změně rolí; zapíše user-secrets (i eshopguard-worker)
 dotnet tool restore
-dotnet ef database update --project src/EshopGuard.Data   # migrace F4 změny 8 (run_urls, run_scopes, claim_free_sample)
+dotnet ef database update --project src/EshopGuard.Data   # migrace F4 změny 8 a F4LanguagesByCountry (cena za každou zemi: shop_languages.translated_share a description_languages místo own_text_share, comparison a counted)
 dotnet build src/EshopGuard.sln
 dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"
 ```
 
-Očekávání: 1045 testů, 0 selhání, 8 explicitních přeskočeno (cloud, 2. 10. 2026). Testy běhů ve workeru (`src/tests/EshopGuard.Jobs.Tests/Runs`) potřebují PostgreSQL a databázi `eshopguard_test_jobs`. Když testy `Db` selžou se jménem klíče, chybí user-secrets `eshopguard-tests`: spusťte znovu `setup-local.ps1`.
+Očekávání: 1044 testů, 0 selhání, 8 explicitních přeskočeno (cloud, 2. 10. 2026). Testy běhů ve workeru (`src/tests/EshopGuard.Jobs.Tests/Runs`) potřebují PostgreSQL a databázi `eshopguard_test_jobs`. Když testy `Db` selžou se jménem klíče, chybí user-secrets `eshopguard-tests`: spusťte znovu `setup-local.ps1`.
 
 Pokud CLI ještě nemá tenanta `cli`, jednou ze složky `src`: `dotnet run --project EshopGuard.Cli -- cache init`.
 
@@ -104,7 +104,7 @@ Postup u jednotlivých kroků:
 
   Worker běží pod tenantem `cli`, takže následný `eshopguard scan https://vegis.sk/ --max-pages 500` vezme odpovědi Jevu z jeho cache a Jev se zaplatí jen jednou. Srovnání nálezů (pravidlo, text, stránky, verdikty) udělám já.
 - **3.8:** po 3.5 nebo 3.7 projdu nálezy a texty pravidel `rules/texts/sk/` proti stránkám. Kde souhlasí, odstraní se `machine_draft` a vyplní `review` (kontrolu potvrdíte vy).
-- **3.9:** `cd src` a `dotnet run --project EshopGuard.Cli -- markets https://www.goodie.sk/ --profiles` (klíč OpenAI v `.env`, databáze jako u `scan`). CLI vypíše odhad nejdřív pro rozbor a potom znovu s novými profily („z toho nové profily šablon …“); nad limitem se zeptá. Pod tabulkou verzí je u každé verze, co se porovnalo (popis z profilu, nebo celý text), podíl spárovaných produktů s vlastním textem a počet popisů v jiném jazyce. `markets.json` mi pošlete: ověřím, že recenze z porovnání vypadly a že české popisy na slovenské verzi vyšly jako `untranslated_text`. Profil zůstane v databázi a `scan https://www.goodie.sk/` ho použije bez nového volání. Výsledek 2. 10. 2026: vlastní texty sk 87 %, cs-cz 88 % (bez profilu 49 a 52 %), profil `goodie.sk#1`; podrobnosti v odchylce 20 změny 7.
+- **3.9:** `cd src` a `dotnet run --project EshopGuard.Cli -- markets https://www.goodie.sk/ --profiles` (klíč OpenAI v `.env`, databáze jako u `scan`). CLI vypíše odhad nejdřív pro rozbor a potom znovu s novými profily („z toho nové profily šablon …“); nad limitem se zeptá. Pod tabulkou verzí je u každé verze, co se porovnalo (popis z profilu, nebo celý text), podíl spárovaných produktů s vlastním textem a počet popisů v jiném jazyce. `markets.json` mi pošlete: ověřím, že recenze z porovnání vypadly a že české popisy na slovenské verzi vyšly jako `untranslated_text`. Profil zůstane v databázi a `scan https://www.goodie.sk/` ho použije bez nového volání. Výsledek 2. 10. 2026: vlastní texty sk 87 %, cs-cz 88 % (bez profilu 49 a 52 %), profil `goodie.sk#1`; podrobnosti v odchylce 20 změny 7. *(Od 2. 10. 2026 se texty verzí neporovnávají: výpis ukazuje u verze popisy v jejím jazyce, např. „19 z 20“, a pod tabulkou produkty za každou zemi.)*
 - **3.10:** ze složky `src`, s klíčem OpenAI v `.env` a databází jako v kroku 3.9:
 
   ```powershell

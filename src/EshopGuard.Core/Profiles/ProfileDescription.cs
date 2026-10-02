@@ -37,7 +37,7 @@ internal static class ProfileDescription
             .Where(e => outermost.Any(o => !ReferenceEquals(o, e) && o.Contains(e)))
             .ToHashSet();
         var text = string.Join('\n', outermost.SelectMany(e => HtmlText.ExtractBlocks(e, removed: removed)).Select(b => b.Text));
-        var sentences = VersionComparer.Sentences(text);
+        var sentences = VersionLanguages.Sentences(text);
         return sentences.Count == 0 ? null : sentences;
     }
 }

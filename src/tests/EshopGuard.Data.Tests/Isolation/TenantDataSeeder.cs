@@ -73,7 +73,7 @@ internal static class TenantDataSeeder
         var order = new Order { ShopId = shop.Id, Kind = OrderKind.AnalysisWithTrial, PriceListId = priceListId, AmountNet = 100m, VatRate = 23m, VatAmount = 23m, AmountGross = 123m, Currency = "EUR", Status = OrderStatus.Paid, RunId = run.Id };
         db.AddRange(page, order);
         db.Add(new ShopMarket { ShopId = shop.Id, CountryCode = "sk", IsHome = true, Status = ShopMarketStatus.Active, Source = MarketSource.Detected, DetectionRunId = run.Id });
-        db.Add(new ShopLanguage { ShopId = shop.Id, Language = "sk", BaseUrl = "https://vegis.sk/", Source = LanguageSource.Hreflang, Status = ShopLanguageStatus.Active, Counted = true, SampleRunId = run.Id });
+        db.Add(new ShopLanguage { ShopId = shop.Id, Language = "sk", BaseUrl = "https://vegis.sk/", Source = LanguageSource.Hreflang, Status = ShopLanguageStatus.Active, TranslatedShare = 1f, SampleRunId = run.Id });
         db.Add(new ConnectorWebhook { ConnectorId = connector.Id, Event = "product:update", Status = "active" });
         db.Add(new ConnectorEvent { ConnectorId = connector.Id, ShopId = shop.Id, DedupeKey = Guid.NewGuid().ToString("N"), EventType = "product:update", Payload = Json("{}"), ReceivedAt = now, Status = "received" });
         db.Add(new RunEvent { RunId = run.Id, At = now, Level = "info", Code = "run.started" });

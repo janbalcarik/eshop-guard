@@ -22,10 +22,10 @@ namespace EshopGuard.Jobs.Runs.Handlers;
 /// <c>run.markets</c> (free sample only): the places of sale and the language versions of change 7, with the estimate of the
 /// model stored and checked against the cap of the sample before its first call; the suggested places of sale
 /// (<c>shop.shop_markets</c>), the versions (<c>shop.shop_languages</c>), the jurisdictions of the run, and the plan of the
-/// sample: at most <c>markets.sample_pages</c> pages of the checked versions (pairs, mandatory pages, random products), legal
-/// pages of every version on top. Versions for unsupported markets are never downloaded. The versions are compared on the
-/// product description of the profiles of their templates; the missing profiles are written here (their price is part of the
-/// estimate of the analysis, checked against the same cap) and stored, so the sample uses them too. Then the downloads start.
+/// sample: at most <c>markets.sample_pages</c> pages of the checked versions (mandatory pages, random products), legal pages
+/// of every version on top. Versions for unsupported markets are never downloaded. The language of the versions is told from
+/// the product description of the profiles of their templates; the missing profiles are written here (their price is part of
+/// the estimate of the analysis, checked against the same cap) and stored, so the sample uses them too. Then the downloads start.
 /// </summary>
 internal sealed class MarketsHandler(
     RunHandlerContext context,
@@ -49,9 +49,9 @@ internal sealed class MarketsHandler(
         var result = await analyzer.AnalyzeAsync(request, async (estimate, token) =>
         {
             // Stored before the first call; over the cap of the sample nothing is paid and the run fails below. The estimate of
-            // the analysis includes the new profiles of the comparison of versions (asked again with them): they belong to this
+            // the analysis includes the new profiles of the analysis of versions (asked again with them): they belong to this
             // step, and run.profile prices only the profiles it writes itself. Profiles over the cap are only left out: the
-            // versions are then compared on the main text (comparison.basis), and the estimate stays without them.
+            // language is then told from the main text (description_languages.basis), and the estimate stays without them.
             var within = await InTenantAsync(run.TenantId, async (c, t) =>
             {
                 var locked = (await RunStore.LoadAsync(c, t, run.Id, forUpdate: true, token).ConfigureAwait(false))!;
@@ -102,7 +102,7 @@ internal sealed class MarketsHandler(
                 ? mainDiscovery
                 : await discovery.DiscoverAsync(new DiscoveryInput(site, new CrawlLimits(budget, budget, [], [], null)), null, ct).ConfigureAwait(false);
             var urls = result.SamplePlan?.Urls.Where(u => u.VersionKey == key).ToList() ?? [];
-            var (frontier, planned) = urls.Any(u => u.Kind != "mandatory")
+            var (frontier, planned) = urls.Any(u => u.Kind != VersionSamplePlanner.Mandatory)
                 ? Planned(found, urls, version.BaseUrl, version.Language)
                 : (Limit(found.Frontier, budget, budget), []);
             scopes.Add((Row(site.SiteUrl.AbsoluteUri, version.Language, scope, found, frontier), planned));
@@ -170,20 +170,20 @@ internal sealed class MarketsHandler(
         new(key, key, language, scope, found.Robots, frontier, found.Pace, frontier.Stopped, 0);
 
     /// <summary>
-    /// The frontier of the sample of one version: the legal pages found so far, then the planned pages only (pairs and random
-    /// products as products, mandatory pages as other pages) and no other links than legal ones from the home page.
+    /// The frontier of the sample of one version: the legal pages found so far, then the planned pages only (random products
+    /// as products, mandatory pages as other pages) and no other links than legal ones from the home page.
     /// </summary>
     private (UrlFrontierState Frontier, List<RunUrlRow> Planned) Planned(DiscoveryResult found, IReadOnlyList<SampleUrl> urls, string scopeKey, string language)
     {
-        var products = urls.Count(u => u.Kind != "mandatory");
+        var products = urls.Count(u => u.Kind != VersionSamplePlanner.Mandatory);
         var state = Copy(found.Frontier, urls.Count + 1, products, linkMode: false);
         var frontier = new UrlFrontier(state, found.Robots.ToRobots(), Ctx.Guard.Crawl.ExcludeUrlPatterns, classifier, logger);
         var planned = new List<RunUrlRow>();
         foreach (var url in urls)
         {
-            var queue = url.Kind switch { "pair" => "sample_pair", "mandatory" => "sample_mandatory", _ => "sample_random" };
-            frontier.Consider(new Uri(url.Url), 0, productHint: url.Kind != "mandatory", foundOn: "plan");
-            planned.Add(new RunUrlRow(scopeKey, url.Url, language, RunUrlState.Pending, queue, null, null, null, null));
+            var mandatory = url.Kind == VersionSamplePlanner.Mandatory;
+            frontier.Consider(new Uri(url.Url), 0, productHint: !mandatory, foundOn: "plan");
+            planned.Add(new RunUrlRow(scopeKey, url.Url, language, RunUrlState.Pending, mandatory ? "sample_mandatory" : "sample_random", null, null, null, null));
         }
 
         return (state, planned);
@@ -261,12 +261,12 @@ internal sealed class MarketsHandler(
             var status = isChecked ? "active" : version.Status == VersionStatus.Active ? "excluded" : version.Status;
             await using var command = new NpgsqlCommand(
                 """
-                INSERT INTO shop.shop_languages (tenant_id, shop_id, language, base_url, switch_method, source, status, own_text_share, language_share,
-                    comparison, sample_run_id, counted, product_count, crawl_scope, created_at, updated_at)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, now(), now())
+                INSERT INTO shop.shop_languages (tenant_id, shop_id, language, base_url, switch_method, source, status, translated_share, language_share,
+                    description_languages, sample_run_id, product_count, crawl_scope, created_at, updated_at)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, now(), now())
                 ON CONFLICT (shop_id, language) DO UPDATE SET base_url = excluded.base_url, switch_method = excluded.switch_method,
-                    source = excluded.source, own_text_share = excluded.own_text_share, language_share = excluded.language_share,
-                    comparison = excluded.comparison, sample_run_id = excluded.sample_run_id, counted = excluded.counted,
+                    source = excluded.source, translated_share = excluded.translated_share, language_share = excluded.language_share,
+                    description_languages = excluded.description_languages, sample_run_id = excluded.sample_run_id,
                     product_count = excluded.product_count, crawl_scope = excluded.crawl_scope,
                     status = CASE WHEN shop.shop_languages.source = 'user' THEN shop.shop_languages.status ELSE excluded.status END,
                     updated_at = now()
@@ -281,11 +281,14 @@ internal sealed class MarketsHandler(
                     new NpgsqlParameter { Value = version.SwitchMethod == SwitchMethods.Unknown ? DBNull.Value : version.SwitchMethod, NpgsqlDbType = NpgsqlDbType.Text },
                     new NpgsqlParameter { Value = version.Source },
                     new NpgsqlParameter { Value = status },
-                    new NpgsqlParameter { Value = (object?)(float?)version.OwnTextShare ?? DBNull.Value, NpgsqlDbType = NpgsqlDbType.Real },
+                    new NpgsqlParameter { Value = (object?)(float?)version.TranslatedShare ?? DBNull.Value, NpgsqlDbType = NpgsqlDbType.Real },
                     new NpgsqlParameter { Value = JsonSerializer.Serialize(version.LanguageShare, PipelineJson.Options), NpgsqlDbType = NpgsqlDbType.Jsonb },
-                    new NpgsqlParameter { Value = version.Comparison is null ? DBNull.Value : JsonSerializer.Serialize(version.Comparison, PipelineJson.Options), NpgsqlDbType = NpgsqlDbType.Jsonb },
+                    new NpgsqlParameter
+                    {
+                        Value = version.DescriptionLanguages is null ? DBNull.Value : JsonSerializer.Serialize(version.DescriptionLanguages, PipelineJson.Options),
+                        NpgsqlDbType = NpgsqlDbType.Jsonb,
+                    },
                     new NpgsqlParameter { Value = run.Id },
-                    new NpgsqlParameter { Value = version.Counted },
                     new NpgsqlParameter { Value = (object?)version.ProductCount ?? DBNull.Value, NpgsqlDbType = NpgsqlDbType.Integer },
                     new NpgsqlParameter { Value = version.Scope is null ? DBNull.Value : JsonSerializer.Serialize(version.Scope, PipelineJson.Options), NpgsqlDbType = NpgsqlDbType.Jsonb },
                 },

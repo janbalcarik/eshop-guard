@@ -20,15 +20,19 @@ public sealed class ShopLanguage : ITenantOwned, IHasTimestamps
 
     public ShopLanguageStatus Status { get; set; }
 
-    public float? OwnTextShare { get; set; }
+    /// <summary>Share of the products of the free sample with a description in the language of the version (change 7).</summary>
+    public float? TranslatedShare { get; set; }
 
     public JsonDocument? LanguageShare { get; set; }
 
-    public JsonDocument? Comparison { get; set; }
+    /// <summary>
+    /// The language of the product descriptions from the free sample (<c>DescriptionLanguages</c> of change 7: what the
+    /// sentences come from, labeled, translated and foreign products). The texts of the versions are not compared and a
+    /// version has no flag for the price: the price counts the products of the version checked for every ticked country.
+    /// </summary>
+    public JsonDocument? DescriptionLanguages { get; set; }
 
     public Guid? SampleRunId { get; set; }
-
-    public bool Counted { get; set; }
 
     public int? ProductCount { get; set; }
 

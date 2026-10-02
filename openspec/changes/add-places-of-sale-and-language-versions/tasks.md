@@ -52,9 +52,9 @@ Cesty jsou po přejmenování ze změny 1 a po rozdělení na kroky ze změny 5 
 - [x] 7.6 Spustit `openspec validate add-places-of-sale-and-language-versions` a opravit chyby formátu.
 
 ## 8. Cena za každou zemi (rozhodnutí 2. 10. 2026, odchylka 22)
-- [ ] 8.1 Návrh UI: obrazovky 3c (`OnboardingScope`) a 3d (`VersionDetails`) bez vlastních textů a párů, s produkty za každou zemi a jazykem popisů; schválí uživatel.
-- [ ] 8.2 `VersionMarketPlanner`: `CountedProducts` = součet produktů za zaškrtnuté země (verze kontrolovaná pro zemi); neznámý počet kterékoli = neznámý součet; počty po zemích ve výstupu.
-- [ ] 8.3 Rozbor verzí bez párování a porovnání textů: `VersionSamplePlanner` jen povinné stránky a náhodné produkty po verzích, `VersionComparer` jen jazyk popisů, podíl přeložených produktů a upozornění; odstranit podíl vlastních textů, druhy párů, porovnání povinných stránek a `markets.counted_min_own_share`.
+- [x] 8.1 Návrh UI: obrazovky 3c (`OnboardingScope`) a 3d (`VersionDetails`) bez vlastních textů a párů, s produkty za každou zemi a jazykem popisů; schválí uživatel.
+- [x] 8.2 `VersionMarketPlanner`: `CountedProducts` = součet produktů za zaškrtnuté země (verze kontrolovaná pro zemi); neznámý počet kterékoli = neznámý součet; počty po zemích ve výstupu.
+- [x] 8.3 Rozbor verzí bez párování a porovnání textů: `VersionSamplePlanner` jen povinné stránky a náhodné produkty po verzích, `VersionComparer` jen jazyk popisů, podíl přeložených produktů a upozornění; odstranit podíl vlastních textů, druhy párů, porovnání povinných stránek a `markets.counted_min_own_share`.
 - [ ] 8.4 Produkty do vzorku i bez produktové sitemap: stránky ze sitemap podle struktury stránky (strukturovaná data produktu), nejvýš 20 na verzi; počet produktů zůstane neznámý.
-- [ ] 8.5 Worker: `shop_languages` a základ rozsahu ukázky (`runs.estimate.basis`) po zemích; CLI výpis po zemích.
+- [x] 8.5 Worker: `shop_languages` a základ rozsahu ukázky (`runs.estimate.basis`) po zemích; CLI výpis po zemích.
 - [ ] 8.6 Testy (plán, rozbor bez párů, vzorek bez produktové sitemap, worker), dokumentace README a `LOKALNI-OVERENI.md`, `dotnet test`.

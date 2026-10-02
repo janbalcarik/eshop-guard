@@ -37,6 +37,7 @@ internal static partial class SettingsValidation
             ("markets.home_text_chars", settings.Markets.HomeTextChars),
             ("markets.max_home_links", settings.Markets.MaxHomeLinks),
             ("markets.sample_pages", settings.Markets.SamplePages),
+            ("markets.language_products", settings.Markets.LanguageProducts),
             ("markets.language_fragments_per_version", settings.Markets.LanguageFragmentsPerVersion),
         })
         {
@@ -49,11 +50,6 @@ internal static partial class SettingsValidation
         if (crawl.MaxSitemapBytes < crawl.MaxPageBytes)
         {
             return $"crawl.max_sitemap_bytes musí být aspoň crawl.max_page_bytes (je {crawl.MaxSitemapBytes}).";
-        }
-
-        if (settings.Markets.CountedMinOwnShare is <= 0 or > 1)
-        {
-            return $"markets.counted_min_own_share musí být mezi 0 a 1 (je {settings.Markets.CountedMinOwnShare}).";
         }
 
         return crawl.AllowPrivateNetwork

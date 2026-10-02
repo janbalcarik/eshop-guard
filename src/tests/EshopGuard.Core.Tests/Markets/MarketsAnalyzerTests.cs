@@ -40,16 +40,18 @@ public sealed class MarketsAnalyzerTests
         Assert.Contains(EshopGuard.Core.Rules.EngineCodes.ModelMock, result.Codes);
         Assert.Contains(MarketCodes.QuotesDropped, result.Codes);
 
-        Assert.Equal([("cs", true), ("sk", true)], result.Versions.Select(v => (v.Language, v.Counted)));
+        Assert.Equal([("cs", 1.0), ("sk", 1.0)], result.Versions.Select(v => (v.Language, v.TranslatedShare ?? 0)));
         var sk = result.Versions.Single(v => v.Language == "sk");
-        Assert.Equal(12, sk.Comparison!.PairKinds[PairKinds.Translation]);
-        Assert.True(sk.OwnTextShare > 0.9);
+        Assert.True(sk.DescriptionLanguages!.LabeledProducts > 0);
         Assert.Equal(12, sk.ProductCount);
         Assert.Equal("cs:cz+sk sk:sk+cz", string.Join(' ', result.Plan!.Checked.Select(v => $"{v.Language}:{string.Join('+', v.Jurisdictions)}")));
+        Assert.Equal([("cz", "cs", 12), ("sk", "sk", 12)], result.Plan.ByMarket.Select(m => (m.Market, m.Language, m.ProductCount ?? 0)));
         Assert.Equal(24, result.Plan.CountedProducts);
-        Assert.Equal(SummaryCodes.VersionsBothOwnTexts, result.Summary!.Code);
+        Assert.Equal(SummaryCodes.VersionsByMarket, result.Summary!.Code);
         Assert.Equal(["cs", "sk"], (string[])result.Summary.Params["languages"]);
-        Assert.Equal("hreflang", result.PairingMode);
+        Assert.Equal(new Dictionary<string, string> { ["cz"] = "cs", ["sk"] = "sk" }, (Dictionary<string, string>)result.Summary.Params["markets"]);
+        Assert.Equal(1.0, result.Summary.Params["translated_share"]);
+        Assert.DoesNotContain(result.SamplePlan!.Urls, u => u.Kind is not (VersionSamplePlanner.Mandatory or VersionSamplePlanner.Product));
         Assert.Contains(result.Pages, p => p.Url == "https://path-shop.cz/sk/produkt-3.html" && p.Language == "sk" && p.HreflangGroup is not null);
         Assert.True(result.Usage.Calls >= 4);
     }
@@ -62,7 +64,7 @@ public sealed class MarketsAnalyzerTests
         Assert.Equal(VersionCodes.OtherDomainNeedsConfirmation, result.Summary!.Code);
         Assert.Equal("domain-shop.sk", result.Summary.Params["domain"]);
         var sk = result.Versions.Single(v => v.Language == "sk");
-        Assert.Equal((VersionStatus.NeedsConfirmation, false), (sk.Status, sk.Counted));
+        Assert.Equal(VersionStatus.NeedsConfirmation, sk.Status);
         Assert.Contains(result.Notices, n => n.Code == VersionCodes.SampleInsufficient);
         Assert.Equal(("CZ", HomeBases.DomainTld, true), (result.HomeCountry, result.HomeBasis, result.HomeNeedsConfirmation));
         Assert.DoesNotContain(result.Plan!.Checked, v => v.Language == "sk");
@@ -91,7 +93,7 @@ public sealed class MarketsAnalyzerTests
         Assert.Equal(0, model.Calls);
         Assert.Contains(EshopGuard.Core.Rules.EngineCodes.ModelMissingKey, result.Codes);
         Assert.Equal(["cs", "sk"], result.Versions.Select(v => v.Language));
-        Assert.All(result.Versions.Where(v => !v.IsMain), v => Assert.False(v.Counted));
+        Assert.All(result.Versions, v => Assert.Null(v.TranslatedShare));
         Assert.Equal(0m, result.Usage.CostUsd);
     }
 

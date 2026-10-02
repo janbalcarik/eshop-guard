@@ -31,21 +31,21 @@ public sealed record MarketsAnalysisRequest(Uri Site)
     /// <summary>Seed of the random sample of the analysis of versions.</summary>
     public int Seed { get; init; } = 1;
 
-    /// <summary>Compare the versions on a sample (false: only places of sale, versions and the plan).</summary>
+    /// <summary>Analyze the versions on a sample (false: only places of sale, versions and the plan).</summary>
     public bool AnalyzeVersions { get; init; } = true;
 
     /// <summary>
-    /// Profiles of the page templates in the comparison of versions: with a profile only the product description is compared
-    /// (its regions <c>main_description</c> and <c>short_description</c>), without customer reviews and other texts shared by
-    /// the versions. <see cref="VersionProfileMode.Create"/> also writes the missing profiles (the model, priced and confirmed).
+    /// Profiles of the page templates in the analysis of versions: with a profile the language is told from the product
+    /// description (its regions <c>main_description</c> and <c>short_description</c>), without customer reviews and other
+    /// texts of the page. <see cref="VersionProfileMode.Create"/> also writes the missing profiles (the model, priced and confirmed).
     /// </summary>
     public VersionProfileMode Profiles { get; init; } = VersionProfileMode.None;
 }
 
-/// <summary>How the comparison of versions uses the profiles of page templates.</summary>
+/// <summary>How the analysis of versions uses the profiles of page templates.</summary>
 public enum VersionProfileMode
 {
-    /// <summary>No profile: the main text of the pages is compared (reviews and texts of the template included).</summary>
+    /// <summary>No profile: the sentences are of the main text of the pages (reviews and texts of the template included).</summary>
     None,
 
     /// <summary>Stored profiles of the shop only.</summary>
@@ -68,8 +68,8 @@ public interface IMarketsAnalyzer
 /// <summary>
 /// The analysis of the places of sale and of the language versions of one shop (change 7, design: Data Flow): technical signs
 /// of the home page and the sitemap, the estimate, the pick of pages, their download, the analysis of the model and the
-/// verification of its quotes, the classification, the versions and how they are reached, the plan, the sample of versions and
-/// their comparison. Fail-closed: a failure of the model, a missing key or an estimate not confirmed leave only what the
+/// verification of its quotes, the classification, the versions and how they are reached, the plan, the sample of versions,
+/// the language of their product descriptions and their products for the price. Fail-closed: a failure of the model, a missing key or an estimate not confirmed leave only what the
 /// structure of the site shows, with the code why; nothing is passed off as found.
 /// </summary>
 internal sealed class MarketsAnalyzer(
@@ -156,35 +156,35 @@ internal sealed class MarketsAnalyzer(
         var places = PlacesOfSaleClassifier.Classify(sales, catalog, home, versions, failure);
         var active = request.ActiveMarkets ?? DefaultMarkets(places, catalog, versions);
 
-        VersionComparisonResult? comparison = null;
+        IReadOnlyList<VersionLanguage>? languages = null;
         VersionSamplePlan? samplePlan = null;
-        var counts = new Dictionary<string, VersionCount>();
+        var counts = new Dictionary<string, int?>(StringComparer.Ordinal);
         var sampled = versions.Where(v => v.Scope is not null && v.SwitchMethod != SwitchMethods.BrowserTranslation
             && (v.IsCheckable || v.Status == VersionStatus.NeedsConfirmation)).ToList();
         if (request.AnalyzeVersions && sampled.Count > 1)
         {
             progress?.Report("sample");
-            (comparison, samplePlan) = await CompareVersionsAsync(
+            (languages, samplePlan) = await AnalyzeVersionsAsync(
                 run, sampled, discovery, selected, canCall && unavailable != EngineCodes.ModelMissingKey, request.Seed,
                 request.Profiles == VersionProfileMode.Create && !canCall ? VersionProfileMode.Stored : request.Profiles, confirm, ct);
-            foreach (var version in comparison.Versions)
+            foreach (var version in languages)
             {
-                counts[version.Key] = new VersionCount(version.ProductCount, version.Counted);
+                counts[version.Key] = version.ProductCount;
             }
         }
         else
         {
             var main = versions.First(v => v.IsMain);
-            counts[Key(main)] = new VersionCount(ProductCount(run, Key(main), discovery, main.Scope), true);
+            counts[Key(main)] = ProductCount(run, Key(main), discovery, main.Scope);
 
-            // The sample of one version without a comparison: its mandatory pages and random products (the free sample checks them).
+            // The sample of one version without the analysis: its mandatory pages and random products (the free sample checks them).
             var mandatory = selected.Select(p => new Uri(p.Url)).Where(u => main.Scope?.Contains(u) ?? UrlTools.IsSameSite(u, home)).DistinctBy(u => u.AbsoluteUri).ToList();
             var products = discovery.SitemapEntries.Where(e => e.ProductHint && (main.Scope?.Contains(e.Url) ?? true)).ToList();
-            samplePlan = VersionSamplePlanner.Plan([new VersionSampleInput(Key(main), main.Language ?? "und", true, products, mandatory)], markets.SamplePages, 0, request.Seed);
+            samplePlan = VersionSamplePlanner.Plan([new VersionSampleInput(Key(main), main.Language ?? "und", true, products, mandatory)], markets.SamplePages, request.Seed);
         }
 
         var plan = VersionMarketPlanner.Plan(versions, active, catalog, counts);
-        return Result(run, home, places, signals, versions, plan, comparison, catalog) with { SalesPages = selected, SamplePlan = samplePlan };
+        return Result(run, home, places, signals, versions, plan, languages, catalog) with { SalesPages = selected, SamplePlan = samplePlan };
     }
 
     private async Task<(VerifiedSales Sales, IReadOnlyList<SelectedPage> Selected)> AnalyzeSalesAsync(
@@ -217,8 +217,8 @@ internal sealed class MarketsAnalyzer(
         return (QuoteVerifier.Verify(answer, texts, signals), selection.Pages);
     }
 
-    /// <summary>Pages of the sample of every version, the language of their sentences and the comparison.</summary>
-    private async Task<(VersionComparisonResult Result, VersionSamplePlan Plan)> CompareVersionsAsync(
+    /// <summary>Pages of the sample of every version, the language of their product descriptions and their products.</summary>
+    private async Task<(IReadOnlyList<VersionLanguage> Languages, VersionSamplePlan Plan)> AnalyzeVersionsAsync(
         Run run, IReadOnlyList<LanguageVersionCandidate> versions, DiscoveryResult mainDiscovery, IReadOnlyList<SelectedPage> selected, bool labelLanguages,
         int seed, VersionProfileMode profileMode, MarketEstimateConfirmation? confirm, CancellationToken ct)
     {
@@ -245,45 +245,20 @@ internal sealed class MarketsAnalyzer(
             inputs.Add(new VersionSampleInput(Key(version), version.Language ?? "und", version.IsMain, sitemapProducts, mandatory));
         }
 
-        var plan = VersionSamplePlanner.Plan(inputs, markets.SamplePages, markets.PairedProducts, seed);
-        var fetched = new Dictionary<string, List<ExtractedPageRecord>>(StringComparer.Ordinal);
-        var others = versions.Where(v => !v.IsMain).ToList();
-        if (plan.Pairs.Count == 0 && others.Count > 0 && markets.PairedProducts > 0)
-        {
-            // The sitemap names no alternates (goodie.sk, 2. 10. 2026): the product pages of the main version name them in
-            // their hreflang. Those pages are downloaded first and their alternates replace random products of the other
-            // versions, so the comparison sees the same products in both languages; the number of requests stays the same.
-            var mainKey = Key(main);
-            var mainUrls = plan.Urls.Where(u => u.VersionKey == mainKey && u.Kind == "product").Take(markets.PairedProducts).Select(u => new Uri(u.Url)).ToList();
-            var mainPages = await FetchAsync(run, new SiteScope(new Uri(main.BaseUrl)) { Version = main.Scope }, discoveries[Authority(main)], mainUrls, ct);
-            fetched[mainKey] = mainPages;
-            var found = mainPages
-                .SelectMany(page => others.Select(other => (Page: page, Other: other,
-                    Alternate: page.Content.Alternates.FirstOrDefault(a => LanguageTags.SamePrimary(a.Language, other.Language) && other.Scope!.Contains(a.Url)))))
-                .Where(x => x.Alternate is not null)
-                .Select(x => new SamplePair(x.Page.Info.Url, x.Alternate!.Url.AbsoluteUri, Key(x.Other)))
-                .ToList();
-            plan = VersionSamplePlanner.WithPagePairs(plan, mainKey, found, Math.Max(1, markets.PairedProducts / others.Count));
-        }
-
+        var plan = VersionSamplePlanner.Plan(inputs, markets.SamplePages, seed);
         var products = new Dictionary<string, List<ExtractedPageRecord>>(StringComparer.Ordinal);
-        var mandatoryPages = new Dictionary<string, List<ExtractedPageRecord>>(StringComparer.Ordinal);
         foreach (var version in versions)
         {
             var key = Key(version);
             var urls = plan.Urls.Where(u => u.VersionKey == key).ToList();
             var siteScope = new SiteScope(new Uri(version.BaseUrl)) { Version = version.Scope };
-            var already = fetched.GetValueOrDefault(key) ?? [];
-            var known = already.Select(p => p.Info.Url).ToHashSet(StringComparer.Ordinal);
-            var rest = urls.Select(u => new Uri(u.Url)).Where(u => !known.Contains(UrlTools.Normalize(u).AbsoluteUri) && !known.Contains(u.AbsoluteUri)).ToList();
-            var downloaded = already.Concat(await FetchAsync(run, siteScope, discoveries[Authority(version)], rest, ct)).DistinctBy(p => p.Info.Url).ToList();
-            var mandatoryUrls = urls.Where(u => u.Kind == "mandatory").Select(u => u.Url).ToHashSet(StringComparer.Ordinal);
+            var downloaded = (await FetchAsync(run, siteScope, discoveries[Authority(version)], urls.Select(u => new Uri(u.Url)).ToList(), ct)).DistinctBy(p => p.Info.Url).ToList();
+            var mandatoryUrls = urls.Where(u => u.Kind == VersionSamplePlanner.Mandatory).Select(u => u.Url).ToHashSet(StringComparer.Ordinal);
 
             // Products of the sample are the pages planned as products (the sitemap marks them so, the price counts them so),
             // and pages the classifier recognizes as products; a page may lack both JSON-LD and og:type (goodie.sk).
-            var plannedProducts = urls.Where(u => u.Kind is "product" or "pair").Select(u => UrlTools.Normalize(new Uri(u.Url)).AbsoluteUri).ToHashSet(StringComparer.Ordinal);
+            var plannedProducts = urls.Where(u => u.Kind == VersionSamplePlanner.Product).Select(u => UrlTools.Normalize(new Uri(u.Url)).AbsoluteUri).ToHashSet(StringComparer.Ordinal);
             products[key] = downloaded.Where(p => !mandatoryUrls.Contains(p.Info.Url) && (p.Info.Type == PageType.Product || plannedProducts.Contains(p.Info.Url))).ToList();
-            mandatoryPages[key] = downloaded.Where(p => mandatoryUrls.Contains(p.Info.Url)).ToList();
         }
 
         var descriptions = profileMode == VersionProfileMode.None ? [] : await DescriptionsAsync(run, versions, products, profileMode, confirm, ct);
@@ -292,7 +267,6 @@ internal sealed class MarketsAnalyzer(
             version.Language ?? "und",
             version.IsMain,
             products[Key(version)].Select(p => Sample(p, descriptions.GetValueOrDefault(p.Info.Url))).ToList(),
-            mandatoryPages[Key(version)].Select(p => Sample(p, null)).ToList(),
             ProductCount(run, Key(version), discoveries[Authority(version)], version.Scope))).ToList();
 
         if (labelLanguages)
@@ -300,8 +274,7 @@ internal sealed class MarketsAnalyzer(
             for (var i = 0; i < samples.Count; i++)
             {
                 var sample = samples[i];
-                var paired = plan.Pairs.SelectMany(p => new[] { p.MainUrl, p.OtherUrl });
-                var fragments = VersionComparer.Fragments(sample, paired, markets.LanguageFragmentsPerVersion, markets.LanguageFragmentMinChars, markets.LanguageFragmentMaxChars);
+                var fragments = VersionLanguages.Fragments(sample, markets.LanguageProducts, markets.LanguageFragmentsPerVersion, markets.LanguageFragmentMinChars, markets.LanguageFragmentMaxChars);
                 TextLanguageResult labels;
                 try
                 {
@@ -309,7 +282,7 @@ internal sealed class MarketsAnalyzer(
                 }
                 catch (Exception ex) when (ex is RewriteApiException or JsonException)
                 {
-                    // Without the language the version does not count (version_language_unknown); the failure is reported.
+                    // Without the language the version has version_language_unknown; the failure is reported.
                     logger.LogWarning("Language of the texts of {Version} failed: {Message}", sample.Key, ex.Message);
                     run.Codes.Add(MarketCodes.AnalysisFailed);
                     continue;
@@ -326,8 +299,7 @@ internal sealed class MarketsAnalyzer(
             }
         }
 
-        var result = VersionComparer.Compare(samples, plan.Pairs, markets);
-        return (result, plan);
+        return (VersionLanguages.Analyze(samples, markets), plan);
     }
 
     /// <summary>Downloads the addresses in the scope of the site, those on other hosts with their own robots.txt.</summary>
@@ -361,7 +333,6 @@ internal sealed class MarketsAnalyzer(
         return pages;
     }
 
-    /// <summary>Product URLs of the sitemap in the scope; null when the sitemap marks no products.</summary>
     /// <summary>
     /// Products of a version: the distinct product URLs of its sitemap in its scope (an image sitemap repeats them). Unknown
     /// without a product sitemap, and when a product sitemap was not read whole; then the URLs read so far are kept as the
@@ -382,9 +353,9 @@ internal sealed class MarketsAnalyzer(
         return discovery.SitemapEntries.Any(e => e.ProductHint) ? count : null;
     }
 
-    /// <summary>Codes of a version row: the probe, the comparison and an incomplete product sitemap.</summary>
-    private static List<string> RowCodes(Run run, LanguageVersionCandidate version, VersionComparison? comparison) =>
-        version.Codes.Concat(comparison?.Codes ?? [])
+    /// <summary>Codes of a version row: the probe, the analysis of its language and an incomplete product sitemap.</summary>
+    private static List<string> RowCodes(Run run, LanguageVersionCandidate version, VersionLanguage? language) =>
+        version.Codes.Concat(language?.Codes ?? [])
             .Concat(run.IncompleteProductCounts.ContainsKey(Key(version)) ? [VersionCodes.ProductCountIncomplete] : [])
             .Distinct()
             .ToList();
@@ -414,7 +385,7 @@ internal sealed class MarketsAnalyzer(
 
     /// <summary>A page of the sample: the sentences of its product description from the profile, otherwise of its main text.</summary>
     private static SamplePage Sample(ExtractedPageRecord page, IReadOnlyList<string>? description) =>
-        new(page.Info.Url, description ?? VersionComparer.Sentences(page.Info.MainText), page.Info.HreflangGroup, page.Info.ProductIds)
+        new(page.Info.Url, description ?? VersionLanguages.Sentences(page.Info.MainText))
         {
             FromDescription = description is not null,
         };
@@ -465,7 +436,7 @@ internal sealed class MarketsAnalyzer(
                 ProfileFitting.Fit(page, documents[page.Info.Url], candidates, maxUnknown);
             }
 
-            // Not confirmed once, not asked again for the next version: the comparison keeps the main text.
+            // Not confirmed once, not asked again for the next version: the analysis keeps the main text.
             if (mode == VersionProfileMode.Create && !declined)
             {
                 var profilePlan = await profiles.PlanAsync(ProfileStep.PlanInput(site, pages, candidates), ct);
@@ -511,13 +482,12 @@ internal sealed class MarketsAnalyzer(
 
     private MarketsAnalysisResult Result(
         Run run, Uri home, PlacesOfSaleResult places, MarketSignals? signals, IReadOnlyList<LanguageVersionCandidate> versions, VersionPlan? plan,
-        VersionComparisonResult? comparison, MarketCatalog catalog)
+        IReadOnlyList<VersionLanguage>? languages, MarketCatalog catalog)
     {
-        var compared = comparison?.Versions.ToDictionary(v => v.Key) ?? [];
+        var analyzed = languages?.ToDictionary(v => v.Key) ?? [];
         var rows = versions.Select(v =>
         {
-            var c = compared.GetValueOrDefault(Key(v));
-            var count = plan?.Counts.GetValueOrDefault(Key(v));
+            var language = analyzed.GetValueOrDefault(Key(v));
             return new ShopLanguageRow
             {
                 Language = v.Language,
@@ -526,21 +496,20 @@ internal sealed class MarketsAnalyzer(
                 Source = v.Source,
                 Status = v.Status,
                 IsMain = v.IsMain,
-                OwnTextShare = c?.OwnTextShare,
-                LanguageShare = c?.LanguageShare ?? new Dictionary<string, double>(),
-                Comparison = c is null ? null : Comparison(c),
-                Counted = count?.Counted ?? false,
-                ProductCount = count?.ProductCount,
+                TranslatedShare = language?.TranslatedShare,
+                LanguageShare = language?.LanguageShare ?? new Dictionary<string, double>(),
+                DescriptionLanguages = language is null ? null : Descriptions(language),
+                ProductCount = plan?.ProductCounts.GetValueOrDefault(Key(v)),
                 ProductCountAtLeast = run.IncompleteProductCounts.TryGetValue(Key(v), out var least) ? least : null,
-                Codes = RowCodes(run, v, c),
-                Warnings = c?.Warnings ?? [],
+                Codes = RowCodes(run, v, language),
+                Warnings = language?.Warnings ?? [],
                 Evidence = v.Evidence,
                 Scope = v.Scope,
             };
         }).ToList();
         var (summary, notices) = plan is null || versions.Count == 0
             ? (null, (IReadOnlyList<VersionSummary>)[])
-            : MarketsSummary.Build(versions, plan, comparison, options.Value.Markets.CountedMinOwnShare);
+            : MarketsSummary.Build(versions, plan, languages);
         var marketRows = places.Countries.Select((c, i) => new ShopMarketRow(
             c.Country, c.Market, c.IsHome, c.Supported ? "suggested" : "unsupported", c.EvidenceLevel, "detected", c.Preselected,
             c.IsHome && places.HomeNeedsConfirmation,
@@ -563,15 +532,14 @@ internal sealed class MarketsAnalyzer(
             Notices = notices,
             Details = versions.Where(v => v.Status != VersionStatus.Unsupported).Select(v =>
             {
-                var c = compared.GetValueOrDefault(Key(v));
-                return new VersionDetails(v.Language, v.BaseUrl, v.Status, c?.OwnTextShare, c is null ? null : Comparison(c),
-                    RowCodes(run, v, c), c?.Warnings ?? [], c?.UntranslatedExamples ?? [])
+                var language = analyzed.GetValueOrDefault(Key(v));
+                return new VersionDetails(v.Language, v.BaseUrl, v.Status, language?.TranslatedShare, language is null ? null : Descriptions(language),
+                    RowCodes(run, v, language), language?.Warnings ?? [], language?.UntranslatedExamples ?? [])
                 {
-                    LanguageFragments = c?.LanguageFragments ?? [],
+                    LanguageFragments = language?.LanguageFragments ?? [],
                 };
             }).ToList(),
             Plan = plan,
-            PairingMode = comparison?.PairingMode,
             Pages = run.Pages.Values.DistinctBy(p => (p.Info.Url, p.Info.Language)).Select(p => new PageLanguageRow(p.Info.Url, p.Info.Language, p.Info.HreflangGroup)).ToList(),
             Codes = run.Codes.Concat(places.Codes).Distinct().ToList(),
             Warnings = run.Warnings,
@@ -583,19 +551,14 @@ internal sealed class MarketsAnalyzer(
         };
     }
 
-    private static VersionComparisonSummary Comparison(VersionComparison version) => new(
-        version.Pairs.GroupBy(p => p.Kind).ToDictionary(g => g.Key, g => g.Count()),
-        version.Pairs.GroupBy(p => p.Kind).SelectMany(g => g.Take(3)).ToList(),
-        version.SentenceOverlapShare,
-        version.MandatoryPagesDiffer,
-        version.MandatoryPagesDifferUrls)
+    private static DescriptionLanguages Descriptions(VersionLanguage version) => new()
     {
         Basis = version.Basis,
         DescriptionPages = version.DescriptionPages,
-        OwnProductShare = version.OwnProductShare,
+        LabeledProducts = version.LabeledProducts,
+        TranslatedProducts = version.TranslatedProducts,
         ForeignTextProducts = version.ForeignTextProducts,
         ForeignTextLanguage = version.ForeignTextLanguage,
-        LabeledProducts = version.LabeledProducts,
     };
 
     /// <summary>State of one analysis.</summary>
@@ -609,7 +572,7 @@ internal sealed class MarketsAnalyzer(
 
         public MarketsUsage Usage { get; set; } = MarketsUsage.None;
 
-        /// <summary>New profiles of page templates written for the comparison of versions.</summary>
+        /// <summary>New profiles of page templates written for the analysis of versions.</summary>
         public MarketsUsage ProfileUsage { get; set; } = MarketsUsage.None;
 
         public List<string> ProfilesCreated { get; } = [];

@@ -15,41 +15,26 @@ public sealed record MarketEvidence(IReadOnlyList<VerifiedQuote> Quotes, string?
 public sealed record ShopMarketRow(
     string CountryCode, string? Market, bool IsHome, string Status, string EvidenceLevel, string Source, bool Preselected, bool HomeNeedsConfirmation, MarketEvidence Evidence);
 
-/// <summary>Kinds of difference of the pairs of a version with examples (3d).</summary>
-public sealed record VersionComparisonSummary(
-    IReadOnlyDictionary<string, int> PairKinds, IReadOnlyList<PairComparison> Examples, double? SentenceOverlapShare, bool MandatoryPagesDiffer,
-    IReadOnlyList<string> MandatoryPagesDifferUrls)
+/// <summary>The language of the product descriptions of a version from the sample (3d, <c>shop_languages.description_languages</c>).</summary>
+public sealed record DescriptionLanguages
 {
-    /// <summary>What was compared: <c>description</c> (the product description of the profile), <c>main_text</c> or <c>mixed</c>.</summary>
-    public string Basis { get; init; } = ComparisonBases.MainText;
+    /// <summary>Where the sentences come from (<see cref="SentenceSources"/>).</summary>
+    public string Basis { get; init; } = SentenceSources.MainText;
 
-    /// <summary>Product pages of the sample compared by their description from the profile.</summary>
+    /// <summary>Product pages of the sample whose sentences are of the description from the profile.</summary>
     public int DescriptionPages { get; init; }
 
-    /// <summary>Paired products whose text is the version's own (a translation or another text, in the language of the version).</summary>
-    public double? OwnProductShare { get; init; }
+    /// <summary>Products of the version whose language the model labeled (its first sentences).</summary>
+    public int LabeledProducts { get; init; }
 
-    /// <summary>Products of the version whose description is in another language than the version (the model, its first sentences).</summary>
+    /// <summary>Products with a description in the language of the version.</summary>
+    public int TranslatedProducts { get; init; }
+
+    /// <summary>Products whose description is in another language than the version.</summary>
     public int ForeignTextProducts { get; init; }
 
     /// <summary>The language of most of those descriptions.</summary>
     public string? ForeignTextLanguage { get; init; }
-
-    /// <summary>Products of the version whose language the model labeled.</summary>
-    public int LabeledProducts { get; init; }
-}
-
-/// <summary>What the comparison of versions compared.</summary>
-public static class ComparisonBases
-{
-    /// <summary>The product description of the profile of every compared product page.</summary>
-    public const string Description = "description";
-
-    /// <summary>The main text of the pages (no profile; reviews and texts of the template included).</summary>
-    public const string MainText = "main_text";
-
-    /// <summary>The description on some pages, the main text on the others.</summary>
-    public const string Mixed = "mixed";
 }
 
 /// <summary>A row of <c>shop.shop_languages</c>.</summary>
@@ -67,13 +52,13 @@ public sealed record ShopLanguageRow
 
     public bool IsMain { get; init; }
 
-    public double? OwnTextShare { get; init; }
+    /// <summary>Share of the products of the sample with a description in the language of the version; null without the analysis.</summary>
+    public double? TranslatedShare { get; init; }
 
     public IReadOnlyDictionary<string, double> LanguageShare { get; init; } = new Dictionary<string, double>();
 
-    public VersionComparisonSummary? Comparison { get; init; }
-
-    public bool Counted { get; init; }
+    /// <summary>The language of the product descriptions from the sample; null without the analysis of versions.</summary>
+    public DescriptionLanguages? DescriptionLanguages { get; init; }
 
     public int? ProductCount { get; init; }
 
@@ -101,7 +86,7 @@ public sealed record VersionSummary(string Code, IReadOnlyDictionary<string, obj
 
 /// <summary>Details of a version for 3d.</summary>
 public sealed record VersionDetails(
-    string? Language, string BaseUrl, string Status, double? OwnTextShare, VersionComparisonSummary? Comparison, IReadOnlyList<string> Codes,
+    string? Language, string BaseUrl, string Status, double? TranslatedShare, DescriptionLanguages? DescriptionLanguages, IReadOnlyList<string> Codes,
     IReadOnlyList<string> Warnings, IReadOnlyList<string> UntranslatedExamples)
 {
     /// <summary>The sentences of the product pages the model labeled, with their language (what the language of the version rests on).</summary>
@@ -183,12 +168,9 @@ public sealed record MarketsAnalysisResult
 
     public VersionPlan? Plan { get; init; }
 
-    /// <summary>How the pairs of the analysis of versions were made (<c>hreflang</c>, <c>identifiers</c>, <c>sentence_overlap</c>), null without it.</summary>
-    public string? PairingMode { get; init; }
-
     /// <summary>
-    /// The pages of the sample by version (pairs, mandatory pages, random products; at most <c>markets.sample_pages</c>): the
-    /// free sample of change 8 checks them. With one version only its mandatory pages and random products.
+    /// The pages of the sample by version (mandatory pages and random products; at most <c>markets.sample_pages</c>): the free
+    /// sample of change 8 checks them.
     /// </summary>
     public VersionSamplePlan? SamplePlan { get; init; }
 
@@ -202,10 +184,10 @@ public sealed record MarketsAnalysisResult
 
     public MarketsUsage Usage { get; init; } = MarketsUsage.None;
 
-    /// <summary>New profiles of page templates written for the comparison of versions (calls of the profile model).</summary>
+    /// <summary>New profiles of page templates written for the analysis of versions (calls of the profile model).</summary>
     public MarketsUsage ProfileUsage { get; init; } = MarketsUsage.None;
 
-    /// <summary>Ids of the profiles written for the comparison of versions (stored; the check of the shop uses them too).</summary>
+    /// <summary>Ids of the profiles written for the analysis of versions (stored; the check of the shop uses them too).</summary>
     public IReadOnlyList<string> ProfilesCreated { get; init; } = [];
 
     /// <summary>Model that wrote those profiles, null without them.</summary>

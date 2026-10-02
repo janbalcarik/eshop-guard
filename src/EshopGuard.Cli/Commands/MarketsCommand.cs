@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using EshopGuard.Core.Languages;
 using EshopGuard.Core.Markets;
 using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console;
@@ -151,18 +152,21 @@ internal sealed class MarketsCommand : AsyncCommand<MarketsSettings>
         }
 
         var versions = new Table().Border(TableBorder.Rounded).AddColumn("Verze").AddColumn("Adresa").AddColumn("Přepnutí").AddColumn("Stav")
-            .AddColumn(new TableColumn("Vlastní texty").RightAligned()).AddColumn(new TableColumn("Produktů").RightAligned()).AddColumn("Do ceny").AddColumn("Kódy");
+            .AddColumn(new TableColumn("Produktů").RightAligned()).AddColumn("Popisy v jazyku verze").AddColumn("Kontroluje se pro").AddColumn("Kódy");
         foreach (var row in result.Versions)
         {
+            var checkedFor = result.Plan?.Checked.FirstOrDefault(v => v.BaseUrl == row.BaseUrl && v.Language == (row.Language ?? "und"))?.Markets ?? [];
             versions.AddRow(Markup.Escape(row.Language ?? "?"), Markup.Escape(row.BaseUrl), row.SwitchMethod, row.Status,
-                row.OwnTextShare is { } share ? $"{share:P0}" : "", row.ProductCount?.ToString() ?? (row.ProductCountAtLeast is { } least ? $"≥ {least}" : ""), row.Counted ? "ano" : "ne",
+                row.ProductCount?.ToString() ?? (row.ProductCountAtLeast is { } least ? $"≥ {least}" : ""),
+                row.DescriptionLanguages is { LabeledProducts: > 0 } d ? $"{d.TranslatedProducts} z {d.LabeledProducts}" : "",
+                string.Join(", ", checkedFor).ToUpperInvariant(),
                 Markup.Escape(string.Join(", ", row.Codes.Concat(row.Warnings))));
         }
 
         AnsiConsole.Write(versions);
-        foreach (var row in result.Versions.Where(v => v.Comparison is not null))
+        foreach (var row in result.Versions.Where(v => v.DescriptionLanguages is not null))
         {
-            AnsiConsole.MarkupLine(Markup.Escape($"Verze {row.Language ?? "?"}: {Compared(row.Comparison!)}"));
+            AnsiConsole.MarkupLine(Markup.Escape($"Verze {row.Language ?? "?"}: {Described(row.DescriptionLanguages!)}"));
         }
 
         if (result.Summary is { } summary)
@@ -178,7 +182,11 @@ internal sealed class MarketsCommand : AsyncCommand<MarketsSettings>
         if (result.Plan is { } plan)
         {
             AnsiConsole.MarkupLine(Markup.Escape(
-                $"Plán: {string.Join("; ", plan.Checked.Select(v => $"{v.Language} pro {string.Join(", ", v.Jurisdictions)}"))}; produktů do ceny {plan.CountedProducts}{(plan.ProductCountUnknown ? " (počet některé verze neznámý)" : "")}."));
+                $"Plán: {string.Join("; ", plan.Checked.Select(v => $"{v.Language} podle {string.Join(", ", v.Jurisdictions)}"))}."));
+            var byMarket = plan.ByMarket.Select(m => $"{m.Market.ToUpperInvariant()} {m.ProductCount?.ToString() ?? "?"} ({m.Language})");
+            AnsiConsole.MarkupLine(Markup.Escape(
+                $"Produkty do ceny za každou zemi: {string.Join(" + ", byMarket)}"
+                + (plan.ProductCountUnknown ? "; součet neznámý (počet produktů některé verze neznámý, dodá ho konektor)." : $" = {plan.CountedProducts}.")));
         }
 
         if (result.Codes.Count > 0)
@@ -200,31 +208,31 @@ internal sealed class MarketsCommand : AsyncCommand<MarketsSettings>
         }
     }
 
-    /// <summary>What was compared and the measures by product of a version, in one line.</summary>
-    private static string Compared(VersionComparisonSummary comparison)
+    /// <summary>What the language of the descriptions of a version rests on and the products in another language, in one line.</summary>
+    private static string Described(DescriptionLanguages descriptions)
     {
-        var basis = comparison.Basis switch
+        var basis = descriptions.Basis switch
         {
-            ComparisonBases.Description => $"porovnán popis produktu z profilu ({comparison.DescriptionPages} stránek)",
-            ComparisonBases.Mixed => $"porovnán popis z profilu u {comparison.DescriptionPages} stránek, u ostatních celý hlavní text",
-            _ => "porovnán celý hlavní text stránek (bez profilu, i s recenzemi a texty šablony)",
+            SentenceSources.Description => $"jazyk z popisu produktu z profilu ({descriptions.DescriptionPages} stránek)",
+            SentenceSources.Mixed => $"jazyk z popisu z profilu u {descriptions.DescriptionPages} stránek, u ostatních z celého hlavního textu",
+            _ => "jazyk z celého hlavního textu stránek (bez profilu, i s recenzemi a texty šablony)",
         };
         var parts = new List<string> { basis };
-        if (comparison.OwnProductShare is { } own)
+        if (descriptions.LabeledProducts > 0)
         {
-            parts.Add($"vlastní text má {own:P0} spárovaných produktů");
-        }
-
-        if (comparison.LabeledProducts > 0)
-        {
-            parts.Add($"popisy v jiném jazyce {comparison.ForeignTextProducts} z {comparison.LabeledProducts}{(comparison.ForeignTextLanguage is { } language ? $" ({language})" : "")}");
+            parts.Add($"popisy v jiném jazyce {descriptions.ForeignTextProducts} z {descriptions.LabeledProducts}{(descriptions.ForeignTextLanguage is { } language ? $" ({language})" : "")}");
         }
 
         return string.Join("; ", parts) + ".";
     }
 
     private static string Describe(IReadOnlyDictionary<string, object> parameters) =>
-        string.Join(", ", parameters.Select(p => $"{p.Key}={(p.Value is string[] list ? string.Join("+", list) : p.Value)}"));
+        string.Join(", ", parameters.Select(p => $"{p.Key}={p.Value switch
+        {
+            string[] list => string.Join("+", list),
+            IReadOnlyDictionary<string, string> map => string.Join("+", map.Select(m => $"{m.Key}:{m.Value}")),
+            _ => p.Value,
+        }}"));
 
     private static string Shorten(string text) => text.Length <= 60 ? text : text[..57] + "…";
 }

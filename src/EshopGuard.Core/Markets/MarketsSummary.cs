@@ -6,20 +6,26 @@ namespace EshopGuard.Core.Markets;
 public static class SummaryCodes
 {
     public const string VersionsSingle = "versions_single";
-    public const string VersionsBothOwnTexts = "versions_both_own_texts";
-    public const string VersionsSameTextsMenuOnly = "versions_same_texts_menu_only";
+
+    /// <summary>
+    /// The versions found and which one is checked for every ticked market („Pre Slovensko kontrolujeme slovenskú verziu, pre
+    /// Česko českú.“), with the share of products whose description is in the language of its version.
+    /// </summary>
+    public const string VersionsByMarket = "versions_by_market";
+
     public const string VersionsUntranslatedTexts = "versions_untranslated_texts";
 }
 
 /// <summary>
 /// The sentence of 3c and the notices (change 7, design section 7): the most important state first (a version to confirm,
-/// a browser needed, a translation in the browser, another language, an insufficient sample), then what the comparison of the
-/// texts shows. Every other applicable code is a notice, so nothing is left out. Unsupported versions are not mentioned.
+/// a browser needed, a translation in the browser, another language, an insufficient sample, untranslated descriptions), then
+/// which version is checked for which market. Every other applicable code is a notice, so nothing is left out. Unsupported
+/// versions are not mentioned.
 /// </summary>
 internal static class MarketsSummary
 {
     public static (VersionSummary Summary, IReadOnlyList<VersionSummary> Notices) Build(
-        IReadOnlyList<LanguageVersionCandidate> versions, VersionPlan plan, VersionComparisonResult? comparison, double threshold)
+        IReadOnlyList<LanguageVersionCandidate> versions, VersionPlan plan, IReadOnlyList<VersionLanguage>? languages)
     {
         var all = new List<VersionSummary>();
         foreach (var version in versions.Where(v => !v.IsMain && v.Status != VersionStatus.Unsupported))
@@ -42,34 +48,31 @@ internal static class MarketsSummary
             }
         }
 
-        var compared = comparison?.Versions.Where(v => !v.IsMain).ToList() ?? [];
-        foreach (var version in compared.Where(v => v.Codes.Contains(VersionCodes.SampleInsufficient)))
+        foreach (var version in (languages ?? []).Where(v => v.Codes.Contains(VersionCodes.SampleInsufficient)))
         {
             all.Add(new VersionSummary(VersionCodes.SampleInsufficient, Params(("language", version.Language), ("products", version.SampleProducts))));
         }
 
-        // Untranslated texts of any version, the main one included (its descriptions in another language, goodie.sk).
-        foreach (var version in (comparison?.Versions ?? []).Where(v => v.Warnings.Contains(VersionCodes.UntranslatedText)))
+        // Untranslated descriptions of any version, the main one included (its descriptions in another language, goodie.sk).
+        foreach (var version in (languages ?? []).Where(v => v.Warnings.Contains(VersionCodes.UntranslatedText)))
         {
-            var products = version.IsMain ? version.LabeledProducts : Math.Max(version.Pairs.Count, version.LabeledProducts);
-            var count = version.IsMain ? version.ForeignTextProducts : Math.Max(version.Pairs.Count(p => p.Kind == PairKinds.Untranslated), version.ForeignTextProducts);
-            var share = products == 0 ? 0 : Math.Round(count / (double)products, 2);
+            var share = version.LabeledProducts == 0 ? 0 : Math.Round(version.ForeignTextProducts / (double)version.LabeledProducts, 2);
             all.Add(new VersionSummary(SummaryCodes.VersionsUntranslatedTexts,
-                Params(("language", version.Language), ("share", share), ("products", count), ("of", products), ("text_language", version.ForeignTextLanguage))));
+                Params(("language", version.Language), ("share", share), ("products", version.ForeignTextProducts), ("of", version.LabeledProducts),
+                    ("text_language", version.ForeignTextLanguage))));
         }
 
-        var main = comparison?.Versions.FirstOrDefault(v => v.IsMain);
-        var sameTexts = compared.Where(v => !v.Codes.Contains(VersionCodes.SampleInsufficient) && v.OwnTextShare < threshold).ToList();
-        foreach (var version in sameTexts)
+        // Which version every ticked market is checked on (the price counts its products for each of them).
+        var found = versions.Where(v => v.Status != VersionStatus.Unsupported).ToList();
+        if (found.Count > 1 && plan.ByMarket.Count > 0)
         {
-            all.Add(new VersionSummary(SummaryCodes.VersionsSameTextsMenuOnly, Params(("language", version.Language), ("other", main?.Language))));
-        }
-
-        var own = compared.Where(v => v.OwnTextShare >= threshold && !v.Codes.Contains(VersionCodes.SampleInsufficient)).ToList();
-        if (own.Count > 0 && main is not null)
-        {
-            all.Add(new VersionSummary(SummaryCodes.VersionsBothOwnTexts,
-                Params(("languages", new[] { main.Language }.Concat(own.Select(v => v.Language)).ToArray()), ("share", own.Min(v => v.OwnTextShare)))));
+            var byKey = (languages ?? []).ToDictionary(v => v.Key, StringComparer.Ordinal);
+            var shares = plan.Checked.Select(v => byKey.GetValueOrDefault(VersionMarketPlanner.Key(v.Language, v.BaseUrl))?.TranslatedShare).OfType<double>().ToList();
+            all.Add(new VersionSummary(SummaryCodes.VersionsByMarket, Params(
+                ("languages", plan.Checked.Select(v => v.Language).ToArray()),
+                ("urls", plan.Checked.Select(v => v.BaseUrl).ToArray()),
+                ("markets", plan.ByMarket.ToDictionary(m => m.Market, m => m.Language)),
+                ("translated_share", shares.Count == 0 ? null : shares.Min()))));
         }
 
         if (all.Count == 0)

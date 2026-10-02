@@ -5,6 +5,7 @@ using System.Text.Json;
 using EshopGuard.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -13,9 +14,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EshopGuard.Data.Migrations
 {
     [DbContext(typeof(EshopGuardDb))]
-    partial class EshopGuardDbModelSnapshot : ModelSnapshot
+    [Migration("20261002111511_F4LanguagesByCountry")]
+    partial class F4LanguagesByCountry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -72,11 +72,11 @@
 
 ## 8. Základ rozsahu, interní odhad a garantovaná cena
 
-- [x] 8.1 `src/EshopGuard.Jobs/Runs/ScopeBasisBuilder.cs`: `estimate.basis` z `shop_languages` a plánu ukázky (po verzích `product_count`, `other_pages`, `counted`, `not_counted_reason`, `own_text_share`; `sitemap_url_count`, `source_run_id`); bez pásma a částky.
+- [x] 8.1 `src/EshopGuard.Jobs/Runs/ScopeBasisBuilder.cs`: `estimate.basis` z `shop_languages` a plánu ukázky (po verzích `product_count`, `other_pages`, `counted`, `not_counted_reason`, `own_text_share`; `sitemap_url_count`, `source_run_id`); bez pásma a částky. *(Od 2. 10. 2026 po zemích `markets` a u verzí `translated_share` místo započtení, úkol 8.5 změny 7.)*
 - [x] 8.2 `src/EshopGuard.Jobs/Runs/InternalCostEstimator.cs`: hrubý odhad po zjištění rozsahu (stránky × volání na stránku z nastavení), přesný z `RunEstimate`, profily z `ProfilePlan`, přepisy z odhadu `RewriteStep`; sazby ze stejné konfigurace jako CLI.
 - [x] 8.3 `src/EshopGuard.Jobs/Runs/RunReadModel.cs`: čtení běhu pro API bez `estimate.internal` a bez jakékoli částky v USD. *(`RunReadModel` (`IRunReadModel`): pole po jednom, interní odhad, částky, počty placených volání ani názvy služeb do výsledku nevedou.)*
 - [x] 8.4 `FinalizeHandler`: porovnat součet `usage_records.cost_usd` s `estimate.internal.total_usd`; nad `runs.cost_alert_ratio` metrika `eshopguard.run.cost_over_estimate` a log Warning s `run_id` a `tenant_id`; běh se nezastavuje.
-- [x] 8.5 Test `tests/EshopGuard.Jobs.Tests/Runs/ScopeBasisBuilderTests.cs`: sk s vlastními texty `counted`, cs jen menu `menu_only_translation`, verze nepodporovaného trhu `unsupported_market`; žádné pásmo ani částka. *(`RunUnitTests.ScopeBasis_…`.)*
+- [x] 8.5 Test `tests/EshopGuard.Jobs.Tests/Runs/ScopeBasisBuilderTests.cs`: sk s vlastními texty `counted`, cs jen menu `menu_only_translation`, verze nepodporovaného trhu `unsupported_market`; žádné pásmo ani částka. *(`RunUnitTests.ScopeBasis_…`.)* *(Od 2. 10. 2026 `RunUnitTests.ScopeBasis_…`: produkty po zemích, jedna verze pro dvě země s neúplnou sitemap.)*
 - [x] 8.6 Test `tests/EshopGuard.Worker.Tests/GuaranteedPriceTests.cs`: úvodní analýza s 40 % stránek navíc doběhne bez zastavení a bez změny objednávky, vznikne metrika překročení; `RunReadModel` a `run_events` neobsahují USD. *(`GuaranteedPriceTests`: náklad nad odhadem (poměr upozornění nastavený nízko) → běh doběhne, log a metrika `eshopguard.run.cost_over_estimate`, žádná objednávka; `RunReadModel` a `run_events` bez USD. Scénář „40 % stránek navíc“ nahrazuje nízký poměr upozornění.)*
 
 ## 9. Spotřeba

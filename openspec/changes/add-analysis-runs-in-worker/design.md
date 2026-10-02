@@ -133,10 +133,14 @@ Pracovní soubory `runs/{r}/profiles` a `runs/{r}/work` maže údržba 7 dní po
     "source_run_id": "…(ukázka)",
     "sitemap_url_count": 5872,
     "versions": [
-      {"language": "sk", "base_url": "https://bylinkovo.sk/", "product_count": 3120, "other_pages": 410,
-       "counted": true, "not_counted_reason": null, "own_text_share": 1.0},
-      {"language": "cs", "base_url": "https://bylinkovo.sk/cz/", "product_count": 3090, "other_pages": 395,
-       "counted": false, "not_counted_reason": "menu_only_translation", "own_text_share": 0.04}
+      {"language": "sk", "base_url": "https://bylinkovo.sk/", "status": "active", "product_count": 3120,
+       "product_count_at_least": null, "other_pages": 410, "translated_share": 1.0},
+      {"language": "cs", "base_url": "https://bylinkovo.sk/cz/", "status": "active", "product_count": 3090,
+       "product_count_at_least": null, "other_pages": 395, "translated_share": 0.95}
+    ],
+    "markets": [
+      {"market": "sk", "language": "sk", "base_url": "https://bylinkovo.sk/", "product_count": 3120, "product_count_at_least": null, "unknown_reason": null},
+      {"market": "cz", "language": "cs", "base_url": "https://bylinkovo.sk/cz/", "product_count": 3090, "product_count_at_least": null, "unknown_reason": null}
     ],
     "computed_at": "…"
   },
@@ -398,4 +402,4 @@ Implementace se drží architektury (běh = řetěz malých úloh nad kroky změ
 23. **User-Agent:** worker odmítne start s User-Agentem, který nezačíná `EshopGuard/0.1` (v každém prostředí).
 24. **Nedokončeno** (úkoly zůstávají otevřené v `tasks.md`): testy férovosti a paměti s 5 000 stránkami (4.5, 5.8; syntetický e-shop `SyntheticShopFetcher` je připravený), rozdělení ukázky mezi tři verze (3.5, chybí testovací e-shop se třemi verzemi), scénáře ukázky opravy (7.3) a placená živá ověření (13.5–13.7).
 
-- **Základ rozsahu po zemích (rozhodnutí uživatele 2. 10. 2026, implementace čeká).** Cena se počítá ze součtu produktů za každou zaškrtnutou zemi (změna 7, odchylka 22). `runs.estimate.basis` proto dostane po zemích kontrolovanou verzi a její počet produktů; `counted`, `not_counted_reason` (`menu_only_translation`, `sample_insufficient`) a podíl vlastních textů u verzí odpadnou. Úkol 8.5 změny 7.
+- **Základ rozsahu po zemích (rozhodnutí uživatele 2. 10. 2026, hotovo 2. 10. 2026).** Cena se počítá ze součtu produktů za každou zaškrtnutou zemi (změna 7, odchylka 22). `runs.estimate.basis` má po zemích (`markets`) kontrolovanou verzi a její počet produktů, u neznámého počtu dolní mez a důvod `unknown_reason` (`product_count_incomplete`, `product_count_unknown`); u verzí stav, počty a `translated_share`. `counted`, `not_counted_reason` a podíl vlastních textů odpadly. `shop.shop_languages` má místo `own_text_share`, `comparison` a `counted` sloupce `translated_share` a `description_languages` (migrace `F4LanguagesByCountry`, staré hodnoty se nepřevádějí, protože znamenají něco jiného). Úkol 8.5 změny 7.
