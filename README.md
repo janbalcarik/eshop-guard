@@ -317,7 +317,7 @@ Zjistí, do kterých zemí e-shop prodává a jaké má jazykové verze (změna 
    - adresa vrací jiný jazyk: `mismatch`;
    - prázdná aplikace: `version_text_not_loaded`.
 
-   Verze na jiné doméně čeká na potvrzení klientem (`needs_confirmation`). Verze v jazyce nepodporovaného trhu je `unsupported`.
+   Verze na jiné doméně čeká na potvrzení klientem (`needs_confirmation`). Verze v jazyce nepodporovaného trhu je `unsupported`, i když se jazyk zjistí až ze stránky (doména z přepínače, např. bonami.it): nestahuje se, nepotvrzuje a nebere místo ve vzorku.
 6. **Plán.** Pro každý zaškrtnutý trh se kontroluje verze v jeho jazyce, jinak hlavní verze. Verze se posoudí podle všech zaškrtnutých zemí, jejichž zákazníci ji čtou (`readable_languages`).
 7. **Rozbor verzí v ukázce** (při víc verzích):
    - vzorek 100 stránek, ~20 párů přes `hreflang` (ze sitemap, a když ho sitemap nemá, z produktových stránek hlavní verze), EAN a kód produktu;
@@ -327,6 +327,8 @@ Zjistí, do kterých zemí e-shop prodává a jaké má jazykové verze (změna 
    - druh rozdílu: shodný, překlad, zkrácený nebo jiný, nepřeložený;
    - **popis z profilu** (`--profiles`, ve workeru vždy): porovnává se jen popis produktu, tj. oblasti profilu šablony s rolí `main_description` a `short_description` bez oblastí jiných rolí uvnitř (recenze, související produkty). Recenze a texty šablony, které obě verze ukazují stejně, by jinak přeloženou verzi dělaly kopií. Chybějící profil produktové šablony napíše model (odhad ceny se potvrzuje, 0,07–0,15 USD za profil: vegis.sk a naturfyt.sk 1. 10. 2026, goodie.sk 0,149 USD 2. 10. 2026) a uloží ho; kontrola webu ho pak použije znovu. Stránka bez profilu nebo bez oblasti popisu se porovná celým hlavním textem; co se porovnalo, říká `comparison.basis` (`description`, `main_text`, `mixed`);
    - **po produktech:** `own_product_share` (podíl spárovaných produktů, jejichž text je přeložený nebo jiný a v jazyce verze), `foreign_text_products` z `labeled_products` (popisy, u kterých model určil víc než polovině vět jiný jazyk než jazyk verze, i u hlavní verze) a `foreign_text_language`. Popis v jiném jazyce je upozornění `untranslated_text` a `versions_untranslated_texts` pro 3c (`language`, `share`, `products`, `of`, `text_language`). Věty, kterým model určil jazyk, jsou u verze v `details[].language_fragments`.
+
+   **Počet produktů verze** = jedinečné adresy produktových sitemap v jejím rozsahu. Produktové sitemap se čtou před ostatními a jedna smí mít až 50 MB (`crawl.max_sitemap_bytes`, protokol sitemap). Když se některá nenačte nebo čtení zastaví `crawl.max_sitemap_urls`, počet je neznámý (`version_product_count_incomplete`) a řádek verze má dolní mez `product_count_at_least`.
 
    Verze se započítá do ceny při podílu vlastních textů aspoň 0,20 (`markets.counted_min_own_share`, neměřeno) a aspoň 10 produktových stránkách ve vzorku. Při nejistotě se nezapočítá.
 

@@ -15,6 +15,9 @@ public sealed record FetchRequest(Uri Url)
     /// <summary>Cookies of the crawl scope (the language version), sent in the <c>Cookie</c> header; null sends none.</summary>
     public IReadOnlyDictionary<string, string>? Cookies { get; init; }
 
+    /// <summary>Size limit of this response in bytes (sitemaps); null takes <c>crawl.max_page_bytes</c>.</summary>
+    public long? MaxBytes { get; init; }
+
     /// <summary><c>Accept-Language</c> of the crawl scope; null keeps the default of the crawler.</summary>
     public string? AcceptLanguage { get; init; }
 

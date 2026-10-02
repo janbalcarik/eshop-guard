@@ -26,6 +26,7 @@ public static class ScopeBasisBuilder
                 ["language"] = version.Language,
                 ["base_url"] = version.BaseUrl,
                 ["product_count"] = version.ProductCount,
+                ["product_count_at_least"] = version.ProductCountAtLeast,
                 ["other_pages"] = sitemap?.OtherPages,
                 ["counted"] = version.Counted,
                 ["not_counted_reason"] = version.Counted ? null : NotCountedReason(version, countedMinOwnShare),
@@ -59,6 +60,11 @@ public static class ScopeBasisBuilder
         if (version.Codes.Contains(VersionCodes.SampleInsufficient))
         {
             return "sample_insufficient";
+        }
+
+        if (version.Codes.Contains(VersionCodes.ProductCountIncomplete))
+        {
+            return "product_count_incomplete";
         }
 
         if (version.Codes.Contains(VersionCodes.ProductCountUnknown))

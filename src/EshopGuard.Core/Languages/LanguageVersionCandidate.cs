@@ -62,6 +62,9 @@ public static class VersionCodes
     public const string OtherDomainNeedsConfirmation = "version_other_domain_needs_confirmation";
     public const string SampleInsufficient = "version_sample_insufficient";
     public const string ProductCountUnknown = "version_product_count_unknown";
+
+    /// <summary>A product sitemap was not read whole: the number of products is unknown, the row has its lower bound.</summary>
+    public const string ProductCountIncomplete = "version_product_count_incomplete";
     public const string LanguageUnknown = "version_language_unknown";
     public const string NotNeeded = "version_not_needed";
     public const string Unreachable = "version_unreachable";

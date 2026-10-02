@@ -77,6 +77,21 @@ public static class LanguageVersionFinder
         return found.Select(v => v with { Status = Status(v, home, catalog) }).ToList();
     }
 
+    /// <summary>
+    /// The state after the probe: a version found without a language (a switcher to a domain of a market the catalog does not
+    /// know, bonami.it) gets it from its page; the language of no supported market makes it unsupported, so it is not sampled,
+    /// not offered for a confirmation and takes no part of the sample (bonami.sk, 2. 10. 2026: bg, et and it took 3 of 4 shares).
+    /// </summary>
+    public static IReadOnlyList<LanguageVersionCandidate> AfterProbe(IReadOnlyList<LanguageVersionCandidate> versions, MarketCatalog catalog)
+    {
+        ArgumentNullException.ThrowIfNull(versions);
+        ArgumentNullException.ThrowIfNull(catalog);
+        return versions.Select(v => !v.IsMain && v.Status != VersionStatus.Unsupported && v.Language is { } language && !catalog.IsSupportedLanguage(language)
+                ? v with { Status = VersionStatus.Unsupported, Scope = null }
+                : v)
+            .ToList();
+    }
+
     /// <summary>The state before the probe: unsupported language, another domain to confirm, otherwise active.</summary>
     private static string Status(LanguageVersionCandidate version, Uri home, MarketCatalog catalog)
     {

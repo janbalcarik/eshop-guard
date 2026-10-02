@@ -57,7 +57,10 @@ internal sealed class DiscoveryStep(
         var robots = robotsSnapshot.ToRobots();
         var frontier = new UrlFrontier(state, robots, crawl.ExcludeUrlPatterns, classifier, logger);
         var sitemapEntries = new List<SitemapEntry>();
-        DiscoveryResult Result() => new(robotsSnapshot, sitemapEntries, state, gate.ToState(), run.Warnings, blocked);
+        DiscoveryResult Result() => new(robotsSnapshot, sitemapEntries, state, gate.ToState(), run.Warnings, blocked)
+        {
+            ProductSitemapsIncomplete = run.ProductSitemapsIncomplete,
+        };
 
         if (robots.CrawlDelay is { } delay)
         {
@@ -125,6 +128,9 @@ internal sealed class DiscoveryStep(
     {
         public List<ScanWarning> Warnings { get; } = [];
 
+        /// <summary>A product sitemap was not read whole.</summary>
+        public bool ProductSitemapsIncomplete { get; private set; }
+
         private ILogger Log => owner.Logger;
 
         public async Task<(RobotsSnapshot Robots, bool HomeBlocked)> LoadRobotsAsync(Uri home)
@@ -161,16 +167,25 @@ internal sealed class DiscoveryStep(
             var max = owner.Crawl.MaxSitemapUrls;
             var found = new List<SitemapEntry>();
             var seen = new HashSet<string>();
-            var queue = new Queue<(Uri Url, int Depth, bool Hint)>(sitemapUrls.Select(u => (u, 0, IsProductSitemap(u))));
-            while (queue.Count > 0 && found.Count < max)
+
+            // Product sitemaps first: the limit of sitemap URLs should stop the reading of other pages, not of products.
+            var products = new Queue<(Uri Url, int Depth, bool Hint)>();
+            var others = new Queue<(Uri Url, int Depth, bool Hint)>();
+            void Enqueue(Uri url, int depth, bool hint) => (hint ? products : others).Enqueue((url, depth, hint));
+            foreach (var url in sitemapUrls)
             {
-                var (url, depth, hint) = queue.Dequeue();
+                Enqueue(url, 0, IsProductSitemap(url));
+            }
+
+            while (products.Count + others.Count > 0 && found.Count < max)
+            {
+                var (url, depth, hint) = products.Count > 0 ? products.Dequeue() : others.Dequeue();
                 if (!seen.Add(url.AbsoluteUri))
                 {
                     continue;
                 }
 
-                var response = await FetchFollowingRedirectsAsync(url, frontier.Home);
+                var response = await FetchFollowingRedirectsAsync(url, frontier.Home, owner.Crawl.MaxSitemapBytes);
                 if (!response.IsSuccess)
                 {
                     Log.LogInformation("Sitemap {Url} not available ({Status}, {Error})", url, response.StatusCode, response.Error);
@@ -179,6 +194,7 @@ internal sealed class DiscoveryStep(
                         Warnings.Add(new ScanWarning(EngineCodes.SitemapUnreadable, NoteParams.Of(("url", url.ToString()), ("reason", DescribeFailure(response)))));
                     }
 
+                    ProductSitemapsIncomplete |= hint;
                     continue;
                 }
 
@@ -191,6 +207,7 @@ internal sealed class DiscoveryStep(
                 {
                     Log.LogWarning("Sitemap {Url} is not valid: {Message}", url, ex.Message);
                     Warnings.Add(new ScanWarning(EngineCodes.SitemapInvalid, NoteParams.Of(("url", url.ToString()))));
+                    ProductSitemapsIncomplete |= hint;
                     continue;
                 }
 
@@ -206,7 +223,7 @@ internal sealed class DiscoveryStep(
                     {
                         if (depth < MaxSitemapDepth && frontier.IsSameSite(target))
                         {
-                            queue.Enqueue((target, depth + 1, hint || IsProductSitemap(target)));
+                            Enqueue(target, depth + 1, hint || IsProductSitemap(target));
                         }
                     }
                     else
@@ -222,6 +239,7 @@ internal sealed class DiscoveryStep(
                         if (found.Count >= max)
                         {
                             Warnings.Add(new ScanWarning(EngineCodes.SitemapTooMany, NoteParams.Of(("max", max))));
+                            ProductSitemapsIncomplete |= hint || products.Count > 0;
                             break;
                         }
                     }
@@ -233,14 +251,14 @@ internal sealed class DiscoveryStep(
             return found;
         }
 
-        private async Task<FetchResponse> FetchFollowingRedirectsAsync(Uri url, Uri home)
+        private async Task<FetchResponse> FetchFollowingRedirectsAsync(Uri url, Uri home, long? maxBytes = null)
         {
             var current = url;
             FetchResponse response;
             var hop = 0;
             do
             {
-                response = await FetchStep.FetchPacedAsync(owner.Fetcher, gate, new FetchRequest(current), state.Counters, Log, ct);
+                response = await FetchStep.FetchPacedAsync(owner.Fetcher, gate, new FetchRequest(current) { MaxBytes = maxBytes }, state.Counters, Log, ct);
                 if (response.RedirectLocation is not { } location || !UrlTools.IsSameSite(location, home))
                 {
                     break;

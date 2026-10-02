@@ -151,7 +151,7 @@ internal sealed class MarketsAnalyzer(
         var found = LanguageVersionFinder.Find(signals, home, catalog, sales?.LanguageVersions, connectorLanguages)
             .Select(v => !v.IsMain && excluded.Contains(v.BaseUrl) ? v with { Status = VersionStatus.Excluded } : v)
             .ToList();
-        var versions = await probe.ProbeAllAsync(found, signals, ct);
+        var versions = LanguageVersionFinder.AfterProbe(await probe.ProbeAllAsync(found, signals, ct), catalog);
         run.Requests += probe.Requests;
         var places = PlacesOfSaleClassifier.Classify(sales, catalog, home, versions, failure);
         var active = request.ActiveMarkets ?? DefaultMarkets(places, catalog, versions);
@@ -175,7 +175,7 @@ internal sealed class MarketsAnalyzer(
         else
         {
             var main = versions.First(v => v.IsMain);
-            counts[VersionMarketPlanner.Key(main.Language, main.BaseUrl)] = new VersionCount(ProductCount(discovery.SitemapEntries, main.Scope), true);
+            counts[Key(main)] = new VersionCount(ProductCount(run, Key(main), discovery, main.Scope), true);
 
             // The sample of one version without a comparison: its mandatory pages and random products (the free sample checks them).
             var mandatory = selected.Select(p => new Uri(p.Url)).Where(u => main.Scope?.Contains(u) ?? UrlTools.IsSameSite(u, home)).DistinctBy(u => u.AbsoluteUri).ToList();
@@ -293,7 +293,7 @@ internal sealed class MarketsAnalyzer(
             version.IsMain,
             products[Key(version)].Select(p => Sample(p, descriptions.GetValueOrDefault(p.Info.Url))).ToList(),
             mandatoryPages[Key(version)].Select(p => Sample(p, null)).ToList(),
-            ProductCount(discoveries[Authority(version)].SitemapEntries, version.Scope))).ToList();
+            ProductCount(run, Key(version), discoveries[Authority(version)], version.Scope))).ToList();
 
         if (labelLanguages)
         {
@@ -362,8 +362,32 @@ internal sealed class MarketsAnalyzer(
     }
 
     /// <summary>Product URLs of the sitemap in the scope; null when the sitemap marks no products.</summary>
-    private static int? ProductCount(IReadOnlyList<SitemapEntry> sitemap, VersionCrawlScope? scope) =>
-        !sitemap.Any(e => e.ProductHint) ? null : sitemap.Count(e => e.ProductHint && (scope?.Contains(e.Url) ?? true));
+    /// <summary>
+    /// Products of a version: the distinct product URLs of its sitemap in its scope (an image sitemap repeats them). Unknown
+    /// without a product sitemap, and when a product sitemap was not read whole; then the URLs read so far are kept as the
+    /// lower bound of the row (bonami.sk, 2. 10. 2026: 2 632 of a sitemap over the size limit looked like the number of products).
+    /// </summary>
+    private static int? ProductCount(Run run, string key, DiscoveryResult discovery, VersionCrawlScope? scope)
+    {
+        var count = discovery.SitemapEntries.Where(e => e.ProductHint && (scope?.Contains(e.Url) ?? true))
+            .Select(e => e.Url.AbsoluteUri)
+            .Distinct(StringComparer.Ordinal)
+            .Count();
+        if (discovery.ProductSitemapsIncomplete)
+        {
+            run.IncompleteProductCounts[key] = count;
+            return null;
+        }
+
+        return discovery.SitemapEntries.Any(e => e.ProductHint) ? count : null;
+    }
+
+    /// <summary>Codes of a version row: the probe, the comparison and an incomplete product sitemap.</summary>
+    private static List<string> RowCodes(Run run, LanguageVersionCandidate version, VersionComparison? comparison) =>
+        version.Codes.Concat(comparison?.Codes ?? [])
+            .Concat(run.IncompleteProductCounts.ContainsKey(Key(version)) ? [VersionCodes.ProductCountIncomplete] : [])
+            .Distinct()
+            .ToList();
 
     /// <summary>The preselected supported countries, otherwise the home market, otherwise the markets that read the main version.</summary>
     private static List<string> DefaultMarkets(PlacesOfSaleResult places, MarketCatalog catalog, IReadOnlyList<LanguageVersionCandidate> versions)
@@ -507,7 +531,8 @@ internal sealed class MarketsAnalyzer(
                 Comparison = c is null ? null : Comparison(c),
                 Counted = count?.Counted ?? false,
                 ProductCount = count?.ProductCount,
-                Codes = v.Codes.Concat(c?.Codes ?? []).Distinct().ToList(),
+                ProductCountAtLeast = run.IncompleteProductCounts.TryGetValue(Key(v), out var least) ? least : null,
+                Codes = RowCodes(run, v, c),
                 Warnings = c?.Warnings ?? [],
                 Evidence = v.Evidence,
                 Scope = v.Scope,
@@ -540,7 +565,7 @@ internal sealed class MarketsAnalyzer(
             {
                 var c = compared.GetValueOrDefault(Key(v));
                 return new VersionDetails(v.Language, v.BaseUrl, v.Status, c?.OwnTextShare, c is null ? null : Comparison(c),
-                    v.Codes.Concat(c?.Codes ?? []).Distinct().ToList(), c?.Warnings ?? [], c?.UntranslatedExamples ?? [])
+                    RowCodes(run, v, c), c?.Warnings ?? [], c?.UntranslatedExamples ?? [])
                 {
                     LanguageFragments = c?.LanguageFragments ?? [],
                 };
@@ -588,6 +613,9 @@ internal sealed class MarketsAnalyzer(
         public MarketsUsage ProfileUsage { get; set; } = MarketsUsage.None;
 
         public List<string> ProfilesCreated { get; } = [];
+
+        /// <summary>Versions whose product sitemap was not read whole, with the product URLs read (the lower bound).</summary>
+        public Dictionary<string, int> IncompleteProductCounts { get; } = new(StringComparer.Ordinal);
 
         public string? ProfileModel { get; set; }
 

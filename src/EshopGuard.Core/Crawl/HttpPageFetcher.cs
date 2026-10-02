@@ -20,7 +20,7 @@ internal sealed class HttpPageFetcher(
     {
         var url = fetch.Url;
         var crawl = options.Value.Crawl;
-        var maxBytes = crawl.MaxPageBytes;
+        var maxBytes = fetch.MaxBytes ?? crawl.MaxPageBytes;
         if (!crawl.AllowPrivateNetwork && !SsrfGuard.IsAllowedUrl(url))
         {
             // Another scheme or port, or a user name in the address: refused before any connection.

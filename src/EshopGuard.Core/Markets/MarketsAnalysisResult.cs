@@ -77,6 +77,12 @@ public sealed record ShopLanguageRow
 
     public int? ProductCount { get; init; }
 
+    /// <summary>
+    /// Product URLs read from an incomplete product sitemap (<c>version_product_count_incomplete</c>): at least this many
+    /// products, while <see cref="ProductCount"/> stays unknown.
+    /// </summary>
+    public int? ProductCountAtLeast { get; init; }
+
     /// <summary>Codes of the version (<see cref="VersionCodes"/>).</summary>
     public IReadOnlyList<string> Codes { get; init; } = [];
 

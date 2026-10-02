@@ -184,6 +184,12 @@ public sealed class CrawlOptions
     /// <summary>Link depth when the site has no sitemap.</summary>
     public int MaxLinkDepth { get; set; } = 3;
 
+    /// <summary>
+    /// Maximum size of one sitemap file in bytes: the protocol allows 50 MB, and product sitemaps of large shops are bigger
+    /// than a page (bonami.sk, 2. 10. 2026: <c>product_0.xml</c> over 5 MB).
+    /// </summary>
+    public long MaxSitemapBytes { get; set; } = 50 * 1024 * 1024;
+
     /// <summary>Maximum number of URLs read from sitemaps.</summary>
     public int MaxSitemapUrls { get; set; } = 50_000;
 

@@ -162,6 +162,21 @@ public sealed class PagePairsTests
         Assert.Equal(Math.Round(kinds[PairKinds.Translation] / (double)kinds.Values.Sum(), 3), cz.Comparison.OwnProductShare);
     }
 
+    [Fact]
+    public async Task VersionOnADomainOfAnUnsupportedLanguage_IsUnsupported_AndTakesNoPartOfTheSample()
+    {
+        var result = await AnalyzeAsync(new PairShopFetcher(copied: false, italian: true));
+
+        var it = Assert.Single(result.Versions, v => v.BaseUrl == "https://pair-shop.it/");
+        Assert.Equal(("it", VersionStatus.Unsupported), (it.Language, it.Status));
+        Assert.Null(it.Scope);
+        Assert.DoesNotContain(result.SamplePlan!.Urls, u => u.Url.StartsWith("https://pair-shop.it/", StringComparison.Ordinal));
+        Assert.DoesNotContain(result.Notices.Concat(result.Summary is { } summary ? [summary] : []),
+            n => n.Params.Values.OfType<string>().Any(v => v.Contains("pair-shop.it", StringComparison.Ordinal)));
+        Assert.Equal(20, result.SamplePlan.Pairs.Count);
+        Assert.Contains(result.Plan!.NotChecked, v => v.BaseUrl == "https://pair-shop.it/" && v.Code == "version_unsupported");
+    }
+
     private static int Number(string url) => int.Parse(url[(url.LastIndexOf('-') + 1)..], CultureInfo.InvariantCulture);
 
     private static Task<MarketsAnalysisResult> AnalyzeAsync(bool copied) => AnalyzeAsync(new PairShopFetcher(copied));
@@ -245,7 +260,7 @@ public sealed class PagePairsTests
     }
 
     /// <summary>pair-shop.sk and pair-shop.cz with 60 products each, the same paths, hreflang only on the pages.</summary>
-    private sealed class PairShopFetcher(bool copied, bool reviews = false, int czechInMain = 0) : IPageFetcher
+    private sealed class PairShopFetcher(bool copied, bool reviews = false, int czechInMain = 0, bool italian = false) : IPageFetcher
     {
         private const int Products = 60;
 
@@ -260,13 +275,21 @@ public sealed class PagePairsTests
         {
             var sk = url.Host == "pair-shop.sk";
             var host = $"https://{url.Host}";
+            if (url.Host == "pair-shop.it" && url.AbsolutePath == "/")
+            {
+                // Linked only from the home page, no hreflang: the language is known only from the page.
+                var italianHome = """<!DOCTYPE html><html lang="it"><head><meta charset="utf-8"><title>Erbe</title></head><body><main><p>Negozio di erbe e tè dalle montagne.</p></main></body></html>""";
+                return Task.FromResult(new FetchResponse { Url = url, StatusCode = 200, MediaType = "text/html", Charset = "utf-8", Body = Encoding.UTF8.GetBytes(italianHome) });
+            }
+
             string? body = url.AbsolutePath switch
             {
                 "/robots.txt" => $"User-agent: *\nAllow: /\n\nSitemap: {host}/sitemap.xml\n",
                 "/sitemap.xml" => $"""<?xml version="1.0"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><sitemap><loc>{host}/sitemap-products.xml</loc></sitemap></sitemapindex>""",
                 "/sitemap-products.xml" => """<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">"""
                     + string.Concat(Enumerable.Range(1, Products).Select(i => $"<url><loc>{host}/p/produkt-{i}</loc></url>")) + "</urlset>",
-                "/" => Page(sk, "/", sk ? "Obchod s bylinkami." : "Obchod s bylinkami a čaji.", "<a href=\"https://pair-shop.cz/\">Česká verze</a>"),
+                "/" => Page(sk, "/", sk ? "Obchod s bylinkami." : "Obchod s bylinkami a čaji.",
+                    "<a href=\"https://pair-shop.cz/\">Česká verze</a>" + (italian ? "<a href=\"https://pair-shop.it/\">Italiano</a>" : "")),
                 _ when url.AbsolutePath.StartsWith("/p/produkt-", StringComparison.Ordinal) => Product(sk, url.AbsolutePath),
                 _ => null,
             };

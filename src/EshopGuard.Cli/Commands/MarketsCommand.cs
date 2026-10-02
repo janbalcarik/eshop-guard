@@ -155,7 +155,7 @@ internal sealed class MarketsCommand : AsyncCommand<MarketsSettings>
         foreach (var row in result.Versions)
         {
             versions.AddRow(Markup.Escape(row.Language ?? "?"), Markup.Escape(row.BaseUrl), row.SwitchMethod, row.Status,
-                row.OwnTextShare is { } share ? $"{share:P0}" : "", row.ProductCount?.ToString() ?? "", row.Counted ? "ano" : "ne",
+                row.OwnTextShare is { } share ? $"{share:P0}" : "", row.ProductCount?.ToString() ?? (row.ProductCountAtLeast is { } least ? $"≥ {least}" : ""), row.Counted ? "ano" : "ne",
                 Markup.Escape(string.Join(", ", row.Codes.Concat(row.Warnings))));
         }
 

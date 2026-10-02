@@ -163,6 +163,12 @@ internal sealed record DiscoveryResult(
     bool HomeBlocked = false) : IPipelineRecord
 {
     public int SchemaVersion { get; init; } = PipelineSchema.Version;
+
+    /// <summary>
+    /// A product sitemap was not read whole (unreadable, invalid, or the limit of sitemap URLs stopped the reading): the product
+    /// URLs of <see cref="SitemapEntries"/> are a lower bound, not the number of products.
+    /// </summary>
+    public bool ProductSitemapsIncomplete { get; init; }
 }
 
 /// <summary>Validators of the last version of a page for a conditional request.</summary>

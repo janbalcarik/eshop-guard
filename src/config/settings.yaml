@@ -13,6 +13,7 @@ crawl:
   max_redirects: 5
   max_link_depth: 3
   max_sitemap_urls: 50000
+  max_sitemap_bytes: 52428800   # jeden soubor sitemap, protokol dovoluje 50 MB
   # Nejdelší čtení jedné stránky v sekundách; stránka, která trvá déle, se nepřečte a hlásí se jako nezkontrolovaná.
   extract_timeout_seconds: 30
   # Stahování po dávkách: nejvýš tolik stránek nebo sekund v jedné dávce, další dávka pokračuje, kde předchozí skončila.
