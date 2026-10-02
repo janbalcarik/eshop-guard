@@ -48,10 +48,14 @@ internal static class MarketsSummary
             all.Add(new VersionSummary(VersionCodes.SampleInsufficient, Params(("language", version.Language), ("products", version.SampleProducts))));
         }
 
-        foreach (var version in compared.Where(v => v.Warnings.Contains(VersionCodes.UntranslatedText)))
+        // Untranslated texts of any version, the main one included (its descriptions in another language, goodie.sk).
+        foreach (var version in (comparison?.Versions ?? []).Where(v => v.Warnings.Contains(VersionCodes.UntranslatedText)))
         {
-            var share = version.Pairs.Count == 0 ? 0 : Math.Round(version.Pairs.Count(p => p.Kind == PairKinds.Untranslated) / (double)version.Pairs.Count, 2);
-            all.Add(new VersionSummary(SummaryCodes.VersionsUntranslatedTexts, Params(("language", version.Language), ("share", share))));
+            var products = version.IsMain ? version.LabeledProducts : Math.Max(version.Pairs.Count, version.LabeledProducts);
+            var count = version.IsMain ? version.ForeignTextProducts : Math.Max(version.Pairs.Count(p => p.Kind == PairKinds.Untranslated), version.ForeignTextProducts);
+            var share = products == 0 ? 0 : Math.Round(count / (double)products, 2);
+            all.Add(new VersionSummary(SummaryCodes.VersionsUntranslatedTexts,
+                Params(("language", version.Language), ("share", share), ("products", count), ("of", products), ("text_language", version.ForeignTextLanguage))));
         }
 
         var main = comparison?.Versions.FirstOrDefault(v => v.IsMain);

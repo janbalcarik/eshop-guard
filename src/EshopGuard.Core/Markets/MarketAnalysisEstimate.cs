@@ -11,6 +11,9 @@ namespace EshopGuard.Core.Markets;
 /// </summary>
 public sealed record MarketAnalysisEstimate(int Calls, long InputTokens, long OutputTokens, decimal CostUsd)
 {
+    /// <summary>Of <see cref="CostUsd"/>, the new profiles of page templates (priced from the outlines of their sample pages).</summary>
+    public decimal ProfilesUsd { get; init; }
+
     /// <summary>Characters per token of the estimate.</summary>
     public const double CharsPerToken = 3.2;
 
@@ -41,8 +44,11 @@ public sealed record MarketAnalysisEstimate(int Calls, long InputTokens, long Ou
         + Sales(markets.HomeTextChars + markets.MaxSelectedPages * markets.PageTextChars, rewrite, markets)
         + (versions > 1 ? Language(markets.LanguageFragmentsPerVersion * markets.LanguageFragmentMaxChars, rewrite, markets).Times(versions) : None);
 
+    /// <summary>New profiles of page templates for the comparison of versions (the plan of <c>ProfileStep</c>).</summary>
+    public static MarketAnalysisEstimate Profiles(int calls, decimal usd) => new(calls, 0, 0, usd) { ProfilesUsd = usd };
+
     public static MarketAnalysisEstimate operator +(MarketAnalysisEstimate a, MarketAnalysisEstimate b) =>
-        new(a.Calls + b.Calls, a.InputTokens + b.InputTokens, a.OutputTokens + b.OutputTokens, a.CostUsd + b.CostUsd);
+        new(a.Calls + b.Calls, a.InputTokens + b.InputTokens, a.OutputTokens + b.OutputTokens, a.CostUsd + b.CostUsd) { ProfilesUsd = a.ProfilesUsd + b.ProfilesUsd };
 
     private MarketAnalysisEstimate Times(int count) => new(Calls * count, InputTokens * count, OutputTokens * count, CostUsd * count);
 

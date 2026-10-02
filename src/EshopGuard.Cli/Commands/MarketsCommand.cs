@@ -29,6 +29,10 @@ internal sealed class MarketsSettings : CommandSettings
     [Description("Zaškrtnuté trhy (kódy z config/jurisdictions.yaml, např. sk,cz); bez volby se vezmou předvyplněné z rozboru.")]
     public string? Markets { get; init; }
 
+    [CommandOption("--profiles")]
+    [Description("Porovnat jazykové verze jen na popisu produktu z profilu šablony (bez recenzí a textů šablony); chybějící profily vytvoří model (OpenAI, odhad ceny se potvrzuje) a uloží je do databáze, kontrola webu je pak použije. Bez --mock potřebuje databázi jako scan.")]
+    public bool Profiles { get; init; }
+
     [CommandOption("--allow-private-network")]
     [Description("Povolí adresy ve vnitřní a místní síti a jiné porty než 80 a 443 (jen pro místní testovací e-shop, serve-fixture).")]
     public bool AllowPrivateNetwork { get; init; }
@@ -41,8 +45,9 @@ internal sealed class MarketsSettings : CommandSettings
 
 /// <summary>
 /// <c>eshopguard markets &lt;url&gt;</c>: the places of sale and the language versions of a shop (change 7) through the library;
-/// writes markets.json. A thin wrapper: the work is done by <see cref="IMarketsAnalyzer"/>. Needs no database; the OpenAI key
-/// is only read from the environment and never written anywhere.
+/// writes markets.json. A thin wrapper: the work is done by <see cref="IMarketsAnalyzer"/>. Needs no database, except with
+/// <c>--profiles</c>: the profiles of page templates are kept in PostgreSQL like those of <c>scan</c>. The OpenAI key is only
+/// read from the environment and never written anywhere.
 /// </summary>
 internal sealed class MarketsCommand : AsyncCommand<MarketsSettings>
 {
@@ -65,6 +70,14 @@ internal sealed class MarketsCommand : AsyncCommand<MarketsSettings>
             AnsiConsole.MarkupLine("[yellow]V config/settings.yaml doplňte do user_agent skutečný kontakt, než budete skenovat cizí web.[/]");
         }
 
+        // Profiles are stored in PostgreSQL (tenant cli) like those of scan; a mock run never touches the database.
+        var useDatabase = settings.Profiles && !settings.Mock;
+        if (useDatabase && configuration.MissingDatabaseMessage(settings.Mock) is { } missingDatabase)
+        {
+            AnsiConsole.MarkupLine($"[red]{Markup.Escape(missingDatabase)}[/]");
+            return 1;
+        }
+
         configuration.AllowPrivateNetwork = settings.AllowPrivateNetwork;
         var host = siteUrl.Host.StartsWith("www.", StringComparison.OrdinalIgnoreCase) ? siteUrl.Host[4..] : siteUrl.Host;
         var name = Path.Combine(settings.Out, $"{(siteUrl.IsDefaultPort ? host : $"{host}-{siteUrl.Port}")}-markets-{DateTime.Now:yyyyMMdd-HHmm}");
@@ -75,12 +88,19 @@ internal sealed class MarketsCommand : AsyncCommand<MarketsSettings>
         }
 
         Directory.CreateDirectory(folder);
-        await using var services = CliHost.BuildServices(configuration, Path.Combine(folder, "markets.log"), settings.Mock, noCache: true, useDatabase: false);
+        await using var services = CliHost.BuildServices(configuration, Path.Combine(folder, "markets.log"), settings.Mock, noCache: true, useDatabase: useDatabase);
+        if (useDatabase && await CliDatabase.CheckAsync(services, cancellationToken) is { } databaseError)
+        {
+            AnsiConsole.MarkupLine($"[red]{Markup.Escape(databaseError)}[/]");
+            return 1;
+        }
+
         var limit = configuration.Settings.Rewrite.MaxUsdWithoutConfirm;
         MarketEstimateConfirmation confirm = (estimate, _) =>
         {
             AnsiConsole.MarkupLine(Markup.Escape(
-                $"Odhad rozboru modelem: nejvýš {estimate.Calls} volání, asi {estimate.InputTokens:N0} vstupních a {estimate.OutputTokens:N0} výstupních tokenů, {estimate.CostUsd:0.0000} USD."));
+                $"Odhad rozboru modelem: nejvýš {estimate.Calls} volání, asi {estimate.InputTokens:N0} vstupních a {estimate.OutputTokens:N0} výstupních tokenů, {estimate.CostUsd:0.0000} USD"
+                + (estimate.ProfilesUsd > 0 ? $", z toho nové profily šablon {estimate.ProfilesUsd:0.0000} USD." : ".")));
             return Task.FromResult(settings.Yes || estimate.CostUsd <= limit
                 || AnsiConsole.Confirm("Odhad překračuje limit rewrite.max_usd_without_confirm. Pokračovat?", defaultValue: false));
         };
@@ -88,6 +108,7 @@ internal sealed class MarketsCommand : AsyncCommand<MarketsSettings>
         var request = new MarketsAnalysisRequest(siteUrl)
         {
             ActiveMarkets = settings.Markets?.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries),
+            Profiles = settings.Profiles ? VersionProfileMode.Create : VersionProfileMode.None,
         };
         MarketsAnalysisResult result;
         try
@@ -139,6 +160,11 @@ internal sealed class MarketsCommand : AsyncCommand<MarketsSettings>
         }
 
         AnsiConsole.Write(versions);
+        foreach (var row in result.Versions.Where(v => v.Comparison is not null))
+        {
+            AnsiConsole.MarkupLine(Markup.Escape($"Verze {row.Language ?? "?"}: {Compared(row.Comparison!)}"));
+        }
+
         if (result.Summary is { } summary)
         {
             AnsiConsole.MarkupLine(Markup.Escape($"Věta pro 3c: {summary.Code} {Describe(summary.Params)}"));
@@ -162,10 +188,39 @@ internal sealed class MarketsCommand : AsyncCommand<MarketsSettings>
 
         AnsiConsole.MarkupLine(Markup.Escape(
             $"Model: {result.Model ?? "nevolán"}, volání {result.Usage.Calls}, vstupní tokeny {result.Usage.InputTokens:N0}, výstupní {result.Usage.OutputTokens:N0}, cena {result.Usage.CostUsd:0.0000} USD; požadavků na web {result.Usage.Requests}."));
+        if (result.ProfilesCreated.Count > 0 || result.ProfileUsage.Calls > 0)
+        {
+            AnsiConsole.MarkupLine(Markup.Escape(
+                $"Nové profily šablon: {string.Join(", ", result.ProfilesCreated)}; volání {result.ProfileUsage.Calls}, vstupní tokeny {result.ProfileUsage.InputTokens:N0}, výstupní {result.ProfileUsage.OutputTokens:N0}, cena {result.ProfileUsage.CostUsd:0.0000} USD."));
+        }
+
         if (result.Codes.Contains("model_mock"))
         {
             AnsiConsole.MarkupLine("[yellow]Falešný model: místa prodeje nejsou zjištěná, výsledek ukazuje jen technické znaky a verze ze stavby webu.[/]");
         }
+    }
+
+    /// <summary>What was compared and the measures by product of a version, in one line.</summary>
+    private static string Compared(VersionComparisonSummary comparison)
+    {
+        var basis = comparison.Basis switch
+        {
+            ComparisonBases.Description => $"porovnán popis produktu z profilu ({comparison.DescriptionPages} stránek)",
+            ComparisonBases.Mixed => $"porovnán popis z profilu u {comparison.DescriptionPages} stránek, u ostatních celý hlavní text",
+            _ => "porovnán celý hlavní text stránek (bez profilu, i s recenzemi a texty šablony)",
+        };
+        var parts = new List<string> { basis };
+        if (comparison.OwnProductShare is { } own)
+        {
+            parts.Add($"vlastní text má {own:P0} spárovaných produktů");
+        }
+
+        if (comparison.LabeledProducts > 0)
+        {
+            parts.Add($"popisy v jiném jazyce {comparison.ForeignTextProducts} z {comparison.LabeledProducts}{(comparison.ForeignTextLanguage is { } language ? $" ({language})" : "")}");
+        }
+
+        return string.Join("; ", parts) + ".";
     }
 
     private static string Describe(IReadOnlyDictionary<string, object> parameters) =>

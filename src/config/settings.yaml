@@ -125,6 +125,6 @@ markets:
   min_sample_products: 10
   sample_pages: 100
   paired_products: 20
-  language_fragments_per_version: 30
+  language_fragments_per_version: 40   # dvě první věty popisu každého z 20 spárovaných produktů
   # Podpisy skriptů překladu v prohlížeči (adresa skriptu), technický znak, ne slova textu (K rozhodnutí 6).
   browser_translation_scripts: [weglot, gtranslate, translate.google, conveythis, localizejs, transifex]

@@ -18,7 +18,39 @@ public sealed record ShopMarketRow(
 /// <summary>Kinds of difference of the pairs of a version with examples (3d).</summary>
 public sealed record VersionComparisonSummary(
     IReadOnlyDictionary<string, int> PairKinds, IReadOnlyList<PairComparison> Examples, double? SentenceOverlapShare, bool MandatoryPagesDiffer,
-    IReadOnlyList<string> MandatoryPagesDifferUrls);
+    IReadOnlyList<string> MandatoryPagesDifferUrls)
+{
+    /// <summary>What was compared: <c>description</c> (the product description of the profile), <c>main_text</c> or <c>mixed</c>.</summary>
+    public string Basis { get; init; } = ComparisonBases.MainText;
+
+    /// <summary>Product pages of the sample compared by their description from the profile.</summary>
+    public int DescriptionPages { get; init; }
+
+    /// <summary>Paired products whose text is the version's own (a translation or another text, in the language of the version).</summary>
+    public double? OwnProductShare { get; init; }
+
+    /// <summary>Products of the version whose description is in another language than the version (the model, its first sentences).</summary>
+    public int ForeignTextProducts { get; init; }
+
+    /// <summary>The language of most of those descriptions.</summary>
+    public string? ForeignTextLanguage { get; init; }
+
+    /// <summary>Products of the version whose language the model labeled.</summary>
+    public int LabeledProducts { get; init; }
+}
+
+/// <summary>What the comparison of versions compared.</summary>
+public static class ComparisonBases
+{
+    /// <summary>The product description of the profile of every compared product page.</summary>
+    public const string Description = "description";
+
+    /// <summary>The main text of the pages (no profile; reviews and texts of the template included).</summary>
+    public const string MainText = "main_text";
+
+    /// <summary>The description on some pages, the main text on the others.</summary>
+    public const string Mixed = "mixed";
+}
 
 /// <summary>A row of <c>shop.shop_languages</c>.</summary>
 public sealed record ShopLanguageRow
@@ -73,6 +105,10 @@ public sealed record PageLanguageRow(string Url, string? Language, string? Hrefl
 public sealed record MarketsUsage(int Calls, long InputTokens, long CachedTokens, long OutputTokens, decimal CostUsd, int Requests)
 {
     public static MarketsUsage None { get; } = new(0, 0, 0, 0, 0m, 0);
+
+    /// <summary>Both usages together.</summary>
+    public static MarketsUsage operator +(MarketsUsage a, MarketsUsage b) =>
+        new(a.Calls + b.Calls, a.InputTokens + b.InputTokens, a.CachedTokens + b.CachedTokens, a.OutputTokens + b.OutputTokens, a.CostUsd + b.CostUsd, a.Requests + b.Requests);
 
     public MarketsUsage Add(MarketModelResponse? call) => call is null ? this : this with
     {
@@ -155,6 +191,15 @@ public sealed record MarketsAnalysisResult
     public IReadOnlyList<ScanWarning> Warnings { get; init; } = [];
 
     public MarketsUsage Usage { get; init; } = MarketsUsage.None;
+
+    /// <summary>New profiles of page templates written for the comparison of versions (calls of the profile model).</summary>
+    public MarketsUsage ProfileUsage { get; init; } = MarketsUsage.None;
+
+    /// <summary>Ids of the profiles written for the comparison of versions (stored; the check of the shop uses them too).</summary>
+    public IReadOnlyList<string> ProfilesCreated { get; init; } = [];
+
+    /// <summary>Model that wrote those profiles, null without them.</summary>
+    public string? ProfileModel { get; init; }
 
     /// <summary>The estimate shown before the calls of the model.</summary>
     public MarketAnalysisEstimate? Estimate { get; init; }

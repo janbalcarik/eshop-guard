@@ -6,6 +6,7 @@ using EshopGuard.Core.Languages;
 using EshopGuard.Core.Models;
 using EshopGuard.Core.Options;
 using EshopGuard.Core.Pipeline;
+using EshopGuard.Core.Profiles;
 using EshopGuard.Core.Rules;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -32,6 +33,26 @@ public sealed record MarketsAnalysisRequest(Uri Site)
 
     /// <summary>Compare the versions on a sample (false: only places of sale, versions and the plan).</summary>
     public bool AnalyzeVersions { get; init; } = true;
+
+    /// <summary>
+    /// Profiles of the page templates in the comparison of versions: with a profile only the product description is compared
+    /// (its regions <c>main_description</c> and <c>short_description</c>), without customer reviews and other texts shared by
+    /// the versions. <see cref="VersionProfileMode.Create"/> also writes the missing profiles (the model, priced and confirmed).
+    /// </summary>
+    public VersionProfileMode Profiles { get; init; } = VersionProfileMode.None;
+}
+
+/// <summary>How the comparison of versions uses the profiles of page templates.</summary>
+public enum VersionProfileMode
+{
+    /// <summary>No profile: the main text of the pages is compared (reviews and texts of the template included).</summary>
+    None,
+
+    /// <summary>Stored profiles of the shop only.</summary>
+    Stored,
+
+    /// <summary>Stored profiles and new ones for the product pages that fit none (the price goes to the confirmation).</summary>
+    Create,
 }
 
 /// <summary>Asks whether the calls of the model may cost the estimate (CLI: a question over the limit; worker: the budget).</summary>
@@ -61,6 +82,8 @@ internal sealed class MarketsAnalyzer(
     IOptions<EshopGuardOptions> options,
     TimeProvider time,
     ILogger<MarketsAnalyzer> logger,
+    ProfileStep profiles,
+    Storage.IPageContentStore contents,
     IShopPagesSource? pagesSource = null,
     IShopLanguageSource? languageSource = null) : IMarketsAnalyzer
 {
@@ -141,7 +164,9 @@ internal sealed class MarketsAnalyzer(
         if (request.AnalyzeVersions && sampled.Count > 1)
         {
             progress?.Report("sample");
-            (comparison, samplePlan) = await CompareVersionsAsync(run, sampled, discovery, selected, canCall && unavailable != EngineCodes.ModelMissingKey, request.Seed, ct);
+            (comparison, samplePlan) = await CompareVersionsAsync(
+                run, sampled, discovery, selected, canCall && unavailable != EngineCodes.ModelMissingKey, request.Seed,
+                request.Profiles == VersionProfileMode.Create && !canCall ? VersionProfileMode.Stored : request.Profiles, confirm, ct);
             foreach (var version in comparison.Versions)
             {
                 counts[version.Key] = new VersionCount(version.ProductCount, version.Counted);
@@ -195,7 +220,7 @@ internal sealed class MarketsAnalyzer(
     /// <summary>Pages of the sample of every version, the language of their sentences and the comparison.</summary>
     private async Task<(VersionComparisonResult Result, VersionSamplePlan Plan)> CompareVersionsAsync(
         Run run, IReadOnlyList<LanguageVersionCandidate> versions, DiscoveryResult mainDiscovery, IReadOnlyList<SelectedPage> selected, bool labelLanguages,
-        int seed, CancellationToken ct)
+        int seed, VersionProfileMode profileMode, MarketEstimateConfirmation? confirm, CancellationToken ct)
     {
         var markets = options.Value.Markets;
         var main = versions.First(v => v.IsMain);
@@ -216,8 +241,8 @@ internal sealed class MarketsAnalyzer(
                 .Where(version.Scope!.Contains)
                 .DistinctBy(u => u.AbsoluteUri)
                 .ToList();
-            var products = discovery.SitemapEntries.Where(e => e.ProductHint && version.Scope.Contains(e.Url)).ToList();
-            inputs.Add(new VersionSampleInput(Key(version), version.Language ?? "und", version.IsMain, products, mandatory));
+            var sitemapProducts = discovery.SitemapEntries.Where(e => e.ProductHint && version.Scope.Contains(e.Url)).ToList();
+            inputs.Add(new VersionSampleInput(Key(version), version.Language ?? "und", version.IsMain, sitemapProducts, mandatory));
         }
 
         var plan = VersionSamplePlanner.Plan(inputs, markets.SamplePages, markets.PairedProducts, seed);
@@ -241,7 +266,8 @@ internal sealed class MarketsAnalyzer(
             plan = VersionSamplePlanner.WithPagePairs(plan, mainKey, found, Math.Max(1, markets.PairedProducts / others.Count));
         }
 
-        var samples = new List<VersionSample>();
+        var products = new Dictionary<string, List<ExtractedPageRecord>>(StringComparer.Ordinal);
+        var mandatoryPages = new Dictionary<string, List<ExtractedPageRecord>>(StringComparer.Ordinal);
         foreach (var version in versions)
         {
             var key = Key(version);
@@ -256,15 +282,18 @@ internal sealed class MarketsAnalyzer(
             // Products of the sample are the pages planned as products (the sitemap marks them so, the price counts them so),
             // and pages the classifier recognizes as products; a page may lack both JSON-LD and og:type (goodie.sk).
             var plannedProducts = urls.Where(u => u.Kind is "product" or "pair").Select(u => UrlTools.Normalize(new Uri(u.Url)).AbsoluteUri).ToHashSet(StringComparer.Ordinal);
-            var sitemap = discoveries[Authority(version)].SitemapEntries;
-            samples.Add(new VersionSample(
-                key,
-                version.Language ?? "und",
-                version.IsMain,
-                downloaded.Where(p => !mandatoryUrls.Contains(p.Info.Url) && (p.Info.Type == PageType.Product || plannedProducts.Contains(p.Info.Url))).Select(Sample).ToList(),
-                downloaded.Where(p => mandatoryUrls.Contains(p.Info.Url)).Select(Sample).ToList(),
-                ProductCount(sitemap, version.Scope)));
+            products[key] = downloaded.Where(p => !mandatoryUrls.Contains(p.Info.Url) && (p.Info.Type == PageType.Product || plannedProducts.Contains(p.Info.Url))).ToList();
+            mandatoryPages[key] = downloaded.Where(p => mandatoryUrls.Contains(p.Info.Url)).ToList();
         }
+
+        var descriptions = profileMode == VersionProfileMode.None ? [] : await DescriptionsAsync(run, versions, products, profileMode, confirm, ct);
+        var samples = versions.Select(version => new VersionSample(
+            Key(version),
+            version.Language ?? "und",
+            version.IsMain,
+            products[Key(version)].Select(p => Sample(p, descriptions.GetValueOrDefault(p.Info.Url))).ToList(),
+            mandatoryPages[Key(version)].Select(p => Sample(p, null)).ToList(),
+            ProductCount(discoveries[Authority(version)].SitemapEntries, version.Scope))).ToList();
 
         if (labelLanguages)
         {
@@ -358,8 +387,102 @@ internal sealed class MarketsAnalyzer(
     /// <summary>Scheme, host and port of the version (one robots.txt and sitemap each).</summary>
     private static string Authority(LanguageVersionCandidate version) => new Uri(version.BaseUrl).GetLeftPart(UriPartial.Authority);
 
-    private static SamplePage Sample(ExtractedPageRecord page) =>
-        new(page.Info.Url, VersionComparer.Sentences(page.Info.MainText), page.Info.HreflangGroup, page.Info.ProductIds);
+    /// <summary>A page of the sample: the sentences of its product description from the profile, otherwise of its main text.</summary>
+    private static SamplePage Sample(ExtractedPageRecord page, IReadOnlyList<string>? description) =>
+        new(page.Info.Url, description ?? VersionComparer.Sentences(page.Info.MainText), page.Info.HreflangGroup, page.Info.ProductIds)
+        {
+            FromDescription = description is not null,
+        };
+
+    /// <summary>
+    /// The product descriptions of the sampled product pages by the profiles of their templates (page address → sentences).
+    /// Stored profiles of each version are tried first, then the profiles of the versions before it (a shop on two domains
+    /// often has one template); with <see cref="VersionProfileMode.Create"/> the product pages that fit none get new profiles,
+    /// priced and confirmed first and stored, so the check of the shop uses them too. A page whose profile has no description
+    /// region, or whose description is empty, keeps its main text.
+    /// </summary>
+    private async Task<Dictionary<string, IReadOnlyList<string>>> DescriptionsAsync(
+        Run run, IReadOnlyList<LanguageVersionCandidate> versions, Dictionary<string, List<ExtractedPageRecord>> products, VersionProfileMode mode,
+        MarketEstimateConfirmation? confirm, CancellationToken ct)
+    {
+        var descriptions = new Dictionary<string, IReadOnlyList<string>>(StringComparer.Ordinal);
+        if (!options.Value.Profiles.Enabled)
+        {
+            return descriptions;
+        }
+
+        var maxUnknown = options.Value.Profiles.MaxUnknownShare;
+        var known = new List<PageProfile>();
+        var declined = false;
+        foreach (var version in versions.OrderByDescending(v => v.IsMain))
+        {
+            var site = new SiteScope(new Uri(version.BaseUrl)) { Version = version.Scope };
+            // A page whose HTML is not stored keeps its main text (the basis says so).
+            var documents = new Dictionary<string, AngleSharp.Dom.IDocument>(StringComparer.Ordinal);
+            foreach (var page in products[Key(version)].Where(p => p.ProfileEligible))
+            {
+                if (await ParseAsync(site.SiteKey, page.Info.Url, ct) is { } document)
+                {
+                    documents[page.Info.Url] = document;
+                }
+            }
+
+            var pages = products[Key(version)].Where(p => documents.ContainsKey(p.Info.Url)).ToList();
+            if (pages.Count == 0)
+            {
+                continue;
+            }
+
+            var stored = await profiles.LoadStoredAsync(site, ct);
+            var candidates = stored.Concat(known).DistinctBy(p => p.Id).ToList();
+            foreach (var page in pages)
+            {
+                ProfileFitting.Fit(page, documents[page.Info.Url], candidates, maxUnknown);
+            }
+
+            // Not confirmed once, not asked again for the next version: the comparison keeps the main text.
+            if (mode == VersionProfileMode.Create && !declined)
+            {
+                var profilePlan = await profiles.PlanAsync(ProfileStep.PlanInput(site, pages, candidates), ct);
+                if (profilePlan.WillCreate)
+                {
+                    var estimate = (run.Estimate ?? MarketAnalysisEstimate.None) + MarketAnalysisEstimate.Profiles(profilePlan.Planned.Count, profilePlan.EstimatedUsd);
+                    if (confirm is null || await confirm(estimate, ct))
+                    {
+                        run.Estimate = estimate;
+                        var created = await profiles.CreateAsync(profilePlan, pages, candidates, ct);
+                        run.ProfileUsage += new MarketsUsage(created.Calls, created.InputTokens, 0, created.OutputTokens, created.CostUsd, 0);
+                        run.Warnings.AddRange(created.Warnings);
+                        run.ProfilesCreated.AddRange(created.Created.Select(p => p.Id));
+                        run.ProfileModel ??= created.Created.FirstOrDefault()?.Model;
+                        candidates.AddRange(created.Created);
+                    }
+                    else
+                    {
+                        declined = true;
+                        run.Codes.Add(MarketCodes.ProfilesNotConfirmed);
+                    }
+                }
+            }
+
+            known.AddRange(candidates);
+            var byId = candidates.GroupBy(p => p.Id).ToDictionary(g => g.Key, g => g.First());
+            foreach (var page in pages.Where(p => p.Fit is not null))
+            {
+                if (byId.TryGetValue(page.Fit!.ProfileId, out var profile) && ProfileDescription.Sentences(documents[page.Info.Url], profile) is { } sentences)
+                {
+                    descriptions[page.Info.Url] = sentences;
+                }
+            }
+        }
+
+        return descriptions;
+    }
+
+    private async Task<AngleSharp.Dom.IDocument?> ParseAsync(string siteKey, string url, CancellationToken ct) =>
+        await contents.GetHtmlAsync(new Storage.PageContentKey(siteKey, url), ct) is { } html
+            ? new AngleSharp.Html.Parser.HtmlParser().ParseDocument(Storage.PageContent.Decompress(html))
+            : null;
 
     private MarketsAnalysisResult Result(
         Run run, Uri home, PlacesOfSaleResult places, MarketSignals? signals, IReadOnlyList<LanguageVersionCandidate> versions, VersionPlan? plan,
@@ -424,6 +547,9 @@ internal sealed class MarketsAnalyzer(
             Codes = run.Codes.Concat(places.Codes).Distinct().ToList(),
             Warnings = run.Warnings,
             Usage = run.Usage with { Requests = run.Requests },
+            ProfileUsage = run.ProfileUsage,
+            ProfilesCreated = run.ProfilesCreated,
+            ProfileModel = run.ProfileModel,
             Estimate = run.Estimate,
         };
     }
@@ -433,7 +559,15 @@ internal sealed class MarketsAnalyzer(
         version.Pairs.GroupBy(p => p.Kind).SelectMany(g => g.Take(3)).ToList(),
         version.SentenceOverlapShare,
         version.MandatoryPagesDiffer,
-        version.MandatoryPagesDifferUrls);
+        version.MandatoryPagesDifferUrls)
+    {
+        Basis = version.Basis,
+        DescriptionPages = version.DescriptionPages,
+        OwnProductShare = version.OwnProductShare,
+        ForeignTextProducts = version.ForeignTextProducts,
+        ForeignTextLanguage = version.ForeignTextLanguage,
+        LabeledProducts = version.LabeledProducts,
+    };
 
     /// <summary>State of one analysis.</summary>
     private sealed class Run
@@ -445,6 +579,13 @@ internal sealed class MarketsAnalyzer(
         public Dictionary<string, ExtractedPageRecord> Pages { get; } = new(StringComparer.Ordinal);
 
         public MarketsUsage Usage { get; set; } = MarketsUsage.None;
+
+        /// <summary>New profiles of page templates written for the comparison of versions.</summary>
+        public MarketsUsage ProfileUsage { get; set; } = MarketsUsage.None;
+
+        public List<string> ProfilesCreated { get; } = [];
+
+        public string? ProfileModel { get; set; }
 
         public string? Model { get; set; }
 

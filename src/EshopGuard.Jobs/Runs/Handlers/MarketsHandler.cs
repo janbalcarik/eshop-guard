@@ -23,7 +23,9 @@ namespace EshopGuard.Jobs.Runs.Handlers;
 /// model stored and checked against the cap of the sample before its first call; the suggested places of sale
 /// (<c>shop.shop_markets</c>), the versions (<c>shop.shop_languages</c>), the jurisdictions of the run, and the plan of the
 /// sample: at most <c>markets.sample_pages</c> pages of the checked versions (pairs, mandatory pages, random products), legal
-/// pages of every version on top. Versions for unsupported markets are never downloaded. Then the downloads start.
+/// pages of every version on top. Versions for unsupported markets are never downloaded. The versions are compared on the
+/// product description of the profiles of their templates; the missing profiles are written here (their price is part of the
+/// estimate of the analysis, checked against the same cap) and stored, so the sample uses them too. Then the downloads start.
 /// </summary>
 internal sealed class MarketsHandler(
     RunHandlerContext context,
@@ -43,20 +45,28 @@ internal sealed class MarketsHandler(
     {
         var run = job.Run;
         var overBudget = false;
-        var request = new MarketsAnalysisRequest(new Uri(run.ShopBaseUrl)) { Seed = Seed(run.Id) };
+        var request = new MarketsAnalysisRequest(new Uri(run.ShopBaseUrl)) { Seed = Seed(run.Id), Profiles = VersionProfileMode.Create };
         var result = await analyzer.AnalyzeAsync(request, async (estimate, token) =>
         {
-            // Stored before the first call; over the cap of the sample nothing is paid and the run fails below.
-            var stored = await InTenantAsync(run.TenantId, async (c, t) =>
+            // Stored before the first call; over the cap of the sample nothing is paid and the run fails below. The estimate of
+            // the analysis includes the new profiles of the comparison of versions (asked again with them): they belong to this
+            // step, and run.profile prices only the profiles it writes itself. Profiles over the cap are only left out: the
+            // versions are then compared on the main text (comparison.basis), and the estimate stays without them.
+            var within = await InTenantAsync(run.TenantId, async (c, t) =>
             {
                 var locked = (await RunStore.LoadAsync(c, t, run.Id, forUpdate: true, token).ConfigureAwait(false))!;
                 var runEstimate = locked.Estimate;
                 var internalEstimate = InternalCostEstimator.OpenAi(RunStore.Section(runEstimate, "internal"), "market_usd", estimate.CostUsd, Ctx.Time.GetUtcNow());
-                await RunStore.SetJsonAsync(c, t, run.Id, "estimate", runEstimate, token).ConfigureAwait(false);
-                return internalEstimate;
+                var allowed = InternalCostEstimator.WithinSampleBudget(internalEstimate, Ctx.Runs);
+                if (allowed || estimate.ProfilesUsd == 0)
+                {
+                    await RunStore.SetJsonAsync(c, t, run.Id, "estimate", runEstimate, token).ConfigureAwait(false);
+                }
+
+                return allowed;
             }, token).ConfigureAwait(false);
-            overBudget = !InternalCostEstimator.WithinSampleBudget(stored, Ctx.Runs);
-            return !overBudget;
+            overBudget |= !within && estimate.ProfilesUsd == 0;
+            return within;
         }, null, ct).ConfigureAwait(false);
         if (overBudget)
         {
@@ -143,6 +153,8 @@ internal sealed class MarketsHandler(
             await Ctx.Usage.WriteAsync(connection, transaction, job.Scope,
                 [
                     new UsageEntry(UsageProvider.Openai, UsageOperation.MarketAnalysis, result.Model, usage.Calls, 0, usage.InputTokens, usage.CachedTokens, usage.OutputTokens, 0, usage.CostUsd),
+                    new UsageEntry(UsageProvider.Openai, UsageOperation.Profile, result.ProfileModel, result.ProfileUsage.Calls, 0, result.ProfileUsage.InputTokens, result.ProfileUsage.CachedTokens,
+                        result.ProfileUsage.OutputTokens, 0, result.ProfileUsage.CostUsd),
                     new UsageEntry(UsageProvider.Crawl, UsageOperation.Fetch, null, usage.Requests, 0, 0, 0, 0, 0, 0m),
                 ], ct).ConfigureAwait(false);
             await RunTransitions.StartCrawlAsync(connection, transaction, Ctx.Queue, locked, RunStatus.Discovering, ct).ConfigureAwait(false);

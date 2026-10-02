@@ -36,6 +36,28 @@ public sealed class DatabaseCheckTests
     }
 
     [Fact]
+    public async Task MarketsWithProfiles_ChecksTheDatabaseBeforeAnyDownload()
+    {
+        var folder = CliProcess.NewWorkingFolder();
+        var (url, requests, stop) = CliProcess.StartFixture(Path.Combine("versions", "path-shop"));
+        try
+        {
+            var (exitCode, output) = await CliProcess.RunAsync(folder,
+                new Dictionary<string, string?> { ["ConnectionStrings__Cli"] = Unreachable, ["OPENAI_API_KEY"] = null },
+                "markets", url, "--profiles", "--allow-private-network", "--yes", "--out", "out");
+
+            Assert.Equal(1, exitCode);
+            Assert.Contains("Databáze cache není dostupná", output.ReplaceLineEndings(" "), StringComparison.Ordinal);
+            Assert.Empty(requests);
+        }
+        finally
+        {
+            await stop.CancelAsync();
+            Directory.Delete(folder, recursive: true);
+        }
+    }
+
+    [Fact]
     public async Task MissingConnection_StopsARunThatMayPay()
     {
         var folder = CliProcess.NewWorkingFolder();

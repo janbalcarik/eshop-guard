@@ -91,7 +91,7 @@ public sealed class MarketsOptions
     public int PairedProducts { get; set; } = 20;
 
     /// <summary>Sentences of the main text of the product pages of a version whose language the model labels.</summary>
-    public int LanguageFragmentsPerVersion { get; set; } = 30;
+    public int LanguageFragmentsPerVersion { get; set; } = 40;
 
     /// <summary>Shortest and longest sentence sent for the language of texts.</summary>
     public int LanguageFragmentMinChars { get; set; } = 30;

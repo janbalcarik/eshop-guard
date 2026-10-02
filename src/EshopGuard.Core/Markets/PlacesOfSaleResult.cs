@@ -32,6 +32,9 @@ public static class MarketCodes
     public const string QuotesDropped = "quotes_dropped";
     public const string AnalysisFailed = "market_analysis_failed";
     public const string AnalysisNotConfirmed = "market_analysis_not_confirmed";
+
+    /// <summary>The price of new profiles for the comparison of versions was not confirmed; their main text was compared.</summary>
+    public const string ProfilesNotConfirmed = "version_profiles_not_confirmed";
 }
 
 /// <summary>A country where the shop sells, with its evidence (a row of <c>shop.shop_markets</c>).</summary>

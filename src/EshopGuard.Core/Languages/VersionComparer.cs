@@ -7,7 +7,11 @@ using EshopGuard.Core.Segmentation;
 namespace EshopGuard.Core.Languages;
 
 /// <summary>A downloaded page of the sample: its sentences of the main text, alternates group and product identifiers.</summary>
-public sealed record SamplePage(string Url, IReadOnlyList<string> Sentences, string? HreflangGroup, IReadOnlyList<ProductIdentifier> ProductIds);
+public sealed record SamplePage(string Url, IReadOnlyList<string> Sentences, string? HreflangGroup, IReadOnlyList<ProductIdentifier> ProductIds)
+{
+    /// <summary>The sentences are of the product description of the profile (without reviews and other parts of the page).</summary>
+    public bool FromDescription { get; init; }
+}
 
 /// <summary>The downloaded sample of one version and the language of its sentences (page URL → labels of its sentences).</summary>
 public sealed record VersionSample(string Key, string Language, bool IsMain, IReadOnlyList<SamplePage> Products, IReadOnlyList<SamplePage> Mandatory, int? ProductCount)
@@ -77,6 +81,24 @@ public sealed record VersionComparison
 
     /// <summary>Addresses of pages with untranslated text (examples for 3d).</summary>
     public IReadOnlyList<string> UntranslatedExamples { get; init; } = [];
+
+    /// <summary>What was compared (<see cref="ComparisonBases"/>).</summary>
+    public string Basis { get; init; } = ComparisonBases.MainText;
+
+    /// <summary>Product pages compared by their description from the profile.</summary>
+    public int DescriptionPages { get; init; }
+
+    /// <summary>Paired products with a text of their own in the language of the version (null for the main version and without pairs).</summary>
+    public double? OwnProductShare { get; init; }
+
+    /// <summary>Products whose description the model labeled in another language than the version.</summary>
+    public int ForeignTextProducts { get; init; }
+
+    /// <summary>The language of most of those descriptions.</summary>
+    public string? ForeignTextLanguage { get; init; }
+
+    /// <summary>Products whose language the model labeled.</summary>
+    public int LabeledProducts { get; init; }
 }
 
 /// <summary>The comparison of all versions of the sample and how pairs were made.</summary>
@@ -132,7 +154,23 @@ public static partial class VersionComparer
                 .Where(p => p.Sentences.Select(SentenceFingerprint.Of).Any(f => !mainMandatory.Contains(f)))
                 .Select(p => p.Url)
                 .ToList();
-            var untranslated = pairs.Where(p => p.Kind == PairKinds.Untranslated).Select(p => p.OtherUrl).ToList();
+            // The language of each product of the version by its first sentences (the model): a description in another language
+            // is an untranslated text, in the main version too (goodie.sk: some descriptions in Czech).
+            var labeled = version.Products.Select(p => (Page: p, Language: Majority(version.PageLanguages.GetValueOrDefault(p.Url))))
+                .Where(x => x.Language is not null && x.Language != "und")
+                .ToList();
+            var foreign = labeled.Where(x => !LanguageTags.SamePrimary(x.Language, version.Language)).ToList();
+            var untranslated = pairs.Where(p => p.Kind == PairKinds.Untranslated).Select(p => p.OtherUrl)
+                .Concat(foreign.Select(x => x.Page.Url))
+                .Distinct(StringComparer.Ordinal)
+                .ToList();
+            var foreignUrls = foreign.Select(x => x.Page.Url).ToHashSet(StringComparer.Ordinal);
+            double? ownProducts = version.Key == main.Key || pairs.Count == 0 ? null
+                : Math.Round(pairs.Count(p => p.Kind is PairKinds.Translation or PairKinds.ShortenedOrDifferent && !foreignUrls.Contains(p.OtherUrl)) / (double)pairs.Count, 3);
+            var descriptionPages = version.Products.Count(p => p.FromDescription && p.Sentences.Count > 0);
+            var basis = descriptionPages == 0 ? ComparisonBases.MainText
+                : descriptionPages == version.Products.Count(p => p.Sentences.Count > 0) ? ComparisonBases.Description
+                : ComparisonBases.Mixed;
 
             var codes = new List<string>();
             if (!version.IsMain)
@@ -175,6 +213,12 @@ public static partial class VersionComparer
                 Codes = codes,
                 Warnings = untranslated.Count > 0 ? [VersionCodes.UntranslatedText] : [],
                 UntranslatedExamples = untranslated.Take(5).ToList(),
+                Basis = basis,
+                DescriptionPages = descriptionPages,
+                OwnProductShare = ownProducts,
+                ForeignTextProducts = foreign.Count,
+                ForeignTextLanguage = foreign.GroupBy(x => x.Language).OrderByDescending(g => g.Count()).FirstOrDefault()?.Key,
+                LabeledProducts = labeled.Count,
             });
         }
 
@@ -228,21 +272,26 @@ public static partial class VersionComparer
     /// </summary>
     public static IReadOnlyList<LanguageFragment> Fragments(VersionSample version, IEnumerable<string> pairedUrls, int count, int minChars, int maxChars)
     {
+        // The paired pages first, each of them in turn, so that every paired product gets its language (two sentences each
+        // with the default 40); then the other product pages in turn.
         var paired = pairedUrls.ToHashSet(StringComparer.Ordinal);
-        var queues = version.Products.OrderByDescending(p => paired.Contains(p.Url))
-            .Select(p => (p.Url, Queue: new Queue<string>(p.Sentences.Where(s => s.Length >= minChars && s.Length <= maxChars))))
-            .Where(q => q.Queue.Count > 0)
-            .ToList();
         var fragments = new List<LanguageFragment>();
         var seen = new HashSet<string>(StringComparer.Ordinal);
-        while (fragments.Count < count && queues.Any(q => q.Queue.Count > 0))
+        foreach (var group in new[] { version.Products.Where(p => paired.Contains(p.Url)), version.Products.Where(p => !paired.Contains(p.Url)) })
         {
-            foreach (var (url, queue) in queues.Where(q => q.Queue.Count > 0))
+            var queues = group
+                .Select(p => (p.Url, Queue: new Queue<string>(p.Sentences.Where(s => s.Length >= minChars && s.Length <= maxChars))))
+                .Where(q => q.Queue.Count > 0)
+                .ToList();
+            while (fragments.Count < count && queues.Any(q => q.Queue.Count > 0))
             {
-                var sentence = queue.Dequeue();
-                if (fragments.Count < count && seen.Add(sentence))
+                foreach (var (url, queue) in queues.Where(q => q.Queue.Count > 0))
                 {
-                    fragments.Add(new LanguageFragment(fragments.Count + 1, sentence, url));
+                    var sentence = queue.Dequeue();
+                    if (fragments.Count < count && seen.Add(sentence))
+                    {
+                        fragments.Add(new LanguageFragment(fragments.Count + 1, sentence, url));
+                    }
                 }
             }
         }
