@@ -4186,6 +4186,16 @@
               "string"
             ]
           },
+          "priceBasis": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ScopePriceBasisDto"
+              }
+            ]
+          },
           "productTotal": {
             "format": "int32",
             "pattern": "^-?(?:0|[1-9]\\d*)$",
@@ -4220,6 +4230,15 @@
           "marketCode": {
             "type": "string"
           },
+          "pageCount": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
           "productCount": {
             "format": "int32",
             "pattern": "^-?(?:0|[1-9]\\d*)$",
@@ -4253,6 +4272,26 @@
           "language",
           "baseUrl",
           "reason"
+        ],
+        "type": "object"
+      },
+      "ScopePriceBasisDto": {
+        "properties": {
+          "count": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "unit": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "unit",
+          "count"
         ],
         "type": "object"
       },

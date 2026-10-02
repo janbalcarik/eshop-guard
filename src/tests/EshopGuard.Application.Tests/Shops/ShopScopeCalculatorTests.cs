@@ -75,13 +75,43 @@ public sealed class ShopScopeCalculatorTests
     }
 
     [Fact]
-    public void D_UnknownProducts_GiveNoTotal()
+    public void D_UnknownProducts_ArePricedByThePagesToCheck()
     {
+        // cs: products not known, its sitemap 38 pages; sk: 5 834 products and 38 other pages (decision of 2. 10. 2026).
         var scope = Scope(["sk", "cz"], [Sk(), Cs(products: null)]);
 
         Assert.Equal(["sk (cz, sk)", "cs (cz, sk)"], Checked(scope));
         Assert.Null(scope.ProductTotal);
+        Assert.Equal((PriceUnits.Pages, 5872 + 38), (scope.PriceUnit, scope.PriceCount));
+        Assert.Equal([("cz", 38), ("sk", 5872)], scope.ByMarket.Select(m => (m.MarketCode, m.PageCount ?? 0)).OrderBy(m => m.MarketCode));
+        Assert.DoesNotContain(ProblemCodes.ScopeProductCountUnknown, scope.Issues);
+    }
+
+    [Fact]
+    public void D2_OneSitemapWithoutProducts_LikeNaturfyt_CountsItsPages()
+    {
+        var scope = Scope(["sk"], [new("sk", "https://www.naturfyt.sk/", ShopLanguageStatus.Active, false, true, null, 4036, 4036)]);
+
+        Assert.Equal((PriceUnits.Pages, 4036), (scope.PriceUnit, scope.PriceCount));
+        Assert.Empty(scope.Issues);
+    }
+
+    [Fact]
+    public void D3_NeitherProductsNorPages_GiveNoPrice()
+    {
+        var scope = Scope(["sk", "cz"], [Sk(), new("cs", "https://bylinkovo.sk/cz/", ShopLanguageStatus.Active, false, false, null, null)]);
+
+        Assert.Null(scope.PriceUnit);
+        Assert.Null(scope.PriceCount);
         Assert.Contains(ProblemCodes.ScopeProductCountUnknown, scope.Issues);
+    }
+
+    [Fact]
+    public void A2_KnownProducts_ArePricedByProducts()
+    {
+        var scope = Scope(["sk", "cz"], [Sk(), Cs()]);
+
+        Assert.Equal((PriceUnits.Products, 11668), (scope.PriceUnit, scope.PriceCount));
     }
 
     [Fact]

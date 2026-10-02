@@ -62,7 +62,7 @@ public sealed class ScopeService(EshopGuardDb db, ShopCatalog catalog, ScopeInpu
         ArgumentNullException.ThrowIfNull(scope);
         ArgumentNullException.ThrowIfNull(stored);
         return new ScopeDto(
-            scope.ByMarket.Select(m => new ScopeMarketDto(m.MarketCode, m.Language, m.ProductCount)).ToList(),
+            scope.ByMarket.Select(m => new ScopeMarketDto(m.MarketCode, m.Language, m.ProductCount, m.PageCount)).ToList(),
             scope.CheckedVersions.Select(v => new ScopeCheckedVersionDto(v.Language, v.BaseUrl, v.IsMain, v.ProductCount, v.OtherPageCount, v.Jurisdictions, v.Markets, v.Reason))
                 .ToList(),
             scope.NotCheckedVersions.Select(v => new ScopeNotCheckedVersionDto(v.Language, v.BaseUrl, v.Reason)).ToList(),
@@ -71,6 +71,7 @@ public sealed class ScopeService(EshopGuardDb db, ShopCatalog catalog, ScopeInpu
             scope.OtherPagesTotal,
             new ScopeBasisDto(scope.SampleRunId, scope.SampleRunId is null ? null : stored.Sample?.FinishedAt),
             scope.Issues,
-            scope.ScopeHash);
+            scope.ScopeHash,
+            scope.PriceUnit is { } unit && scope.PriceCount is { } count ? new ScopePriceBasisDto(unit, count) : null);
     }
 }

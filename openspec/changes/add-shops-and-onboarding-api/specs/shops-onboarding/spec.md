@@ -192,7 +192,7 @@ Verze na jiné doméně ve stavu `needs_confirmation` MUST čekat na potvrzení 
 Systém MUST počítat rozsah kontroly na serveru jedním pravidlem pro kontrolu i cenu:
 1. kontroluje se verze v jazyce každé zaškrtnuté země; když taková aktivní verze není, hlavní verze;
 2. každá kontrolovaná verze se posuzuje podle všech zaškrtnutých zemí, jejichž zákazníci ji můžou číst (čeština a slovenština navzájem);
-3. do pásma jde součet produktů za každou zaškrtnutou zemi: pro každou zemi počet produktů verze, kterou pro ni kontrolujeme (rozhodnutí 2. 10. 2026); neznámý počet kterékoli z nich MUST vést ke kódu `scope.product_count_unknown` bez ceny;
+3. do pásma jde součet produktů za každou zaškrtnutou zemi: pro každou zemi počet produktů verze, kterou pro ni kontrolujeme (rozhodnutí 2. 10. 2026); když počet produktů kterékoli z nich neznáme, MUST jít do pásma součet stránek ke kontrole (všechny stránky sitemap verze za každou zemi, `priceBasis.unit = pages`, rozhodnutí 2. 10. 2026); když chybí i ten, MUST vést ke kódu `scope.product_count_unknown` bez ceny;
 4. základ (počty po verzích) MUST pocházet z dokončené ukázky, aby cena z ukázky byla garantovaná.
 
 `POST …/quote` MUST:

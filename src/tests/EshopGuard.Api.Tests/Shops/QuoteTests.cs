@@ -77,9 +77,10 @@ public sealed class QuoteTests : ShopTestBase
     }
 
     [Fact]
-    public async Task UnknownProductCount_GivesNoPrice()
+    public async Task UnknownProductCount_IsPricedByThePagesToCheck()
     {
-        await using var factory = PricedFactory(new FakePriceQuoteService());
+        var pricing = new FakePriceQuoteService();
+        await using var factory = PricedFactory(pricing);
         using var owner = await People.OwnerAsync(factory);
         var domain = NewDomain();
         var shopId = (await CreateShopAsync(owner, "https://" + domain)).GetProperty("id").GetGuid();
@@ -88,9 +89,12 @@ public sealed class QuoteTests : ShopTestBase
         using var response = await owner.Browser.PostAsync($"/api/t/{owner.TenantId}/shops/{shopId}/quote", new { activeMarkets = new[] { "sk", "cz" } });
         var scope = await GetJsonAsync(owner, $"/api/t/{owner.TenantId}/shops/{shopId}/scope");
 
-        Assert.Equal((HttpStatusCode.Conflict, "scope.product_count_unknown"), ((await ApiClient.ProblemAsync(response)).Status, (await ApiClient.ProblemAsync(response)).Code));
+        // Decision of 2. 10. 2026: sk 5 834 products + 38 other pages, cs 38 pages of its sitemap.
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.Equal(System.Text.Json.JsonValueKind.Null, scope.GetProperty("productTotal").ValueKind);
-        Assert.Contains("scope.product_count_unknown", scope.GetProperty("issues").EnumerateArray().Select(i => i.GetString()));
+        Assert.Equal(("pages", 5910), (scope.GetProperty("priceBasis").GetProperty("unit").GetString(), scope.GetProperty("priceBasis").GetProperty("count").GetInt32()));
+        Assert.Empty(scope.GetProperty("issues").EnumerateArray());
+        Assert.Equal(("pages", 5910), (pricing.Requests[^1].Scope.PriceUnit, pricing.Requests[^1].Scope.PriceCount));
     }
 
     [Fact]

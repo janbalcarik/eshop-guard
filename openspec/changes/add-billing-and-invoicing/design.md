@@ -57,7 +57,7 @@ Důvody, proč se verze nekontroluje, předává rozsah ze změny 10. V nabídce
 - `not_needed_by_markets`: verzi nepotřebuje žádné zaškrtnuté místo prodeje;
 - `unsupported_market`: verze pro nepodporovaný trh, klientovi se neukazuje.
 
-Když rozsah nemá základ z ukázky, vrací změna 10 `quote.basis_missing` a `IPriceQuoteService` se nevolá. Když je počet produktů některé kontrolované verze neznámý (bez produktové sitemap a konektoru), vrací `scope.product_count_unknown` a nabídka se také nevytvoří.
+Když rozsah nemá základ z ukázky, vrací změna 10 `quote.basis_missing` a `IPriceQuoteService` se nevolá. Pásmo analýzy se určí z `ShopScope.PriceCount` v jednotce `PriceUnit` (rozhodnutí 2. 10. 2026): `products`, když jsou známé produkty všech kontrolovaných verzí, jinak `pages` = stránky ke kontrole ze sitemap (stejné hranice pásem, v nabídce i na faktuře „stránok na kontrolu“). Sledování od 2. měsíce se pak počítá podle skutečného počtu produktů z úvodní analýzy (`billing.evaluate_tiers`). Když chybí i stránky, vrací `scope.product_count_unknown` a nabídka se nevytvoří.
 
 **Výpočet:**
 1. **Ceník:** zveřejněný s `valid_from ≤ now`, nejnovější pro `tenants.market_code` a `tenants.currency`. Když měna tenanta ještě není pevná (`currency = NULL` do první platby, změna 9), vezme se měna trhu z `ref.markets.currency`. Když ceník chybí, nabídka má stav `unavailable` a kód `billing.price_list_missing`.

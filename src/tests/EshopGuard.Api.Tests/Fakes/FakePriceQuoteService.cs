@@ -5,7 +5,7 @@ namespace EshopGuard.Api.Tests.Fakes;
 
 /// <summary>
 /// Prices of the tests only (change 10, task 7.6; change 12 brings the real ones): the bands up to 500, 2 000, 5 000 and
-/// 20 000 products, above that <c>isCustom</c>. No amounts.
+/// 20 000 products (or pages to check, when the products are not known), above that <c>isCustom</c>. No amounts.
 /// </summary>
 internal sealed class FakePriceQuoteService : IPriceQuoteService
 {
@@ -17,7 +17,7 @@ internal sealed class FakePriceQuoteService : IPriceQuoteService
     {
         ArgumentNullException.ThrowIfNull(request);
         Requests.Add(request);
-        var total = request.Scope.ProductTotal ?? 0;
+        var total = request.Scope.PriceCount ?? 0;
         int? band = Bands.Cast<int?>().FirstOrDefault(b => total <= b);
         return Task.FromResult(new PriceQuoteDto(
             Guid.CreateVersion7(), null, "EUR", band is { } b ? $"up_to_{b}" : null, band, band is null, new FairUseDto(null, false),

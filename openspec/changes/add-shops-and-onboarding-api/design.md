@@ -167,7 +167,7 @@ Postup:
 4. Verze, které nejsou v `C`, jdou do `notCheckedVersions`:
    - důvod `excluded`, `awaiting_confirmation`, nebo `not_needed_by_markets`;
    - `unsupported` se nevypisuje.
-5. `productTotal = Σ productCount(v_m)` přes země `m ∈ M'`, kde `v_m` je verze vybraná pro `m` v kroku 2 (rozhodnutí 2. 10. 2026: cena za každou zemi; e-shop s jednou verzí a dvěma zeměmi má dvojnásobek). Neznámý `productCount` kterékoli `v_m` dá `scope.product_count_unknown` a nabídka ceny se nevytvoří (fail-closed), počet dodá konektor.
+5. `productTotal = Σ productCount(v_m)` přes země `m ∈ M'`, kde `v_m` je verze vybraná pro `m` v kroku 2 (rozhodnutí 2. 10. 2026: cena za každou zemi; e-shop s jednou verzí a dvěma zeměmi má dvojnásobek). Neznámý `productCount` kterékoli `v_m`: `productTotal = null` a cena se počítá ze stránek ke kontrole (rozhodnutí uživatele 2. 10. 2026, K-ROZHODNUTI A21): `priceBasis = { unit: pages, count: Σ pageCount(v_m) }`, kde `pageCount` je počet všech stránek sitemap verze (`runs.estimate.basis.versions[].sitemap_pages`, u staršího základu `productCount + otherPages`). Jinak `priceBasis = { unit: products, count: productTotal }`. Teprve když chybí i stránky, `scope.product_count_unknown` a nabídka se nevytvoří (fail-closed). UI pak píše „stránok na kontrolu“ místo „produktov“.
 6. `otherPagesTotal = Σ otherPageCount` přes `v ∈ C`.
 7. `scopeHash = SHA-256` kanonického JSON (`M'`, `C` s jazyky a počty, `X`, `basis.sampleRunId`).
 

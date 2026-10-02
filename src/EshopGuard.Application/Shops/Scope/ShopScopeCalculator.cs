@@ -15,8 +15,9 @@ namespace EshopGuard.Application.Shops.Scope;
 /// <item>for every market the active version in its language, otherwise the main version, otherwise <c>scope.no_checkable_version</c>;</item>
 /// <item>every checked version judged by every ticked market whose customers read it (<c>readable_languages</c> of
 ///       <c>config/jurisdictions.yaml</c>);</item>
-/// <item>the products for the band: for every ticked market those of its version (decision of 2. 10. 2026), an unknown number
-///       gives <c>scope.product_count_unknown</c> and no price;</item>
+/// <item>the products for the band: for every ticked market those of its version (decision of 2. 10. 2026); when some are not
+///       known, the pages to check of the sitemap of the version of every ticked market (decision of 2. 10. 2026, unit
+///       <c>pages</c>); when those are not known either, <c>scope.product_count_unknown</c> and no price;</item>
 /// <item><see cref="ShopScope.ScopeHash"/>: SHA-256 of the canonical JSON of the markets, the checked versions with their
 ///       numbers, the excluded versions and the sample of the basis.</item>
 /// </list>
@@ -80,15 +81,22 @@ public static class ShopScopeCalculator
         var notChecked = plan.NotChecked
             .Where(v => byKey.TryGetValue(VersionMarketPlanner.Key(v.Language, v.BaseUrl), out var stored) && stored.Status != ShopLanguageStatus.Unsupported)
             .Select(v => new ScopeNotCheckedVersion(v.Language ?? "und", v.BaseUrl, Reason(v.Code))).ToList();
-        var byMarket = plan.ByMarket.Select(m => new ScopeMarket(m.Market, m.Language, m.ProductCount)).ToList();
-        if (plan.ProductCountUnknown)
+        var byMarket = plan.ByMarket.Select(m => new ScopeMarket(m.Market, m.Language, m.ProductCount,
+            byKey.TryGetValue(VersionMarketPlanner.Key(m.Language, m.BaseUrl), out var stored) ? stored.PageCount : null)).ToList();
+        int? productTotal = plan.ProductCountUnknown ? null : plan.CountedProducts;
+        int? otherPages = checkedVersions.All(v => v.OtherPageCount is not null) ? checkedVersions.Sum(v => v.OtherPageCount!.Value) : null;
+
+        // The price: the products of every ticked market; when some are not known, the pages to check of every ticked market
+        // (decision of 2. 10. 2026, the same unit for all); without them no price.
+        var (unit, count) = productTotal is { } products ? (PriceUnits.Products, (int?)products)
+            : byMarket.All(m => m.PageCount is not null) ? (PriceUnits.Pages, byMarket.Sum(m => m.PageCount!.Value))
+            : ((string?)null, (int?)null);
+        if (count is null)
         {
             issues.Add(ProblemCodes.ScopeProductCountUnknown);
         }
 
-        int? productTotal = plan.ProductCountUnknown ? null : plan.CountedProducts;
-        int? otherPages = checkedVersions.All(v => v.OtherPageCount is not null) ? checkedVersions.Sum(v => v.OtherPageCount!.Value) : null;
-        return Finish(plan.ActiveMarkets, checkedVersions, notChecked, byMarket, productTotal, otherPages, input, excluded, issues);
+        return Finish(plan.ActiveMarkets, checkedVersions, notChecked, byMarket, productTotal, otherPages, input, excluded, issues, unit, count);
     }
 
     /// <summary>
@@ -118,7 +126,8 @@ public static class ShopScopeCalculator
 
     private static ShopScope Finish(
         IReadOnlyList<string> markets, IReadOnlyList<ScopeCheckedVersion> checkedVersions, IReadOnlyList<ScopeNotCheckedVersion> notChecked,
-        IReadOnlyList<ScopeMarket> byMarket, int? productTotal, int? otherPages, ShopScopeInput input, HashSet<string> excluded, List<string> issues)
+        IReadOnlyList<ScopeMarket> byMarket, int? productTotal, int? otherPages, ShopScopeInput input, HashSet<string> excluded, List<string> issues,
+        string? priceUnit = null, int? priceCount = null)
     {
         var sortedMarkets = markets.Order(StringComparer.Ordinal).ToList();
         var canonical = new JsonObject
@@ -134,9 +143,11 @@ public static class ShopScopeCalculator
                 ["markets"] = new JsonArray([.. v.Markets.Order(StringComparer.Ordinal).Select(m => (JsonNode)m)]),
             })]),
             ["excluded"] = new JsonArray([.. excluded.Order(StringComparer.Ordinal).Select(l => (JsonNode)l)]),
+            ["price"] = priceUnit is null ? null : new JsonObject { ["unit"] = priceUnit, ["count"] = priceCount },
             ["basis"] = input.SampleRunId?.ToString("D"),
         };
         var hash = Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(canonical.ToJsonString())));
-        return new ShopScope(sortedMarkets, checkedVersions, notChecked, byMarket, sortedMarkets, productTotal, otherPages, input.SampleRunId, issues, hash);
+        return new ShopScope(sortedMarkets, checkedVersions, notChecked, byMarket, sortedMarkets, productTotal, otherPages, input.SampleRunId, issues, hash,
+            priceUnit, priceCount);
     }
 }

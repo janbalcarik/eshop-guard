@@ -28,15 +28,18 @@ public sealed record StoredScope(
         Languages.Select(l => new ScopeVersionInput(
             l.Language, l.BaseUrl,
             excluded is not null && l.Status == ShopLanguageStatus.Excluded && l.DecidedAt is not null ? ShopLanguageStatus.Active : l.Status,
-            l.DecidedAt is not null, l.Source == LanguageSource.Main, l.ProductCount, OtherPages(l.Language))).ToList(),
+            l.DecidedAt is not null, l.Source == LanguageSource.Main, l.ProductCount, OtherPages(l.Language), BasisCount(l.Language, "sitemap_pages"))).ToList(),
         excluded ?? [],
         Sample?.Status is RunStatus.Finished or RunStatus.Partial ? Sample.Id : null);
 
     /// <summary>Other pages of the version from the basis of the sample (<c>runs.estimate.basis.versions[].other_pages</c>).</summary>
-    public int? OtherPages(string language) =>
+    public int? OtherPages(string language) => BasisCount(language, "other_pages");
+
+    /// <summary>A number of the version in the basis of the sample (<c>runs.estimate.basis.versions[]</c>), null when missing.</summary>
+    public int? BasisCount(string language, string name) =>
         (Basis?["versions"] as JsonArray ?? []).OfType<JsonObject>()
             .Where(v => (string?)v["language"] == language)
-            .Select(v => v["other_pages"] is JsonValue value && value.TryGetValue<int>(out var n) ? n : (int?)null)
+            .Select(v => v[name] is JsonValue value && value.TryGetValue<int>(out var n) ? n : (int?)null)
             .FirstOrDefault();
 }
 

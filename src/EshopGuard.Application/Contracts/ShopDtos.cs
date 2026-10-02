@@ -172,7 +172,10 @@ public sealed record LanguageVersionDto(
     string CheckedReason,
     IReadOnlyList<string> Jurisdictions);
 
-public sealed record ScopeMarketDto(string MarketCode, string Language, int? ProductCount);
+public sealed record ScopeMarketDto(string MarketCode, string Language, int? ProductCount, int? PageCount = null);
+
+/// <summary>What the price counts: <c>products</c>, or <c>pages</c> to check when the products are not known (2. 10. 2026).</summary>
+public sealed record ScopePriceBasisDto(string Unit, int Count);
 
 public sealed record ScopeCheckedVersionDto(
     string Language, string BaseUrl, bool IsMain, int? ProductCount, int? OtherPageCount, IReadOnlyList<string> Jurisdictions, IReadOnlyList<string> Markets,
@@ -184,7 +187,8 @@ public sealed record ScopeBasisDto(Guid? SampleRunId, DateTimeOffset? FinishedAt
 
 /// <summary>
 /// The scope of the check: the products of every ticked market, the checked and not checked versions, the jurisdictions,
-/// the products for the band (<c>productTotal</c>, null when not known), other pages, the basis and <c>scopeHash</c>.
+/// the products for the band (<c>productTotal</c>, null when not known), other pages, the basis and <c>scopeHash</c>;
+/// <c>priceBasis</c> says what the price counts (products, or pages to check when the products are not known).
 /// <c>issues</c> holds what prevents a price.
 /// </summary>
 public sealed record ScopeDto(
@@ -196,7 +200,8 @@ public sealed record ScopeDto(
     int? OtherPagesTotal,
     ScopeBasisDto Basis,
     IReadOnlyList<string> Issues,
-    string ScopeHash);
+    string ScopeHash,
+    ScopePriceBasisDto? PriceBasis = null);
 
 public sealed record QuoteDto(ScopeDto Scope, PriceQuoteDto Price);
 

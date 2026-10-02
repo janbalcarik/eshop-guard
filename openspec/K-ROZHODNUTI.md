@@ -80,7 +80,7 @@ Každá změna má v `proposal.md` oddíl „K rozhodnutí“, celkem asi 320 bo
 | A18 | Shoptet: smlouva a schválení doplňku (až 4 týdny) | zahájit souběžně s F5–F7 | 15 |
 | A19 | Souhlas obchodníka se zpracováním textů přes OpenAI | ano, do obchodních podmínek (právník) | 15, 12 |
 | A20 | Chybějící návrhy UI (pravidlo: nejdřív návrh): průběh ukázky; běžící, částečná a selhaná analýza; pokrytí kontroly (nezkontrolované stránky); Nastavenia; Zabudnuté heslo; panel upozornění; hledání; dialogy Pridať doklad a Zrušiť sledovanie; přepnutí účtu; mobilní varianty; souhlas s obchodními podmínkami a řádek DPH na 3c; pohled „Podľa nálezov“ | navrhnout je před F7 | 13 |
-| A21 | Cena e-shopu bez známého počtu produktů: jedna sitemap bez produktové (živá ukázka naturfyt.sk na Shoptetu, 2. 10. 2026), bez konektoru | návrh k rozhodnutí: odhad z podílu produktových stránek mezi náhodnými stránkami sitemap (horní mez), označený jako odhad a opravený po úvodní analýze; nebo počet zadá obchodník a ověří se při úvodní analýze; přesný počet dodá konektor (změna 15). Do rozhodnutí bez ceny (`scope.product_count_unknown`) | 10, 12, 15 |
+| A21 | Cena e-shopu bez známého počtu produktů: jedna sitemap bez produktové (živá ukázka naturfyt.sk na Shoptetu, 2. 10. 2026), bez konektoru | **rozhodnuto 2. 10. 2026:** když produkty známe, cena podle produktů (beze změny); když ne, z počtu stránek ke kontrole ze sitemap (`priceBasis.unit = pages`, stejná pásma), v UI „stránok na kontrolu“; sledování od 2. měsíce podle skutečného počtu produktů z úvodní analýzy. Bez stránek i produktů dál bez ceny (`scope.product_count_unknown`). Kód změny 10 hotový (oprava J), částky změna 12 | 10, 12, 15 |
 
 ## B. Technické výchozí volby (platí, pokud uživatel nenamítne)
 

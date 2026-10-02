@@ -7,7 +7,8 @@ namespace EshopGuard.Jobs.Runs;
 /// <summary>
 /// The scope basis of an e-shop (<c>runs.estimate.basis</c>) from its free sample (price for every country, decision of
 /// 2. 10. 2026): by language version its status, product count (or its lower bound), the other pages of its sitemap (pages
-/// of content; unknown for a version the sample did not check) and the share of products with a description in its
+/// of content; unknown for a version the sample did not check), all pages of its sitemap (the basis of the price when the
+/// products are not known, decision of 2. 10. 2026) and the share of products with a description in its
 /// language; by ticked market the version checked for it and its products, with the reason when they are not known; the URLs
 /// of the sitemaps. No band and no amount: the scope and its price are computed by change 10 (<c>ShopScopeCalculator</c>)
 /// and change 12 (<c>IPriceQuoteService</c>) from this basis.
@@ -30,6 +31,7 @@ public static class ScopeBasisBuilder
                 ["product_count"] = version.ProductCount,
                 ["product_count_at_least"] = version.ProductCountAtLeast,
                 ["other_pages"] = sitemap?.OtherPages,
+                ["sitemap_pages"] = sitemap is null ? null : sitemap.ProductPages + sitemap.OtherPages,
                 ["translated_share"] = version.TranslatedShare is { } share ? Math.Round(share, 4) : null,
             });
         }
