@@ -1,3 +1,4 @@
+using EshopGuard.Jobs.Fixes;
 using EshopGuard.Application.Contracts;
 using EshopGuard.Data.Configurations.Conventions;
 using EshopGuard.Data.Entities.Checks;
@@ -17,7 +18,7 @@ public static class FindingMapper
         return new FindingListItemDto(
             finding.Id, finding.RuleSetId, finding.RuleId, finding.Module, Text(finding.Scope), FindingStatusMachine.Text(finding.Status), finding.Text,
             Page(page), finding.Occurrences, verdicts, verdicts.FirstOrDefault(), finding.Params?.RootElement.Clone(),
-            proposal is null ? null : new FindingProposalRefDto(proposal.Id, Text(proposal.Status), Text(Fixes.ProposalText.Recheck(proposal))),
+            proposal is null ? null : new FindingProposalRefDto(proposal.Id, Text(proposal.Status), Text(ProposalText.Recheck(proposal))),
             questionId);
     }
 

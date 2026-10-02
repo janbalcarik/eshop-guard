@@ -1,3 +1,4 @@
+using EshopGuard.Jobs.Fixes;
 using EshopGuard.Data;
 using EshopGuard.Data.Entities.Fixes;
 using Microsoft.EntityFrameworkCore;

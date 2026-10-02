@@ -22,6 +22,25 @@
         ],
         "type": "object"
       },
+      "AlternativeDto": {
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "recheckStatus": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "text",
+          "recheckStatus"
+        ],
+        "type": "object"
+      },
       "AppliesToDto": {
         "properties": {
           "findings": {
@@ -88,6 +107,235 @@
           "fixes",
           "evidence",
           "monitoring"
+        ],
+        "type": "object"
+      },
+      "ChangeDto": {
+        "properties": {
+          "alternatives": {
+            "items": {
+              "$ref": "#/components/schemas/AlternativeDto"
+            },
+            "type": "array"
+          },
+          "contextAfter": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "contextBefore": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "editedText": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "findingIds": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "group": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/ChangeGroupDto"
+              }
+            ]
+          },
+          "groupId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "index": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "kind": {
+            "type": "string"
+          },
+          "originalText": {
+            "type": "string"
+          },
+          "placeholders": {
+            "items": {
+              "$ref": "#/components/schemas/PlaceholderDto"
+            },
+            "type": "array"
+          },
+          "proposalId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "proposedText": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "questionCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "questionId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "questionParams": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/JsonElement"
+              }
+            ]
+          },
+          "recheck": {
+            "$ref": "#/components/schemas/RecheckDto"
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "ruleSetId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "selectedAlternative": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "strictest": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/VerdictDto"
+              }
+            ]
+          },
+          "text": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "verdicts": {
+            "items": {
+              "$ref": "#/components/schemas/VerdictDto"
+            },
+            "type": "array"
+          },
+          "version": {
+            "format": "uint32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "index",
+          "kind",
+          "proposalId",
+          "questionId",
+          "groupId",
+          "findingIds",
+          "ruleId",
+          "ruleSetId",
+          "verdicts",
+          "strictest",
+          "originalText",
+          "proposedText",
+          "text",
+          "contextBefore",
+          "contextAfter",
+          "alternatives",
+          "selectedAlternative",
+          "editedText",
+          "placeholders",
+          "group",
+          "recheck",
+          "status",
+          "version",
+          "questionCode",
+          "questionParams"
+        ],
+        "type": "object"
+      },
+      "ChangeGroupDto": {
+        "properties": {
+          "fitsCount": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "individualCount": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "pageCount": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "pageCount",
+          "fitsCount",
+          "individualCount",
+          "status"
         ],
         "type": "object"
       },
@@ -396,6 +644,20 @@
           "failureCode",
           "connector",
           "recommendedSource"
+        ],
+        "type": "object"
+      },
+      "EditProposalTextRequest": {
+        "properties": {
+          "text": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "text"
         ],
         "type": "object"
       },
@@ -1907,6 +2169,74 @@
         ],
         "type": "object"
       },
+      "PageReviewDto": {
+        "properties": {
+          "changes": {
+            "items": {
+              "$ref": "#/components/schemas/ChangeDto"
+            },
+            "type": "array"
+          },
+          "page": {
+            "$ref": "#/components/schemas/ReviewPageDto"
+          },
+          "position": {
+            "$ref": "#/components/schemas/ReviewPositionDto"
+          },
+          "publish": {
+            "$ref": "#/components/schemas/PublishAvailabilityDto"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/ReviewSummaryDto"
+          },
+          "templateNote": {
+            "type": "boolean"
+          },
+          "unchangedBlocks": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "page",
+          "position",
+          "changes",
+          "unchangedBlocks",
+          "templateNote",
+          "summary",
+          "publish"
+        ],
+        "type": "object"
+      },
+      "PageSourceDto": {
+        "properties": {
+          "externalId": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "kind": {
+            "type": "string"
+          },
+          "platform": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "platform",
+          "externalId"
+        ],
+        "type": "object"
+      },
       "PageTabsDto": {
         "properties": {
           "needsAnswer": {
@@ -2093,6 +2423,24 @@
         ],
         "type": "object"
       },
+      "PlaceholderDto": {
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "key",
+          "value"
+        ],
+        "type": "object"
+      },
       "PriceQuoteDto": {
         "properties": {
           "analysisNet": {
@@ -2203,6 +2551,161 @@
           "firstMonitoringChargeAt",
           "vatPreview",
           "validUntil"
+        ],
+        "type": "object"
+      },
+      "ProposalDto": {
+        "properties": {
+          "alternatives": {
+            "items": {
+              "$ref": "#/components/schemas/AlternativeDto"
+            },
+            "type": "array"
+          },
+          "blockIndex": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "editedText": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "field": {
+            "type": "string"
+          },
+          "findingIds": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "groupId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "originalText": {
+            "type": "string"
+          },
+          "pageId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "placeholders": {
+            "items": {
+              "$ref": "#/components/schemas/PlaceholderDto"
+            },
+            "type": "array"
+          },
+          "proposedText": {
+            "type": "string"
+          },
+          "recheck": {
+            "$ref": "#/components/schemas/RecheckDto"
+          },
+          "selectedAlternative": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "version": {
+            "format": "uint32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "pageId",
+          "groupId",
+          "findingIds",
+          "field",
+          "blockIndex",
+          "originalText",
+          "proposedText",
+          "text",
+          "alternatives",
+          "selectedAlternative",
+          "editedText",
+          "placeholders",
+          "recheck",
+          "status",
+          "version"
+        ],
+        "type": "object"
+      },
+      "ProposalPlaceholdersRequest": {
+        "properties": {
+          "values": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": [
+              "null",
+              "object"
+            ]
+          }
+        },
+        "required": [
+          "values"
+        ],
+        "type": "object"
+      },
+      "PublishAvailabilityDto": {
+        "properties": {
+          "acceptedCount": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "platform": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "reasonCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "available",
+          "reasonCode",
+          "platform",
+          "acceptedCount"
         ],
         "type": "object"
       },
@@ -2366,6 +2869,37 @@
         ],
         "type": "object"
       },
+      "RecheckDto": {
+        "properties": {
+          "jurisdictions": {
+            "items": {
+              "type": "string"
+            },
+            "type": [
+              "null",
+              "array"
+            ]
+          },
+          "ruleIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": [
+              "null",
+              "array"
+            ]
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "jurisdictions",
+          "ruleIds"
+        ],
+        "type": "object"
+      },
       "RedirectedDomainDto": {
         "properties": {
           "domain": {
@@ -2459,6 +2993,126 @@
         "required": [
           "token",
           "newPassword"
+        ],
+        "type": "object"
+      },
+      "ReviewPageDto": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "language": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "source": {
+            "$ref": "#/components/schemas/PageSourceDto"
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "url",
+          "language",
+          "source"
+        ],
+        "type": "object"
+      },
+      "ReviewPositionDto": {
+        "properties": {
+          "index": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "nextPageId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "nextTitle": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "prevPageId": {
+            "format": "uuid",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "tab": {
+            "type": "string"
+          },
+          "total": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "tab",
+          "index",
+          "total",
+          "prevPageId",
+          "nextPageId",
+          "nextTitle"
+        ],
+        "type": "object"
+      },
+      "ReviewSummaryDto": {
+        "properties": {
+          "accepted": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "groupsAwaitingValue": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "total": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "accepted",
+          "total",
+          "groupsAwaitingValue"
         ],
         "type": "object"
       },
@@ -3079,6 +3733,20 @@
         "required": [
           "pages",
           "findings"
+        ],
+        "type": "object"
+      },
+      "SelectAlternativeRequest": {
+        "properties": {
+          "key": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "key"
         ],
         "type": "object"
       },
@@ -6635,6 +7303,72 @@
         ]
       }
     },
+    "/api/t/{tenantId}/shops/{shopId}/pages/{pageId}/review": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "pageId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "tab",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "language",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageReviewDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "page.not_found",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
     "/api/t/{tenantId}/shops/{shopId}/platform": {
       "put": {
         "parameters": [
@@ -6689,6 +7423,452 @@
           "request.https_required",
           "request.invalid",
           "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/proposals/{proposalId}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "proposalId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposalDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "proposal.not_found",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/proposals/{proposalId}/accept": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "proposalId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposalDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "concurrency.conflict",
+          "csrf.invalid",
+          "finding.transition_not_allowed",
+          "internal_error",
+          "proposal.locked",
+          "proposal.not_found",
+          "proposal.placeholder_missing",
+          "proposal.recheck_failed",
+          "proposal.recheck_pending",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "shop.sample_only",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/proposals/{proposalId}/alternative": {
+      "put": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "proposalId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SelectAlternativeRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposalDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "concurrency.conflict",
+          "csrf.invalid",
+          "internal_error",
+          "proposal.alternative_unknown",
+          "proposal.locked",
+          "proposal.not_found",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "shop.sample_only",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/proposals/{proposalId}/placeholders": {
+      "put": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "proposalId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ProposalPlaceholdersRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposalDto"
+                }
+              }
+            },
+            "description": "Accepted"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "concurrency.conflict",
+          "csrf.invalid",
+          "internal_error",
+          "proposal.locked",
+          "proposal.not_found",
+          "proposal.placeholder_empty",
+          "proposal.placeholder_unknown",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "shop.sample_only",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/proposals/{proposalId}/reject": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "proposalId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposalDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "concurrency.conflict",
+          "csrf.invalid",
+          "internal_error",
+          "proposal.locked",
+          "proposal.not_found",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "shop.sample_only",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/proposals/{proposalId}/text": {
+      "put": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "proposalId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/EditProposalTextRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposalDto"
+                }
+              }
+            },
+            "description": "Accepted"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "concurrency.conflict",
+          "csrf.invalid",
+          "internal_error",
+          "proposal.locked",
+          "proposal.not_found",
+          "proposal.text_empty",
+          "proposal.text_too_long",
+          "proposal.text_unchanged",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "shop.sample_only",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/proposals/{proposalId}/unaccept": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "proposalId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProposalDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "fixes"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "concurrency.conflict",
+          "csrf.invalid",
+          "internal_error",
+          "proposal.already_published",
+          "proposal.locked",
+          "proposal.not_found",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "shop.sample_only",
           "tenant.not_found",
           "tenant.suspended",
           "validation.failed"

@@ -65,37 +65,37 @@
 
 ## 4. Oprava stránky a návrhy
 
-- [ ] 4.1 `Application/Fixes/ExtractContextReader.cs`: čtení bloků z `page_versions.extract_blob_key` přes `IBlobStore` (gzip JSON), okolní věty a počet bloků beze změny.
-- [ ] 4.2 `Application/Fixes/PageReviewService.cs`:
+- [x] 4.1 `Application/Fixes/ExtractContextReader.cs`: čtení bloků z `page_versions.extract_blob_key` přes `IBlobStore` (gzip JSON), okolní věty a počet bloků beze změny.
+- [x] 4.2 `Application/Fixes/PageReviewService.cs`:
   - změny v pořadí textu, varianty, údaje, odkaz na skupinu, otázky, `recheck`;
   - pozice ve frontě záložky (předchozí, další);
   - zdroj textu;
   - `publish.available` a `reasonCode` (AD 4).
-- [ ] 4.3 `GET S/pages/{pageId}/review` a `GET S/proposals/{proposalId}` v `PageReviewEndpoints.cs` a `ProposalEndpoints.cs`. `Api/Http/ETagExtensions.cs` (`ETag` / `If-Match` ↔ `xmin`).
-- [ ] 4.4 `Application/Fixes/FixProposalService.cs`:
+- [x] 4.3 `GET S/pages/{pageId}/review` a `GET S/proposals/{proposalId}` v `PageReviewEndpoints.cs` a `ProposalEndpoints.cs`. `Api/Http/ETagExtensions.cs` (`ETag` / `If-Match` ↔ `xmin`).
+- [x] 4.4 `Application/Fixes/FixProposalService.cs`:
   - `SelectAlternativeAsync`;
   - `EditTextAsync` (prázdný, beze změny, délka, `status = edited`, `recheck_status = pending`, úloha `fix.recheck`);
   - `FillPlaceholdersAsync`;
   - `AcceptAsync` (kontrola `ok` ve všech aktivních zemích, údaje, automat, paměť rozhodnutí);
   - `RejectAsync`, `UnacceptAsync`.
-- [ ] 4.5 Koncové body `PUT S/proposals/{id}/alternative`, `PUT …/text`, `PUT …/placeholders`, `POST …/accept`, `POST …/reject`, `POST …/unaccept`.
-- [ ] 4.6 `Jobs/Fixes/FixRecheckHandler.cs`:
+- [x] 4.5 Koncové body `PUT S/proposals/{id}/alternative`, `PUT …/text`, `PUT …/placeholders`, `POST …/accept`, `POST …/reject`, `POST …/unaccept`.
+- [x] 4.6 `Jobs/Fixes/FixRecheckHandler.cs`:
   - `AnalyzeTextsAsync` (změna 5) s kontextem, aktivními zeměmi a moduly nálezu;
   - zápis `recheck_status` a `recheck_result` jen při shodném `textHash`;
   - P0, `concurrency_key = recheck:{proposalId}`.
-- [ ] 4.7 `Application/Fixes/DecisionMemoryWriter.cs` (`replace` / `keep` / `keep_with_evidence` / `remove`, `superseded_at` při vrácení) a test `DecisionMemoryWriterTests`.
-- [ ] 4.8 Test `PageReviewTests`:
+- [x] 4.7 `Application/Fixes/DecisionMemoryWriter.cs` (`replace` / `keep` / `keep_with_evidence` / `remove`, `superseded_at` při vrácení) a test `DecisionMemoryWriterTests`.
+- [x] 4.8 Test `PageReviewTests`:
   - stránka „Zubná pasta + bambusová kefka“: 5 změn, skupina 38, zdroj Shoptet 2429, pozice 1 z 24;
   - kontext ze souboru;
   - e-shop `web` → `publish.available = false`.
-- [ ] 4.9 Test `ProposalTests`:
+- [x] 4.9 Test `ProposalTests`:
   - úprava → `202` a úloha P0;
   - `MockJevClient` bez nálezu → `ok` a přijetí projde;
   - `still_finding` v `cz` → `409 proposal.recheck_failed`;
   - nevyplněný údaj → `409`;
   - souběžná úprava → `409 concurrency.conflict`;
   - zastaralý výsledek kontroly se nezapíše.
-- [ ] 4.10 Test `FixRecheckHandlerTests` (`MockJevClient`, dvě jurisdikce, změněný text mezi založením a doběhem úlohy).
+- [x] 4.10 Test `FixRecheckHandlerTests` (`MockJevClient`, dvě jurisdikce, změněný text mezi založením a doběhem úlohy).
 
 ## 5. Otázky a odpovědi
 

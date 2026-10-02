@@ -1,3 +1,4 @@
+using EshopGuard.Jobs.Fixes;
 using EshopGuard.Application.Findings;
 using EshopGuard.Application.Fixes;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +30,10 @@ public static class FindingsServiceCollectionExtensions
         services.TryAddScoped<SearchService>();
         services.TryAddScoped<FindingsCsvExporter>();
         services.TryAddScoped<UserLocales>();
+        services.AddOptions<FixesOptions>().BindConfiguration(FixesOptions.SectionName);
+        services.TryAddScoped<PublishAvailability>();
+        services.TryAddScoped<PageReviewService>();
+        services.TryAddScoped<FixProposalService>();
         return services;
     }
 }

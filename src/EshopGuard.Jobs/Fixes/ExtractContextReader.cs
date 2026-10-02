@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json;
 using EshopGuard.Storage;
 
-namespace EshopGuard.Application.Fixes;
+namespace EshopGuard.Jobs.Fixes;
 
 /// <summary>
 /// The text of a version of a page as the worker stored it (change 8): the extraction <c>page_versions.extract_blob_key</c>,

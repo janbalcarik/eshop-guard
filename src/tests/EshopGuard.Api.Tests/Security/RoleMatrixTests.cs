@@ -65,6 +65,14 @@ public sealed class RoleMatrixTests : ApiTestBase
         ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/findings/{findingId:guid}/dismiss"] = TenantRole.Editor,
         ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/findings/{findingId:guid}/reopen"] = TenantRole.Editor,
         ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/search"] = TenantRole.Viewer,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/pages/{pageId:guid}/review"] = TenantRole.Viewer,
+        ["GET /api/t/{tenantId:guid}/shops/{shopId:guid}/proposals/{proposalId:guid}"] = TenantRole.Viewer,
+        ["PUT /api/t/{tenantId:guid}/shops/{shopId:guid}/proposals/{proposalId:guid}/alternative"] = TenantRole.Editor,
+        ["PUT /api/t/{tenantId:guid}/shops/{shopId:guid}/proposals/{proposalId:guid}/text"] = TenantRole.Editor,
+        ["PUT /api/t/{tenantId:guid}/shops/{shopId:guid}/proposals/{proposalId:guid}/placeholders"] = TenantRole.Editor,
+        ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/proposals/{proposalId:guid}/accept"] = TenantRole.Editor,
+        ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/proposals/{proposalId:guid}/reject"] = TenantRole.Editor,
+        ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/proposals/{proposalId:guid}/unaccept"] = TenantRole.Editor,
     };
 
     [Fact]

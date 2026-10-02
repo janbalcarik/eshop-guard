@@ -1,3 +1,4 @@
+using EshopGuard.Jobs.Fixes;
 using EshopGuard.Application.Fixes;
 using EshopGuard.Storage;
 using EshopGuard.Tests.Shared;

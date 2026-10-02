@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using EshopGuard.Data.Entities.Fixes;
 
-namespace EshopGuard.Application.Fixes;
+namespace EshopGuard.Jobs.Fixes;
 
 /// <summary>
 /// The facts of a group (change 11, AD 7): its keys are <c>fix_groups.placeholders</c> (an array of keys, or of

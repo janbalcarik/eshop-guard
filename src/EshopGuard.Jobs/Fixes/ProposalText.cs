@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using EshopGuard.Data.Entities.Fixes;
 
-namespace EshopGuard.Application.Fixes;
+namespace EshopGuard.Jobs.Fixes;
 
 /// <summary>A variant of a proposal („S upresnením“, „Bez environmentálneho slova“, <c>answer_no</c> „Riadok odstrániť“).</summary>
 public sealed record ProposalAlternative(string Key, string Text, RecheckStatus RecheckStatus);
@@ -67,13 +67,15 @@ public static class ProposalText
     public static string Text(FixProposal proposal) => Fill(RawText(proposal), Placeholders(proposal?.Placeholders));
 
     /// <summary>
-    /// The state of the recheck of the current text: of the own wording (the column), of the chosen variant (its own state),
-    /// or of the proposal (the column).
+    /// The state of the recheck of the current text: of the own wording or of filled facts (the column), of the chosen variant
+    /// (its own state), or of the proposal (the column).
     /// </summary>
     public static RecheckStatus Recheck(FixProposal proposal)
     {
         ArgumentNullException.ThrowIfNull(proposal);
-        if (proposal.EditedText is null && proposal.SelectedAlternative is { } key
+        // Filled facts change the text of a variant too: then the column holds the recheck of the filled text.
+        var filled = Placeholders(proposal.Placeholders).Any(p => !string.IsNullOrWhiteSpace(p.Value));
+        if (proposal.EditedText is null && !filled && proposal.SelectedAlternative is { } key
             && Alternatives(proposal.Alternatives).FirstOrDefault(a => a.Key == key) is { } alternative)
         {
             return alternative.RecheckStatus;

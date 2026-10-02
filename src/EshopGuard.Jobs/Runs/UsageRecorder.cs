@@ -133,7 +133,8 @@ public sealed class UsageRecorder(EshopGuardDataSource dataSource, IOptions<Runs
                 {
                     new NpgsqlParameter { Value = scope.TenantId },
                     new NpgsqlParameter { Value = scope.ShopId },
-                    new NpgsqlParameter { Value = scope.RunId },
+                    // A job outside of a run (the recheck of a fix, change 11) has no run.
+                    new NpgsqlParameter { Value = scope.RunId == Guid.Empty ? DBNull.Value : scope.RunId, NpgsqlDbType = NpgsqlDbType.Uuid },
                     new NpgsqlParameter { Value = scope.JobId },
                     new NpgsqlParameter { Value = SnakeCaseEnumConverter<UsageProvider>.ToText(entry.Provider) },
                     new NpgsqlParameter { Value = (object?)entry.Model ?? DBNull.Value, NpgsqlDbType = NpgsqlDbType.Text },
