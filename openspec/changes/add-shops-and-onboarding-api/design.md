@@ -62,6 +62,7 @@ Všechny pod `/api/t/{tenantId}`. Role podle matice změny 9: čtení `viewer`, 
   - `{ countryCode, marketCode, isHome, status: suggested|active|declined, preselected, evidenceLevel: strong|delivery|generic|null, source: detected|user }`;
   - `evidence: [{ kind: signal|citation, code, params, quote?, pageUrl? }]`;
   - `checksStatus: limited|full`.
+- *Úprava 2. 10. 2026 (cena za každou zemi, změna 7, odchylka 22):* z `LanguageVersionsDto` a `ScopeDto` odpadá `ownTextShare`, `counted`, `countedReason`, `comparison` a souhrny `all_checked_own_texts` a `some_menu_only`; verze dostane `translatedShare` (podíl produktů ze vzorku s popisem v jazyce verze) a `untranslatedProducts`, `ScopeDto` dostane `markets: [{ marketCode, language, productCount }]` a `productTotal` je jejich součet. Níže je původní tvar, upraví se při implementaci.
 - `LanguageVersionsDto`:
   - `summary: { kind: single_version|all_checked_own_texts|some_menu_only|needs_confirmation, versionsFound, checkedLanguages[], countedLanguages[], mutualJurisdictions: bool }`;
   - `versions: [{ language, baseUrl, isMain, switchMethod, source, status: active|excluded|needs_confirmation, productCount, languageShare: { "sk": 1.0 }, otherLanguageItems, ownTextShare?, counted, countedReason, checked, checkedReason, jurisdictions: [code], comparison?, legalPagesDiffer? }]`;
@@ -166,7 +167,7 @@ Postup:
 4. Verze, které nejsou v `C`, jdou do `notCheckedVersions`:
    - důvod `excluded`, `awaiting_confirmation`, nebo `not_needed_by_markets`;
    - `unsupported` se nevypisuje.
-5. `productTotal = Σ productCount` přes `v ∈ C` s `counted = true`. Hlavní verze je vždy `counted`. `counted` u ostatních je `own_text_share ≥ Pricing:OwnTextShareThreshold`, při nejistotě nebo nedostatečném vzorku `false` (hodnotu zapisuje změna 7, kalkulátor ji jen čte).
+5. `productTotal = Σ productCount(v_m)` přes země `m ∈ M'`, kde `v_m` je verze vybraná pro `m` v kroku 2 (rozhodnutí 2. 10. 2026: cena za každou zemi; e-shop s jednou verzí a dvěma zeměmi má dvojnásobek). Neznámý `productCount` kterékoli `v_m` dá `scope.product_count_unknown` a nabídka ceny se nevytvoří (fail-closed), počet dodá konektor.
 6. `otherPagesTotal = Σ otherPageCount` přes `v ∈ C`.
 7. `scopeHash = SHA-256` kanonického JSON (`M'`, `C` s jazyky a počty, `X`, `basis.sampleRunId`).
 
@@ -174,16 +175,16 @@ Tabulka případů (`ShopScopeCalculatorTests`):
 
 | Případ | Vstup | Kontrolované verze (jurisdikce) | Do pásma |
 |---|---|---|---|
-| A | SK + CZ; verze sk (hlavní, 5 834), cs (5 834, 96 % vlastních) | sk (sk, cz), cs (sk, cz) | 11 668 |
+| A | SK + CZ; verze sk (hlavní, 5 834), cs (5 834) | sk (sk, cz), cs (sk, cz) | 11 668 (SK 5 834 + CZ 5 834) |
 | B | jako A, CZ odškrtnuto | sk (sk) | 5 834 |
-| C | SK + CZ; cs má přeložené jen menu (3 %) | sk (sk, cz), cs (sk, cz) | 5 834 (cs `below_threshold`) |
-| D | SK + CZ; cs nejistá | sk, cs | 5 834 (cs `uncertain`) |
-| E | SK + CZ; cs na jiné doméně `needs_confirmation` | sk (sk, cz) jako záloha pro CZ | 5 834; cs `awaiting_confirmation` |
-| F | jako A, cs vyloučená | sk (sk, cz) | 5 834 |
+| C | SK + CZ; jen verze sk (hlavní, 5 834) | sk (sk, cz) | 11 668 (sk za SK i za CZ) |
+| D | SK + CZ; cs bez známého počtu produktů | sk, cs | neznámý → `scope.product_count_unknown` |
+| E | SK + CZ; cs na jiné doméně `needs_confirmation` | sk (sk, cz) jako záloha pro CZ | 11 668 (sk za obě země); cs `awaiting_confirmation` |
+| F | jako A, cs vyloučená | sk (sk, cz) | 11 668 |
 | G | SK; verze sk, pl (pl `unsupported`) | sk (sk) | 5 834; pl se nevypíše |
-| H | CZ; verze sk (hlavní), cs | cs (cz) | jen cs, pokud `counted`, jinak hlavní |
-| I | SK + CZ; 2 × 12 000 produktů s vlastními texty | sk, cs | 24 000 → změna 12 vrátí `isCustom` |
-| J | CZ; jediná verze sk (hlavní) | sk (cz, protože `sk ∈ ReadableLanguages[cz]`) | hlavní |
+| H | CZ; verze sk (hlavní), cs (5 790) | cs (cz) | 5 790 |
+| I | SK + CZ; sk a cs po 12 000 produktech | sk, cs | 24 000 → změna 12 vrátí `isCustom` |
+| J | CZ; jediná verze sk (hlavní, 5 834) | sk (cz, protože `sk ∈ ReadableLanguages[cz]`) | 5 834 |
 
 **AD 8. Nabídka ceny.**
 - `POST …/quote` nic neukládá ve schématu `shop`. Spočítá `ScopeDto` pro zadanou kombinaci (chybějící pole = uložený stav) a zavolá `IPriceQuoteService.QuoteAsync(PriceQuoteRequest { tenantId, shopId, scope, requestedBy })`.
@@ -264,7 +265,7 @@ frontend dotazuje GET …/sample (nebo SSE ze změny 11)
 worker (změny 7 a 8): stáhne 100 stránek, rozbor zemí a verzí → shop_markets, shop_languages, findings, runs.estimate
 GET …/sample → result {pagesChecked: 100, findingCounts: {total: 11, byCheckability: {text: 4, …}}, topFindings[5], exampleFix}
 GET …/markets → SK (strong, preselected), CZ (strong, preselected)
-GET …/languages → summary all_checked_own_texts; cs 96 %, counted
+GET …/languages → sk a cs, popisy přeložené (100 % a 96 %)
 POST …/quote {activeMarkets: [sk, cz]} → scope (11 668 produktů, 2 verze) + price (změna 12)
 uživatel odškrtne CZ → POST …/quote {activeMarkets: [sk]} → scope (5 834, 1 verze) + nová price
 uživatel klikne „Zaplatiť“ → PUT …/markets {active: [sk, cz]} → objednávka (změna 12):
@@ -303,7 +304,7 @@ worker: TXT dotaz → shoda → shop_verifications.status verified, shops.owners
 - `Endpoints/ShopEndpoints.cs`, `Endpoints/OnboardingEndpoints.cs` (`sample`, `scope`, `quote`, `onboarding`), `Endpoints/MarketEndpoints.cs`, `Endpoints/LanguageEndpoints.cs`, `Endpoints/OwnershipEndpoints.cs`, `Endpoints/ShopSettingsEndpoints.cs`.
 - `Contracts/Shops/*.cs`: DTO z oddílu výše.
 - `appsettings.json`:
-  - `Api:InteractiveWaitSeconds`, `Pricing:OwnTextShareThreshold`, `Markets:ReadableLanguages`;
+  - `Api:InteractiveWaitSeconds`, `Markets:ReadableLanguages` (`Pricing:OwnTextShareThreshold` zrušen 2. 10. 2026);
   - `Shops:Detection:MaxBytes`, `Shops:AllowedDevHosts` (jen Development);
   - `Shops:Ownership:RequiredBefore` bez výchozí hodnoty.
 

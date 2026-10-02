@@ -16,7 +16,7 @@ Zákazník přitom podle upřesnění z 1. 10. 2026 platí „přímo v aplikaci
 - Od 1. 1. 2027 platí na Slovensku povinná e-faktúra (zákon 385/2025 Z. z.). Doklady proto musí od prvního prodeje vznikat v systému, který umí Peppol.
 
 **Přínos.**
-- Zákazník vidí cenu svého e-shopu hned po ukázce zdarma, ještě před platbou. Cena se počítá z počtu produktů ve verzích s vlastními texty a přepočítá se při změně míst prodeje.
+- Zákazník vidí cenu svého e-shopu hned po ukázce zdarma, ještě před platbou. Cena se počítá ze součtu produktů za každou zaškrtnutou zemi (rozhodnutí 2. 10. 2026) a přepočítá se při změně míst prodeje. Hranice pásem jsou v databázi (`billing.price_tiers`).
 - Zaplatí kartou, Apple Pay nebo Google Pay na stránce Stripe. Analýza se po potvrzení platby spustí sama.
 - Sledování se strhává automaticky za každý e-shop ode dne jeho analýzy. První měsíc je v ceně analýzy.
 - Ceny se mění v databázi bez nasazení. Běžící předplatná se převedou sama, po výpovědní lhůtě a s e-mailem.

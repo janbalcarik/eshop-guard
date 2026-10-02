@@ -158,7 +158,7 @@ Systém MUST procházet verzi s vlastní adresou jako samostatný rozsah (hostit
 - THEN má stav `mismatch` s kódem `version_language_mismatch` a nabídkou konektoru
 
 ### Requirement: Která verze se kontroluje pro které místo prodeje
-Systém MUST pro každý zaškrtnutý trh kontrolovat verzi v jeho jazyce, a když není, hlavní verzi. Každou kontrolovanou verzi MUST posoudit podle všech zaškrtnutých zemí, jejichž zákazníci ji můžou číst (čeština a slovenština navzájem podle `readable_languages`). Odškrtnutí země MUST vyřadit verzi, kterou potřebovala jen ta země, a MUST přepočítat počet produktů pro pásmo bez stahování a bez volání modelu.
+Systém MUST pro každý zaškrtnutý trh kontrolovat verzi v jeho jazyce, a když není, hlavní verzi. Každou kontrolovanou verzi MUST posoudit podle všech zaškrtnutých zemí, jejichž zákazníci ji můžou číst (čeština a slovenština navzájem podle `readable_languages`). Odškrtnutí země MUST vyřadit verzi, kterou potřebovala jen ta země, a MUST přepočítat počet produktů pro pásmo bez stahování a bez volání modelu. Počet produktů pro pásmo MUST být součet za zaškrtnuté země: pro každou zemi počet produktů verze, kterou pro ni kontrolujeme (rozhodnutí 2. 10. 2026); neznámý počet kterékoli z nich MUST nechat součet neznámý.
 
 #### Scenario: Český e-shop se slovenskou verzí, oba trhy
 - GIVEN verze `cs` (hlavní) a `sk` a zaškrtnuté trhy SK a CZ
@@ -166,14 +166,15 @@ Systém MUST pro každý zaškrtnutý trh kontrolovat verzi v jeho jazyce, a kdy
 - THEN kontroluje se `cs` podle `cz` a `sk` a verze `sk` podle `sk` a `cz`
 
 #### Scenario: Trh bez vlastní verze
-- GIVEN jen verze `cs` a zaškrtnuté trhy SK a CZ
+- GIVEN jen verze `cs` s 1 200 produkty a zaškrtnuté trhy SK a CZ
 - WHEN se sestaví plán
 - THEN kontroluje se `cs` podle `cz` a `sk`
+- AND `CountedProducts` je 2 400 (1 200 za Česko a 1 200 za Slovensko)
 
 #### Scenario: Odškrtnutí Česka
-- GIVEN plán s verzemi `cs` a `sk`, obě započítané, a klient na 3c odškrtne CZ
+- GIVEN plán s verzemi `cs` (1 543 produktů) a `sk` (1 537 produktů) pro trhy CZ a SK a klient na 3c odškrtne CZ
 - WHEN se zavolá `VersionPlan.Recalculate`
-- THEN kontroluje se jen `sk` podle `sk` a `CountedProducts` klesne o počet produktů verze `cs`
+- THEN kontroluje se jen `sk` podle `sk` a `CountedProducts` klesne z 3 080 na 1 537
 - AND nic se nestahuje a model se nevolá
 
 #### Scenario: Verze vyřazená klientem
@@ -182,38 +183,33 @@ Systém MUST pro každý zaškrtnutý trh kontrolovat verzi v jeho jazyce, a kdy
 - THEN kontroluje se hlavní verze a plán uvádí `sk` jako vyřazenou
 
 ### Requirement: Rozbor jazykových verzí v ukázce
-Systém MUST rozbor verzí spustit jen tehdy, když e-shop má víc verzí pro podporované trhy. Rozbor MUST rozdělit vzorek 100 stránek na ~20 spárovaných produktů (`hreflang`, ID z konektoru, EAN/GTIN, kód produktu), povinné stránky každé verze a náhodné produkty po verzích; MUST určit jazyk textu jedním voláním modelu nad ~30 větami hlavního textu produktů na verzi; MUST spočítat podíl vlastních textů podle otisků vět, druh rozdílu u párů podle délky a počtu vět, rozdíl povinných stránek a počet produktů. Verze MUST se započítat do ceny jen při podílu vlastních textů aspoň `counted_min_own_share` (0,20) a dostatečném vzorku; při nejistotě MUST se nezapočítat.
+Systém MUST rozbor verzí spustit jen tehdy, když e-shop má víc verzí pro podporované trhy. Vzorek 100 stránek MUST tvořit povinné stránky a náhodné produkty každé verze; produkty se MUST NOT párovat mezi verzemi a texty verzí se MUST NOT porovnávat (rozhodnutí 2. 10. 2026). Produkty do vzorku MUST se najít i bez produktové sitemap podle struktury stránky (strukturovaná data produktu), ne podle slov. Rozbor MUST určit jazyk popisů produktů jedním voláním modelu nad ~40 větami na verzi (první věty popisu z profilu šablony, jinak hlavního textu) a počet produktů verze (produktová sitemap nebo konektor). Produkt MUST mít popis v cizím jazyce jen tehdy, když model víc než polovině jeho vět určil jiný jazyk, než je jazyk verze.
 
-#### Scenario: Věrný překlad
-- GIVEN 10 párů, kde slovenské texty mají poměr délky 0,9–1,1 a stejný počet vět jako české a jsou slovensky
-- WHEN `VersionComparer` porovná páry
-- THEN všechny mají druh `translation` a verze `sk` má podíl vlastních textů nad 0,20 a `Counted = true`
-
-#### Scenario: Přeložené jen menu
-- GIVEN verze `sk`, jejíž hlavní texty produktů mají stejné otisky vět jako verze `cs`
-- WHEN se porovná
-- THEN páry mají druh `identical`, podíl vlastních textů je pod 0,20, `Counted = false`
-- AND `Summary` má kód `versions_same_texts_menu_only`
+#### Scenario: Přeložená verze
+- GIVEN verze `sk`, jejíž popisy 20 produktů ze vzorku model určil jako slovenské
+- WHEN se rozbor dokončí
+- THEN verze má podíl přeložených produktů 1,0 a nenese upozornění `untranslated_text`
 
 #### Scenario: Český text na slovenské verzi
-- GIVEN 2 z 10 párů, kde převažující jazyk vět slovenské verze je `cs`
-- WHEN se porovná
-- THEN tyto páry mají druh `untranslated`, verze nese upozornění `untranslated_text` s příklady
-- AND upozornění není porušení a pravidla se na text použijí stejně
+- GIVEN verze `sk`, kde model u 3 z 20 produktů určil popis jako český
+- WHEN se rozbor dokončí
+- THEN verze nese upozornění `untranslated_text` s příklady a 3c dostane `versions_untranslated_texts` (`products = 3`, `of = 20`, `text_language = cs`)
+- AND upozornění není porušení, pravidla se na text použijí stejně a na cenu vliv nemá
 
-#### Scenario: Malý vzorek
-- GIVEN verze `sk`, ze které se podařilo stáhnout jen 4 produktové stránky s hlavním textem
-- WHEN se porovná
-- THEN `Counted = false` s kódem `version_sample_insufficient` a verze se do ceny nepočítá
+#### Scenario: Produkty bez produktové sitemap
+- GIVEN e-shop, jehož jediná sitemap míchá produkty, kategorie a filtry a v názvu nemá znak produktů
+- WHEN se plánuje vzorek
+- THEN do vzorku jdou stránky ze sitemap, které jsou podle struktury stránky produkt, nejvýš 20 na verzi
+- AND počet produktů verze zůstane neznámý (`version_product_count_unknown`), dokud ho nedodá konektor
 
 ### Requirement: Výstupy pro místa prodeje, jazykové verze a obrazovky onboardingu
-Systém MUST vrátit `MarketsAnalysisResult` se záznamy pro `shop_markets` (země, domovská, stav, síla důkazu, zdroj, ověřené citace a znaky, předvyplnění), pro `shop_languages` (jazyk, adresa, způsob přepnutí, zdroj, stav, podíl vlastních textů, podíl jazyků, porovnání, započítání, počet produktů), jazyk a skupinu alternativ každé stránky, jednu větu pro 3c jako kód s parametry a podrobnosti pro 3d. Výsledek MUST NOT obsahovat hotové věty pro klienta.
+Systém MUST vrátit `MarketsAnalysisResult` se záznamy pro `shop_markets` (země, domovská, stav, síla důkazu, zdroj, ověřené citace a znaky, předvyplnění), pro `shop_languages` (jazyk, adresa, způsob přepnutí, zdroj, stav, podíl jazyků, podíl přeložených produktů, počet produktů nebo jeho dolní mez), jazyk a skupinu alternativ každé stránky, jednu větu pro 3c jako kód s parametry a podrobnosti pro 3d. Výsledek MUST NOT obsahovat hotové věty pro klienta.
 
-#### Scenario: Dvě verze s vlastními texty
-- GIVEN verze `cs` a `sk`, `sk` s podílem vlastních textů 0,96
+#### Scenario: Dvě verze, cena za každou zemi
+- GIVEN verze `sk` (1 537 produktů) pro trh SK a `cs` (1 543 produktů) pro trh CZ, obě s přeloženými popisy
 - WHEN se sestaví výsledek
-- THEN `Summary` má kód `versions_both_own_texts` s parametry `languages = [cs, sk]` a `share = 0.96`
-- AND `ShopLanguageRow` verze `sk` má `Counted = true`
+- THEN plán má `CountedProducts = 3 080` a po zemích SK 1 537 a CZ 1 543
+- AND `Summary` má kód s parametry jazyků verzí a podílu přeložených produktů
 
 #### Scenario: Verze čeká na potvrzení domény
 - GIVEN verze `sk` na `goodie.sk` ve stavu `needs_confirmation`

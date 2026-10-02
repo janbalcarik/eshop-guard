@@ -115,7 +115,7 @@ Postup u jednotlivých kroků:
   Get-ChildItem $out -Recurse -Filter markets.json | Select-Object FullName
   ```
 
-  Každý běh vypíše odhad a nad limitem `rewrite.max_usd_without_confirm` (1,00 USD) se zeptá. Když web přesměruje jinam (bez `www`, jiná doména), použijte adresu z prohlížeče. Pošlete mi všech pět `markets.json`: v `details[].language_fragments` jsou věty, kterým model určil jazyk, takže ověřím, jestli goodie.sk má české popisy (výzkum 1. 10. 2026: 2 z 10) a jestli nové pravidlo většiny vět žádný nepřehlédne. Z vlastních textů a druhů párů navrhnu práh `markets.counted_min_own_share` a porovnám je s výzkumem (bonami 10× překlad, havlikovaapoteka 6× překlad a 1× zkráceno, panakeia 9× jiný text).
+  Každý běh vypíše odhad a nad limitem `rewrite.max_usd_without_confirm` (1,00 USD) se zeptá. Když web přesměruje jinam (bez `www`, jiná doména), použijte adresu z prohlížeče. Pošlete mi všech pět `markets.json`: v `details[].language_fragments` jsou věty, kterým model určil jazyk, takže ověřím, jestli goodie.sk má české popisy (výzkum 1. 10. 2026: 2 z 10) a jestli nové pravidlo většiny vět žádný nepřehlédne. *(Hotovo 2. 10. 2026, 0,561 USD; výsledky v odchylce 21 změny 7. Práh vlastních textů pak uživatel zrušil: cena za každou zemi.)* Z vlastních textů a druhů párů navrhnu práh `markets.counted_min_own_share` a porovnám je s výzkumem (bonami 10× překlad, havlikovaapoteka 6× překlad a 1× zkráceno, panakeia 9× jiný text).
 
 ## 4. Rozhodnutí, která zůstávají na vás
 

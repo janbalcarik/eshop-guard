@@ -61,13 +61,13 @@ Systém MUST k rozsahu e-shopu, který spočítá `ShopScopeCalculator` (změna 
 - odhad DPH;
 - stav férového užití.
 
-Důvody nezapočtení verzí MUST nabídka převzít z rozsahu beze změny. Každou cenu, kterou zákazník viděl, MUST zapsat do `billing.price_quotes` jednou na kombinaci e-shopu, `scopeHash` a ceníku, stav e-shopu přitom nemění. Když počet ostatních stránek překročí `fair_use_other_pages_factor` × počet produktů, nabídka MUST mít stav `individual_offer` a nesmí jít zaplatit.
+Započtené produkty MUST být součet produktů za každou zaškrtnutou zemi (rozhodnutí 2. 10. 2026) a hranice pásem MUST pocházet z `billing.price_tiers`, ne z kódu. Důvody, proč se verze nekontroluje, MUST nabídka převzít z rozsahu beze změny. Každou cenu, kterou zákazník viděl, MUST zapsat do `billing.price_quotes` jednou na kombinaci e-shopu, `scopeHash` a ceníku, stav e-shopu přitom nemění. Když počet ostatních stránek překročí `fair_use_other_pages_factor` × počet produktů, nabídka MUST mít stav `individual_offer` a nesmí jít zaplatit.
 
-#### Scenario: Dvě verze s vlastními texty
+#### Scenario: Dvě země po 5 834 produktech
 
-- GIVEN rozsah bylinkovo.sk ze změny 10 s místy prodeje SK a CZ, slovenskou a českou verzí po 5 834 produktech, obě `counted`, celkem 11 668
+- GIVEN rozsah bylinkovo.sk ze změny 10 s místy prodeje SK a CZ, slovenskou verzí pro SK a českou pro CZ po 5 834 produktech, celkem 11 668
 - WHEN endpoint `POST …/quote` zavolá `IPriceQuoteService`
-- THEN nabídka má pásmo `t20000`, analýzu 199 € a sledování 59 € měsíčně bez DPH a obě verze s příznakem „Do ceny: Áno“
+- THEN nabídka má pásmo `t20000`, analýzu 199 € a sledování 59 € měsíčně bez DPH a počty produktů po zemích
 - AND v `billing.price_quotes` je jeden záznam s `scope_hash` tohoto rozsahu
 
 #### Scenario: Odškrtnutí země dá novou cenu hned
@@ -98,7 +98,7 @@ Systém MUST před vytvořením objednávky:
 - ověřit, že `scopeHash` odpovídá nabídce, kterou zákazník potvrdil, a že ceník nabídky je stále aktivní;
 - ověřit připravenost e-shopu přes `IShopOrderReadiness` (změna 10).
 
-Do objednávky MUST uložit snímek částek, měny, daňového režimu, verze obchodních podmínek, `scope_hash` a ID objektů Price a kupónu. Zákazník MUST zaplatit přesně částky ze snímku. Když plná analýza najde víc produktů nebo vlastních textů, cena zaplacené analýzy se MUST NOT změnit a běh se MUST NOT zastavit kvůli doplatku.
+Do objednávky MUST uložit snímek částek, měny, daňového režimu, verze obchodních podmínek, `scope_hash` a ID objektů Price a kupónu. Zákazník MUST zaplatit přesně částky ze snímku. Když plná analýza najde víc produktů, cena zaplacené analýzy se MUST NOT změnit a běh se MUST NOT zastavit kvůli doplatku.
 
 #### Scenario: Nabídka zastarala kvůli novému ceníku
 
@@ -114,9 +114,9 @@ Do objednávky MUST uložit snímek částek, měny, daňového režimu, verze o
 - THEN API vrátí 409 s kódem `quote.stale`, parametrem `reason = scope_changed` a nabídkou pro H2
 - AND žádná Checkout Session nevznikne
 
-#### Scenario: Analýza najde víc vlastních textů než ukázka
+#### Scenario: Analýza najde víc produktů než ukázka
 
-- GIVEN zaplacená objednávka v pásmu `t2000` (1 460 produktů) a plná analýza, která zjistí, že česká verze má vlastní texty a e-shop má 2 920 započtených produktů
+- GIVEN zaplacená objednávka v pásmu `t2000` (1 460 produktů) a plná analýza, která zjistí, že e-shop má 2 920 započtených produktů
 - WHEN běh analýzy skončí
 - THEN zkontroluje se celý e-shop bez doplatku a `orders.amount_net` zůstane 69 €
 - AND úloha `billing.evaluate_tiers` naplánuje sledování v pásmu `t5000` od dalšího období s upozorněním e-mailem

@@ -87,12 +87,12 @@ Systém MUST na konci ukázky uložit do `runs.stats.sample` počty nálezů pod
 - AND když žádný nevyjde, `example_fix_missing_reason` je `still_finding` a souhrn netvrdí, že oprava existuje
 
 ### Requirement: Základ rozsahu z ukázky a garantovaná cena
-Systém MUST po ukázce uložit do `runs.estimate.basis` základ rozsahu: po jazykových verzích počet produktů, počet ostatních stránek, `counted`, důvod nezapočtení a podíl vlastních textů, a počet URL v sitemap. Pásmo ani částku tato změna MUST NOT počítat; počítá je `ShopScopeCalculator` (změna 10) a `IPriceQuoteService` (změna 12). Úvodní analýza MUST zkontrolovat vše, co najde, bez zastavení a bez doplatku, i když najde víc stránek nebo vlastních textů, a MUST jen zaznamenat interní náklad. Interní část odhadu (`estimate.internal`) a skutečný náklad se MUST NOT dostat do odpovědí pro zákazníka ani do `run_events`.
+Systém MUST po ukázce uložit do `runs.estimate.basis` základ rozsahu: po jazykových verzích počet produktů (nebo jeho dolní mez při neúplné sitemap), počet ostatních stránek a podíl přeložených produktů, po zaškrtnutých zemích kontrolovanou verzi a její počet produktů (cena za každou zemi, rozhodnutí 2. 10. 2026), a počet URL v sitemap. Pásmo ani částku tato změna MUST NOT počítat; počítá je `ShopScopeCalculator` (změna 10) a `IPriceQuoteService` (změna 12). Úvodní analýza MUST zkontrolovat vše, co najde, bez zastavení a bez doplatku, i když najde víc stránek nebo produktů, a MUST jen zaznamenat interní náklad. Interní část odhadu (`estimate.internal`) a skutečný náklad se MUST NOT dostat do odpovědí pro zákazníka ani do `run_events`.
 
 #### Scenario: Základ z ukázky
-- GIVEN ukázka zjistila slovenskou verzi s 3 120 produkty a vlastními texty a českou verzi s 3 090 produkty, kde je přeložené jen menu
+- GIVEN ukázka zjistila slovenskou verzi s 3 120 produkty pro trh SK a českou verzi s 3 090 produkty pro trh CZ
 - WHEN skončí `run.finalize` ukázky
-- THEN `estimate.basis.versions` obsahuje `sk` s `counted = true` a `cs` s `counted = false` a `not_counted_reason = menu_only_translation`
+- THEN `estimate.basis.markets` obsahuje SK se `sk` a 3 120 produkty a CZ s `cs` a 3 090 produkty
 - AND `estimate.basis` neobsahuje pásmo ani částku
 
 #### Scenario: Analýza najde víc, než ukázal vzorek

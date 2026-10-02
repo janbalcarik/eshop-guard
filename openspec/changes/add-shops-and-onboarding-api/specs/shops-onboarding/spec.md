@@ -165,17 +165,17 @@ Potvrzení (`PUT …/markets`) MUST:
 
 ### Requirement: Jazykové verze, potvrzení a vyloučení
 Systém MUST vrátit jazykové verze e-shopu pro souhrn (3c) a podrobnosti (3d):
-- jazyk textů, podíl vlastních textů, výsledek porovnání a příznak „Do ceny“ s kódem důvodu;
+- jazyk popisů produktů, podíl přeložených produktů ze vzorku a počet produktů (nebo kód, proč je neznámý);
 - zda se verze kontroluje a podle kterých zemí, spočítané stejným pravidlem jako cena;
 - verze pro nepodporované trhy MUST NOT vracet.
 
 Verze na jiné doméně ve stavu `needs_confirmation` MUST čekat na potvrzení klienta. Vyloučení verze v nastavení nesmí vyloučit poslední kontrolovanou verzi.
 
-#### Scenario: Česká verze s vlastními texty
-- GIVEN verze sk (hlavní, 5 834 produktů) a cs (`/cz/`, 5 834 produktů, `own_text_share = 0,96`) a aktivní země SK a CZ
+#### Scenario: Česká verze s přeloženými popisy
+- GIVEN verze sk (hlavní, 5 834 produktů) a cs (`/cz/`, 5 834 produktů, popisy 96 % produktů ze vzorku česky) a aktivní země SK a CZ
 - WHEN klient zavolá `GET /shops/{shopId}/languages`
-- THEN `summary.kind = all_checked_own_texts` a obě verze mají `checked = true`, `counted = true`, `jurisdictions = [sk, cz]`
-- AND cs má `countedReason = own_texts_above_threshold`
+- THEN obě verze mají `checked = true` a `jurisdictions = [sk, cz]`
+- AND cs má `translatedShare = 0,96`
 
 #### Scenario: Verze na jiné doméně
 - GIVEN verze cs na `goodie.cz` ve stavu `needs_confirmation`
@@ -192,7 +192,7 @@ Verze na jiné doméně ve stavu `needs_confirmation` MUST čekat na potvrzení 
 Systém MUST počítat rozsah kontroly na serveru jedním pravidlem pro kontrolu i cenu:
 1. kontroluje se verze v jazyce každé zaškrtnuté země; když taková aktivní verze není, hlavní verze;
 2. každá kontrolovaná verze se posuzuje podle všech zaškrtnutých zemí, jejichž zákazníci ji můžou číst (čeština a slovenština navzájem);
-3. do pásma jde součet produktů kontrolovaných verzí s vlastními texty: hlavní verze vždy, ostatní při podílu ≥ `Pricing:OwnTextShareThreshold` (návrh 20 %), při nejistotě nebo nedostatečném vzorku ne;
+3. do pásma jde součet produktů za každou zaškrtnutou zemi: pro každou zemi počet produktů verze, kterou pro ni kontrolujeme (rozhodnutí 2. 10. 2026); neznámý počet kterékoli z nich MUST vést ke kódu `scope.product_count_unknown` bez ceny;
 4. základ (počty po verzích) MUST pocházet z dokončené ukázky, aby cena z ukázky byla garantovaná.
 
 `POST …/quote` MUST:
@@ -201,17 +201,17 @@ Systém MUST počítat rozsah kontroly na serveru jedním pravidlem pro kontrolu
 - vrátit cenu z `IPriceQuoteService`, bez implementace `503 billing.unavailable`.
 
 #### Scenario: Odškrtnutí Česka přepočítá cenu
-- GIVEN verze sk a cs, obě s vlastními texty (5 834 produktů)
+- GIVEN verze sk a cs, každá s 5 834 produkty
 - WHEN klient pošle `POST /shops/{shopId}/quote` s `{ activeMarkets: ["sk","cz"] }` a pak s `{ activeMarkets: ["sk"] }`
 - THEN první odpověď má `scope.productTotal = 11668` a 2 kontrolované verze
 - AND druhá má `scope.productTotal = 5834`, jednu verzi sk a jiný `scopeHash`
 - AND `shop.shop_markets` se žádným z volání nezměnilo
 
-#### Scenario: Verze s přeloženým jen menu se do pásma nepočítá
-- GIVEN verze cs s `own_text_share = 0,03` a aktivní SK a CZ
+#### Scenario: Jedna verze a dvě země
+- GIVEN jen verze sk s 5 834 produkty a aktivní SK a CZ
 - WHEN klient zavolá `POST …/quote`
-- THEN verze cs je v `checkedVersions` s `counted = false` a `countedReason = below_threshold`
-- AND `productTotal` obsahuje jen produkty hlavní verze
+- THEN `checkedVersions` obsahuje sk s `jurisdictions = [sk, cz]`
+- AND `productTotal = 11668` (5 834 za každou zemi)
 
 #### Scenario: Ukázka ještě neskončila
 - GIVEN ukázka ve stavu `evaluating`

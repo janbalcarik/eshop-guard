@@ -223,7 +223,7 @@ Založeno → Zjišťování rozsahu → Čeká na schválení a platbu → Stah
 ```
 
 - Dnešní knihovna se ptá na potvrzení odhadu uprostřed skenu (`ConfirmJevCalls`). Ve webu se z toho stane stav **„Čeká na schválení“**: krok zjištění rozsahu spočítá stránky a cenu, uživatel zaplatí nebo potvrdí a teprve pak se založí stahování.
-- Cena pro zákazníka je podle počtu zveřejněných produktů ve verzích s vlastními texty (ceník) a je garantovaná z ukázky (část 12). Vnitřní náklady (Jev, OpenAI) se sledují po bězích. Když překročí odhad, běh se **nezastaví**, dokončí se a provoz dostane upozornění (opraveno 1. 10. 2026 podle části 12). Zákazník tuto částku nevidí. Pojistkou proti zneužití je férové užití.
+- Cena pro zákazníka je podle součtu zveřejněných produktů za každou zaškrtnutou zemi (ceník, rozhodnutí 2. 10. 2026) a je garantovaná z ukázky (část 12). Vnitřní náklady (Jev, OpenAI) se sledují po bězích. Když překročí odhad, běh se **nezastaví**, dokončí se a provoz dostane upozornění (opraveno 1. 10. 2026 podle části 12). Zákazník tuto částku nevidí. Pojistkou proti zneužití je férové užití.
 - Průběh: worker zapisuje čítače kroků do `runs` a události do `run_events`. API je posílá do prohlížeče přes SSE s oznámením přes PostgreSQL `LISTEN/NOTIFY`. Funguje to i s více instancemi API a bez dalšího systému. Po dokončení jde e-mail.
 - Odhad doby: z průběhu dávek a z pozice ve frontě („před vámi 2 analýzy, hotovo asi ve 14:30“).
 
@@ -362,7 +362,7 @@ Závěr: stahování a CPU se škálují přidáním workerů. Jev se škáluje 
 7. **Měna pro české zákazníky:** Kč, nebo euro? Doporučení: Kč (český zákazník to čeká; Stripe umí víc měn, ceník se vede pro každou měnu zvlášť). Měna se pevně určí u tenanta při první platbě. Fakturaci ze slovenské firmy v Kč potvrdí účetní.
 8. **Domény:** které domény EshopGuard máme (.sk, .cz, .com)? Podle toho vydání webu buď na vlastních doménách, nebo na jedné doméně s cestou `/sk`, `/cz`.
 9. **Nabídka na českém webu:** v Česku zatím neplatí zákazy EmpCo, kontrola českého e-shopu je dnes užší (co trestá ČOI a zákonné povinnosti). Má český web prodávat i kontrolu českých e-shopů, nebo zatím jen kontrolu slovenských e-shopů pro české firmy? Podle čl. 6 nařízení Řím I a slovenských zákonů 108/2024 a 22/2004 musí český e-shop prodávající na Slovensko splnit slovenská pravidla (část 12, Místa prodeje), takže silná nabídka je „kontrola podle slovenského zákona pro české e-shopy“.
-10. **Druhé místo prodeje v ceně? Jazykové verze do pásma?** Doporučení: další podporovaná země v ceně; do pásma se počítají produkty ve verzích s vlastními texty, práh 20 % (část 12). Navýšení ceny běhu je malé (neměřeno), jednodušší ceník a silný argument pro české e-shopy prodávající na Slovensko.
+10. **Druhé místo prodeje v ceně? Jazykové verze do pásma?** Rozhodnuto 2. 10. 2026 (uživatel): do pásma jde součet produktů za každou zaškrtnutou zemi, tedy počet produktů verze kontrolované pro tu zemi (část 12, Cena). Texty verzí se kvůli ceně neporovnávají.
 
 ## 12. Jazyky, trhy a obsah webu (rozhodnuto 1. 10. 2026)
 
@@ -438,48 +438,37 @@ Kontrola jedné verze proto o druhé nic neříká.
 **Která verze se kontroluje a podle čeho (upřesněno 1. 10. 2026, cena se počítá dynamicky):**
 - kontroluje se verze v jazyce každého zaškrtnutého místa prodeje; když pro něj verze není, hlavní verze e-shopu;
 - každá kontrolovaná verze se posuzuje podle všech zaškrtnutých zemí, jejichž zákazníci ji můžou číst: čeština a slovenština navzájem, protože slovenský zákazník může nakoupit přes českou verzi;
-- odškrtnutí země vyřadí verzi, kterou potřebovala jen ta země. Cena se na obrazovce 3c přepočítá hned (počet produktů v kontrolovaných verzích s vlastními texty → pásmo);
+- odškrtnutí země vyřadí verzi, kterou potřebovala jen ta země. Cena se na obrazovce 3c přepočítá hned (součet produktů za zaškrtnuté země → pásmo);
 - verze pro nepodporované trhy (např. polská) se nekontrolují a klientovi se neukazují.
 
 **Najít a přepnout:**
 - najít: `hreflang` na stránkách a v sitemapě, přepínač jazyka, `html lang`, u konektoru jazyky z API; když to ze stavby nejde poznat, určí přepínač LLM ze stejného rozboru jako místa prodeje;
 - přepnout: verze s vlastní adresou (cesta, subdoména, doména) se projde jako samostatný web; verze přepínaná přes cookie nebo jazyk prohlížeče se prochází s vlastní cookie a hlavičkou jazyka;
-- spárovat stejné produkty mezi verzemi (přes `hreflang` nebo ID z konektoru) není pro kontrolu nutné, slouží jen k propojení stejného nálezu ve dvou verzích;
+- spárovat stejné produkty mezi verzemi (přes `hreflang` nebo ID z konektoru) není pro kontrolu ani cenu nutné, slouží jen k propojení stejného nálezu ve dvou verzích;
 - **verze na jiné doméně** jsou časté (5 z 9 ověřených e-shopů: goodie.sk, bonami.sk, freshlabels.sk, footshop.sk, panakeia.sk). Klient jednou potvrdí „Patrí goodie.sk k tomuto e-shopu?“, jinak jde o samostatný e-shop.
 
 **Co klient uvidí:** žádné zaškrtávání verzí, jen shrnutí jednou větou na 3c a podrobnosti na 3d. Například:
-- „Našli sme slovenskú a českú verziu. Česká má vlastné preložené texty pri 96 % produktov z ukážky, preto kontrolujeme obe.“
-- „Slovenská verzia má rovnaké texty ako česká, preložené je len menu.“
+- „Našli sme slovenskú a českú verziu. Slovensko kontrolujeme na slovenskej verzii (1 537 produktov), Česko na českej (1 543 produktov).“
+- „Pri 3 z 20 produktov z ukážky má slovenská verzia popis v češtine.“ (upozornění, ne porušení)
 
 Výjimky („túto verziu nekontrolovať“) jsou v nastavení e-shopu.
 
-**Cena:**
-- do pásma se počítají produkty ve verzích s vlastními texty: verze s aspoň 20 % odlišných textů (návrh, neměřeno);
-- verze, kde je přeložené jen menu, se nepočítá;
-- klient to vidí v odhadu ceny s vysvětlením.
+**Cena (rozhodnuto 2. 10. 2026, uživatel):**
+- do pásma jde součet produktů za každou zaškrtnutou zemi: pro každou zemi počet produktů verze, kterou pro ni kontrolujeme. E-shop s jednou verzí, který prodává do dvou zemí, má dvojnásobek produktů, protože se kontroluje podle dvou zákonů;
+- jiný počet produktů ve verzích se promítne sám (goodie.sk: Slovensko 1 537 + Česko 1 543 = 3 080);
+- texty verzí se kvůli ceně neporovnávají; dřívější pravidlo „jen verze s vlastními texty, práh 20 %“ je zrušené;
+- hranice pásem jsou v databázi (`billing.price_tiers`);
+- klient to vidí v odhadu ceny po zemích.
 
-**Rozbor verzí v ukázce zdarma (rozhodnuto 1. 10. 2026):** běží jen tehdy, když má e-shop víc verzí pro podporovaná místa prodeje.
+**Rozbor verzí v ukázce zdarma (rozhodnuto 1. 10. 2026, zjednodušeno 2. 10. 2026):** běží jen tehdy, když má e-shop víc verzí pro podporovaná místa prodeje.
 
 Co zjistí u každé verze:
-1. jestli je text v jazyce verze;
-2. jestli má vlastní texty, nebo stejné jako jiná verze;
-3. druh rozdílu: překlad, zkrácený nebo jiný text, nepřeložený text;
-4. jestli se liší povinné a obchodní stránky (doprava, obchodní podmínky, reklamace);
-5. počet produktů (sitemapa nebo konektor).
+1. počet produktů (sitemapa nebo konektor);
+2. jazyk popisů produktů: jestli jsou v jazyce verze.
 
-Rozdělení 100 stránek:
-- ~20 stejných produktů v obou verzích, spárovaných přes `hreflang`, ID z konektoru, EAN nebo kód produktu;
-- povinné stránky každé verze;
-- zbytek náhodné produkty po verzích.
+Vzorek 100 stránek: povinné stránky a náhodné produkty každé verze. Produkty se mezi verzemi nepárují a texty se neporovnávají (zrušeno 2. 10. 2026: na otázku „je verze přeložená i v produktech“ stačí jazyk a cena se počítá za země).
 
-Když verze spárovat nejdou, porovná se, kolik vět jedné verze se doslova vyskytuje ve druhé.
-
-Metody:
-- shoda otisků vět (bez LLM, dává podíl vlastních textů pro cenu);
-- překlad, nebo jiný text: podle délky a počtu vět (bez LLM);
-- jazyk textu: jedno volání LLM nad ~30 úseky na verzi, jen hlavní text produktu (recenze a bloky dopravy zvlášť).
-
-Výsledek: věty na 3c a podrobnosti na 3d. Český text na slovenské verzi je upozornění, ne porušení. Pravidla se na něj použijí stejně.
+Jazyk popisů: jedno volání LLM nad ~40 větami na verzi (první věty popisu z profilu šablony, jinak hlavního textu, bez recenzí). Výsledek: věty na 3c a podrobnosti na 3d. Popis v jiném jazyce, než je jazyk verze (český text na slovenské verzi), je upozornění, ne porušení; pravidla se na něj použijí stejně a na cenu vliv nemá.
 
 **Ověření 1. 10. 2026 (46 uložených párů z 5 e-shopů, 0,043 USD, skript `research/langprobe-2026-10-01/validate.py`, jen lokálně):**
 - výsledek souhlasí s ručním čtením ve 44 ze 46 párů:
@@ -503,8 +492,8 @@ Pojistky pro případy, které ve vzorku nebyly:
 - **aplikace v JavaScriptu** (Next.js, Nuxt…): dnešní kontrola „text se nenačetl“ platí pro každou verzi zvlášť.
 
 **Cena (rozhodnuto):**
-- cena z ukázky je garantovaná: když analýza najde víc vlastních textů, zkontroluje se vše bez doplatku a bez zastavení;
-- když vzorek nestačí, verze se do ceny nepočítá;
+- cena z ukázky je garantovaná: když analýza najde víc produktů, zkontroluje se vše bez doplatku a bez zastavení;
+- neznámý počet produktů verze se nedopočítává: ukázka ho uvede a počet dodá konektor;
 - sledování se upraví od dalšího období s upozorněním;
 - pojistka proti zneužití: férové užití, ostatních stránek nejvýš ~2× počet produktů, nad to individuální nabídka (hranici upřesní pilot);
 - náklad ~5,5 USD na 1 000 stránek (extrapolace z vegis), riziko chyby vzorku je proto malé.

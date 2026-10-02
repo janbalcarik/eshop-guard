@@ -118,7 +118,7 @@
 
 ## 7. Rozsah a dynamická cena
 
-- [ ] 7.1 `Application/Shops/Scope/ShopScopeCalculator.cs` (čistá funkce podle AD 7), `ShopScope`, `ScopeHasher` (SHA-256 kanonického JSON), konfigurace `Markets:ReadableLanguages` a `Pricing:OwnTextShareThreshold`.
+- [ ] 7.1 `Application/Shops/Scope/ShopScopeCalculator.cs` (čistá funkce podle AD 7), `ShopScope`, `ScopeHasher` (SHA-256 kanonického JSON), konfigurace `Markets:ReadableLanguages` (`productTotal` = součet produktů za zaškrtnuté země, rozhodnutí 2. 10. 2026; `Pricing:OwnTextShareThreshold` zrušen).
 - [ ] 7.2 `Application/Shops/Scope/ScopeInputsLoader.cs`: uložené země a verze, základ ze souhrnu dokončené ukázky (`runs.estimate`, změna 8), `quote.basis_missing` bez ukázky a bez nároku.
 - [ ] 7.3 Test `ShopScopeCalculatorTests`: případy A–J z `design.md` jako tabulkový test včetně `scopeHash`, který se změní se zeměmi i s vyloučením.
 - [ ] 7.4 `Application/Shops/Pricing/IPriceQuoteService.cs`, `PriceQuoteRequest`, `PriceQuote` (smlouva pro změnu 12). Registrace bez implementace → `quote` vrátí `503 billing.unavailable`.

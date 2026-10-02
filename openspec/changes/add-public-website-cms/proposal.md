@@ -147,7 +147,7 @@ Out of scope:
 1. **Kalkulačka ceny na webu.** Návrh `Main.dc.html` ji nemá a říká „Presnú cenu uvidíte po ukážke 100 stránok zadarmo, ešte pred platbou.“ Možnosti:
    - **A:** žádná, jen tabulka pásem (doporučeno na start);
    - **B:** posuvník podle počtu produktů nad veřejnými pásmy z API, bez volání e-shopu a bez nákladů;
-   - **C:** odhad z adresy e-shopu (sitemap). Zatěžuje cizí web, má náklady a riziko zneužití, a pásmo se stejně určuje podle produktů ve verzích s vlastními texty, které zjistí až ukázka.
+   - **C:** odhad z adresy e-shopu (sitemap). Zatěžuje cizí web, má náklady a riziko zneužití, a pásmo se stejně určuje podle produktů za každou zaškrtnutou zemi (rozhodnutí 2. 10. 2026), které zjistí až ukázka.
 
    Doporučení A, později B po návrhu UI. Cena by vždy pocházela z API.
 2. **Bloky „Výhody“ a „Časté otázky“** jmenuje architektura (část 12, Co je v CMS), v návrhu `Main.dc.html` nejsou. Postaví se až po návrhu na plátně.

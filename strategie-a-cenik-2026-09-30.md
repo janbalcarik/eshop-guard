@@ -57,6 +57,13 @@ Vychází z rešerší v `podklady/reserse/` (trh a konkurence, zahraniční cen
 - Počet se zjistí z napojení na e-shop (konektor) nebo z webu.
 - Čísla pásem (500 / 2 000 / 5 000 / 20 000) platí beze změny, místo „stránek“ jde o „produkty“.
 
+**Produkty za každou zemi (2. 10. 2026, uživatel):**
+- Do pásma jde **součet produktů za každou zaškrtnutou zemi** (místo prodeje): pro každou zemi počet produktů verze, kterou pro ni kontrolujeme (verze v jazyce země, jinak hlavní verze).
+- E-shop s jednou verzí, který prodává do dvou zemí, má tedy dvojnásobek produktů: kontrolujeme ho podle dvou zákonů. Příklad goodie.sk: Slovensko 1 537 produktů (slovenská verze) + Česko 1 543 (česká verze) = 3 080 → pásmo do 5 000.
+- Jiný počet produktů ve verzích se tak promítne sám; texty verzí se kvůli ceně neporovnávají (dřívější pravidlo „jen verze s vlastními texty, práh 20 %“ zrušeno).
+- Neznámý počet produktů verze (bez produktové sitemap a bez konektoru) se nedopočítává: ukázka ho uvede a přesné číslo dodá konektor.
+- Hranice pásem jsou v databázi (`billing.price_tiers`, `min_products` a `max_products` po cenících), takže se dají změnit bez nového nasazení.
+
 **Úprava 1. 10. 2026 (uživatel):**
 - Sledování se platí **po e-shopech podle jejich velikosti a vždy pro celý e-shop**, ne jako společný počet stránek za účet.
 - Důvody:

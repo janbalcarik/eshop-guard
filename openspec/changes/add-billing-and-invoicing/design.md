@@ -43,21 +43,21 @@ Výchozí data se zakládají migrací jako koncept a zveřejní se admin API (�
 - Pásmo `custom` nemá objekty Price ve Stripe. Nabídka v něm má stav `individual_offer`.
 - Hranice pásem jsou včetně: 500 produktů je ještě `t500`, 501 už `t2000`.
 - E-shop s 0 započtenými produkty (jen stránky) spadá do `t500`.
+- Započtené produkty (`counted_products`) = součet produktů za každou zaškrtnutou zemi, tedy počet produktů verze, kterou pro tu zemi kontrolujeme (rozhodnutí 2. 10. 2026; dříve jen verze s vlastními texty). E-shop s jednou verzí a dvěma zeměmi má dvojnásobek.
+- Hranice pásem (`min_products`, `max_products`) a ceny jsou řádky `billing.price_tiers` po cenících; mění se v databázi (admin API) bez nového nasazení, kód je nezná.
 
 ### Ocenění rozsahu (`PriceQuoteService : IPriceQuoteService`)
 
 **Rozdělení se změnou 10** (její K rozhodnutí 2):
-- Změna 10 spočítá rozsah (`ShopScopeCalculator`): které verze se kontrolují, podle kterých zemí, `counted_products`, důvody nezapočtení verzí a ostatní stránky ze základu ukázky v `runs.estimate`. Vrátí `ShopScope` se `scopeHash` a vlastní endpoint `POST /api/t/{tenantId}/shops/{shopId}/quote`.
+- Změna 10 spočítá rozsah (`ShopScopeCalculator`): které verze se kontrolují, podle kterých zemí, `counted_products` (součet za země), důvody nekontrolování verzí a ostatní stránky ze základu ukázky v `runs.estimate`. Vrátí `ShopScope` se `scopeHash` a vlastní endpoint `POST /api/t/{tenantId}/shops/{shopId}/quote`.
 - Tato změna implementuje `IPriceQuoteService.QuoteAsync(tenantId, shopId, ShopScope scope, ct)`.
 
-Důvody nezapočtení verze předává rozsah ze změny 10. V nabídce se jen přenesou:
-- `menu_only_translation`: přeložené je jen menu;
-- `sample_insufficient`: vzorek nestačil, „při nejistotě ne“;
+Důvody, proč se verze nekontroluje, předává rozsah ze změny 10. V nabídce se jen přenesou (`menu_only_translation` a `sample_insufficient` zrušeny 2. 10. 2026, texty verzí se neporovnávají):
 - `excluded_by_user`: vyloučeno v nastavení;
 - `not_needed_by_markets`: verzi nepotřebuje žádné zaškrtnuté místo prodeje;
 - `unsupported_market`: verze pro nepodporovaný trh, klientovi se neukazuje.
 
-Když rozsah nemá základ z ukázky, vrací změna 10 `quote.basis_missing` a `IPriceQuoteService` se nevolá.
+Když rozsah nemá základ z ukázky, vrací změna 10 `quote.basis_missing` a `IPriceQuoteService` se nevolá. Když je počet produktů některé kontrolované verze neznámý (bez produktové sitemap a konektoru), vrací `scope.product_count_unknown` a nabídka se také nevytvoří.
 
 **Výpočet:**
 1. **Ceník:** zveřejněný s `valid_from ≤ now`, nejnovější pro `tenants.market_code` a `tenants.currency`. Když měna tenanta ještě není pevná (`currency = NULL` do první platby, změna 9), vezme se měna trhu z `ref.markets.currency`. Když ceník chybí, nabídka má stav `unavailable` a kód `billing.price_list_missing`.
@@ -69,7 +69,7 @@ Když rozsah nemá základ z ukázky, vrací změna 10 `quote.basis_missing` a `
 
 **Kdy se přepočítá:** při každém volání `POST …/quote` změny 10 (zaškrtnutí země, vyloučení verze, otevření obrazovky 3c) a při objednávce. Změna `product_count` z konektoru a aktivace nového ceníku se projeví při dalším volání. Pásmo běžícího předplatného hlídá `billing.evaluate_tiers` (Flow 4).
 
-**Garantovaná cena:** objednávka nese `price_quote_id` a snímek částek. Když plná analýza najde víc produktů nebo vlastních textů, cena analýzy se nemění (hlídá změna 8). Sledování se upraví od dalšího období (Flow 4).
+**Garantovaná cena:** objednávka nese `price_quote_id` a snímek částek. Když plná analýza najde víc produktů, cena analýzy se nemění (hlídá změna 8). Sledování se upraví od dalšího období (Flow 4).
 
 ### Objednávka a platba
 
@@ -294,7 +294,7 @@ Změna product_count (konektor, sledování) nebo denně 3:30 ─► job billing
    ├─ pásmo z aktuálních counted_products ≠ subscriptions.tier_code → subscription_changes (tier) + e-mail
    ├─ počet produktů se vrátí do původního pásma před effective_at → změna canceled + e-mail „zmena sa neuplatní“
 Zrušení / přidání e-shopu ─► VolumeDiscountResolver přepočte pořadí ─► subscription_changes (discount) pro dotčené
-Plná analýza najde víc vlastních textů ─► cena analýzy beze změny (garantovaná), sledování přes evaluate_tiers
+Plná analýza najde víc produktů ─► cena analýzy beze změny (garantovaná), sledování přes evaluate_tiers
 ```
 
 ### Flow 5: zrušení a obnovení sledování

@@ -23,7 +23,7 @@
   - ukázka 100 stránek běží na pozadí;
   - země a verze jsou předvyplněné s důvodem.
 - Cena je spravedlivá a srozumitelná:
-  - do pásma jdou jen produkty ve verzích s vlastními texty (≥ 20 % odlišných textů);
+  - do pásma jde součet produktů za každou zaškrtnutou zemi, tedy počet produktů verze kontrolované pro tu zemi (rozhodnutí 2. 10. 2026; dříve jen verze s vlastními texty);
   - odškrtnutí země hned přepočítá cenu;
   - cenu počítá server, frontend ji jen zobrazí;
   - cena z ukázky je garantovaná.
@@ -78,7 +78,7 @@ In scope:
   - předvyplnění silného důkazu a doručení, obecný důkaz ne;
   - potvrzení klientem, ruční přidání podporované země, aspoň jedna země.
 - **Jazykové verze** (`shop.shop_languages`):
-  - souhrn pro 3c a podrobnosti pro 3d: jazyk textů, podíl vlastních textů, porovnání, „Do ceny“, podle kterých zemí;
+  - souhrn pro 3c a podrobnosti pro 3d: jazyk popisů produktů a podíl přeložených produktů, počet produktů, pro které země a podle kterých zemí se verze kontroluje;
   - potvrzení verze na jiné doméně;
   - vyloučení a vrácení verze v nastavení;
   - nepodporované verze se neukazují.
@@ -119,14 +119,14 @@ Out of scope:
 3. **Jedno pravidlo rozsahu pro cenu i kontrolu (architektura, část 12):**
    - kontroluje se verze v jazyce každé zaškrtnuté země, když pro ni verze není, hlavní verze;
    - každá kontrolovaná verze se posuzuje podle všech zaškrtnutých zemí, jejichž zákazníci ji můžou číst (čeština a slovenština navzájem, `Markets:ReadableLanguages`);
-   - do pásma jde součet produktů kontrolovaných verzí s `counted = true` (vlastní texty ≥ `Pricing:OwnTextShareThreshold`, návrh 0,20; při nejistotě nebo nedostatečném vzorku ne; hlavní verze vždy);
+   - do pásma jde součet produktů za každou zaškrtnutou zemi: počet produktů verze kontrolované pro tu zemi (rozhodnutí 2. 10. 2026; dřívější `counted` a práh vlastních textů zrušeny);
    - `ShopScopeCalculator` používají API (přepočet na 3c), změna 12 (nabídka a objednávka) i změna 8 (`runs.jurisdictions`, `runs.modules`).
 4. **Server je autoritativní:**
    - `POST …/quote` se volá při každém zaškrtnutí nebo odškrtnutí země a vrací rozsah, cenu a `scopeHash`;
    - objednávka ve změně 12 spočítá rozsah znovu z uloženého stavu a se `scopeHash` nabídky ho porovná, při rozdílu vrátí `409 quote.stale`.
 5. **Garantovaná cena z ukázky:**
    - základ rozsahu (počty produktů a ostatních stránek po verzích) se bere ze souhrnu dokončené ukázky (`runs.estimate`, změna 8), ne z pozdějších běhů;
-   - když analýza najde víc vlastních textů, zkontroluje se vše bez doplatku (hlídá změna 8).
+   - když analýza najde víc produktů, zkontroluje se vše bez doplatku (hlídá změna 8).
 6. **Fail-closed:**
    - neznámá platforma → klient volí ručně;
    - napojení `connector` bez připojeného konektoru → `409`;
@@ -191,7 +191,7 @@ Out of scope:
 4. **Moduly „Čo kontrolovať“ a cena.** Návrh UI dovoluje moduly odškrtnout. Podklady neříkají, jestli to mění cenu. Návrh: cenu nemění (pásmo je podle produktů). Potvrdit.
 5. **Garantovaná cena bez ukázky.** Když doménu už nárokoval jiný tenant, nebo e-shop smazal a znovu přidal stejný tenant, ukázka nebude a základ ceny chybí. Návrh změny 8: zjištění rozsahu bez ukázky, pásmo jen podle hlavní verze. Do rozhodnutí vrací `quote` kód `quote.basis_missing` a objednávka není možná (fail-closed).
 6. **Rozpoznání platformy podle technických znaků.** Zásada projektu zakazuje slovníky klíčových slov pro klasifikaci. `PlatformDetector` porovnává technické podpisy platformy (meta `generator`, hostitel souborů `cdn.myshoptet.com`, `cdn.shopify.com`, cesta `wp-content/plugins/woocommerce`, hlavičky a cookies). Klasifikace textu to není, při nejistotě vrací `unknown` a rozhodne klient (3b). Potvrdit, že je to v souladu se zásadou.
-7. **Práh vlastních textů 20 %** je „návrh, neměřeno“ (architektura, část 12). Je v `Pricing:OwnTextShareThreshold`. Pilot ho má změřit.
+7. *(Zrušeno 2. 10. 2026: cena za každou zemi, texty verzí se neporovnávají.)* **Práh vlastních textů 20 %** je „návrh, neměřeno“ (architektura, část 12). Je v `Pricing:OwnTextShareThreshold`. Pilot ho má změřit.
 8. **Čitelnost jazyků mezi zeměmi.** Rozhodnuto je jen „čeština a slovenština navzájem“. Pro další trhy (de-DE × de-AT) je třeba pravidlo doplnit do `Markets:ReadableLanguages`, nebo do `ref.markets`. Návrh: do konfigurace teď, do číselníku s prvním dalším trhem.
 9. **Domovská země a odškrtnutí.** Může klient odškrtnout i domovskou zemi (např. český e-shop, který prodává jen na Slovensko)? Architektura říká „místo prodeje = každá země, kde e-shop prodává, včetně domovské“. Návrh: lze odškrtnout kteroukoli zemi, ale aspoň jedna musí zůstat.
 10. **Nesrovnalosti s datovým modelem (změna 3):**
