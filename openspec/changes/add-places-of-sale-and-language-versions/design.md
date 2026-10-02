@@ -232,4 +232,12 @@ analýza ─► pro každou kontrolovanou verzi VersionCrawlScope + Jurisdiction
 8. **`VersionAccess` je výsledek zkoušky**, zapsaný do `LanguageVersionCandidate` (stav, způsob přepnutí, rozsah, deklarovaný jazyk, kódy). Navíc kódy `version_unreachable` (adresa verze nevrátí stránku) a `version_robots_disallowed` (robots.txt verzi zakazuje); stav `active` bez rozsahu = nekontroluje se a důvod je v kódu.
 9. **Přepínací parametr cookie** (`?lang=sk`) má v rozsahu všech verzí stejného hostitele hodnotu `*` (`ExcludedQuery`): odkaz „Slovensky“ uvnitř české verze by jinak přepnul cookie procházení na slovenštinu.
 10. **`VersionCrawler`** spouští kroky změny 5 (`DiscoveryStep`, `FetchStep`) v rozsahu jedné verze, buď celou verzi, nebo jen zadané adresy vzorku.
+11. **Jazyk textu přes `IMarketModel`.** `TextLanguageModel` (rozhraní `ITextLanguageModel`) posílá jedno volání na verzi přes stejný model jako místa prodeje. Samostatné `OpenAiTextLanguageModel` a `MockTextLanguageModel` nevznikly: falešný model (`MockMarketModel`) dostane deklarovaný jazyk verze a vrátí ho u každé věty. Skutečný model deklarovaný jazyk nedostává, aby ho neovlivnil.
+12. **`IMarketsAnalyzer`** je veřejné rozhraní knihovny (CLI, později worker změny 8). Implementace `MarketsAnalyzer` je interní, protože používá interní kroky změny 5.
+13. **Věta pro 3c a upozornění.** `Summary` je jedna věta podle priority: verze k potvrzení, potřeba prohlížeče, překlad v prohlížeči, jiný jazyk, malý vzorek, nepřeložené texty, jen menu, vlastní texty, jedna verze. Ostatní platné kódy jsou v `Notices`, nic se tedy nevynechá (fail-closed). Nepodporované verze se neuvádějí.
+14. **Verze čekající na potvrzení je ve vzorku** (K rozhodnutí 2): stáhne se a porovná, ale v plánu kontroly ani v ceně není, dokud ji klient nepotvrdí.
+15. **Povinné stránky verze** jsou stránky vybrané pro rozbor míst prodeje a jejich alternativy v jazyce verze (v jejím rozsahu). Právní stránky ukázky doplní změna 8, až ukázka poběží ve workeru.
+16. **Počet produktů verze** je počet adres produktových sitemap v rozsahu verze. Bez produktové sitemap je neznámý (`version_product_count_unknown`) a verze se nezapočítá. Počet z konektoru doplní změna 15.
+17. **Scénáře specifikace s doménami** používají `domain-shop.cz` a `domain-shop.sk` (odchylka 5).
+18. **Ověření 7.2–7.4 proběhne lokálně** se souhlasem uživatele. Cloudové prostředí nemá klíč OpenAI a skenování cizích webů uživatel naplánoval lokálně. Do té doby platí pro zadání modelu jen testy s falešným modelem.
 

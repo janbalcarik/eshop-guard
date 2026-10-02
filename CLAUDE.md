@@ -53,7 +53,7 @@ EshopGuard kontroluje texty e-shopů podle spotřebitelského práva. Primárně
 - Aplikace se připojuje jako role `eshopguard_app` nebo `eshopguard_worker`, ne jako superuživatel, protože ten obchází RLS. Databáze se jmenuje `eshopguard`.
 - Data tenanta jen v transakci s kontextem tenanta (`ITenantContext.Set` + `ExecuteInTenantTransactionAsync`, čisté SQL `TenantSql.BeginAsync`). Nová tabulka tenanta: RLS v migraci, zápis do `TableNames` a řádek v `TenantDataSeeder` (README, oddíl Databáze); jinak selžou katalogové testy.
 - Žádné slovníky klíčových slov pro klasifikaci. Rozhoduje Jev, LLM nebo struktura stránky.
-- Země a jazyky jsou data, ne kód: další trh (DE, PL, HU…) = řádek v `config/jurisdictions.yaml`, sady pravidel a složka `rules/texts/<jazyk>/` (README, oddíl Země a jazyky). Knihovna vrací kódy a parametry, věty skládá `RuleTextRenderer`; překlad textů se použije jen po kontrole člověkem (`review`).
+- Země a jazyky jsou data, ne kód: další trh (DE, PL, HU…) = řádek v `config/jurisdictions.yaml` (i údaje trhu pro místa prodeje: `country`, `language`, `readable_languages`, `tlds`), sady pravidel a složka `rules/texts/<jazyk>/` (README, oddíl Země a jazyky). Knihovna vrací kódy a parametry, věty skládá `RuleTextRenderer`; překlad textů se použije jen po kontrole člověkem (`review`).
 - Fail-closed: co nebylo zkontrolováno, se uvede, nic se tiše neskrývá ani neslučuje.
 - Právo:
   - nevymýšlet čísla paragrafů;
@@ -64,7 +64,7 @@ EshopGuard kontroluje texty e-shopů podle spotřebitelského práva. Primárně
 
 ## Sestavení a testy
 - Sestavení: `dotnet build src/EshopGuard.sln`.
-- Testy bez placených (Windows i Linux, z kořene repozitáře): `dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"`. Stav 2. 10. 2026: 811 testů v sedmi projektech (8 explicitních běží jen na vyžádání), z toho 370 v `EshopGuard.Core.Tests`.
+- Testy bez placených (Windows i Linux, z kořene repozitáře): `dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"`. Stav 2. 10. 2026 (po změně 7): 890 testů v sedmi projektech (8 explicitních běží jen na vyžádání), z toho 442 v `EshopGuard.Core.Tests`.
   - Kategorie `Db` potřebuje PostgreSQL (databáze `eshopguard_test` a `eshopguard_test_jobs`) a user-secrets `eshopguard-tests` (`deploy/dev/setup-local.ps1`). Bez prostředí selže se jménem klíče; vynechat jen filtrem `--filter-not-trait "Category=Db"`.
   - Jeden projekt přímo: `dotnet run --project src/tests/EshopGuard.Core.Tests -- -trait- "Category=Jev"`.
 - `global.json` (pin SDK a `test.runner` = Microsoft.Testing.Platform) je v kořeni repozitáře, proto `dotnet test` funguje odkudkoli v repozitáři.

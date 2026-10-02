@@ -13,8 +13,9 @@ namespace EshopGuard.Cli;
 internal static class CliHost
 {
     /// <param name="register">Registrations before the library (e.g. recording or replay of the site), which replace its defaults.</param>
+    /// <param name="useDatabase">False for a command that stores nothing in the cache (<c>markets</c>), so it needs no database.</param>
     public static ServiceProvider BuildServices(CliConfiguration configuration, string logFile, bool useMock, bool noCache,
-        Action<IServiceCollection>? register = null)
+        Action<IServiceCollection>? register = null, bool useDatabase = true)
     {
         var logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
@@ -35,7 +36,7 @@ internal static class CliHost
 
         // A run that may pay keeps its answers in PostgreSQL; a mock run never touches the database, so its made-up answers
         // never reach the cache.
-        if (!useMock)
+        if (!useMock && useDatabase)
         {
             CliDatabase.Register(services, configuration.CacheConnectionString
                 ?? throw new InvalidOperationException(configuration.MissingDatabaseMessage(useMock)), cacheAnswers: !noCache);

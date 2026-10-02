@@ -31,6 +31,9 @@ app.Configure(config =>
     config.AddCommand<RewriteCommand>("rewrite")
         .WithDescription("Navrhne přepis problematických pasáží hotového skenu modelem OpenAI a znovu je zkontroluje.")
         .WithExample("rewrite", "out/shop.sk-20260930-0919", "--limit", "5");
+    config.AddCommand<MarketsCommand>("markets")
+        .WithDescription("Zjistí, kde e-shop prodává a jaké má jazykové verze (místa prodeje s ověřenými citacemi, plán verzí), a zapíše markets.json.")
+        .WithExample("markets", "https://www.example.sk", "--yes");
     config.AddBranch("rules", rules =>
     {
         rules.SetDescription("Údržba pravidel a jejich textů v rules/ a rules/texts/.");

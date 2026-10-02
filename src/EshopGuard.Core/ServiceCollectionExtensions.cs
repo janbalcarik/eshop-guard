@@ -171,6 +171,8 @@ public static class ServiceCollectionExtensions
 
         services.TryAddTransient<Languages.VersionAccessProbe>();
         services.TryAddSingleton<Languages.VersionCrawler>();
+        services.TryAddSingleton<Languages.ITextLanguageModel, Languages.TextLanguageModel>();
+        services.TryAddTransient<Markets.IMarketsAnalyzer, Markets.MarketsAnalyzer>();
         services.TryAddSingleton<ReportTexts>();
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IReportWriter, MarkdownReportWriter>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IReportWriter, FindingsJsonWriter>());

@@ -262,11 +262,58 @@ Vezme výsledky hotového skenu (`findings.json`, `pages.jsonl`) a stránky s n�
 - Měřeno 30. 9. 2026: vegis.sk 24 stránek, 36 nálezů za 0,25 USD (91 s), naturfyt.sk 12 stránek, 28 nálezů za 0,15 USD (81 s); z mezipaměti OpenAI 78–81 % vstupu. Kontrola přepisů Jevem stojí setiny centu.
 - Návrhy píše jazykový model: před zveřejněním je musí zkontrolovat člověk a konečné znění posoudit právník. Kontrola pravidly není úplná pojistka.
 
+## Místa prodeje a jazykové verze
+
+```bash
+dotnet run --project src/EshopGuard.Cli -- markets https://www.example.sk --yes
+```
+
+Zjistí, do kterých zemí e-shop prodává a jaké má jazykové verze (změna 7). Výsledek zapíše do `out/<web>-markets-<datum>/markets.json` a průběh do `markets.log`. Databázi nepotřebuje.
+
+1. **Technické znaky bez modelu** z úvodní stránky a sitemap:
+   - `html lang`, `hreflang` (i `xhtml:link` v sitemap);
+   - měny ve strukturovaných datech, mezinárodní předvolby (podle stavby čísla E.164), doména nejvyššího řádu;
+   - odkazy úvodní stránky a patičky;
+   - kandidáti přepínače jazyka podle stavby adresy (`/sk/`, `?lang=sk`, `sk.shop.cz`, `shop.cz` → `shop.sk`), nikdy podle textu odkazu.
+2. **Výběr stránek o prodeji.** Model (`rewrite.model`) vybere ze seznamu odkazů nejvýš 4 stránky. Použije se jen adresa ze seznamu. Chybějící doplní stránky z konektoru a právní stránky.
+3. **Rozbor míst prodeje.** Model určí domovskou zemi a země prodeje. U každé uvede sílu důkazu:
+   - `strong`: vlastní verze nebo doména, měna, sídlo;
+   - `delivery`: konkrétní podmínky doručení;
+   - `generic`: např. „do celé EÚ“.
+
+   Každá citace se ověří proti textu stránky. Neověřená citace se zahodí a země bez ověřeného důkazu se nenabídne. Volný text modelu je jen v poli `internal`.
+4. **Domovská země** se bere z ověřené adresy. Když chybí, určí ji doména podle `tlds` v `config/jurisdictions.yaml` a klient ji potvrdí. Doména `.com` dá kód `home_country_unknown`.
+5. **Jazykové verze.** Najdou se z `hreflang`, přepínače, konektoru, a až nakonec z výsledku modelu. Každá verze se vyzkouší stažením:
+   - vlastní adresa: stránka musí mít jazyk verze;
+   - cookie (`?lang=sk` nastaví cookie);
+   - jazyk prohlížeče (`Accept-Language`);
+   - přepínač jen ve skriptu: `needs_browser`;
+   - překlad v prohlížeči (Weglot a podobné): kontroluje se původní text;
+   - adresa vrací jiný jazyk: `mismatch`;
+   - prázdná aplikace: `version_text_not_loaded`.
+
+   Verze na jiné doméně čeká na potvrzení klientem (`needs_confirmation`). Verze v jazyce nepodporovaného trhu je `unsupported`.
+6. **Plán.** Pro každý zaškrtnutý trh se kontroluje verze v jeho jazyce, jinak hlavní verze. Verze se posoudí podle všech zaškrtnutých zemí, jejichž zákazníci ji čtou (`readable_languages`).
+7. **Rozbor verzí v ukázce** (při víc verzích):
+   - vzorek 100 stránek, ~20 párů přes `hreflang`, EAN a kód produktu;
+   - jazyk textu jedním voláním modelu na verzi;
+   - podíl vlastních textů podle otisků vět;
+   - druh rozdílu: shodný, překlad, zkrácený nebo jiný, nepřeložený.
+
+   Verze se započítá do ceny při podílu vlastních textů aspoň 0,20 (`markets.counted_min_own_share`, neměřeno) a aspoň 10 produktových stránkách ve vzorku. Při nejistotě se nezapočítá.
+
+Další vlastnosti:
+- **Cena.** Před prvním voláním modelu se vypíše odhad (znaky / 3,2, ceny z `rewrite`). Nad `rewrite.max_usd_without_confirm` se příkaz zeptá, `--yes` dotaz přeskočí. Ověřeno výzkumnými skripty 1. 10. 2026: 0,03–0,08 USD na e-shop za místa prodeje, 0,043 USD za jazyk 46 párů z 5 e-shopů. Zadání v knihovně jsou nová a čísla pro ně zatím nejsou změřená (úkoly 7.3 a 7.4 změny 7).
+- **Fail-closed.** Chyba modelu (`market_analysis_failed`), chybějící klíč (`model_missing_key`) i nepotvrzený odhad (`market_analysis_not_confirmed`) vrátí jen technické znaky, verze ze stavby webu a domovskou zemi z domény k potvrzení.
+- **Cookie po rozsazích.** Klient pro stahování nemá společný kontejner cookie (`UseCookies = false`). Cookie drží každé procházení zvlášť (web nebo jazyková verze), takže se nepřenášejí mezi weby, verzemi ani tenanty. `--mock` místa prodeje nezjistí, ukáže jen znaky a verze.
+- Volby: `--markets sk,cz` (zaškrtnuté trhy), `--out`, `--mock`, `--yes`, `--allow-private-network`.
+
 ## Příkazy
 
 | Příkaz | Popis |
 | --- | --- |
 | `scan <url>` | Projde web podle robots.txt a sitemap, vyhodnotí texty a vytvoří výstupy. Volby: `--max-pages`, `--sample-products`, `--modules` (výchozí: všechny moduly s pravidly pro zvolené země), `--country` (výchozí `sk`), `--jurisdictions` (víc zemí, např. `sk,cz`), `--lang` (jazyk textů ve zprávě, výchozí `cs`), `--as-of` (datum pro účinnost pravidel), `--question-lang`, `--rate` (pevné tempo stahování), `--concurrency`, `--include`, `--exclude`, `--out`, `--mock`, `--no-cache`, `--no-sieve`, `--yes`, `--record <složka>` (uloží všechny odpovědi webu), `--replay <složka>` (odpovídá z nahrávky bez sítě), `--allow-private-network` (jen místní testovací e-shop). |
+| `markets <url>` | Místa prodeje s ověřenými citacemi, jazykové verze, plán verzí a rozbor verzí v ukázce; zapíše `markets.json`. Volby: `--markets`, `--out`, `--mock`, `--yes`, `--allow-private-network`. |
 | `check-text "<text>"` | Vyhodnotí jeden text. Volby: `--kind`, `--modules`, `--country`, `--jurisdictions`, `--lang`, `--as-of`, `--category` (kategorie výrobku pro modul `lr`), `--question-lang`, `--mock`. |
 | `rewrite <složka skenu>` | Navrhne přepis problematických pasáží modelem OpenAI a znovu je zkontroluje pravidly všech zvolených zemí. Volby: `--country`, `--jurisdictions`, `--lang`, `--limit`, `--mock`, `--no-cache`, `--yes`. |
 | `rules check-texts` | Vypíše po jazycích, zda jsou texty pravidel úplné a zkontrolované, a co chybí; `--update-hashes` zapíše otisky otázek nových verzí sad. |
@@ -290,7 +337,7 @@ Vezme výsledky hotového skenu (`findings.json`, `pages.jsonl`) a stránky s n�
   - Překlad se používá, jen když má v `review` vyplněné `reviewed_by` a `reviewed_at`. Návrh modelem (`machine_draft: true`) se nepoužije, dokud ho nezkontroluje člověk.
   - Stav ukáže `eshopguard rules check-texts`. Slovenské texty a český překlad `legal_sk` jsou strojové návrhy (2. 10. 2026) a čekají na kontrolu člověkem. Do té doby zpráva v `sk` nejde napsat a `legal_sk` se v české zprávě ukazuje slovensky.
 - **Další trh (Německo, Polsko, Maďarsko…) bez změny kódu:**
-  1. řádek v `config/jurisdictions.yaml`;
+  1. řádek v `config/jurisdictions.yaml` (`law_language`, a pro místa prodeje `country`, `language`, `readable_languages`, `tlds`);
   2. sady `rules/<modul>_<země>.yaml`, nebo země navíc u sady, která platí beze změny;
   3. texty ve složce `rules/texts/<jazyk>/`, kostru vytvoří `eshopguard rules extract-texts --skeleton <jazyk>`;
   4. název země v `_engine.yaml` každého jazyka;

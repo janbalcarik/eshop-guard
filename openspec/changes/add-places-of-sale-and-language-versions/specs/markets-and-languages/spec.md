@@ -11,7 +11,7 @@ Systém MUST z úvodní stránky a sitemap přečíst bez volání modelu `html 
 - THEN `MarketSignals.Hreflang` obsahuje `sk` → `/sk/` a `HtmlLang` je `cs`
 
 #### Scenario: Přepínač odkazem na jinou doménu
-- GIVEN úvodní stránka `domain-shop-cz` s odkazem na `https://domain-shop-sk.test/` a bez `hreflang`
+- GIVEN úvodní stránka `domain-shop.cz` s odkazem na `https://domain-shop.sk/` a bez `hreflang`
 - WHEN se přečtou znaky
 - THEN odkaz je mezi `SwitcherCandidates` s druhem `domain`
 
@@ -120,7 +120,7 @@ Systém MUST najít jazykové verze e-shopu z `hreflang` na stránkách a v site
 - THEN najde `cs` (hlavní, `/`) a `sk` (`/sk/`, `SwitchMethod = path`, `Source = hreflang`, stav `active`)
 
 #### Scenario: Verze na jiné doméně
-- GIVEN `domain-shop-cz` s přepínačem na `domain-shop-sk.test`
+- GIVEN `domain-shop.cz` s přepínačem na `domain-shop.sk`
 - WHEN se hledají verze
 - THEN verze `sk` má `SwitchMethod = domain` a stav `needs_confirmation`
 
