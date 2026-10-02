@@ -57,10 +57,14 @@ public sealed record DetectionDto(
     ConnectorAvailabilityDto Connector,
     string RecommendedSource);
 
-/// <summary>The free sample of an e-shop: the state of its run, progress, the place in the queue and, when it ended, the result.</summary>
+/// <summary>
+/// The free sample of an e-shop: the state of its run, the code why it failed (<c>target_not_allowed</c>,
+/// <c>sample_budget_exceeded</c> …), progress, the place in the queue and, when it ended, the result.
+/// </summary>
 public sealed record SampleDto(
     Guid RunId,
     string Status,
+    string? Error,
     DateTimeOffset? StartedAt,
     DateTimeOffset? FinishedAt,
     SampleProgressDto Progress,

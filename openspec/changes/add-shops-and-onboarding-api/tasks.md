@@ -193,6 +193,6 @@
   - *Provedeno 2. 10. 2026 s odchylkou (design, odchylka 16):* worker vnitřní síť nestahuje (změna 8), rozpoznání a ukázka na `localhost:8000` proto skončily kódem chyby; zbytek nad daty ve tvaru rozboru ukázky. `quote` bez `FakePriceQuoteService` (ta je jen v testech) vrátil `503 billing.unavailable`.
 - [ ] 11.5 Živá ukázka na skutečném e-shopu (Jev a OpenAI jsou placené):
   - před spuštěním odhad ceny (strategie: ~0,5–1 USD na ukázku; rozbor zemí a verzí ~0,05 USD na e-shop podle měření 1. 10. 2026) a souhlas uživatele;
-  - bez souhlasu se nespouští. *Nespuštěno: čeká na odhad ceny a souhlas uživatele.*
+  - bez souhlasu se nespouští. *Souhlas 2. 10. 2026, spouští uživatel lokálně (krok 3.12 v `LOKALNI-OVERENI.md`, skript `deploy/dev/live-sample.ps1`, e-shop www.naturfyt.sk, strop 1,00 USD). Čeká na výsledek.*
 - [x] 11.6 `dotnet build` a `dotnet test` projdou.
 - [x] 11.7 `openspec validate add-shops-and-onboarding-api` projde.

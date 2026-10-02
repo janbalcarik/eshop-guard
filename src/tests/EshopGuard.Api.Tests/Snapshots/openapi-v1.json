@@ -1472,6 +1472,12 @@
       },
       "SampleDto": {
         "properties": {
+          "error": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
           "finishedAt": {
             "format": "date-time",
             "type": [
@@ -1513,6 +1519,7 @@
         "required": [
           "runId",
           "status",
+          "error",
           "startedAt",
           "finishedAt",
           "progress",

@@ -1,4 +1,4 @@
-# Co spustit a ověřit lokálně (stav 2. 10. 2026, po změně 8)
+# Co spustit a ověřit lokálně (stav 2. 10. 2026, po změně 10)
 
 Pořadí: nejdřív kroky zdarma, potom kroky se sítí bez placených volání, nakonec placené kroky. Každý placený krok se spustí jen po odhadu ceny a souhlasu (CLAUDE.md). Příkazy jsou pro PowerShell v kořeni repozitáře, **kromě CLI: to se spouští ze složky `src`** (`cd src`, potom `dotnet run --project EshopGuard.Cli -- …`), protože tam hledá `config/`, `rules/` a `.env`. Z kořene skončí chybou „Pravidla nejsou platná: … neexistuje“. Klíče patří do `.env` (CLI) nebo do proměnných prostředí (worker), nikdy do souborů v repozitáři.
 
@@ -8,12 +8,12 @@ Pořadí: nejdřív kroky zdarma, potom kroky se sítí bez placených volání,
 git pull
 pwsh deploy/dev/setup-local.ps1        # jen poprvé nebo po změně rolí; zapíše user-secrets (i eshopguard-worker)
 dotnet tool restore
-dotnet ef database update --project src/EshopGuard.Data   # migrace F4 změny 8 a F4LanguagesByCountry (cena za každou zemi: shop_languages.translated_share a description_languages místo own_text_share, comparison a counted)
+dotnet ef database update --project src/EshopGuard.Data   # migrace až po F6ShopsOnboarding (změna 10: shops.detection, ruční rozhodnutí o verzi, stavy ověření vlastnictví)
 dotnet build src/EshopGuard.sln
 dotnet test --solution src/EshopGuard.sln --filter-not-trait "Category=Jev"
 ```
 
-Očekávání: 1052 testů, 0 selhání, 10 explicitních přeskočeno (cloud, 2. 10. 2026). Měření 5 000 stránek (paměť a férovost fronty) se spouští zvlášť: `dotnet run --project src/tests/EshopGuard.Jobs.Tests -- -class "EshopGuard.Jobs.Tests.Runs.RulesMemoryTests" -explicit only -showLiveOutput` (asi 2 minuty; výsledek z cloudu je v README, oddíl Běhy analýzy ve workeru). Testy běhů ve workeru (`src/tests/EshopGuard.Jobs.Tests/Runs`) potřebují PostgreSQL a databázi `eshopguard_test_jobs`. Když testy `Db` selžou se jménem klíče, chybí user-secrets `eshopguard-tests`: spusťte znovu `setup-local.ps1`.
+Očekávání: 1554 testů, 0 selhání, 10 explicitních přeskočeno (cloud, 2. 10. 2026, po změně 10). Měření 5 000 stránek (paměť a férovost fronty) se spouští zvlášť: `dotnet run --project src/tests/EshopGuard.Jobs.Tests -- -class "EshopGuard.Jobs.Tests.Runs.RulesMemoryTests" -explicit only -showLiveOutput` (asi 2 minuty; výsledek z cloudu je v README, oddíl Běhy analýzy ve workeru). Testy běhů ve workeru (`src/tests/EshopGuard.Jobs.Tests/Runs`) potřebují PostgreSQL a databázi `eshopguard_test_jobs`. Když testy `Db` selžou se jménem klíče, chybí user-secrets `eshopguard-tests`: spusťte znovu `setup-local.ps1`.
 
 Pokud CLI ještě nemá tenanta `cli`, jednou ze složky `src`: `dotnet run --project EshopGuard.Cli -- cache init`.
 
@@ -22,7 +22,7 @@ Pokud CLI ještě nemá tenanta `cli`, jednou ze složky `src`: `dotnet run --pr
 Worker zkontroluje skutečný e-shop stejně jako aplikace (tenant `cli`, takže sdílí cache Jevu s CLI a Jev se platí jen jednou).
 
 1. **Krok 2.2** (0 USD): ukázka zdarma s falešným Jevem a OpenAI na skutečném webu. Ověří stahování, robots.txt, jazykové verze, plán 100 stránek, stavy a události, `estimate.basis` s `other_pages` po verzích a kódy chyb adres (`run_urls.http_status`, `error_code`).
-2. **Krok 3.6** (≤ 1,00 USD, strop ukázky je souhlas s cenou): stejná ukázka se skutečným Jevem a OpenAI na jiné doméně, nebo po smazání nároku na doménu.
+2. **Krok 3.12** (≤ 1,00 USD, strop ukázky je souhlas s cenou; nahrazuje krok 3.6): živá ukázka na www.naturfyt.sk přes API změny 10 se skutečným Jevem a OpenAI. Kromě ukázky ověří rozpoznání platformy, místa prodeje, jazykové verze a rozsah.
 3. **Krok 3.7** (~2,75 USD na 500 stránek, neměřeno): úvodní analýza. Worker se zastaví na `awaiting_payment` a ukáže interní odhad; pokračuje se až po vašem souhlasu (`dev approve-run`).
 
 Po každém kroku mi pošlete výstup dotazů z kroku 2.2 (stavy, události, `stats`, `estimate`, počty `run_urls`). Výsledky porovnám s CLI a s Jevem.
@@ -91,12 +91,39 @@ Očekávání: stavy `discovering → crawling → … → finished | partial` (
 | 3.9 | Porovnání verzí goodie.sk na popisu z profilu (`markets --profiles`) | **hotovo 2. 10. 2026: 0,206 USD** (rozbor 0,057 + profil 0,149) | změna 7, odchylka 20 |
 | 3.10 | Práh započtení verze a jazyk popisů: `markets --profiles` na bonami, freshlabels, havlikovaapoteka, panakeia a znovu goodie | ~0,55–0,95 USD (rozbor ~0,06 USD na e-shop, nový profil 0,07–0,15 USD; goodie má profil uložený) | změna 7, úkol 7.4 a odchylka 20 |
 | 3.11 | Cena za každou zemi a produkty bez produktové sitemap: `markets --profiles --markets sk,cz` na stejných 5 e-shopech | ~0,30–0,60 USD (rozbor ~0,06 USD na e-shop; freshlabels a havlikovaapoteka dostanou poprvé produkty do vzorku, takže možná nový profil 0,07–0,15 USD) | změna 7, úkoly 8.4–8.6 |
+| 3.12 | Živá ukázka www.naturfyt.sk přes API (e-shop, rozpoznání platformy, ukázka, místa prodeje, verze, rozsah) | ≤ 1,00 USD (strop ukázky; strategie 0,5–1 USD, rozbor zemí a verzí ~0,06 USD je v tom) | změna 10, úkol 11.5; zároveň změna 8, úkol 13.7 |
 
 Postup u jednotlivých kroků:
 
 - **3.1:** `dotnet run --project src/tests/EshopGuard.Core.Tests -- -trait "Category=Jev"` (klíč v `.env`).
 - **3.2 až 3.5:** CLI vypíše odhad z dotazu před prvním voláním a nad limitem se zeptá. Příkazy jsou v `tasks.md` změn 6 a 7. Výsledky 3.2 a 3.3 se zapíšou do README, oddíl Místa prodeje a jazykové verze (úkol 7.5 změny 7).
 - **3.6:** jako krok 2.2, ale bez proměnných `UseMock`, s klíči v proměnných prostředí `TYPESAFE_API_KEY` a `OPENAI_API_KEY`. Strop `Runs:FreeSample:MaxInternalUsd` (1,00 USD) je souhlas s cenou: nad odhadem se nic nezaplatí a běh skončí `failed` s kódem `sample_budget_exceeded`. Skutečnou cenu ukáže `SELECT provider, operation, sum(calls), sum(input_tokens), sum(cost_usd) FROM usage.usage_records WHERE run_id = '<id>' GROUP BY 1, 2;`. Ověřit souhrn ukázky, rozbor verzí (`shop.shop_languages`) a `estimate.basis`.
+- **3.12:** naturfyt.sk je Shoptet (jediná platforma s podpisy ověřenými na skutečné stránce) a má víc jazykových verzí, takže prověří rozpoznání platformy, skrytí nepodporovaných verzí i rozsah za SK a CZ; na nahrávku a výstupy CLI ho porovnám. Tři okna PowerShellu v kořeni repozitáře:
+
+  ```powershell
+  # Jednou: migrace (krok 0), důvěra ve vývojový certifikát, klíč pro otisky IP v auditu (když v user-secrets API chybí)
+  dotnet dev-certs https --trust
+  dotnet user-secrets list --project src/EshopGuard.Api        # musí obsahovat Security:IpHashKey a ConnectionStrings:App
+  dotnet user-secrets set "Security:IpHashKey" ([Convert]::ToBase64String([Security.Cryptography.RandomNumberGenerator]::GetBytes(32))) --project src/EshopGuard.Api
+  docker compose -f deploy/docker-compose.dev.yml up -d mailpit  # schránka http://localhost:8025
+
+  # Okno 1: API
+  dotnet run --project src/EshopGuard.Api --launch-profile https
+
+  # Okno 2: worker se skutečným Jevem a OpenAI (klíče jen v proměnných prostředí, nikdy do souborů)
+  Remove-Item Env:EshopGuard__Jev__UseMock, Env:EshopGuard__Rewrite__UseMock -ErrorAction SilentlyContinue
+  $env:EshopGuard__Crawl__UserAgent = "EshopGuard/0.1 (+mailto:VAS-EMAIL)"
+  # TYPESAFE_API_KEY (nebo JEV_API_KEY) a OPENAI_API_KEY musí být v prostředí, např. z uživatelských proměnných Windows
+  dotnet run --project src/EshopGuard.Worker
+
+  # Okno 3: celý postup přes API
+  ./deploy/dev/live-sample.ps1 -ShopUrl https://www.naturfyt.sk/
+  ```
+
+  Skript založí nový účet (e-mail jen do Mailpitu), e-shop, počká na rozpoznání platformy, spustí ukázku, každých 10 s vypíše stav a po konci uloží odpovědi API (`shop`, `detection`, `sample`, `markets`, `languages`, `scope`, `onboarding`, `ownership`, `settings`) do `.data/live-sample/<čas>/`. Token z e-mailu ani cookie nevypisuje. Když už doménu použila dřívější ukázka (např. krok 2.2), skončí kódem `sample.already_used_for_domain` a vypíše, jak nárok smazat jako `postgres`.
+
+  Očekávání: platforma `shoptet` s jistotou `certain` (signály `shoptet.cdn_host` a `shoptet.web_author`); ukázka `finished` nebo `partial` s výčtem nezkontrolovaných po důvodech; země SK (a CZ, pokud ji e-shop doloží) s důvody a ověřenými citacemi; verze sk a cs s podílem přeložených popisů, nepodporované verze (pl, de, en) v odpovědi nejsou; rozsah s produkty za každou zemi a `scopeHash`. Nabídku ceny skript nevolá, bez změny 12 vrací `503 billing.unavailable`. Pošlete mi složku `.data/live-sample/<čas>/` a výstup dotazu na cenu, který skript vypíše na konci (`usage.usage_records` běhu).
+
 - **3.7:** varianta 500 stránek: `$env:Runs__FullAnalysis__MaxPages = "500"`. Postup:
   1. `dev seed-run --tenant cli --shop-url https://vegis.sk/ --kind full_analysis` bez `--approve`;
   2. spustit worker; běh se zastaví ve stavu `awaiting_payment` s hrubým odhadem v `checks.runs.estimate -> 'internal'`;

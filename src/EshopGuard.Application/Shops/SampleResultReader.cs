@@ -33,6 +33,7 @@ public sealed class SampleResultReader(EshopGuardDb db, ShopReader reader, IRunR
         return new SampleDto(
             run.Id,
             SnakeCaseEnumConverter<RunStatus>.ToText(run.Status),
+            run.Error,
             run.StartedAt,
             run.FinishedAt,
             new SampleProgressDto(run.Progress.PagesPlanned, run.Progress.PagesFetched, run.Progress.PagesProcessed),

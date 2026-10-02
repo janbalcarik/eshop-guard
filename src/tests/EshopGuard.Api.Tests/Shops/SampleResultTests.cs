@@ -79,6 +79,22 @@ public sealed class SampleResultTests : ShopTestBase
     }
 
     [Fact]
+    public async Task FailedSample_SaysWhy_AndHasNoResult()
+    {
+        await using var factory = Factory();
+        using var owner = await People.OwnerAsync(factory);
+        var shopId = (await CreateShopAsync(owner)).GetProperty("id").GetGuid();
+        var runId = await SeedRunAsync(owner.TenantId, shopId, "free_sample", "failed");
+        await AdminAsync("UPDATE checks.runs SET error = 'sample_budget_exceeded' WHERE id = $1", runId);
+
+        var sample = await GetJsonAsync(owner, $"/api/t/{owner.TenantId}/shops/{shopId}/sample");
+
+        Assert.Equal("failed", sample.GetProperty("status").GetString());
+        Assert.Equal("sample_budget_exceeded", sample.GetProperty("error").GetString());
+        Assert.Equal(JsonValueKind.Null, sample.GetProperty("result").ValueKind);
+    }
+
+    [Fact]
     public async Task RunningSample_HasProgressAndNoResult()
     {
         await using var factory = Factory();
