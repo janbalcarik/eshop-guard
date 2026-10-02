@@ -43,8 +43,9 @@ public static class AnalysisSettings
 
 /// <summary>
 /// Refuses to start a worker whose configuration could harm a foreign site or leak a key (design of change 8, task 12.3):
-/// the crawl allowed into the internal network (in any environment); outside Development and Testing a User-Agent without a
-/// real contact and the mock clients of Jev or OpenAI; keys written into the configuration instead of the environment.
+/// the crawl allowed into the internal network or a User-Agent other than <c>EshopGuard/0.1</c> (in any environment); outside
+/// Development and Testing a User-Agent without a real contact and the mock clients of Jev or OpenAI; keys written into the
+/// configuration instead of the environment.
 /// </summary>
 public sealed class StartupChecks(IConfiguration configuration, IHostEnvironment environment) : IHostedService
 {
@@ -64,6 +65,11 @@ public sealed class StartupChecks(IConfiguration configuration, IHostEnvironment
         if (!string.IsNullOrEmpty(configuration[$"{AnalysisSettings.SectionName}:Jev:ApiKey"]) || !string.IsNullOrEmpty(configuration[$"{AnalysisSettings.SectionName}:Rewrite:ApiKey"]))
         {
             failures.Add("config.key_in_configuration: keys come only from TYPESAFE_API_KEY/JEV_API_KEY and OPENAI_API_KEY");
+        }
+
+        if (!options.Crawl.UserAgent.StartsWith("EshopGuard/0.1", StringComparison.Ordinal))
+        {
+            failures.Add("config.user_agent_invalid: EshopGuard:Crawl:UserAgent (must start with EshopGuard/0.1)");
         }
 
         var production = !environment.IsDevelopment() && !environment.IsEnvironment("Testing");

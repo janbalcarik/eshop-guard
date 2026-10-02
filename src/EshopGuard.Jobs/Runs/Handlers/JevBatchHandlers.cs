@@ -9,6 +9,7 @@ using EshopGuard.Jobs.Processing;
 using EshopGuard.Jobs.Queue;
 using EshopGuard.Jobs.Runs.Storage;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 
 namespace EshopGuard.Jobs.Runs.Handlers;
 
@@ -46,7 +47,7 @@ internal sealed class SieveBatchHandler(RunHandlerContext context, IRuleSetProvi
         {
             await Ctx.Usage.WriteAsync(tx.Connection, tx.Transaction, job.Scope,
                 [new UsageEntry(UsageProvider.Jev, UsageOperation.Sieve, null, 0, result.CacheHits, 0, 0, 0, 0, 0m)], ct).ConfigureAwait(false);
-            if (await JevBarrier.AdvanceAsync(tx, locked, "sieve", ct).ConfigureAwait(false))
+            if (await JevBarrier.AdvanceAsync(tx.Connection, tx.Transaction, locked, "sieve", ct).ConfigureAwait(false))
             {
                 await tx.EnqueueAsync(RunPlan.PlanEvaluate(locked), ct).ConfigureAwait(false);
             }
@@ -161,7 +162,7 @@ internal sealed class EvaluateBatchHandler(RunHandlerContext context, IRuleSetPr
         {
             await Ctx.Usage.WriteAsync(tx.Connection, tx.Transaction, job.Scope,
                 [new UsageEntry(UsageProvider.Jev, UsageOperation.SentenceEval, result.Model, 0, result.CacheHits, 0, 0, 0, 0, 0m)], ct).ConfigureAwait(false);
-            if (await JevBarrier.AdvanceAsync(tx, locked, "evaluate", ct).ConfigureAwait(false)
+            if (await JevBarrier.AdvanceAsync(tx.Connection, tx.Transaction, locked, "evaluate", ct).ConfigureAwait(false)
                 && await RunStateMachine.TryTransitionAsync(tx.Connection, tx.Transaction, run.TenantId, run.Id, RunStatus.Evaluating, RunStatus.Ruling, ct).ConfigureAwait(false))
             {
                 await tx.EnqueueAsync(RunPlan.Rules(locked), ct).ConfigureAwait(false);
@@ -179,14 +180,15 @@ internal sealed class EvaluateBatchHandler(RunHandlerContext context, IRuleSetPr
 /// </summary>
 internal static class JevBarrier
 {
-    public static async Task<bool> AdvanceAsync(JobTransaction tx, RunRow locked, string step, CancellationToken ct)
+    /// <summary>Counts the batch in; true for the batch that completes the step. <paramref name="locked"/> must be locked FOR UPDATE in the transaction.</summary>
+    public static async Task<bool> AdvanceAsync(NpgsqlConnection connection, NpgsqlTransaction transaction, RunRow locked, string step, CancellationToken ct)
     {
         var counters = RunStore.Section(locked.Progress, "steps", step);
         var done = RunStore.Long(counters, "done") + 1;
         var total = RunStore.Long(counters, "total");
         counters["done"] = done;
-        await RunStore.SetJsonAsync(tx.Connection, tx.Transaction, locked.Id, "progress", locked.Progress, ct).ConfigureAwait(false);
-        await RunEventWriter.WriteAsync(tx.Connection, tx.Transaction, locked.TenantId, locked.Id, "info", RunCodes.EventProgress,
+        await RunStore.SetJsonAsync(connection, transaction, locked.Id, "progress", locked.Progress, ct).ConfigureAwait(false);
+        await RunEventWriter.WriteAsync(connection, transaction, locked.TenantId, locked.Id, "info", RunCodes.EventProgress,
             new JsonObject { ["step"] = step, ["done"] = done, ["total"] = total }, ct).ConfigureAwait(false);
         return done == total;
     }

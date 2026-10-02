@@ -102,7 +102,7 @@ internal sealed class RewriteBatchHandler(RunHandlerContext context, RewriteStep
                 await RunStore.SetJsonAsync(connection, transaction, run.Id, "stats", locked.Stats, ct).ConfigureAwait(false);
             }
 
-            if (await JevBarrier.AdvanceAsync(tx, locked, "rewrite", ct).ConfigureAwait(false))
+            if (await JevBarrier.AdvanceAsync(tx.Connection, tx.Transaction, locked, "rewrite", ct).ConfigureAwait(false))
             {
                 await tx.EnqueueAsync(RunPlan.Finalize(locked), ct).ConfigureAwait(false);
             }

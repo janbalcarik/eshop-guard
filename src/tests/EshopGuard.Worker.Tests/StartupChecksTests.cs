@@ -17,6 +17,15 @@ public sealed class StartupChecksTests
     }
 
     [Fact]
+    public void UserAgentOtherThanEshopGuard_IsRefused_InEveryEnvironment()
+    {
+        foreach (var environment in new[] { "Development", "Testing", "Production" })
+        {
+            Assert.Contains(Check(environment, ("EshopGuard:Crawl:UserAgent", "Mozilla/5.0 (+mailto:provoz@eshopguard.sk)")), f => f.StartsWith("config.user_agent_invalid", StringComparison.Ordinal));
+        }
+    }
+
+    [Fact]
     public void UserAgentWithoutContact_IsRefused_OutsideDevelopment()
     {
         Assert.Contains(Check("Production", ("EshopGuard:Crawl:UserAgent", "EshopGuard/0.1 (+mailto:doplnte-kontakt@example.cz)")), f => f.StartsWith("config.user_agent_contact_missing", StringComparison.Ordinal));

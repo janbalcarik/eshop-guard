@@ -64,6 +64,9 @@ internal sealed class FetchBatchHandler(RunHandlerContext context, FetchStep fet
             }
 
             var requestsBefore = scope.Frontier.Counters.Requests;
+            // The first batch lists also what the discovery left out (sitemap addresses forbidden by robots.txt).
+            var robotsBefore = batchNo == 1 ? 0 : scope.Frontier.Counters.RobotsBlocked.Count;
+            var ssrfBefore = batchNo == 1 ? 0 : scope.Frontier.Counters.SsrfBlocked.Count;
             var throttledBefore = pace.Throttled;
             var clock = Stopwatch.StartNew();
             result = await fetch.FetchBatchAsync(
@@ -102,6 +105,20 @@ internal sealed class FetchBatchHandler(RunHandlerContext context, FetchStep fet
                     }
 
                     fetched += await WriteUrlAsync(connection, transaction, scope, page, batchNo, i, now, ct).ConfigureAwait(false);
+                }
+
+                // Addresses the crawl left out without a request (robots.txt, internal network) are listed too (fail-closed).
+                foreach (var (urls, before, state) in new[]
+                {
+                    (result.Frontier.Counters.RobotsBlocked, robotsBefore, RunUrlState.RobotsBlocked),
+                    (result.Frontier.Counters.SsrfBlocked, ssrfBefore, RunUrlState.SsrfBlocked),
+                })
+                {
+                    foreach (var url in urls.Skip(before).Distinct(StringComparer.Ordinal))
+                    {
+                        await RunPages.UpsertUrlAsync(connection, transaction, run.TenantId, run.Id, RunPages.UrlHash(url, scope.Scope),
+                            new RunUrlRow(scope.ScopeKey, url, scope.Language, state, null, null, batchNo, state == RunUrlState.RobotsBlocked ? "robots_blocked" : "ssrf_blocked", null), ct).ConfigureAwait(false);
+                    }
                 }
 
                 await RunScopeStore.SaveBatchAsync(connection, transaction, run.Id, scopeKey, result.Frontier, result.Pace, exhausted, ct).ConfigureAwait(false);

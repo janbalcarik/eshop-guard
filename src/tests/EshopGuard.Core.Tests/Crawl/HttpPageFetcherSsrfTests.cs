@@ -69,6 +69,18 @@ public sealed class HttpPageFetcherSsrfTests
     }
 
     [Fact]
+    public async Task EveryRequest_IdentifiesItselfAsEshopGuard()
+    {
+        // CLAUDE.md: User-Agent EshopGuard/0.1 (task 4.4 of change 8; the worker refuses any other, StartupChecks).
+        await using var server = new LocalHttpServer(_ => new LocalHttpServer.Answer(200, "<html><body><p>Ahoj</p></body></html>"));
+        await using var provider = Create(new FakeResolver([IPAddress.Loopback]), allowPrivateNetwork: true);
+
+        await provider.GetRequiredService<IPageFetcher>().FetchAsync(new Uri($"http://shop.test:{server.Port}/"), TestContext.Current.CancellationToken);
+
+        Assert.StartsWith("EshopGuard/0.1", server.Requests.Single().Headers["User-Agent"], StringComparison.Ordinal);
+    }
+
+    [Fact]
     public async Task LocalShopOnDefaultPort_IsBlockedByAddress()
     {
         // The port is allowed, the address is not: the check after DNS stops it.
