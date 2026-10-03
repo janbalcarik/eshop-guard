@@ -4,6 +4,7 @@ using EshopGuard.Application.Problems;
 using EshopGuard.Billing.Contracts;
 using EshopGuard.Billing.Pricing;
 using EshopGuard.Billing.Stripe;
+using EshopGuard.Billing.Subscriptions;
 using EshopGuard.Billing.Tax;
 using EshopGuard.Billing.Texts;
 using EshopGuard.Data;
@@ -63,6 +64,11 @@ public sealed class CheckoutService(
         }
 
         var now = time.GetUtcNow();
+        if (order is { Status: OrderStatus.CheckoutOpen, StripeSubscriptionId: { } pendingId })
+        {
+            await DropSavedCardAttemptAsync(order, pendingId, ct).ConfigureAwait(false);
+        }
+
         if (order is { Status: OrderStatus.CheckoutOpen, StripeCheckoutSessionId: { } sessionId, CheckoutExpiresAt: { } expires } && expires > now.AddMinutes(1))
         {
             var existing = await stripe.GetCheckoutSessionAsync(sessionId, ct).ConfigureAwait(false);
@@ -93,15 +99,22 @@ public sealed class CheckoutService(
 
         await db.ExecuteInTenantTransactionAsync(async () =>
         {
+            var transaction = (NpgsqlTransaction)db.Database.CurrentTransaction!.GetDbTransaction();
+            if (order.StripeSubscriptionId is { } previous)
+            {
+                await PendingSubscriptions.MarkNotStartedAsync(transaction, previous, now, ct).ConfigureAwait(false);
+            }
+
             await db.Orders.Where(o => o.Id == order.Id && (o.Status == OrderStatus.Created || o.Status == OrderStatus.CheckoutOpen))
                 .ExecuteUpdateAsync(s => s
                     .SetProperty(o => o.Status, OrderStatus.CheckoutOpen)
                     .SetProperty(o => o.StripeCheckoutSessionId, session.Id)
+                    .SetProperty(o => o.StripeSubscriptionId, (string?)null)
                     .SetProperty(o => o.CheckoutExpiresAt, session.ExpiresAt)
                     .SetProperty(o => o.CheckoutAttempt, attempt)
                     .SetProperty(o => o.TrialEndPlanned, trialEnd)
                     .SetProperty(o => o.UpdatedAt, now), ct).ConfigureAwait(false);
-            await BillingSql.AuditAsync((NpgsqlTransaction)db.Database.CurrentTransaction!.GetDbTransaction(), tenantId, userId, BillingSql.User, "order.checkout_started", "order",
+            await BillingSql.AuditAsync(transaction, tenantId, userId, BillingSql.User, "order.checkout_started", "order",
                 order.Id.ToString("D"), new JsonObject { ["attempt"] = attempt }, now, ct).ConfigureAwait(false);
         }, ct).ConfigureAwait(false);
         logger.LogInformation("order.checkout {OrderId} {TenantId} {Attempt}", order.Id, tenantId, attempt);
@@ -110,6 +123,24 @@ public sealed class CheckoutService(
 
     /// <summary>The language of Checkout from the locale of the tenant (<c>sk</c>, <c>cs</c>; Stripe knows both).</summary>
     public static string Locale(string locale) => (locale ?? "sk").Split('-')[0].ToLowerInvariant();
+
+    /// <summary>
+    /// The order waits for its payment with the saved card (task 7.3): running already, it is paid by the webhook (409); still
+    /// <c>incomplete</c> (3-D Secure not confirmed), it is canceled so Checkout never makes a second subscription of the e-shop.
+    /// </summary>
+    private async Task DropSavedCardAttemptAsync(Order order, string subscriptionId, CancellationToken ct)
+    {
+        var pending = await stripe.GetSubscriptionAsync(subscriptionId, ct).ConfigureAwait(false);
+        if (pending.Status is "trialing" or "active" or "past_due")
+        {
+            throw new DomainException(BillingCodes.OrderNotOpen, 409, new Dictionary<string, object?> { ["status"] = "saved_card_processing" });
+        }
+
+        if (pending.Status == "incomplete")
+        {
+            await stripe.CancelSubscriptionAsync(subscriptionId, $"saved-card-cancel:{order.Id:N}:{order.CheckoutAttempt}", ct).ConfigureAwait(false);
+        }
+    }
 
     private string Url(string path, Guid tenantId, Order order)
     {

@@ -28,7 +28,7 @@ public sealed class OpenApiSnapshotTests : ApiTestBase
         Assert.Contains("validation.failed", codes);
         Assert.Contains("csrf.invalid", codes);
 
-        var text = document.ToJsonString(new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }) + "\n";
+        var text = document.ToJsonString(new JsonSerializerOptions { WriteIndented = true, NewLine = "\n", Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }) + "\n";
         if (Environment.GetEnvironmentVariable("ESHOPGUARD_UPDATE_SNAPSHOTS") == "1")
         {
             Directory.CreateDirectory(Path.GetDirectoryName(SnapshotPath)!);

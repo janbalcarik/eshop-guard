@@ -8,6 +8,7 @@ using EshopGuard.Jobs.Runs;
 using EshopGuard.Tests.Shared;
 using Microsoft.Extensions.DependencyInjection;
 using static EshopGuard.Billing.Tests.BillingTestHost;
+using static EshopGuard.Billing.Tests.StripeScenario;
 
 namespace EshopGuard.Billing.Tests;
 
@@ -215,24 +216,126 @@ public sealed class StripeEventProcessorTests
         await using var host = await HostAsync();
         var paying = await PayingAsync(host);
         await ProcessAsync(host, await StoreAsync(host, "checkout.session.completed", "checkout.session", paying.SessionId));
-        var second = await BillingData.ShopAsync(paying.TenantId);
-        var other = host.Stripe.NewId("sub");
-        host.Stripe.Subscriptions[other] = host.Stripe.Subscriptions[paying.SubscriptionId] with { Id = other, Status = "active" };
-        await BillingData.SubscriptionAsync(paying.TenantId, second, paying.PriceListId, "t500", 9m, host.Time.GetUtcNow().AddDays(20), stripeSubscriptionId: other);
+        var others = new List<string>();
+        foreach (var (tier, price) in new[] { ("t500", 9m), ("t5000", 29m) })
+        {
+            var shop = await BillingData.ShopAsync(paying.TenantId);
+            var other = host.Stripe.NewId("sub");
+            host.Stripe.Subscriptions[other] = host.Stripe.Subscriptions[paying.SubscriptionId] with { Id = other, Status = "active" };
+            await BillingData.SubscriptionAsync(paying.TenantId, shop, paying.PriceListId, tier, price, host.Time.GetUtcNow().AddDays(20), stripeSubscriptionId: other);
+            others.Add(other);
+        }
+
         var card = host.Stripe.NewId("pm");
         host.Stripe.PaymentMethods[card] = new StripePaymentMethodState(card, paying.CustomerId, "mastercard", "1881", 3, 2031);
         host.Stripe.Customers[paying.CustomerId] = host.Stripe.Customers[paying.CustomerId] with { DefaultPaymentMethodId = card };
 
         await ProcessAsync(host, await StoreAsync(host, "customer.updated", "customer", paying.CustomerId));
 
-        Assert.Equal(card, host.Stripe.Subscriptions[paying.SubscriptionId].DefaultPaymentMethodId);
-        Assert.Equal(card, host.Stripe.Subscriptions[other].DefaultPaymentMethodId);
+        Assert.All(others.Prepend(paying.SubscriptionId), id => Assert.Equal(card, host.Stripe.Subscriptions[id].DefaultPaymentMethodId));
         Assert.Equal(new object?[] { "mastercard", "1881" }, Assert.Single(await AdminRowsAsync(
             "SELECT brand, last4 FROM billing.payment_methods WHERE tenant_id = $1 AND is_default AND detached_at IS NULL", paying.TenantId)));
         Assert.Equal(1L, await AdminScalarAsync<long>(
             "SELECT count(*) FROM billing.payment_methods WHERE stripe_payment_method_id = $1 AND detached_at IS NOT NULL AND NOT is_default", paying.CardId));
         Assert.Equal(1, host.Stripe.Count(nameof(IStripeGateway.DetachPaymentMethodAsync)));
         Assert.Equal(1L, await AdminScalarAsync<long>("SELECT count(*) FROM ops.audit_log WHERE action = 'billing.card_changed' AND tenant_id = $1", paying.TenantId));
+    }
+
+    [Fact]
+    public async Task SetupIntentOfTheAccountCard_BecomesTheDefaultCard_AForeignOneIsIgnored()
+    {
+        await using var host = await HostAsync();
+        var paying = await PayingAsync(host);
+        await ProcessAsync(host, await StoreAsync(host, "checkout.session.completed", "checkout.session", paying.SessionId));
+        var card = host.Stripe.NewId("pm");
+        host.Stripe.PaymentMethods[card] = new StripePaymentMethodState(card, paying.CustomerId, "mastercard", "1881", 3, 2031);
+        var foreign = host.Stripe.NewId("seti");
+        host.Stripe.SetupIntents[foreign] = new StripeSetupIntentState(foreign, paying.CustomerId, "succeeded", card, new Dictionary<string, string>());
+        var intent = host.Stripe.NewId("seti");
+        host.Stripe.SetupIntents[intent] = new StripeSetupIntentState(intent, paying.CustomerId, "succeeded", card,
+            new Dictionary<string, string> { ["purpose"] = StripeSetupIntentState.AccountCard });
+        var defaults = host.Stripe.Count(nameof(IStripeGateway.SetCustomerDefaultPaymentMethodAsync));
+
+        var ignored = await ProcessAsync(host, await StoreAsync(host, "setup_intent.succeeded", "setup_intent", foreign));
+
+        Assert.Equal("ignored", ignored.Status);
+        Assert.Equal(defaults, host.Stripe.Count(nameof(IStripeGateway.SetCustomerDefaultPaymentMethodAsync)));
+        Assert.NotEqual(card, host.Stripe.Customers[paying.CustomerId].DefaultPaymentMethodId);
+
+        var outcome = await ProcessAsync(host, await StoreAsync(host, "setup_intent.succeeded", "setup_intent", intent));
+
+        Assert.Equal(("processed", paying.TenantId), (outcome.Status, outcome.TenantId));
+        Assert.Equal(card, host.Stripe.Customers[paying.CustomerId].DefaultPaymentMethodId);
+        Assert.Equal(card, host.Stripe.Subscriptions[paying.SubscriptionId].DefaultPaymentMethodId);
+        Assert.Equal(new object?[] { "mastercard", "1881" }, Assert.Single(await AdminRowsAsync(
+            "SELECT brand, last4 FROM billing.payment_methods WHERE tenant_id = $1 AND is_default AND detached_at IS NULL", paying.TenantId)));
+    }
+
+    [Fact]
+    public async Task SecondRunningSubscriptionOfAShop_IsAnAlert_AndIsNotStored()
+    {
+        await using var host = await HostAsync();
+        var paying = await PayingAsync(host);
+        await ProcessAsync(host, await StoreAsync(host, "checkout.session.completed", "checkout.session", paying.SessionId));
+        var second = host.Stripe.NewId("sub");
+        host.Stripe.Subscriptions[second] = host.Stripe.Subscriptions[paying.SubscriptionId] with
+        {
+            Id = second, Status = "active", TrialEnd = null, Metadata = ShopMetadata(paying),
+        };
+
+        var outcome = await ProcessAsync(host, await StoreAsync(host, "customer.subscription.created", "subscription", second));
+
+        Assert.Equal("processed", outcome.Status);
+        Assert.Equal(new object?[] { paying.SubscriptionId, "trialing" }, Assert.Single(await AdminRowsAsync(
+            "SELECT stripe_subscription_id, status FROM billing.subscriptions WHERE shop_id = $1", paying.ShopId)));
+        Assert.Equal(1L, await AdminScalarAsync<long>(
+            "SELECT count(*) FROM ops.audit_log WHERE action = 'billing.alert.second_running_subscription' AND entity_type = 'subscription' AND entity_id = $1", second));
+    }
+
+    [Fact]
+    public async Task SubscriptionStartedAgain_MakesTheEndedMonitoringActive_AndKeepsTheHistory()
+    {
+        await using var host = await HostAsync();
+        var paying = await PayingAsync(host);
+        await ProcessAsync(host, await StoreAsync(host, "checkout.session.completed", "checkout.session", paying.SessionId));
+        var now = host.Time.GetUtcNow();
+        host.Stripe.Subscriptions[paying.SubscriptionId] = host.Stripe.Subscriptions[paying.SubscriptionId] with { Status = "canceled", CanceledAt = now, EndedAt = now };
+        await ProcessAsync(host, await StoreAsync(host, "customer.subscription.deleted", "subscription", paying.SubscriptionId));
+        Assert.Equal("canceled", await AdminScalarAsync<string>("SELECT status FROM shop.shops WHERE id = $1", paying.ShopId));
+        var again = host.Stripe.NewId("sub");
+        host.Stripe.Subscriptions[again] = host.Stripe.Subscriptions[paying.SubscriptionId] with
+        {
+            Id = again, Status = "active", TrialEnd = null, CanceledAt = null, EndedAt = null, Metadata = ShopMetadata(paying),
+        };
+
+        await ProcessAsync(host, await StoreAsync(host, "customer.subscription.created", "subscription", again));
+        await ProcessAsync(host, await StoreAsync(host, "customer.subscription.updated", "subscription", again));
+
+        Assert.Equal("active", await AdminScalarAsync<string>("SELECT status FROM shop.shops WHERE id = $1", paying.ShopId));
+        Assert.Equal(["active", "canceled"], (await AdminRowsAsync("SELECT status FROM billing.subscriptions WHERE shop_id = $1 ORDER BY status", paying.ShopId))
+            .Select(r => (string)r[0]!));
+        Assert.Equal(1L, await AdminScalarAsync<long>("SELECT count(*) FROM ops.audit_log WHERE action = 'subscription.restarted' AND tenant_id = $1", paying.TenantId));
+    }
+
+    [Fact]
+    public async Task SubscriptionThatNeverStarted_EndsWithoutTouchingTheShop()
+    {
+        await using var host = await HostAsync();
+        var paying = await PayingAsync(host);
+        await MemberAsync(paying.TenantId, "owner");
+        host.Stripe.Subscriptions[paying.SubscriptionId] = host.Stripe.Subscriptions[paying.SubscriptionId] with { Status = "incomplete", TrialEnd = null };
+        await ProcessAsync(host, await StoreAsync(host, "customer.subscription.created", "subscription", paying.SubscriptionId));
+        Assert.Equal("incomplete", await AdminScalarAsync<string>("SELECT status FROM billing.subscriptions WHERE stripe_subscription_id = $1", paying.SubscriptionId));
+        var now = host.Time.GetUtcNow();
+        host.Stripe.Subscriptions[paying.SubscriptionId] = host.Stripe.Subscriptions[paying.SubscriptionId] with { Status = "canceled", CanceledAt = now, EndedAt = now };
+
+        await ProcessAsync(host, await StoreAsync(host, "customer.subscription.deleted", "subscription", paying.SubscriptionId));
+
+        Assert.Equal(new object?[] { "canceled", "not_started" }, Assert.Single(await AdminRowsAsync(
+            "SELECT status, pause_reason FROM billing.subscriptions WHERE stripe_subscription_id = $1", paying.SubscriptionId)));
+        Assert.Equal("awaiting_payment", await AdminScalarAsync<string>("SELECT status FROM shop.shops WHERE id = $1", paying.ShopId));
+        Assert.Equal(0L, await AdminScalarAsync<long>("SELECT count(*) FROM ops.audit_log WHERE action = 'subscription.ended' AND tenant_id = $1", paying.TenantId));
+        Assert.Equal(0L, await AdminScalarAsync<long>("SELECT count(*) FROM iam.notifications WHERE tenant_id = $1", paying.TenantId));
     }
 
     [Fact]
@@ -332,87 +435,5 @@ public sealed class StripeEventProcessorTests
             services.GetRequiredService<ITenantContext>().Set(tenant);
             return services.GetRequiredService<StripeCustomers>().EnsureAsync(tenant, Ct);
         }
-    }
-
-    /// <summary>An open order of a full analysis paid in Checkout: the tenant with its customer, the session, the subscription and the card in Stripe.</summary>
-    private sealed record Paying(
-        Guid TenantId, Guid ShopId, Guid PriceListId, Guid OrderId, Guid RunId, string CustomerId, string SessionId, string SubscriptionId, string CardId,
-        DateTimeOffset TrialEnd);
-
-    private static Task<BillingTestHost> HostAsync() => CreateAsync(configure: s => s.AddRunService());
-
-    private static async Task<Paying> PayingAsync(BillingTestHost host)
-    {
-        var now = host.Time.GetUtcNow();
-        var market = await BillingData.MarketAsync();
-        var list = await BillingData.PriceListAsync(market, "published");
-        var key = list.ToString("N")[..8];
-        var tenant = await BillingData.TenantAsync(market);
-        var customer = host.Stripe.NewId("cus");
-        host.Stripe.Customers[customer] = new StripeCustomerState(customer, null, [], false, new Dictionary<string, string>());
-        await AdminAsync("UPDATE iam.tenants SET stripe_customer_id = $2 WHERE id = $1", tenant, customer);
-        var shop = await BillingData.ShopAsync(tenant, "awaiting_payment");
-        var run = Guid.CreateVersion7();
-        await AdminAsync(
-            """
-            INSERT INTO checks.runs (id, tenant_id, shop_id, kind, trigger, status, priority, jurisdictions, modules, created_at, updated_at)
-            VALUES ($1, $2, $3, 'full_analysis', 'user', 'awaiting_payment', 0, '{sk}', '{}', now(), now())
-            """, run, tenant, shop);
-        var session = host.Stripe.NewId("cs_test");
-        var order = Guid.CreateVersion7();
-        await AdminAsync(
-            """
-            INSERT INTO billing.orders (id, tenant_id, shop_id, kind, price_list_id, tier_code, amount_net, discount_amount, vat_rate, vat_amount, amount_gross, currency,
-                status, stripe_checkout_session_id, run_id, checkout_attempt, monitoring_monthly, stripe_price_analysis, stripe_price_monitoring, tax_treatment,
-                created_at, updated_at)
-            VALUES ($1, $2, $3, 'analysis_with_trial', $4, 't2000', 69, 0, 23, 15.87, 84.87, 'EUR', 'checkout_open', $5, $6, 1, 19, $7, $8, 'domestic_vat', now(), now())
-            """, order, tenant, shop, list, session, run, $"price_{key}_t2000_analysis", $"price_{key}_t2000_monthly");
-        var metadata = new Dictionary<string, string>
-        {
-            ["tenant_id"] = tenant.ToString("D"),
-            ["shop_id"] = shop.ToString("D"),
-            ["order_id"] = order.ToString("D"),
-        };
-        var card = host.Stripe.NewId("pm");
-        host.Stripe.PaymentMethods[card] = new StripePaymentMethodState(card, customer, "visa", "4242", 12, 2030);
-        var subscription = host.Stripe.NewId("sub");
-        var trialEnd = now.AddMonths(1);
-        host.Stripe.Subscriptions[subscription] = new StripeSubscriptionState(subscription, customer, "trialing", $"price_{key}_t2000_monthly", null, trialEnd, now, trialEnd,
-            false, null, null, null, card, host.Stripe.NewId("in"), null, now, metadata);
-        host.Stripe.Sessions[session] = new StripeCheckoutSession(session, null, "complete", "paid", customer, subscription, now.AddHours(1), metadata);
-        return new Paying(tenant, shop, list, order, run, customer, session, subscription, card, trialEnd);
-    }
-
-    /// <summary>A paid (or open) invoice of the subscription in Stripe.</summary>
-    private static string Invoice(BillingTestHost host, Paying paying, long paid, string reason, long? total = null, string status = "paid")
-    {
-        var id = host.Stripe.NewId("in");
-        var now = host.Time.GetUtcNow();
-        var amount = total ?? paid;
-        host.Stripe.Invoices[id] = new StripeInvoiceState(id, paying.CustomerId, paying.SubscriptionId, status, "eur", paid, amount, amount, amount, 0, false, null, reason, now,
-            status == "paid" ? now : null, host.Stripe.NewId("pi"), [], new Dictionary<string, string>());
-        return id;
-    }
-
-    private static async Task<string> StoreAsync(
-        BillingTestHost host, string type, string objectType, string objectId, JsonObject? data = null, DateTimeOffset? created = null)
-    {
-        var id = "evt_" + Guid.NewGuid().ToString("N");
-        var at = created ?? host.Time.GetUtcNow();
-        var json = StripeTestEvents.Json(id, type, objectType, objectId, created: at, data: data);
-        Assert.True(await host.RunAsync(s => s.GetRequiredService<StripeEventIntake>().StoreAsync(new StripeEventEnvelope(id, type, objectId, false, at, json), Ct)));
-        return id;
-    }
-
-    private static Task<StripeEventOutcome> ProcessAsync(BillingTestHost host, string eventId) =>
-        host.RunAsync(s => s.GetRequiredService<StripeEventProcessor>().ProcessAsync(eventId, Ct));
-
-    /// <summary>A member of the tenant (notifications go to the members, e-mails of billing to owners and admins).</summary>
-    private static async Task<Guid> MemberAsync(Guid tenantId, string role)
-    {
-        var user = Guid.CreateVersion7();
-        await AdminAsync("INSERT INTO iam.users (id, email, email_confirmed, locale, access_failed_count) VALUES ($1, $2, true, 'sk', 0)", user, $"clen.{user:N}@bylinkovo-test.sk");
-        await AdminAsync("INSERT INTO iam.memberships (tenant_id, user_id, role, created_at, updated_at) VALUES ($1, $2, $3, now(), now())", tenantId, user, role);
-        return user;
     }
 }

@@ -57,6 +57,20 @@ public static class BillingJobs
         IssueCreditNoteKind, JobResourceClass.Io, JobPriority.P2, Payload(new JsonObject { ["refund_id"] = refundId, ["charge_id"] = chargeId }),
         TenantId: tenantId, ShopId: shopId, DedupeKey: "credit:" + refundId, MaxAttempts: 12);
 
+    /// <summary>
+    /// The check of an order paid with the saved card (task 7.3): before <paramref name="notBefore"/> = the expiry it only settles
+    /// a subscription Stripe already started; from the expiry it cancels an <c>incomplete</c> one and expires the order. One job
+    /// per attempt and purpose (<paramref name="purpose"/> <c>settle</c> or <c>expire</c>).
+    /// </summary>
+    public static JobRequest ExpireOrder(Guid tenantId, Guid shopId, Guid orderId, int attempt, string purpose, DateTimeOffset notBefore) => new(
+        ExpireOrderKind, JobResourceClass.Io, JobPriority.P2, Payload(new JsonObject { ["order_id"] = Id(orderId), ["attempt"] = attempt }),
+        TenantId: tenantId, ShopId: shopId, DedupeKey: $"expire-order:{orderId:N}:{attempt}:{purpose}", MaxAttempts: 6, NotBefore: notBefore);
+
+    /// <summary>The reminders of the end of the trial of one tenant, once a day (task 7.6).</summary>
+    public static JobRequest TrialReminder(Guid tenantId, DateTimeOffset now) => new(
+        TrialReminderKind, JobResourceClass.System, JobPriority.P3, JobRequest.EmptyPayload(), TenantId: tenantId,
+        DedupeKey: $"trial-reminder:{tenantId:N}:{Day(now)}", MaxAttempts: 5);
+
     public static JobRequest ReconcileStripe(DateTimeOffset now) => new(
         ReconcileStripeKind, JobResourceClass.Io, JobPriority.P3, JobRequest.EmptyPayload(), DedupeKey: $"stripe-reconcile:{Day(now)}", MaxAttempts: 5);
 

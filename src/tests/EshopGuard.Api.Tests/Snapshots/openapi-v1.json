@@ -190,6 +190,324 @@
         ],
         "type": "object"
       },
+      "BillingCardDto": {
+        "properties": {
+          "brand": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "expMonth": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "expYear": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "last4": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "brand",
+          "last4",
+          "expMonth",
+          "expYear"
+        ],
+        "type": "object"
+      },
+      "BillingOverviewDto": {
+        "properties": {
+          "card": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/BillingCardDto"
+              }
+            ]
+          },
+          "currency": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "monthlyTotal": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "shops": {
+            "items": {
+              "$ref": "#/components/schemas/BillingShopDto"
+            },
+            "type": "array"
+          },
+          "tiers": {
+            "items": {
+              "$ref": "#/components/schemas/PublicPriceTierDto"
+            },
+            "type": "array"
+          },
+          "volumeDiscounts": {
+            "items": {
+              "$ref": "#/components/schemas/VolumeDiscountDto"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "currency",
+          "shops",
+          "card",
+          "tiers",
+          "volumeDiscounts",
+          "monthlyTotal"
+        ],
+        "type": "object"
+      },
+      "BillingPendingChangeDto": {
+        "properties": {
+          "discountPercent": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "effectiveAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "kinds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "monthlyNet": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "tierCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "kinds",
+          "effectiveAt",
+          "tierCode",
+          "monthlyNet",
+          "discountPercent"
+        ],
+        "type": "object"
+      },
+      "BillingShopDto": {
+        "properties": {
+          "analysisNet": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "analysisPaidAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "discountPercent": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "domain": {
+            "type": "string"
+          },
+          "markets": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "monthlyNet": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "name": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "nextPaymentAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "nextPaymentNet": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "pendingChange": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/BillingPendingChangeDto"
+              }
+            ]
+          },
+          "periodEnd": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "productCount": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "shopId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "shopOrdinal": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "tierCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "tierMaxProducts": {
+            "format": "int32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          },
+          "trialEnd": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "shopId",
+          "domain",
+          "name",
+          "markets",
+          "productCount",
+          "tierCode",
+          "tierMaxProducts",
+          "analysisNet",
+          "analysisPaidAt",
+          "status",
+          "trialEnd",
+          "periodEnd",
+          "monthlyNet",
+          "discountPercent",
+          "shopOrdinal",
+          "nextPaymentAt",
+          "nextPaymentNet",
+          "pendingChange"
+        ],
+        "type": "object"
+      },
+      "CardPortalDto": {
+        "properties": {
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "type": "object"
+      },
+      "CardSetupIntentDto": {
+        "properties": {
+          "clientSecret": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "clientSecret"
+        ],
+        "type": "object"
+      },
       "ChangeDto": {
         "properties": {
           "alternatives": {
@@ -5758,6 +6076,34 @@
         ],
         "type": "object"
       },
+      "SavedCardPaymentDto": {
+        "properties": {
+          "clientSecret": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "orderId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "orderId",
+          "status",
+          "clientSecret",
+          "expiresAt"
+        ],
+        "type": "object"
+      },
       "ScopeBasisDto": {
         "properties": {
           "finishedAt": {
@@ -6532,6 +6878,116 @@
           "checkHiddenOnSaveAvailable",
           "excludedLanguages",
           "version"
+        ],
+        "type": "object"
+      },
+      "StartSubscriptionDto": {
+        "properties": {
+          "amount": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "clientSecret": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "currency": {
+            "type": "string"
+          },
+          "date": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "discountPercent": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "tierCode": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "tierCode",
+          "amount",
+          "currency",
+          "discountPercent",
+          "date",
+          "clientSecret"
+        ],
+        "type": "object"
+      },
+      "StartSubscriptionRequest": {
+        "properties": {
+          "amount": {
+            "format": "double",
+            "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+            "type": [
+              "null",
+              "number",
+              "string"
+            ]
+          },
+          "confirm": {
+            "type": [
+              "null",
+              "boolean"
+            ]
+          }
+        },
+        "required": [
+          "confirm",
+          "amount"
+        ],
+        "type": "object"
+      },
+      "SubscriptionStateDto": {
+        "properties": {
+          "cancelAtPeriodEnd": {
+            "type": "boolean"
+          },
+          "currentPeriodEnd": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "shopId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "trialEnd": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "shopId",
+          "status",
+          "cancelAtPeriodEnd",
+          "trialEnd",
+          "currentPeriodEnd"
         ],
         "type": "object"
       },
@@ -8370,6 +8826,99 @@
         ]
       }
     },
+    "/api/t/{tenantId}/billing/card/portal-session": {
+      "post": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardPortalDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "billing"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.saved_card_missing",
+          "billing.unavailable",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/billing/card/setup-intent": {
+      "post": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardSetupIntentDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "billing"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.unavailable",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/billing/overview": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BillingOverviewDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "billing"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
     "/api/t/{tenantId}/evidence": {
       "get": {
         "parameters": [
@@ -9378,6 +9927,53 @@
           "auth.unauthenticated",
           "billing.order_not_found",
           "billing.order_not_open",
+          "billing.tax_id_pending",
+          "billing.tax_treatment_undetermined",
+          "billing.unavailable",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/orders/{orderId}/pay-with-saved-card": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SavedCardPaymentDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "billing"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.order_not_found",
+          "billing.order_not_open",
+          "billing.saved_card_missing",
           "billing.tax_id_pending",
           "billing.tax_treatment_undetermined",
           "billing.unavailable",
@@ -13444,6 +14040,163 @@
           "tenant.not_found",
           "tenant.suspended",
           "validation.failed"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/subscription": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/StartSubscriptionRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StartSubscriptionDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "billing"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.company_id_required",
+          "billing.price_list_missing",
+          "billing.saved_card_missing",
+          "billing.subscription_already_running",
+          "billing.subscription_not_found",
+          "billing.tax_id_pending",
+          "billing.tax_treatment_undetermined",
+          "billing.tier_unavailable",
+          "billing.unavailable",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/subscription/cancel": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionStateDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "billing"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.subscription_not_cancelable",
+          "billing.subscription_not_found",
+          "billing.unavailable",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/shops/{shopId}/subscription/resume": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shopId",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionStateDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "billing"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.subscription_not_found",
+          "billing.subscription_not_resumable",
+          "billing.unavailable",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "shop.not_found",
+          "tenant.not_found",
+          "tenant.suspended"
         ]
       }
     },

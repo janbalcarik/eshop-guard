@@ -59,6 +59,8 @@ internal sealed class FakeStripeGateway : IStripeGateway
 
     public ConcurrentDictionary<string, StripePaymentMethodState> PaymentMethods { get; } = new(StringComparer.Ordinal);
 
+    public ConcurrentDictionary<string, StripeSetupIntentState> SetupIntents { get; } = new(StringComparer.Ordinal);
+
     public ConcurrentQueue<StripeEventEnvelope> Events { get; } = new();
 
     /// <summary>The status a new subscription created through the API gets (<c>trialing</c>, or <c>incomplete</c> for 3-D Secure).</summary>
@@ -164,6 +166,10 @@ internal sealed class FakeStripeGateway : IStripeGateway
     public Task<StripeCheckoutSession> GetCheckoutSessionAsync(string sessionId, CancellationToken ct) =>
         ReadAsync(nameof(GetCheckoutSessionAsync), sessionId, () => Sessions[sessionId]);
 
+    public Task<StripeCheckoutSession> ExpireCheckoutSessionAsync(string sessionId, string idempotencyKey, CancellationToken ct) =>
+        WriteAsync(nameof(ExpireCheckoutSessionAsync), idempotencyKey, sessionId, () =>
+            Sessions[sessionId] = Sessions[sessionId] with { Status = "expired" });
+
     public Task<StripeSubscriptionState> CreateSubscriptionAsync(StripeSubscriptionRequest request, string idempotencyKey, CancellationToken ct) =>
         WriteAsync(nameof(CreateSubscriptionAsync), idempotencyKey, request.CustomerId, () =>
         {
@@ -245,7 +251,16 @@ internal sealed class FakeStripeGateway : IStripeGateway
         WriteAsync(nameof(CreatePortalSessionAsync), idempotencyKey, customerId, () => "https://billing.stripe.test/p/session/" + NewId("bps"));
 
     public Task<string> CreateSetupIntentAsync(string customerId, string idempotencyKey, CancellationToken ct) =>
-        WriteAsync(nameof(CreateSetupIntentAsync), idempotencyKey, customerId, () => NewId("seti") + "_secret_test");
+        WriteAsync(nameof(CreateSetupIntentAsync), idempotencyKey, customerId, () =>
+        {
+            var id = NewId("seti");
+            SetupIntents[id] = new StripeSetupIntentState(id, customerId, "requires_payment_method", null,
+                new Dictionary<string, string> { ["purpose"] = StripeSetupIntentState.AccountCard });
+            return id + "_secret_test";
+        });
+
+    public Task<StripeSetupIntentState> GetSetupIntentAsync(string setupIntentId, CancellationToken ct) =>
+        ReadAsync(nameof(GetSetupIntentAsync), setupIntentId, () => SetupIntents[setupIntentId]);
 
     public Task<IReadOnlyList<StripeEventEnvelope>> ListEventsAsync(DateTimeOffset since, IReadOnlyCollection<string> types, CancellationToken ct) =>
         ReadAsync(nameof(ListEventsAsync), null, () => (IReadOnlyList<StripeEventEnvelope>)Events.Where(e => e.Created >= since && types.Contains(e.Type)).ToList());

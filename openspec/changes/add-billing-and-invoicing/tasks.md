@@ -188,43 +188,43 @@
 
 ## 7. Předplatné, karta a zrušení
 
-- [ ] 7.1 Synchronizace `subscriptions`:
+- [x] 7.1 Synchronizace `subscriptions`:
   - stav, období, `trial_end`, `cancel_at_period_end`, `stripe_price_id`, `stripe_coupon_id`, `shop_ordinal`;
   - jedinečnost běžícího předplatného na e-shop.
 
   Test: druhé běžící předplatné pro e-shop selže na omezení a obsluha zapíše upozornění provozu.
-- [ ] 7.2 `AccountCardService.ApplyDefaultAsync`:
+- [x] 7.2 `AccountCardService.ApplyDefaultAsync`:
   - výchozí karta zákazníka;
   - `default_payment_method` všem běžícím předplatným;
   - `detach` staré karty;
   - `payment_methods` s jedním `is_default`.
 
   Test podle scénáře „Změna karty platí pro všechna předplatná“.
-- [ ] 7.3 `SavedCardPaymentService.PayAsync` a endpoint `POST /orders/{o}/pay-with-saved-card`:
+- [x] 7.3 `SavedCardPaymentService.PayAsync` a endpoint `POST /orders/{o}/pay-with-saved-card`:
   - `add_invoice_items`, `trial_end`, `payment_behavior = default_incomplete`;
   - při `requires_action` vrátit `client_secret`;
   - vypršení zruší předplatné `incomplete`.
 
   Testy s `FakeStripeGateway`.
-- [ ] 7.4 Endpoint `POST /billing/card/portal-session`:
+- [x] 7.4 Endpoint `POST /billing/card/portal-session`:
   - konfigurace portálu: jen změna karty, bez zrušení a změny tarifu, faktury vypnuté, pokud to jde;
   - náhradní cesta `POST /billing/card/setup-intent`.
 
   Test: odpověď obsahuje jen URL, ne ID zákazníka.
-- [ ] 7.5 `SubscriptionService`:
+- [x] 7.5 `SubscriptionService`:
   - `CancelAsync` (`cancel_at_period_end`);
   - `ResumeAsync` (jen před koncem období);
   - `StartAgainAsync`: nové předplatné bez zkušební doby, nejdřív odpověď `confirm_required` s částkou a datem, pak potvrzení.
 
   Endpointy a testy podle scénářů požadavku „Předplatné sledování po e-shopech“.
-- [ ] 7.6 Úloha `billing.trial_reminder` (`trial_end − 7 dní`) a šablony `billing.trial_reminder`, `billing.payment_failed`, `billing.subscription_ended`, `billing.price_change` a `billing.tier_change` (sk, cs). E-maily jdou do `ops.outbox` (`kind = email`) a skládá je `EmailComposer` změny 9. Test úplnosti klíčů sk a cs a test jednoho odeslání.
-- [ ] 7.7 Napojení na sledování:
+- [x] 7.6 Úloha `billing.trial_reminder` (`trial_end − 7 dní`) a šablony `billing.trial_reminder`, `billing.payment_failed`, `billing.subscription_ended`, `billing.price_change` a `billing.tier_change` (sk, cs). E-maily jdou do `ops.outbox` (`kind = email`) a skládá je `EmailComposer` změny 9. Test úplnosti klíčů sk a cs a test jednoho odeslání.
+- [x] 7.7 Napojení na sledování:
   - `customer.subscription.deleted` → `subscriptions.status = canceled`, `shops.status` `paused`/`canceled`;
   - změna 16 podle `billing.subscriptions.status` přestane zakládat noční běhy (čte stav sama, tato změna nic nevolá);
   - data e-shopu se nemažou.
 
   Test: po konci předplatného zůstanou nálezy a doklady čitelné.
-- [ ] 7.8 Endpoint `GET /billing/overview`:
+- [x] 7.8 Endpoint `GET /billing/overview`:
   - e-shopy, pásmo a počet produktů, stav (Aktívne, „Prvý mesiac v cene do …“, Zrušené k …), další platba s částkou, „Nová cena od …“;
   - karta, pásma ceníku, součet sledování za měsíc se slevou.
 

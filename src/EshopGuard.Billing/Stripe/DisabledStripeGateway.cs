@@ -25,6 +25,8 @@ internal sealed class DisabledStripeGateway : IStripeGateway
 
     public Task<StripeCheckoutSession> GetCheckoutSessionAsync(string sessionId, CancellationToken ct) => throw new BillingUnavailableException();
 
+    public Task<StripeCheckoutSession> ExpireCheckoutSessionAsync(string sessionId, string idempotencyKey, CancellationToken ct) => throw new BillingUnavailableException();
+
     public Task<StripeSubscriptionState> CreateSubscriptionAsync(StripeSubscriptionRequest request, string idempotencyKey, CancellationToken ct) => throw new BillingUnavailableException();
 
     public Task<StripeSubscriptionState> GetSubscriptionAsync(string subscriptionId, CancellationToken ct) => throw new BillingUnavailableException();
@@ -56,6 +58,8 @@ internal sealed class DisabledStripeGateway : IStripeGateway
     public Task<string> CreatePortalSessionAsync(string customerId, string returnUrl, string idempotencyKey, CancellationToken ct) => throw new BillingUnavailableException();
 
     public Task<string> CreateSetupIntentAsync(string customerId, string idempotencyKey, CancellationToken ct) => throw new BillingUnavailableException();
+
+    public Task<StripeSetupIntentState> GetSetupIntentAsync(string setupIntentId, CancellationToken ct) => throw new BillingUnavailableException();
 
     public Task<IReadOnlyList<StripeEventEnvelope>> ListEventsAsync(DateTimeOffset since, IReadOnlyCollection<string> types, CancellationToken ct) => throw new BillingUnavailableException();
 }

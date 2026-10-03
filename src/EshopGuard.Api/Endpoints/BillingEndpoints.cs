@@ -6,6 +6,7 @@ using EshopGuard.Application.Tenants;
 using EshopGuard.Billing;
 using EshopGuard.Billing.Contracts;
 using EshopGuard.Billing.Orders;
+using EshopGuard.Billing.Subscriptions;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace EshopGuard.Api.Endpoints;
@@ -46,6 +47,48 @@ public static class BillingEndpoints
             .RequireTenantRole(TenantRole.Admin)
             .AllowSuspendedTenant()
             .ProducesProblemCodes(BillingCodes.OrderNotFound, BillingCodes.OrderNotOpen, BillingCodes.TaxIdPending, BillingCodes.TaxTreatmentUndetermined, BillingCodes.Unavailable);
+
+        billing.MapPost("/orders/{orderId:guid}/pay-with-saved-card", async (Guid orderId, HttpContext context, SavedCardPaymentService payments, CancellationToken ct) =>
+                TypedResults.Ok(await payments.PayAsync(context.User.RequireUserId(), orderId, ct)))
+            .RequireTenantRole(TenantRole.Admin)
+            .AllowSuspendedTenant()
+            .ProducesProblemCodes(BillingCodes.OrderNotFound, BillingCodes.OrderNotOpen, BillingCodes.SavedCardMissing, BillingCodes.TaxIdPending,
+                BillingCodes.TaxTreatmentUndetermined, BillingCodes.Unavailable);
+
+        billing.MapGet("/billing/overview", async (BillingOverviewService overview, CancellationToken ct) => TypedResults.Ok(await overview.GetAsync(ct)))
+            .RequireTenantRole(TenantRole.Admin)
+            .AllowSuspendedTenant();
+
+        billing.MapPost("/billing/card/portal-session", async (CardSessionService cards, CancellationToken ct) => TypedResults.Ok(await cards.PortalAsync(ct)))
+            .RequireTenantRole(TenantRole.Admin)
+            .AllowSuspendedTenant()
+            .ProducesProblemCodes(BillingCodes.SavedCardMissing, BillingCodes.Unavailable);
+
+        billing.MapPost("/billing/card/setup-intent", async (CardSessionService cards, CancellationToken ct) => TypedResults.Ok(await cards.SetupIntentAsync(ct)))
+            .RequireTenantRole(TenantRole.Admin)
+            .AllowSuspendedTenant()
+            .ProducesProblemCodes(BillingCodes.Unavailable);
+
+        billing.MapPost("/shops/{shopId:guid}/subscription/cancel", async (Guid shopId, HttpContext context, SubscriptionService subscriptions, CancellationToken ct) =>
+                TypedResults.Ok(await subscriptions.CancelAsync(context.User.RequireUserId(), shopId, ct)))
+            .RequireTenantRole(TenantRole.Admin)
+            .AllowSuspendedTenant()
+            .ProducesProblemCodes(ProblemCodes.ShopNotFound, BillingCodes.SubscriptionNotFound, BillingCodes.SubscriptionNotCancelable, BillingCodes.Unavailable);
+
+        billing.MapPost("/shops/{shopId:guid}/subscription/resume", async (Guid shopId, HttpContext context, SubscriptionService subscriptions, CancellationToken ct) =>
+                TypedResults.Ok(await subscriptions.ResumeAsync(context.User.RequireUserId(), shopId, ct)))
+            .RequireTenantRole(TenantRole.Admin)
+            .AllowSuspendedTenant()
+            .ProducesProblemCodes(ProblemCodes.ShopNotFound, BillingCodes.SubscriptionNotFound, BillingCodes.SubscriptionNotResumable, BillingCodes.Unavailable);
+
+        billing.MapPost("/shops/{shopId:guid}/subscription", async (
+                Guid shopId, StartSubscriptionRequest? body, HttpContext context, SubscriptionService subscriptions, CancellationToken ct) =>
+                TypedResults.Ok(await subscriptions.StartAgainAsync(context.User.RequireUserId(), shopId, body?.Confirm == true, body?.Amount, ct)))
+            .RequireTenantRole(TenantRole.Admin)
+            .AllowSuspendedTenant()
+            .ProducesProblemCodes(ProblemCodes.ShopNotFound, BillingCodes.SubscriptionNotFound, BillingCodes.SubscriptionAlreadyRunning, BillingCodes.SavedCardMissing,
+                BillingCodes.PriceListMissing, BillingCodes.TierUnavailable, BillingCodes.CompanyIdRequired, BillingCodes.TaxIdPending, BillingCodes.TaxTreatmentUndetermined,
+                BillingCodes.Unavailable);
         return tenant;
     }
 }

@@ -29,6 +29,9 @@ public static class BillingCodes
     public const string SubscriptionNotCancelable = "billing.subscription_not_cancelable";
     public const string SubscriptionNotResumable = "billing.subscription_not_resumable";
     public const string SubscriptionAlreadyRunning = "billing.subscription_already_running";
+
+    /// <summary>Monitoring cannot start again by itself: the tier of the e-shop is unknown or an individual offer (409).</summary>
+    public const string TierUnavailable = "billing.tier_unavailable";
     public const string InvoiceNotFound = "billing.invoice_not_found";
     public const string InvoicePdfMissing = "billing.invoice_pdf_missing";
     public const string ZipTooLarge = "billing.zip_too_large";

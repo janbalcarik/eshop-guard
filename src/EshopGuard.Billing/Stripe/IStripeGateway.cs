@@ -36,6 +36,9 @@ public interface IStripeGateway
 
     Task<StripeCheckoutSession> GetCheckoutSessionAsync(string sessionId, CancellationToken ct);
 
+    /// <summary>Expires an open session (the order is paid with the saved card instead, so the session must not take a second payment).</summary>
+    Task<StripeCheckoutSession> ExpireCheckoutSessionAsync(string sessionId, string idempotencyKey, CancellationToken ct);
+
     // Subscriptions and their schedules.
     Task<StripeSubscriptionState> CreateSubscriptionAsync(StripeSubscriptionRequest request, string idempotencyKey, CancellationToken ct);
 
@@ -74,8 +77,10 @@ public interface IStripeGateway
     /// <summary>The customer portal with the flow <c>payment_method_update</c>; returns its URL.</summary>
     Task<string> CreatePortalSessionAsync(string customerId, string returnUrl, string idempotencyKey, CancellationToken ct);
 
-    /// <summary>A SetupIntent for the Payment Element (the fallback of the portal); returns its client secret.</summary>
+    /// <summary>A SetupIntent for the Payment Element (the fallback of the portal, metadata <c>purpose = account_card</c>); returns its client secret.</summary>
     Task<string> CreateSetupIntentAsync(string customerId, string idempotencyKey, CancellationToken ct);
+
+    Task<StripeSetupIntentState> GetSetupIntentAsync(string setupIntentId, CancellationToken ct);
 
     // Events (nightly reconciliation of lost webhooks).
     Task<IReadOnlyList<StripeEventEnvelope>> ListEventsAsync(DateTimeOffset since, IReadOnlyCollection<string> types, CancellationToken ct);

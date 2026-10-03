@@ -129,6 +129,10 @@ internal sealed class StripeGateway : IStripeGateway, IDisposable
     public Task<StripeCheckoutSession> GetCheckoutSessionAsync(string sessionId, CancellationToken ct) =>
         CallAsync(async () => Session(await client.V1.Checkout.Sessions.GetAsync(sessionId, null, null, ct).ConfigureAwait(false)));
 
+    public Task<StripeCheckoutSession> ExpireCheckoutSessionAsync(string sessionId, string idempotencyKey, CancellationToken ct) =>
+        CallAsync(async () => Session(await client.V1.Checkout.Sessions.ExpireAsync(
+            sessionId, new S.Checkout.SessionExpireOptions(), Key(idempotencyKey), ct).ConfigureAwait(false)));
+
     public Task<StripeSubscriptionState> CreateSubscriptionAsync(StripeSubscriptionRequest request, string idempotencyKey, CancellationToken ct) =>
         CallAsync(async () =>
         {
@@ -278,8 +282,21 @@ internal sealed class StripeGateway : IStripeGateway, IDisposable
 
     public Task<string> CreateSetupIntentAsync(string customerId, string idempotencyKey, CancellationToken ct) =>
         CallAsync(async () => (await client.V1.SetupIntents.CreateAsync(
-            new S.SetupIntentCreateOptions { Customer = customerId, Usage = "off_session" }, Key(idempotencyKey), ct)
+            new S.SetupIntentCreateOptions
+            {
+                Customer = customerId,
+                Usage = "off_session",
+                Metadata = new Dictionary<string, string> { ["purpose"] = StripeSetupIntentState.AccountCard },
+            }, Key(idempotencyKey), ct)
             .ConfigureAwait(false)).ClientSecret);
+
+    public Task<StripeSetupIntentState> GetSetupIntentAsync(string setupIntentId, CancellationToken ct) =>
+        CallAsync(async () =>
+        {
+            var intent = await client.V1.SetupIntents.GetAsync(setupIntentId, null, null, ct).ConfigureAwait(false);
+            return new StripeSetupIntentState(intent.Id, intent.CustomerId, intent.Status, intent.PaymentMethodId,
+                intent.Metadata ?? new Dictionary<string, string>());
+        });
 
     public Task<IReadOnlyList<StripeEventEnvelope>> ListEventsAsync(DateTimeOffset since, IReadOnlyCollection<string> types, CancellationToken ct) =>
         CallAsync(async () =>

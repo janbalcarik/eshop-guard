@@ -45,7 +45,13 @@ public static class BillingServiceCollectionExtensions
         services.TryAddScoped<StripeCustomers>();
         services.TryAddScoped<OrderService>();
         services.TryAddScoped<CheckoutService>();
+        services.TryAddScoped<SavedCardPaymentService>();
         services.TryAddScoped<StripeEventIntake>();
+
+        // Subscriptions, the card of the account and the page „Predplatné a platby“ (group 7).
+        services.TryAddScoped<CardSessionService>();
+        services.TryAddScoped<SubscriptionService>();
+        services.TryAddScoped<BillingOverviewService>();
         return services;
     }
 
@@ -69,6 +75,9 @@ public static class BillingServiceCollectionExtensions
         services.AddJobHandler<ProcessStripeEventHandler>();
         services.AddJobHandler<ReconcileStripeHandler>();
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IScheduledTask, ReconcileStripeTask>());
+        services.AddJobHandler<ExpireOrderHandler>();
+        services.AddJobHandler<TrialReminderHandler>();
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IScheduledTask, TrialReminderTask>());
         return services;
     }
 }

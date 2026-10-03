@@ -31,7 +31,7 @@ public sealed record StripeEventOutcome(string Status, Guid? TenantId, string? E
 /// <item><c>invoice.paid</c>: the payment and, when something was paid, <c>billing.issue_invoice</c> (one per invoice of Stripe);
 /// <c>invoice.payment_failed</c> / <c>payment_action_required</c>: the state of the subscription and a notification, no invoice;</item>
 /// <item><c>customer.subscription.*</c>: the subscription; <c>deleted</c> stops the monitoring of the e-shop, its data stay;</item>
-/// <item><c>customer.updated</c>, <c>payment_method.*</c>: the card of the account; <c>customer.tax_id.*</c>: the verification of the VAT id;</item>
+/// <item><c>customer.updated</c>, <c>payment_method.*</c>, <c>setup_intent.succeeded</c>: the card of the account; <c>customer.tax_id.*</c>: the verification of the VAT id;</item>
 /// <item><c>charge.refunded</c>: the refunded amount and a credit note per refund; anything else is ignored.</item>
 /// </list>
 /// </summary>
@@ -82,6 +82,7 @@ public sealed class StripeEventProcessor(
                     await SubscriptionChangedAsync(objectId, ct).ConfigureAwait(false),
                 "customer.updated" => await CardChangedAsync(objectId, ct).ConfigureAwait(false),
                 "payment_method.attached" or "payment_method.detached" => await PaymentMethodChangedAsync(objectId, ct).ConfigureAwait(false),
+                "setup_intent.succeeded" => await SetupIntentSucceededAsync(objectId, ct).ConfigureAwait(false),
                 "customer.tax_id.created" or "customer.tax_id.updated" => await TaxIdChangedAsync(eventId, ct).ConfigureAwait(false),
                 "charge.refunded" => await ChargeRefundedAsync(objectId, ct).ConfigureAwait(false),
                 _ => StripeEventOutcome.Ignored(),
@@ -139,18 +140,48 @@ public sealed class StripeEventProcessor(
     /// The order becomes <c>paid</c> (only from <c>created</c>/<c>checkout_open</c>, so twice is once), the subscription of its
     /// e-shop is stored, the e-shop starts the analysis and the currency of the tenant is fixed. True when the order is paid.
     /// </summary>
-    public async Task<bool> PayOrderAsync(Guid tenantId, Guid orderId, string? sessionId, StripeSubscriptionState? subscription, CancellationToken ct)
+    public async Task<bool> PayOrderAsync(Guid tenantId, Guid orderId, string? sessionId, StripeSubscriptionState? subscription, CancellationToken ct) =>
+        await PayAsync(tenantId, orderId, sessionId, subscription, savedCard: false, ct).ConfigureAwait(false) is not null;
+
+    /// <summary>
+    /// An order paid with the saved card (task 7.3): its subscription, created by the API, is running in Stripe (<c>trialing</c> or
+    /// <c>active</c>, so the first invoice is paid). Only the subscription the order waits for pays it; the run is released.
+    /// From the webhooks of the subscription and its invoice and from the job <c>billing.expire_order</c>. True when the order is paid.
+    /// </summary>
+    public async Task<bool> SettleSavedCardOrderAsync(Guid tenantId, StripeSubscriptionState subscription, CancellationToken ct)
     {
-        var now = time.GetUtcNow();
-        await using var connection = await dataSource.Source.OpenConnectionAsync(ct).ConfigureAwait(false);
-        await using var transaction = await TenantSql.BeginAsync(connection, tenantId, null, ct).ConfigureAwait(false);
-        var order = (await BillingSql.ListAsync(transaction, "SELECT shop_id, status, currency FROM billing.orders WHERE id = $1 FOR UPDATE",
-            r => (Shop: r.GetGuid(0), Status: r.GetString(1), Currency: r.GetString(2).Trim()), ct, orderId).ConfigureAwait(false)).FirstOrDefault();
-        if (order == default)
+        ArgumentNullException.ThrowIfNull(subscription);
+        if (subscription.Status is not ("trialing" or "active") || SubscriptionSync.OrderOf(subscription) is not { } orderId)
         {
             return false;
         }
 
+        if (await PayAsync(tenantId, orderId, null, subscription, savedCard: true, ct).ConfigureAwait(false) != "paid")
+        {
+            return false;
+        }
+
+        await ReleaseRunAsync(tenantId, orderId, ct).ConfigureAwait(false);
+        return true;
+    }
+
+    /// <summary>
+    /// The status of the order after the payment, or null when there is no such order (or, with <paramref name="savedCard"/>, the
+    /// order does not wait for this subscription).
+    /// </summary>
+    private async Task<string?> PayAsync(Guid tenantId, Guid orderId, string? sessionId, StripeSubscriptionState? subscription, bool savedCard, CancellationToken ct)
+    {
+        var now = time.GetUtcNow();
+        await using var connection = await dataSource.Source.OpenConnectionAsync(ct).ConfigureAwait(false);
+        await using var transaction = await TenantSql.BeginAsync(connection, tenantId, null, ct).ConfigureAwait(false);
+        var order = (await BillingSql.ListAsync(transaction, "SELECT shop_id, status, currency, stripe_subscription_id FROM billing.orders WHERE id = $1 FOR UPDATE",
+            r => (Shop: r.GetGuid(0), Status: r.GetString(1), Currency: r.GetString(2).Trim(), Subscription: r.Get<string>(3)), ct, orderId).ConfigureAwait(false)).FirstOrDefault();
+        if (order == default || (savedCard && (subscription is null || order.Subscription != subscription.Id)))
+        {
+            return null;
+        }
+
+        var status = order.Status;
         if (order.Status is "created" or "checkout_open")
         {
             await BillingSql.ExecuteAsync(transaction,
@@ -162,7 +193,8 @@ public sealed class StripeEventProcessor(
             await BillingSql.ExecuteAsync(transaction, "UPDATE shop.shops SET status = 'analyzing', updated_at = $2 WHERE id = $1 AND status = 'awaiting_payment'", ct, order.Shop, now)
                 .ConfigureAwait(false);
             await BillingSql.AuditAsync(transaction, tenantId, null, BillingSql.System, "order.paid", "order", orderId.ToString("D"),
-                new JsonObject { ["shop_id"] = order.Shop.ToString("D") }, now, ct).ConfigureAwait(false);
+                new JsonObject { ["shop_id"] = order.Shop.ToString("D"), ["method"] = savedCard ? "saved_card" : "checkout" }, now, ct).ConfigureAwait(false);
+            status = "paid";
         }
 
         if (subscription is not null)
@@ -179,7 +211,7 @@ public sealed class StripeEventProcessor(
             await currency.CommitAsync(ct).ConfigureAwait(false);
         }
 
-        return true;
+        return status;
     }
 
     private async Task<StripeEventOutcome> CheckoutExpiredAsync(string sessionId, CancellationToken ct)
@@ -239,6 +271,11 @@ public sealed class StripeEventProcessor(
         }
 
         await transaction.CommitAsync(ct).ConfigureAwait(false);
+        if (subscription is not null)
+        {
+            await SettleSavedCardOrderAsync(tenantId, subscription, ct).ConfigureAwait(false);
+        }
+
         return StripeEventOutcome.Processed(tenantId);
     }
 
@@ -282,12 +319,15 @@ public sealed class StripeEventProcessor(
         await using var transaction = await TenantSql.BeginAsync(connection, tenantId, null, ct).ConfigureAwait(false);
         await StoreSubscriptionAsync(transaction, tenantId, subscription, null, null, ct).ConfigureAwait(false);
         await transaction.CommitAsync(ct).ConfigureAwait(false);
+        await SettleSavedCardOrderAsync(tenantId, subscription, ct).ConfigureAwait(false);
         return StripeEventOutcome.Processed(tenantId);
     }
 
     /// <summary>
     /// The subscription as Stripe has it now, and what follows from its new state: a second running subscription of an e-shop is an
     /// alert of operations; the end stops the monitoring of the e-shop (paused after a failed payment, else canceled), its data stay.
+    /// A subscription that never started (<c>incomplete</c>, e.g. 3-D Secure not confirmed) ends without touching the e-shop; one
+    /// that starts again (task 7.5) makes the stopped monitoring of the e-shop active.
     /// </summary>
     private async Task<SyncedSubscription?> StoreSubscriptionAsync(
         NpgsqlTransaction transaction, Guid tenantId, StripeSubscriptionState subscription, Guid? shopId, Guid? orderId, CancellationToken ct)
@@ -315,10 +355,25 @@ public sealed class StripeEventProcessor(
             return null;
         }
 
-        if (synced.Status == "canceled" && synced.PreviousStatus is not null and not "canceled")
+        var now = time.GetUtcNow();
+        if (synced.Status is "trialing" or "active" && synced.PreviousStatus is not ("trialing" or "active" or "past_due"))
         {
-            var paymentFailed = synced.PreviousStatus is "past_due" or "incomplete";
-            var now = time.GetUtcNow();
+            var restarted = await BillingSql.ExecuteAsync(transaction,
+                "UPDATE shop.shops SET status = 'active', updated_at = $2 WHERE id = $1 AND status IN ('paused', 'canceled')", ct, synced.ShopId, now).ConfigureAwait(false);
+            if (restarted == 1)
+            {
+                await BillingSql.AuditAsync(transaction, tenantId, null, BillingSql.System, "subscription.restarted", "subscription", synced.Id.ToString("D"),
+                    new JsonObject { ["shop_id"] = synced.ShopId.ToString("D") }, now, ct).ConfigureAwait(false);
+            }
+        }
+
+        if (synced.Status == "canceled" && synced.PreviousStatus == "incomplete")
+        {
+            await BillingSql.ExecuteAsync(transaction, "UPDATE billing.subscriptions SET pause_reason = 'not_started' WHERE id = $1", ct, synced.Id).ConfigureAwait(false);
+        }
+        else if (synced.Status == "canceled" && synced.PreviousStatus is not null and not "canceled")
+        {
+            var paymentFailed = synced.PreviousStatus is "past_due";
             await BillingSql.ExecuteAsync(transaction, "UPDATE billing.subscriptions SET pause_reason = $2 WHERE id = $1", ct, synced.Id,
                 paymentFailed ? "payment_failed" : "canceled").ConfigureAwait(false);
             await BillingSql.ExecuteAsync(transaction,
@@ -363,6 +418,25 @@ public sealed class StripeEventProcessor(
         }
 
         return await CardChangedAsync(customer, ct).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// The fallback of the portal (task 7.4): the card saved in the Payment Element becomes the default card of the customer and so
+    /// the card of every running subscription. Only a SetupIntent of the application (<c>purpose = account_card</c>).
+    /// </summary>
+    private async Task<StripeEventOutcome> SetupIntentSucceededAsync(string setupIntentId, CancellationToken ct)
+    {
+        var intent = await stripe.GetSetupIntentAsync(setupIntentId, ct).ConfigureAwait(false);
+        if (intent is not { Status: "succeeded", CustomerId: { } customerId, PaymentMethodId: { } paymentMethodId }
+            || !intent.Metadata.TryGetValue("purpose", out var purpose) || purpose != StripeSetupIntentState.AccountCard
+            || await TenantOfCustomerAsync(customerId, ct).ConfigureAwait(false) is not { } tenantId)
+        {
+            return StripeEventOutcome.Ignored();
+        }
+
+        await stripe.SetCustomerDefaultPaymentMethodAsync(customerId, paymentMethodId, $"default-card:{customerId}:{paymentMethodId}", ct).ConfigureAwait(false);
+        await cards.ApplyDefaultAsync(tenantId, customerId, null, ct).ConfigureAwait(false);
+        return StripeEventOutcome.Processed(tenantId);
     }
 
     private async Task<StripeEventOutcome> TaxIdChangedAsync(string eventId, CancellationToken ct)

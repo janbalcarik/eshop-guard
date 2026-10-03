@@ -125,6 +125,7 @@ Chybný podpis vrátí 400 a nic se neuloží. Nesoulad režimu vrátí 400 a za
 | `customer.subscription.created`, `customer.subscription.updated` | synchronizace stavu, období, `cancel_at_period_end` a aktuální Price. Použité `subscription_changes` → `applied` |
 | `customer.subscription.deleted` | `subscriptions.status = canceled`, `shops.status` `paused` nebo `canceled`. Změna 16 podle stavu předplatného přestane zakládat noční běhy. Data zůstanou |
 | `customer.updated`, `payment_method.attached`, `payment_method.detached` | synchronizace `payment_methods`, výchozí karta |
+| `setup_intent.succeeded` | karta z náhradní cesty (SetupIntent s `purpose = account_card`) se stane výchozí kartou zákazníka, pak jako `customer.updated` |
 | `customer.tax_id.created`, `customer.tax_id.updated` | `tenants.tax_id_status` (`pending` / `verified` / `unverified`) |
 | `charge.refunded` | `payments.refunded_amount`, úloha `billing.issue_credit_note` s klíčem ID vrácení |
 | ostatní | `stripe_events.status = ignored` |
@@ -413,7 +414,8 @@ Stripe ─► customer.updated / payment_method.attached ─► AccountCardServi
 | `billing.issue_credit_note` | io | `credit:{stripeRefundId}` | `charge.refunded` |
 | `billing.check_einvoice_status` | io | `einvoice-check:{datum}T{hodina}` (jedna úloha pro všechny nedoručené) | každé 2 h |
 | `billing.evaluate_tiers` | system | `tiers:{datum}` a `tiers:{shopId}:{datum}T{hodina}` | denně 3:30 a po změně `product_count` |
-| `billing.trial_reminder` | system | `trial-reminder:{subscriptionId}` | `trial_end − 7 dní` |
+| `billing.trial_reminder` | system | `trial-reminder:{tenantId}:{datum}` | každou hodinu, na tenanta jednou denně; posílá pro `trial_end − 7 dní` |
+| `billing.expire_order` | io | `expire-order:{orderId}:{pokus}:{settle\|expire}` | 1 min po platbě kartou účtu a v `checkout_expires_at` |
 | `billing.reconcile_stripe` | io | `stripe-reconcile:{datum}` | denně 4:00 |
 | `billing.archive_unused_prices` | io | `price-archive:{datum}` | týdně |
 
@@ -422,6 +424,7 @@ Stripe ─► customer.updated / payment_method.attached ─► AccountCardServi
 - `tests/EshopGuard.Billing.Tests/`:
   - `PriceQuoteServiceTests`, `TierResolverTests`, `FairUsePolicyTests`, `VolumeDiscountResolverTests`;
   - `StripeCatalogSyncTests`, `CheckoutServiceTests`, `StripeEventProcessorTests`;
+  - `SubscriptionJobTests` (platba kartou účtu, vypršení, připomínka zkušební doby), společné scénáře `StripeScenario`;
   - `SubscriptionScheduleComposerTests`, `TaxTreatmentResolverTests`;
   - `InvoiceIssuerTests`, `InvoiceBuilderTests`;
   - `BillingOptionsValidatorTests`, `SecretsNotLoggedTests`;
@@ -429,7 +432,8 @@ Stripe ─► customer.updated / payment_method.attached ─► AccountCardServi
 - `tests/EshopGuard.Api.Tests/Billing/`:
   - `StripeWebhookEndpointTests` (podpis, duplicita, livemode);
   - `BillingEndpointsAuthorizationTests` (role, izolace tenantů);
-  - `OrderFlowTests`.
+  - `OrderFlowTests`;
+  - `SubscriptionFlowTests` (karta účtu, změna karty, zrušení, obnovení, nové zapnutí, data po konci, přehled).
 - `tests/EshopGuard.Billing.IntegrationTests/`: běží jen s proměnnou `ESHOPGUARD_STRIPE_TEST=1` proti testovacímu režimu Stripe a sandboxu SuperFaktúry, ne v CI.
 
 ## Odchylky při implementaci (2. 10. 2026)
@@ -493,3 +497,38 @@ Implementace se řídí tímto návrhem s odchylkami níže. Většina vychází
   `400 billing.webhook_signature_invalid`. Do logu jde jen kód.
 - Falešná brána dává ID unikátní napříč testy (sdílená testovací databáze má unikátní indexy na ID Stripe).
 - Úkol 5.5 (testovací hodiny Stripe, Apple Pay a Google Pay) potřebuje testovací účet Stripe, zůstává otevřený se skupinou 0.
+
+### Skupina 7 (předplatné, karta, zrušení)
+- Druhé běžící předplatné e-shopu procesor neuloží: jedinečný index ho odmítne a vznikne upozornění provozu
+  `billing.alert.second_running_subscription` (log úrovně error a audit tenanta). Nové předplatné po konci je nový řádek,
+  sledování e-shopu se znovu zapne a starší řádky zůstávají jako historie.
+- Platba kartou účtu (`SavedCardPaymentService`): předplatné nese `metadata.order_id`, otevřená session Checkoutu se nejdřív
+  zavře a každý pokus zvýší `checkout_attempt`. Objednávku zaplatí webhook, nebo úloha `billing.expire_order` (1 min po
+  platbě, když webhook nedorazil). Nepotvrzené 3-D Secure úloha v `checkout_expires_at` zruší ve Stripe a objednávka vyprší.
+  Předplatné, které nikdy nezačalo, dostane `canceled` s `pause_reason = not_started` a přehled ho nezobrazuje. Chování
+  `payment_behavior = default_incomplete` spolu se zkušební dobou a `add_invoice_items` je ověřené jen proti falešné bráně;
+  skutečný Stripe ověří úkol 5.5.
+- Změna karty: konfiguraci portálu (jen změna karty) je třeba založit v účtu Stripe a zapsat do
+  `Billing:Stripe:PortalConfigurationId`, proto čeká se skupinou 0. SetupIntent nese `metadata.purpose = account_card`;
+  událost `setup_intent.succeeded` s tímto účelem nastaví kartu stejně jako Checkout (`AccountCardService`), cizí SetupIntent
+  se ignoruje. Klíč idempotence portálu a SetupIntentu je po minutách, opakované kliknutí dostane stejnou session.
+- Zrušení a obnovení: cizí nebo neexistující e-shop vrací `404 shop.not_found` (izolace tenantů), e-shop bez předplatného
+  `404 billing.subscription_not_found`, bez běžícího předplatného `409 billing.subscription_not_cancelable` nebo
+  `billing.subscription_not_resumable`. Opakované volání Stripe nevolá.
+- Nové zapnutí (`POST /shops/{s}/subscription`): pásmo je `shops.tier_code`, jinak pásmo posledního předplatného. Cena je
+  z aktivního ceníku trhu tenanta, množstevní sleva podle pořadí mezi ostatními běžícími e-shopy. `confirm_required` vrací
+  i nesouhlasná částka. Klíč `start-again:{shop}:{počet předplatných}:{price}:{kupón}`: dvojklik dostane stejné předplatné,
+  po uloženém neúspěchu vznikne nové. Čeká-li uložené předplatné bez objednávky na 3-D Secure, vrátí se stejný `clientSecret`.
+- Připomínka před první platbou: šablony e-mailů jsou druhy `EmailTemplateKind` změny 9 (`trial_ending`, `payment_failed`,
+  `subscription_ended`, `price_change`, `tier_change`, `price_change_canceled`; sk a cs v `Application/Email/Templates`, úplnost
+  hlídá `EmailTemplateCompletenessTests`), ne `Notifications/BillingEmails.cs`. Posílá je `NotificationDispatcher` změny 11
+  (upozornění v aplikaci a e-mail vlastníkům a správcům přes `ops.outbox`). RLS nedovolí procházet předplatná napříč tenanty,
+  proto plánovač každou hodinu založí úlohu pro každého tenanta se zákazníkem Stripe, s klíčem na den. Jedno odeslání zajistí
+  `trial_reminder_sent_at`. Den se počítá v `Localization:TimeZone`, zrušená zkušební doba připomínku nedostane.
+- Napojení na sledování (7.7): změna 16 zatím není, test ověřuje jen to, že nálezy, doklady a soubor dokladu zůstanou po konci
+  předplatného čitelné.
+- Přehled (`GET /billing/overview`): počet produktů je `countedProducts` nabídky zaplacené objednávky, jinak
+  `shops.product_count`. Součet za měsíc zahrnuje stavy trial, active a past_due. „Nová cena od …“ je nejbližší změna
+  `subscription_changes` ve stavu `scheduled` nebo `notified` druhu `tier`, `price_list` nebo `discount`.
+- Známé souběhy: webhook a úloha `billing.expire_order` mohou objednávku vyřizovat současně; zaplacení je idempotentní a běh se
+  spustí jednou. Kliknutí na přelomu minuty založí dvě session portálu, platí ta poslední.

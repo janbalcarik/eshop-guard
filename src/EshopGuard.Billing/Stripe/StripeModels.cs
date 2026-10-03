@@ -126,5 +126,12 @@ public sealed record StripeChargeState(
 /// <summary>A card.</summary>
 public sealed record StripePaymentMethodState(string Id, string? CustomerId, string? Brand, string? Last4, int? ExpMonth, int? ExpYear);
 
+/// <summary>A SetupIntent: the card saved by the customer in the Payment Element once it <c>succeeded</c>.</summary>
+public sealed record StripeSetupIntentState(string Id, string? CustomerId, string Status, string? PaymentMethodId, IReadOnlyDictionary<string, string> Metadata)
+{
+    /// <summary>The metadata <c>purpose</c> of a SetupIntent that changes the card of the account.</summary>
+    public const string AccountCard = "account_card";
+}
+
 /// <summary>An event (webhook or the list of events): its id, type, the id of its object and the raw JSON.</summary>
 public sealed record StripeEventEnvelope(string Id, string Type, string? ObjectId, bool Livemode, DateTimeOffset Created, string Json);

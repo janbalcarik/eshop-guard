@@ -40,6 +40,7 @@ public sealed class ReconcileStripeHandler(IStripeGateway stripe, StripeEventInt
     [
         "checkout.session.completed", "checkout.session.expired", "invoice.paid", "invoice.payment_failed", "customer.subscription.created",
         "customer.subscription.updated", "customer.subscription.deleted", "customer.updated", "customer.tax_id.updated", "charge.refunded",
+        "setup_intent.succeeded",
     ];
 
     public string Kind => BillingJobs.ReconcileStripeKind;

@@ -67,3 +67,9 @@ public sealed record CreateOrderRequest(Guid? QuoteId, string? ScopeHash, string
         TokenRequest.Require(result, "termsVersion", TermsVersion);
     }
 }
+
+/// <summary>
+/// Monitoring started again: without <c>Confirm</c> the answer is <c>confirm_required</c> with the amount and the date; the
+/// subscription is created only with <c>Confirm = true</c> and the <c>Amount</c> shown to the customer.
+/// </summary>
+public sealed record StartSubscriptionRequest(bool? Confirm, decimal? Amount);
