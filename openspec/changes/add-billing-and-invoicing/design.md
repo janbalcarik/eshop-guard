@@ -194,7 +194,7 @@ Zdroj: repozitáře `superfaktura/docs` (`intro.md`, `invoice.md`, `value-lists.
 | Limity | Výchozí 1 000 požadavků za den a 30 000 za měsíc, hlavičky `X-RateLimit-*`. Stav HTTP při překročení dokumentace neuvádí (jen „žádná odpověď“). Doporučený timeout ani opakování neuvádí; řídíme se vlastní politikou úlohy (12 pokusů, odstup až 1 h). |
 | Zpětná volání | Jen `InvoiceSetting.callback_payment` (GET po zápisu platby). Nepoužíváme. |
 | E-faktúra (Peppol) | V dokumentaci API ani v knihovně není: žádný endpoint, pole ani stav doručení. Aplikace ji podle rozhodnutí 3. 10. 2026 neřeší (viz výše). |
-| Tarify | Ceník SuperFaktúry pro náš účet: Základný 4,99 €, Štandardný 9,99 €, Prémiový 16,99 € měsíčně. Který z nich obsahuje přístup k API, se z oficiální stránky ověřit nepodařilo (zdroje třetích stran si odporují). |
+| Tarify | Ceník SuperFaktúry pro náš účet: Základný 4,99 €, Štandardný 9,99 €, Prémiový 16,99 € měsíčně. Přístup k API má jen Prémiový (uživatel 3. 10. 2026), náš účet proto potřebuje Prémiový. |
 
 Neověřené body jsou v proposal, K rozhodnutí 16.
 

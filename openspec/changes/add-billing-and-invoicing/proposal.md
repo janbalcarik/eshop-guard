@@ -131,7 +131,7 @@ Out of scope:
 - **2 `add-solution-foundation`:** konfigurace přes user-secrets a proměnné prostředí.
 - **Externí:**
   - účet Stripe slovenské s.r.o. s testovacím režimem;
-  - účet SuperFaktúra s API, e-faktúrou a sandboxem (tarif ověřit);
+  - účet SuperFaktúra s API, e-faktúrou a sandboxem (tarif Prémiový, jen ten má API);
   - účetní, která potvrdí daňové body;
   - právník, který potvrdí obchodní podmínky (výpovědní lhůta, zrušení).
 - **Navazují:**
@@ -195,6 +195,6 @@ Out of scope:
     - **Změna 8:** `AnalysisPriceEstimator` ukládá do `runs.estimate` pásmo a částku. Návrh shodný se změnou 10: změna 8 ukládá jen základ (počty po verzích a ostatní stránky), pásmo a částku počítá vždy `IPriceQuoteService`. Jinak by existovaly dva výpočty pásma.
 16. **SuperFaktúra:** veřejná dokumentace API je ověřená (2. 10. 2026, `design.md`, sekce Doklady): sandbox, autorizace, doklad, platba, odeslání, PDF, ochrana proti duplicitě (`checksum`), měna CZK a jazyk dokladu. Otevřené zůstává:
     - **E-faktúra přes Peppol:** rozhodnuto 3. 10. 2026, aplikace ji neřeší; zajišťuje ji SuperFaktúra interně. Před 1. 1. 2027 provoz ověří u SuperFaktúry, že doklady založené přes API slovenským firmám jako e-faktúru skutečně odcházejí.
-    - **Tarif našeho účtu u SuperFaktúry:** který z tarifů (Základný, Štandardný, Prémiový) obsahuje přístup k API, oficiální stránka čitelně neuvádí. Ověří se před založením účtu (úkol 0.2).
+    - **Tarif našeho účtu u SuperFaktúry:** přístup k API má jen Prémiový (16,99 € měsíčně), zjištěno 3. 10. 2026. Účet se zakládá s tímto tarifem (úkol 0.1).
     - **K ověření v sandboxu:** dobropis (`type = cancel` a `parent_id`), název pole data platby (`date`, nebo `created`), stav HTTP při překročení limitu.
 17. **Sémantika `dedupe_key` ve frontě (změna 4).** Tato změna počítá s tím, že `dedupe_key` je jedinečný, dokud úloha existuje (hotové se mažou po 7 dnech). Proto klíče opakovatelných úloh nesou okno nebo otisk (`schedule:{subscriptionId}:{otisk fází}`, `price-sync:{priceListId}:{publishRequestId}`). Sladit se změnou 4.

@@ -18,7 +18,7 @@
 
   Výsledek zapsat do `design.md` (sekce Doklady) a chybějící body do proposal, K rozhodnutí 16.
 
-  Stav 3. 10. 2026: veřejná dokumentace ověřena a zapsána. E-faktúru přes Peppol aplikace neřeší (rozhodnutí uživatele). Otevřené jsou tarif našeho účtu s API a tři body k ověření v sandboxu (K rozhodnutí 16).
+  Stav 3. 10. 2026: veřejná dokumentace ověřena a zapsána. E-faktúru přes Peppol aplikace neřeší (rozhodnutí uživatele). Přístup k API má jen tarif Prémiový (zjištěno 3. 10. 2026). Otevřené jsou tři body k ověření v sandboxu (K rozhodnutí 16).
 - [ ] 0.3 Předat účetní otevřené body z proposal, K rozhodnutí 3. Do jejich potvrzení zůstávají případy `undetermined` zablokované.
 
   S uživatelem rozhodnout body 1, 2, 4, 5 a 7 v K rozhodnutí:
