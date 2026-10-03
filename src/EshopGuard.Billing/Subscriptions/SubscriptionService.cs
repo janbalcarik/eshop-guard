@@ -34,6 +34,7 @@ public sealed class SubscriptionService(
     EshopGuardDb db,
     IStripeGateway stripe,
     StripeCustomers customers,
+    PaymentTaxGate taxGate,
     PriceListReader prices,
     IJobQueue queue,
     IOptions<BillingOptions> options,
@@ -124,13 +125,7 @@ public sealed class SubscriptionService(
             return await RunningStartAsync(running, ct).ConfigureAwait(false);
         }
 
-        var tenant = await db.Tenants.AsNoTracking().FirstAsync(t => t.Id == tenantId, ct).ConfigureAwait(false);
-        var treatment = TaxTreatmentResolver.Resolve(TaxBuyer.Of(tenant), options.Value.Tax);
-        if (TaxTreatmentResolver.RefusalCode(treatment) is { } refusal)
-        {
-            throw new DomainException(refusal, treatment == TaxTreatment.PendingVerification ? 409 : 422);
-        }
-
+        var (tenant, _) = await taxGate.RequireAsync(tenantId, ct).ConfigureAwait(false);
         if (card is null || tenant.StripeCustomerId is null)
         {
             throw new DomainException(BillingCodes.SavedCardMissing, 409);

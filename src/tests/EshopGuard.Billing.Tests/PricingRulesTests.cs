@@ -123,6 +123,7 @@ public sealed class PricingRulesTests
     [InlineData("SK", "SK2020123456", TaxIdStatus.Verified, TaxTreatment.DomesticVat)]
     [InlineData("CZ", "CZ12345678", TaxIdStatus.Verified, TaxTreatment.ReverseCharge)]
     [InlineData("CZ", "CZ12345678", TaxIdStatus.Pending, TaxTreatment.PendingVerification)]
+    [InlineData("CZ", "CZ12345678", TaxIdStatus.None, TaxTreatment.PendingVerification)]
     [InlineData("CZ", "CZ12345678", TaxIdStatus.Unverified, TaxTreatment.Undetermined)]
     [InlineData("CZ", null, TaxIdStatus.None, TaxTreatment.Undetermined)]
     [InlineData("CH", "CHE123456789", TaxIdStatus.Verified, TaxTreatment.Undetermined)]
@@ -138,6 +139,15 @@ public sealed class PricingRulesTests
         Assert.Equal(BillingCodes.TaxTreatmentUndetermined, TaxTreatmentResolver.RefusalCode(TaxTreatment.Undetermined));
         Assert.Null(TaxTreatmentResolver.RefusalCode(TaxTreatment.ReverseCharge));
         Assert.Null(TaxTreatmentResolver.RefusalCode(TaxTreatment.DomesticVat));
+    }
+
+    [Theory]
+    [InlineData(TaxTreatment.DomesticVat, 23, 1587, 8487)]
+    [InlineData(TaxTreatment.ReverseCharge, 0, 0, 6900)]
+    [InlineData(TaxTreatment.PendingVerification, 0, 0, 6900)]
+    public void Charge_DomesticRateOnlyForDomesticVat(TaxTreatment treatment, int rate, long vatCents, long grossCents)
+    {
+        Assert.Equal(((decimal)rate, vatCents / 100m, grossCents / 100m), TaxTreatmentResolver.Charge(treatment, 69m, BillingOptionsTests.Tax()));
     }
 
     [Fact]

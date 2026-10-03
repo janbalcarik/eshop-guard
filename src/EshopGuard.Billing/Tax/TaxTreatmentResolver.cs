@@ -21,7 +21,8 @@ public sealed record TaxBuyer(string CountryCode, string? Ico, string? IcDph, Ta
 /// <list type="bullet">
 /// <item>seat in the country of the supplier (with or without a VAT id): <see cref="TaxTreatment.DomesticVat"/> (the rate comes from Stripe Tax);</item>
 /// <item>another state of the EU VAT area with a VAT id verified in VIES: <see cref="TaxTreatment.ReverseCharge"/>;</item>
-/// <item>the same with the verification running: <see cref="TaxTreatment.PendingVerification"/>;</item>
+/// <item>the same with the verification running, or not started yet (status <c>none</c>: <see cref="PaymentTaxGate"/> sends the VAT id
+/// to Stripe before the payment): <see cref="TaxTreatment.PendingVerification"/>;</item>
 /// <item>unverified, without a VAT id, or outside the EU: <see cref="TaxTreatment.Undetermined"/> until the accountant decides (K rozhodnutí 3).</item>
 /// </list>
 /// The countries are data (<c>Billing:Tax</c>), not code.
@@ -46,9 +47,18 @@ public static class TaxTreatmentResolver
         return buyer.TaxIdStatus switch
         {
             TaxIdStatus.Verified => TaxTreatment.ReverseCharge,
-            TaxIdStatus.Pending => TaxTreatment.PendingVerification,
+            TaxIdStatus.Pending or TaxIdStatus.None => TaxTreatment.PendingVerification,
             _ => TaxTreatment.Undetermined,
         };
+    }
+
+    /// <summary>The VAT of an order in this treatment: the domestic rate, else none (rounded like <see cref="Vat"/>).</summary>
+    public static (decimal Rate, decimal Vat, decimal Gross) Charge(TaxTreatment treatment, decimal net, BillingOptions.TaxSettings tax)
+    {
+        ArgumentNullException.ThrowIfNull(tax);
+        var rate = treatment == TaxTreatment.DomesticVat ? tax.DomesticVatRate : 0m;
+        var vat = Vat(net, rate);
+        return (rate, vat, net + vat);
     }
 
     /// <summary>The code that refuses a payment in this treatment, or null when it may be paid.</summary>

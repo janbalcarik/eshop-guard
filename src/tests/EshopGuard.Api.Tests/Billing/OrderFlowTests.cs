@@ -204,6 +204,37 @@ public sealed class OrderFlowTests : ShopTestBase
     }
 
     [Fact]
+    public async Task VatIdNotYetSent_StartsTheVerificationInStripe_AndAfterItTheOrderIsPaidWithReverseCharge()
+    {
+        await using var factory = Factory();
+        var ready = await ReadyAsync(factory);
+        using var _ = ready.Owner;
+        await AdminAsync("UPDATE iam.tenants SET country_code = 'CZ', ic_dph = 'CZ 12345678', tax_id_status = 'none' WHERE id = $1", ready.Owner.TenantId);
+
+        using var created = await OrderAsync(ready);
+        var order = await ApiClient.JsonAsync(created);
+        var id = order.GetProperty("id").GetGuid();
+        using var waiting = await ready.Owner.Browser.PostAsync($"/api/t/{ready.Owner.TenantId}/orders/{id}/checkout");
+
+        Assert.Equal(HttpStatusCode.Created, created.StatusCode);
+        Assert.Equal("pending_verification", order.GetProperty("taxTreatment").GetString());
+        var problem = await ApiClient.ProblemAsync(waiting);
+        Assert.Equal((HttpStatusCode.Conflict, "billing.tax_id_pending"), (problem.Status, problem.Code));
+        var customer = await AdminScalarAsync<string>("SELECT stripe_customer_id FROM iam.tenants WHERE id = $1", ready.Owner.TenantId);
+        Assert.Equal("CZ12345678", Assert.Single(factory.Stripe.Customers[customer!].TaxIds).Value);
+        Assert.Equal("pending", await AdminScalarAsync<string>("SELECT tax_id_status FROM iam.tenants WHERE id = $1", ready.Owner.TenantId));
+        Assert.Equal(0, factory.Stripe.Count("CreateCheckoutSessionAsync"));
+
+        // customer.tax_id.updated with „verified“ (StripeEventProcessorTests.VerifiedVatId_IsStoredForTheTenant).
+        await AdminAsync("UPDATE iam.tenants SET tax_id_status = 'verified', tax_id_verified_at = now() WHERE id = $1", ready.Owner.TenantId);
+        await CheckoutAsync(ready, id);
+
+        Assert.Equal(1, factory.Stripe.Count("CreateTaxIdAsync"));
+        Assert.Equal(new object?[] { "reverse_charge", 0m, 0m, 199m, "checkout_open" }, Assert.Single(await AdminRowsAsync(
+            "SELECT tax_treatment, vat_rate, vat_amount, amount_gross, status FROM billing.orders WHERE id = $1", id)));
+    }
+
+    [Fact]
     public async Task IndividualOffer_IsNotPayable()
     {
         await using var factory = Factory();

@@ -115,9 +115,8 @@ public sealed class OrderService(
         var tier = list.Tier(tierCode) ?? throw await StaleAsync("price_list_changed", current, ct).ConfigureAwait(false);
         var discount = quote.DiscountPercent is { } percent ? list.Discounts.FirstOrDefault(d => d.Percent == percent) : null;
         var runId = await RunAsync(shopId, userId, ct).ConfigureAwait(false);
-        var vatRate = treatment == TaxTreatment.DomesticVat ? options.Value.Tax.DomesticVatRate : 0m;
         var analysis = quote.AnalysisPrice ?? 0m;
-        var vat = TaxTreatmentResolver.Vat(analysis, vatRate);
+        var (vatRate, vat, gross) = TaxTreatmentResolver.Charge(treatment, analysis, options.Value.Tax);
         var now = time.GetUtcNow();
         var order = new Order
         {
@@ -130,7 +129,7 @@ public sealed class OrderService(
             DiscountAmount = 0m,
             VatRate = vatRate,
             VatAmount = vat,
-            AmountGross = analysis + vat,
+            AmountGross = gross,
             Currency = quote.Currency,
             Status = OrderStatus.Created,
             RunId = runId,

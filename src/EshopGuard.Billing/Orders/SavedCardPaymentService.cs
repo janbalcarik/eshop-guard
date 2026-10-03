@@ -43,6 +43,7 @@ public sealed class SavedCardPaymentService(
     EshopGuardDb db,
     IStripeGateway stripe,
     StripeCustomers customers,
+    PaymentTaxGate taxGate,
     IJobQueue queue,
     IOptions<BillingOptions> options,
     TimeProvider time,
@@ -74,13 +75,8 @@ public sealed class SavedCardPaymentService(
             throw new BillingUnavailableException();
         }
 
-        var tenant = await db.Tenants.AsNoTracking().FirstAsync(t => t.Id == tenantId, ct).ConfigureAwait(false);
-        var treatment = TaxTreatmentResolver.Resolve(TaxBuyer.Of(tenant), options.Value.Tax);
-        if (TaxTreatmentResolver.RefusalCode(treatment) is { } refusal)
-        {
-            throw new DomainException(refusal, treatment == TaxTreatment.PendingVerification ? 409 : 422);
-        }
-
+        var (tenant, treatment) = await taxGate.RequireAsync(tenantId, ct).ConfigureAwait(false);
+        var tax = TaxTreatmentResolver.Charge(treatment, order.AmountNet, options.Value.Tax);
         if (card is null || tenant.StripeCustomerId is null)
         {
             throw new DomainException(BillingCodes.SavedCardMissing, 409);
@@ -142,6 +138,10 @@ public sealed class SavedCardPaymentService(
                     .SetProperty(o => o.CheckoutExpiresAt, expiresAt)
                     .SetProperty(o => o.CheckoutAttempt, attempt)
                     .SetProperty(o => o.TrialEndPlanned, trialEnd)
+                    .SetProperty(o => o.TaxTreatment, treatment)
+                    .SetProperty(o => o.VatRate, tax.Rate)
+                    .SetProperty(o => o.VatAmount, tax.Vat)
+                    .SetProperty(o => o.AmountGross, tax.Gross)
                     .SetProperty(o => o.UpdatedAt, now), ct).ConfigureAwait(false);
             if (updated == 0)
             {

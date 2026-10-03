@@ -357,6 +357,14 @@ U `pending_verification` a `undetermined` MUST platbu odmítnout s kódem. Při 
 - THEN API vrátí 409 s kódem `billing.tax_id_pending` a Checkout nevznikne
 - AND po přijetí `customer.tax_id.updated` se stavem `verified` jde Checkout založit
 
+#### Scenario: IČ DPH ještě neodeslané do Stripe
+
+- GIVEN tenant se sídlem v CZ s IČ DPH CZ12345678, které ještě nebylo odesláno do Stripe (stav `none`)
+- WHEN zákazník vytvoří objednávku a zavolá `POST /orders/{o}/checkout`
+- THEN objednávka vznikne s režimem `pending_verification`
+- AND Checkout odešle IČ DPH zákazníkovi Stripe, tím spustí ověření ve VIES, stav tenanta bude `pending` a API vrátí 409 s kódem `billing.tax_id_pending`
+- AND po ověření (`verified`) jde Checkout založit a objednávka má režim `reverse_charge` bez DPH
+
 #### Scenario: Firma z jiného státu bez IČ DPH
 
 - GIVEN tenant se sídlem v CZ bez IČ DPH

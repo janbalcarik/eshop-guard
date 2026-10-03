@@ -2,11 +2,13 @@ using EshopGuard.Application.Options;
 using EshopGuard.Application.Shops;
 using EshopGuard.Application.Shops.Pricing;
 using EshopGuard.Application.Shops.Scope;
+using EshopGuard.Billing.Invoicing;
 using EshopGuard.Billing.Jobs;
 using EshopGuard.Billing.Orders;
 using EshopGuard.Billing.Pricing;
 using EshopGuard.Billing.Stripe;
 using EshopGuard.Billing.Subscriptions;
+using EshopGuard.Billing.Tax;
 using EshopGuard.Billing.Webhooks;
 using EshopGuard.Jobs.Notifications;
 using EshopGuard.Jobs;
@@ -47,6 +49,7 @@ public static class BillingServiceCollectionExtensions
 
         // Orders and payments (groups 5–7).
         services.TryAddScoped<StripeCustomers>();
+        services.TryAddScoped<PaymentTaxGate>();
         services.TryAddScoped<OrderService>();
         services.TryAddScoped<CheckoutService>();
         services.TryAddScoped<SavedCardPaymentService>();
@@ -82,6 +85,10 @@ public static class BillingServiceCollectionExtensions
         services.AddJobHandler<ExpireOrderHandler>();
         services.AddJobHandler<TrialReminderHandler>();
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IScheduledTask, TrialReminderTask>());
+
+        // The invoice of a paid invoice of Stripe and its tax check (group 9); SuperFaktúra follows in group 10.
+        services.TryAddScoped<InvoiceIssuer>();
+        services.AddJobHandler<IssueInvoiceHandler>();
 
         // Changes of the tier, the discount and the price list (group 8); the counted products need the catalog of the e-shops.
         services.AddOptions<LocalizationOptions>().BindConfiguration(LocalizationOptions.SectionName);

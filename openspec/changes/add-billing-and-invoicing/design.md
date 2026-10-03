@@ -145,11 +145,12 @@ Dodavatel je slovenská s.r.o., plátce DPH.
 |---|---|
 | Sídlo SK (s IČ DPH i bez) | `domestic_vat` (sazbu dodá Stripe Tax) |
 | Jiný stát EU, IČ DPH `verified` | `reverse_charge` |
-| Jiný stát EU, IČ DPH `pending` | `pending_verification`: Checkout čeká, UI ukáže „Overujeme IČ DPH“ |
+| Jiný stát EU, IČ DPH `pending`, nebo `none` (ještě neodesláno do Stripe) | `pending_verification`: Checkout nejdřív odešle IČ DPH do Stripe (spustí ověření) a čeká, UI ukáže „Overujeme IČ DPH“ |
 | Jiný stát EU, IČ DPH `unverified`, nebo bez IČ DPH | `undetermined` až do potvrzení účetní (proposal, K rozhodnutí 3) |
 | Mimo EU | `undetermined` (mimo rozsah) |
 
-Výsledek se uloží do `orders.tax_treatment`.
+Výsledek se uloží do `orders.tax_treatment`. Při placení (Checkout, uložená karta) se režim i DPH objednávky přepočítají podle
+aktuálního stavu tenanta.
 
 **Kontrola po zaplacení.** Při vystavení dokladu se porovná daň z faktury Stripe (`total_tax_amounts`, `customer_tax_exempt`, `reverse_charge`) s `tax_treatment`. Nesoulad znamená `invoices.status = needs_review`, nic se neodešle a provoz dostane upozornění.
 
@@ -566,3 +567,30 @@ Implementace se řídí tímto návrhem s odchylkami níže. Většina vychází
   pásma.
 - Test 8.6 s testovacími hodinami Stripe je úkol 8.7 a čeká se skupinou 0. Testy skupiny 8 jsou v `SubscriptionChangeTests`
   (`EshopGuard.Billing.Tests`) nad falešnou bránou Stripe.
+
+### Skupina 9 (daňový režim)
+- Opravené uváznutí: IČ DPH jiného státu EU ve stavu `none` dřív vedlo na `undetermined` (422 a záznam pro účetní). IČ DPH
+  přitom do Stripe odesílá jen `StripeCustomers.EnsureAsync`, a ten běžel až po kontrole daně, takže se česká firma nemohla
+  nikdy ověřit. Teď je `none` s IČ DPH `pending_verification`: objednávka vznikne, platba (`PaymentTaxGate`) nejdřív odešle
+  IČ DPH zákazníkovi Stripe a vrátí 409 `billing.tax_id_pending`, dokud `customer.tax_id.updated` nepřinese `verified`.
+- `PaymentTaxGate` je společná pro Checkout, platbu uloženou kartou a obnovení sledování a běží mimo transakci, aby
+  odeslání IČ DPH a `stripe_customer_id` zůstaly uložené i při odmítnutí platby.
+- Při placení se `orders.tax_treatment`, `vat_rate`, `vat_amount` a `amount_gross` přepočítají podle aktuálního stavu tenanta
+  (`TaxTreatmentResolver.Charge`), protože objednávka mohla vzniknout ještě před ověřením.
+- Kontrola dokladu (`InvoiceTaxCheck`): domácí DPH sedí, když Stripe neúčtoval přenesení ani osvobození a daň z částky bez
+  daně odpovídá domácí sazbě `Billing:Tax:DomesticVatRate` s tolerancí 1 cent na řádek (Stripe Tax zaokrouhluje po
+  řádcích). Přenesení sedí bez daně a s příznakem na faktuře nebo u zákazníka (`customer_tax_exempt = reverse`).
+  `pending_verification` a `undetermined` jsou vždy nesoulad. Změna domácí sazby zastaví doklady, dokud ji nastavení
+  nepřevezme (fail-closed).
+- Očekávaný režim je `orders.tax_treatment` zaplacené objednávky (první faktura `subscription_create`). Obnovy předplatného
+  se kontrolují proti aktuálnímu režimu tenanta.
+- `InvoiceIssuer` (úloha `billing.issue_invoice`) založí jeden řádek `billing.invoices` na fakturu Stripe (`source_key`):
+  - odběratel je snímek údajů tenanta bez e-mailu;
+  - řádky, částky i `reverse_charge` jsou tak, jak je Stripe účtoval;
+  - nesoulad dá `needs_review` s `tax_mismatch`, audit `invoice.needs_review` s očekávaným i účtovaným režimem a upozornění
+    `billing.alert.tax_mismatch`;
+  - shodný doklad zůstane `creating` pro SuperFaktúru (skupina 10), období dokladu a e-faktura se doplní tam;
+  - nezaplacená faktura (0) se přeskočí;
+  - faktura bez známého e-shopu selže s upozorněním `billing.alert.invoice_shop_unknown`.
+- Chybí úprava fakturačních údajů tenanta (IČO, IČ DPH, adresa): změna 9 ji odložila do změny 12, úkoly změny 12 ji ale
+  neobsahují a v `design/ui/` pro ni není obrazovka. Zatím se údaje mění jen přímo v databázi.

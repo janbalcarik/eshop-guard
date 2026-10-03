@@ -24,12 +24,14 @@ namespace EshopGuard.Billing.Orders;
 /// order, the customer of the tenant, automatic tax, the language of the tenant, the sentence about the first monthly payment
 /// and canceling, the coupon of the volume discount and <c>expires_at</c>. The prices are those of the snapshot of the order,
 /// never a lookup key. An open session that has not expired is used again; a new one has the key
-/// <c>checkout:{orderId}:{attempt}</c>. Before the session the tax treatment must allow the payment (409/422).
+/// <c>checkout:{orderId}:{attempt}</c>. Before the session the tax treatment must allow the payment (409/422,
+/// <see cref="PaymentTaxGate"/>); the order takes the treatment and the VAT it is paid with.
 /// </summary>
 public sealed class CheckoutService(
     EshopGuardDb db,
     IStripeGateway stripe,
     StripeCustomers customers,
+    PaymentTaxGate taxGate,
     IOptions<BillingOptions> options,
     IOptions<FrontendOptions> frontend,
     IOptions<LocalizationOptions> localization,
@@ -56,12 +58,8 @@ public sealed class CheckoutService(
             throw new BillingUnavailableException();
         }
 
-        var tenant = await db.Tenants.AsNoTracking().FirstAsync(t => t.Id == tenantId, ct).ConfigureAwait(false);
-        var treatment = TaxTreatmentResolver.Resolve(TaxBuyer.Of(tenant), options.Value.Tax);
-        if (TaxTreatmentResolver.RefusalCode(treatment) is { } refusal)
-        {
-            throw new DomainException(refusal, treatment == TaxTreatment.PendingVerification ? 409 : 422);
-        }
+        var (tenant, treatment) = await taxGate.RequireAsync(tenantId, ct).ConfigureAwait(false);
+        var tax = TaxTreatmentResolver.Charge(treatment, order.AmountNet, options.Value.Tax);
 
         var now = time.GetUtcNow();
         if (order is { Status: OrderStatus.CheckoutOpen, StripeSubscriptionId: { } pendingId })
@@ -113,6 +111,10 @@ public sealed class CheckoutService(
                     .SetProperty(o => o.CheckoutExpiresAt, session.ExpiresAt)
                     .SetProperty(o => o.CheckoutAttempt, attempt)
                     .SetProperty(o => o.TrialEndPlanned, trialEnd)
+                    .SetProperty(o => o.TaxTreatment, treatment)
+                    .SetProperty(o => o.VatRate, tax.Rate)
+                    .SetProperty(o => o.VatAmount, tax.Vat)
+                    .SetProperty(o => o.AmountGross, tax.Gross)
                     .SetProperty(o => o.UpdatedAt, now), ct).ConfigureAwait(false);
             await BillingSql.AuditAsync(transaction, tenantId, userId, BillingSql.User, "order.checkout_started", "order",
                 order.Id.ToString("D"), new JsonObject { ["attempt"] = attempt }, now, ct).ConfigureAwait(false);

@@ -255,8 +255,12 @@
 ## 9. Daňový režim
 
 - [x] 9.1 `TaxTreatmentResolver` podle tabulky v `design.md`. Testy `TaxTreatmentResolverTests`: SK s IČ DPH i bez, CZ `verified`, CZ `pending`, CZ bez IČ DPH, mimo EU.
-- [ ] 9.2 Synchronizace `tenants.tax_id_status` z `customer.tax_id.created/updated`. Zablokování Checkoutu (`billing.tax_id_pending`, `billing.tax_treatment_undetermined`) a povinné IČO (`billing.company_id_required`). Testy endpointů.
-- [ ] 9.3 Kontrola souladu daně při vystavení dokladu (`total_tax_amounts`, přenesení daňové povinnosti) proti `orders.tax_treatment` → `needs_review` s důvodem `tax_mismatch` a upozornění provozu. Test podle scénáře „Nesoulad daně ve Stripe“.
+- [x] 9.2 Synchronizace `tenants.tax_id_status` z `customer.tax_id.created/updated`. Zablokování Checkoutu (`billing.tax_id_pending`, `billing.tax_treatment_undetermined`) a povinné IČO (`billing.company_id_required`). Testy endpointů.
+  - společná brána `PaymentTaxGate` před Checkoutem, platbou uloženou kartou a obnovením sledování: IČ DPH ve stavu `none` nejdřív odešle do Stripe (spustí ověření ve VIES), pak 409;
+  - testy `OrderFlowTests` (`VatIdNotYetSent_StartsTheVerificationInStripe_AndAfterItTheOrderIsPaidWithReverseCharge`, `VatIdBeingVerified_RefusesTheCheckoutWith409`, `BuyerOutsideTheEu_Is422Undetermined_AndAuditedForTheAccountant`, `WithoutCompanyId_Is422_AndWithoutAnOrder`), `StripeEventProcessorTests.VerifiedVatId_IsStoredForTheTenant`, `PricingRulesTests`.
+- [x] 9.3 Kontrola souladu daně při vystavení dokladu (`total_tax_amounts`, přenesení daňové povinnosti) proti `orders.tax_treatment` → `needs_review` s důvodem `tax_mismatch` a upozornění provozu. Test podle scénáře „Nesoulad daně ve Stripe“.
+  - `InvoiceTaxCheck` (čistá kontrola) a `InvoiceIssuer` v úloze `billing.issue_invoice`; shodný doklad zůstane `creating` pro SuperFaktúru (skupina 10);
+  - testy `InvoiceTaxCheckTests` a `InvoiceIssuerTests` (`TaxMismatchInStripe_StopsTheInvoiceForReview_WithOneAlertOfOperations` a další).
 
 ## 10. Doklady v SuperFaktúře
 
