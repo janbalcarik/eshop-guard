@@ -1,4 +1,6 @@
+using System.Globalization;
 using EshopGuard.Api.Contracts;
+using EshopGuard.Api.Http;
 using EshopGuard.Api.Problems;
 using EshopGuard.Api.Tenancy;
 using EshopGuard.Application.Problems;
@@ -6,6 +8,7 @@ using EshopGuard.Application.Tenants;
 using EshopGuard.Billing;
 using EshopGuard.Billing.Contracts;
 using EshopGuard.Billing.Customers;
+using EshopGuard.Billing.Invoicing;
 using EshopGuard.Billing.Orders;
 using EshopGuard.Billing.Subscriptions;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -14,7 +17,8 @@ namespace EshopGuard.Api.Endpoints;
 
 /// <summary>
 /// Billing of a tenant (change 12): the order of an analysis from a quote, its Checkout and its state after the return from
-/// Stripe. Only owners and admins (<c>403 auth.forbidden_role</c> for the others); paying works also in a suspended tenant.
+/// Stripe, the subscriptions, the card, the billing details and the invoices (list, PDF, ZIP). Only owners and admins
+/// (<c>403 auth.forbidden_role</c> for the others); paying works also in a suspended tenant.
 /// </summary>
 public static class BillingEndpoints
 {
@@ -105,6 +109,33 @@ public static class BillingEndpoints
             .ProducesProblemCodes(ProblemCodes.ShopNotFound, BillingCodes.SubscriptionNotFound, BillingCodes.SubscriptionAlreadyRunning, BillingCodes.SavedCardMissing,
                 BillingCodes.PriceListMissing, BillingCodes.TierUnavailable, BillingCodes.CompanyIdRequired, BillingCodes.TaxIdPending, BillingCodes.TaxTreatmentUndetermined,
                 BillingCodes.Unavailable);
+
+        billing.MapGet("/invoices", async (Guid? shopId, int? year, InvoiceListService invoices, CancellationToken ct) =>
+                TypedResults.Ok(await invoices.ListAsync(shopId, year, ct)))
+            .RequireTenantRole(TenantRole.Admin)
+            .AllowSuspendedTenant()
+            .ProducesProblemCodes(ProblemCodes.ShopNotFound);
+
+        billing.MapGet("/invoices/zip", async (Guid? shopId, int? year, HttpContext context, InvoiceListService invoices, InvoiceZipWriter writer, CancellationToken ct) =>
+            {
+                var plan = await invoices.ZipAsync(shopId, year, ct);
+                context.Response.Headers["X-EshopGuard-Skipped"] = plan.Skipped.ToString(CultureInfo.InvariantCulture);
+                context.Response.Headers.CacheControl = "private, no-store";
+                return TypedResults.Stream(output => writer.WriteAsync(output, plan.Files, context.RequestAborted), "application/zip", plan.FileName);
+            })
+            .RequireTenantRole(TenantRole.Admin)
+            .AllowSuspendedTenant()
+            .Produces(StatusCodes.Status200OK, contentType: "application/zip")
+            .ProducesProblemCodes(ProblemCodes.ShopNotFound, BillingCodes.ZipTooLarge);
+
+        billing.MapGet("/invoices/{invoiceId:guid}/pdf", async (Guid invoiceId, InvoiceListService invoices, BlobLinks links, CancellationToken ct) =>
+            {
+                var (key, fileName) = await invoices.PdfAsync(invoiceId, ct);
+                return TypedResults.Redirect(await links.LinkAsync(key, fileName, "application/pdf", ct));
+            })
+            .RequireTenantRole(TenantRole.Admin)
+            .AllowSuspendedTenant()
+            .ProducesProblemCodes(BillingCodes.InvoiceNotFound, BillingCodes.InvoicePdfMissing);
         return tenant;
     }
 }

@@ -302,19 +302,19 @@
 
 ## 11. Seznam faktur a ZIP
 
-- [ ] 11.1 Endpoint `GET /invoices?shopId=&year=`:
+- [x] 11.1 Endpoint `GET /invoices?shopId=&year=`:
   - doklady a naplánované platby z běžících předplatných (stav „Naplánovaná“, bez PDF);
   - řazení od nejnovějšího.
 
   Test podle scénáře „Filtr podle e-shopu a roku“.
-- [ ] 11.2 Endpoint `GET /invoices/{id}/pdf`: podepsaný odkaz na 5 minut přes `IBlobStore`. Pro cizí doklad 404. Test izolace tenantů.
-- [ ] 11.3 `InvoiceZipWriter` a endpoint `GET /invoices/zip`:
+- [x] 11.2 Endpoint `GET /invoices/{id}/pdf`: podepsaný odkaz na 5 minut přes `IBlobStore`. Pro cizí doklad 404. Test izolace tenantů.
+- [x] 11.3 `InvoiceZipWriter` a endpoint `GET /invoices/zip`:
   - streamování bez načtení všeho do paměti;
   - strop 500 dokladů (nad ním `billing.zip_too_large`);
   - hlavička `X-EshopGuard-Skipped`.
 
   Test ZIPu se 6 PDF a 1 vynechaným.
-- [ ] 11.4 Oprávnění přes `.RequireTenantRole(TenantRole.Admin)` (změna 9): owner a admin ano, editor a viewer `403 auth.forbidden_role`, cizí tenant 404. Testy `BillingEndpointsAuthorizationTests` pro všechny endpointy skupin 5, 7 a 11.
+- [x] 11.4 Oprávnění přes `.RequireTenantRole(TenantRole.Admin)` (změna 9): owner a admin ano, editor a viewer `403 auth.forbidden_role`, cizí tenant 404. Testy `BillingEndpointsAuthorizationTests` pro všechny endpointy skupin 5, 7 a 11.
 
 ## 12. Ověření (celý tok v testovacím režimu)
 

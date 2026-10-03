@@ -63,6 +63,10 @@ public static class BillingServiceCollectionExtensions
 
         // The billing details of the tenant (screen 8b, task 9.4).
         services.TryAddScoped<BillingDetailsService>();
+
+        // The invoices, their PDF and ZIP (group 11).
+        services.TryAddScoped<InvoiceListService>();
+        services.TryAddScoped<InvoiceZipWriter>();
         return services;
     }
 

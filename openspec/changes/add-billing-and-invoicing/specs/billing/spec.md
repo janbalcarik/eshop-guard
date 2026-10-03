@@ -474,9 +474,10 @@ Systém MUST na `GET /api/t/{tenantId}/invoices` vracet doklady tenanta seřazen
 
 #### Scenario: Cizí tenant a nedostatečná role
 
-- GIVEN uživatel s rolí editor v tenantu A a doklad tenanta B
-- WHEN zavolá `GET /api/t/{A}/invoices` a `GET /api/t/{A}/invoices/{dokladB}/pdf`
-- THEN první volání vrátí 403 s kódem `auth.forbidden_role` (změna 9) a druhé 404
+- GIVEN uživatel s rolí editor v tenantu A, admin tenantu A a doklad tenanta B
+- WHEN editor zavolá `GET /api/t/{A}/invoices` a `GET /api/t/{A}/invoices/{dokladB}/pdf` a admin zavolá `GET /api/t/{A}/invoices/{dokladB}/pdf`
+- THEN obě volání editora vrátí 403 s kódem `auth.forbidden_role` (změna 9), protože role se kontroluje dřív než doklad
+- AND volání admina vrátí 404 s kódem `billing.invoice_not_found`
 - AND nevznikne žádný podepsaný odkaz
 
 ### Requirement: Testovací režim a ochrana platebních klíčů

@@ -149,6 +149,35 @@ public sealed record BillingDetailsDto(
     bool Complete,
     uint Version);
 
+/// <summary>
+/// The invoices of the tenant (design Billing, „Faktúry“; task 11.1): documents and scheduled payments, newest first, and the
+/// years that have any (for the filter).
+/// </summary>
+public sealed record InvoiceListDto(IReadOnlyList<InvoiceRowDto> Items, IReadOnlyList<int> Years);
+
+/// <summary>
+/// A row of the invoices. <c>Kind</c>: <c>invoice</c>, <c>credit_note</c>, <c>proforma</c> or <c>scheduled</c> (a payment of a running
+/// subscription, without <c>Id</c>, number and PDF). <c>Status</c>: <c>paid</c>, <c>refunded</c> (credit note), <c>issued</c> (pro forma)
+/// or <c>scheduled</c>. <c>Item</c>: <c>analysis</c> (the first payment with the first month of monitoring) or <c>monitoring</c>.
+/// <c>Date</c> and the period are local days; a paid document without <c>HasPdf</c> is still being issued. <c>AmountGross</c> of a
+/// scheduled payment is null while the VAT of the tenant is not determined.
+/// </summary>
+public sealed record InvoiceRowDto(
+    Guid? Id,
+    string Kind,
+    string Status,
+    Guid ShopId,
+    string ShopDomain,
+    string Item,
+    DateOnly Date,
+    DateOnly? PeriodFrom,
+    DateOnly? PeriodTo,
+    string? Number,
+    decimal? AmountNet,
+    decimal? AmountGross,
+    string Currency,
+    bool HasPdf);
+
 /// <summary>New billing details; the format of <c>Ico</c> is not checked (each country has its own), only that it is there.</summary>
 public sealed record BillingDetailsInput(
     string? LegalName,

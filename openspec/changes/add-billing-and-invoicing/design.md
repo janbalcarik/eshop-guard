@@ -631,3 +631,34 @@ Implementace se řídí tímto návrhem s odchylkami níže. Většina vychází
     uložené ve stavu `none` a odešle je až `PaymentTaxGate` při platbě.
   - Klíč idempotence tax id obsahuje verzi řádku tenanta, aby se IČ DPH vrácené na dřívější hodnotu odeslalo znovu.
   - Objednávka dál vyžaduje jen IČO (`billing.company_id_required`). Úplnost ostatních údajů ukazuje `complete`.
+
+### Skupina 11 (seznam faktur a ZIP)
+- `InvoiceListService` (`EshopGuard.Billing/Invoicing`) vrací doklady i naplánované platby jedním seznamem `InvoiceListDto`
+  (`Items`, `Years` pro výběr roku), seřazeným od nejnovějšího. Rok je místní (Europe/Bratislava), takže doklad
+  z 31. 12. 23:30 UTC patří do následujícího roku.
+- Stav řádku: dobropis `refunded`, proforma `issued`, jinak `paid`; naplánovaná platba `scheduled` bez čísla a bez PDF.
+  Vypisují se doklady všech stavů (`creating`, `needs_review`, `failed` také, platba proběhla a nic se neskrývá), PDF mají
+  jen vystavené (`issued` s klíčem `tenants/{tenantId}/invoices/{invoiceId}.pdf`).
+- Položka `analysis`, když platba dokladu patří k objednávce nebo řádek nese cenu analýzy (`orders.stripe_price_analysis`),
+  jinak `monitoring`. Dobropis přebírá položku původního dokladu.
+- Období dokladu se bere ze sloupců `period_from`/`period_to`. Dokud je nevyplní skupina 10, odvozuje se z řádků Stripe
+  (nejmenší začátek až největší konec minus den, místní datum).
+- Naplánovaná platba: další platba každého e-shopu z přehledu `GET /billing/overview` (končící nebo skončené sledování ji
+  nemá) s cenou bez DPH. Částka s DPH jen u režimů `domestic_vat` a `reverse_charge`, jinak zůstane prázdná (fail-closed,
+  nic se nedopočítává).
+- PDF: `GET /invoices/{invoiceId}/pdf` přesměruje na podepsaný odkaz `BlobLinks` na 5 minut, soubor
+  `EG_2026_0042.pdf` (číslo dokladu bez lomítek). Doklad bez PDF vrátí 409 `billing.invoice_pdf_missing`, cizí 404.
+- ZIP: `GET /invoices/zip` (ne `POST` s asynchronní úlohou). `InvoiceZipWriter` čte PDF jedno po druhém z `IBlobStore`
+  a posílá je rovnou do odpovědi. `ZipArchive` zapisuje synchronně i při zavření položky, což server na odpovědi nedovolí,
+  proto zapisuje do mezipaměti, která se po každé položce odešle asynchronně; v paměti je nejvýš jedno komprimované PDF.
+  Strop 500 počítá doklady s PDF; nad ním 422 `billing.zip_too_large`. `X-EshopGuard-Skipped` = doklady podle filtru, které
+  v ZIPu nejsou (bez PDF nebo s chybějícím souborem). Opakované číslo dostane příponu `-2`, `-3`… Soubor
+  `invoices-{rok}.zip`, s filtrem e-shopu `invoices-{doména}-{rok}.zip`.
+- Odchylka od scénáře „Cizí tenant a nedostatečná role“: editor dostane 403 i na PDF cizího dokladu, protože filtr role běží
+  před obsluhou endpointu. 404 dostane owner a admin tenantu A. Odkaz nevznikne ani v jednom případě. Scénář je upravený.
+- `BillingEndpointsAuthorizationTests` drží přesný výčet 15 endpointů změny 12 pod `/api/t/{tenantId}` (nový endpoint bez
+  záznamu test shodí) a ověřuje roli i 404 pro objekty tenanta B bez změny jeho řádků a bez volání Stripe.
+- Změna 13 (`add-web-app-frontend/design.md`, obrazovky 8 a 9b) počítá s jinými cestami a musí se sladit:
+  - stránkování `cursor` neexistuje, objem omezuje filtr roku;
+  - ZIP je `GET /invoices/zip` se streamem, ne `POST` s průběhem;
+  - zrušení je `POST /shops/{shopId}/subscription/cancel`, změna karty `POST /billing/card/portal-session`.

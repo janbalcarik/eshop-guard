@@ -326,7 +326,7 @@ public sealed class SubscriptionFlowTests : ShopTestBase
         Assert.DoesNotContain("cus_", text, StringComparison.Ordinal);
     }
 
-    private static async Task<Guid> OrderIdAsync(Ready ready)
+    internal static async Task<Guid> OrderIdAsync(Ready ready)
     {
         using var created = await OrderAsync(ready);
         Assert.Equal(HttpStatusCode.Created, created.StatusCode);
@@ -356,7 +356,7 @@ public sealed class SubscriptionFlowTests : ShopTestBase
         Assert.Single(overview.GetProperty("shops").EnumerateArray(), s => s.GetProperty("shopId").GetGuid() == shopId);
 
     /// <summary>The customer of the tenant in Stripe with its default card VISA •••• 4242 (08/28), as the webhook of the first payment leaves it.</summary>
-    private static async Task<(string Customer, string Card)> CardAsync(ApiFactory factory, Guid tenantId)
+    internal static async Task<(string Customer, string Card)> CardAsync(ApiFactory factory, Guid tenantId)
     {
         var customer = factory.Stripe.NewId("cus");
         var card = factory.Stripe.NewId("pm");
@@ -370,7 +370,7 @@ public sealed class SubscriptionFlowTests : ShopTestBase
     }
 
     /// <summary>An e-shop of the tenant with monitoring only (no sample, no order).</summary>
-    private static async Task<Guid> ShopRowAsync(Guid tenantId, string prefix, int products, string tier)
+    internal static async Task<Guid> ShopRowAsync(Guid tenantId, string prefix, int products, string tier)
     {
         var id = Guid.CreateVersion7();
         var domain = NewDomain(prefix);
@@ -383,7 +383,7 @@ public sealed class SubscriptionFlowTests : ShopTestBase
     }
 
     /// <summary>A subscription of the e-shop as the webhook stores it, and the same in the fake Stripe.</summary>
-    private static async Task<(Guid Id, string StripeId)> SubscribedAsync(
+    internal static async Task<(Guid Id, string StripeId)> SubscribedAsync(
         ApiFactory factory, Guid tenantId, Guid shopId, Guid priceListId, string tier, decimal unitPrice, string status, DateTimeOffset periodEnd,
         DateTimeOffset? trialEnd = null, int? ordinal = null, decimal? discount = null, Guid? orderId = null)
     {

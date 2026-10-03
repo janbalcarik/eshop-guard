@@ -124,6 +124,9 @@ public sealed class RoleMatrixTests : ApiTestBase
         ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/subscription/cancel"] = TenantRole.Admin,
         ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/subscription/resume"] = TenantRole.Admin,
         ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/subscription"] = TenantRole.Admin,
+        ["GET /api/t/{tenantId:guid}/invoices"] = TenantRole.Admin,
+        ["GET /api/t/{tenantId:guid}/invoices/zip"] = TenantRole.Admin,
+        ["GET /api/t/{tenantId:guid}/invoices/{invoiceId:guid}/pdf"] = TenantRole.Admin,
     };
 
     [Fact]
