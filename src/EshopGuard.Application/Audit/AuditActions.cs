@@ -21,6 +21,7 @@ public static class AuditActions
 
     public const string TenantCreated = "tenant.created";
     public const string TenantRenamed = "tenant.renamed";
+    public const string TenantBillingDetailsUpdated = "tenant.billing_details_updated";
 
     public const string MembershipRoleChanged = "membership.role_changed";
     public const string MembershipRemoved = "membership.removed";

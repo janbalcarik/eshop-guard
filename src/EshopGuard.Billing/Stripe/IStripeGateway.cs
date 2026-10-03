@@ -31,6 +31,9 @@ public interface IStripeGateway
     /// <summary>A tax id (<c>eu_vat</c>) from the data of the tenant, not from Checkout (AD 9).</summary>
     Task<StripeTaxIdState> CreateTaxIdAsync(string customerId, string type, string value, string idempotencyKey, CancellationToken ct);
 
+    /// <summary>Deletes a tax id the tenant no longer has; a DELETE of Stripe is idempotent by itself (no key), one already gone is no error.</summary>
+    Task DeleteTaxIdAsync(string customerId, string taxIdId, CancellationToken ct);
+
     // Checkout.
     Task<StripeCheckoutSession> CreateCheckoutSessionAsync(StripeCheckoutRequest request, string idempotencyKey, CancellationToken ct);
 

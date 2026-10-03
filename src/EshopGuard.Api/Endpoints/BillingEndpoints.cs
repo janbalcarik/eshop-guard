@@ -5,6 +5,7 @@ using EshopGuard.Application.Problems;
 using EshopGuard.Application.Tenants;
 using EshopGuard.Billing;
 using EshopGuard.Billing.Contracts;
+using EshopGuard.Billing.Customers;
 using EshopGuard.Billing.Orders;
 using EshopGuard.Billing.Subscriptions;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -58,6 +59,21 @@ public static class BillingEndpoints
         billing.MapGet("/billing/overview", async (BillingOverviewService overview, CancellationToken ct) => TypedResults.Ok(await overview.GetAsync(ct)))
             .RequireTenantRole(TenantRole.Admin)
             .AllowSuspendedTenant();
+
+        billing.MapGet("/billing/details", async (BillingDetailsService details, CancellationToken ct) => TypedResults.Ok(await details.GetAsync(ct)))
+            .RequireTenantRole(TenantRole.Admin)
+            .AllowSuspendedTenant();
+
+        billing.MapPut("/billing/details", async (UpdateBillingDetailsRequest? body, HttpContext context, BillingDetailsService details, CancellationToken ct) =>
+                TypedResults.Ok(await details.UpdateAsync(
+                    context.User.RequireUserId(),
+                    new BillingDetailsInput(body!.LegalName, body.Ico, body.Dic, body.IcDph, body.Street, body.PostalCode, body.City, body.CountryCode, body.BillingEmail),
+                    body.Version,
+                    ct)))
+            .RequireTenantRole(TenantRole.Admin)
+            .AllowSuspendedTenant()
+            .Validate<UpdateBillingDetailsRequest>()
+            .ProducesProblemCodes(BillingCodes.CountryLocked, ProblemCodes.ConcurrencyConflict, BillingCodes.Unavailable);
 
         billing.MapPost("/billing/card/portal-session", async (CardSessionService cards, CancellationToken ct) => TypedResults.Ok(await cards.PortalAsync(ct)))
             .RequireTenantRole(TenantRole.Admin)

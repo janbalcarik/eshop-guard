@@ -33,8 +33,11 @@ public sealed class StripeCustomers(EshopGuardDb db, IStripeGateway stripe, IOpt
 
         if (!string.IsNullOrWhiteSpace(tenant.IcDph) && tenant.TaxIdStatus == TaxIdStatus.None)
         {
-            var value = tenant.IcDph.Replace(" ", string.Empty, StringComparison.Ordinal).ToUpperInvariant();
-            var taxId = await stripe.CreateTaxIdAsync(customerId, "eu_vat", value, $"taxid:{tenantId:N}:{value}", ct).ConfigureAwait(false);
+            var value = Normalize(tenant.IcDph);
+
+            // The version of the row is in the key: a VAT id changed back to an earlier value (whose tax id was deleted) is sent again.
+            var taxId = await stripe.CreateTaxIdAsync(customerId, "eu_vat", value,
+                $"taxid:{tenantId:N}:{value}:{tenant.Version.ToString(CultureInfo.InvariantCulture)}", ct).ConfigureAwait(false);
             var status = taxId.VerificationStatus switch
             {
                 "verified" => TaxIdStatus.Verified,
@@ -46,6 +49,27 @@ public sealed class StripeCustomers(EshopGuardDb db, IStripeGateway stripe, IOpt
         }
 
         return customerId;
+    }
+
+    /// <summary>
+    /// Removes every tax id of the customer (the tenant changed or removed its VAT id; Stripe Tax would keep applying the old
+    /// one). A tax id already gone is no error, so a retry is safe.
+    /// </summary>
+    public async Task RemoveTaxIdsAsync(string customerId, CancellationToken ct)
+    {
+        ArgumentNullException.ThrowIfNull(customerId);
+        var customer = await stripe.GetCustomerAsync(customerId, ct).ConfigureAwait(false);
+        foreach (var taxId in customer.TaxIds)
+        {
+            await stripe.DeleteTaxIdAsync(customerId, taxId.Id, ct).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>A VAT id as Stripe and VIES take it: without spaces, in capitals.</summary>
+    public static string Normalize(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        return value.Replace(" ", string.Empty, StringComparison.Ordinal).ToUpperInvariant();
     }
 
     private StripeCustomerRequest Request(Tenant tenant) => new(

@@ -153,6 +153,15 @@ internal sealed class FakeStripeGateway : IStripeGateway
             return taxId;
         });
 
+    public Task DeleteTaxIdAsync(string customerId, string taxIdId, CancellationToken ct)
+    {
+        Calls.Enqueue((nameof(DeleteTaxIdAsync), null, taxIdId));
+        ThrowIfAsked();
+        var customer = Customers[customerId];
+        Customers[customerId] = customer with { TaxIds = [.. customer.TaxIds.Where(t => t.Id != taxIdId)] };
+        return Task.CompletedTask;
+    }
+
     public Task<StripeCheckoutSession> CreateCheckoutSessionAsync(StripeCheckoutRequest request, string idempotencyKey, CancellationToken ct) =>
         WriteAsync(nameof(CreateCheckoutSessionAsync), idempotencyKey, request.CustomerId, () =>
         {

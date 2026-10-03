@@ -379,6 +379,43 @@ U `pending_verification` a `undetermined` MUST platbu odmítnout s kódem. Při 
 - THEN doklad má stav `needs_review` s důvodem `tax_mismatch` a do SuperFaktúry nic neodejde
 - AND provoz dostane upozornění
 
+### Requirement: Fakturační údaje tenanta
+
+Vlastník nebo admin tenanta MUST mít možnost číst a měnit fakturační údaje odběratele (`GET`/`PUT /api/t/{t}/billing/details`, obrazovka 8b `design/ui/BillingDetails.dc.html`): obchodní název, IČO, DIČ, IČ DPH, adresu sídla, zemi sídla a e-mail pro faktury. Systém MUST vyžadovat obchodní název, IČO, ulici, PSČ, město, zemi a e-mail; formát IČO MUST NOT kontrolovat, protože se v každé zemi liší. Země MUST být kód ISO 3166. Změna MUST projít jen nad verzí, kterou klient přečetl. Po první platbě (měna účtu je pevná) MUST změnu země sídla odmítnout. Nové nebo odebrané IČ DPH MUST spustit nové ověření a MUST NOT nechat staré IČ DPH u zákazníka Stripe. Audit MUST obsahovat jen názvy změněných polí, ne jejich hodnoty.
+
+#### Scenario: Uložení údajů s IČO libovolného tvaru
+
+- GIVEN vlastník tenanta bez fakturačních údajů
+- WHEN uloží obchodní název, IČO „123“, adresu, zemi SK a e-mail pro faktury s verzí, kterou přečetl
+- THEN API vrátí 200 s údaji, `complete = true` a novou verzí
+- AND audit `tenant.billing_details_updated` obsahuje jen názvy změněných polí
+
+#### Scenario: Chybějící pole a neznámá země
+
+- GIVEN vlastník tenanta
+- WHEN pošle údaje bez IČO, adresy a verze a se zemí „XX“
+- THEN API vrátí 400 `validation.failed` s chybou u každého takového pole a nic se neuloží
+
+#### Scenario: Země sídla po první platbě
+
+- GIVEN tenant, který už zaplatil (má měnu účtu)
+- WHEN vlastník změní zemi sídla
+- THEN API vrátí 409 s kódem `billing.country_locked` a změnit ji může jen podpora
+- AND změna ostatních údajů se stejnou zemí projde
+
+#### Scenario: Souběžná změna
+
+- GIVEN dva prohlížeče se stejnou verzí údajů
+- WHEN druhý uloží změnu po prvním
+- THEN API vrátí 409 s kódem `concurrency.conflict` a uložené zůstanou údaje prvního
+
+#### Scenario: Nové IČ DPH
+
+- GIVEN tenant se zákazníkem Stripe a ověřeným IČ DPH CZ12345678
+- WHEN vlastník uloží IČ DPH CZ87654321
+- THEN staré IČ DPH se u zákazníka Stripe smaže ještě před uložením a nové se odešle k ověření ve VIES (stav `pending`)
+- AND když Stripe není dostupný, API vrátí 503 `billing.unavailable` a zůstane staré ověřené IČ DPH
+
 ### Requirement: Daňové doklady v SuperFaktúře
 
 Systém MUST za každou platbu s nenulovou částkou (analýza, každé zaplacené období sledování) vystavit právě jeden daňový doklad v SuperFaktúře se zapsanou platbou kartou a datem přijetí platby. Doklad MUST obsahovat:

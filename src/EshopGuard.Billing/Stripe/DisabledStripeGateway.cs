@@ -21,6 +21,8 @@ internal sealed class DisabledStripeGateway : IStripeGateway
 
     public Task<StripeTaxIdState> CreateTaxIdAsync(string customerId, string type, string value, string idempotencyKey, CancellationToken ct) => throw new BillingUnavailableException();
 
+    public Task DeleteTaxIdAsync(string customerId, string taxIdId, CancellationToken ct) => throw new BillingUnavailableException();
+
     public Task<StripeCheckoutSession> CreateCheckoutSessionAsync(StripeCheckoutRequest request, string idempotencyKey, CancellationToken ct) => throw new BillingUnavailableException();
 
     public Task<StripeCheckoutSession> GetCheckoutSessionAsync(string sessionId, CancellationToken ct) => throw new BillingUnavailableException();

@@ -2,6 +2,7 @@ using EshopGuard.Application.Options;
 using EshopGuard.Application.Shops;
 using EshopGuard.Application.Shops.Pricing;
 using EshopGuard.Application.Shops.Scope;
+using EshopGuard.Billing.Customers;
 using EshopGuard.Billing.Invoicing;
 using EshopGuard.Billing.Jobs;
 using EshopGuard.Billing.Orders;
@@ -59,6 +60,9 @@ public static class BillingServiceCollectionExtensions
         services.TryAddScoped<CardSessionService>();
         services.TryAddScoped<SubscriptionService>();
         services.TryAddScoped<BillingOverviewService>();
+
+        // The billing details of the tenant (screen 8b, task 9.4).
+        services.TryAddScoped<BillingDetailsService>();
         return services;
     }
 

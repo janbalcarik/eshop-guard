@@ -69,6 +69,14 @@ public sealed record CreateOrderRequest(Guid? QuoteId, string? ScopeHash, string
 }
 
 /// <summary>
+/// The billing details of the tenant (screen 8b); the fields are checked by <c>BillingDetailsService</c>, the change goes only
+/// over the <c>Version</c> the client has read.
+/// </summary>
+public sealed record UpdateBillingDetailsRequest(
+    string? LegalName, string? Ico, string? Dic, string? IcDph, string? Street, string? PostalCode, string? City, string? CountryCode,
+    string? BillingEmail, uint? Version);
+
+/// <summary>
 /// Monitoring started again: without <c>Confirm</c> the answer is <c>confirm_required</c> with the amount and the date; the
 /// subscription is created only with <c>Confirm = true</c> and the <c>Amount</c> shown to the customer.
 /// </summary>

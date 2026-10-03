@@ -126,3 +126,37 @@ public sealed record BillingPendingChangeDto(IReadOnlyList<string> Kinds, DateTi
 
 /// <summary>The card of the account („•••• 1881 · pre všetky e-shopy v účte“).</summary>
 public sealed record BillingCardDto(string? Brand, string? Last4, int? ExpMonth, int? ExpYear);
+
+/// <summary>
+/// The billing details of the tenant (design BillingDetails, 8b): the buyer on the invoices. <c>TaxIdStatus</c> is the verification
+/// of the VAT id in VIES (<c>none</c>, <c>pending</c>, <c>verified</c>, <c>unverified</c>); <c>CountryLocked</c>: the country of the
+/// seat no longer changes (after the first payment); <c>Complete</c>: everything an invoice needs is filled in. <c>Version</c> goes back
+/// with the change.
+/// </summary>
+public sealed record BillingDetailsDto(
+    string? LegalName,
+    string? Ico,
+    string? Dic,
+    string? IcDph,
+    string? Street,
+    string? PostalCode,
+    string? City,
+    string CountryCode,
+    string? BillingEmail,
+    string TaxIdStatus,
+    DateTimeOffset? TaxIdVerifiedAt,
+    bool CountryLocked,
+    bool Complete,
+    uint Version);
+
+/// <summary>New billing details; the format of <c>Ico</c> is not checked (each country has its own), only that it is there.</summary>
+public sealed record BillingDetailsInput(
+    string? LegalName,
+    string? Ico,
+    string? Dic,
+    string? IcDph,
+    string? Street,
+    string? PostalCode,
+    string? City,
+    string? CountryCode,
+    string? BillingEmail);

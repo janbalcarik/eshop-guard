@@ -25,6 +25,9 @@ public static class BillingCodes
     public const string TaxIdPending = "billing.tax_id_pending";
     public const string TaxTreatmentUndetermined = "billing.tax_treatment_undetermined";
     public const string CompanyIdRequired = "billing.company_id_required";
+
+    /// <summary>The country of the seat is fixed after the first payment (the currency of the account is fixed); only the support changes it (409).</summary>
+    public const string CountryLocked = "billing.country_locked";
     public const string SubscriptionNotFound = "billing.subscription_not_found";
     public const string SubscriptionNotCancelable = "billing.subscription_not_cancelable";
     public const string SubscriptionNotResumable = "billing.subscription_not_resumable";

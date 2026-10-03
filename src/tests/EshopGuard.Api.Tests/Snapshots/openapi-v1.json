@@ -231,6 +231,102 @@
         ],
         "type": "object"
       },
+      "BillingDetailsDto": {
+        "properties": {
+          "billingEmail": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "city": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "complete": {
+            "type": "boolean"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "countryLocked": {
+            "type": "boolean"
+          },
+          "dic": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "icDph": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "ico": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "legalName": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "postalCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "street": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "taxIdStatus": {
+            "type": "string"
+          },
+          "taxIdVerifiedAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "version": {
+            "format": "uint32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "legalName",
+          "ico",
+          "dic",
+          "icDph",
+          "street",
+          "postalCode",
+          "city",
+          "countryCode",
+          "billingEmail",
+          "taxIdStatus",
+          "taxIdVerifiedAt",
+          "countryLocked",
+          "complete",
+          "version"
+        ],
+        "type": "object"
+      },
       "BillingOverviewDto": {
         "properties": {
           "card": {
@@ -7079,6 +7175,86 @@
         ],
         "type": "object"
       },
+      "UpdateBillingDetailsRequest": {
+        "properties": {
+          "billingEmail": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "city": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "countryCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "dic": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "icDph": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "ico": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "legalName": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "postalCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "street": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "version": {
+            "format": "uint32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "legalName",
+          "ico",
+          "dic",
+          "icDph",
+          "street",
+          "postalCode",
+          "city",
+          "countryCode",
+          "billingEmail",
+          "version"
+        ],
+        "type": "object"
+      },
       "UpdateEvidenceRequest": {
         "properties": {
           "claimText": {
@@ -8886,6 +9062,84 @@
           "request.invalid",
           "tenant.not_found",
           "tenant.suspended"
+        ]
+      }
+    },
+    "/api/t/{tenantId}/billing/details": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BillingDetailsDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "billing"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended"
+        ]
+      },
+      "put": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/UpdateBillingDetailsRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BillingDetailsDto"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "billing"
+        ],
+        "x-problem-codes": [
+          "auth.forbidden_role",
+          "auth.unauthenticated",
+          "billing.country_locked",
+          "billing.unavailable",
+          "concurrency.conflict",
+          "csrf.invalid",
+          "internal_error",
+          "rate_limited",
+          "request.https_required",
+          "request.invalid",
+          "tenant.not_found",
+          "tenant.suspended",
+          "validation.failed"
         ]
       }
     },

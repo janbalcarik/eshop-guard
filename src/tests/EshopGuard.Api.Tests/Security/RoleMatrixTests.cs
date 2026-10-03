@@ -117,6 +117,8 @@ public sealed class RoleMatrixTests : ApiTestBase
         ["POST /api/t/{tenantId:guid}/orders/{orderId:guid}/checkout"] = TenantRole.Admin,
         ["POST /api/t/{tenantId:guid}/orders/{orderId:guid}/pay-with-saved-card"] = TenantRole.Admin,
         ["GET /api/t/{tenantId:guid}/billing/overview"] = TenantRole.Admin,
+        ["GET /api/t/{tenantId:guid}/billing/details"] = TenantRole.Admin,
+        ["PUT /api/t/{tenantId:guid}/billing/details"] = TenantRole.Admin,
         ["POST /api/t/{tenantId:guid}/billing/card/portal-session"] = TenantRole.Admin,
         ["POST /api/t/{tenantId:guid}/billing/card/setup-intent"] = TenantRole.Admin,
         ["POST /api/t/{tenantId:guid}/shops/{shopId:guid}/subscription/cancel"] = TenantRole.Admin,

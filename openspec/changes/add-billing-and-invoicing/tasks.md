@@ -263,6 +263,10 @@
 - [x] 9.3 Kontrola souladu daně při vystavení dokladu (`total_tax_amounts`, přenesení daňové povinnosti) proti `orders.tax_treatment` → `needs_review` s důvodem `tax_mismatch` a upozornění provozu. Test podle scénáře „Nesoulad daně ve Stripe“.
   - `InvoiceTaxCheck` (čistá kontrola) a `InvoiceIssuer` v úloze `billing.issue_invoice`; shodný doklad zůstane `creating` pro SuperFaktúru (skupina 10);
   - testy `InvoiceTaxCheckTests` a `InvoiceIssuerTests` (`TaxMismatchInStripe_StopsTheInvoiceForReview_WithOneAlertOfOperations` a další).
+- [x] 9.4 Fakturační údaje tenanta (obrazovka 8b `design/ui/BillingDetails.dc.html`): `GET`/`PUT /api/t/{t}/billing/details` pro vlastníka a admina, požadavek „Fakturační údaje tenanta“.
+  - `BillingDetailsService`: povinná pole bez kontroly formátu IČO, země ISO 3166, změna nad verzí (`concurrency.conflict`), země pevná po první platbě (`billing.country_locked`), audit `tenant.billing_details_updated` jen s názvy polí;
+  - nové nebo odebrané IČ DPH: stav `none`, stará tax id zákazníka Stripe se smažou před uložením (`IStripeGateway.DeleteTaxIdAsync`, při nedostupnosti 503 a nic se neuloží), po uložení `StripeCustomers.EnsureAsync` odešle nové IČ DPH k ověření (nepovinně, jinak ho odešle platba);
+  - testy `BillingDetailsTests` a řádky v `RoleMatrixTests`.
 
 ## 10. Doklady v SuperFaktúře
 

@@ -616,11 +616,18 @@ Implementace se řídí tímto návrhem s odchylkami níže. Většina vychází
   - shodný doklad zůstane `creating` pro SuperFaktúru (skupina 10), období dokladu se doplní tam;
   - nezaplacená faktura (0) se přeskočí;
   - faktura bez známého e-shopu selže s upozorněním `billing.alert.invoice_shop_unknown`.
-- Chybí úprava fakturačních údajů tenanta (IČO, IČ DPH, adresa): změna 9 ji odložila do změny 12, úkoly změny 12 ji ale
-  neobsahují a v `design/ui/` pro ni není obrazovka. Zatím se údaje mění jen přímo v databázi.
-
-  Návrh obrazovky `design/ui/BillingDetails.dc.html` (8b, 3. 10. 2026) čeká na schválení. Rozhodnutí uživatele 3. 10. 2026:
+- Úprava fakturačních údajů tenanta (IČO, IČ DPH, adresa; změna 9 ji odložila do změny 12) je úkol 9.4. Obrazovka
+  `design/ui/BillingDetails.dc.html` (8b) je schválená 3. 10. 2026. Rozhodnutí uživatele 3. 10. 2026:
   - samostatná stránka v Nastavenia;
   - zemi sídla po první platbě nejde změnit (měna účtu je pevná), jen přes podporu;
   - předvyplnění z registrů podle IČO později, samostatnou změnou;
   - formát IČO se nekontroluje (v každé zemi je jiný), jen to, že je vyplněné.
+
+  Endpoint `GET`/`PUT /api/t/{t}/billing/details` (`BillingDetailsService`):
+  - Stripe Tax (`automatic_tax`) počítá daň i podle tax id zákazníka. Při novém nebo odebraném IČ DPH se proto stará tax id
+    smažou ještě před uložením, pod zámkem řádku tenanta. Když Stripe není dostupný, vrátí se 503 a nic se neuloží, takže
+    u zákazníka nezůstane staré IČ DPH.
+  - Po uložení se zákazník Stripe aktualizuje a nové IČ DPH se odešle k ověření jen nepovinně. Když to selže, údaje zůstanou
+    uložené ve stavu `none` a odešle je až `PaymentTaxGate` při platbě.
+  - Klíč idempotence tax id obsahuje verzi řádku tenanta, aby se IČ DPH vrácené na dřívější hodnotu odeslalo znovu.
+  - Objednávka dál vyžaduje jen IČO (`billing.company_id_required`). Úplnost ostatních údajů ukazuje `complete`.

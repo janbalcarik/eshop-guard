@@ -96,6 +96,19 @@ internal sealed class StripeGateway : IStripeGateway, IDisposable
         CallAsync(async () => TaxId(await client.V1.Customers.TaxIds.CreateAsync(
             customerId, new S.CustomerTaxIdCreateOptions { Type = type, Value = value }, Key(idempotencyKey), ct).ConfigureAwait(false)));
 
+    public Task DeleteTaxIdAsync(string customerId, string taxIdId, CancellationToken ct) =>
+        CallAsync(async () =>
+        {
+            try
+            {
+                await client.V1.Customers.TaxIds.DeleteAsync(customerId, taxIdId, null, null, ct).ConfigureAwait(false);
+            }
+            catch (S.StripeException e) when (e.HttpStatusCode == HttpStatusCode.NotFound)
+            {
+                // Deleted already (the request was repeated).
+            }
+        });
+
     public Task<StripeCheckoutSession> CreateCheckoutSessionAsync(StripeCheckoutRequest request, string idempotencyKey, CancellationToken ct) =>
         CallAsync(async () => Session(await client.V1.Checkout.Sessions.CreateAsync(
             new S.Checkout.SessionCreateOptions

@@ -15,10 +15,13 @@ public sealed class StripeGatewayTests
         foreach (var method in methods)
         {
             var isRead = method.Name.StartsWith("Get", StringComparison.Ordinal) || method.Name.StartsWith("List", StringComparison.Ordinal);
+
+            // DELETE of Stripe is idempotent by definition and takes no idempotency key.
+            var isDelete = method.Name.StartsWith("Delete", StringComparison.Ordinal);
             var key = method.GetParameters().SingleOrDefault(p => p.Name == "idempotencyKey");
-            if (isRead)
+            if (isRead || isDelete)
             {
-                Assert.True(key is null, $"{method.Name} reads, so it has no idempotency key");
+                Assert.True(key is null, $"{method.Name} reads or deletes, so it has no idempotency key");
             }
             else
             {
