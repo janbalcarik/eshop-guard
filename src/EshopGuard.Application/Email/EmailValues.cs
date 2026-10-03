@@ -5,12 +5,13 @@ namespace EshopGuard.Application.Email;
 
 /// <summary>
 /// Values of a notification as the recipient reads them (change 12): amounts (<c>amount</c>, <c>oldAmount</c>, <c>newAmount</c>
-/// with <c>currency</c>) as <c>59 €</c> / <c>1 490 Kč</c>, dates (<c>date</c>, ISO <c>yyyy-MM-dd</c>) as <c>1. 12. 2026</c>.
+/// with <c>currency</c>) as <c>59 €</c> / <c>1 490 Kč</c>, dates (<c>date</c>, <c>lockedUntil</c>, ISO <c>yyyy-MM-dd</c>) as <c>1. 12. 2026</c>.
 /// The notification itself carries codes and numbers only.
 /// </summary>
 internal static class EmailValues
 {
     private static readonly string[] Amounts = ["amount", "oldAmount", "newAmount"];
+    private static readonly string[] Dates = ["date", "lockedUntil"];
 
     public static void Format(Dictionary<string, object?> values, JsonObject parameters, string locale)
     {
@@ -23,10 +24,12 @@ internal static class EmailValues
             }
         }
 
-        if (values.TryGetValue("date", out var date) && DateOnly.TryParseExact(Convert.ToString(date, CultureInfo.InvariantCulture), "yyyy-MM-dd", CultureInfo.InvariantCulture,
-                DateTimeStyles.None, out var day))
+        foreach (var name in Dates.Where(values.ContainsKey))
         {
-            values["date"] = string.Create(CultureInfo.InvariantCulture, $"{day.Day}. {day.Month}. {day.Year}");
+            if (DateOnly.TryParseExact(Convert.ToString(values[name], CultureInfo.InvariantCulture), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var day))
+            {
+                values[name] = string.Create(CultureInfo.InvariantCulture, $"{day.Day}. {day.Month}. {day.Year}");
+            }
         }
     }
 

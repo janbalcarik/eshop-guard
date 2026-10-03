@@ -184,7 +184,7 @@ internal sealed class StripeGateway : IStripeGateway, IDisposable
             {
                 EndBehavior = "release",
                 ProrationBehavior = "none",
-                Phases = phases.Select(Phase).ToList(),
+                Phases = phases.Select((phase, index) => Phase(phase, index == 0)).ToList(),
             }, Key(idempotencyKey), ct).ConfigureAwait(false)));
 
     public Task ReleaseScheduleAsync(string scheduleId, string idempotencyKey, CancellationToken ct) =>
@@ -372,18 +372,28 @@ internal sealed class StripeGateway : IStripeGateway, IDisposable
             subscription.Metadata ?? []);
     }
 
-    private static S.SubscriptionSchedulePhaseOptions Phase(StripeSchedulePhase phase)
+    /// <summary>A phase of the update: only the first one has its start (Stripe starts each next phase at the end of the previous one).</summary>
+    private static S.SubscriptionSchedulePhaseOptions Phase(StripeSchedulePhase phase, bool first)
     {
         var options = new S.SubscriptionSchedulePhaseOptions
         {
             Items = [new S.SubscriptionSchedulePhaseItemOptions { Price = phase.PriceId, Quantity = 1 }],
             Discounts = phase.CouponId is { } coupon ? [new S.SubscriptionSchedulePhaseDiscountOptions { Coupon = coupon }] : [],
             ProrationBehavior = "none",
-            StartDate = phase.StartDate.UtcDateTime,
         };
+        if (first)
+        {
+            options.StartDate = phase.StartDate.UtcDateTime;
+        }
+
         if (phase.EndDate is { } end)
         {
             options.EndDate = end.UtcDateTime;
+        }
+
+        if (phase.TrialEnd is { } trialEnd)
+        {
+            options.TrialEnd = trialEnd.UtcDateTime;
         }
 
         return options;
@@ -397,7 +407,8 @@ internal sealed class StripeGateway : IStripeGateway, IDisposable
             Utc(p.StartDate),
             p.EndDate == default ? null : Utc(p.EndDate),
             p.Items?.FirstOrDefault()?.PriceId ?? string.Empty,
-            p.Discounts?.FirstOrDefault()?.CouponId)).ToList() ?? []);
+            p.Discounts?.FirstOrDefault()?.CouponId,
+            p.TrialEnd is { } trialEnd ? Utc(trialEnd) : null)).ToList() ?? []);
 
     private static async Task<T> CallAsync<T>(Func<Task<T>> call)
     {

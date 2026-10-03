@@ -100,6 +100,14 @@ internal sealed class FinalizeHandler(RunHandlerContext context) : RunJobHandler
             };
             await RunEventWriter.WriteAsync(connection, transaction, run.TenantId, run.Id, status == RunStatus.Failed ? "error" : "info", code, data, ct).ConfigureAwait(false);
             await UpdateShopAsync(connection, transaction, locked, report, ct).ConfigureAwait(false);
+            if (locked.Kind == RunKind.FullAnalysis && report.PagesChecked > 0)
+            {
+                foreach (var observer in Ctx.ProductCountObservers)
+                {
+                    await observer.ChangedAsync(transaction, locked.TenantId, locked.ShopId, locked.Id, ct).ConfigureAwait(false);
+                }
+            }
+
             await NotifyAsync(transaction, Ctx.Notifications, locked, code, ct).ConfigureAwait(false);
         }, ct).ConfigureAwait(false);
         Logger.LogInformation("run.finished {RunId} {TenantId} {JobId} {Status} {PagesChecked}", run.Id, run.TenantId, job.Job.Id, status, report.PagesChecked);

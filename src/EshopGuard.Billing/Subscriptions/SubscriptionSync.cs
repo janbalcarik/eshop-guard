@@ -6,7 +6,9 @@ using Npgsql;
 namespace EshopGuard.Billing.Subscriptions;
 
 /// <summary>The subscription of an e-shop after a synchronization: its id, the e-shop, the state before and now.</summary>
-public sealed record SyncedSubscription(Guid Id, Guid ShopId, string? PreviousStatus, string Status, string? PreviousPriceId, string? PriceId, bool Created);
+public sealed record SyncedSubscription(
+    Guid Id, Guid ShopId, string? PreviousStatus, string Status, string? PreviousPriceId, string? PriceId, bool Created,
+    string? PreviousCouponId = null, string? CouponId = null);
 
 /// <summary>
 /// Writes the state of a subscription of Stripe into <c>billing.subscriptions</c> (task 7.1): the state, the period, the trial,
@@ -38,8 +40,8 @@ public sealed class SubscriptionSync(TimeProvider time, ILogger<SubscriptionSync
         var now = time.GetUtcNow();
         var status = Status(state.Status);
         var existing = await BillingSql.ListAsync(transaction,
-            "SELECT id, shop_id, status, stripe_price_id FROM billing.subscriptions WHERE stripe_subscription_id = $1 FOR UPDATE",
-            r => (Id: r.GetGuid(0), ShopId: r.GetGuid(1), Status: r.GetString(2), PriceId: r.Get<string>(3)), ct, state.Id).ConfigureAwait(false);
+            "SELECT id, shop_id, status, stripe_price_id, stripe_coupon_id FROM billing.subscriptions WHERE stripe_subscription_id = $1 FOR UPDATE",
+            r => (Id: r.GetGuid(0), ShopId: r.GetGuid(1), Status: r.GetString(2), PriceId: r.Get<string>(3), CouponId: r.Get<string>(4)), ct, state.Id).ConfigureAwait(false);
         (Guid ListId, string Tier, decimal? Unit, string Interval)? price = state.PriceId is null ? null : (await BillingSql.ListAsync(transaction,
             """
             SELECT t.price_list_id, t.code, CASE WHEN t.stripe_price_yearly = $1 THEN t.monitoring_yearly ELSE t.monitoring_monthly END,
@@ -56,12 +58,14 @@ public sealed class SubscriptionSync(TimeProvider time, ILogger<SubscriptionSync
                 """
                 UPDATE billing.subscriptions SET status = $2, trial_end = $3, current_period_start = $4, current_period_end = $5, cancel_at_period_end = $6,
                     canceled_at = $7, stripe_price_id = $8, stripe_coupon_id = $9, stripe_schedule_id = $10,
+                    schedule_hash = CASE WHEN $10 IS NULL THEN NULL ELSE schedule_hash END,
                     price_list_id = coalesce($11, price_list_id), tier_code = coalesce($12, tier_code), unit_price = coalesce($13, unit_price),
                     interval = coalesce($14, interval), discount_percent = $15, updated_at = $16
                 WHERE id = $1
                 """, ct, row.Id, status, state.TrialEnd, state.CurrentPeriodStart, state.CurrentPeriodEnd, state.CancelAtPeriodEnd, state.CanceledAt ?? state.EndedAt,
-                state.PriceId, state.CouponId, state.ScheduleId, price?.ListId, price?.Tier, price?.Unit, price?.Interval, discount, now).ConfigureAwait(false);
-            return new SyncedSubscription(row.Id, row.ShopId, row.Status, status, row.PriceId, state.PriceId, false);
+                BillingSql.Text(state.PriceId), BillingSql.Text(state.CouponId), BillingSql.Text(state.ScheduleId), price?.ListId, price?.Tier, price?.Unit, price?.Interval,
+                discount, now).ConfigureAwait(false);
+            return new SyncedSubscription(row.Id, row.ShopId, row.Status, status, row.PriceId, state.PriceId, false, row.CouponId, state.CouponId);
         }
 
         if ((shopId ?? ShopOf(state)) is not { } shop || price is null)
@@ -84,7 +88,7 @@ public sealed class SubscriptionSync(TimeProvider time, ILogger<SubscriptionSync
             state.ScheduleId, (int)ordinal, now).ConfigureAwait(false);
         await BillingSql.AuditAsync(transaction, tenantId, null, BillingSql.System, "subscription.created", "subscription", id.ToString("D"),
             new JsonObject { ["shop_id"] = shop.ToString("D"), ["tier"] = price.Value.Tier, ["status"] = status }, now, ct).ConfigureAwait(false);
-        return new SyncedSubscription(id, shop, null, status, null, state.PriceId, true);
+        return new SyncedSubscription(id, shop, null, status, null, state.PriceId, true, null, state.CouponId);
     }
 
     public static Guid? ShopOf(StripeSubscriptionState state) => Meta(state.Metadata, "shop_id");

@@ -206,7 +206,8 @@ internal sealed class FakeStripeGateway : IStripeGateway
             var subscription = Subscriptions[subscriptionId];
             var id = NewId("sub_sched");
             var schedule = new StripeScheduleState(id, "active", subscriptionId,
-                [new StripeSchedulePhase(subscription.CurrentPeriodStart ?? Now, subscription.CurrentPeriodEnd, subscription.PriceId ?? string.Empty, subscription.CouponId)]);
+                [new StripeSchedulePhase(subscription.CurrentPeriodStart ?? Now, subscription.CurrentPeriodEnd, subscription.PriceId ?? string.Empty, subscription.CouponId,
+                    subscription.Status == "trialing" ? subscription.TrialEnd : null)]);
             Schedules[id] = schedule;
             Subscriptions[subscriptionId] = subscription with { ScheduleId = id };
             return schedule;

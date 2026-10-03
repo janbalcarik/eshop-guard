@@ -408,12 +408,12 @@ Stripe ─► customer.updated / payment_method.attached ─► AccountCardServi
 | `billing.sync_price_list` | io | `price-sync:{priceListId}:{publishRequestId}` | zveřejnění (nový pokus po chybě = nový požadavek) |
 | `billing.activate_price_list` | system | `price-activate:{priceListId}` | `valid_from` |
 | `billing.schedule_price_list_transfer` | system | `price-transfer:{priceListId}` | po aktivaci |
-| `billing.compose_schedule` | io | `schedule:{subscriptionId}:{otisk fází}` | po každé změně `subscription_changes` |
+| `billing.compose_schedule` | io | `schedule:{subscriptionId}:v{verze}:{otisk fází}`, po obnovení `schedule:{subscriptionId}:resume:{čas}` | po každé změně `subscription_changes` a po obnovení sledování |
 | `billing.process_stripe_event` | io | `stripe:{eventId}` | webhook |
 | `billing.issue_invoice` | io | `invoice:{stripeInvoiceId}` | `invoice.paid` |
 | `billing.issue_credit_note` | io | `credit:{stripeRefundId}` | `charge.refunded` |
 | `billing.check_einvoice_status` | io | `einvoice-check:{datum}T{hodina}` (jedna úloha pro všechny nedoručené) | každé 2 h |
-| `billing.evaluate_tiers` | system | `tiers:{datum}` a `tiers:{shopId}:{datum}T{hodina}` | denně 3:30 a po změně `product_count` |
+| `billing.evaluate_tiers` | system | `tiers:{tenantId}:{místní den}` a `tiers:{shopId}:{runId}` | denně po 3:30 místního času (úloha na tenanta) a po plné analýze, která spočítala produkty |
 | `billing.trial_reminder` | system | `trial-reminder:{tenantId}:{datum}` | každou hodinu, na tenanta jednou denně; posílá pro `trial_end − 7 dní` |
 | `billing.expire_order` | io | `expire-order:{orderId}:{pokus}:{settle\|expire}` | 1 min po platbě kartou účtu a v `checkout_expires_at` |
 | `billing.reconcile_stripe` | io | `stripe-reconcile:{datum}` | denně 4:00 |
@@ -532,3 +532,37 @@ Implementace se řídí tímto návrhem s odchylkami níže. Většina vychází
   `subscription_changes` ve stavu `scheduled` nebo `notified` druhu `tier`, `price_list` nebo `discount`.
 - Známé souběhy: webhook a úloha `billing.expire_order` mohou objednávku vyřizovat současně; zaplacení je idempotentní a běh se
   spustí jednou. Kliknutí na přelomu minuty založí dvě session portálu, platí ta poslední.
+
+### Skupina 8 (změny pásma, slevy a ceníku)
+- Počet produktů pro pásmo (`CountedProductsReader`): po plné analýze analyzované produkty × počet trhů verze (když mají všechny
+  kontrolované verze stejný počet trhů), jinak `ShopScope.PriceCount`. Částečná analýza dává dolní mez a smí naplánovat jen
+  vyšší pásmo. Bez počtu se nic neplánuje. Pásmo `custom` (nad 20 000) nic nemění a při každé kontrole vyvolá upozornění provozu
+  `billing.alert.tier_custom` (individuální nabídka).
+- `billing.evaluate_tiers` běží po tenantech (RLS): plánovač každou hodinu založí úlohu tenanta po 3:30 místního času s klíčem
+  dne. Po plné analýze založí úlohu e-shopu `IProductCountObserver` v `Jobs` (`Jobs` na `Billing` neodkazuje). Úloha kromě pásma
+  přeplánuje i ceník a slevu, takže dorovná ztracené změny. Předplatná zrušená ke konci období přeskočí.
+- Plánování: cíl rovný aktuální ceně zruší čekající změnu stejného druhu (`not_needed`, oznámenou s e-mailem
+  `price_change_canceled`), jiný cíl ji nahradí, stejný cíl ji ponechá i s datem. Nahrazení, které nezmění částku, pošle e-mail
+  o zrušení původní změny.
+- Zdražení platí od prvního začátku období ≥ max(`valid_from`, nyní + `notice_days`, `published_at` + `notice_days`,
+  `founder_until` v budoucnu). Člen „nyní + lhůta“ chrání zákazníka při pozdním převodu. Upozornění má vždy `lockedUntil`
+  (bez zakladatelské ceny prázdné). Zlevnění platí od prvního začátku období ≥ `valid_from`. Známé omezení: změna ceníku se
+  stejnou cenou (`price_unchanged`), kterou pozdější vyšší pásmo zdraží, lhůtu znovu nepočítá.
+- Změna `price_list` odvodí kupón z pořadí e-shopu podle slev nového ceníku. Konec předplatného
+  (`customer.subscription.deleted`) zruší jeho čekající změny (`subscription_ended`, bez e-mailu, konec má vlastní), běžící
+  předplatná tenanta se přečíslují podle `created_at` a každé si naplánuje slevu.
+- Upozornění a e-mail uvádějí měsíční cenu (roční interval zatím není).
+- Převod ceníku (`billing.schedule_price_list_transfer`) prochází tenanty po dávkách 200, každý tenant ve vlastní transakci
+  (RLS), ne po 200 předplatných. Opakovaný převod změny nezdvojí.
+- Skládání plánu: klíč úlohy `schedule:{sub}:v{verze}:{otisk}`; verze roste s každou naplánovanou, zrušenou i použitou změnou,
+  takže nový stav plánu dostane vlastní úlohu i se stejným otiskem. Otisk nezahrnuje začátek aktuální fáze, `start_date` má jen
+  první fáze. Změna, jejíž datum nastalo, čeká na událost Stripe (`billing.schedule_change_pending`, nový pokus za 15 min),
+  stejně jako předplatné s jinou cenou ve Stripe než v databázi (`billing.subscription_stale`). Změna, kterou Stripe do 1 dne
+  po datu nepoužil, se zruší (`missed`) s upozorněním `billing.alert.change_missed`; bez dalších změn se plán uvolní.
+- Promítnutí (8.6): `customer.subscription.updated` s jinou Price nebo kupónem použije nejnovější čekající změnu splatnou do
+  1 dne, jejíž cíl odpovídá, spolu se všemi před ní. Zbytek plánu se znovu složí. Přepnutí, které žádná změna nevysvětluje,
+  jen zapíše synchronizace.
+- Zrušení sledování uvolní plán ve Stripe (`stripe_schedule_id` a otisk se vymažou), obnovení založí složení plánu a kontrolu
+  pásma.
+- Test 8.6 s testovacími hodinami Stripe je úkol 8.7 a čeká se skupinou 0. Testy skupiny 8 jsou v `SubscriptionChangeTests`
+  (`EshopGuard.Billing.Tests`) nad falešnou bránou Stripe.

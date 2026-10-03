@@ -1,4 +1,6 @@
+using System.Collections.Concurrent;
 using EshopGuard.Billing.Stripe;
+using EshopGuard.Billing.Subscriptions;
 using EshopGuard.Data;
 using EshopGuard.Data.Connections;
 using EshopGuard.Jobs;
@@ -26,15 +28,19 @@ internal sealed class BillingTestHost : IAsyncDisposable
 
     private readonly ServiceProvider provider;
 
-    private BillingTestHost(ServiceProvider provider, FakeStripeGateway stripe, FakeTimeProvider time, InMemoryLoggerProvider logs)
+    private BillingTestHost(ServiceProvider provider, FakeStripeGateway stripe, FakeTimeProvider time, InMemoryLoggerProvider logs, FakeCountedProducts products)
     {
         this.provider = provider;
         Stripe = stripe;
         Time = time;
         Logs = logs;
+        Products = products;
     }
 
     public FakeStripeGateway Stripe { get; }
+
+    /// <summary>The counted products of the e-shops (the scope and the analyses are not part of these tests).</summary>
+    public FakeCountedProducts Products { get; }
 
     public FakeTimeProvider Time { get; }
 
@@ -81,8 +87,10 @@ internal sealed class BillingTestHost : IAsyncDisposable
         services.AddBillingJobs();
         services.Replace(ServiceDescriptor.Singleton<IStripeGateway>(stripe));
         services.Replace(ServiceDescriptor.Singleton<TimeProvider>(time));
+        var products = new FakeCountedProducts();
+        services.Replace(ServiceDescriptor.Singleton<ICountedProductsReader>(products));
         configure?.Invoke(services);
-        return new BillingTestHost(services.BuildServiceProvider(), stripe, time, logs);
+        return new BillingTestHost(services.BuildServiceProvider(), stripe, time, logs, products);
     }
 
     /// <summary>A service of a new scope (as a job of the worker gets it).</summary>
@@ -144,6 +152,16 @@ internal sealed class BillingTestHost : IAsyncDisposable
         }
 
         return command;
+    }
+
+    internal sealed class FakeCountedProducts : ICountedProductsReader
+    {
+        private readonly ConcurrentDictionary<Guid, CountedProducts> counts = new();
+
+        public void Set(Guid shopId, int count, bool lowerBound = false) => counts[shopId] = new CountedProducts(count, lowerBound);
+
+        public Task<CountedProducts?> ReadAsync(Guid shopId, CancellationToken ct) =>
+            Task.FromResult(counts.TryGetValue(shopId, out var count) ? count : null);
     }
 
     private sealed class TestEnvironment : IHostEnvironment

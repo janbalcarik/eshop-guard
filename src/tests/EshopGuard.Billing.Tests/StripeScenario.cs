@@ -26,7 +26,7 @@ internal static class StripeScenario
         var now = host.Time.GetUtcNow();
         var market = await BillingData.MarketAsync();
         var list = await BillingData.PriceListAsync(market, "published");
-        var key = list.ToString("N")[..8];
+        var key = BillingData.Key(list);
         var tenant = await BillingData.TenantAsync(market);
         var customer = host.Stripe.NewId("cus");
         host.Stripe.Customers[customer] = new StripeCustomerState(customer, null, [], false, new Dictionary<string, string>());

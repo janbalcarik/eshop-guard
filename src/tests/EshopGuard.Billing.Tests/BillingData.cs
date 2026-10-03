@@ -29,6 +29,12 @@ internal static class BillingData
         return code;
     }
 
+    /// <summary>
+    /// The part of the fake ids of Stripe of a price list (<c>price_{key}_{tier}_monthly</c>, <c>coupon_{key}_{from}</c>): the random end of
+    /// the id, because the start of a version 7 id is its time and two lists of one test would share it.
+    /// </summary>
+    public static string Key(Guid priceListId) => priceListId.ToString("N")[^8..];
+
     /// <summary>A price list of the market: a draft without ids of Stripe, or published (and active) with fake ids.</summary>
     public static async Task<Guid> PriceListAsync(
         string market, string status = "draft", string currency = "EUR", DateTimeOffset? validFrom = null, (int From, decimal Percent)? discount = null,
@@ -43,7 +49,7 @@ internal static class BillingData
                                              fair_use_other_pages_factor, created_at, updated_at)
             VALUES ($1, 'test', $2, $3, $4, $5, $5, $6, $7, $8, $9, 2, now(), now())
             """, id, market, currency, at, published ? at : null, status, noticeDays, published ? mode ?? "test" : mode, published ? "synced" : "pending");
-        var key = id.ToString("N")[..8];
+        var key = Key(id);
         foreach (var (code, min, max, analysis, month, yearly) in Tiers)
         {
             var withIds = published && analysis is not null;

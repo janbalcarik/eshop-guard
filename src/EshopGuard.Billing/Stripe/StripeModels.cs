@@ -82,8 +82,11 @@ public sealed record StripeSubscriptionState(
     DateTimeOffset Created,
     IReadOnlyDictionary<string, string> Metadata);
 
-/// <summary>A phase of a Subscription Schedule: from <paramref name="StartDate"/> the price and the coupon; the last phase has no end.</summary>
-public sealed record StripeSchedulePhase(DateTimeOffset StartDate, DateTimeOffset? EndDate, string PriceId, string? CouponId);
+/// <summary>
+/// A phase of a Subscription Schedule: from <paramref name="StartDate"/> the price and the coupon; the last phase has no end.
+/// <paramref name="TrialEnd"/> keeps the trial of the current phase (a phase without it would end the trial).
+/// </summary>
+public sealed record StripeSchedulePhase(DateTimeOffset StartDate, DateTimeOffset? EndDate, string PriceId, string? CouponId, DateTimeOffset? TrialEnd = null);
 
 public sealed record StripeScheduleState(string Id, string Status, string? SubscriptionId, IReadOnlyList<StripeSchedulePhase> Phases);
 

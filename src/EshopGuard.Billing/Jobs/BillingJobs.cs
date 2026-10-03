@@ -71,6 +71,24 @@ public static class BillingJobs
         TrialReminderKind, JobResourceClass.System, JobPriority.P3, JobRequest.EmptyPayload(), TenantId: tenantId,
         DedupeKey: $"trial-reminder:{tenantId:N}:{Day(now)}", MaxAttempts: 5);
 
+    /// <summary>
+    /// The Subscription Schedule of one subscription by its pending changes (task 8.2): one job per state of the plan
+    /// (<paramref name="state"/> = its version and fingerprint), one at a time per subscription.
+    /// </summary>
+    public static JobRequest ComposeSchedule(Guid tenantId, Guid shopId, Guid subscriptionId, string state) => new(
+        ComposeScheduleKind, JobResourceClass.Io, JobPriority.P2, Payload(new JsonObject { ["subscription_id"] = Id(subscriptionId) }),
+        TenantId: tenantId, ShopId: shopId, DedupeKey: $"schedule:{subscriptionId:N}:{state}", ConcurrencyKey: $"schedule:{subscriptionId:N}", MaxAttempts: 8);
+
+    /// <summary>The daily check of the tiers, price lists and discounts of the subscriptions of one tenant (task 8.3).</summary>
+    public static JobRequest EvaluateTiers(Guid tenantId, string localDay) => new(
+        EvaluateTiersKind, JobResourceClass.System, JobPriority.P3, JobRequest.EmptyPayload(), TenantId: tenantId,
+        DedupeKey: $"tiers:{tenantId:N}:{localDay}", ConcurrencyKey: $"tiers:{tenantId:N}", MaxAttempts: 5);
+
+    /// <summary>The check of one e-shop after a full analysis counted its products (<paramref name="sourceId"/> = the run).</summary>
+    public static JobRequest EvaluateTiersForShop(Guid tenantId, Guid shopId, Guid sourceId) => new(
+        EvaluateTiersKind, JobResourceClass.System, JobPriority.P2, Payload(new JsonObject { ["shop_id"] = Id(shopId) }), TenantId: tenantId, ShopId: shopId,
+        DedupeKey: $"tiers:{shopId:N}:{sourceId:N}", ConcurrencyKey: $"tiers:{tenantId:N}", MaxAttempts: 5);
+
     public static JobRequest ReconcileStripe(DateTimeOffset now) => new(
         ReconcileStripeKind, JobResourceClass.Io, JobPriority.P3, JobRequest.EmptyPayload(), DedupeKey: $"stripe-reconcile:{Day(now)}", MaxAttempts: 5);
 

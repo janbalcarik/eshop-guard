@@ -137,7 +137,7 @@ public sealed class BillingOverviewService(EshopGuardDb db, PriceListReader pric
 
     /// <summary>
     /// The earliest scheduled change (all kinds taking effect that day together): the tier and the unit price of its target, the
-    /// discount of a change of the discount (null = the discount is lost), else the current one.
+    /// discount of a target that states it (null = the discount is lost), else the current one.
     /// </summary>
     private static BillingPendingChangeDto? PendingChange(Subscription subscription, IReadOnlyList<SubscriptionChange> changes)
     {
@@ -156,7 +156,7 @@ public sealed class BillingOverviewService(EshopGuardDb db, PriceListReader pric
             var to = change.To?.RootElement;
             tier = Read(to, "tier_code", e => e.GetString()) ?? tier;
             unit = Read(to, "unit_price", e => (decimal?)e.GetDecimal()) ?? unit;
-            if (change.Kind == SubscriptionChangeKind.Discount)
+            if (to is { ValueKind: JsonValueKind.Object } target && target.TryGetProperty("discount_percent", out _))
             {
                 discount = Read(to, "discount_percent", e => (decimal?)e.GetDecimal());
             }

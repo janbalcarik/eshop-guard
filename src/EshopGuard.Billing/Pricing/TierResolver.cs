@@ -121,12 +121,14 @@ public static class BillingPeriods
 {
     /// <summary>
     /// The first start of a period at or after <paramref name="threshold"/> and not before <paramref name="nextStart"/>: the starts
-    /// are <paramref name="anchor"/> + whole months, so a period of the 31st stays on the 31st (or the last day of a shorter month).
+    /// are <paramref name="anchor"/> + whole periods of <paramref name="stepMonths"/> months (12 for a yearly subscription), so a
+    /// period of the 31st stays on the 31st (or the last day of a shorter month).
     /// </summary>
-    public static DateTimeOffset FirstStartOnOrAfter(DateTimeOffset anchor, DateTimeOffset nextStart, DateTimeOffset threshold)
+    public static DateTimeOffset FirstStartOnOrAfter(DateTimeOffset anchor, DateTimeOffset nextStart, DateTimeOffset threshold, int stepMonths = 1)
     {
+        ArgumentOutOfRangeException.ThrowIfLessThan(stepMonths, 1);
         var floor = threshold > nextStart ? threshold : nextStart;
-        for (var months = 0; ; months++)
+        for (var months = 0; ; months += stepMonths)
         {
             var start = anchor.AddMonths(months);
             if (start >= floor)

@@ -9,6 +9,7 @@ using EshopGuard.Data.Tenancy;
 using EshopGuard.Jobs.Notifications;
 using EshopGuard.Jobs.Processing;
 using EshopGuard.Jobs.Queue;
+using EshopGuard.Jobs.Shops;
 using EshopGuard.Storage;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -26,7 +27,8 @@ public sealed class RunHandlerContext(
     IOptions<EshopGuardOptions> guard,
     TimeProvider time,
     ILoggerFactory loggers,
-    NotificationDispatcher notifications)
+    NotificationDispatcher notifications,
+    IEnumerable<IProductCountObserver> productCountObservers)
 {
     public EshopGuardDataSource DataSource { get; } = dataSource;
 
@@ -45,6 +47,9 @@ public sealed class RunHandlerContext(
     public ILoggerFactory Loggers { get; } = loggers;
 
     public NotificationDispatcher Notifications { get; } = notifications;
+
+    /// <summary>Who learns that a full analysis counted the products of an e-shop (billing, change 12).</summary>
+    public IReadOnlyList<IProductCountObserver> ProductCountObservers { get; } = [.. productCountObservers];
 }
 
 /// <summary>One job of a run being handled.</summary>

@@ -29,7 +29,8 @@ public sealed record EmailTemplateKind(string Code, bool ContainsToken, IReadOnl
     public static readonly EmailTemplateKind TrialEnding = new("trial_ending", false, ["email", "link", "shopName", "amount", "date"], []);
     public static readonly EmailTemplateKind PaymentFailed = new("payment_failed", false, ["email", "link", "shopName", "amount"], []);
     public static readonly EmailTemplateKind SubscriptionEnded = new("subscription_ended", false, ["email", "link", "shopName", "date"], ["paymentFailed"]);
-    public static readonly EmailTemplateKind PriceChange = new("price_change", false, ["email", "link", "shopName", "oldAmount", "newAmount", "date"], ["decrease"]);
+    /// <summary><c>lockedUntil</c>: the end of the locked price of a founder (<c>founder</c>), otherwise the date of the change.</summary>
+    public static readonly EmailTemplateKind PriceChange = new("price_change", false, ["email", "link", "shopName", "oldAmount", "newAmount", "date", "lockedUntil"], ["decrease", "founder"]);
     public static readonly EmailTemplateKind TierChange = new("tier_change", false, ["email", "link", "shopName", "oldAmount", "newAmount", "date", "products"], ["decrease"]);
     public static readonly EmailTemplateKind PriceChangeCanceled = new("price_change_canceled", false, ["email", "link", "shopName", "date"], []);
 

@@ -1,4 +1,7 @@
+using EshopGuard.Application.Options;
+using EshopGuard.Application.Shops;
 using EshopGuard.Application.Shops.Pricing;
+using EshopGuard.Application.Shops.Scope;
 using EshopGuard.Billing.Jobs;
 using EshopGuard.Billing.Orders;
 using EshopGuard.Billing.Pricing;
@@ -8,6 +11,7 @@ using EshopGuard.Billing.Webhooks;
 using EshopGuard.Jobs.Notifications;
 using EshopGuard.Jobs;
 using EshopGuard.Jobs.Scheduling;
+using EshopGuard.Jobs.Shops;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -78,6 +82,21 @@ public static class BillingServiceCollectionExtensions
         services.AddJobHandler<ExpireOrderHandler>();
         services.AddJobHandler<TrialReminderHandler>();
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IScheduledTask, TrialReminderTask>());
+
+        // Changes of the tier, the discount and the price list (group 8); the counted products need the catalog of the e-shops.
+        services.AddOptions<LocalizationOptions>().BindConfiguration(LocalizationOptions.SectionName);
+        services.TryAddSingleton<ShopCatalog>();
+        services.TryAddSingleton<IConnectorCatalog, NoConnectorCatalog>();
+        services.TryAddScoped<ShopReader>();
+        services.TryAddScoped<ScopeInputsLoader>();
+        services.TryAddScoped<ICountedProductsReader, CountedProductsReader>();
+        services.TryAddScoped<SubscriptionChangePlanner>();
+        services.TryAddScoped<SubscriptionScheduleComposer>();
+        services.AddJobHandler<EvaluateTiersHandler>();
+        services.AddJobHandler<ComposeScheduleHandler>();
+        services.AddJobHandler<SchedulePriceListTransferHandler>();
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IScheduledTask, EvaluateTiersTask>());
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IProductCountObserver, BillingProductCountObserver>());
         return services;
     }
 }

@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using EshopGuard.Application.Problems;
 using EshopGuard.Billing.Contracts;
+using EshopGuard.Billing.Jobs;
 using EshopGuard.Billing.Orders;
 using EshopGuard.Billing.Pricing;
 using EshopGuard.Billing.Stripe;
@@ -8,6 +9,7 @@ using EshopGuard.Billing.Tax;
 using EshopGuard.Data;
 using EshopGuard.Data.Entities.Billing;
 using EshopGuard.Data.Tenancy;
+using EshopGuard.Jobs.Queue;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
@@ -33,6 +35,7 @@ public sealed class SubscriptionService(
     IStripeGateway stripe,
     StripeCustomers customers,
     PriceListReader prices,
+    IJobQueue queue,
     IOptions<BillingOptions> options,
     TimeProvider time,
     ILogger<SubscriptionService> logger)
@@ -51,6 +54,19 @@ public sealed class SubscriptionService(
         if (subscription.CancelAtPeriodEnd)
         {
             return Dto(subscription);
+        }
+
+        // A canceled subscription changes nothing more: the schedule of its planned changes is released (task 8.2).
+        if (subscription.StripeScheduleId is { } scheduleId)
+        {
+            try
+            {
+                await stripe.ReleaseScheduleAsync(scheduleId, $"schedule-release:{subscription.Id:N}:{scheduleId}", ct).ConfigureAwait(false);
+            }
+            catch (StripeGatewayException e) when (e.HttpStatus == 404)
+            {
+                logger.LogInformation("billing.schedule_gone {SubscriptionId} {TenantId}", subscription.Id, tenantId);
+            }
         }
 
         var state = await stripe.SetCancelAtPeriodEndAsync(stripeId, true, Key("subscription-cancel", subscription), ct).ConfigureAwait(false);
@@ -219,15 +235,31 @@ public sealed class SubscriptionService(
         return history.FirstOrDefault(s => SubscriptionSync.Running.Contains(Text(s.Status)));
     }
 
-    /// <summary>The state of Stripe in the row now (the webhook writes the same again) and the audit.</summary>
+    /// <summary>
+    /// The state of Stripe in the row now (the webhook writes the same again) and the audit. A cancellation forgets the released
+    /// schedule; a resumption composes it again from the pending changes and checks the tier, the price list and the discount.
+    /// </summary>
     private async Task<SubscriptionStateDto> StoreAsync(Guid tenantId, Guid userId, Subscription subscription, StripeSubscriptionState state, string action, CancellationToken ct)
     {
         var now = time.GetUtcNow();
         await db.ExecuteInTenantTransactionAsync(async () =>
         {
+            var transaction = (NpgsqlTransaction)db.Database.CurrentTransaction!.GetDbTransaction();
             await db.Subscriptions.Where(s => s.Id == subscription.Id)
                 .ExecuteUpdateAsync(s => s.SetProperty(x => x.CancelAtPeriodEnd, state.CancelAtPeriodEnd).SetProperty(x => x.UpdatedAt, now), ct).ConfigureAwait(false);
-            await BillingSql.AuditAsync((NpgsqlTransaction)db.Database.CurrentTransaction!.GetDbTransaction(), tenantId, userId, BillingSql.User, action, "subscription",
+            if (state.CancelAtPeriodEnd)
+            {
+                await db.Subscriptions.Where(s => s.Id == subscription.Id)
+                    .ExecuteUpdateAsync(s => s.SetProperty(x => x.StripeScheduleId, (string?)null).SetProperty(x => x.ScheduleHash, (string?)null), ct).ConfigureAwait(false);
+            }
+            else
+            {
+                var resumed = subscription.UpdatedAt.UtcTicks.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                await queue.EnqueueAsync(BillingJobs.ComposeSchedule(tenantId, subscription.ShopId, subscription.Id, $"resume:{resumed}"), transaction, ct).ConfigureAwait(false);
+                await queue.EnqueueAsync(BillingJobs.EvaluateTiersForShop(tenantId, subscription.ShopId, Guid.CreateVersion7(now)), transaction, ct).ConfigureAwait(false);
+            }
+
+            await BillingSql.AuditAsync(transaction, tenantId, userId, BillingSql.User, action, "subscription",
                 subscription.Id.ToString("D"), new JsonObject { ["shop_id"] = subscription.ShopId.ToString("D"), ["end"] = End(subscription) }, now, ct).ConfigureAwait(false);
         }, ct).ConfigureAwait(false);
         logger.LogInformation("{Action} {SubscriptionId} {TenantId}", action, subscription.Id, tenantId);

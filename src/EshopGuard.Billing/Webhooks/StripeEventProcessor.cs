@@ -39,6 +39,7 @@ public sealed class StripeEventProcessor(
     EshopGuardDataSource dataSource,
     IStripeGateway stripe,
     SubscriptionSync subscriptions,
+    SubscriptionChangePlanner changes,
     AccountCardService cards,
     NotificationDispatcher notifications,
     IJobQueue queue,
@@ -386,6 +387,11 @@ public sealed class StripeEventProcessor(
             await notifications.NotifyAsync(transaction, new NotificationRequest(tenantId, synced.ShopId, NotificationKinds.SubscriptionEnded,
                 new JsonObject { ["date"] = (subscription.EndedAt ?? now).UtcDateTime.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture), ["paymentFailed"] = paymentFailed },
                 NotificationRoutes.Billing, new JsonObject()), ct).ConfigureAwait(false);
+            await changes.EndedAsync(transaction, tenantId, synced.Id, ct).ConfigureAwait(false);
+        }
+        else if (synced.Status is "trialing" or "active" or "past_due")
+        {
+            await changes.AppliedAsync(transaction, tenantId, synced, ct).ConfigureAwait(false);
         }
 
         return synced;

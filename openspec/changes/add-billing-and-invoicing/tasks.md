@@ -232,24 +232,25 @@
 
 ## 8. Změny pásma, slevy a ceníku
 
-- [ ] 8.1 `SubscriptionChangePlanner`:
+- [x] 8.1 `SubscriptionChangePlanner`:
   - založení, zrušení a nahrazení změn `tier`, `discount` a `price_list` s pravidly `effective_at` z `design.md`;
   - u zdražení výjimka `tenants.founder_until`.
 
-  Testy na každý řádek tabulky pravidel.
-- [ ] 8.2 `SubscriptionScheduleComposer`:
+  Testy na každý řádek tabulky pravidel (`SubscriptionChangeTests`).
+- [x] 8.2 `SubscriptionScheduleComposer`:
   - fáze z platných změn, `from_subscription`, `end_behavior = release`, `proration_behavior = none`;
   - otisk fází jako klíč idempotence, beze změny žádné volání.
 
   Test podle scénáře „Souběh nového ceníku a vyššího pásma“.
-- [ ] 8.3 Úloha `billing.evaluate_tiers` (denně 3:30 a po změně `product_count`) se zrušením změny při návratu do pásma. Testy podle scénářů požadavku „Změna pásma a slevy od dalšího období“.
-- [ ] 8.4 `VolumeDiscountResolver`: pořadí e-shopů podle začátku předplatného a přepočet při přidání a zrušení. Test „Zrušení e-shopu odebere slevu třetímu“.
-- [ ] 8.5 Úloha `billing.schedule_price_list_transfer`:
+- [x] 8.3 Úloha `billing.evaluate_tiers` (denně 3:30 a po změně `product_count`) se zrušením změny při návratu do pásma. Testy podle scénářů požadavku „Změna pásma a slevy od dalšího období“.
+- [x] 8.4 `VolumeDiscountResolver`: pořadí e-shopů podle začátku předplatného a přepočet při přidání a zrušení. Test „Zrušení e-shopu odebere slevu třetímu“.
+- [x] 8.5 Úloha `billing.schedule_price_list_transfer`:
   - po dávkách 200 předplatných, `concurrency_key = price-transfer`;
   - e-mail `billing.price_change` se starou a novou cenou a datem.
 
   Testy „Zdražení po výpovědní lhůtě“ a „Zlevnění bez lhůty“.
-- [ ] 8.6 Promítnutí použité změny: `customer.subscription.updated` s novou Price → `subscription_changes.applied_at`, `subscriptions.unit_price`, audit `subscription.price_changed`. Test s testovacími hodinami v `IntegrationTests/PriceChangeTests`.
+- [x] 8.6 Promítnutí použité změny: `customer.subscription.updated` s novou Price → `subscription_changes.applied_at`, `subscriptions.unit_price`, audit `subscription.price_changed`. Test nad falešnou bránou Stripe v `SubscriptionChangeTests`.
+- [ ] 8.7 Test 8.6 s testovacími hodinami Stripe v `IntegrationTests/PriceChangeTests`. Potřebuje testovací účet Stripe, čeká se skupinou 0 (jako 5.5).
 
 ## 9. Daňový režim
 

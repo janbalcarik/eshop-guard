@@ -1,6 +1,6 @@
 Nová cena sledovania
 
-Dobrý deň, cena sledovania e-shopu {{shopName}} sa od {{date}} mení z {{oldAmount}} na {{newAmount}} mesačne bez DPH.{{#decrease}} Ide o zníženie ceny.{{/decrease}}
+Dobrý deň, cena sledovania e-shopu {{shopName}} sa od {{date}} mení z {{oldAmount}} na {{newAmount}} mesačne bez DPH.{{#decrease}} Ide o zníženie ceny.{{/decrease}}{{#founder}} Ako zakladajúci zákazník máte doterajšiu cenu zamknutú do {{lockedUntil}}.{{/founder}}
 
 Predplatné a platby: {{link}}
 

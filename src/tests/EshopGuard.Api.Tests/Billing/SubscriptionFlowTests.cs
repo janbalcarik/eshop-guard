@@ -118,6 +118,8 @@ public sealed class SubscriptionFlowTests : ShopTestBase
 
         var trialEnd = DateTimeOffset.UtcNow.AddDays(20);
         var (subscription, stripeId) = await SubscribedAsync(factory, ready.Owner.TenantId, ready.ShopId, ready.PriceListId, "t20000", 59m, "trialing", trialEnd, trialEnd);
+        var schedule = (await factory.Stripe.CreateScheduleFromSubscriptionAsync(stripeId, "schedule-test", CancellationToken.None)).Id;
+        await AdminAsync("UPDATE billing.subscriptions SET stripe_schedule_id = $2, schedule_hash = 'test' WHERE id = $1", subscription, schedule);
         var canceled = await PostJsonAsync(ready.Owner, path + "/cancel");
         await PostJsonAsync(ready.Owner, path + "/cancel");
         var ending = ShopRow(await OverviewAsync(ready.Owner), ready.ShopId);
@@ -125,6 +127,10 @@ public sealed class SubscriptionFlowTests : ShopTestBase
         Assert.Equal(("trialing", true), (canceled.GetProperty("status").GetString(), canceled.GetProperty("cancelAtPeriodEnd").GetBoolean()));
         Assert.True(factory.Stripe.Subscriptions[stripeId].CancelAtPeriodEnd);
         Assert.Equal(1, factory.Stripe.Count(nameof(IStripeGateway.SetCancelAtPeriodEndAsync)));
+        Assert.Equal(("released", null), (factory.Stripe.Schedules[schedule].Status, factory.Stripe.Subscriptions[stripeId].ScheduleId));
+        Assert.Equal(1, factory.Stripe.Count(nameof(IStripeGateway.ReleaseScheduleAsync)));
+        Assert.Equal(new object?[] { null, null }, Assert.Single(await AdminRowsAsync(
+            "SELECT stripe_schedule_id, schedule_hash FROM billing.subscriptions WHERE id = $1", subscription)));
         Assert.Equal("ending", ending.GetProperty("status").GetString());
         Assert.Equal(trialEnd, ending.GetProperty("periodEnd").GetDateTimeOffset(), TimeSpan.FromSeconds(1));
         Assert.Equal(JsonValueKind.Null, ending.GetProperty("nextPaymentAt").ValueKind);
@@ -140,6 +146,9 @@ public sealed class SubscriptionFlowTests : ShopTestBase
         Assert.Equal("trial", ShopRow(await OverviewAsync(ready.Owner), ready.ShopId).GetProperty("status").GetString());
         Assert.Equal(1L, await AdminScalarAsync<long>("SELECT count(*) FROM ops.audit_log WHERE action = 'subscription.cancel_requested' AND entity_id = $1", subscription.ToString("D")));
         Assert.Equal(1L, await AdminScalarAsync<long>("SELECT count(*) FROM ops.audit_log WHERE action = 'subscription.resumed' AND entity_id = $1", subscription.ToString("D")));
+        Assert.Equal(1L, await AdminScalarAsync<long>(
+            "SELECT count(*) FROM ops.jobs WHERE kind = 'billing.compose_schedule' AND dedupe_key LIKE $1", $"schedule:{subscription:N}:resume:%"));
+        Assert.Equal(1L, await AdminScalarAsync<long>("SELECT count(*) FROM ops.jobs WHERE kind = 'billing.evaluate_tiers' AND shop_id = $1", ready.ShopId));
 
         await AdminAsync("UPDATE billing.subscriptions SET status = 'canceled', canceled_at = now(), pause_reason = 'canceled' WHERE id = $1", subscription);
         using var late = await ready.Owner.Browser.PostAsync(path + "/resume");
