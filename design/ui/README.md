@@ -30,6 +30,7 @@ Je to kopie plátna verze 31 z 2. 10. 2026 (3c, 3d, ceník a předplatné uprave
 | `GroupFix.dc.html` | 6c · Hromadná oprava (stejný text na 38 stránkách) |
 | `Monitoring.dc.html` | 7 · Sledování změn (i kontrola při uložení) |
 | `Billing.dc.html` | 8 · Předplatné a platby (po e-shopech; stav po půl roce, 3 e-shopy; faktury s vlastním posuvníkem) |
+| `BillingDetails.dc.html` | 8b · Fakturační údaje v Nastavenia (firma, sídlo, e-mail pro faktury; stav ověření IČ DPH; doplnění před první platbou). **Návrh čeká na schválení, na živém plátně zatím není.** Varianty `state`: `verified`, `pending` (česká firma, pole DIČ je její DIČ pro DPH), `invalid`, `missing`. |
 | `Evidence.dc.html` | 10 · Doklady (zadané jednou, platí všude) |
 | `Protocol.dc.html` | 11 · Protokol o kontrole (PDF) |
 | `Mobile.dc.html` | 9 · Přehled na mobilu |

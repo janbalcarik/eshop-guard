@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<title>Fakturačné údaje</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&amp;family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:"Figtree",system-ui,sans-serif;background:#F6F5F1;color:#17191C}
+a{color:#0E5A52}a:hover{color:#0B4A43}
+</style>
+</helmet>
+<div style="width: 1440px; height: 960px; box-sizing: border-box; background: #F6F5F1; display: flex;">
+<dc-import name="Sidebar" active="settings" monitoring-count="3 e-shopy" monitoring-note="Ďalšia platba 1. 5. 2027" hint-size="248px,960px"></dc-import>
+<main style="flex-grow: 1; min-width: 0; min-height: 0; padding: 28px 32px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto;">
+<div style="display: flex; flex-direction: column; gap: 6px; flex-shrink: 0;">
+<nav aria-label="Omrvinky" style="font-size: 14px; color: #5F646C;"><a href="#" style="color: #5F646C; text-decoration: none;">Nastavenia</a> › Fakturačné údaje</nav>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 700; letter-spacing: -0.01em;">Fakturačné údaje</h1>
+<span style="font-size: 15px; color: #4A4F57; max-width: 860px;">Údaje vašej firmy na faktúrach za EshopGuard. Platia pre všetky e-shopy v účte. Upraviť ich môže majiteľ alebo správca účtu.</span>
+</div>
+
+<sc-if value="{{missing}}" hint-placeholder-val="{{false}}">
+<div role="status" style="flex-shrink: 0; display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 12px; background: #FFF6E0; border: 1px solid #F0D79A; color: #5C4300;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M12 9v4M12 17h.01M10.3 3.9L2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path></svg>
+<span style="flex-grow: 1; font-size: 15px;"><strong>Pred prvou platbou doplňte fakturačné údaje.</strong> Bez obchodného mena, IČO a sídla nevieme vystaviť faktúru. Po uložení sa vrátite k objednávke bylinkovo.sk.</span>
+<a href="OnboardingScope.dc.html" style="flex-shrink: 0; font-size: 14px; font-weight: 600; color: #5C4300;">Späť k objednávke</a>
+</div>
+</sc-if>
+
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; align-items: start;">
+<form aria-label="Fakturačné údaje" style="grid-column: span 7; background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 22px 24px; display: flex; flex-direction: column; gap: 22px;">
+
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; min-width: 0;">
+<legend style="padding: 0; margin-bottom: 14px; font-size: 17px; font-weight: 600;">Firma</legend>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="bd-name" style="font-size: 14px; font-weight: 600;">Obchodné meno *</label>
+<input id="bd-name" type="text" value="{{f.name}}" placeholder="napr. Bylinkovo s. r. o." autocomplete="organization" style="height: 44px; box-sizing: border-box; border: 1px solid #CFCCC2; border-radius: 10px; padding: 0 14px; font-family: inherit; font-size: 15px; background: #FFFFFF;">
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="bd-ico" style="font-size: 14px; font-weight: 600;">IČO *</label>
+<input id="bd-ico" type="text" value="{{f.ico}}" placeholder="napr. 51234567" style="height: 44px; box-sizing: border-box; border: 1px solid #CFCCC2; border-radius: 10px; padding: 0 14px; font-family: inherit; font-size: 15px; background: #FFFFFF;">
+</div>
+<sc-if value="{{showDic}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="bd-dic" style="font-size: 14px; font-weight: 600;">DIČ</label>
+<input id="bd-dic" type="text" value="{{f.dic}}" placeholder="napr. 2120123456" style="height: 44px; box-sizing: border-box; border: 1px solid #CFCCC2; border-radius: 10px; padding: 0 14px; font-family: inherit; font-size: 15px; background: #FFFFFF;">
+</div>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="bd-vat" style="font-size: 14px; font-weight: 600;">{{vatLabel}}</label>
+<input id="bd-vat" type="text" value="{{f.vat}}" placeholder="{{vatPlaceholder}}" aria-describedby="bd-vat-status" style="height: 44px; box-sizing: border-box; border: 1px solid #CFCCC2; border-radius: 10px; padding: 0 14px; font-family: inherit; font-size: 15px; background: #FFFFFF;">
+<sc-if value="{{hasVatStatus}}" hint-placeholder-val="{{true}}">
+<span id="bd-vat-status" style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px;"><span style="{{vatBadgeStyle}}">{{vatBadge}}</span><span style="font-size: 13px; line-height: 18px; color: #5F646C;">{{vatNote}}</span></span>
+</sc-if>
+</div>
+</div>
+<span style="font-size: 13px; color: #5F646C;">Ak nie ste platiteľ DPH, pole {{vatLabel}} nechajte prázdne.</span>
+</fieldset>
+
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; min-width: 0;">
+<legend style="padding: 0; margin-bottom: 14px; font-size: 17px; font-weight: 600;">Sídlo</legend>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="bd-street" style="font-size: 14px; font-weight: 600;">Ulica a číslo *</label>
+<input id="bd-street" type="text" value="{{f.street}}" autocomplete="street-address" style="height: 44px; box-sizing: border-box; border: 1px solid #CFCCC2; border-radius: 10px; padding: 0 14px; font-family: inherit; font-size: 15px; background: #FFFFFF;">
+</div>
+<div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px;">
+<div style="grid-column: span 1; display: flex; flex-direction: column; gap: 6px;">
+<label for="bd-zip" style="font-size: 14px; font-weight: 600;">PSČ *</label>
+<input id="bd-zip" type="text" value="{{f.zip}}" autocomplete="postal-code" style="height: 44px; box-sizing: border-box; border: 1px solid #CFCCC2; border-radius: 10px; padding: 0 12px; font-family: inherit; font-size: 15px; background: #FFFFFF; min-width: 0;">
+</div>
+<div style="grid-column: span 3; display: flex; flex-direction: column; gap: 6px;">
+<label for="bd-city" style="font-size: 14px; font-weight: 600;">Mesto *</label>
+<input id="bd-city" type="text" value="{{f.city}}" autocomplete="address-level2" style="height: 44px; box-sizing: border-box; border: 1px solid #CFCCC2; border-radius: 10px; padding: 0 14px; font-family: inherit; font-size: 15px; background: #FFFFFF;">
+</div>
+<div style="grid-column: span 2; display: flex; flex-direction: column; gap: 6px;">
+<label for="bd-country" style="font-size: 14px; font-weight: 600;">Krajina *</label>
+<select id="bd-country" autocomplete="country" style="height: 44px; box-sizing: border-box; border: 1px solid #CFCCC2; border-radius: 10px; padding: 0 10px; font-family: inherit; font-size: 15px; background: #FFFFFF; color: #17191C;">
+<option selected="{{slovakia}}">Slovensko</option><option selected="{{czechia}}">Česko</option><option>Rakúsko</option><option>Nemecko</option><option>Poľsko</option><option>Maďarsko</option><option>Iná krajina</option>
+</select>
+</div>
+</div>
+</fieldset>
+
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; min-width: 0;">
+<legend style="padding: 0; margin-bottom: 14px; font-size: 17px; font-weight: 600;">Kam posielať faktúry</legend>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="bd-email" style="font-size: 14px; font-weight: 600;">E-mail pre faktúry *</label>
+<input id="bd-email" type="email" value="{{f.email}}" placeholder="napr. uctovnictvo@bylinkovo.sk" autocomplete="email" style="height: 44px; box-sizing: border-box; border: 1px solid #CFCCC2; border-radius: 10px; padding: 0 14px; font-family: inherit; font-size: 15px; background: #FFFFFF;">
+<span style="font-size: 13px; color: #5F646C;">Napríklad e-mail vašej účtovníčky. Prihlasovací e-mail sa nemení.</span>
+</div>
+</fieldset>
+
+<div style="display: flex; align-items: center; gap: 12px; padding-top: 4px; border-top: 1px solid #EFEEE8;">
+<button type="submit" style="height: 42px; margin-top: 14px; padding: 0 18px; border: 0; border-radius: 10px; background: #0E5A52; color: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 600;">{{saveLabel}}</button>
+<button type="button" style="height: 42px; margin-top: 14px; padding: 0 16px; border: 1px solid #CFCCC2; border-radius: 10px; background: #FFFFFF; color: #17191C; font-family: inherit; font-size: 15px; font-weight: 500;">Zrušiť</button>
+<span style="margin-top: 14px; margin-left: auto; font-size: 13px; color: #5F646C;">* povinné údaje</span>
+</div>
+</form>
+
+<aside style="grid-column: span 5; display: flex; flex-direction: column; gap: 20px;">
+<section aria-label="Odberateľ na faktúre" style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 18px 22px; display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600;">Takto budete na faktúre</h2>
+<div style="border: 1px dashed #CFCCC2; border-radius: 10px; padding: 14px 16px; background: #FBFAF7; display: flex; flex-direction: column; gap: 3px; font-size: 14px; line-height: 20px;">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5F646C; margin-bottom: 4px;">Odberateľ</span>
+<sc-for list="{{buyer}}" as="line" hint-placeholder-count="5">
+<span style="{{line.style}}">{{line.text}}</span>
+</sc-for>
+</div>
+</section>
+
+<section aria-label="Čo sa stane po uložení" style="background: #FFFFFF; border: 1px solid #E2E0D8; border-radius: 14px; padding: 18px 22px; display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600;">Po uložení</h2>
+<ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 20px; color: #33373D;">
+<li>Zmena platí pre ďalšie faktúry. Vystavené faktúry sa nemenia.</li>
+<li>Nové IČ DPH overíme v systéme VIES Európskej komisie.</li>
+<li>Firmám z iného štátu EÚ s overeným IČ DPH fakturujeme bez DPH, s prenesením daňovej povinnosti. Kým overenie trvá, platbu nie je možné dokončiť.</li>
+<li>Faktúry posielame e-mailom v PDF na adresu vyššie. Všetky ich nájdete aj v časti <a href="Billing.dc.html">Predplatné a platby</a>.</li>
+</ul>
+</section>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["verified","pending","invalid","missing"],"default":"verified"},"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+renderVals() {
+// verified: Slovak company, VAT id verified. pending: Czech company after entering its VAT id (in Czechia the VAT id is „DIČ“,
+// so the separate DIČ field is hidden). invalid: the VAT id was rejected by VIES. missing: opened from the order without billing details.
+// Company id formats differ by country, so the form checks only that IČO is filled in, not its length.
+const state = this.props.state ?? 'verified';
+const badge = 'font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 8px;';
+const sk = { name: 'Bylinkovo s. r. o.', ico: '51234567', dic: '2120123456', vat: 'SK2120123456', street: 'Hlavná 12', zip: '911 01', city: 'Trenčín', country: 'Slovensko', email: 'faktury@bylinkovo.sk' };
+const cz = { name: 'Bylinkovo CZ s.r.o.', ico: '12345678', dic: '', vat: 'CZ12345678', street: 'Korunní 810/104', zip: '101 00', city: 'Praha 10', country: 'Česko', email: 'faktury@bylinkovo.cz' };
+const empty = { name: '', ico: '', dic: '', vat: '', street: '', zip: '', city: '', country: 'Slovensko', email: '' };
+const f = state === 'pending' ? cz : state === 'missing' ? empty : state === 'invalid' ? { ...sk, vat: 'SK2120123465' } : sk;
+const czech = f.country === 'Česko';
+const status = {
+verified: { text: 'Overené vo VIES 2. 10. 2026', style: badge + ' background: #E4F4EA; color: #1C6B3E;', note: '' },
+pending: { text: 'Overuje sa', style: badge + ' background: #FFF1CC; color: #6B4E00;', note: 'Kým overenie neskončí, platbu nie je možné dokončiť.' },
+invalid: { text: 'Neplatné podľa VIES', style: badge + ' background: #FBE7E4; color: #8A2A1F;', note: 'Skontrolujte číslo.' },
+}[state];
+const muted = 'color: #5F646C;';
+const buyer = f.name
+? [
+{ text: f.name, style: 'font-weight: 600;' },
+{ text: f.street, style: '' },
+{ text: f.zip + ' ' + f.city + ', ' + f.country, style: '' },
+{ text: 'IČO ' + f.ico + (czech || !f.dic ? '' : ' · DIČ ' + f.dic), style: muted },
+...(f.vat ? [{ text: (czech ? 'DIČ ' : 'IČ DPH ') + f.vat, style: muted }] : []),
+]
+: [{ text: 'Doplňte údaje vľavo.', style: muted }];
+return {
+f,
+missing: state === 'missing',
+showDic: !czech,
+vatLabel: czech ? 'DIČ' : 'IČ DPH',
+vatPlaceholder: czech ? 'napr. CZ12345678' : 'napr. SK2120123456',
+hasVatStatus: Boolean(status && f.vat),
+vatBadge: status ? status.text : '',
+vatBadgeStyle: status ? status.style : '',
+vatNote: status ? status.note : '',
+saveLabel: state === 'missing' ? 'Uložiť a pokračovať k platbe' : 'Uložiť zmeny',
+slovakia: !czech,
+czechia: czech,
+buyer,
+};
+}
+}
+</script>
+</body>
+</html>

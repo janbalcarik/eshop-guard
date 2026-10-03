@@ -17,6 +17,8 @@
   - měnu CZK a jazyk dokladu.
 
   Výsledek zapsat do `design.md` (sekce Doklady) a chybějící body do proposal, K rozhodnutí 16.
+
+  Stav 3. 10. 2026: veřejná dokumentace ověřena a zapsána. E-faktúru přes Peppol aplikace neřeší (rozhodnutí uživatele). Otevřené jsou tarif našeho účtu s API a tři body k ověření v sandboxu (K rozhodnutí 16).
 - [ ] 0.3 Předat účetní otevřené body z proposal, K rozhodnutí 3. Do jejich potvrzení zůstávají případy `undetermined` zablokované.
 
   S uživatelem rozhodnout body 1, 2, 4, 5 a 7 v K rozhodnutí:
@@ -287,12 +289,11 @@
   - pád po založení nezaloží druhý doklad;
   - opakování po 5xx;
   - po 12 pokusech úloha skončí `failed` a vznikne upozornění.
-- [ ] 10.4 E-faktúra:
-  - `einvoice_required` (odběratel SK, datum ≥ 1. 1. 2027);
-  - odeslání přes Peppol;
-  - úloha `billing.check_einvoice_status` (každé 2 h) s upozorněním při `failed` nebo po 3 dnech.
+- [ ] 10.4 E-faktúra mimo aplikaci (rozhodnutí 3. 10. 2026: Peppol řeší SuperFaktúra):
+  - doklad vždy odejde PDF e-mailem, `einvoice_required = false`, `einvoice_status = not_required`;
+  - odstranit nepoužitý druh úlohy `BillingJobs.CheckEinvoiceStatusKind`.
 
-  Test s pevným časem 31. 12. 2026 a 1. 1. 2027.
+  Test s pevným časem 1. 1. 2027: slovenský odběratel dostane PDF e-mailem a do Peppolu se nic neposílá.
 - [ ] 10.5 `CreditNoteIssuer` (úloha `billing.issue_credit_note` z `charge.refunded`): `credit_note_for`, částka vrácení, stejná cesta odeslání. Test: dvojí událost dá jeden dobropis.
 
 ## 11. Seznam faktur a ZIP

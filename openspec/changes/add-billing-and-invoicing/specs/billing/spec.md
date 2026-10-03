@@ -387,7 +387,7 @@ Systém MUST za každou platbu s nenulovou částkou (analýza, každé zaplacen
 - skutečně účtovanou cenu po slevě, DPH nebo text o přenesení daňové povinnosti;
 - měnu.
 
-Během zkušební doby a u neúspěšné platby doklad MUST NOT vzniknout. Slovenským odběratelům MUST systém od 1. 1. 2027 posílat doklad jako e-faktúru přes Peppol a sledovat její doručení. Ostatním MUST posílat PDF e-mailem. Při vrácení peněz MUST vystavit dobropis k původnímu dokladu. Výpadek SuperFaktúry MUST vést k opakování úlohy, ne ke ztrátě dokladu.
+Během zkušební doby a u neúspěšné platby doklad MUST NOT vzniknout. Doklad MUST odejít jako PDF e-mailem na `tenants.billing_email`. E-faktúru přes Peppol aplikace MUST NOT posílat ani sledovat, zajišťuje ji SuperFaktúra (rozhodnutí 3. 10. 2026). Při vrácení peněz MUST vystavit dobropis k původnímu dokladu. Výpadek SuperFaktúry MUST vést k opakování úlohy, ne ke ztrátě dokladu.
 
 #### Scenario: Faktura za analýzu hned po platbě
 
@@ -403,12 +403,12 @@ Během zkušební doby a u neúspěšné platby doklad MUST NOT vzniknout. Slove
 - THEN najde doklad v SuperFaktúře podle klíče `source_key` a převezme ho
 - AND druhý doklad nevznikne a číselná řada nemá díru ani duplicitu
 
-#### Scenario: E-faktúra slovenskému odběrateli od roku 2027
+#### Scenario: Slovenský odběratel od roku 2027
 
 - GIVEN slovenský tenant a obnova předplatného zaplacená 5. 1. 2027
 - WHEN se vystaví doklad
-- THEN `einvoice_required = true`, doklad se odešle přes Peppol a `einvoice_status` postupně přejde `queued` → `sent` → `delivered`
-- AND když doklad není doručený do 3 dní nebo skončí `failed`, provoz dostane upozornění
+- THEN doklad vznikne v SuperFaktúře a jeho PDF odejde e-mailem na `tenants.billing_email`
+- AND `einvoice_required = false` a `einvoice_status = not_required`, aplikace nic do Peppolu neposílá
 
 #### Scenario: Vrácení peněz a dobropis
 

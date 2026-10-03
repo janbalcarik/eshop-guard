@@ -16,6 +16,13 @@
       "x": 6080,
       "y": 5884
     },
+    "BillingDetails.dc.html": {
+      "h": 960,
+      "title": "8b · Fakturační údaje (Nastavenia: firma, sídlo, e-mail pro faktury; stav ověření IČ DPH; doplnění před první platbou) – návrh ke schválení",
+      "w": 1440,
+      "x": 7600,
+      "y": 5884
+    },
     "BillingMobile.dc.html": {
       "h": 844,
       "is_interactive": true,
@@ -180,7 +187,7 @@
     },
     "row3": {
       "kind": "title1",
-      "maxW": 7520,
+      "maxW": 9040,
       "text": "Oprava stránky, otázky, hromadná oprava, sledování změn, předplatné",
       "w": 240,
       "x": 0,
@@ -211,6 +218,7 @@
     "GroupFix.dc.html",
     "Monitoring.dc.html",
     "Billing.dc.html",
+    "BillingDetails.dc.html",
     "Evidence.dc.html",
     "Protocol.dc.html",
     "Mobile.dc.html",

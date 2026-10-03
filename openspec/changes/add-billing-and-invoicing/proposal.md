@@ -20,7 +20,7 @@ Zákazník přitom podle upřesnění z 1. 10. 2026 platí „přímo v aplikaci
 - Zaplatí kartou, Apple Pay nebo Google Pay na stránce Stripe. Analýza se po potvrzení platby spustí sama.
 - Sledování se strhává automaticky za každý e-shop ode dne jeho analýzy. První měsíc je v ceně analýzy.
 - Ceny se mění v databázi bez nasazení. Běžící předplatná se převedou sama, po výpovědní lhůtě a s e-mailem.
-- Daňové doklady mají jednu číselnou řadu v SuperFaktúře, slovenským firmám od 2027 jako e-faktúra.
+- Daňové doklady mají jednu číselnou řadu v SuperFaktúře. E-faktúru slovenským firmám od 2027 odesílá SuperFaktúra sama, aplikace Peppol neřeší (rozhodnutí 3. 10. 2026).
 
 Konverzi ani podíl neúspěšných plateb zatím nejde změřit, protože se nic neprodává (neměřeno). Měřit se začne po spuštění, viz strategie, část 5 „Měřit průběžně“.
 
@@ -77,7 +77,7 @@ In scope:
   - nerozhodnuté případy jsou zablokované (fail-closed), dokud je nepotvrdí účetní.
 - **Daňové doklady v SuperFaktúře:**
   - faktura se zapsanou platbou kartou za analýzu a za každé zaplacené období;
-  - e-faktúra přes Peppol od 1. 1. 2027 a sledování jejího doručení;
+  - odeslání PDF e-mailem (e-faktúru přes Peppol zajišťuje SuperFaktúra, aplikace ji neposílá ani nesleduje);
   - dobropis při vrácení peněz;
   - PDF v úložišti.
 - **Přehled pro obrazovku Predplatné a platby:**
@@ -193,5 +193,8 @@ Out of scope:
     - **Změna 3:** tabulky schématu `billing` zakládá změna 3. Tato změna k nim doplní sloupce, které chybí (seznam v `design.md`, File Changes), a novou tabulku `billing.price_quotes`. Při implementaci se porovná se skutečným stavem migrací.
     - **Změna 10:** přijímá se rozdělení z jejího K rozhodnutí 2. Pravidlo rozsahu, `POST …/quote` a `IShopOrderReadiness` patří změně 10. Částky, slevy, DPH, uložení nabídky, objednávka a Checkout patří této změně. `POST …/quote` stav e-shopu nemění, ale `IPriceQuoteService` zapíše do `billing.price_quotes` záznam ceny, kterou zákazník viděl, s jedinečností (`shop_id`, `scope_hash`, `price_list_id`), aby šla dohledat garantovaná cena.
     - **Změna 8:** `AnalysisPriceEstimator` ukládá do `runs.estimate` pásmo a částku. Návrh shodný se změnou 10: změna 8 ukládá jen základ (počty po verzích a ostatní stránky), pásmo a částku počítá vždy `IPriceQuoteService`. Jinak by existovaly dva výpočty pásma.
-16. **SuperFaktúra:** tarif s API a e-faktúrou, existence sandboxu, API pro odeslání e-faktúry přes Peppol a stav doručení, vyhledání dokladu podle vlastního klíče a jazyk a měna faktury. Vše ověřit v dokumentaci API nebo u podpory před stavbou úkolů skupiny 10.
-17. **Sémantika `dedupe_key` ve frontě (změna 4).** Tato změna počítá s tím, že `dedupe_key` je jedinečný, dokud úloha existuje (hotové se mažou po 7 dnech). Proto klíče opakovatelných úloh nesou okno nebo otisk (`schedule:{subscriptionId}:{otisk fází}`, `einvoice-check:{datum}T{hodina}`, `price-sync:{priceListId}:{publishRequestId}`). Sladit se změnou 4.
+16. **SuperFaktúra:** veřejná dokumentace API je ověřená (2. 10. 2026, `design.md`, sekce Doklady): sandbox, autorizace, doklad, platba, odeslání, PDF, ochrana proti duplicitě (`checksum`), měna CZK a jazyk dokladu. Otevřené zůstává:
+    - **E-faktúra přes Peppol:** rozhodnuto 3. 10. 2026, aplikace ji neřeší; zajišťuje ji SuperFaktúra interně. Před 1. 1. 2027 provoz ověří u SuperFaktúry, že doklady založené přes API slovenským firmám jako e-faktúru skutečně odcházejí.
+    - **Tarif našeho účtu u SuperFaktúry:** který z tarifů (Základný, Štandardný, Prémiový) obsahuje přístup k API, oficiální stránka čitelně neuvádí. Ověří se před založením účtu (úkol 0.2).
+    - **K ověření v sandboxu:** dobropis (`type = cancel` a `parent_id`), název pole data platby (`date`, nebo `created`), stav HTTP při překročení limitu.
+17. **Sémantika `dedupe_key` ve frontě (změna 4).** Tato změna počítá s tím, že `dedupe_key` je jedinečný, dokud úloha existuje (hotové se mažou po 7 dnech). Proto klíče opakovatelných úloh nesou okno nebo otisk (`schedule:{subscriptionId}:{otisk fází}`, `price-sync:{priceListId}:{publishRequestId}`). Sladit se změnou 4.

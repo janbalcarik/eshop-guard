@@ -12,7 +12,7 @@
 | Rozhraní | Implementace | Testovací náhrada |
 |---|---|---|
 | `IStripeGateway` | `StripeGateway` nad knihovnou Stripe.net (`StripeClient`, služby `PriceService`, `CouponService`, `Checkout.SessionService`, `SubscriptionService`, `SubscriptionScheduleService`, `BillingPortal.SessionService`, `InvoiceService`, `CustomerService`, `TaxIdService`) | `FakeStripeGateway` v `tests/EshopGuard.Billing.Tests/Fakes` (záznam volání, nastavitelné odpovědi) |
-| `ISuperFakturaClient` | `SuperFakturaClient` (typovaný `HttpClient`). Názvy endpointů a tvar autorizační hlavičky se ověří v dokumentaci API SuperFaktúry; jako vzor slouží knihovna `superfaktura/apiclient` (metody pro fakturu, `Invoice\Payment::create` s typem `CARD`, odeslání, PDF, dobropis) | `FakeSuperFakturaHandler` (`HttpMessageHandler`) |
+| `ISuperFakturaClient` | `SuperFakturaClient` (typovaný `HttpClient`). Endpointy a autorizační hlavička jsou ověřené ve veřejné dokumentaci API (sekce Doklady, úkol 0.2); platba má typ `card` | `FakeSuperFakturaHandler` (`HttpMessageHandler`) |
 | `IClock` | systémový čas | pevný čas v testech |
 
 Stripe.net se používá v pevně zvolené verzi API (`StripeConfiguration.ApiVersion` podle verze balíčku). Verze se zapíše do `BillingOptions.StripeApiVersion` a kontroluje se při startu.
@@ -158,20 +158,45 @@ aktuálního stavu tenanta.
 
 **Úloha `billing.issue_invoice`** (`io`, `dedupe_key = invoice:{stripe_invoice_id}`, `max_attempts = 12`, rostoucí odstup až 1 h):
 1. Najde nebo založí `invoices` se `source_key = stripe_invoice_id` (jedinečné) ve stavu `creating`.
-2. V SuperFaktúře vyhledá doklad s naším klíčem (pole pro vlastní identifikátor nebo číslo objednávky, ověřit v dokumentaci API). Když existuje, převezme ho a nezakládá nový.
+2. V SuperFaktúře vyhledá doklad s naším klíčem (`checksum` = `source_key` přes `getResponseByChecksum`, viz tabulka níže). Když existuje, převezme ho a nezakládá nový.
 3. Sestaví doklad (`InvoiceBuilder`):
    - snímek odběratele z `tenants` (`buyer`);
    - položky z řádků faktury Stripe s texty v jazyce `tenants.locale` (`EshopGuard.Billing/Invoicing/Texts/{sk,cs}.json`), například „Sledovanie zmien · pásmo do 2 000 produktov · bylinkovo.sk · obdobie 1. 11.–30. 11. 2026“;
    - slevu, DPH nebo text o přenesení daňové povinnosti;
    - měnu.
 4. Založí doklad a zapíše k němu platbu kartou s datem přijetí platby.
-5. Rozhodne o odeslání. Když `einvoice_required` (odběratel SK a datum vystavení ≥ 1. 1. 2027), požádá o odeslání e-faktúry přes Peppol, `einvoice_status = queued`. Jinak odešle PDF e-mailem na `tenants.billing_email`.
+5. Odešle PDF e-mailem na `tenants.billing_email` (`POST /invoices/send`). E-faktúru přes Peppol aplikace neposílá ani nesleduje; zajišťuje ji SuperFaktúra sama ve svém účtu (rozhodnutí 3. 10. 2026). Sloupce `einvoice_*` v `billing.invoices` zůstávají s hodnotami `false` a `not_required`.
 6. Stáhne PDF do úložiště `tenants/{tenantId}/invoices/{invoiceId}.pdf` a uloží `pdf_blob_key`.
 7. Stav `issued`, audit `invoice.issued`.
 
-**Stav e-faktúry** sleduje úloha `billing.check_einvoice_status` (každé 2 h) až do `delivered` nebo `failed`. Upozornění provozu přijde při `failed` nebo když doklad není doručený do 3 dní (lhůta 15 dní, zákon 385/2025 Z. z.).
+**E-faktúra (rozhodnutí 3. 10. 2026, uživatel):** „Peppol vůbec neřešit v rámci naší aplikace“. SuperFaktúra ho má interně: doklad založený přes API odešle do Peppolu sama, jakmile to bude umět. Úloha `billing.check_einvoice_status` ani sledování doručení proto nevzniknou. Zda SuperFaktúra slovenským firmám od 1. 1. 2027 e-faktúru skutečně odesílá, ověří provoz před tímto datem (proposal, K rozhodnutí 16).
 
 **Dobropis** (`billing.issue_credit_note`) vznikne stejnou cestou s `kind = credit_note` a `credit_note_for`.
+
+#### API SuperFaktúry podle veřejné dokumentace (úkol 0.2, ověřeno 2. 10. 2026)
+
+Zdroj: repozitáře `superfaktura/docs` (`intro.md`, `invoice.md`, `value-lists.md`, `faq.md`) a `superfaktura/apiclient`, větev `master`, a stránky superfaktura.sk. Bez účtu a bez volání API.
+
+| Bod | Zjištění |
+|---|---|
+| Adresy | Produkce SK `https://moja.superfaktura.sk`, CZ `https://moje.superfaktura.cz`. Sandbox SK `https://sandbox.superfaktura.sk`, CZ `https://sandbox.superfaktura.cz`. Registrace do sandboxu je samoobslužná a bez platby (`/registracia`); limity sandboxu dokumentace neuvádí. |
+| Autorizace | Hlavička `Authorization: SFAPI email=…&apikey=…&company_id=…&module=…`. Hodnoty jsou URL-kódované, `module` je náš název integrace (`EshopGuard 0.1`), `company_id` je volitelné. Hlavička obsahuje klíč, proto ji logování HTTP klienta musí skrýt. |
+| Formát | `POST` s `Content-Type: application/json` (přímo objekt) nebo formulář s polem `data`. Používáme JSON. Chyby hlásí hlavně tělo odpovědi (`error` ≠ 0, `error_message` jako text nebo objekt), jen některé i stavem HTTP (403 bez oprávnění, 404 nenalezeno). |
+| Založení dokladu | `POST /invoices/create` s objekty `Invoice`, `InvoiceItem[]`, `Client`, `InvoiceSetting`. `Invoice`: `name`, `order_no`, `variable`, `created`, `delivery` (datum zdanitelného plnění), `due`, `invoice_currency` (ISO 4217, CZK podporována), `vat_transfer` (přenesení daňové povinnosti 0/1), `type`, `parent_id`. Položka: `name`, `description`, `quantity`, `unit_price`, `tax` (sazba v %), `discount`. Odběratel: `name`, `ico`, `dic`, `ic_dph`, `address`, `city`, `zip`, `country_iso_id`, `email`. Odpověď `data.Invoice` s `id`, `token` (pro PDF) a `invoice_no_formatted`. |
+| Jazyk dokladu | `InvoiceSetting.language` s třípísmennými kódy (`slo`, `cze`, `eng` …). Mapování `sk` → `slo`, `cs` → `cze`. |
+| Text o přenesení daně | Jen příznak `vat_transfer = 1`; vlastní text dokumentace neuvádí. Větu pro odběratele proto doplníme do poznámky dokladu z našich textů (`BillingTexts`). |
+| Ochrana proti duplicitě | Pole `checksum` (vlastní řetězec, nejvýš 32 znaků) při založení a `GET /api_logs/getResponseByChecksum/{checksum}` vrátí původní odpověď až asi 3 měsíce zpět. Jiný klíč pro opakování dokumentace nemá. Náš klíč: `source_key` (id faktury nebo refundace ze Stripe, do 32 znaků). Navíc se klíč zapíše do `order_no` a v nouzi jde doklad dohledat seznamem `GET /invoices/index.json/order_no:{klíč}`. |
+| Platba | `POST /invoice_payments/add/ajax:1/api:1`, objekt `InvoicePayment` s `invoice_id`, `amount`, `currency`, `payment_type = "card"` (malými písmeny) a datem. Dokumentace uvádí pole data jednou jako `date` a v příkladu jako `created`; posíláme obě se stejnou hodnotou, ověří se v sandboxu. Již uhrazený doklad vrací `error = 1`, bereme ho jako hotovo. |
+| Odeslání e-mailem | `POST /invoices/send`, objekt `Email` s `invoice_id`, `to`, `pdf_language`. Limit 100 e-mailů za hodinu. |
+| PDF | `GET /{jazyk}/invoices/pdf/{id}/token:{token}`; chyba je HTTP 404. |
+| Dobropis | Typ dokladu `cancel` a `Invoice.parent_id` = id opravovaného dokladu. Jen odvozeno z popisu polí, příklad v dokumentaci chybí; ověří se v sandboxu. |
+| Detail dokladu | `GET /invoices/view/{id}.json` (bez obálky `data`). |
+| Limity | Výchozí 1 000 požadavků za den a 30 000 za měsíc, hlavičky `X-RateLimit-*`. Stav HTTP při překročení dokumentace neuvádí (jen „žádná odpověď“). Doporučený timeout ani opakování neuvádí; řídíme se vlastní politikou úlohy (12 pokusů, odstup až 1 h). |
+| Zpětná volání | Jen `InvoiceSetting.callback_payment` (GET po zápisu platby). Nepoužíváme. |
+| E-faktúra (Peppol) | V dokumentaci API ani v knihovně není: žádný endpoint, pole ani stav doručení. Aplikace ji podle rozhodnutí 3. 10. 2026 neřeší (viz výše). |
+| Tarify | Ceník SuperFaktúry pro náš účet: Základný 4,99 €, Štandardný 9,99 €, Prémiový 16,99 € měsíčně. Který z nich obsahuje přístup k API, se z oficiální stránky ověřit nepodařilo (zdroje třetích stran si odporují). |
+
+Neověřené body jsou v proposal, K rozhodnutí 16.
 
 ### Změny od dalšího období (`SubscriptionChangePlanner`, `SubscriptionScheduleComposer`)
 
@@ -349,7 +374,7 @@ Stripe ─► customer.updated / payment_method.attached ─► AccountCardServi
 - `Tax/TaxTreatmentResolver.cs`, `Tax/TaxTreatment.cs`.
 - `Invoicing/`:
   - `ISuperFakturaClient.cs`, `SuperFakturaClient.cs`, `SuperFakturaModels.cs`;
-  - `InvoiceBuilder.cs`, `InvoiceIssuer.cs`, `CreditNoteIssuer.cs`, `EInvoiceStatusChecker.cs`;
+  - `InvoiceBuilder.cs`, `InvoiceIssuer.cs`, `CreditNoteIssuer.cs`;
   - `InvoiceZipWriter.cs`;
   - `Texts/sk.json`, `Texts/cs.json`.
 - `Notifications/BillingEmails.cs`: šablony `billing.trial_reminder`, `billing.price_change`, `billing.tier_change`, `billing.payment_failed`, `billing.subscription_ended` (texty sk, cs). Zápis do `ops.outbox` (`kind = email`), skládá a odesílá `EmailComposer` a `OutboxEmailDispatcher` ze změny 9. Šablony neobsahují token, takže smějí přes outbox.
@@ -413,7 +438,6 @@ Stripe ─► customer.updated / payment_method.attached ─► AccountCardServi
 | `billing.process_stripe_event` | io | `stripe:{eventId}` | webhook |
 | `billing.issue_invoice` | io | `invoice:{stripeInvoiceId}` | `invoice.paid` |
 | `billing.issue_credit_note` | io | `credit:{stripeRefundId}` | `charge.refunded` |
-| `billing.check_einvoice_status` | io | `einvoice-check:{datum}T{hodina}` (jedna úloha pro všechny nedoručené) | každé 2 h |
 | `billing.evaluate_tiers` | system | `tiers:{tenantId}:{místní den}` a `tiers:{shopId}:{runId}` | denně po 3:30 místního času (úloha na tenanta) a po plné analýze, která spočítala produkty |
 | `billing.trial_reminder` | system | `trial-reminder:{tenantId}:{datum}` | každou hodinu, na tenanta jednou denně; posílá pro `trial_end − 7 dní` |
 | `billing.expire_order` | io | `expire-order:{orderId}:{pokus}:{settle\|expire}` | 1 min po platbě kartou účtu a v `checkout_expires_at` |
@@ -589,8 +613,14 @@ Implementace se řídí tímto návrhem s odchylkami níže. Většina vychází
   - řádky, částky i `reverse_charge` jsou tak, jak je Stripe účtoval;
   - nesoulad dá `needs_review` s `tax_mismatch`, audit `invoice.needs_review` s očekávaným i účtovaným režimem a upozornění
     `billing.alert.tax_mismatch`;
-  - shodný doklad zůstane `creating` pro SuperFaktúru (skupina 10), období dokladu a e-faktura se doplní tam;
+  - shodný doklad zůstane `creating` pro SuperFaktúru (skupina 10), období dokladu se doplní tam;
   - nezaplacená faktura (0) se přeskočí;
   - faktura bez známého e-shopu selže s upozorněním `billing.alert.invoice_shop_unknown`.
 - Chybí úprava fakturačních údajů tenanta (IČO, IČ DPH, adresa): změna 9 ji odložila do změny 12, úkoly změny 12 ji ale
   neobsahují a v `design/ui/` pro ni není obrazovka. Zatím se údaje mění jen přímo v databázi.
+
+  Návrh obrazovky `design/ui/BillingDetails.dc.html` (8b, 3. 10. 2026) čeká na schválení. Rozhodnutí uživatele 3. 10. 2026:
+  - samostatná stránka v Nastavenia;
+  - zemi sídla po první platbě nejde změnit (měna účtu je pevná), jen přes podporu;
+  - předvyplnění z registrů podle IČO později, samostatnou změnou;
+  - formát IČO se nekontroluje (v každé zemi je jiný), jen to, že je vyplněné.

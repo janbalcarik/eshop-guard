@@ -215,6 +215,8 @@ Zdroje: https://docs.stripe.com/payments/checkout/free-trials, https://docs.stri
 - Seznam certifikovaných doručovatelů: vpds.financnasprava.sk.
 - V Česku povinnost zatím není. Přeshraniční e-fakturace přijde od poloviny roku 2030, tuzemská se zvažuje.
 
+**Rozhodnutí 3. 10. 2026 (uživatel):** aplikace e-faktúru přes Peppol neposílá ani nesleduje. Zajišťuje ji SuperFaktúra interně u dokladů založených přes API; aplikace posílá PDF e-mailem. Před 1. 1. 2027 se u SuperFaktúry ověří, že odesílání skutečně funguje.
+
 ## Otevřené body pro účetní
 
 1. Firmy bez DIČ (v ČR „identifikovaná osoba“ podle § 6h): přenesení daňové povinnosti, slovenská DPH, nebo OSS?
